@@ -57,6 +57,7 @@ export const signup = async (req, res, next) => {
 
 
 
+    //random number
     const hashedPassword = hash.MD5(password);
 
     function getRandomNumber(min, max) {
