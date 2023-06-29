@@ -1,35 +1,29 @@
+import Stripe from 'stripe';
+import { v4 as uuid } from 'uuid';
+
+const stripe = new Stripe("sk_test_51NGJbtSDLfwYkCbGClKeLdVOVqsrqMtkLNgctacUlwiMuLmebz1wX8yGwFuCjzfrqVfIp93tUMMmSEDrljnhYaSD00sWDNzrkL");
+const id = uuid();
 
 
-export const confirmation = async(req,res,next)=>{
+export const card = async(req,res,next)=>{
+  const {product,token} = req.body
+  const idempontencykey = uuid()
 
-  
-const stripe = require('stripe')('sk_test_51NGJbtSDLfwYkCbGClKeLdVOVqsrqMtkLNgctacUlwiMuLmebz1wX8yGwFuCjzfrqVfIp93tUMMmSEDrljnhYaSD00sWDNzrkL');
+  stripe.customers.create({
+    email:token.email,
+    source:token.id
+  }).then(customer =>{
+    stripe.charges.create({
+      amount:product.price,
+      currency:'usd',
+      customer:customer.id,
+      receipt_email:token.email,
 
+    } ,{idempontencykey})
 
+  }).then(result =>{ return res.json({message:"success"})}).catch(error=>{
+    return res.json({message:"There is an error"})
 
+  })
 
-
-
-  try {
-    // Get the payment token and amount from the request body
-    const { token, amount } = req.body;
-
-    // Create a charge using the Stripe API
-    const charge = await stripe.charges.create({
-      amount: amount,
-      currency: 'USD',
-      description: 'Payment description',
-      source: token,
-    });
-
-    // Payment successful
-    res.json({ message: 'Payment successful', charge });
-  } catch (error) {
-    // Payment failed
-    res.status(500).json({ error: 'Payment failed', message: error.message });
-  }
 }
-
-
-
-
