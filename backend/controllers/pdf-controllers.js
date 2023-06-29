@@ -1,13 +1,16 @@
+// backend/controllers/payment-controllers.js
+import {buildPDF} from '../services/pdf-service.js';
 
-import pdfService from "../services/pdf-service.js";
+export const card = async (req, res, next) => {
+  const { name, email } = req.body;
 
-export const card = async(req,res,next)=>{
+  res.setHeader('Content-Type', 'application/pdf');
+  res.setHeader('Content-Disposition', 'attachment;filename=invoice.pdf');
 
-    const stream= res.writeHead(200, {
-    'Content-Type': 'application/pdf',
-    'Content-Disposition': `attachment;filename=invoice.pdf`,
-  });
-  pdfService.buildPDF(
-    (chunk) => stream.write(chunk),
-    () => stream.end()
-  )};
+  buildPDF(
+    (chunk) => res.write(chunk),
+    () => res.end(),
+    name,
+    email
+  );
+};
