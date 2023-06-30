@@ -3,6 +3,10 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import Blogs from "./components/Blogs";
 import Login from "./components/Login";
 import Navbar from './components/Navbar.js';
+import AnimatedRoutes from '../src/components/pages/AnimatedRoutes';
+import Home from '../src/components/pages/Home'
+
+
 
 
 function App() {
@@ -17,9 +21,12 @@ function App() {
       <Navbar/>
       <main>
        <Routes>
+
+       {/* <AnimatedRoutes/> */}
         
-          <Route path="/blogs" element={isLoggedIn ? <Blogs /> : <Navigate to="/login" />} />
-          <Route path="/login" element={<Login onLogin={handleLogin} />} />
+          {/* <Route path="/blogs" element={isLoggedIn ? <Blogs /> : <Navigate to="/login" />} />
+          <Route path="/login" element={<Login onLogin={handleLogin} />} /> */}
+          <Route path="/" element={<Home/>}/>
         </Routes>
       </main>
     </React.Fragment>
