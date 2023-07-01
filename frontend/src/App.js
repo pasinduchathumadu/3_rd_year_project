@@ -5,7 +5,10 @@ import Blogs from "./components/Blogs";
 import Navbar from './components/Navbar.js';
 import AnimatedRoutes from '../src/components/pages/AnimatedRoutes';
 import Home from '../src/components/pages/Home'
-import Login from "./components/pages/Login"
+import Login from '../src/components/pages/Login'
+import './App.css';
+
+
 
 
 
@@ -24,7 +27,6 @@ function App() {
       <main>
        <Routes>
 
-       {/* <AnimatedRoutes/> */}
         
           {/* <Route path="/blogs" element={isLoggedIn ? <Blogs /> : <Navigate to="/login" />} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} /> */}

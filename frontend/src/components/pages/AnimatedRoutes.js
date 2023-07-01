@@ -18,11 +18,8 @@ function AnimatedRoutes() {
     // <AnimatePresence>
     <Routes  location={location} key={location.pathname}>
        <Route path="/" element={<Home/>}/>
-    {/* <Route path="/menu" element={<Menu/>}/>
-    <Route path="/Slider" element={<Slider/>}/>
-    <Route path="/about" element={<About/>}/>
-    <Route path="/contact" element={<Contact/>}/> */}
-    {/* <Route path="/Login" element={<Login/>}/> */}
+    
+    <Route path="/Login" element={<Login/>}/>
     {/* <Route path="/VideoBackground" element={<VideoBackground/>}/> */}
   </Routes>
   // </AnimatePresence>
