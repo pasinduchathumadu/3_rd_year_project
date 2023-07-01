@@ -5,6 +5,7 @@ import {Route,Routes,useLocation} from "react-router-dom"
 // import About from '../pages/About';
 // import Contact from '../pages/Contact';
 import Home from '../pages/Home'
+import Login from "../pages/Login"
 // import Login from  '../pages/Login';
 // import VideoBackground from '../pages/VideoBackground';
 // import {AnimatePresence}from 'framer-motion'
