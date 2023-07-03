@@ -3,6 +3,7 @@ import { LocalStorage } from "node-localstorage";
 import { db } from "../database.js";
 import { sendmailer} from '../controllers/email-controllers.js';
 import { confirmation } from "../controllers/email-controllers.js";
+import multer from 'multer'
 
 
 const localStorage = new LocalStorage('./scratch');
@@ -13,7 +14,10 @@ export const login = async (req, res, next) => {
     const { email, password } = req.body;
 
     const sqlQuery = 'SELECT * FROM users WHERE email = ? AND status = "Active"';
-    const values = [email];
+    const values = [
+      email,
+      password
+    ];
 
     const query3 = "DELETE FROM users WHERE status = 'De-Active'"
   
@@ -23,8 +27,8 @@ export const login = async (req, res, next) => {
       }
     })
 
-    db.query(sqlQuery, values, async (err, data) => {
-      // console.log(data)
+    db.query(sqlQuery,[values[0]],(err, data) => {
+    
       if (data.length === 0) {
         return res.json({ message: "User not found" });
       } else {
@@ -52,7 +56,7 @@ export const signup = async (req, res, next) => {
     const hash = pkg;
     const date = new Date();
     const date_joined = date.toLocaleDateString();
-    //status is not defined yet
+  
     const status = "De-Active";
 
 
@@ -170,10 +174,6 @@ export const reset_password = async (req, res, next) => {
       }
     })
   }
-
-
-
-
 }
 export const forget_confirmation = async (req, res, next) => {
   const { otp } = req.body
@@ -186,3 +186,42 @@ export const forget_confirmation = async (req, res, next) => {
   }
   return res.json({ message: "Invalid Number" })
 }
+
+export const upload_file = async(req,res,next)=>{
+
+  const filestorage =multer.diskStorage({
+    destination:(req,file,cb)=>{
+      cb(null,'images/client');
+    },
+    filename:(req,file,cb)=>{
+      cb(null,  file.originalname);
+      console.log(file.originalname)
+    },
+  
+    
+  });
+
+  const upload = multer({storage:filestorage})
+  upload.single("image")(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      // A Multer error occurred when uploading.
+      // Handle the error accordingly.
+      console.error(err);
+      return res.json({ error: 'Multer error occurred' });
+    } else if (err) {
+      // An unknown error occurred when uploading.
+      // Handle the error accordingly.
+      console.error(err);
+      return res.json({ error: 'Unknown error occurred' });
+    }
+
+    // File upload was successful.
+    // Access the uploaded file using `req.file`.
+    // Process the file and send the response.
+
+    return res.json({ message: 'File uploaded successfully' });
+  });
+
+}
+
+
