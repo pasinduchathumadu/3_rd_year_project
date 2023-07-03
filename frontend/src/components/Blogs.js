@@ -5,57 +5,54 @@ import { useNavigate } from "react-router-dom";
 
 import StripeCheckout from "react-stripe-checkout"
 
-const Blogs = ()=>{
+const Blogs = () => {
   const navigate = useNavigate();
-  const [product,setproduct] = useState({
-    name:"React from FB",
-    price:100,
-    productBy:"facebook"
+  const [product] = useState({
+    name: "React from FB",
+    price: 100,
+    productBy: "facebook"
   });
 
-const makePayment = async(token) =>{
-  const body = {
-    token,
-    product
-  }
-  const headers = {
-    "Content-Type":"application/json"
-  }
-  try{
-   const res =  await axios.post("http://localhost:5000/pet_care/payment/card",{
-      body,
-      headers
-    })
-    if(res.data.message === "success"){
-     navigate('/login')
+  const makePayment = async (token) => {
+    const body = {
+      token,
+      product
     }
-    else{
-      navigate('/login')
+    const headers = {
+      "Content-Type": "application/json"
     }
-  }catch(err){
-    console.log("faild")
+    try {
+      const res = await axios.post("http://localhost:5000/pet_care/payment/card", {
+        body,
+        headers
+      })
+      if (res.data.message === "success") {
+        navigate('/login')
+      }
+      else {
+        navigate('/login')
+      }
+    } catch (err) {
+      console.log("faild")
+
+    }
 
   }
-
-}
-  return(
+  return (
     <div>
-    <StripeCheckout stripeKey="pk_test_51NGJbtSDLfwYkCbGu6RR8Pf0Pj8KoKTEdIogc7wKKhMBsoEzaoLuwmukYs8Tc6GF8YqvdXJ7AYzk5ktxfByXN1Wk00elCyMdCm"
-    token={makePayment}
-    name="Buy React"
-    amount={product.price}
-    shippingAddress
-    >
-      <button className="btn-large blue">PAY NOW {product.price} $</button>
+      <StripeCheckout stripeKey="pk_test_51NGJbtSDLfwYkCbGu6RR8Pf0Pj8KoKTEdIogc7wKKhMBsoEzaoLuwmukYs8Tc6GF8YqvdXJ7AYzk5ktxfByXN1Wk00elCyMdCm"
+        token={makePayment}
+        name="Buy React"
+        amount={product.price}
+        shippingAddress
+      >
+        <button className="btn-large blue">PAY NOW {product.price} $</button>
 
-    </StripeCheckout>
+      </StripeCheckout>
 
-    <label id="hh"></label>
+      <label id="hh"></label>
 
     </div>
-   
-
   )
-
 };
 export default Blogs;

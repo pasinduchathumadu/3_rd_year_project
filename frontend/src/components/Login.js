@@ -13,8 +13,8 @@ const Login = ({onLogin}) => {
         email,
         password
     })
-    if(res.data.message==="Username or password incorrect!!"){
-      console.log("Login Failed")
+    if(res.data.message==="User not found"|| res.data.message==="Password didn't Matched"){
+      document.getElementById('error').innerHTML="Username or Password is incorrect"
     }
     else{
      
@@ -39,6 +39,7 @@ const Login = ({onLogin}) => {
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <div>
+       
           <label>Email:</label>
           <input
             type="email"
@@ -56,6 +57,7 @@ const Login = ({onLogin}) => {
             required
           />
         </div>
+        <p id="error"></p>
         <button type="submit">Login</button>
       </form>
     </div>
