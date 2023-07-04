@@ -1,14 +1,19 @@
-import React from "react";
+import React from 'react'
+import {Link} from "react-router-dom"
+import '../components/styles/Home.css'
+import {motion}from 'framer-motion'
+import Slider from '../components/pages/Slider'
 
 
-const Home = async(e)=>{
-    e.preventDefault()
+function Home() {
 
-    return (
-        <div>
-           <h1>ss</h1> 
-        </div>
-    )
+  return (
+  
+    <div>
 
+      <Slider/>
+    </div>
+  )
 }
+
 export default Home
