@@ -4,12 +4,12 @@ import Verify from "./components/Verify";
 import Signup  from "./components/Signup"
 import Blogs from "./components/Blogs";
 import Login from "./components/pages/Login";
-import Home from  "./components/Home";
-import Navbar from "./components/Navbar";
+import Home from  "./components/Home"
+import Navbar from "./components/Navbar"
 
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [issignup,setIssignup] = useState(false)
 
   const handleLogin = () => {
@@ -19,13 +19,10 @@ function App() {
     setIssignup(true);
   }
   return (
-    
     <React.Fragment>
-              <Navbar/>
-
+     <Navbar />
       <main>
         <Routes>
-
           <Route path="" element = {<Home />} />
           <Route path="/verify" element={issignup ?<Verify /> : <Navigate to="/signup" />} />
           <Route path="/signup" element={<Signup onSignup = {handleSignup} />} />

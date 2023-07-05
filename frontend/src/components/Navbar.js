@@ -5,7 +5,7 @@ import { ShoppingCart } from '@mui/icons-material'
 import { Person } from '@mui/icons-material';
 import { VideoCall } from '@mui/icons-material';
 
-function Navbar() {
+const Navbar = ()=> {
   return (
     <div className='navbar navbar-expand-sm bg-dark navbar-dark fixed-top'>
     <div className='navbar'>
@@ -31,4 +31,4 @@ function Navbar() {
   )
 }
 
-export default Navbar
+export default Navbar;
