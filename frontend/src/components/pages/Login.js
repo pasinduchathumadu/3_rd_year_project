@@ -12,7 +12,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-// import SignUp from './SignUp';
+
+import './../styles/Login.css'
+import { color } from 'framer-motion';
 // import { Link } from "react-router-dom";
 
 
@@ -53,7 +55,10 @@ export default function SignIn() {
   };
 
   return (
+    // <div className='img'>
+   <div className='body'>
     <ThemeProvider theme={theme}>
+      <h3>Welcome</h3>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -64,13 +69,14 @@ export default function SignIn() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: '#30c620' }}>
+         <div className='form'>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }} >
+          {/* <Avatar sx={{ m: 1, bgcolor: '#30c620' }}>
             <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
+          </Avatar> */}
+          <Typography component="h1" variant="h5"  >
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -90,6 +96,8 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+             
+              
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -102,7 +110,7 @@ export default function SignIn() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2, backgroundColor: 'black' }}
+              sx={{ mt: 3, mb: 2, backgroundColor: 'black',color:"white" }}
             >
               Sign In
             </Button>
@@ -120,9 +128,12 @@ export default function SignIn() {
               </Grid>
             </Grid>
           </Box>
+          </div>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
+        
       </Container>
     </ThemeProvider>
+  </div>
+  
   );
 }
