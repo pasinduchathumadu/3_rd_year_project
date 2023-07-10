@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
-import Verify from "./components/Verify";
-import Signup  from "./components/Signup"
-import Blogs from "./components/Blogs";
-import Login from "./components/Login";
-import Home from  "./components/Home"
+import Verify from "./pages/Client/Verify";
+import Signup  from "./pages/Client/Signup"
+import Blogs from "./pages/Client/Payment";
+import Login from "./pages/Client/Login";
+import Home from  "./pages/Client/Home"
+
 
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [issignup,setIssignup] = useState(false)
 
   const handleLogin = () => {
@@ -19,6 +20,7 @@ function App() {
   }
   return (
     <React.Fragment>
+    
       <main>
         <Routes>
           <Route path="" element = {<Home />} />

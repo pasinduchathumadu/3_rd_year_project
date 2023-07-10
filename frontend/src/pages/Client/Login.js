@@ -5,8 +5,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { TextField, Checkbox, FormControlLabel, Button, Typography,Box,CssBaseline } from "@mui/material"
 import { Link } from "react-router-dom";
-import './../styles/Login.css'
-
+import './../../styles/Client/Login.css'
 
 
 const theme = createTheme({
