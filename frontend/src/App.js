@@ -3,8 +3,9 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import Verify from "./pages/Client/Verify";
 import Signup  from "./pages/Client/Signup"
 import Blogs from "./pages/Client/Payment";
-import Login from "./pages/Client/Login";
-import Home from  "./pages/Client/Home"
+import Login from "./pages/Common/Login";
+import Home from  "./pages/Client/Home";
+import Email from "./pages/Common/Email_opt";
 
 
 
@@ -20,10 +21,10 @@ function App() {
   }
   return (
     <React.Fragment>
-    
       <main>
         <Routes>
-          <Route path="" element = {<Home />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/email" element={<Email />}/>
           <Route path="/verify" element={issignup ?<Verify /> : <Navigate to="/signup" />} />
           <Route path="/signup" element={<Signup onSignup = {handleSignup} />} />
           <Route path="/blogs" element={isLoggedIn ? <Blogs /> : <Navigate to="/login" />} />

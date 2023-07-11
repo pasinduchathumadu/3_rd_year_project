@@ -1,13 +1,20 @@
 import React, { useEffect } from 'react';
+<<<<<<< HEAD
+import '../../styles/Common/Login.css';
+=======
 import '../styles/Login.css';
+>>>>>>> e6742b61bad6b2c5050998082ba19ebac585541e
 
 
 const Login = () => {
   useEffect(() => {
+<<<<<<< HEAD
+=======
     const toggle = () => {
       container.classList.toggle('sign-in');
       container.classList.toggle('sign-up');
     };
+>>>>>>> e6742b61bad6b2c5050998082ba19ebac585541e
 
     const container = document.getElementById('container');
     setTimeout(() => {
