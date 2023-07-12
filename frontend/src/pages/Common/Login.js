@@ -1,8 +1,39 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import '../../styles/Common/Login.css';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+const Login = ({onLogin}) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
+  const handlesubmit = async(e) => {
+    e.preventDefault();
+    try{
+      const res = await axios.post("http://localhost:5000/pet_care/user/login",{
+        email,
+        password
+    })
+    if(res.data.message==="User not found"|| res.data.message==="Password didn't Matched"){
+      document.getElementById('error').innerHTML="Username or Password is incorrect"
+    }
+    else{
+     
+      onLogin();
+      setEmail("");
+      setPassword("");
+      navigate(`/blogs`);
+    }
 
-const Login = () => {
+    }catch(err){
+      console.log("There is an error")
+
+    }
+    // Perform login logic here, e.g., send login request to the server
+
+    // Reset form fields
+   
+  };
   useEffect(() => {
 
     const container = document.getElementById('container');
@@ -87,17 +118,17 @@ const Login = () => {
         {/* SIGN IN */}
         <div className="col align-items-center flex-col sign-in">
           <div className="form-wrapper align-items-center">
-            <div className="form sign-in">
+            <div className="form sign-in" onSubmit={handlesubmit}>
               <div className="input-group">
                 <i className="bx bxs-user"></i>
-                <input type="text" placeholder="Username" />
+                <input type="text" placeholder="Username" onChange={(e)=>setEmail(e.target.value)} required />
               </div>
               <div className="input-group">
                 <i className="bx bxs-lock-alt"></i>
-                <input type="password" placeholder="Password" />
+                <input type="password" placeholder="Password" onChange={(e)=>setPassword(e.target.value)} required/>
               </div>
               
-              <button>Sign in</button>
+              <button onclick>Sign in</button>
               <p>
                 <b>Forgot password?</b>
               </p>
