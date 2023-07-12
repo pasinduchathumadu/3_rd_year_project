@@ -5,7 +5,7 @@ const Home =()=>{
    
     return (
         <div>
-           
+           <h1>hi first commit</h1>
         </div>
     )
 
