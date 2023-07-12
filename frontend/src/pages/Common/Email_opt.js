@@ -7,18 +7,10 @@ import {
   Button,
   Typography,
 } from "@mui/material";
-<<<<<<< HEAD
 import { Link } from "react-router-dom";
 import { MuiOtpInput } from "mui-one-time-password-input";
 
 import cover from "../../assests/cover.png"
-=======
-import LockClockOutlinedIcon from "@mui/icons-material/LockClockOutlined";
-import { Link } from "react-router-dom";
-import { MuiOtpInput } from "mui-one-time-password-input";
-
-import cover from "../assests/cover.png"
->>>>>>> e6742b61bad6b2c5050998082ba19ebac585541e
 
 const Email_opt = () => {
   const [otp, setOtp] = React.useState("");
