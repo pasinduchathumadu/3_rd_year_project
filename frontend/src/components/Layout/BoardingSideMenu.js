@@ -10,6 +10,7 @@ import Person from '@mui/icons-material/Person';
 import PetsIcon from '@mui/icons-material/Pets';
 import ErrorIcon from '@mui/icons-material/Error';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
+import { Grid } from '@mui/material';
 
 export default function SizesList() {
   return (
@@ -31,47 +32,57 @@ export default function SizesList() {
     size="lg"
     variant="outlined"
     sx={{
-      borderRadius: 'sm',
+    //   borderRadius: 'sm',
       maxWidth: 300,
-      height:720,
-      boxShadow: 'sm',
-      bgcolor: 'background.body',
-      gap: 6
+    //   height:720,
+      height:'100vh',
+      boxShadow: 'sm',    
+      bgcolor:'black',
+      gap: 6,
+     
     }}
   >
-    <ListItem>
+    <ListItem
+    sx={{
+        borderRadius:'10px',
+        '&:hover': {
+            backgroundColor: 'red',
+            borderColor:'green',
+        }
+    }}
+    >
       <ListItemButton>
         <ListItemDecorator>
-          <Home />
-        </ListItemDecorator>
-        Dashboard
+          <Home sx={{color:'white'}} />
+        </ListItemDecorator> 
+        <Grid sx={{color:'white'}}>Dashboard</Grid>
       </ListItemButton>
     </ListItem>
     
     <ListItem>
       <ListItemButton>
         <ListItemDecorator>
-          <Person />
+          <Person sx={{color:'white'}} />
         </ListItemDecorator>
-        Clients
+        <Grid sx={{color:'white'}}>Clients</Grid>
       </ListItemButton>
 
     </ListItem>
     <ListItem>
       <ListItemButton>
         <ListItemDecorator>
-          <PetsIcon />
+          <PetsIcon sx={{color:'white'}} />
         </ListItemDecorator>
-        Board Pets
+        <Grid sx={{color:'white'}}>Board Pets</Grid>
       </ListItemButton>
     </ListItem>
 
     <ListItem>
       <ListItemButton>
         <ListItemDecorator>
-          <FactCheckIcon />
+          <FactCheckIcon sx={{color:'white'}} />
         </ListItemDecorator>
-        Packages
+        <Grid sx={{color:'white'}}>Packages</Grid>
       </ListItemButton>
     </ListItem>
 
@@ -79,9 +90,9 @@ export default function SizesList() {
     <ListItem>
       <ListItemButton>
         <ListItemDecorator>
-          <ErrorIcon />
+          <ErrorIcon sx={{color:'white'}} />
         </ListItemDecorator>
-        Complains
+        <Grid sx={{color:'white'}}>Complains</Grid>
       </ListItemButton>
     </ListItem>
 
