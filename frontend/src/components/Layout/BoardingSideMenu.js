@@ -12,8 +12,8 @@ import ErrorIcon from '@mui/icons-material/Error';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
 
 import { Grid } from '@mui/material';
+// import { styled } from '@mui/system';
 
-// import { Grid } from 'react-grid-library';
 
 
 export default function SizesList() {
@@ -25,6 +25,7 @@ export default function SizesList() {
         justifyContent: 'left',
         gap: 6,
         flexWrap: 'wrap',
+        marginTop:'0',
         '& > *': { minWidth: 0, flexBasis: 200 },
       }}
     >
@@ -41,7 +42,8 @@ export default function SizesList() {
       height:'100vh',
       boxShadow: 'sm',
       bgcolor: 'black',
-      gap: 6
+      gap: 6,
+      marginTop:'0'
     }}
   >
     <ListItem>
@@ -84,11 +86,7 @@ export default function SizesList() {
     </ListItem>
 
     <ListItem>
-      <ListItemButton sx={{
-        '&:hover': {
-          color:'black'
-        }
-      }}>
+      <ListItemButton>
         <ListItemDecorator>
           <FactCheckIcon />
         </ListItemDecorator>
@@ -108,7 +106,6 @@ export default function SizesList() {
         <Grid sx={{ 
           color:'white',
           fontWeight:'bold'
-
         }}>Complains</Grid>
       </ListItemButton>
     </ListItem>
