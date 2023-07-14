@@ -2,10 +2,10 @@ import bcryptjs from "bcryptjs"
 
 import { createPool } from 'mysql';
 export const db = createPool({
-    host:"sql6.freesqldatabase.com",
-    user:"sql6630302",
-    password:"ItT6U6JiGh",
-    database:"sql6630302"
+    host:"localhost",
+    user:"root",
+    password:"",
+    database:"pet_care"
 })
 
 db.getConnection((err,connection)=>{
