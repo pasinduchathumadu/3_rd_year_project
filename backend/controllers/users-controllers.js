@@ -56,6 +56,7 @@ export const signup = async (req, res, next) => {
     const hash = pkg;
     const date = new Date();
     const date_joined = date.toLocaleDateString();
+    const user_role = 'client'
   
     const status = "De-Active";
 
@@ -75,15 +76,15 @@ export const signup = async (req, res, next) => {
     db.query(query1, first_records, (err, data) => {
       if (data.length === 0) {
         const sqlQuery =
-          'INSERT INTO users (email, password, user_role, status, date_joined, first_name, last_name, verify_no) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+          'INSERT INTO users (email, password,first_name, last_name, user_role, status, date_joined,verify_no) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
         const records = [
           email,
           hashedPassword,
+          first_name,
+          last_name,
           user_role,
           status,
           date_joined,
-          first_name,
-          last_name,
           verify_no,
         ];
 
@@ -95,16 +96,12 @@ export const signup = async (req, res, next) => {
             //set temporary email to confirmation registration
 
             localStorage.setItem("Temp_email", email)
-            const query2 = "INSERT INTO client (email,contact_number,street,city,nic,account_number,bank,branch)VALUES(?,?,?,?,?,?,?,?)";
+            const query2 = "INSERT INTO client (email,contact_number,street,city)VALUES(?,?,?,?)";
             const values1 = [
               email,
               contact_number,
               street,
-              city,
-              nic,
-              account_number,
-              bank,
-              branch
+              city
             ]
             db.query(query2, values1, (err, data) => {
               if (err) {

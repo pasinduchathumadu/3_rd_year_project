@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import '../../styles/Common/Login.css';
 import { useNavigate } from 'react-router-dom';
-import { Alert, AlertTitle, Button, Typography } from "@mui/material"
+import { Alert, AlertTitle, Button } from "@mui/material"
 import axios from 'axios';
+import Header from '../../components/Layout/Header';
+
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -63,7 +65,7 @@ const Login = ({ onLogin }) => {
 
 
   return (
-
+    <><Header />
     <div id="container" className="container">
 
       {/* FORM SECTION */}
@@ -76,51 +78,51 @@ const Login = ({ onLogin }) => {
         {/* SIGN IN */}
         <div className="col align-items-center flex-col sign-in">
           <div className="form-wrapper align-items-center">
-            
-            
-         
-            <div className="form sign-in" >
-            <form action='' onSubmit={handlesubmit}>
-          
-              <div className="input-group">
-                <i className="bx bxs-user"></i>
-                <input type="text" placeholder="Username" onChange={(e) => setEmail(e.target.value)} required />
-              </div>
-              <div className="input-group">
-                <i className="bx bxs-lock-alt"></i>
-                <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} required />
-              </div>
 
-              <Button sx={{'&:hover':{backgroundColor:'orange'}}} type='submit'>Sign in</Button>
-              <p>
-                <b onClick={forget} className='pointer'>Forgot password?</b>
-              </p>
-              <p>
-                <span>Don't have an account?</span>
-                <b onClick={pathdirection} className="pointer">
-                  Sign up here
-                </b>
-              </p>
+
+
+            <div className="form sign-in">
+              <form action='' onSubmit={handlesubmit}>
+
+                <div className="input-group">
+                  <i className="bx bxs-user"></i>
+                  <input type="text" placeholder="Username" onChange={(e) => setEmail(e.target.value)} required />
+                </div>
+                <div className="input-group">
+                  <i className="bx bxs-lock-alt"></i>
+                  <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} required />
+                </div>
+
+                <Button sx={{ '&:hover': { backgroundColor: 'orange' } }} type='submit'>Sign in</Button>
+                <p>
+                  <b onClick={forget} className='pointer'>Forgot password?</b>
+                </p>
+                <p>
+                  <span>Don't have an account?</span>
+                  <b onClick={pathdirection} className="pointer">
+                    Sign up here
+                  </b>
+                </p>
               </form>
 
             </div>
-          
-            
-             
+
+
+
 
 
           </div>
-          {error &&(
-          <Alert severity="error" sx={{ marginTop: '20px' }}>
-          <AlertTitle ></AlertTitle>
-          <strong> Username or Password incorrect</strong>
-        </Alert>
+          {error && (
+            <Alert severity="error" sx={{ marginTop: '20px' }}>
+              <AlertTitle></AlertTitle>
+              <strong> Username or Password incorrect</strong>
+            </Alert>
 
 
-         )}
-        
-          
-          
+          )}
+
+
+
         </div>
         {/* END SIGN IN */}
       </div>
@@ -130,9 +132,10 @@ const Login = ({ onLogin }) => {
         {/* SIGN IN CONTENT */}
         <div className="col align-items-center flex-col">
           <div className="text sign-in">
+           
             <h2>Welcome</h2>
           </div>
-          <div className="img sign-in"></div>
+        
         </div>
         {/* END SIGN IN CONTENT */}
         {/* SIGN UP CONTENT */}
@@ -145,7 +148,7 @@ const Login = ({ onLogin }) => {
         {/* END SIGN UP CONTENT */}
       </div>
       {/* END CONTENT SECTION */}
-    </div>
+    </div></>
   );
 };
 

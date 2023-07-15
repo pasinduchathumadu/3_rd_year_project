@@ -225,13 +225,16 @@ body {
 .img img {
     width: 30vw;
     transition: 1s ease-in-out;
+  
     transition-delay: .4s;
 }
 
 .text.sign-in h2,
 .text.sign-in p,
 .img.sign-in img {
+   
     transform: translateX(-250%);
+   
 }
 
 .text.sign-up h2,
@@ -345,4 +348,7 @@ body {
         margin: .5rem;
         font-size: 2rem;
     }
+  
+
+      
 }

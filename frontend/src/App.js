@@ -30,7 +30,7 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/email" element={issignup ?<Email /> : <Navigate to ="/signup"/>}/>
+          <Route path="/email" element={!issignup ?<Email /> : <Navigate to ="/signup"/>}/>
           <Route path="/forget" element={<Forgot />} />
           <Route path="/signup" element={<Signup onSignup={handleSignup}/>} />
           <Route path="/blogs" element={isLoggedIn ? <Blogs /> : <Navigate to="/login" />} />
