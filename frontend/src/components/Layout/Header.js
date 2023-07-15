@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 
+
 import MenuIcon from "@mui/icons-material/Menu";
 import { NavLink } from "react-router-dom";
 import "../../styles/Common/HeaderStyles.css";
@@ -27,7 +28,8 @@ const Header = () => {
         component="div"
         sx={{ flexGrow: 1, my: 2 }}
       >
-        
+
+
       </Typography>
       <Divider />
       <ul className="mobile-navigation">
@@ -71,7 +73,9 @@ const Header = () => {
               component="div"
               sx={{ flexGrow: 1 }}
             >
+
             
+
             </Typography>
             <Box sx={{ display: { xs: "none", sm: "block" } }}>
               <ul className="navigation-menu">
