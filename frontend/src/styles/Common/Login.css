@@ -24,14 +24,14 @@
 html,
 body {
     height: 100vh;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .container {
     /* background-image: url("../assests/"); */
     position: relative;
     min-height: 100vh;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .row {

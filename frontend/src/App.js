@@ -4,10 +4,16 @@ import Forgot from "./pages/Common/Forget";
 import Signup  from "./pages/Common/Signup"
 import Blogs from "./pages/Client/Payment";
 import Login from "./pages/Common/Login";
-import Home from  "./pages/Common/Home";
+// import Home from  "./pages/Common/Home";
 import Email from "./pages/Common/Email";
 import Reset from "./pages/Common/Reset";
 
+import Home from  "./pages/Common/Home";
+import Services from  "./pages/Common/Services";
+import About from  "./pages/Common/About";
+import ComContent from  "./pages/Common/ComContent";
+import Contact from  "./pages/Common/Contact";
+import Footer from  "./pages/Common/Footer";
 
 import BoardingHome from "./pages/Boarding_house_manager/Home";
 import BoardingSideMenu from "./components/Layout/BoardingSideMenu";
@@ -30,7 +36,16 @@ function App() {
     <React.Fragment>
       <main>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={
+            <div className="App">
+              <Home />
+              <Services />
+              <About />
+              <ComContent />
+              <Contact />
+              <Footer />
+            </div>
+          } />
           <Route path="/email" element={!issignup ?<Email /> : <Navigate to ="/signup"/>}/>
           <Route path="/forget" element={<Forgot />} />
           <Route path="/reset" element={<Reset />} />
