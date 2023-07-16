@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import MainHome from '../../styles/MainHome.css';
+import MainHome from '../../styles/Common/MainHome.css';
 import Logo from '../../assests/logo.png';
 import { HiOutlineBars3 } from 'react-icons/hi2';
 import {
