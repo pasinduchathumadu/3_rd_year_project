@@ -2,13 +2,10 @@ import React from "react";
 import BoardingStyles from '../../styles/Boarding_house_manager/Home.css';
 import HomeHeader from "../Common/HomeHeader";
 
-// import SideMenu from "../../components/Layout/BoardingSideMenu";
-
 const Home = () => {
     return (
         <div className="home-container">
             <HomeHeader />
-            {/* <SideMenu /> */}
 
             <div className="boarding-wrapper-main">
                 <div className="boarding-wrapper">
