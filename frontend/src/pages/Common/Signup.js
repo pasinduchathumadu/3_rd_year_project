@@ -2,6 +2,7 @@ import React,{useEffect,useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { Button,Alert,AlertTitle } from "@mui/material";
 import axios from "axios";
+
 const Signup = ({onSignup}) =>{
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
