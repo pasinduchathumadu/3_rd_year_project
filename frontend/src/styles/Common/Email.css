@@ -1,0 +1,16 @@
+.App {
+    font-family: sans-serif;
+    text-align: center;
+  }
+  
+  .error {
+    border: 1px solid red !important;
+  }
+  
+  .success {
+    border: 1px solid green !important;
+  }
+  #error{
+    margin-top: 150px;
+}
+  
