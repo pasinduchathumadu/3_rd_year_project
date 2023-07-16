@@ -1,0 +1,33 @@
+.text-group {
+    display: flex;
+    width: 50%;
+    position: relative;
+   
+    margin: 1rem 2rem;
+}
+
+
+
+.text-group input {
+    width: 100%;
+    padding: 1rem 3rem;
+    font-size: 0.7rem;
+    background-color: var(--gray);
+    border-radius: .5rem;
+    border: 0.125rem solid var(--white);
+    outline: none;
+}
+.password-strength {
+    background-color: var(--password-strength-color);
+    color: #333;
+    margin-left: 2rem;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    padding-left: 2rem;
+    border-radius: 4px;
+    font-size: 10px;
+    width: 150px;
+    font-weight: bold;
+    
+  }
+ 

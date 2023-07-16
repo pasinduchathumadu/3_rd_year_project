@@ -1,6 +1,6 @@
 import React,{useState} from "react";
-import { MenuList } from "../data/data";
-import Header from "../components/Layout/Header";
+import { MenuList } from "../../components/data/data";
+import Header from "../../components/Layout/Header";
 import { useNavigate } from "react-router-dom";
 import {
   Box,
@@ -15,8 +15,8 @@ import {
 
   Typography,
 } from "@mui/material";
-import '../styles/HomeStyles.css'
-import dog from '../images/dog3.jpg'
+import '../../styles/Common/HeaderStyles.css'
+import dog from '../../assests/dog3.jpg'
 
 const Menu = () => {
   const navigate = useNavigate()
@@ -39,10 +39,18 @@ const Menu = () => {
           <Button variant="contained" sx={{ width: '15%' }}>SHOP NOW</Button>
         </Grid>
       </Box>
-      <Tabs value={value} centered sx={{ width: '80%', backgroundColor: 'orange', marginTop: '10px' }} onChange={handleChange}>
-        <Tab sx={{ color: 'black', textAlign: 'center', width: '80%' }} label="DOGS" />
-        <Tab sx={{ color: 'black', width: '80%', textAlign: 'center' }} label="CATS" />
+      <Box sx={{ width: "100%" }}>
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        variant="fullWidth"
+        aria-label="Tab Component"
+      >
+        <Tab label="dogs" />
+        <Tab label="cats" />
       </Tabs>
+     
+    </Box>
 
 
       {MenuList.map((menu) => (

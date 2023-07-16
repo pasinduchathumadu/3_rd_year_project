@@ -1,10 +1,13 @@
 import React,{useEffect,useState} from "react";
 import { useNavigate } from "react-router-dom";
+import { Button,Alert,AlertTitle } from "@mui/material";
 import axios from "axios";
 
 const Signup = ({onSignup}) =>{
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [message,setmessage] = useState(false)
+  const [error1,seterror1] = useState(false)
   const [first_name,setfirst]=useState("");
   const [last_name,setlast]=useState("");
   const [street,setstreet]=useState("");
@@ -26,11 +29,13 @@ const Signup = ({onSignup}) =>{
         
     })
     if(res.data.message==="Registration failed"|| res.data.message==="There is an internal error!!"){
-      document.getElementById('error').innerHTML="Registration failed"
+      seterror1(true)
+      setmessage(res.data.message)
       
     }
     else if(res.data.message==="This email is already exist!!!"){
-      document.getElementById('error').innerHTML="This email is exist"
+     seterror1(true)
+     setmessage(res.data.message)
     }
     else{
       onSignup()
@@ -77,58 +82,68 @@ const Signup = ({onSignup}) =>{
           {/* SIGN UP */}
           <div className="col align-items-center flex-col sign-up">
             <div className="form-wrapper align-items-center">
-              <div className="form sign-up" onSubmit={handlesubmit}>
+              <div className="form sign-up">
+              <form action='' onSubmit={handlesubmit}>
                 <div className="input-group" >
                   <div className='first'>
                   <i className="bx bxs-user"></i>
-                  <input type="text" placeholder="First name" onChange={(e)=>setfirst(e.target.value)} />
+                  <input type="text" placeholder="First name" onChange={(e)=>setfirst(e.target.value)} required />
   
                   </div>
   
                   <div>
                   <i className="bx bxs-user"></i>
-                  <input type="text" placeholder="Last name" onChange={(e)=>setlast(e.target.value)} />               
+                  <input type="text" placeholder="Last name" onChange={(e)=>setlast(e.target.value)} required />               
                  
                 </div>
   
                 </div>
                 <div className="input-group">
                   <i className="bx bx-mail-send"></i>
-                  <input type="email" placeholder="Email" onChange={(e)=>setEmail(e.target.value)} />
+                  <input type="email" placeholder="Email" onChange={(e)=>setEmail(e.target.value)} required />
                 </div>
                 <div className="input-group">
                   <i className="bx bxs-user"></i>
-                  <input type="text" placeholder="Password" onChange={(e)=>setPassword(e.target.value)}/>
+                  <input type="text" placeholder="Password" onChange={(e)=>setPassword(e.target.value)} required/>
                 </div>
                 <div className="input-group" >
                   <div className='first'>
                   <i className="bx bxs-user"></i>
-                  <input type="text" placeholder="Stret" onChange={(e)=>setstreet(e.target.value)}/>
+                  <input type="text" placeholder="Stret" onChange={(e)=>setstreet(e.target.value)} required/>
   
                   </div>
   
                   <div>
                   <i className="bx bxs-user"></i>
-                  <input type="text" placeholder="City" onChange={(e)=>setcity(e.target.value)} />               
+                  <input type="text" placeholder="City" onChange={(e)=>setcity(e.target.value)} required/>               
                  
                 </div>
   
                 </div>
                 <div className="input-group">
                   <i className="bx bxs-lock-alt"></i>
-                  <input type="password" placeholder="Contact number" onChange={(e)=>setcontact_number(e.target.value)} />
+                  <input type="password" placeholder="Contact number" onChange={(e)=>setcontact_number(e.target.value)} required />
                 </div>
                
-                <button>Sign up</button>
+                <Button sx={{'&:hover':{backgroundColor:'orange'}}} type='submit'>Sign up</Button>
               <p>
                 <span>Already have an account?</span>
                 <b onClick={pathdirection} className="pointer">
                   Sign in here
                 </b>
               </p>
+              </form>
                
               </div>
             </div>
+            {error1 &&(
+          <Alert severity="error" sx={{ marginTop: '20px' }}>
+          <AlertTitle ></AlertTitle>
+          <strong>{message}</strong>
+        </Alert>
+
+
+         )}
           </div>
           {/* END SIGN UP */}
           {/* SIGN IN */}

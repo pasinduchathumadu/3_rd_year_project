@@ -7,6 +7,7 @@ import {
   Button,
 
 } from "@mui/material";
+import Header from '../../components/Layout/Header'
 import axios from "axios";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import { useNavigate } from "react-router-dom";
@@ -46,9 +47,9 @@ const Email = () => {
 
 
   return (
-
-    <Grid sx={{display:"flex",borderRadius:"100px"}}>
-      <Grid sx={{backgroundImage:`url(${cover})`,backgroundPosition:"center",backgroundRepeat:"no-repeat",width:"50%",height:"100vh"}}> 
+    <><Header />
+    <Grid sx={{ display: "flex", borderRadius: "100px" }}>
+      <Grid sx={{ backgroundImage: `url(${cover})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", width: "50%", height: "90vh" }}>
 
 
       </Grid>
@@ -61,31 +62,31 @@ const Email = () => {
           marginTop: "150px",
           marginLeft: "auto",
           marginRight: "auto",
-          marginBottom: "auto"
-          ,borderRadius:"10px"
+          marginBottom: "auto",
+          borderRadius: "10px"
         }}
       >
         <Grid align="center">
           <h2>Enter the OTP</h2>
         </Grid>
         <div>
-          <MuiOtpInput value={otp} onChange={handleChange} sx={{marginTop:"50px"}} />
+          <MuiOtpInput value={otp} onChange={handleChange} sx={{ marginTop: "50px" }}/>
         </div>
 
-       <Grid sx={{marginTop:"40px" ,fontSize:"12px",textAlign:"center"}}><h4 >Check your email and enter the valid numbers</h4></Grid> 
+        <Grid sx={{ marginTop: "40px", fontSize: "12px", textAlign: "center" }}><h4>Check your email and enter the valid numbers</h4></Grid>
         <Button
           type="submit"
           color="primary"
           variant="contained"
           fullWidth
-          sx={{ marginTop: "60px", backgroundColor: "orange" }}
+          sx={{ marginTop: "60px", backgroundColor: "orange",'&:hover':{backgroundColor:'orange'} }}
         >
           Verify
         </Button>
 
-        
+
       </Paper>
-    </Grid>
+    </Grid></>
   );
 };
 

@@ -1,4 +1,5 @@
 
+
 import * as React from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
@@ -177,6 +178,7 @@ export default function PrimarySearchAppBar() {
         <p>Profile</p>
       </MenuItem>
     </Menu>
+
   );
 
   return (
@@ -237,6 +239,7 @@ export default function PrimarySearchAppBar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
+
               <AccountCircle />
             </IconButton>
           </Box>
@@ -254,6 +257,7 @@ export default function PrimarySearchAppBar() {
             
           </Box>
           <Button variant="contained" sx={{backgroundColor:"orange",marginRight:"10px"}}>logout</Button>
+
 
 
         </Toolbar>
