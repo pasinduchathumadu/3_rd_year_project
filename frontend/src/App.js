@@ -45,11 +45,20 @@ function App() {
         <PrimarySearchAppBar/>
         <Routes>
 
-          <Route path="/" element={<Dashboard/>} />
+          {/* <Route path="/" element={<Dashboard/>} /> */}
           <Route path="/email" element={issignup ?<Email /> : <Navigate to ="/signup"/>}/>
 
 
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={
+            <div className="App">
+            <Home />
+            <Services />
+            <About />
+            <ComContent />
+            <Contact />
+            <Footer />
+          </div>
+          } />
           <Route path="/menu" element={<Menu />}/>
 
           <Route path="/email" element={!issignup ?<Email /> : <Navigate to ="/signup"/>}/>
