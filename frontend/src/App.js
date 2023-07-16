@@ -9,6 +9,12 @@ import Email from "./pages/Common/Email";
 import Reset from "./pages/Common/Reset";
 
 
+import BoardingHome from "./pages/Boarding_house_manager/Home";
+import BoardingSideMenu from "./components/Layout/BoardingSideMenu";
+import BoardingClients from "./pages/Boarding_house_manager/Clients";
+import BoardingPets from "./pages/Boarding_house_manager/Boardpets";
+import BoardingPackages from "./pages/Boarding_house_manager/Packages";
+import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -31,6 +37,16 @@ function App() {
           <Route path="/signup" element={<Signup onSignup={handleSignup}/>} />
           <Route path="/blogs" element={isLoggedIn ? <Blogs /> : <Navigate to="/login" />} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
+
+           {/* boarding house manager */}
+           <Route path="/boarding_dashboard" element={<BoardingHome />} />
+          <Route path="/sidemenu" element={<BoardingSideMenu />} />
+          <Route path="/boarding_clients" element={<BoardingClients />} />
+          <Route path="/boarding_pets" element={<BoardingPets />} />
+          <Route path="/boarding_packages" element={<BoardingPackages />} />
+          <Route path="/boarding_complains" element={<BoardingComplains />} />
+
+          
         </Routes>
       </main>
     </React.Fragment>
