@@ -118,10 +118,11 @@ const Forgot = () => {
                         <h2>Enter your Email:</h2>
                     </Grid>
                     <Grid sx={{ marginTop: '50px' }}>
-                        <div className="input-group" style={{
+                        <div className="text-group" style={{
                             display: "flex",
                             width: "100%",
                             position: "relative",
+                            fontSize: "0.7rem",
                             margin: "1rem 0",
                         }}>
                             <i className="bx bxs-lock-alt"></i>
@@ -147,11 +148,7 @@ const Forgot = () => {
                         type="submit"
                         color="primary"
                         variant="contained"
-
                         fullWidth
-
-
-
                         sx={{ marginTop: "0px", backgroundColor: "orange", '&:hover': { backgroundColor: 'orange' } }}
 
                     >
@@ -164,11 +161,7 @@ const Forgot = () => {
                         type="submit"
                         color="primary"
                         variant="contained"
-
                         fullWidth
-
-
-
                         sx={{ marginTop: "20px", backgroundColor: "orange", '&:hover': { backgroundColor: 'orange' } }}
 
                     >
@@ -182,7 +175,6 @@ const Forgot = () => {
                 <div id="error">
                     <Popper
                         open={open}
-
                         anchorEl={anchorEl}
                         placement="auto"
                         transition
@@ -201,7 +193,6 @@ const Forgot = () => {
                                         marginBottom: '180px' // Adjust the margin top value as per your requirement
                                     }}
                                 >
-
                                     {<><Grid sx={{ marginTop: '10px' }}>
                                         <Grid align="center" sx={{ color: 'white', marginTop: '10px' }}>
                                             <h2 className="header1" >Enter the OTP</h2>
@@ -232,11 +223,7 @@ const Forgot = () => {
                                     )}
                                     {!normal && (
                                         <Button onClick={back} sx={{ backgroundColor: 'black', color: 'white', marginTop: '70px', marginLeft: '10px', '&:hover': { backgroundColor: 'black' } }}>Back</Button>
-
                                     )}
-
-
-
                                 </Paper>
                             </Fade>
                         )}

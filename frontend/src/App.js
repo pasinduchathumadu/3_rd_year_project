@@ -4,7 +4,7 @@ import Forgot from "./pages/Common/Forget";
 import Signup  from "./pages/Common/Signup"
 import Blogs from "./pages/Client/Payment";
 import Login from "./pages/Common/Login";
-import Home from  "./pages/Client/Home";
+import Home from  "./pages/Common/Home";
 import Email from "./pages/Common/Email";
 import Reset from "./pages/Common/Reset";
 
