@@ -6,6 +6,11 @@ import Blogs from "./pages/Client/Payment";
 import Login from "./pages/Common/Login";
 // import Home from  "./pages/Common/Home";
 import Email from "./pages/Common/Email";
+
+import { Dashboard } from "./pages/Client/Dashboard";
+import { Reports } from "./pages/Client/Reports";
+import PrimarySearchAppBar from "./components/Layout/Header";
+
 import Reset from "./pages/Common/Reset";
 import Menu from "./pages/Client/Menu";
 
@@ -15,6 +20,7 @@ import About from  "./pages/Common/About";
 import ComContent from  "./pages/Common/ComContent";
 import Contact from  "./pages/Common/Contact";
 import Footer from  "./pages/Common/Footer";
+
 
 import BoardingHome from "./pages/Boarding_house_manager/Home";
 import BoardingSideMenu from "./components/Layout/BoardingSideMenu";
@@ -36,9 +42,23 @@ function App() {
   return (
     <React.Fragment>
       <main>
+        <PrimarySearchAppBar/>
         <Routes>
 
-          <Route path="/" element={<Home />} />
+          {/* <Route path="/" element={<Dashboard/>} /> */}
+          <Route path="/email" element={issignup ?<Email /> : <Navigate to ="/signup"/>}/>
+
+
+          <Route path="/" element={
+            <div className="App">
+            <Home />
+            <Services />
+            <About />
+            <ComContent />
+            <Contact />
+            <Footer />
+          </div>
+          } />
           <Route path="/menu" element={<Menu />}/>
 
           <Route path="/email" element={!issignup ?<Email /> : <Navigate to ="/signup"/>}/>
@@ -47,6 +67,8 @@ function App() {
           <Route path="/signup" element={<Signup onSignup={handleSignup}/>} />
           <Route path="/blogs" element={isLoggedIn ? <Blogs /> : <Navigate to="/login" />} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
+          <Route path="/reports" element={<Reports/>}></Route>
+          <Route path="/dashboard" element={<Dashboard/>}></Route>
 
            {/* boarding house manager */}
            <Route path="/boarding_dashboard" element={<BoardingHome />} />
@@ -57,6 +79,7 @@ function App() {
           <Route path="/boarding_complains" element={<BoardingComplains />} />
 
           
+
         </Routes>
       </main>
     </React.Fragment>
