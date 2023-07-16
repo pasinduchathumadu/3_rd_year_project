@@ -7,6 +7,7 @@ import Login from "./pages/Common/Login";
 // import Home from  "./pages/Common/Home";
 import Email from "./pages/Common/Email";
 import Reset from "./pages/Common/Reset";
+import Menu from "./pages/Client/Menu";
 
 import Home from  "./pages/Common/Home";
 import Services from  "./pages/Common/Services";
@@ -36,16 +37,10 @@ function App() {
     <React.Fragment>
       <main>
         <Routes>
-          <Route path="/" element={
-            <div className="App">
-              <Home />
-              <Services />
-              <About />
-              <ComContent />
-              <Contact />
-              <Footer />
-            </div>
-          } />
+
+          <Route path="/" element={<Home />} />
+          <Route path="/menu" element={<Menu />}/>
+
           <Route path="/email" element={!issignup ?<Email /> : <Navigate to ="/signup"/>}/>
           <Route path="/forget" element={<Forgot />} />
           <Route path="/reset" element={<Reset />} />

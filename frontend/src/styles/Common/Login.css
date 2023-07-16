@@ -21,11 +21,14 @@
     box-sizing: border-box;
 }
 
-html,
-body {
+
+.body{
+    overflow: hidden;
     height: 100vh;
-    /* overflow: hidden; */
+
 }
+
+
 
 .container {
     /* background-image: url("../assests/"); */
