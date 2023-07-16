@@ -8,7 +8,6 @@ import Home from  "./pages/Client/Home";
 import Email from "./pages/Common/Email";
 
 
-
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [issignup,setIssignup] = useState(false)
