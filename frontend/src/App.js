@@ -7,6 +7,7 @@ import Login from "./pages/Common/Login";
 import Home from  "./pages/Common/Home";
 import Email from "./pages/Common/Email";
 import Reset from "./pages/Common/Reset";
+import Menu from "./pages/Client/Menu";
 
 
 import BoardingHome from "./pages/Boarding_house_manager/Home";
@@ -31,6 +32,7 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/menu" element={<Menu />}/>
           <Route path="/email" element={!issignup ?<Email /> : <Navigate to ="/signup"/>}/>
           <Route path="/forget" element={<Forgot />} />
           <Route path="/reset" element={<Reset />} />

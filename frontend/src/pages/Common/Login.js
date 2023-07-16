@@ -65,6 +65,7 @@ const Login = ({ onLogin }) => {
 
 
   return (
+    <div className='body'>
     <><Header />
     <div id="container" className="container">
 
@@ -149,6 +150,7 @@ const Login = ({ onLogin }) => {
       </div>
       {/* END CONTENT SECTION */}
     </div></>
+    </div>
   );
 };
 
