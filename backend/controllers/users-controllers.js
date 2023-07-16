@@ -145,10 +145,30 @@ export const forget_password = async (req, res, next) => {
 }
 export const reset_password = async (req, res, next) => {
   const hash = pkg;
-  const {new_password, old_password} = req.body
+  const {new_password, old_password,confirm} = req.body
   const email = localStorage.getItem("Forget_email")
+  const values = [
+    new_password,
+    old_password,
+    confirm
+  ]
+  const sqlQuery1 = "SELECT *FROM users WHERE email = ? "
+  db.query(sqlQuery1,values,(err,data)=>{
+    if(err){
+      return res.json({message:"there is an internal error"})
+    }
+    else{
+      const original = data[0].password;
+      const userInput = hash.MD5(old_password)
+      if(original != userInput){
+        return res.json({message:"current password isn't match"})
+      }
+    }
+  })
+
+
  
-  if(new_password == old_password){
+  if(new_password == confirm){
     
     
     const hashedPassword = hash.MD5(new_password);
@@ -175,8 +195,7 @@ export const reset_password = async (req, res, next) => {
 export const forget_confirmation = async (req, res, next) => {
   const { otp } = req.body
   const verify_no = localStorage.getItem("Temp_otp")
-  console.log(verify_no)
-  console.log(otp)
+ 
   if (otp == verify_no) {
     localStorage.removeItem("Temp_otp")
     return res.json({ message: "Valid Number" })
