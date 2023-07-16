@@ -11,7 +11,7 @@ const Home = () => {
         <HomeHeader />
         <div className="home-banner-container">
             <div className="home-bannerImage-container">
-                <img src={ BannerBackground } alt="image1" />
+                <img src={ BannerBackground } alt="image1"  />
             </div>
             <div className="home-text-section">
                 <h1 className="primary-heading">
