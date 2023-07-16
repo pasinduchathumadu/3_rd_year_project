@@ -1,3 +1,4 @@
+
 import React from 'react';
 import HomeHeader from './HomeHeader';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -28,6 +29,7 @@ const Home = () => {
             <div className="home-bannerImage-container">
                 <img src={ BannerImage } alt="bannerimage" className="banner-image" />
             </div>
+
 
         </div>
     </div> );
