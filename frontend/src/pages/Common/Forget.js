@@ -7,7 +7,7 @@ import Fade from '@mui/material/Fade';
 import Paper from '@mui/material/Paper';
 import cover from "../../assests/pic2.jpg"
 import Header from "../../components/Layout/Header";
-
+import '../../styles/Common/Forget.css'
 import { MuiOtpInput } from "mui-one-time-password-input";
 
 const Forgot = () => {
@@ -83,6 +83,7 @@ const Forgot = () => {
     };
 
     return (
+        <div className="body">
         <>
             <Header />
             <Grid sx={{ display: "flex", borderRadius: "100px" }}>
@@ -232,6 +233,7 @@ const Forgot = () => {
 
             </Grid>
         </>
+        </div>
     );
 };
 

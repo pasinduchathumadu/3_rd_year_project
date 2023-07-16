@@ -58,6 +58,7 @@ const Reset = () => {
   };
 
   return (
+    <div className="body">
     <><Header />
       <Grid sx={{ display: "flex", borderRadius: "100px" }}>
         <Grid>
@@ -136,6 +137,7 @@ const Reset = () => {
         )}
 
       </Grid></>
+      </div>
   );
 };
 export default Reset
