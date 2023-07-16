@@ -56,6 +56,7 @@ export const signup = async (req, res, next) => {
     const hash = pkg;
     const date = new Date();
     const date_joined = date.toLocaleDateString();
+    const user_role = 'client'
   
     const status = "De-Active";
 
@@ -75,15 +76,15 @@ export const signup = async (req, res, next) => {
     db.query(query1, first_records, (err, data) => {
       if (data.length === 0) {
         const sqlQuery =
-          'INSERT INTO users (email, password, user_role, status, date_joined, first_name, last_name, verify_no) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+          'INSERT INTO users (email, password,first_name, last_name, user_role, status, date_joined,verify_no) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
         const records = [
           email,
           hashedPassword,
+          first_name,
+          last_name,
           user_role,
           status,
           date_joined,
-          first_name,
-          last_name,
           verify_no,
         ];
 
@@ -95,16 +96,12 @@ export const signup = async (req, res, next) => {
             //set temporary email to confirmation registration
 
             localStorage.setItem("Temp_email", email)
-            const query2 = "INSERT INTO client (email,contact_number,street,city,nic,account_number,bank,branch)VALUES(?,?,?,?,?,?,?,?)";
+            const query2 = "INSERT INTO client (email,contact_number,street,city)VALUES(?,?,?,?)";
             const values1 = [
               email,
               contact_number,
               street,
-              city,
-              nic,
-              account_number,
-              bank,
-              branch
+              city
             ]
             db.query(query2, values1, (err, data) => {
               if (err) {
@@ -148,10 +145,30 @@ export const forget_password = async (req, res, next) => {
 }
 export const reset_password = async (req, res, next) => {
   const hash = pkg;
-  const {new_password, old_password} = req.body
+  const {new_password, old_password,confirm} = req.body
   const email = localStorage.getItem("Forget_email")
+  const values = [
+    new_password,
+    old_password,
+    confirm
+  ]
+  const sqlQuery1 = "SELECT *FROM users WHERE email = ? "
+  db.query(sqlQuery1,values,(err,data)=>{
+    if(err){
+      return res.json({message:"there is an internal error"})
+    }
+    else{
+      const original = data[0].password;
+      const userInput = hash.MD5(old_password)
+      if(original != userInput){
+        return res.json({message:"current password isn't match"})
+      }
+    }
+  })
+
+
  
-  if(new_password == old_password){
+  if(new_password == confirm){
     
     
     const hashedPassword = hash.MD5(new_password);
@@ -178,8 +195,7 @@ export const reset_password = async (req, res, next) => {
 export const forget_confirmation = async (req, res, next) => {
   const { otp } = req.body
   const verify_no = localStorage.getItem("Temp_otp")
-  console.log(verify_no)
-  console.log(otp)
+ 
   if (otp == verify_no) {
     localStorage.removeItem("Temp_otp")
     return res.json({ message: "Valid Number" })
