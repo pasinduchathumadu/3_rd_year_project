@@ -39,20 +39,18 @@ const Menu = () => {
           <Button variant="contained" sx={{ width: '15%' }}>SHOP NOW</Button>
         </Grid>
       </Box>
+      <Box sx={{ width: "100%" }}>
       <Tabs
-          value={value}
-          centered
-          sx={{
-            width: "80%",
-            backgroundColor: "orange",
-            marginTop: "10px",
-          }}
-          onChange={handleChange}
-        >
-          <Tab label="DOGS" />
-          <Tab label="CATS" />
-        </Tabs>
-
+        value={value}
+        onChange={handleChange}
+        variant="fullWidth"
+        aria-label="Tab Component"
+      >
+        <Tab label="dogs" />
+        <Tab label="cats" />
+      </Tabs>
+     
+    </Box>
 
 
       {MenuList.map((menu) => (
