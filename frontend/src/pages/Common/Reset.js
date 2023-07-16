@@ -9,18 +9,6 @@ const Reset = ()=>{
     const [old_password,setold]=useState("")
 
 
-    const submit = async(e)=>{
-        e.preventDefault()
-        try{
-            const res = await axios.post("http://localhost:5000/pet_care/user/reset",{
-                new_password,
-                old_password
-            })
-
-        }catch(err){
-
-        }
-    }
     return(
             <><Header />
             <Grid sx={{ display: "flex", borderRadius: "100px" }}>
