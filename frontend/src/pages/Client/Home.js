@@ -7,7 +7,7 @@ const Home =()=>{
 
           
            
-           <h1>hi second commit</h1>
+           <h1>hi  commit</h1>
 
         </div>
     )
