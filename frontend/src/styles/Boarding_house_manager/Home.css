@@ -56,3 +56,31 @@ body {
     margin-bottom: 10px;  
 }
 
+.top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px;
+}
+
+.top-line {
+    color: rgb(139, 139, 139);
+    font-size: 15px;
+
+}
+
+.boarding-profile-picture {
+    height: 45px;
+    width: auto;
+    border-radius: 50%;
+    border-color: black;
+    margin-right: 10px;
+    margin-left: 15px;
+}
+
+.bell-icon {
+    color: black;
+    margin-bottom: 5px;
+}
+
+
