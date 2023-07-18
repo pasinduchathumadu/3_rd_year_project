@@ -1,6 +1,6 @@
 import React from "react";
 import BoardingStyles from '../../styles/Boarding_house_manager/Home.css';
-import HomeHeader from "../Common/HomeHeader";
+import HomeHeader from "../../components/Layout/Header" 
 
 const Home = () => {
     return (
