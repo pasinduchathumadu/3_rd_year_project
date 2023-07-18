@@ -1,11 +1,56 @@
 import React from "react";
 import BoardingStyles from '../../styles/Boarding_house_manager/Home.css';
-import HomeHeader from "../Common/HomeHeader";
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import  ProfilePicture  from '../../assests/profile-picture.png';
+
+// import {
+//     Chart as ChartJS,
+//     BarElement,
+//     CategoryScale,
+//     LinearScale,
+//     Tooltip,
+//     Legend 
+// } from 'chart.js';
+
+// import { Bar } from 'react-chartjs-2';
+
+// ChartJS.register (
+//     BarElement,
+//     CategoryScale,
+//     LinearScale,
+//     Tooltip,
+//     Legend 
+// )
 
 const Home = () => {
+    // const data = {
+    //     labels: ['Cats', 'Dogs'],
+    //     datasets: [
+    //         {
+    //             label: '369',
+    //             data: [3,6,9],
+    //             backgroundColor: 'aqua',
+    //             borderColor: 'black',
+    //             borderWidth: 1,
+    //         }
+    //     ]
+    // }
+
     return (
         <div className="home-container">
-            <HomeHeader />
+            <div className="top">
+                <div className="top-line">
+                    <p>Boarding House Manager</p>
+                    <p className="top-line-text">Today</p>
+                    <p class="top-line-text">18 June 2023</p>
+                </div>
+
+                <div className="top-line">
+                    <NotificationsIcon className="bell-icon"/>
+                    <img src= { ProfilePicture } alt="profilepicture" className="boarding-profile-picture" />
+                </div>
+            </div>
+
 
             <div className="boarding-wrapper-main">
                 <div className="boarding-wrapper">
@@ -42,14 +87,11 @@ const Home = () => {
                     <h3>Pet Analyze</h3>
                 </div>
 
-
                 <div className="boarding-wrapper">
                     <h3>Packages</h3>
-                   
-                    
+                      
                 </div>
             </div>
-           
         </div>
     )
 }
