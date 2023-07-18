@@ -1,6 +1,7 @@
 
 import React from 'react';
-import HomeHeader from './HomeHeader';
+// import HomeHeader from './HomeHeader';
+import MainHome from '../../styles/Common/MainHome.css';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import BannerBackground from '../../assests/home-banner-background.png';
 import BannerImage from '../../assests/home-image-1.png';
@@ -8,10 +9,10 @@ import BannerImage from '../../assests/home-image-1.png';
 const Home = () => {
     return( 
     <div className="home-container">
-        <HomeHeader />
+        {/* <HomeHeader /> */}
         <div className="home-banner-container">
             <div className="home-bannerImage-container">
-                <img src={ BannerBackground } alt="image1" />
+                <img src={ BannerBackground } alt="image1"  />
             </div>
             <div className="home-text-section">
                 <h1 className="primary-heading">

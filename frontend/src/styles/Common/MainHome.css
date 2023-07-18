@@ -2,8 +2,9 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Reem Kufi", sans-serif !important;
+    font-family: "Reem Kufi", sans-serif;
   }
+
   img {
     max-width: 100%;
     height: auto;
@@ -94,6 +95,7 @@
     max-width: 500px;
     color: #6a6a6a;
     margin: 1.5rem 0rem;
+    text-align: justify;
   }
   .secondary-button {
     padding: 1rem 2.5rem;
@@ -148,7 +150,7 @@
     margin-top: 2rem;
     display: flex;
   }
-  .watch-video-button {
+  /* .watch-video-button {
     margin-left: 2rem;
     background-color: transparent;
     outline: none;
@@ -166,7 +168,7 @@
   .watch-video-button svg {
     font-size: 3rem;
     margin-right: 1rem;
-  }
+  } */
   .contact-page-wrapper h1 {
     max-width: 900px !important;
   }
@@ -230,7 +232,7 @@
     color: #4c4c4c;
     cursor: pointer;
   }
-  .testimonial-section-bottom {
+  /* .testimonial-section-bottom {
     margin-top: 2rem;
     background-color: white;
     padding: 1.5rem 2rem;
@@ -251,15 +253,15 @@
     max-width: 500px;
     font-size: 1.1rem;
     margin: 2rem 0rem;
-  }
-  .testimonials-stars-container svg {
+  } */
+  /* .testimonials-stars-container svg {
     margin: 0rem 0.25rem;
     font-size: 1.5rem;
     color: #fe9e0d;
   }
   .testimonial-section-bottom h2 {
     margin-top: 1.5rem;
-  }
+  } */
   .work-section-wrapper {
     margin-top: 15rem;
   }
@@ -279,7 +281,7 @@
   .work-section-info {
     width: 260px;
     min-height: 350px;
-    background-color: white;
+    background-color: rgb(245, 223, 202);
     padding: 1rem 2rem;
     display: flex;
     flex-direction: column;
@@ -379,14 +381,14 @@
     .primary-subheading {
       text-align: center;
     }
-    .watch-video-button {
+    /* .watch-video-button {
       margin-left: 0rem !important;
       margin-top: 1rem;
       font-size: 1rem !important;
     }
     .watch-video-button svg {
       margin-right: 0.5rem !important;
-    }
+    } */
     .about-section-image-container {
       margin-right: 0rem !important;
     }
@@ -445,7 +447,12 @@
   
   .banner-image {
     margin-top: 150px;
-    margin-right: 150px;
-    width: 550px;
+    margin-right: 200px;
+    width: 650px;
+    height: auto;
+  }
+
+  .about-image {
+    width: 600px;
     height: auto;
   }
