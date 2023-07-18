@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Table, TableHead, TableRow, TableCell, TableBody, Button, CardMedia, Typography, Grid } from "@mui/material";
-import Header from "../components/Layout/Header";
-
-
+import Header from "../../components/Layout/Header"
 const CartTable = () => {
   const calculateTotalAmount = () => {
     let total = 0;
@@ -13,7 +11,7 @@ const CartTable = () => {
   };
 
   const getImageSrc = (imageName) => {
-    return require(`../images/${imageName}`)
+    return require(`../../assests/${imageName}`)
   };
   const [cartItems, setCartItems] = useState([
     { id: 1, name: "Banner", image: 'chhola.jpg', price: 10, quantity: 2 },
@@ -72,7 +70,7 @@ const CartTable = () => {
               </TableCell>
               <TableCell>RS.{item.price * item.quantity}</TableCell>
 
-              <TableCell><Button variant="contained" sx={{ backgroundColor: 'black' }}>Remove Item</Button></TableCell>
+              <TableCell><Button variant="contained" sx={{ backgroundColor: 'black',':hover':{backgroundColor:'black'} }}>Remove Item</Button></TableCell>
             </TableRow>
           ))}
         </TableBody>

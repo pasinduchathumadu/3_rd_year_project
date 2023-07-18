@@ -9,11 +9,11 @@ import Email from "./pages/Common/Email";
 
 import { Dashboard } from "./pages/Client/Dashboard";
 import { Reports } from "./pages/Client/Reports";
-import PrimarySearchAppBar from "./components/Layout/Header";
+
 
 import Reset from "./pages/Common/Reset";
 import Menu from "./pages/Client/Menu";
-
+import Cart from "./pages/Client/Cart"
 import Home from  "./pages/Common/Home";
 import Services from  "./pages/Common/Services";
 import About from  "./pages/Common/About";
@@ -42,7 +42,7 @@ function App() {
   return (
     <React.Fragment>
       <main>
-        <PrimarySearchAppBar/>
+       
         <Routes>
 
           {/* <Route path="/" element={<Dashboard/>} /> */}
@@ -60,7 +60,7 @@ function App() {
           </div>
           } />
           <Route path="/menu" element={<Menu />}/>
-
+          <Route path="/cart" element = {<Cart />} />
           <Route path="/email" element={!issignup ?<Email /> : <Navigate to ="/signup"/>}/>
           <Route path="/forget" element={<Forgot />} />
           <Route path="/reset" element={<Reset />} />
