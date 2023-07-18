@@ -2,6 +2,11 @@ import React from "react";
 import BoardingStyles from '../../styles/Boarding_house_manager/Home.css';
 
 import NotificationsIcon from '@mui/icons-material/Notifications';
+// import AutoGraphIcon from '@mui/icons-material/AutoGraph';
+import AssessmentIcon from '@mui/icons-material/Assessment';
+import InventoryIcon from '@mui/icons-material/Inventory';
+import AnalyticsIcon from '@mui/icons-material/Analytics';
+import AssignmentLateIcon from '@mui/icons-material/AssignmentLate';
 import  ProfilePicture  from '../../assests/profile-picture.png';
 
 // import {
@@ -56,21 +61,27 @@ const Home = () => {
 
             <div className="boarding-wrapper-main">
                 <div className="boarding-wrapper">
-                    <h3>Analytical Overview</h3>
-                    <div className="boarding-wrapper-box-mian">
-                        <div className="boarding-wrapper-box">
-                            <h1>10</h1>
-                            <p>Current Boarding Pets</p>
-                        </div>
-                        <div className="boarding-wrapper-box">
-                            <h1>06</h1>
-                            <p>Completed Requests</p>
-                        </div>
+                    <div className="boarding-box-header">
+                        <AnalyticsIcon className="box-icons"/>
+                        <h3>Analytical Overview</h3>
+                    </div>
+                <div className="boarding-wrapper-box-mian">
+                    <div className="boarding-wrapper-box">
+                        <h1>10</h1>
+                        <p>Current Boarding Pets</p>
+                    </div>
+                    <div className="boarding-wrapper-box">
+                        <h1>06</h1>
+                        <p>Completed Requests</p>
                     </div>
                 </div>
+            </div>
 
                 <div className="boarding-wrapper">
-                    <h3>Pending Boarding Requests</h3>
+                    <div className="boarding-box-header">
+                        <AssignmentLateIcon className="box-icons"/>
+                        <h3>Pending Boarding Requests</h3>
+                    </div>
                     <div className="bording-pending-box">
                         <p>Request ID : 02</p>
                     </div>
@@ -86,11 +97,17 @@ const Home = () => {
             
             <div className="boarding-wrapper-main">
                 <div className="boarding-wrapper">
-                    <h3>Pet Analyze</h3>
+                    <div className="boarding-box-header">
+                        <AssessmentIcon className="box-icons"/>
+                        <h3>Pet Analyze</h3>
+                    </div>
                 </div>
 
                 <div className="boarding-wrapper">
-                    <h3>Packages</h3>
+                    <div className="boarding-box-header">
+                        <InventoryIcon className="box-icons"/>
+                        <h3>Packages</h3>
+                    </div>
                       
                 </div>
             </div>
