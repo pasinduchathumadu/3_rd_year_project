@@ -1,5 +1,6 @@
 import React from "react";
 import BoardingStyles from '../../styles/Boarding_house_manager/Home.css';
+
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import  ProfilePicture  from '../../assests/profile-picture.png';
 
@@ -21,6 +22,7 @@ import  ProfilePicture  from '../../assests/profile-picture.png';
 //     Tooltip,
 //     Legend 
 // )
+
 
 const Home = () => {
     // const data = {
