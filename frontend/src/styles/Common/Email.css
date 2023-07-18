@@ -13,4 +13,7 @@
   #error{
     margin-top: 150px;
 }
-  
+
+.noColor {
+  color: inherit;
+}
