@@ -24,6 +24,13 @@ const Complains = () => {
                     <img src= { ProfilePicture } alt="profilepicture" className="boarding-profile-picture" />
                 </div>
             </div>
+
+            
+
+
+
+
+
         </div>
     )
 }
