@@ -71,13 +71,10 @@ function App() {
 
            {/* boarding house manager */}
            <Route path="/boarding_dashboard" element={<BoardingHome />} />
-          {/* <Route path="/sidemenu" element={<BoardingSideMenu />} /> */}
           <Route path="/boarding_clients" element={<BoardingClients />} />
           <Route path="/boarding_pets" element={<BoardingPets />} />
           <Route path="/boarding_packages" element={<BoardingPackages />} />
-          <Route path="/boarding_complains" element={<BoardingComplains />} />
-
-          
+          <Route path="/boarding_complains" element={<BoardingComplains />} />          
 
         </Routes>
       </main>
