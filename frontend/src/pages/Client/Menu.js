@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { MenuList } from "../../components/data/data";
 import Header from "../../components/Layout/Header";
 import { useNavigate } from "react-router-dom";
+import '../../styles/Common/Email.css'
 import {
   Box,
   Button,
@@ -107,7 +108,8 @@ const Menu = () => {
 
 
       <FormControl sx={{ m: 1, minWidth: 120, width: '30%', marginLeft: '10%', marginTop: '2%', textAlign: 'center' }} size="small">
-        <InputLabel disabled={true} displayPrint="none" htmlFor="demo-input" color="warning" variant="filled" id="demo-select-small-label" sx={{ color: 'black' }}>Categories</InputLabel>
+      
+        <InputLabel disabled={true} displayPrint="none" htmlFor="demo-input" color="warning" variant="outlined" id="demo-select-small-label" sx={{ color: 'black' }}>Categories</InputLabel>
         <Select
           labelId="demo-select-small-label"
           id="demo-select-small"

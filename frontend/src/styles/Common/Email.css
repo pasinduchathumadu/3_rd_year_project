@@ -17,3 +17,6 @@
 .noColor {
   color: inherit;
 }
+#demo-select-small-label{
+  border: none !important;
+}
