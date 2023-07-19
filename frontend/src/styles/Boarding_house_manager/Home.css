@@ -1,3 +1,5 @@
+/* home styles */
+
 * {
     margin: 0;
     padding: 0;
@@ -102,5 +104,14 @@ body {
     color: black;
     margin-bottom: 5px;
 }
+
+/* packages styles */
+.top-button-header {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 
 
