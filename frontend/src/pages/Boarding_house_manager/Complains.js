@@ -2,6 +2,7 @@ import React from "react";
 import BoardingStyles from '../../styles/Boarding_house_manager/Home.css';
 import Header from "../../components/Layout/Header";
 import  ProfilePicture  from '../../assests/profile-picture.png';
+import Button from '@mui/material/Button';
 
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
@@ -15,15 +16,28 @@ const Complains = () => {
                     <p className="top-line-text">Today</p>
                     <p class="top-line-text">18 June 2023</p>
                 </div>
-                <div className="top-line">
+                {/* <div className="top-line">
                    <p style={{fontSize: '18px', fontWeight: 1000}}>Complains</p>
-                </div>
+                </div> */}
 
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon"/>
                     <img src= { ProfilePicture } alt="profilepicture" className="boarding-profile-picture" />
                 </div>
             </div>
+
+            <div className="top-line-bar"> 
+            <Button sx={{width:'50%', border:'solid black 1px'}}>Clients' Complains</Button>
+            <Button sx={{width:'50%', border:'solid black 1px'}}>Your Complains</Button>
+
+            </div>
+
+
+
+
+
+
+
         </div>
     )
 }
