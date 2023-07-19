@@ -17,8 +17,6 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
-// import CircleIcon from '@mui/icons-material/Circle';
-
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -69,14 +67,16 @@ const Clients = () => {
                     <p className="top-line-text">Today</p>
                     <p class="top-line-text">18 June 2023</p>
                 </div>
-                <div className="top-line">
-                   <p style={{fontSize: '18px', fontWeight: 1000}}>Clients</p>
-                </div>
 
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon"/>
                     <img src= { ProfilePicture } alt="profilepicture" className="boarding-profile-picture" />
                 </div>
+            </div>
+
+            <div className="top-line-bar"> 
+                <Button sx={{width:'50%', border: 'solid black 1px'}}>Clients' Requests</Button>
+                <Button sx={{width:'50%', border:'solid black 1px'}}>Clients</Button>
             </div>
 
             <div>

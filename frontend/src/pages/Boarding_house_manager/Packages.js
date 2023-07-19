@@ -4,7 +4,6 @@ import Header from "../../components/Layout/Header";
 import  ProfilePicture  from '../../assests/profile-picture.png';
 
 import NotificationsIcon from '@mui/icons-material/Notifications';
-// import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
@@ -12,8 +11,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { FormLabel, TextField, Typography } from "@mui/material";
 import { FormControl } from '@mui/material';
-// import Box from '@mui/material/Box';
-// import Slider from '@mui/material/Slider';
 
 const Packages = () => {
     return (
@@ -25,14 +22,18 @@ const Packages = () => {
                     <p className="top-line-text">Today</p>
                     <p class="top-line-text">18 June 2023</p>
                 </div>
-                <div className="top-line">
+                {/* <div className="top-line">
                    <p style={{fontSize: '18px', fontWeight: 1000}}>Boarding House Packages</p>
-                </div>
+                </div> */}
 
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon"/>
                     <img src= { ProfilePicture } alt="profilepicture" className="boarding-profile-picture" />
                 </div>
+            </div>
+
+            <div className="top-line-bar"> 
+                <Button sx={{width:'100%', border:'solid black 1px'}}>Packages</Button>
             </div>
 
             <div className="top-button-header">
