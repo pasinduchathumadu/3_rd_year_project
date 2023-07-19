@@ -4,7 +4,6 @@ import Forgot from "./pages/Common/Forget";
 import Signup  from "./pages/Common/Signup"
 import Blogs from "./pages/Common/Blog";
 import Login from "./pages/Common/Login";
-// import Home from  "./pages/Common/Home";
 import Email from "./pages/Common/Email";
 
 import { Dashboard } from "./pages/Client/Dashboard";
@@ -14,7 +13,7 @@ import { Reports } from "./pages/Client/Reports";
 import Reset from "./pages/Common/Reset";
 import Menu from "./pages/Client/Menu";
 import Cart from "./pages/Client/Cart"
-import Header from "./components/Layout/Header"
+import Header from "./components/Layout/Header";
 import Home from  "./pages/Common/Home";
 import Services from  "./pages/Common/Services";
 import About from  "./pages/Common/About";
@@ -24,7 +23,6 @@ import Footer from  "./pages/Common/Footer";
 
 
 import BoardingHome from "./pages/Boarding_house_manager/Home";
-import BoardingSideMenu from "./components/Layout/BoardingSideMenu";
 import BoardingClients from "./pages/Boarding_house_manager/Clients";
 import BoardingPets from "./pages/Boarding_house_manager/Boardpets";
 import BoardingPackages from "./pages/Boarding_house_manager/Packages";
@@ -46,9 +44,7 @@ function App() {
        
         <Routes>
 
-          {/* <Route path="/" element={<Dashboard/>} /> */}
           <Route path="/email" element={issignup ?<Email /> : <Navigate to ="/signup"/>}/>
-
 
           <Route path="/" element={
              <><Header />
@@ -76,13 +72,10 @@ function App() {
 
            {/* boarding house manager */}
            <Route path="/boarding_dashboard" element={<BoardingHome />} />
-          <Route path="/sidemenu" element={<BoardingSideMenu />} />
           <Route path="/boarding_clients" element={<BoardingClients />} />
           <Route path="/boarding_pets" element={<BoardingPets />} />
           <Route path="/boarding_packages" element={<BoardingPackages />} />
-          <Route path="/boarding_complains" element={<BoardingComplains />} />
-
-          
+          <Route path="/boarding_complains" element={<BoardingComplains />} />          
 
         </Routes>
       </main>
