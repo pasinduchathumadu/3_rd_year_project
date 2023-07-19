@@ -1,50 +1,21 @@
 import React from "react";
 import BoardingStyles from '../../styles/Boarding_house_manager/Home.css';
+// import Header from "./components/Layout/Header";
+import Header from "../../components/Layout/Header";
 
 import NotificationsIcon from '@mui/icons-material/Notifications';
-// import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import AssignmentLateIcon from '@mui/icons-material/AssignmentLate';
 import  ProfilePicture  from '../../assests/profile-picture.png';
-
-// import {
-//     Chart as ChartJS,
-//     BarElement,
-//     CategoryScale,
-//     LinearScale,
-//     Tooltip,
-//     Legend 
-// } from 'chart.js';
-
-// import { Bar } from 'react-chartjs-2';
-
-// ChartJS.register (
-//     BarElement,
-//     CategoryScale,
-//     LinearScale,
-//     Tooltip,
-//     Legend 
-// )
-
+import BoxPicture1 from '../../assests/boarding-analyse-1.png';
+import BoxPicture2 from '../../assests/boarding-analyse-2.png';
 
 const Home = () => {
-    // const data = {
-    //     labels: ['Cats', 'Dogs'],
-    //     datasets: [
-    //         {
-    //             label: '369',
-    //             data: [3,6,9],
-    //             backgroundColor: 'aqua',
-    //             borderColor: 'black',
-    //             borderWidth: 1,
-    //         }
-    //     ]
-    // }
-
     return (
         <div className="home-container">
+            <Header />
             <div className="top">
                 <div className="top-line">
                     <p>Boarding House Manager</p>
@@ -57,7 +28,7 @@ const Home = () => {
                     <img src= { ProfilePicture } alt="profilepicture" className="boarding-profile-picture" />
                 </div>
             </div>
-
+        
 
             <div className="boarding-wrapper-main">
                 <div className="boarding-wrapper">
@@ -65,17 +36,19 @@ const Home = () => {
                         <AnalyticsIcon className="box-icons"/>
                         <h3>Analytical Overview</h3>
                     </div>
-                <div className="boarding-wrapper-box-mian">
-                    <div className="boarding-wrapper-box">
-                        <h1>10</h1>
-                        <p>Current Boarding Pets</p>
-                    </div>
-                    <div className="boarding-wrapper-box">
-                        <h1>06</h1>
-                        <p>Completed Requests</p>
+                    <div className="boarding-wrapper-box-mian">
+                        <div className="boarding-wrapper-box" style={{backgroundImage: { BoxPicture1 }}}>
+                            <h1>10</h1>
+                           <br/>
+                            <p>Current Boarding Pets</p>
+                        </div>
+                        <div className="boarding-wrapper-box">
+                            <h1>06</h1>
+                            <br/>
+                            <p>Completed Requests</p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
                 <div className="boarding-wrapper">
                     <div className="boarding-box-header">
@@ -93,7 +66,6 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-
             
             <div className="boarding-wrapper-main">
                 <div className="boarding-wrapper">
@@ -101,14 +73,14 @@ const Home = () => {
                         <AssessmentIcon className="box-icons"/>
                         <h3>Pet Analyze</h3>
                     </div>
+                    
                 </div>
 
                 <div className="boarding-wrapper">
                     <div className="boarding-box-header">
                         <InventoryIcon className="box-icons"/>
                         <h3>Packages</h3>
-                    </div>
-                      
+                    </div>  
                 </div>
             </div>
         </div>

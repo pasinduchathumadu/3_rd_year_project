@@ -14,7 +14,7 @@ import { Reports } from "./pages/Client/Reports";
 import Reset from "./pages/Common/Reset";
 import Menu from "./pages/Client/Menu";
 import Cart from "./pages/Client/Cart"
-import Header from "./components/Layout/Header"
+import Header from "./components/Layout/Header";
 import Home from  "./pages/Common/Home";
 import Services from  "./pages/Common/Services";
 import About from  "./pages/Common/About";
