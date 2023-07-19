@@ -9,8 +9,7 @@ import BannerImage from '../../assests/home-image-1.png';
 const Home = () => {
     return( 
         <><div className="home-container">
-           
-
+    
             <div className="home-banner-container">
                 <div className="home-bannerImage-container">
                     <img src={BannerBackground} alt="image1" />
