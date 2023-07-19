@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Forgot from "./pages/Common/Forget";
 import Signup  from "./pages/Common/Signup"
-import Blogs from "./pages/Client/Payment";
+import Blogs from "./pages/Common/Blog";
 import Login from "./pages/Common/Login";
 // import Home from  "./pages/Common/Home";
 import Email from "./pages/Common/Email";
@@ -68,7 +68,8 @@ function App() {
           <Route path="/forget" element={<Forgot />} />
           <Route path="/reset" element={<Reset />} />
           <Route path="/signup" element={<Signup onSignup={handleSignup}/>} />
-          <Route path="/blogs" element={isLoggedIn ? <Blogs /> : <Navigate to="/login" />} />
+          <Route path="/blog" element={<Blogs />} />
+          {/* <Route path="/blogs" element={isLoggedIn ? <Blogs /> : <Navigate to="/login" />} /> */}
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/reports" element={<Reports/>}></Route>
           <Route path="/dashboard" element={<Dashboard/>}></Route>
