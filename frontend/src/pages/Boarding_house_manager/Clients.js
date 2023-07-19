@@ -47,8 +47,20 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     createData(2, 'John Perera' ,'No:50, Second Road, Nugegoda', '0778022212', 5, 'premium'),
     createData(3, 'John Nikil' ,'No:30, Temple Road, Maharagama', '0770011112', 6, 'premium'),
     createData(4, 'John Wistle' ,'No:24, Katuwana Road, Homagama', '0746614212', 2, 'regular'),
-    createData(5, 'John Bye' ,'No:2, Down Street, Kottawa', '0703332212', 2, 'regular'),
-    
+    createData(5, 'John Bye' ,'No:2, Down Street, Kottawa', '0703332212', 2, 'regular'), 
+  ];
+
+  function createDataRows(id, name, date, time, payment, status) {
+    return { id, name, date, time, payment, status };
+  }
+  
+  const secondrows = [
+    createDataRows(1, 'John Deo' ,'2023-07-10 to 2023-07-12', '12:00:00', '1200.00',  'accepted'),
+    createDataRows(2, 'John Perera' ,'2023-07-10 to 2023-07-12', '13:15:00','2200.00','accepted'),
+    createDataRows(3, 'John Nikil' ,'2023-07-10 to 2023-07-12', '09:30:00', '2400.00',  'accepted'),
+    createDataRows(4, 'John Wistle' ,'2023-07-10 to 2023-07-12', '10:00:00', '1600.00', 'accepted'),
+    createDataRows(5, 'John Bye' ,'2023-07-10 to 2023-07-12', '16:00:00', '1500.00', 'accepted'), 
+    createDataRows(5, 'John Joe' ,'2023-07-10 to 2023-07-12', '19:00:00',  '1500.00', 'accepted'), 
   ];
 
 const Clients = () => {
@@ -79,8 +91,8 @@ const Clients = () => {
                 <Button sx={{width:'50%', border:'solid black 1px'}}>Clients</Button>
             </div>
 
-            <div>
-                <Box sx={{ width: '150px', marginLeft:'1360px',}}>
+            <div className="drop-down-box">
+                <Box sx={{ width: '150px', marginLeft:'1350px',}}>
                     <FormControl fullWidth>
                         <Select
                             labelId="demo-simple-select-label"
@@ -99,46 +111,98 @@ const Clients = () => {
                 </Box>
             </div>
 
+            {/* clients tab */}
             <div className="form-content">
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                    <TableHead>
-                    <TableRow>
-                        <StyledTableCell align="center">Client ID</StyledTableCell>
-                        <StyledTableCell align="center">Client Name</StyledTableCell>
-                        <StyledTableCell align="center">Address</StyledTableCell>
-                        <StyledTableCell align="center">Contact Number</StyledTableCell>
-                        <StyledTableCell align="center">Usability</StyledTableCell>
-                        <StyledTableCell align="center">Status</StyledTableCell>
-                        <StyledTableCell align="center"></StyledTableCell>
-                    </TableRow>
-                    </TableHead>
-                    <TableBody>
-                    {rows.map((row) => (
-                        <StyledTableRow key={row.id}>
-                        {/* <StyledTableCell component="th" scope="row">
-                            {row.name}
-                        </StyledTableCell> */}
-                        <StyledTableCell align="center">{row.id}</StyledTableCell>
-                        <StyledTableCell align="center">{row.name}</StyledTableCell>
-                        <StyledTableCell align="center">{row.address}</StyledTableCell>
-                        <StyledTableCell align="center">{row.contact}</StyledTableCell>
-                        <StyledTableCell align="center">{row.usability}</StyledTableCell>
-                        <StyledTableCell align="center">{row.status}</StyledTableCell>
-                        <StyledTableCell align="center"><Button sx={{color:'white', backgroundColor:'#fe9e0d', ':hover':{backgroundColor: "#fe9e0d"}}}>Pets Details</Button></StyledTableCell>
-                        </StyledTableRow>
-                    ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-                
-
+                <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                        <TableHead>
+                        <TableRow>
+                            <StyledTableCell align="center">Client ID</StyledTableCell>
+                            <StyledTableCell align="center">Client Name</StyledTableCell>
+                            <StyledTableCell align="center">Address</StyledTableCell>
+                            <StyledTableCell align="center">Contact Number</StyledTableCell>
+                            <StyledTableCell align="center">Usability</StyledTableCell>
+                            <StyledTableCell align="center">Status</StyledTableCell>
+                            <StyledTableCell align="center"></StyledTableCell>
+                        </TableRow>
+                        </TableHead>
+                        <TableBody>
+                        {rows.map((row) => (
+                            <StyledTableRow key={row.id}>
+                            {/* <StyledTableCell component="th" scope="row">
+                                {row.name}
+                            </StyledTableCell> */}
+                            <StyledTableCell align="center">{row.id}</StyledTableCell>
+                            <StyledTableCell align="center">{row.name}</StyledTableCell>
+                            <StyledTableCell align="center">{row.address}</StyledTableCell>
+                            <StyledTableCell align="center">{row.contact}</StyledTableCell>
+                            <StyledTableCell align="center">{row.usability}</StyledTableCell>
+                            <StyledTableCell align="center">{row.status}</StyledTableCell>
+                            <StyledTableCell align="center"><Button sx={{color:'white', backgroundColor:'#fe9e0d', ':hover':{backgroundColor: "#fe9e0d"}}}>Pets Details</Button></StyledTableCell>
+                            </StyledTableRow>
+                        ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </div>
+            
+            <div className="drop-down-box">
+                <Box sx={{ width: '150px', marginLeft:'1350px',}}>
+                    <FormControl fullWidth>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={clients}
+                            variant='filled'
+                            label="clients"
+                            onChange={handleChange}
+                            l
+                            sx={{fontSize:'12px'}}>
+                            <MenuItem value={1}>All</MenuItem>
+                            <MenuItem value={2}>Pending</MenuItem>
+                            <MenuItem value={3}>Accepted</MenuItem>
+                            <MenuItem value={4}>Completed</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
             </div>
 
-
-
-
-
+            {/* clients' requets tab */}
+            <div className="form-content">
+                <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                        <TableHead>
+                        <TableRow>
+                            <StyledTableCell align="center">Client ID</StyledTableCell>
+                            <StyledTableCell align="center">Client Name</StyledTableCell>
+                            <StyledTableCell align="center">Requested Date Period</StyledTableCell>
+                            <StyledTableCell align="center"> Pick Up Time</StyledTableCell>
+                            <StyledTableCell align="center">Payment (Rs.)</StyledTableCell>
+                            <StyledTableCell align="center">Request Status</StyledTableCell>
+                            <StyledTableCell align="center"></StyledTableCell>
+                            <StyledTableCell align="center"></StyledTableCell>
+                        </TableRow>
+                        </TableHead>
+                        <TableBody>
+                        {secondrows.map((secondrows) => (
+                            <StyledTableRow key={secondrows.id}>
+                            {/* <StyledTableCell component="th" scope="row">
+                                {row.name}
+                            </StyledTableCell> */}
+                            <StyledTableCell align="center">{secondrows.id}</StyledTableCell>
+                            <StyledTableCell align="center">{secondrows.name}</StyledTableCell>
+                            <StyledTableCell align="center">{secondrows.date}</StyledTableCell>
+                            <StyledTableCell align="center">{secondrows.time}</StyledTableCell>
+                            <StyledTableCell align="center">{secondrows.payment}</StyledTableCell>
+                            <StyledTableCell align="center">{secondrows.status}</StyledTableCell>
+                            <StyledTableCell align="center"><Button sx={{color:'white', backgroundColor:'#fe9e0d', ':hover':{backgroundColor: "#fe9e0d"}}}>Pets Details</Button></StyledTableCell>
+                            <StyledTableCell align="center"><Button sx={{color:'white', backgroundColor:'#555555', ':hover':{backgroundColor: "#555555"}}}>Completed</Button></StyledTableCell>
+                            </StyledTableRow>
+                        ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </div>
         </div>
     )
 }
