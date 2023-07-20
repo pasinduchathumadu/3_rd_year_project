@@ -91,6 +91,7 @@ body {
 }
 
 .top-line-bar {
+    /* width: 2000px;
     padding: 5px;
     border-radius: 10px;
     margin-top: 10px;
@@ -98,7 +99,7 @@ body {
     margin-left: 20px;
     margin-right: 20px;
     display: flex;
-    flex-direction: row;
+    flex-direction: row; */
 
 }
 
