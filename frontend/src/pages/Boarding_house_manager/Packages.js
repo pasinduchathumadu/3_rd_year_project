@@ -4,7 +4,6 @@ import Header from "../../components/Layout/Header";
 import  ProfilePicture  from '../../assests/profile-picture.png';
 
 import NotificationsIcon from '@mui/icons-material/Notifications';
-// import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
@@ -12,8 +11,10 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { FormLabel, TextField, Typography } from "@mui/material";
 import { FormControl } from '@mui/material';
-// import Box from '@mui/material/Box';
-// import Slider from '@mui/material/Slider';
+import Box from '@mui/material/Box';
+import { Tab } from "@mui/material";
+import { Tabs } from "@mui/material";
+
 
 const Packages = () => {
     return (
@@ -25,15 +26,24 @@ const Packages = () => {
                     <p className="top-line-text">Today</p>
                     <p class="top-line-text">18 June 2023</p>
                 </div>
-                <div className="top-line">
-                   <p style={{fontSize: '18px', fontWeight: 1000}}>Boarding House Packages</p>
-                </div>
 
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon"/>
                     <img src= { ProfilePicture } alt="profilepicture" className="boarding-profile-picture" />
                 </div>
-            </div>
+            </div>           
+
+            <Box sx={{width:'95%', marginTop:'10px', marginBottom:'10px', marginLeft:'35px', marginRight:'10px', paddingRight:'10px', paddingLeft:'10px'}}>
+                <Tabs
+                variant="fullWidth"
+                aria-label="Tab Component"
+                indicatorColor="transparent"
+                sx={{borderRadius:'10px'}}
+                >
+
+                    <Tab sx={{backgroundColor: 'orange'}} label="Boarding House Packages" ></Tab>
+                </Tabs>
+            </Box>
 
             <div className="top-button-header">
                 <Button variant="contained" sx={{background: "black" ,':hover':{backgroundColor: "black"}}}>Add New Package <AddIcon sx={{marginLeft: '10px'}}/></Button>

@@ -2,7 +2,10 @@ import React from "react";
 import '../../styles/Boarding_house_manager/Home.css';
 import Header from "../../components/Layout/Header";
 import  ProfilePicture  from '../../assests/profile-picture.png';
-
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import { Tab } from "@mui/material";
+import { Tabs } from "@mui/material";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const BoardPets = () => {
@@ -15,14 +18,17 @@ const BoardPets = () => {
                 <p className="top-line-text">Today</p>
                 <p class="top-line-text">18 June 2023</p>
             </div>
-            <div className="top-line">
-               <p style={{fontSize: '18px', fontWeight: 1000}}>Boarding House Pets</p>
-            </div>
 
             <div className="top-line">
                 <NotificationsIcon className="bell-icon"/>
                 <img src= { ProfilePicture } alt="profilepicture" className="boarding-profile-picture" />
             </div>
+        </div>
+
+        <div className="top-line-bar">
+            <Button sx={{width:'33.34%', border:'solid black 1px'}}>Current Boarding Pets</Button>
+            <Button sx={{width:'33.34%', border:'solid black 1px'}}>Requested  Pets</Button>
+            <Button sx={{width:'33.34%', border:'solid black 1px'}}>Past Boarded Pets</Button>
         </div>
     </div>
     )
