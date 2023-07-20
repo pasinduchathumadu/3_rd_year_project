@@ -109,7 +109,7 @@ const Complains = () => {
             </Box>
 
             {/* Clients Complains */}
-            {clients === 0 && (
+            {own === 0 && (
                 <div>
                     <div className="drop-down-box">
                         <Box sx={{ width: '150px', marginLeft: '1350px' }}>
