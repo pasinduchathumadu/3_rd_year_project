@@ -1,9 +1,11 @@
 import React from "react";
-import BoardingStyles from '../../styles/Boarding_house_manager/Home.css';
+import '../../styles/Boarding_house_manager/Home.css';
 import Header from "../../components/Layout/Header";
 import  ProfilePicture  from '../../assests/profile-picture.png';
 import Button from '@mui/material/Button';
-
+import Box from '@mui/material/Box';
+import { Tab } from "@mui/material";
+import { Tabs } from "@mui/material";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const BoardPets = () => {
@@ -23,8 +25,7 @@ const BoardPets = () => {
             </div>
         </div>
 
-        <div className="top-line-bar"> 
-            {/* <Button sx={{width:'100%', border:'solid black 1px'}}>Boarding Pets</Button> */}
+        <div className="top-line-bar">
             <Button sx={{width:'33.34%', border:'solid black 1px'}}>Current Boarding Pets</Button>
             <Button sx={{width:'33.34%', border:'solid black 1px'}}>Requested  Pets</Button>
             <Button sx={{width:'33.34%', border:'solid black 1px'}}>Past Boarded Pets</Button>

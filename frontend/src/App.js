@@ -27,6 +27,7 @@ import BoardingClients from "./pages/Boarding_house_manager/Clients";
 import BoardingPets from "./pages/Boarding_house_manager/Boardpets";
 import BoardingPackages from "./pages/Boarding_house_manager/Packages";
 import BoardingComplains from "./pages/Boarding_house_manager/Complains";
+import Test from "./pages/Boarding_house_manager/Test";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -76,6 +77,7 @@ function App() {
           <Route path="/boarding_pets" element={<BoardingPets />} />
           <Route path="/boarding_packages" element={<BoardingPackages />} />
           <Route path="/boarding_complains" element={<BoardingComplains />} />          
+          <Route path="/test" element={<Test />} />          
 
         </Routes>
       </main>

@@ -93,7 +93,6 @@ const Clients = () => {
                 </div>
             </div>
 
-            {/* <div className="top-line-bar"> */}
             <Box sx={{width:'98%', marginTop:'10px', marginBottom:'10px', marginLeft:'20px', marginRight:'10px', paddingRight:'10px', paddingLeft:'10px'}}>
                 <Tabs
                 value={showRequests}
@@ -109,8 +108,6 @@ const Clients = () => {
 
                 </Tabs>
             </Box>
-              
-            {/* </div> */}
 
             {showRequests===1 && (
                 <div>
