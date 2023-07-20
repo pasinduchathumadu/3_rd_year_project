@@ -1,20 +1,44 @@
 import React, { useState, useEffect } from "react";
 import Header from "../../components/Layout/Header";
-import { Grid, Typography, Avatar, Tab, Tabs, Box, Paper, InputLabel, TextField } from "@mui/material";
+import { Grid, Typography, Avatar, Tab, Tabs, Box,TextField,Button } from "@mui/material";
 import Stack from '@mui/material/Stack';
 import profile from "../../assests/profile.jpg";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
-
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const Add = () => {
   const input = new Date();
   const date = input.toDateString();
-
+  const [selectfile , setfile] = useState(null)
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const handlefilechange = async(event)=>{
+    const file = event.target.files[0]
+    setfile(file)
+  }
+  const handleFileUpload = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("image", selectfile);
+
+      const res = await axios.post("http://localhost:5000/pet_care/user/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log("File uploaded successfully!");
+      // Add any further handling of the response from the backend if needed.
+
+    } catch (err) {
+      console.log("There is an internal error", err);
+    }
+}
 
   return (
     <div>
@@ -71,10 +95,10 @@ const Add = () => {
       </Grid>
 
       <div style={{ marginTop: '5%', marginLeft: '8%', marginRight: '12%',marginBottom:'5%', backgroundColor: '#FEEED7', height: '700px' }}>
-        <div style={{paddingLeft:'28%',paddingTop:'6%'}}>
+        <div style={{paddingLeft:'28%',paddingTop:'5%'}}>
         <div  style={{
            
-            height: "70vh",
+            height: "75vh",
             width: "500px",
             paddingLeft:'4%',
             borderRadius: "10px",
@@ -109,10 +133,40 @@ const Add = () => {
 
           </Grid>
           <Grid item sx={{paddingTop:'20px'}}>
-          <Typography>Upload Image:</Typography>
-          <TextField variant="outlined" placeholder="product id" size="small" sx={{width:'80%'}}></TextField>
+            <div style={{display:'flex'}}>
+            <div style={{display:'inline'}}>
+            <Button
+                variant="contained"
+                component="label"
+                
+                startIcon={<CloudUploadIcon />}
+              >
+                Upload File
+                <input type="file" hidden onChange={handlefilechange}/>
+               
+              </Button>
+             
 
-          </Grid>
+            </div>
+            <div style={{display:'inline',paddingTop:'6px',paddingLeft:'7px'}}>
+            {selectfile &&(
+                 <Typography>{selectfile.name}</Typography>
+
+              )}
+            
+
+            </div>
+             
+
+            </div>
+           
+             
+             
+            </Grid>
+            <Grid item sx={{paddingTop:'15px'}}>
+                <Button sx={{width:'80%',color:'black',    backgroundColor:'orange',':hover':{backgroundColor:'orange'}}} onClick={handleFileUpload}>Submit</Button>
+
+            </Grid>
             
 
           </div>
