@@ -1,5 +1,5 @@
 import React from "react";
-import BoardingStyles from '../../styles/Boarding_house_manager/Home.css';
+import '../../styles/Boarding_house_manager/Home.css';
 import Header from "../../components/Layout/Header";
 import  ProfilePicture  from '../../assests/profile-picture.png';
 

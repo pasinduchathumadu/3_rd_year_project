@@ -28,6 +28,8 @@ import BoardingPets from "./pages/Boarding_house_manager/Boardpets";
 import BoardingPackages from "./pages/Boarding_house_manager/Packages";
 import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 
+import Onlinehome from "./pages/Online_store_manager/Home"
+import OnlineAdd from "./pages/Online_store_manager/Add"
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [issignup,setIssignup] = useState(false)
@@ -77,6 +79,9 @@ function App() {
           <Route path="/boarding_packages" element={<BoardingPackages />} />
           <Route path="/boarding_complains" element={<BoardingComplains />} />          
 
+
+          <Route path="/online_manager" element={<Onlinehome />}/>
+          <Route path="/online_add" element={<OnlineAdd/>}/>
         </Routes>
       </main>
     </React.Fragment>
