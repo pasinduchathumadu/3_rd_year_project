@@ -1,19 +1,25 @@
 /* eslint-disable no-mixed-operators */
 import React, {  useState } from "react";
 import Header from "../../components/Layout/Header";
-import { Grid, Typography, Avatar, Tab, Tabs, Box, TextField, Button, Select, MenuItem, Alert, AlertTitle,CardMedia, IconButton, Menu } from "@mui/material";
+import { Grid, Typography, Avatar, Tab, Tabs, Box, TextField, Button, Select, MenuItem, Alert, AlertTitle, IconButton } from "@mui/material";
 import Stack from '@mui/material/Stack';
 import profile from "../../assests/profile.jpg";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import axios from "axios";
-
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle'
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 const Add = () => {
   const input = new Date();
   const date = input.toDateString();
+  const [update_message,setupdate_message] = useState(false)
+  const [update_error,setupdate_error] = useState(false)
   const [item, setitem] = useState("")
   const [update,setupdate] =useState(false)
   const [success, setsuccess] = useState(false)
@@ -32,9 +38,30 @@ const Add = () => {
   const [updatedescription,setupdatedescription]=useState("")
   const [updateavailibility,setupdateavailibility] = useState("")
   const [updateprice,setupdateprice] = useState("")
+  const [open,setOpen] = useState(false)
+  const [deleteid,setdelete] = useState(false)
 
+  const handleClickOpen = (id) => {
+    
+    setdelete(id)
+    setOpen(true);
 
+  };
+  const handledelete = async() =>{
+    const res = await axios.post('http://localhost:5000/pet_care/online_store_manager/delete',{
+      deleteid
+    })
+    if(res.data.message === 'deleted succcessfully'){
+      setOpen(false)
+      setValue(0)
+      setupdate(false)
 
+    }
+
+  }
+  const handleClose = () => {
+    setOpen(false);
+  };
   const first = (event) => {
     setitem(event.target.value)
   }
@@ -46,6 +73,7 @@ const Add = () => {
     setupdate(true)
     seteditvalue(false)
     updateitem(id)
+    setupdate_message(false)
 
   }
   const updatestore = async(id)=>{
@@ -62,6 +90,12 @@ const Add = () => {
         getitem()
         setValue(0)
         setupdate(false)
+        setupdate_message(true)
+      }
+      else{
+        setValue(0)
+        setupdate(false)
+        setupdate_error(true)
       }
 
     }catch(err){
@@ -124,10 +158,15 @@ const Add = () => {
     setupdate(false)
     seteditvalue(0)
     getitem() 
+    setupdate_message(false)
+    setupdate_error(false)
+    
   };
   const editchange = (event, newValue) => {
     seteditvalue(newValue)
     setupdate(false)
+    setupdate_message(false)
+    setupdate_error(false)
   }
   const handlefilechange = async (event) => {
     const file = event.target.files[0]
@@ -229,11 +268,28 @@ const Add = () => {
               </Alert>
             </Stack>
           )}
+            {update_message && (
+            <Stack sx={{ width: '50%', marginLeft: '25%' }} spacing={2}>
+              <Alert severity="success">
+                <AlertTitle>Success</AlertTitle>
+                <strong>YOU HAVE BEEN SUCCESSFULLY UPDATED</strong>
+              </Alert>
+            </Stack>
+          )}
           {error && (
             <Stack sx={{ width: '50%', marginLeft: '25%' }} spacing={2}>
               <Alert severity="error">
                 <AlertTitle>Warning</AlertTitle>
                 This is a warning alert — <strong>check it out!</strong>
+              </Alert>
+            </Stack>
+
+          )}
+            {update_error && (
+            <Stack sx={{ width: '50%', marginLeft: '25%' }} spacing={2}>
+              <Alert severity="error">
+                <AlertTitle>Warning</AlertTitle>
+                Cannot Updated — <strong>check it out!</strong>
               </Alert>
             </Stack>
 
@@ -377,7 +433,7 @@ const Add = () => {
             <IconButton sx={{marginLeft:'36%'}} onClick={()=>updatecart(menu.item_id)}>
             <EditIcon color="primary"/>
             </IconButton>
-            <IconButton sx={{marginLeft:'auto'}}>
+            <IconButton sx={{marginLeft:'auto'}} onClick={()=>handleClickOpen(menu.item_id)}>
             <DeleteIcon alignItems="center" sx={{color:'red',display:'inline'}}/>
             </IconButton>
             
@@ -399,6 +455,30 @@ const Add = () => {
             </div>
             </Box>
           </Box>
+          <div style={{width:'50%',marginTop:'100px',backgroundColor:'red'}}>
+     
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+         Online Store Manager
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+           Are You Sure Do you want to Delete this Produt Permenatly?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Back</Button>
+          <Button onClick={handledelete} autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
          
         </Box>
           )) }

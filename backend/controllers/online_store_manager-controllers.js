@@ -3,7 +3,7 @@ import { db } from '../database.js'
 
 export const get_item = async (req, res, next) => {
     const id = req.params.id;
-    console.log(id)
+   
     var item_catogery = ""
     if (id === '0') {
         item_catogery = "foods";
@@ -74,13 +74,12 @@ export const update_store = async (req, res, next) => {
 }
 
 export const delete_store = async (req, res, next) => {
-    const { item_code, reason } = req.body;
+    const { deleteid} = req.body;
     const values = [
-        item_code,
-        reason
+       deleteid
     ]
 
-    const sqlQuery = 'DELETE FROM table WHERE item_code = ?'
+    const sqlQuery = 'DELETE FROM item WHERE item_id = ?'
 
     db.query(sqlQuery, values, (err, data) => {
         if (err) {
