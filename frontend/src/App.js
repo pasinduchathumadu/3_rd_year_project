@@ -9,10 +9,9 @@ import Email from "./pages/Common/Email";
 
 import { Dashboard } from "./pages/Client/Dashboard";
 import { Reports } from "./pages/Client/Reports";
-import PrimarySearchAppBar from "./components/Layout/Header";
-
 import Reset from "./pages/Common/Reset";
 import Menu from "./pages/Client/Menu";
+import Petcare from "./pages/Client/Petcare"
 
 import Home from  "./pages/Common/Home";
 import Services from  "./pages/Common/Services";
@@ -28,6 +27,8 @@ import BoardingClients from "./pages/Boarding_house_manager/Clients";
 import BoardingPets from "./pages/Boarding_house_manager/Boardpets";
 import BoardingPackages from "./pages/Boarding_house_manager/Packages";
 import BoardingComplains from "./pages/Boarding_house_manager/Complains";
+import Pet_grooming from "../src/pages/Client/Pet_grooming";
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -42,7 +43,7 @@ function App() {
   return (
     <React.Fragment>
       <main>
-        <PrimarySearchAppBar/>
+       
         <Routes>
 
           <Route path="/" element={<Dashboard/>} />
@@ -60,6 +61,13 @@ function App() {
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/reports" element={<Reports/>}></Route>
           <Route path="/dashboard" element={<Dashboard/>}></Route>
+          <Route path="/petcare" element={<Petcare/>}></Route>
+          {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
+          <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route>
+
+
+
+
 
            {/* boarding house manager */}
            <Route path="/boarding_dashboard" element={<BoardingHome />} />
