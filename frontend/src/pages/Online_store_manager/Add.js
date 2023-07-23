@@ -1,7 +1,7 @@
 /* eslint-disable no-mixed-operators */
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import Header from "../../components/Layout/Header";
-import { Grid, Typography, Avatar, Tab, Tabs, Box, TextField, Button, Select, MenuItem, Alert, AlertTitle, IconButton } from "@mui/material";
+import { Grid, Typography, Avatar, Tab, Tabs, Box, TextField, Button, Select, MenuItem, Alert, AlertTitle, IconButton, CardMedia, Card, CardActionArea } from "@mui/material";
 import Stack from '@mui/material/Stack';
 import profile from "../../assests/profile.jpg";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -18,10 +18,10 @@ import EditIcon from '@mui/icons-material/Edit';
 const Add = () => {
   const input = new Date();
   const date = input.toDateString();
-  const [update_message,setupdate_message] = useState(false)
-  const [update_error,setupdate_error] = useState(false)
+  const [update_message, setupdate_message] = useState(false)
+  const [update_error, setupdate_error] = useState(false)
   const [item, setitem] = useState("")
-  const [update,setupdate] =useState(false)
+  const [update, setupdate] = useState(false)
   const [success, setsuccess] = useState(false)
   const [error, seterror] = useState(false)
   const [Categories, setcategories] = useState("")
@@ -33,25 +33,25 @@ const Add = () => {
   const [price, setprice] = useState("")
   const [quantity, setquantity] = useState("")
   const [image, setimage] = useState("")
-  const [cart,setgetitem] = useState("")
-  const [update_cart,setupdatecart] = useState("")
-  const [updatedescription,setupdatedescription]=useState("")
-  const [updateavailibility,setupdateavailibility] = useState("")
-  const [updateprice,setupdateprice] = useState("")
-  const [open,setOpen] = useState(false)
-  const [deleteid,setdelete] = useState(false)
+  const [cart, setgetitem] = useState("")
+  const [update_cart, setupdatecart] = useState("")
+  const [updatedescription, setupdatedescription] = useState("")
+  const [updateavailibility, setupdateavailibility] = useState("")
+  const [updateprice, setupdateprice] = useState("")
+  const [open, setOpen] = useState(false)
+  const [deleteid, setdelete] = useState(false)
 
   const handleClickOpen = (id) => {
-    
+
     setdelete(id)
     setOpen(true);
 
   };
-  const handledelete = async() =>{
-    const res = await axios.post('http://localhost:5000/pet_care/online_store_manager/delete',{
+  const handledelete = async () => {
+    const res = await axios.post('http://localhost:5000/pet_care/online_store_manager/delete', {
       deleteid
     })
-    if(res.data.message === 'deleted succcessfully'){
+    if (res.data.message === 'deleted succcessfully') {
       setOpen(false)
       setValue(0)
       setupdate(false)
@@ -69,61 +69,61 @@ const Add = () => {
     setcategories(event.target.value)
   }
 
-  const updatecart = (id)=>{
+  const updatecart = (id) => {
     setupdate(true)
     seteditvalue(false)
     updateitem(id)
     setupdate_message(false)
 
   }
-  const updatestore = async(id)=>{
+  const updatestore = async (id) => {
 
-    try{
-      const res = await axios.post('http://localhost:5000/pet_care/online_store_manager/update',{
+    try {
+      const res = await axios.post('http://localhost:5000/pet_care/online_store_manager/update', {
         id,
         updatedescription,
         updateavailibility,
         updateprice
 
       })
-      if(res.data.message === "update successfully"){
+      if (res.data.message === "update successfully") {
         getitem()
         setValue(0)
         setupdate(false)
         setupdate_message(true)
       }
-      else{
+      else {
         setValue(0)
         setupdate(false)
         setupdate_error(true)
       }
 
-    }catch(err){
+    } catch (err) {
       console.log("There is an internel error")
     }
 
   }
 
-  const getitem = async()=>{
- 
-   
-    try{
+  const getitem = async () => {
+
+
+    try {
       const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/get_item/${value}`)
       const data = await res.data
       setgetitem(data.data)
-    }catch(err){
+    } catch (err) {
       console.log("There is an error")
     }
   }
 
- 
-  const updateitem =async(id)=>{
-    try{
+
+  const updateitem = async (id) => {
+    try {
       const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/update_cart_load/${id}`)
       const data = await res.data
       setupdatecart(data.data)
 
-    }catch(err){
+    } catch (err) {
       console.log("There is an internel error")
     }
 
@@ -157,10 +157,10 @@ const Add = () => {
     setValue(newValue);
     setupdate(false)
     seteditvalue(0)
-    getitem() 
+    getitem()
     setupdate_message(false)
     setupdate_error(false)
-    
+
   };
   const editchange = (event, newValue) => {
     seteditvalue(newValue)
@@ -175,7 +175,7 @@ const Add = () => {
   }
   const getImageSrc = (imageName) => {
     return require(`../../../../backend/images/store/${imageName}`)
-};
+  };
   const handleFileUpload = async () => {
     seterror(false)
     setsuccess(false)
@@ -268,7 +268,7 @@ const Add = () => {
               </Alert>
             </Stack>
           )}
-            {update_message && (
+          {update_message && (
             <Stack sx={{ width: '50%', marginLeft: '25%' }} spacing={2}>
               <Alert severity="success">
                 <AlertTitle>Success</AlertTitle>
@@ -285,7 +285,7 @@ const Add = () => {
             </Stack>
 
           )}
-            {update_error && (
+          {update_error && (
             <Stack sx={{ width: '50%', marginLeft: '25%' }} spacing={2}>
               <Alert severity="error">
                 <AlertTitle>Warning</AlertTitle>
@@ -414,135 +414,143 @@ const Add = () => {
             </Box>
           </Grid>
           {editvalue === 0 && (
-          <div style={{ marginTop: '3%', marginLeft: '8%', marginRight: '12%', marginBottom: '5%', backgroundColor: '#FEEED7', display: "flex", flexWrap: "wrap",width:'80%',height:'auto' }}>
-          {cart && cart.map((menu,index)=>(
-             <Box
-          sx={{
-            width: "320px",
-            m: 2,
-            border: "10px",
-            borderRadius: "10px",
-            marginTop: "35px",
-            height:'250px',
-            backgroundColor:'#D9D9D9',
-            marginLeft:'50px'
-          }}
-        >
-          <Box sx={{margin:'5%',backgroundColor:'#FFFFFF',display:'flex',height:'40px',padding:'2%',borderRadius:'10px'}}>
-            Product ID:{menu.item_id}
-            <IconButton sx={{marginLeft:'36%'}} onClick={()=>updatecart(menu.item_id)}>
-            <EditIcon color="primary"/>
-            </IconButton>
-            <IconButton sx={{marginLeft:'auto'}} onClick={()=>handleClickOpen(menu.item_id)}>
-            <DeleteIcon alignItems="center" sx={{color:'red',display:'inline'}}/>
-            </IconButton>
-            
-          </Box>
-          <Box sx={{backgroundColor:'#FFFFFF',margin:'4%',height:'150px',display:'flex'}}>
-            <Box sx={{border:'1px',borderColor:'gray',borderStyle:'solid',width:'50%',height:'150px',display:'inline'}}>
-            <img
-            style={{ minHeight: "100px",width:'130px',marginLeft:'5%',marginTop:'10%' }}
-            component={"img"}
-            src={getImageSrc(menu.image)}
-            alt={menu.name}
-          />
-            </Box>
-            <Box sx={{marginLeft:'1%',border:'1px',borderColor:'gray',borderStyle:'solid',width:'50%',height:'150px',display:'inline'}}>
-            <div style={{marginTop:'25px',marginLeft:'5px'}}>
-            <Typography>Name:{menu.name}</Typography>
-            <Typography>Price:{menu.unit_price}</Typography>
-            <Typography>Quantity:{menu.quantity}</Typography>
+            <div style={{ marginTop: '3%', marginLeft: '5%', marginRight: '12%', marginBottom: '5%', backgroundColor: '#FEEED7', display: "flex", flexWrap: "wrap", width: '90%', height: 'auto' }}>
+              {cart && cart.map((menu, index) => (
+                <Box
+                  sx={{
+                    width: "380px",
+                    m: 2,
+                    border: "10px",
+                    borderRadius: "10px",
+                    marginTop: "35px",
+                    height: '290px',
+                    backgroundColor: '#D9D9D9',
+                    marginLeft: '50px'
+                  }}
+                >
+                  <Box sx={{ margin: '5%', backgroundColor: '#FFFFFF', display: 'flex', height: '40px', padding: '2%', borderRadius: '10px' }}>
+                    Product ID:{menu.item_id}
+                    <IconButton sx={{ marginLeft: '36%' }} onClick={() => updatecart(menu.item_id)}>
+                      <EditIcon color="primary" />
+                    </IconButton>
+                    <IconButton sx={{ marginLeft: 'auto' }} onClick={() => handleClickOpen(menu.item_id)}>
+                      <DeleteIcon alignItems="center" sx={{ color: 'red', display: 'inline' }} />
+                    </IconButton>
+
+                  </Box>
+                  <Box sx={{ backgroundColor: '#FFFFFF', margin: '4%', height: '190px', display: 'flex' }}>
+                    <Box sx={{ border: '1px', borderColor: 'gray', borderStyle: 'solid', width: '75%', height: '180px', display: 'inline',marginTop:'6px' }}>
+                      <Card sx={{ maxWidth: "380px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '11px' }}>
+                        <CardActionArea>
+                          <CardMedia
+                            sx={{ minHeight: "150px" }}
+                            component={"img"}
+                            src={getImageSrc(menu.image)}
+                            alt={menu.name} />
+
+                        </CardActionArea>
+                      </Card>
+                    </Box>
+                    <Box sx={{ marginLeft: '1%', border: '1px', borderColor: 'gray', borderStyle: 'solid', width: '50%', height: '180px', display: 'inline',marginTop:'6px' }}>
+                      <div style={{ marginTop: '25px', marginLeft: '5px' }}>
+                        <Typography sx={{ fontFamily: 'Time New Roman', fontSize: '20px', fontStyle: 'bold', paddingBottom: '5px' }}>Name:{menu.name}</Typography>
+                        <Typography sx={{ fontFamily: 'Time New Roman', fontSize: '18px', fontStyle: 'bold' }}>Price:{menu.unit_price}</Typography>
+                        <Typography sx={{ fontFamily: 'Time New Roman', fontSize: '18px', fontStyle: 'bold' }}>Quantity:{menu.quantity}</Typography>
+                      </div>
+                    </Box>
+                  </Box>
+                  <div style={{ width: '50%', marginTop: '100px', backgroundColor: 'red' }}>
+
+                    <Dialog
+                      open={open}
+                      onClose={handleClose}
+                      aria-labelledby="alert-dialog-title"
+                      aria-describedby="alert-dialog-description"
+                    >
+                      <DialogTitle id="alert-dialog-title">
+                        Online Store Manager
+                      </DialogTitle>
+                      <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                          Are You Sure Do you want to Delete this Produt Permenatly?
+                        </DialogContentText>
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={handleClose}>Back</Button>
+                        <Button onClick={handledelete} autoFocus>
+                          Delete
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
+                  </div>
+
+                </Box>
+              ))}
             </div>
-            </Box>
-          </Box>
-          <div style={{width:'50%',marginTop:'100px',backgroundColor:'red'}}>
-     
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-         Online Store Manager
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-           Are You Sure Do you want to Delete this Produt Permenatly?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Back</Button>
-          <Button onClick={handledelete} autoFocus>
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-         
-        </Box>
-          )) }
-          </div>
           )}
           <div>
           </div>
-        </> 
+        </>
       )}
 
- {update &&(
-      <div>
-        {update_cart && update_cart.map((menu,index)=>(
-          <><Box sx={{ backgroundColor: '#EB996E', width: '13%', border: '10px', borderRadius: '10px', textAlign: 'center', marginLeft: '20%', marginTop: '2%' }}>
-            <Typography>Update Product</Typography>
-          </Box><div style={{ marginTop: '2%', marginLeft: '20%', marginBottom: '5%', backgroundColor: '#FEEED7', width: '60%', height: '80vh', display: 'flex',flexWrap:'wrap' }}>
-            <div style={{width:'100%',backgroundColor:'#D4D4D4',margin:'2%'}}>
-            <div style={{height:'250px',width:'100%',backgroundColor:'#D4D4D4',display:'flex'}}>
-            <div style={{height:'200px',width:'40%',marginTop:'3%',marginLeft:'2%',display:'inline',backgroundColor:'#F9F8F8'}}>
-           
-            <img
-            style={{ minHeight: "100px",width:'250px',marginLeft:'7%',marginTop:'5%' }}
-            component={"img"}
-            src={getImageSrc(menu.image)}
-            alt={menu.name}
-          />
-              
+      {update && (
+        <div>
+          {update_cart && update_cart.map((menu, index) => (
+            <><Box sx={{ backgroundColor: '#EB996E', width: '13%', border: '10px', borderRadius: '10px', textAlign: 'center', marginLeft: '20%', marginTop: '2%' }}>
+              <Typography>Update Product</Typography>
+            </Box><div style={{ marginTop: '2%', marginLeft: '20%', marginBottom: '5%', backgroundColor: '#FEEED7', width: '60%', height: '80vh', display: 'flex', flexWrap: 'wrap' }}>
+                <div style={{ width: '100%', backgroundColor: '#D4D4D4', margin: '2%' }}>
+                  <div style={{ height: '250px', width: '100%', backgroundColor: '#D4D4D4', display: 'flex' }}>
+                    <div style={{ height: '200px', width: '40%', marginTop: '3%', marginLeft: '2%', display: 'inline', backgroundColor: '#F9F8F8' }}>
 
-            </div>
+                   
 
-            <div style={{height:'200px',width:'60%',display:'inline',marginTop:'3%',marginLeft:'10%'}}>
-              <Box sx={{height:'100px',width:'90%',backgroundColor:'#F9F8F8'}}>
-              <Typography sx={{paddingLeft:'2%',paddingTop:'2%'}}>{menu.name}</Typography>
-              <Typography sx={{paddingTop:'2%',paddingLeft:'2%'}}>{menu.description}</Typography>
-              <Typography sx={{paddingTop:'15%'}}>Update Price :</Typography>
-              <TextField onChange={(e)=>setupdateprice(e.target.value)}  size="small" placeholder="price:RS.xxxx" sx={{marginTop:'15px',backgroundColor:'#F9F8F8',width:'100%'}}></TextField>
-              </Box>
-              
-              
-            </div>
-            
-            </div>
-            <div style={{marginLeft:'15px'}}>
-              <Typography  sx={{backgroundColor:'#F9F8F'}}>Upadate Description:</Typography>
-              <TextField onChange = {(e)=>setupdatedescription(e.target.value)} size="small" placeholder="description" sx={{width:'95%',marginTop:'10px',backgroundColor:'#F9f8f8'}}></TextField>
-              <Typography sx={{backgroundColor:'#F9F8F',marginTop:'15px'}}>Upadate Avalibility:</Typography>
-              <TextField onChange={(e)=>setupdateavailibility(e.target.value)}   size="small" placeholder="quantity" sx={{width:'45%',marginTop:'10px',backgroundColor:'#F9f8f8'}}></TextField>
+                      <Card sx={{ maxWidth: "380px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '8px' }}>
+                        <CardActionArea>
+                          <CardMedia
+                            sx={{ minHeight: "150px" }}
+                            component={"img"}
+                            src={getImageSrc(menu.image)}
+                            alt={menu.name} />
 
-              <Button onClick={()=>updatestore(menu.item_id)}  sx={{backgroundColor:'#ED5C01',width:'95%',marginTop:'30px',height:'5vh',':hover':{backgroundColor:'#ED5C01'},textAlign:'center',color:'white'}}>update</Button>
+                        </CardActionArea>
+                      </Card>
+                    </div>
 
-            </div>
-           </div>
-          
-            
-            </div>
+                    <div style={{ height: '200px', width: '60%', display: 'inline', marginTop: '3%', marginLeft: '10%' }}>
+                      <Box sx={{ height: '100px', width: '90%', backgroundColor: '#F9F8F8' }}>
+                        <Typography sx={{ paddingLeft: '2%', paddingTop: '2%' }}>{menu.name}</Typography>
+                        <Typography sx={{ paddingTop: '2%', paddingLeft: '2%' }}>{menu.description}</Typography>
+                        <Typography sx={{ paddingTop: '15%' }}>Update Price :</Typography>
+                        <TextField onChange={(e) => setupdateprice(e.target.value)} size="small" placeholder="price:RS.xxxx" sx={{ marginTop: '15px', backgroundColor: '#F9F8F8', width: '100%' }}></TextField>
+                      </Box>
+
+
+                    </div>
+
+                  </div>
+                  <div style={{ marginLeft: '15px' }}>
+                    <Typography sx={{ backgroundColor: '#F9F8F' }}>Upadate Description:</Typography>
+                    <TextField onChange={(e) => setupdatedescription(e.target.value)} size="small" placeholder="description" sx={{ width: '95%', marginTop: '10px', backgroundColor: '#F9f8f8' }}></TextField>
+                    <Typography sx={{ backgroundColor: '#F9F8F', marginTop: '15px' }}>Upadate Avalibility:</Typography>
+                    <TextField onChange={(e) => setupdateavailibility(e.target.value)} size="small" placeholder="quantity" sx={{ width: '45%', marginTop: '10px', backgroundColor: '#F9f8f8' }}></TextField>
+
+                    <Button onClick={() => updatestore(menu.item_id)} sx={{ backgroundColor: '#ED5C01', width: '95%', marginTop: '30px', height: '5vh', ':hover': { backgroundColor: '#ED5C01' }, textAlign: 'center', color: 'white' }}>update</Button>
+
+                  </div>
+                </div>
+
+
+              </div>
             </>
 
-        ))}
-        
+          ))}
 
-     
-        
-      </div>
-    )}
+
+
+
+        </div>
+      )}
 
     </div>
 
