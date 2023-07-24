@@ -46,7 +46,7 @@ function App() {
       <main>
        
         <Routes>
-
+         
           <Route path="/email" element={issignup ?<Email /> : <Navigate to ="/signup"/>}/>
 
           <Route path="/" element={
