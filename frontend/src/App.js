@@ -23,6 +23,8 @@ import BoardingPets from "./pages/Boarding_house_manager/Boardpets";
 import BoardingPackages from "./pages/Boarding_house_manager/Packages";
 import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 
+import Caregiverlist from "./pages/Care_center_manager/caregiverlist";
+
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [issignup,setIssignup] = useState(false)
@@ -55,6 +57,9 @@ function App() {
           <Route path="/boarding_pets" element={<BoardingPets />} />
           <Route path="/boarding_packages" element={<BoardingPackages />} />
           <Route path="/boarding_complains" element={<BoardingComplains />} />
+
+           {/*  */}
+           <Route path="/caregiverlist" element={< Caregiverlist />} />
 
           
         </Routes>
