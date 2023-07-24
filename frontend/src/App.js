@@ -29,8 +29,13 @@ import BoardingPackages from "./pages/Boarding_house_manager/Packages";
 import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 import Test from "./pages/Boarding_house_manager/Test";
 
+
+import Caregiverlist from "./pages/Care_center_manager/caregiverlist";
+
+
 import Onlinehome from "./pages/Online_store_manager/Home"
 import OnlineAdd from "./pages/Online_store_manager/Add"
+
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [issignup,setIssignup] = useState(false)
@@ -82,8 +87,15 @@ function App() {
           <Route path="/test" element={<Test />} />          
 
 
+
+           {/*  */}
+           <Route path="/caregiverlist" element={< Caregiverlist />} />
+
+          
+
           <Route path="/online_manager" element={<Onlinehome />}/>
           <Route path="/online_add" element={<OnlineAdd/>}/>
+
         </Routes>
       </main>
     </React.Fragment>
