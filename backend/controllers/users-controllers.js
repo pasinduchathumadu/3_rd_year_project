@@ -207,7 +207,7 @@ export const upload_file = async(req,res,next)=>{
 
   const filestorage =multer.diskStorage({
     destination:(req,file,cb)=>{
-      cb(null,'images/client');
+      cb(null,'images/store');
     },
     filename:(req,file,cb)=>{
       cb(null,  file.originalname);

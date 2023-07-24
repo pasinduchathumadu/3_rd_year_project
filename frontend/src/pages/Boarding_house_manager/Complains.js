@@ -1,4 +1,6 @@
+
 import React, { useState } from "react";
+
 import '../../styles/Boarding_house_manager/Home.css';
 import Header from "../../components/Layout/Header";
 import  ProfilePicture  from '../../assests/profile-picture.png';
@@ -107,7 +109,7 @@ const Complains = () => {
             </Box>
 
             {/* Clients Complains */}
-            {clients === 0 && (
+            {own === 0 && (
                 <div>
                     <div className="drop-down-box">
                         <Box sx={{ width: '150px', marginLeft: '1350px' }}>
