@@ -2,6 +2,7 @@ import React,{useEffect,useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { Button,Alert,AlertTitle } from "@mui/material";
 import axios from "axios";
+import Header from "../../components/Layout/Header"
 const Signup = ({onSignup}) =>{
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -74,79 +75,80 @@ const Signup = ({onSignup}) =>{
         }
     
     return(
-        <div id="container" className="container">
-     
+      <><Header />
+      <div id="container" className="container">
+
         {/* FORM SECTION */}
         <div className="row">
           {/* SIGN UP */}
           <div className="col align-items-center flex-col sign-up">
             <div className="form-wrapper align-items-center">
               <div className="form sign-up">
-              <form action='' onSubmit={handlesubmit}>
-                <div className="input-group" >
-                  <div className='first'>
-                  <i className="bx bxs-user"></i>
-                  <input type="text" placeholder="First name" onChange={(e)=>setfirst(e.target.value)} required />
-  
+                <form action='' onSubmit={handlesubmit}>
+                  <div className="input-group">
+                    <div className='first'>
+                      <i className="bx bxs-user"></i>
+                      <input type="text" placeholder="First name" onChange={(e) => setfirst(e.target.value)} required />
+
+                    </div>
+
+                    <div>
+                      <i className="bx bxs-user"></i>
+                      <input type="text" placeholder="Last name" onChange={(e) => setlast(e.target.value)} required />
+
+                    </div>
+
                   </div>
-  
-                  <div>
-                  <i className="bx bxs-user"></i>
-                  <input type="text" placeholder="Last name" onChange={(e)=>setlast(e.target.value)} required />               
-                 
-                </div>
-  
-                </div>
-                <div className="input-group">
-                  <i className="bx bx-mail-send"></i>
-                  <input type="email" placeholder="Email" onChange={(e)=>setEmail(e.target.value)} required />
-                </div>
-                <div className="input-group">
-                  <i className="bx bxs-user"></i>
-                  <input type="text" placeholder="Password" onChange={(e)=>setPassword(e.target.value)} required/>
-                </div>
-                <div className="input-group" >
-                  <div className='first'>
-                  <i className="bx bxs-user"></i>
-                  <input type="text" placeholder="Stret" onChange={(e)=>setstreet(e.target.value)} required/>
-  
+                  <div className="input-group">
+                    <i className="bx bx-mail-send"></i>
+                    <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} required />
                   </div>
-  
-                  <div>
-                  <i className="bx bxs-user"></i>
-                  <input type="text" placeholder="City" onChange={(e)=>setcity(e.target.value)} required/>               
-                 
-                </div>
-  
-                </div>
-                <div className="input-group">
-                  <i className="bx bxs-lock-alt"></i>
-                  <input type="password" placeholder="Contact number" onChange={(e)=>setcontact_number(e.target.value)} required />
-                </div>
-               
-                <Button sx={{'&:hover':{backgroundColor:'orange'}}} type='submit'>Sign up</Button>
-              <p>
-                <span>Already have an account?</span>
-                <b onClick={pathdirection} className="pointer">
-                  Sign in here
-                </b>
-              </p>
-              </form>
-               
+                  <div className="input-group">
+                    <i className="bx bxs-user"></i>
+                    <input type="text" placeholder="Password" onChange={(e) => setPassword(e.target.value)} required />
+                  </div>
+                  <div className="input-group">
+                    <div className='first'>
+                      <i className="bx bxs-user"></i>
+                      <input type="text" placeholder="Stret" onChange={(e) => setstreet(e.target.value)} required />
+
+                    </div>
+
+                    <div>
+                      <i className="bx bxs-user"></i>
+                      <input type="text" placeholder="City" onChange={(e) => setcity(e.target.value)} required />
+
+                    </div>
+
+                  </div>
+                  <div className="input-group">
+                    <i className="bx bxs-lock-alt"></i>
+                    <input type="password" placeholder="Contact number" onChange={(e) => setcontact_number(e.target.value)} required />
+                  </div>
+
+                  <Button sx={{ '&:hover': { backgroundColor: 'orange' } }} type='submit'>Sign up</Button>
+                  <p>
+                    <span>Already have an account?</span>
+                    <b onClick={pathdirection} className="pointer">
+                      Sign in here
+                    </b>
+                  </p>
+                </form>
+
               </div>
             </div>
-            {error1 &&(
-          <Alert severity="error" sx={{ marginTop: '20px' }}>
-          <AlertTitle ></AlertTitle>
-          <strong>{message}</strong>
-        </Alert>
+            {error1 && (
+              <Alert severity="error" sx={{ marginTop: '20px' }}>
+                <AlertTitle></AlertTitle>
+                <strong>{message}</strong>
+              </Alert>
 
 
-         )}
+            )}
           </div>
           {/* END SIGN UP */}
           {/* SIGN IN */}
-          
+
           {/* END SIGN IN */}
         </div>
         {/* END FORM SECTION */}
@@ -170,7 +172,7 @@ const Signup = ({onSignup}) =>{
           {/* END SIGN UP CONTENT */}
         </div>
         {/* END CONTENT SECTION */}
-      </div>
+      </div></>
     )
 }
 export default Signup

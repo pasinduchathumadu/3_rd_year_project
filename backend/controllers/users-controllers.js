@@ -30,12 +30,12 @@ export const login = async (req, res, next) => {
     db.query(sqlQuery,[values[0]],(err, data) => {
     
       if (data.length === 0) {
-        return res.json({ message: "User not found" });
+        return res.status(200).json({ message: "User not found" });
       } else {
         const original = data[0].password;
         const userInputHash = hash.MD5(password)
         if (userInputHash === original) {
-          return res.json({ message: "Password Match" });
+          return res.status(200).json({ message: "Password Match" });
         } else {
           return res.json({ message: "Password didn't Matched" });
         }
@@ -50,7 +50,7 @@ export const login = async (req, res, next) => {
 };
 
 export const signup = async (req, res, next) => {
-  const { email, password, user_role, first_name, last_name, street, city, contact_number, nic, account_number, bank, branch } = req.body;
+  const { email, password, first_name, last_name, street, city, contact_number } = req.body;
 
   try {
     const hash = pkg;
@@ -85,7 +85,7 @@ export const signup = async (req, res, next) => {
           user_role,
           status,
           date_joined,
-          verify_no,
+          verify_no
         ];
 
         db.query(sqlQuery, records, (err, data) => {
@@ -207,7 +207,7 @@ export const upload_file = async(req,res,next)=>{
 
   const filestorage =multer.diskStorage({
     destination:(req,file,cb)=>{
-      cb(null,'images/client');
+      cb(null,'images/store');
     },
     filename:(req,file,cb)=>{
       cb(null,  file.originalname);

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Table, TableHead, TableRow, TableCell, TableBody, Button, CardMedia, Typography, Grid } from "@mui/material";
-import Header from "../components/Layout/Header";
-
+import { Table, TableHead, TableRow, TableCell, TableBody, Button, CardMedia, Typography, Grid, backdropClasses } from "@mui/material";
+import Header from "../../components/Layout/Header";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const CartTable = () => {
   const calculateTotalAmount = () => {
@@ -13,7 +13,7 @@ const CartTable = () => {
   };
 
   const getImageSrc = (imageName) => {
-    return require(`../images/${imageName}`)
+    return require(`../../assests/${imageName}`)
   };
   const [cartItems, setCartItems] = useState([
     { id: 1, name: "Banner", image: 'chhola.jpg', price: 10, quantity: 2 },
@@ -43,10 +43,22 @@ const CartTable = () => {
 
   return (
     <><Header />
-      <Table sx={{ width: "100%", marginTop: "50px" }}>
-        <TableHead>
-          <TableRow>
-            <TableCell sx={{ fontWeight: "bold",textAlign:'center'}}>Item</TableCell>
+    <div style={{
+      textAlign: 'center',
+      fontWeight: 'bold',
+      fontSize:'30px'
+    }}><ShoppingCartIcon sx={{marginTop:'50px', marginLeft:'50px'}} /> Cart</div>
+
+    <div style={{
+      padding:'10px',
+      marginLeft: '10px',
+      marginRight:'10px',
+    }}>
+      <Table sx={{ width: "100%", marginTop: "50px",color:"white"}}>
+        <TableHead sx={{backgroundColor:"#fe9e0d"}}>
+        <TableRow>
+            <TableCell sx={{ fontWeight: "bold",textAlign:'center'}}>Item ID</TableCell>
+            <TableCell sx={{ fontWeight: "bold",textAlign:'center'}}>Item </TableCell>
             <TableCell sx={{ fontWeight: "bold",textAlign:'center' }}>Product</TableCell>
             <TableCell sx={{ fontWeight: "bold" }}>Price</TableCell>
             <TableCell sx={{ fontWeight: "bold",textAlign:'center'}}>Quantity</TableCell>
@@ -57,6 +69,7 @@ const CartTable = () => {
         <TableBody>
           {cartItems.map((item) => (
             <TableRow key={item.id}>
+              <TableCell sx={{textAlign:'center'}}>{item.id}</TableCell>
               <TableCell sx={{textAlign:'center'}}>{item.name}</TableCell>
               <TableCell> <CardMedia
                 sx={{ minHeight: "35px", width: '50%', height: '18vh',marginLeft:'25%',marginRight:'25%'}}
@@ -72,7 +85,7 @@ const CartTable = () => {
               </TableCell>
               <TableCell>RS.{item.price * item.quantity}</TableCell>
 
-              <TableCell><Button variant="contained" sx={{ backgroundColor: 'black' }}>Remove Item</Button></TableCell>
+              <TableCell><Button variant="contained" sx={{ backgroundColor: 'black',':hover':{backgroundColor:'black'}, marginLeft: '50px' }}>Remove Item</Button></TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -80,10 +93,11 @@ const CartTable = () => {
       <Grid>
         <Typography sx={{ float:'right', marginRight: '120px', marginTop: '20px', fontSize: '18px', marginBottom: '20px' }}>Total Price : RS.{calculateTotalAmount()}</Typography>
       </Grid>
-      <Grid sx={{ display: 'flex', justifyContent: 'flex-end',marginTop:'80px',marginRight:'80px'}}>
-        <Button sx={{ backgroundColor: 'orange', color: 'black', textAlign: 'center', width: '150px','&:hover':{backgroundColor:'orange'} }}>Check out</Button>
-        <Button sx={{ backgroundColor: 'red', marginLeft: '10px', color: 'black', '&:hover': { backgroundColor: 'red' } }}>Clear all items</Button>
+      <Grid sx={{ display: 'flex', justifyContent: 'flex-end',marginTop:'80px',marginRight:'90px'}}>
+        <Button sx={{ backgroundColor: 'black', color: 'white', textAlign: 'center', marginLeft:'10px', width: '150px','&:hover':{backgroundColor:'black'} }}>Check out</Button>
+        <Button sx={{ backgroundColor: 'red', marginLeft: '10px', color: 'white', '&:hover': { backgroundColor: 'red' } }}>Clear all items</Button>
       </Grid>
+    </div>
  
 
 

@@ -32,27 +32,12 @@ export const verify = async (req, res, next) => {
                     else {
                         localStorage.removeItem("Temp_email");
                         return res.json({ message: "Registered Succeed" })
-
                     }
 
                 })
             }
             else {
-                const query = 'DELETE FROM users WHERE email = ?';
-
-
-                db.query(query, records, (err, data) => {
-                    if (err) {
-
-                        return res.json({ message: "There is an internel an error" });
-
-                    } else {
-
-                        localStorage.removeItem("Temp_email");
-
-                        return res.json({ message: "Registration Failed" });
-                    }
-                })
+                return res.json({ message: "Registration Failed" });
             }
         });
     } catch (err) {
@@ -61,7 +46,7 @@ export const verify = async (req, res, next) => {
     }
 
 }
-export function sendmailer(res,req,verify_no, email, first_name) {
+export function sendmailer(res, req, verify_no, email, first_name) {
     const Email = 'happytails.pethub123@gmail.com';
     const Password = 'cjzwypoirwdcvpai';
 
@@ -102,15 +87,15 @@ export function sendmailer(res,req,verify_no, email, first_name) {
     }
 
     transporter.sendMail(message).then(() => {
-        return res.json({message:"Registration Successful"})
+        return res.json({ message: "Registration Successful" })
     }).catch((err) => {
-        return res.json({message:"message not send"})
+        return res.json({ message: "message not send" })
     })
 
 
 
 }
-export function confirmation(res,req,email) {
+export function confirmation(res, req, email) {
     const Email = 'happytails.pethub123@gmail.com';
     const Password = 'cjzwypoirwdcvpai';
 
@@ -157,9 +142,9 @@ export function confirmation(res,req,email) {
 
     transporter.sendMail(message).then(() => {
         localStorage.setItem("Temp_otp", verify_no)
-        return res.json({message:"Message send"})
+        return res.json({ message: "Message send" })
     }).catch((err) => {
-        return res.json({message:"Message not send"})
+        return res.json({ message: "Message not send" })
     })
 
 
