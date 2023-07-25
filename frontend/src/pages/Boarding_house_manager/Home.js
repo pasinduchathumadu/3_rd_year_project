@@ -1,11 +1,11 @@
 import React from "react";
 import BoardingStyles from '../../styles/Boarding_house_manager/Home.css';
-import HomeHeader from "../Common/HomeHeader";
+
 
 const Home = () => {
     return (
         <div className="home-container">
-            <HomeHeader />
+           
 
             <div className="boarding-wrapper-main">
                 <div className="boarding-wrapper">

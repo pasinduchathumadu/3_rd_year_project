@@ -1,0 +1,197 @@
+.btnadd{
+    position: relative;
+  left :-20px;
+    top:100px;
+    background-color: #d04f0e; 
+    border: none;
+    color: white;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-family: Verdana ;
+    border-radius: 5px;
+
+}
+
+#customers {
+    position: relative;
+    left:50px;
+    
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 160%;
+  }
+  
+  #customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  #customers tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #customers tr:hover {background-color: #ddd;}
+  
+  #customers th {
+    padding-top: 2px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #FEEED7;
+    color: rgb(3, 3, 3);
+  }
+
+  .btnedit{
+    position: relative;
+  left:15px;
+   background-color: #977564; 
+    border: none;
+    color: white;
+    width:50px;
+    padding: 6px 6px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    font-family: Verdana ;
+    border-radius: 3px;
+
+}
+
+.btndelete{
+    position: relative;
+  left:14px;
+   background-color: #3f1804; 
+    border: none;
+    color: white;
+    width:50px;
+    padding: 6px 6px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    font-family: Verdana ;
+    border-radius: 3px;
+
+}
+
+#petprofile {
+  position: relative;
+  left:200px;
+  top: 60px;
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 120%;
+}
+
+#petprofile td, #petprofile th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#petprofile tr:nth-child(even){background-color: #f2f2f2;}
+
+#petprofile tr:hover {background-color: #ddd;}
+
+#petprofile th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #FEEED7;
+  color: rgb(3, 3, 3);
+}
+
+.petbtndelete{
+  position: relative;
+left:8px;
+ background-color: #3f1804; 
+  border: none;
+  color: white;
+  width:50px;
+  padding: 6px 6px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 10px;
+  font-family: Verdana ;
+  border-radius: 3px;
+
+}
+
+.btnav{
+  position: relative;
+left:20px;
+ background-color: #c25924; 
+  border: none;
+  color: white;
+  width:80px;
+  padding: 6px 6px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 10px;
+  font-family: Verdana ;
+  border-radius: 3px;  
+}
+
+.btnvv{
+  position: relative;
+  left:20px;
+   background-color: #53504e; 
+    border: none;
+    color: white;
+    width:80px;
+    padding: 6px 6px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    font-family: Verdana ;
+    border-radius: 3px;  
+}
+
+.btnvp{
+  position: relative;
+  left:20px;
+   background-color: #191818; 
+    border: none;
+    color: white;
+    width:80px;
+    padding: 6px 6px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    font-family: Verdana ;
+    border-radius: 3px;  
+
+}
+
+.petbtnedit{
+  position: relative;
+left:6px;
+ background-color: #977564; 
+  border: none;
+  color: white;
+  width:50px;
+  padding: 6px 6px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 10px;
+  font-family: Verdana ;
+  border-radius: 3px;
+
+}
+
+.search-container{
+   width:400px;
+   position: relative;
+   left:950px;
+
+}
+
+
+
+
+

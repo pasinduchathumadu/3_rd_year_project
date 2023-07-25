@@ -1,0 +1,112 @@
+.btnadd{
+    position: relative;
+    left:300px;
+    top:50px;
+    background-color: #d04f0e; 
+    border: none;
+    color: white;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-family: Verdana ;
+    border-radius: 5px;
+
+}
+
+#appointment {
+    position: relative;
+    left:200px;
+    top: 60px;
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 140%;
+  }
+  
+  #appointment td, #appointment th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  #appointment tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #appointment tr:hover {background-color: #ddd;}
+  
+  #appointment th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #FEEED7;
+    color: rgb(3, 3, 3);
+  }
+
+  .btnedit{
+    position: relative;
+  left:15px;
+   background-color: #977564; 
+    border: none;
+    color: white;
+    width:50px;
+    padding: 6px 6px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    font-family: Verdana ;
+    border-radius: 3px;
+
+}
+
+.btndelete{
+    position: relative;
+  left:15px;
+   background-color: #3f1804; 
+    border: none;
+    color: white;
+    width:50px;
+    padding: 6px 6px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    font-family: Verdana ;
+    border-radius: 3px;
+
+}
+.linkButton a {
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    padding: 12px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin:5px;
+   height:50px;
+   width:300px;
+    border: 2px solid #b74508;
+    border-radius: 10px;
+    position: relative;
+    top:25px;
+    left:300px; 
+    font-family: Verdana;
+  }
+
+
+  
+ 
+  .linkButton a:hover
+ {
+  background-color: #b74508;
+  color: #ffffff; 
+}
+
+.linkButton a.active {
+    background-color: #b74508;
+    color: #ffffff;
+
+  }
+  .linkButton a.active,
+.linkButton a.active:hover {
+  color: #ffffff;
+}

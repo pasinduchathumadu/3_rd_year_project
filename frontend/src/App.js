@@ -29,7 +29,19 @@ import BoardingPets from "./pages/Boarding_house_manager/Boardpets";
 import BoardingPackages from "./pages/Boarding_house_manager/Packages";
 import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 
+
+import Doctors from "./pages/Medi-help_manager/doctors";
+import DoctorsAdd from "./pages/Medi-help_manager/AddDoctors";
+import ViewAppointments from "./pages/Medi-help_manager/ViewAppointments";
+import PendingAppointments from "./pages/Medi-help_manager/PendingAppointments";
+import CompletedAppointments from "./pages/Medi-help_manager/CompletedAppointments";
+import PetProfiles from "./pages/Medi-help_manager/PetProfile";
+import ViewDoctors from "./pages/Medi-help_manager/ViewDoctors";
+import GetAppointments from "./pages/Medi-help_manager/GetAppointments";
 function App() {
+  //popup
+  const [modelOpen,setModelOpen]=useState(false);
+
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [issignup,setIssignup] = useState(false)
 
@@ -78,8 +90,24 @@ function App() {
           <Route path="/boarding_packages" element={<BoardingPackages />} />
           <Route path="/boarding_complains" element={<BoardingComplains />} />
 
+          {/* medi care manager */}
           
-
+          
+           <Route path="/Doctors" element={
+            <div className="App">
+               <button className='btnadd' onClick={()=>setModelOpen(true)} > + Add Doctor</button>
+          <Doctors />
+         
+          {modelOpen && <DoctorsAdd  />}
+          
+          </div>
+          } />
+          <Route path="/viewAppointments" element={<ViewAppointments />} />
+          <Route path="/viewPendingAppointments" element={<PendingAppointments />} />
+          <Route path="/viewCompletedAppointments" element={<CompletedAppointments />} />
+          <Route path="/PetProfiles" element={<PetProfiles />} />
+          <Route path="/viewDoctors" element={<ViewDoctors />} />
+          <Route path="/getAppointment" element={<GetAppointments />} />
         </Routes>
       </main>
     </React.Fragment>
