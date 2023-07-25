@@ -130,7 +130,7 @@ const Complains = () => {
                             </FormControl>
                         </Box>
                     </div>
-                    <div className="form-content">
+                        <div className="form-content">
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
                                     <TableHead>
