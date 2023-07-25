@@ -68,13 +68,11 @@ const datarows = [
 
 const Complains = () => {
     const [clients, setClients] = React.useState('1');
-  
-    const [own, setOwn] = useState(0);
-
     const handleChange = (event) => {
         setClients(event.target.value);
     };
-
+  
+    const [own, setOwn] = useState(0);
     const handleForm = (event,existing_value) => {
         setOwn(existing_value)
     };
@@ -105,6 +103,7 @@ const Complains = () => {
                 >
                     <Tab sx={{backgroundColor:own === 0 ? 'orange':'white',color:'black'}} label="Clients' Complains" ></Tab>
                     <Tab sx={{backgroundColor:own === 1 ? 'orange':'white',color:'black'}} label="My Complains"></Tab>
+                    {/* <Tab sx={{backgroundColor:own === 2 ? 'orange':'white',color:'black'}} label=" Complains"></Tab> */}
                 </Tabs>
             </Box>
 

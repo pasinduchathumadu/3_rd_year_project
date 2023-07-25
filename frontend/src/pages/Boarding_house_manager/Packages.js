@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
 import Header from "../../components/Layout/Header";
 import  ProfilePicture  from '../../assests/profile-picture.png';
@@ -17,6 +17,34 @@ import { Tabs } from "@mui/material";
 
 
 const Packages = () => {
+    const [new1, setNew] = useState(true);
+    const [form, setForm] = useState(false);
+    const [updateform, setUpdateform] = useState(false);
+    
+    const Change = () => {
+        setNew(false);
+        setForm(true);
+    }
+
+    const afterSubmit = () => {
+        // check
+        setNew(true);
+        setForm(false);
+    }
+    
+    const update = () => {
+        setNew(false);
+        setUpdateform(true);
+    }
+
+    const afterUpdate = () => {
+        // check
+        setNew(true);
+        setUpdateform(false);
+
+
+    }
+
     return (
         <div className="home-container">
             <Header />
@@ -46,90 +74,134 @@ const Packages = () => {
             </Box>
 
             <div className="top-button-header">
-                <Button variant="contained" sx={{background: "black" ,':hover':{backgroundColor: "black"}}}>Add New Package <AddIcon sx={{marginLeft: '10px'}}/></Button>
+                <Button variant="contained" onClick={()=>Change()} sx={{background: "black" ,':hover':{backgroundColor: "black"}}}>Add New Package <AddIcon sx={{marginLeft: '10px'}}/></Button>
                 <Button variant="contained" sx={{background: "black" ,':hover':{backgroundColor: "black"}}}>View Popularity</Button>
             </div>
 
-            <div className="boarding-card-line">
-                <div className="boarding-card">
-                    <div className="boarding-two-icon">
-                        <EditIcon />
-                        <DeleteIcon color="error" sx={{marginLeft: '15px'}} />
+            {new1 && (
+                <div className="boarding-card-line">
+                    <div className="boarding-card">
+                        <div className="boarding-two-icon">
+                            <EditIcon onClick={()=> update()} />
+                            <DeleteIcon color="error" sx={{marginLeft: '15px'}} />
+                        </div>
+                        <Typography sx={{color:'#FBBD08', fontSize: '35px', fontWeight: 'bold'}}>Gold</Typography>
+                        <Typography sx={{color:'black', fontSize: '55px', fontWeight: 'bold'}}>Rs. 4000</Typography>
+                        <Typography sx={{color:'#C0C0C0', fontSize: '25px', fontWeight: 'bold'}}>/ week</Typography>
+                        <div className="boarding-card-facility">
+                            <p><CheckIcon  sx={{marginRight:'20px'}}/>Facility 01</p>
+                            <p><CheckIcon  sx={{marginRight:'20px'}} />Facility 02</p>
+                            <p><CheckIcon  sx={{marginRight:'20px'}} />Facility 03</p>
+                            <p><CheckIcon  sx={{marginRight:'20px'}} />Facility 04</p>
+                        </div>
                     </div>
-                    <Typography sx={{color:'#FBBD08', fontSize: '35px', fontWeight: 'bold'}}>Gold</Typography>
-                    <Typography sx={{color:'black', fontSize: '55px', fontWeight: 'bold'}}>Rs. 4000</Typography>
-                    <Typography sx={{color:'#C0C0C0', fontSize: '25px', fontWeight: 'bold'}}>/ week</Typography>
-                    <div className="boarding-card-facility">
-                        <p><CheckIcon  sx={{marginRight:'20px'}}/>Facility 01</p>
-                        <p><CheckIcon  sx={{marginRight:'20px'}} />Facility 02</p>
-                        <p><CheckIcon  sx={{marginRight:'20px'}} />Facility 03</p>
-                        <p><CheckIcon  sx={{marginRight:'20px'}} />Facility 04</p>
-                    </div>
-                </div>
 
-                <div className="boarding-card">
-                    <div className="boarding-two-icon">
-                        <EditIcon />
-                        <DeleteIcon color="error" sx={{marginLeft: '15px'}} />
+                    <div className="boarding-card">
+                        <div className="boarding-two-icon">
+                            <EditIcon  onClick={()=> update()} />
+                            <DeleteIcon color="error" sx={{marginLeft: '15px'}} />
+                        </div>
+                        <Button variant="contained" sx={{background: "#fe9e0d" ,':hover':{backgroundColor: "#fe9e0d"}}}>most popular</Button>
+                        <Typography sx={{color:'#A6A6A6', fontSize: '35px', fontWeight: 'bold'}}>Silver</Typography>
+                        <Typography sx={{color:'black', fontSize: '55px', fontWeight: 'bold'}}>Rs. 3000</Typography>
+                        <Typography sx={{color:'#C0C0C0', fontSize: '25px', fontWeight: 'bold'}}>/ week</Typography>
+                        <div className="boarding-card-facility">
+                            <p><CheckIcon  sx={{marginRight:'20px'}}/>Facility 01</p>
+                            <p><CheckIcon  sx={{marginRight:'20px'}} />Facility 02</p>
+                            <p><CheckIcon  sx={{marginRight:'20px'}} />Facility 03</p>
+                            <p><CheckIcon  sx={{marginRight:'20px'}} />Facility 04</p>
+                        </div>
                     </div>
-                    <Button variant="contained" sx={{background: "#ED5C01" ,':hover':{backgroundColor: "#ED5C01"}}}>most popular</Button>
-                    <Typography sx={{color:'#A6A6A6', fontSize: '35px', fontWeight: 'bold'}}>Silver</Typography>
-                    <Typography sx={{color:'black', fontSize: '55px', fontWeight: 'bold'}}>Rs. 3000</Typography>
-                    <Typography sx={{color:'#C0C0C0', fontSize: '25px', fontWeight: 'bold'}}>/ week</Typography>
-                    <div className="boarding-card-facility">
-                        <p><CheckIcon  sx={{marginRight:'20px'}}/>Facility 01</p>
-                        <p><CheckIcon  sx={{marginRight:'20px'}} />Facility 02</p>
-                        <p><CheckIcon  sx={{marginRight:'20px'}} />Facility 03</p>
-                        <p><CheckIcon  sx={{marginRight:'20px'}} />Facility 04</p>
-                    </div>
-                </div>
 
-                <div className="boarding-card">
-                    <div className="boarding-two-icon">
-                        <EditIcon />
-                        <DeleteIcon color="error" sx={{marginLeft: '15px'}} />
-                    </div>
-                    <Typography sx={{color:'#55555C', fontSize: '35px', fontWeight: 'bold'}}>Platinum</Typography>
-                    <Typography sx={{color:'black', fontSize: '55px', fontWeight: 'bold'}}>Rs. 2000</Typography>
-                    <Typography sx={{color:'#C0C0C0', fontSize: '25px', fontWeight: 'bold'}}>/ week</Typography>
-                    <div className="boarding-card-facility">
-                        <p><CheckIcon  sx={{marginRight:'20px'}}/>Facility 01</p>
-                        <p><CheckIcon  sx={{marginRight:'20px'}} />Facility 02</p>
-                        <p><CheckIcon  sx={{marginRight:'20px'}} />Facility 03</p>
-                        <p><CheckIcon  sx={{marginRight:'20px'}} />Facility 04</p>
-                    </div>
-                </div>      
-            </div>
-{/* add a new package */}
-            <FormControl  sx={{marginLeft:'35%', borderRadius: '10px', width:'500px', border: '1px', borderStyle:'solid', padding:'20px',backgroundColor:'#E3E3E3', fontFamily:'osnovapro,sans-serif'}}>
-                <div className="form-topic">
-                    Add New Package
+                    <div className="boarding-card">
+                        <div className="boarding-two-icon">
+                            <EditIcon  onClick={()=> update()} />
+                            <DeleteIcon color="error" sx={{marginLeft: '15px'}} />
+                        </div>
+                        <Typography sx={{color:'#55555C', fontSize: '35px', fontWeight: 'bold'}}>Platinum</Typography>
+                        <Typography sx={{color:'black', fontSize: '55px', fontWeight: 'bold'}}>Rs. 2000</Typography>
+                        <Typography sx={{color:'#C0C0C0', fontSize: '25px', fontWeight: 'bold'}}>/ week</Typography>
+                        <div className="boarding-card-facility">
+                            <p><CheckIcon  sx={{marginRight:'20px'}}/>Facility 01</p>
+                            <p><CheckIcon  sx={{marginRight:'20px'}} />Facility 02</p>
+                            <p><CheckIcon  sx={{marginRight:'20px'}} />Facility 03</p>
+                            <p><CheckIcon  sx={{marginRight:'20px'}} />Facility 04</p>
+                        </div>
+                    </div>      
                 </div>
-                <div className="form-label">
-                    <FormLabel>Package Name</FormLabel>
-                    <TextField id="outlined-basic" placeholder="Package Name" variant="outlined" />
-                </div>
+            )}
 
-                <div className="form-label">
-                    <FormLabel>Price(per week) Rs.</FormLabel>
-                    <TextField id="outlined-basic" placeholder="Package Price" variant="outlined" />
-                </div>
+        {/* add a new package */}
+            {form && (
+            <FormControl  sx={{marginLeft:'30%', borderRadius: '10px', width:'700px', border: '1px', borderStyle:'solid', padding:'20px',backgroundColor:'rgb(255, 240, 224)', fontFamily:'osnovapro,sans-serif'}}>
+                <div style={{backgroundColor:'white', padding:'15px', borderRadius:'10px' }}>
+                    <div className="form-topic">
+                        Add New Package
+                    </div>
+                    <div className="form-label">
+                        <FormLabel>Package Name</FormLabel>
+                        <TextField id="outlined-basic" placeholder="Package Name" variant="outlined" />
+                    </div>
 
-                <div className="form-label">
-                    <FormLabel>Facilities</FormLabel>
-                    <TextField id="outlined-basic" placeholder="Facilities" variant="outlined" sx={{marginBottom:'5px'}} />
-                    <TextField id="outlined-basic" placeholder="Facilities" variant="outlined"  sx={{marginBottom:'5px'}} />
-                    <TextField id="outlined-basic" placeholder="Facilities" variant="outlined"  sx={{marginBottom:'5px'}} />
+                    <div className="form-label">
+                        <FormLabel>Price(per week) Rs.</FormLabel>
+                        <TextField id="outlined-basic" placeholder="Package Price" variant="outlined" />
+                    </div>
+
+                    <div className="form-label">
+                        <FormLabel>Facilities</FormLabel>
+                        <TextField id="outlined-basic" placeholder="Facilities" variant="outlined" sx={{marginBottom:'5px'}} />
+                        <TextField id="outlined-basic" placeholder="Facilities" variant="outlined"  sx={{marginBottom:'5px'}} />
+                        <TextField id="outlined-basic" placeholder="Facilities" variant="outlined"  sx={{marginBottom:'5px'}} />
+                    </div>
+                    
+                    <div className="form-label">
+                        <FormLabel>Upload Package Image</FormLabel>
+                        <input type="file" placeholder=" Choose a file" variant="outlined" />
+                    </div>
+                    <Button variant="contained" onClick={()=> afterSubmit()} sx={{background:"#fe9e0d", marginTop:'10px', ':hover':{backgroundColor: "#fe9e0d"}, width:'100%'}}>Add Package</Button>
                 </div>
-                
-                <div className="form-label">
-                    <FormLabel>Upload Package Image</FormLabel>
-                    <input type="file" placeholder=" Choose a file" variant="outlined" />
-                </div>
-                <Button variant="contained" sx={{background:"#fe9e0d", marginTop:'10px', ':hover':{backgroundColor: "#ED5C01"}}}>Add Package</Button>
             </FormControl>
+            )}
 
-{/* view popularity */}
+            {/* update package */}
+            {updateform && (
+            <FormControl  sx={{marginLeft:'30%', borderRadius: '10px', width:'700px', border: '1px', borderStyle:'solid', padding:'20px',backgroundColor:'rgb(255, 240, 224)', fontFamily:'osnovapro,sans-serif'}}>
+                <div style={{backgroundColor:'white', padding:'15px', borderRadius:'10px' }}>
+                    <div className="form-topic">
+                        Update Package
+                    </div>
+                    <div className="form-label">
+                        <FormLabel>Package Name</FormLabel>
+                        <TextField id="outlined-basic" placeholder="Package Name" variant="outlined" />
+                    </div>
+
+                    <div className="form-label">
+                        <FormLabel>Price(per week) Rs.</FormLabel>
+                        <TextField id="outlined-basic" placeholder="Package Price" variant="outlined" />
+                    </div>
+
+                    <div className="form-label">
+                        <FormLabel>Facilities</FormLabel>
+                        <TextField id="outlined-basic" placeholder="Facilities" variant="outlined" sx={{marginBottom:'5px'}} />
+                        <TextField id="outlined-basic" placeholder="Facilities" variant="outlined"  sx={{marginBottom:'5px'}} />
+                        <TextField id="outlined-basic" placeholder="Facilities" variant="outlined"  sx={{marginBottom:'5px'}} />
+                    </div>
+                    
+                    <div className="form-label">
+                        <FormLabel>Update Package Image</FormLabel>
+                        <input type="file" placeholder=" Choose a file" variant="outlined" />
+                    </div>
+                    <Button variant="contained" onClick={()=> afterUpdate()} sx={{background:"#fe9e0d", marginTop:'10px', ':hover':{backgroundColor: "#fe9e0d"}, width:'100%'}}>Update Package</Button>
+                </div>
+            </FormControl>
+            )}
+           
+
+            {/* remove a package */}
+
+
+            {/* view popularity */}
             {/* <div className="popularity-view">
                 <div className="form-topic">
                     Popularity
