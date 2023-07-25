@@ -50,16 +50,7 @@ const Test = () => {
                 </FormControl>
             </div>
         
-        
-    
-    
-    
-    
-    
-    
-
-
-    
+     
     </div>)
 }
 export default Test;
