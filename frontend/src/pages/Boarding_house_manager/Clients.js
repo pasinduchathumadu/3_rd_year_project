@@ -59,12 +59,11 @@ function createDataRows(id, name, date, time, payment, status) {
 }
 
 const secondrows = [
-    createDataRows(1, 'John Deo', '2023-07-10 to 2023-07-12', '12:00:00', '1200.00', 'accepted'),
+    createDataRows(1, 'John Deo', '2023-07-10 to 2023-07-12', '12:00:00', '1200.00', 'pending'),
     createDataRows(2, 'John Perera', '2023-07-10 to 2023-07-12', '13:15:00', '2200.00', 'accepted'),
     createDataRows(3, 'John Nikil', '2023-07-10 to 2023-07-12', '09:30:00', '2400.00', 'accepted'),
-    createDataRows(4, 'John Wistle', '2023-07-10 to 2023-07-12', '10:00:00', '1600.00', 'accepted'),
-    createDataRows(5, 'John Bye', '2023-07-10 to 2023-07-12', '16:00:00', '1500.00', 'accepted'),
-    createDataRows(5, 'John Joe', '2023-07-10 to 2023-07-12', '19:00:00', '1500.00', 'accepted'),
+    createDataRows(4, 'John Wistle', '2023-07-10 to 2023-07-12', '10:00:00', '1600.00', 'completed'),
+    createDataRows(5, 'John Bye', '2023-07-10 to 2023-07-12', '16:00:00', '1500.00', 'cancelled'),
 ];
 
 const Clients = () => {
@@ -106,7 +105,7 @@ const Clients = () => {
                 >
 
                     <Tab sx={{backgroundColor:showRequests === 0 ? 'orange':'white',color:'black'}} label="Clients' Request" ></Tab>
-                    <Tab sx={{backgroundColor:showRequests === 1 ? 'orange':'white',color:'black'}} label="Client"></Tab>
+                    <Tab sx={{backgroundColor:showRequests === 1 ? 'orange':'white',color:'black'}} label="Clients"></Tab>
 
                 </Tabs>
             </Box>
@@ -142,7 +141,7 @@ const Clients = () => {
                                         <StyledTableCell align="center">Client Name</StyledTableCell>
                                         <StyledTableCell align="center">Address</StyledTableCell>
                                         <StyledTableCell align="center">Contact Number</StyledTableCell>
-                                        <StyledTableCell align="center">Usability</StyledTableCell>
+                                        <StyledTableCell align="center">Points</StyledTableCell>
                                         <StyledTableCell align="center">Status</StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
                                     </TableRow>
@@ -158,7 +157,7 @@ const Clients = () => {
                                             <StyledTableCell align="center">{row.status}</StyledTableCell>
                                             <StyledTableCell align="center">
                                                 <Button sx={{ color: 'white', backgroundColor: '#fe9e0d', ':hover': { backgroundColor: '#fe9e0d' } }}>Pets Details</Button>
-                                            </StyledTableCell>
+                                           </StyledTableCell>
                                         </StyledTableRow>
                                     ))}
                                 </TableBody>
@@ -171,6 +170,9 @@ const Clients = () => {
             {showRequests===0 && (
                 <div>
                     <div className="drop-down-box1">
+                        <div className="top-button-header">
+                            <Button variant="contained"  sx={{background: "black" ,':hover':{backgroundColor: "black"}}}>Refund for Requests</Button>
+                        </div>
                         <Box sx={{ width: '150px', marginLeft: '1350px' }}>
                             <FormControl fullWidth>
                                 <Select
@@ -187,6 +189,8 @@ const Clients = () => {
                                     <MenuItem value={2}>Pending</MenuItem>
                                     <MenuItem value={3}>Accepted</MenuItem>
                                     <MenuItem value={4}>Completed</MenuItem>
+                                    <MenuItem value={5}>Cancelled</MenuItem>
+                                    <MenuItem value={6}>Incomplete</MenuItem>
                                 </Select>
                             </FormControl>
                         </Box>
@@ -219,7 +223,7 @@ const Clients = () => {
                                                 <Button sx={{ color: 'white', backgroundColor: '#fe9e0d', ':hover': { backgroundColor: '#fe9e0d' } }}>Pets Details</Button>
                                             </StyledTableCell>
                                             <StyledTableCell align="center">
-                                                <Button sx={{ color: 'white', backgroundColor: '#555555', ':hover': { backgroundColor: '#555555' } }}>Completed</Button>
+                                                {secondrows.status === 'accepted' ? <Button sx={{ color: 'white', backgroundColor: '#555555', ':hover': { backgroundColor: '#555555' } }}>Completed</Button> : ""}
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     ))}
