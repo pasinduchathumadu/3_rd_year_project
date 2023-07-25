@@ -19,9 +19,6 @@ import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
 
-
-
-
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: theme.palette.common.black,
@@ -78,21 +75,15 @@ const completes = [
 
 
 const BoardPets = () => {
-    // const [currents, setCurrents] = React.useState('1');
-    // const [requests, setRequests] = useState('0');
-    // const [completes, setCompletes] = useState('2');
-
-    // const handleChange = (event) => {
-    //     setClients(event.target.value);
-    // };
-
-    // const handleForm = (event,existing_value) => {
-    //     setOwn(existing_value)
-    // };
-
-
-
-
+    const [present, setPresent] = useState(0);
+    const handleForm = (event, existing_value) => {
+        setPresent(existing_value);
+    };
+    // drop down
+    const [clients, setClients] = React.useState('1');
+    const handleChange = (event) => {
+        setClients(event.target.value);
+    };
 
     return (
         <div className="home-container">
@@ -112,183 +103,146 @@ const BoardPets = () => {
 
         <Box sx={{width:'98%', marginTop:'10px', marginBottom:'10px', marginLeft:'20px', marginRight:'10px', paddingRight:'10px', paddingLeft:'10px'}}>
                 <Tabs
-                // value={own}
+                value={present}
                 variant="fullWidth"
                 aria-label="Tab Component"
-                // onChange={handleForm}
+                onChange={handleForm}
                 indicatorColor="transparent"
                 sx={{borderRadius:'10px'}}
                 >
-                    {/* <Tab sx={{backgroundColor:own === 0 ? 'orange':'white',color:'black'}} label="Current Boarding Pets" ></Tab> */}
-                    {/* <Tab sx={{backgroundColor:own === 1 ? 'orange':'white',color:'black'}} label="Requested Pets"></Tab> */}
-                    {/* <Tab sx={{backgroundColor:own === 2 ? 'orange':'white',color:'black'}} label="Past Boarded Pets"></Tab> */}
-                    <Tab label="Current Boarding Pets"></Tab>
-                    <Tab label="Requested Pets"></Tab>
-                    <Tab label="Past Boarded Pets"></Tab>
+                    <Tab sx={{backgroundColor:present === 0 ? 'orange':'white',color:'black'}} label="Current Boarding Pets" ></Tab>
+                    <Tab sx={{backgroundColor:present === 1 ? 'orange':'white',color:'black'}} label="Requested Pets"></Tab>
+                    <Tab sx={{backgroundColor:present === 2 ? 'orange':'white',color:'black'}} label="Past Boarded Pets"></Tab>
                 </Tabs>
             </Box>
 
             {/* current boarding pets */}
-            <div>
-                {/* <div className="drop-down-box">
-                    <Box sx={{ width: '150px', marginLeft: '1350px' }}>
-                        <FormControl fullWidth>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                // value={clients}
-                                variant='filled'
-                                label="clients"
-                                // onChange={handleChange}
-                                l
-                                sx={{ fontSize: '11px' }}>
-                                <MenuItem value={1}>All</MenuItem>
-                                <MenuItem value={2}>Dogs</MenuItem>
-                                <MenuItem value={3}>Cats</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Box>
-                </div> */}
-
-                <div className="form-content">
-                    <TableContainer component={Paper}>
-                        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                            <TableHead>
-                                <TableRow>
-                                    <StyledTableCell align="center">Pet ID</StyledTableCell>
-                                    <StyledTableCell align="center">Category</StyledTableCell>
-                                    <StyledTableCell align="center">Package</StyledTableCell>
-                                    <StyledTableCell align="center">Arrival Date</StyledTableCell>
-                                    <StyledTableCell align="center">Return Time</StyledTableCell>
-                                    <StyledTableCell align="center">Payment (Rs.)</StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {currents.map((current) => (
-                                    <StyledTableRow key={current.id}>
-                                        <StyledTableCell align="center">{current.id}</StyledTableCell>
-                                        <StyledTableCell align="center">{current.category}</StyledTableCell>
-                                        <StyledTableCell align="center">{current.p_ckage}</StyledTableCell>
-                                        <StyledTableCell align="center">{current.aDate}</StyledTableCell>
-                                        <StyledTableCell align="center">{current.rDate}</StyledTableCell>
-                                        <StyledTableCell align="center">{current.payment}</StyledTableCell>
-                                    </StyledTableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+            {present === 0 && (
+                <div>
+                    <div className="form-content">
+                        <TableContainer component={Paper}>
+                            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                                <TableHead>
+                                    <TableRow>
+                                        <StyledTableCell align="center">Pet ID</StyledTableCell>
+                                        <StyledTableCell align="center">Category</StyledTableCell>
+                                        <StyledTableCell align="center">Package</StyledTableCell>
+                                        <StyledTableCell align="center">Arrival Date</StyledTableCell>
+                                        <StyledTableCell align="center">Return Time</StyledTableCell>
+                                        <StyledTableCell align="center">Payment (Rs.)</StyledTableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {currents.map((current) => (
+                                        <StyledTableRow key={current.id}>
+                                            <StyledTableCell align="center">{current.id}</StyledTableCell>
+                                            <StyledTableCell align="center">{current.category}</StyledTableCell>
+                                            <StyledTableCell align="center">{current.p_ckage}</StyledTableCell>
+                                            <StyledTableCell align="center">{current.aDate}</StyledTableCell>
+                                            <StyledTableCell align="center">{current.rDate}</StyledTableCell>
+                                            <StyledTableCell align="center">{current.payment}</StyledTableCell>
+                                        </StyledTableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </div>
                 </div>
-            </div>
+            )}
 
             {/* requested pets */}
-            <div>
-                <div className="drop-down-box">
-                    <Box sx={{ width: '150px', marginLeft: '1350px' }}>
-                        <FormControl fullWidth>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                // value={clients}
-                                variant='filled'
-                                label="clients"
-                                // onChange={handleChange}
-                                l
-                                sx={{ fontSize: '11px' }}>
-                                <MenuItem value={1}>All</MenuItem>
-                                <MenuItem value={2}>Pending</MenuItem>
-                                <MenuItem value={3}>Accepted</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Box>
-                </div>
+            {present === 1 && (
+                <div>
+                    <div className="drop-down-box">
+                        <Box sx={{ width: '150px', marginLeft: '1350px' }}>
+                            <FormControl fullWidth>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={clients}
+                                    variant='filled'
+                                    label="clients"
+                                    onChange={handleChange}
+                                    l
+                                    sx={{ fontSize: '11px' }}>
+                                    <MenuItem value={1}>All</MenuItem>
+                                    <MenuItem value={2}>Pending</MenuItem>
+                                    <MenuItem value={3}>Accepted</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Box>
+                    </div>
 
-                <div className="form-content">
-                    <TableContainer component={Paper}>
-                        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                            <TableHead>
-                                <TableRow>
-                                    <StyledTableCell align="center">Pet ID</StyledTableCell>
-                                    <StyledTableCell align="center">Category</StyledTableCell>
-                                    <StyledTableCell align="center">Package</StyledTableCell>
-                                    <StyledTableCell align="center">Arrival Date</StyledTableCell>
-                                    <StyledTableCell align="center">Return Time</StyledTableCell>
-                                    <StyledTableCell align="center">Payment (Rs.)</StyledTableCell>
-                                    <StyledTableCell align="center">Status</StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {requests.map((request) => (
-                                    <StyledTableRow key={request.id}>
-                                        <StyledTableCell align="center">{request.id}</StyledTableCell>
-                                        <StyledTableCell align="center">{request.category}</StyledTableCell>
-                                        <StyledTableCell align="center">{request.p_ckage}</StyledTableCell>
-                                        <StyledTableCell align="center">{request.aDate}</StyledTableCell>
-                                        <StyledTableCell align="center">{request.rDate}</StyledTableCell>
-                                        <StyledTableCell align="center">{request.payment}</StyledTableCell>
-                                        <StyledTableCell align="center">{request.status}</StyledTableCell>
-                                    </StyledTableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                    <div className="form-content">
+                        <TableContainer component={Paper}>
+                            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                                <TableHead>
+                                    <TableRow>
+                                        <StyledTableCell align="center">Pet ID</StyledTableCell>
+                                        <StyledTableCell align="center">Category</StyledTableCell>
+                                        <StyledTableCell align="center">Package</StyledTableCell>
+                                        <StyledTableCell align="center">Arrival Date</StyledTableCell>
+                                        <StyledTableCell align="center">Return Time</StyledTableCell>
+                                        <StyledTableCell align="center">Payment (Rs.)</StyledTableCell>
+                                        <StyledTableCell align="center">Status</StyledTableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {requests.map((request) => (
+                                        <StyledTableRow key={request.id}>
+                                            <StyledTableCell align="center">{request.id}</StyledTableCell>
+                                            <StyledTableCell align="center">{request.category}</StyledTableCell>
+                                            <StyledTableCell align="center">{request.p_ckage}</StyledTableCell>
+                                            <StyledTableCell align="center">{request.aDate}</StyledTableCell>
+                                            <StyledTableCell align="center">{request.rDate}</StyledTableCell>
+                                            <StyledTableCell align="center">{request.payment}</StyledTableCell>
+                                            <StyledTableCell align="center">{request.status}</StyledTableCell>
+                                        </StyledTableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </div>
                 </div>
-            </div>
+            )}
 
             {/* past boarded pets */}
-            <div>
-                {/* <div className="drop-down-box">
-                    <Box sx={{ width: '150px', marginLeft: '1350px' }}>
-                        <FormControl fullWidth>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={clients}
-                                variant='filled'
-                                label="clients"
-                                onChange={handleChange}
-                                l
-                                sx={{ fontSize: '11px' }}>
-                                <MenuItem value={1}>All</MenuItem>
-                                <MenuItem value={2}>Pending</MenuItem>
-                                <MenuItem value={3}>Completed</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Box>
-                </div> */}
-
-                <div className="form-content">
-                    <TableContainer component={Paper}>
-                        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                            <TableHead>
-                                <TableRow>
-                                    <StyledTableCell align="center">Pet ID</StyledTableCell>
-                                    <StyledTableCell align="center">Category</StyledTableCell>
-                                    <StyledTableCell align="center">Package</StyledTableCell>
-                                    <StyledTableCell align="center">Arrival Date</StyledTableCell>
-                                    <StyledTableCell align="center">Return Time</StyledTableCell>
-                                    <StyledTableCell align="center">Payment (Rs.)</StyledTableCell>
-                                    <StyledTableCell align="center"></StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {completes.map((complete) => (
-                                    <StyledTableRow key={complete.id}>
-                                        <StyledTableCell align="center">{complete.id}</StyledTableCell>
-                                        <StyledTableCell align="center">{complete.category}</StyledTableCell>
-                                        <StyledTableCell align="center">{complete.p_ckage}</StyledTableCell>
-                                        <StyledTableCell align="center">{complete.aDate}</StyledTableCell>
-                                        <StyledTableCell align="center">{complete.rDate}</StyledTableCell>
-                                        <StyledTableCell align="center">{complete.payment}</StyledTableCell>
-                                        <StyledTableCell align="center">
-                                            <Button sx={{color:'white', backgroundColor:'#fe9e0d', ':hover':{ backgroundColor: '#fe9e0d'}}}>Generate Report</Button>
-                                        </StyledTableCell>
-                                    </StyledTableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+            {present === 2 && (
+                <div>
+                    <div className="form-content">
+                        <TableContainer component={Paper}>
+                            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                                <TableHead>
+                                    <TableRow>
+                                        <StyledTableCell align="center">Pet ID</StyledTableCell>
+                                        <StyledTableCell align="center">Category</StyledTableCell>
+                                        <StyledTableCell align="center">Package</StyledTableCell>
+                                        <StyledTableCell align="center">Arrival Date</StyledTableCell>
+                                        <StyledTableCell align="center">Return Time</StyledTableCell>
+                                        <StyledTableCell align="center">Payment (Rs.)</StyledTableCell>
+                                        <StyledTableCell align="center"></StyledTableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {completes.map((complete) => (
+                                        <StyledTableRow key={complete.id}>
+                                            <StyledTableCell align="center">{complete.id}</StyledTableCell>
+                                            <StyledTableCell align="center">{complete.category}</StyledTableCell>
+                                            <StyledTableCell align="center">{complete.p_ckage}</StyledTableCell>
+                                            <StyledTableCell align="center">{complete.aDate}</StyledTableCell>
+                                            <StyledTableCell align="center">{complete.rDate}</StyledTableCell>
+                                            <StyledTableCell align="center">{complete.payment}</StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                <Button sx={{color:'white', backgroundColor:'#fe9e0d', ':hover':{ backgroundColor: '#fe9e0d'}}}>Generate Report</Button>
+                                            </StyledTableCell>
+                                        </StyledTableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </div>
                 </div>
-            </div>
+            )}
     </div>
     )
 }
