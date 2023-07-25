@@ -17,32 +17,43 @@ import { Tabs } from "@mui/material";
 
 
 const Packages = () => {
-    const [new1, setNew] = useState(true);
-    const [form, setForm] = useState(false);
-    const [updateform, setUpdateform] = useState(false);
+    const [new1, setNew] = useState(true);  //package cards
+    const [form, setForm] = useState(false); //add new package form
+    const [updateform, setUpdateform] = useState(false); //update form
+    const [popularity, setPopularity] = useState(false); // popularity
     
+    // after click on add new package button
     const Change = () => {
         setNew(false);
         setForm(true);
     }
-
+    // after click on submit button on the add new package form
     const afterSubmit = () => {
         // check
         setNew(true);
         setForm(false);
     }
-    
+    // after click on update icon
     const update = () => {
         setNew(false);
         setUpdateform(true);
     }
-
+    // after click on submit button on update form
     const afterUpdate = () => {
         // check
         setNew(true);
         setUpdateform(false);
+    }
+    // after click on view popularity
+    const clickPopularity = () => {
+        setNew(false);
+        setPopularity(true);
+    }
 
-
+    // finish the viewing
+    const afterview = () => {
+        setNew(true);
+        setPopularity(false);
     }
 
     return (
@@ -75,7 +86,7 @@ const Packages = () => {
 
             <div className="top-button-header">
                 <Button variant="contained" onClick={()=>Change()} sx={{background: "black" ,':hover':{backgroundColor: "black"}}}>Add New Package <AddIcon sx={{marginLeft: '10px'}}/></Button>
-                <Button variant="contained" sx={{background: "black" ,':hover':{backgroundColor: "black"}}}>View Popularity</Button>
+                <Button variant="contained" onClick={()=>clickPopularity()} sx={{background: "black" ,':hover':{backgroundColor: "black"}}}>View Popularity</Button>
             </div>
 
             {new1 && (
@@ -197,16 +208,23 @@ const Packages = () => {
             </FormControl>
             )}
            
-
             {/* remove a package */}
 
 
             {/* view popularity */}
-            {/* <div className="popularity-view">
-                <div className="form-topic">
-                    Popularity
+            {popularity && (
+                <div className="popularity-view">
+                    <div className="form-topic">
+                        Popularity
+                    </div>
+                    <div>
+                        <p>Gold      : 20% </p>
+                        <p>Silver    : 45% </p>
+                        <p>Platinum  : 35% </p>
+                    </div>
+                    <Button variant="contained" onClick={()=>afterview()} sx={{background:"#fe9e0d", marginTop:'10px', ':hover':{backgroundColor: "#fe9e0d"}, width:'100%'}}>Finish Viewing</Button>
                 </div>
-            </div> */}
+            )}
         </div>
     )
 }
