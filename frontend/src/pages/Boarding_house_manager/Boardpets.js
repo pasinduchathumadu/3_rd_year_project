@@ -130,7 +130,7 @@ const BoardPets = () => {
 
             {/* current boarding pets */}
             <div>
-                <div className="drop-down-box">
+                {/* <div className="drop-down-box">
                     <Box sx={{ width: '150px', marginLeft: '1350px' }}>
                         <FormControl fullWidth>
                             <Select
@@ -143,12 +143,12 @@ const BoardPets = () => {
                                 l
                                 sx={{ fontSize: '11px' }}>
                                 <MenuItem value={1}>All</MenuItem>
-                                <MenuItem value={2}>Pending</MenuItem>
-                                <MenuItem value={3}>Completed</MenuItem>
+                                <MenuItem value={2}>Dogs</MenuItem>
+                                <MenuItem value={3}>Cats</MenuItem>
                             </Select>
                         </FormControl>
                     </Box>
-                </div>
+                </div> */}
 
                 <div className="form-content">
                     <TableContainer component={Paper}>
@@ -160,7 +160,7 @@ const BoardPets = () => {
                                     <StyledTableCell align="center">Package</StyledTableCell>
                                     <StyledTableCell align="center">Arrival Date</StyledTableCell>
                                     <StyledTableCell align="center">Return Time</StyledTableCell>
-                                    <StyledTableCell align="center">Payment(Rs.)</StyledTableCell>
+                                    <StyledTableCell align="center">Payment (Rs.)</StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -196,7 +196,7 @@ const BoardPets = () => {
                                 sx={{ fontSize: '11px' }}>
                                 <MenuItem value={1}>All</MenuItem>
                                 <MenuItem value={2}>Pending</MenuItem>
-                                {/* <MenuItem value={3}>Completed</MenuItem> */}
+                                <MenuItem value={3}>Accepted</MenuItem>
                             </Select>
                         </FormControl>
                     </Box>
@@ -212,7 +212,7 @@ const BoardPets = () => {
                                     <StyledTableCell align="center">Package</StyledTableCell>
                                     <StyledTableCell align="center">Arrival Date</StyledTableCell>
                                     <StyledTableCell align="center">Return Time</StyledTableCell>
-                                    <StyledTableCell align="center">Payment(Rs.)</StyledTableCell>
+                                    <StyledTableCell align="center">Payment (Rs.)</StyledTableCell>
                                     <StyledTableCell align="center">Status</StyledTableCell>
                                 </TableRow>
                             </TableHead>
@@ -236,16 +236,16 @@ const BoardPets = () => {
 
             {/* past boarded pets */}
             <div>
-                <div className="drop-down-box">
+                {/* <div className="drop-down-box">
                     <Box sx={{ width: '150px', marginLeft: '1350px' }}>
                         <FormControl fullWidth>
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                // value={clients}
+                                value={clients}
                                 variant='filled'
                                 label="clients"
-                                // onChange={handleChange}
+                                onChange={handleChange}
                                 l
                                 sx={{ fontSize: '11px' }}>
                                 <MenuItem value={1}>All</MenuItem>
@@ -254,7 +254,7 @@ const BoardPets = () => {
                             </Select>
                         </FormControl>
                     </Box>
-                </div>
+                </div> */}
 
                 <div className="form-content">
                     <TableContainer component={Paper}>
@@ -266,7 +266,7 @@ const BoardPets = () => {
                                     <StyledTableCell align="center">Package</StyledTableCell>
                                     <StyledTableCell align="center">Arrival Date</StyledTableCell>
                                     <StyledTableCell align="center">Return Time</StyledTableCell>
-                                    <StyledTableCell align="center">Payment(Rs.)</StyledTableCell>
+                                    <StyledTableCell align="center">Payment (Rs.)</StyledTableCell>
                                     <StyledTableCell align="center"></StyledTableCell>
                                 </TableRow>
                             </TableHead>
@@ -288,12 +288,7 @@ const BoardPets = () => {
                         </Table>
                     </TableContainer>
                 </div>
-
-
             </div>
-
-        
-       
     </div>
     )
 }
