@@ -8,10 +8,10 @@ import { FaPlus } from "react-icons/fa";
 function Caregiverlist(){
 
     return(
-        <div className="container">
+        <div className="container1">
             <div className="maintopic">
                 <span className="topicfont">AVAILABLE CARE-GIVERS</span>
-                <button className="mainbutton">ADD NEW CAREGIVER<FaPlus className="icon-plus"/></button>
+                <button className="mainbutton">ADD NEW CAREGIVER</button>
             </div>
 
             <div className="row">
