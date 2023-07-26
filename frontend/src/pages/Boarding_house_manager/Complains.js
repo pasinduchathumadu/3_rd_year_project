@@ -20,6 +20,9 @@ import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableHead from '@mui/material/TableHead';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import AddIcon from '@mui/icons-material/Add';
+import { FormLabel, TextField } from "@mui/material";
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -64,20 +67,56 @@ const datarows = [
     createData2(5,"Complain text 5", '2023-07-16', '18:00:00', 'completed' ),
 ];
 
-
-
 const Complains = () => {
+    // drop down
     const [clients, setClients] = React.useState('1');
-  
-    const [own, setOwn] = useState(0);
-
     const handleChange = (event) => {
         setClients(event.target.value);
     };
-
+  
+    const [own, setOwn] = useState(0);
     const handleForm = (event,existing_value) => {
         setOwn(existing_value)
     };
+    const [form, setForm] = useState(false);
+    const [addResponce, setaddResponce] = useState(false);
+    const [viewResponce, setviewResponce] = useState(false);
+
+    // after click on add new complain button
+    const addForm = () => {
+        setOwn(false);
+        setForm(true);
+    }
+    // after click on submit button of add new complain form
+    const afterAddingComplain = () => {
+        setOwn(1);
+        setForm(false);
+    }
+
+    // click on add response button
+    const addResponse = () => {
+        // check
+        setOwn(false);
+        setaddResponce(true);
+
+    }
+    // after click on submit button of add response 
+    const afterAddingResponse = () => {
+        setOwn(0);
+        setaddResponce(false);
+    }
+
+    // after click on view response
+    const viewResponse = () => {
+        setOwn(false);
+        setviewResponce(true);
+    }
+
+    // after viewing the response
+    const afterViewingResponse = () => {
+        setOwn(1);
+        setviewResponce(false);
+    }
 
     return (
         <div className="home-container">
@@ -130,7 +169,7 @@ const Complains = () => {
                             </FormControl>
                         </Box>
                     </div>
-                    <div className="form-content">
+                        <div className="form-content">
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
                                     <TableHead>
@@ -152,7 +191,7 @@ const Complains = () => {
                                                 <StyledTableCell align="center">{row.date}</StyledTableCell>
                                                 <StyledTableCell align="center">{row.time}</StyledTableCell>
                                                 <StyledTableCell align="center">
-                                                    {row.status === "pending" ? <Button sx={{color:'white', backgroundColor:'#fe9e0d', ':hover': { backgroundColor: '#fe9e0d' } }}>Add Response</Button> : "Completed" } 
+                                                    {row.status === "pending" ? <Button onClick={()=>addResponse()} sx={{color:'white', backgroundColor:'#fe9e0d', ':hover': { backgroundColor: '#fe9e0d' } }}>Add Response</Button> : "Completed" } 
                                                 </StyledTableCell>
                                             </StyledTableRow>
                                         ))}
@@ -167,25 +206,28 @@ const Complains = () => {
             {own === 1 && (
                 <div>
                     <div className="drop-down-box">
-                                <Box sx={{ width: '150px', marginLeft: '1350px' }}>
-                                    <FormControl fullWidth>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={own}
-                                            variant='filled'
-                                            label="clients"
-                                            onChange={handleChange}
-                                            l
-                                            sx={{ fontSize: '11px' }}
-                                        >
-                                            <MenuItem value={1}>All</MenuItem>
-                                            <MenuItem value={2}>Pending</MenuItem>
-                                            <MenuItem value={2}>Completed</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                </Box>
+                        <div className="top-button-header">
+                            <Button variant="contained" onClick={()=>addForm()} sx={{background: "black" ,':hover':{backgroundColor: "black"}}}>Add New Complain <AddIcon sx={{marginLeft: '10px'}}/></Button>
                         </div>
+                        <Box sx={{ width: '150px', marginLeft: '1350px' }}>
+                            <FormControl fullWidth>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={own}
+                                    variant='filled'
+                                    label="clients"
+                                    onChange={handleChange}
+                                    l
+                                    sx={{ fontSize: '11px' }}
+                                >
+                                    <MenuItem value={1}>All</MenuItem>
+                                    <MenuItem value={2}>Pending</MenuItem>
+                                    <MenuItem value={2}>Completed</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Box>
+                    </div>
                     <div className="form-content">
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -206,7 +248,7 @@ const Complains = () => {
                                                 <StyledTableCell align="center">{datarow.date}</StyledTableCell>
                                                 <StyledTableCell align="center">{datarow.time}</StyledTableCell>
                                                 <StyledTableCell align="center">
-                                                    {datarow.status === "completed" ? <Button sx={{color:'white', backgroundColor:'#fe9e0d', ':hover': { backgroundColor: '#fe9e0d' } }}>View Response</Button> : "Pending" } 
+                                                    {datarow.status === "completed" ? <Button onClick={()=>viewResponse()} sx={{color:'white', backgroundColor:'#fe9e0d', ':hover': { backgroundColor: '#fe9e0d' } }}>View Response</Button> : "Pending" } 
                                                 </StyledTableCell>
                                             </StyledTableRow>
                                         ))}
@@ -216,6 +258,74 @@ const Complains = () => {
                         </div>
                 </div>
             )}
+
+            {/* add new complain */}
+            {form && (
+                <div>
+                    <FormControl  sx={{marginLeft:'30%', borderRadius: '10px', width:'700px', border: '1px', borderStyle:'solid', padding:'20px',backgroundColor:'#E3E3E3', fontFamily:'osnovapro,sans-serif'}}>
+                        <div className="form-topic">
+                            Add New Complain
+                        </div>
+                        <div className="form-label">
+                            <FormLabel>Enter your complain: </FormLabel>
+                            <TextField id="outlined-basic" placeholder="Complain" variant="outlined" />
+                        </div>
+
+                        <div className="form-label">
+                            <FormLabel>Upload an Image (if need): </FormLabel>
+                            <input type="file" placeholder=" Choose a file" variant="outlined" />
+                        </div>
+                        <Button variant="contained" onClick={()=> afterAddingComplain()} sx={{background:"#fe9e0d", marginTop:'10px', ':hover':{backgroundColor: "#fe9e0d"}}}>Add Complain</Button>
+                    </FormControl>
+                </div>
+            )}
+
+            {/* add response */}
+            {addResponce && (
+                <div>
+                    <FormControl  sx={{marginLeft:'35%', borderRadius: '10px', width:'500px', border: '1px', borderStyle:'solid', padding:'20px',backgroundColor:'#E3E3E3', fontFamily:'osnovapro,sans-serif'}}>
+                        <div className="form-topic">
+                            Adding Response
+                        </div>
+                        <div className="form-label">
+                            <FormLabel>Complain ID : 05 </FormLabel>
+                        </div>
+
+                        <div className="form-label">
+                            <FormLabel>Enter the Response  </FormLabel>
+                            <TextField id="outlined-basic" placeholder=" response" variant="outlined"  />
+                        </div>
+
+                        <div className="form-label">
+                            <FormLabel>Upload an Image (if need): </FormLabel>
+                            <input type="file" placeholder=" Choose a file" variant="outlined" />
+                        </div>
+                        <Button variant="contained" onClick={()=>afterAddingResponse()} sx={{background:"#fe9e0d", marginTop:'10px', ':hover':{backgroundColor: "#fe9e0d"}}}>Add Package</Button>
+                    </FormControl>
+                </div>
+            )}
+
+            {/* view repsonse */}
+            {viewResponce && (
+                <div>
+                    <FormControl  sx={{marginLeft:'35%', borderRadius: '10px', width:'500px', border: '1px', borderStyle:'solid', padding:'20px',backgroundColor:'#E3E3E3', fontFamily:'osnovapro,sans-serif'}}>
+                        <div className="form-topic">
+                             Viewing Response
+                        </div>
+                        <div className="form-label">
+                            <FormLabel>Complain ID : 05 </FormLabel>
+                        </div>
+
+                        <div className="form-label">
+                            <FormLabel>Response   </FormLabel>
+                            <p >This is the solution for your complain</p></div>
+
+                        <Button variant="contained" onClick={()=>afterViewingResponse()} sx={{background:"#fe9e0d", marginTop:'10px', ':hover':{backgroundColor: "#fe9e0d"}}}>OK</Button>
+                    </FormControl>
+                </div>
+            )}
+
+            
         </div>
     )
 }

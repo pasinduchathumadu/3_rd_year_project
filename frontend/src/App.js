@@ -9,11 +9,18 @@ import Email from "./pages/Common/Email";
 import { Dashboard } from "./pages/Client/Dashboard";
 import { Reports } from "./pages/Client/Reports";
 
-
 import Reset from "./pages/Common/Reset";
 import Menu from "./pages/Client/Menu";
+import Petcare from "./pages/Client/Petcare"
+
+
+
+
+import Reset from "./pages/Common/Reset";
+
 import Cart from "./pages/Client/Cart"
 import Header from "./components/Layout/Header";
+
 import Home from  "./pages/Common/Home";
 import Services from  "./pages/Common/Services";
 import About from  "./pages/Common/About";
@@ -27,8 +34,11 @@ import BoardingClients from "./pages/Boarding_house_manager/Clients";
 import BoardingPets from "./pages/Boarding_house_manager/Boardpets";
 import BoardingPackages from "./pages/Boarding_house_manager/Packages";
 import BoardingComplains from "./pages/Boarding_house_manager/Complains";
-import Test from "./pages/Boarding_house_manager/Test";
 
+import Pet_grooming from "../src/pages/Client/Pet_grooming";
+
+
+import Refund from "./pages/Boarding_house_manager/Refund";
 
 import Caregiverlist from "./pages/Care_center_manager/caregiverlist";
 
@@ -36,6 +46,7 @@ import Caregiverlist from "./pages/Care_center_manager/caregiverlist";
 import Onlinehome from "./pages/Online_store_manager/Home"
 import OnlineAdd from "./pages/Online_store_manager/Add"
 import Complain from "./pages/Online_store_manager/Complain";
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -78,16 +89,22 @@ function App() {
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/reports" element={<Reports/>}></Route>
           <Route path="/dashboard" element={<Dashboard/>}></Route>
+          <Route path="/petcare" element={<Petcare/>}></Route>
+          {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
+          <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route>
+
+
+
+
 
            {/* boarding house manager */}
            <Route path="/boarding_dashboard" element={<BoardingHome />} />
           <Route path="/boarding_clients" element={<BoardingClients />} />
           <Route path="/boarding_pets" element={<BoardingPets />} />
           <Route path="/boarding_packages" element={<BoardingPackages />} />
-          <Route path="/boarding_complains" element={<BoardingComplains />} />          
-          <Route path="/test" element={<Test />} />          
-
-
+          <Route path="/boarding_complains" element={<BoardingComplains />} /> 
+          <Route path="/refund" element = { <Refund /> } />         
+         
 
            {/*  */}
            <Route path="/caregiverlist" element={< Caregiverlist />} />

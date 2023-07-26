@@ -15,7 +15,14 @@ import PetsIcon from '@mui/icons-material/Pets';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+// import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+// import { margin, typography, width } from "@mui/system";
+import { Table, TableHead, TableRow, TableBody, TableCell} from "@mui/material";
 
 const Home = () => {
     const [time, setTime] = React.useState('1');
@@ -33,7 +40,7 @@ const Home = () => {
                     <p class="top-line-text">18 June 2023</p>
                 </div>
                 <div className="top-line">
-                   <p style={{fontSize: '18px', fontWeight: 1000}}>Boarding House Manager - DashBoard</p>
+                   <p style={{fontSize: '20px', fontWeight: 1000, color:'black'}}>DashBoard</p>
                 </div>
 
                 <div className="top-line">
@@ -86,18 +93,75 @@ const Home = () => {
                         <AssignmentLateIcon className="box-icons"/>
                         <h3>Pending Boarding Requests</h3>
                     </div>
-                    <div className="bording-pending-box">
-                        <p>Request ID : 02</p>
-                        <ArrowDropDownIcon/>
-                    </div>
-                    <div className="bording-pending-box">
-                        <p>Request ID : 03</p>
-                        <ArrowDropDownIcon/>
-                    </div>
-                    <div className="bording-pending-box">
-                        <p> Request ID : 04</p>
-                        <ArrowDropDownIcon/>
-                    </div>
+                    
+                    <Accordion sx={{
+                        border: 'black',
+                        borderWidth:'2px',
+                        borderRadius:'10px',
+                        marginBottom:'10px',
+                        marginTop:'10px'
+                    }}>
+                        <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                        >
+                        <Typography>Request ID : 1</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Table>
+                                <TableHead sx={{backgroundColor:'#fe9e0d', color:'white'}}>
+                                    <TableRow>
+                                        <TableCell align="center">Pet ID</TableCell>
+                                        <TableCell align="center">Client ID</TableCell>
+                                        <TableCell align="center">Pickup Date</TableCell>
+                                        <TableCell align="center">Pickup Time</TableCell>
+                                    </TableRow>
+                                </TableHead >
+                                <TableBody>
+                                    <TableCell align="center">01</TableCell>
+                                    <TableCell align="center">04</TableCell>
+                                    <TableCell align="center">20/07/2023</TableCell>
+                                    <TableCell align="center">10:00:00</TableCell>
+                                </TableBody>
+                            </Table>
+                        </AccordionDetails>
+                    </Accordion>
+
+                    <Accordion  sx={{
+                        border: 'black',
+                        borderWidth:'2px',
+                        borderRadius:'10px',
+                        marginBottom:'10px',
+                        marginTop:'10px'
+                    }}>
+                        <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel2a-content"
+                        id="panel2a-header"
+                        >
+                        <Typography>Request ID : 2</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Table>
+                                <TableHead sx={{backgroundColor:'#fe9e0d', color:'white'}}>
+                                    <TableRow>
+                                        <TableCell align="center">Pet ID</TableCell>
+                                        <TableCell align="center">Client ID</TableCell>
+                                        <TableCell align="center">Pickup Date</TableCell>
+                                        <TableCell align="center">Pickup Time</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    <TableCell align="center">01</TableCell>
+                                    <TableCell align="center">04</TableCell>
+                                    <TableCell align="center">20/07/2023</TableCell>
+                                    <TableCell align="center">10:00:00</TableCell>
+                                </TableBody>
+                            </Table>
+                        </AccordionDetails>
+                    </Accordion>
+
                 </div>
             </div>
             

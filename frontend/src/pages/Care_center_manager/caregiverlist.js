@@ -1,8 +1,8 @@
 import React from "react";
 import '../../styles/Care_center_manager/caregiverlist.css';
-import care from "../../assests/caregiver.jpg"
-import care2 from "../../assests/caregiver2.jpg"
-
+import care from "../../assests/caregiver.jpg";
+import care2 from "../../assests/caregiver2.jpg";
+import { FaPlus } from "react-icons/fa";
 
 
 function Caregiverlist(){
