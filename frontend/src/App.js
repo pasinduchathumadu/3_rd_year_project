@@ -35,6 +35,7 @@ import Caregiverlist from "./pages/Care_center_manager/caregiverlist";
 
 import Onlinehome from "./pages/Online_store_manager/Home"
 import OnlineAdd from "./pages/Online_store_manager/Add"
+import Complain from "./pages/Online_store_manager/Complain";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -92,7 +93,7 @@ function App() {
            <Route path="/caregiverlist" element={< Caregiverlist />} />
 
           
-
+          <Route path="/handling_complain" element={<Complain/>}/>
           <Route path="/online_manager" element={<Onlinehome />}/>
           <Route path="/online_add" element={<OnlineAdd/>}/>
 
