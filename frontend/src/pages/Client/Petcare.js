@@ -8,6 +8,9 @@ import image1 from "../../assests/online-store-image.png"
 import image2 from "../../assests/care-center-image.png"
 import image3 from "../../assests/pic3.jpg"
 import { Link } from 'react-router-dom';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 import PrimarySearchAppBar from "../../components/Layout/Header";
 
@@ -16,10 +19,20 @@ import PrimarySearchAppBar from "../../components/Layout/Header";
 export default function Petcare() {
   return (
     <><PrimarySearchAppBar />
+
+    {/* <FormGroup>
+      <FormControlLabel control={<Checkbox defaultChecked />} label="Label" />
+      <FormControlLabel required control={<Checkbox />} label="Required" />
+      <FormControlLabel disabled control={<Checkbox />} label="Disabled" />
+    </FormGroup> */}
     
     <h1 style={{textAlign:"center",fontSize:"60px",fontWeight:"40",marginTop:"30px"}}> Pet <span style={{color:"orange"}}>care</span> </h1>
-    <div style={{marginLeft:"160px",display:"flex",gap:"30px",marginTop:"35px"}}>
-    <Card sx={{ maxWidth: 345 }}>
+    <div style={{marginLeft:"180px",display:"flex",gap:"30px",marginTop:"35px"}}>
+    <Card sx={{ maxWidth: 345 ,transition: "transform 0.5s ",
+                "&:hover": {
+                  transform: "scale(1.1)", // Apply scale transform on hover
+                  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", // Add box shadow on hover
+                },}}>
       <CardActionArea>
       <Link to="/Pet_grooming" style={{ textDecoration: "none", color: "inherit" }}>
         <CardMedia style={{height:"35vh"}}
@@ -43,7 +56,11 @@ export default function Petcare() {
       </CardActions>
     </Card>
 
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345 ,transition: "transform 0.5s ",
+                "&:hover": {
+                  transform: "scale(1.1)", // Apply scale transform on hover
+                  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", // Add box shadow on hover
+                },}}>
       <CardActionArea>
         <CardMedia style={{height:"35vh"}}
           component="img"
@@ -65,7 +82,11 @@ export default function Petcare() {
       </CardActions>
     </Card>
 
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345,transition: "transform 0.5s ",
+                "&:hover": {
+                  transform: "scale(1.1)", // Apply scale transform on hover
+                  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", // Add box shadow on hover
+                }, }}>
       <CardActionArea>
         <CardMedia style={{height:"35vh"}}
           component="img"
