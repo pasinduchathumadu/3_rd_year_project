@@ -294,7 +294,7 @@ const Add = () => {
             </Stack>
 
           )}
-          <div style={{ marginTop: '5%', marginLeft: '8%', marginRight: '12%', marginBottom: '5%', backgroundColor: '#FEEED7', height: '700px' }}>
+          <div style={{ marginTop: '5%', marginLeft: '8%', marginRight: '12%', marginBottom: '5%', backgroundColor:'#f0f0f5', height: '700px' }}>
             <div style={{ paddingLeft: '28%', paddingTop: '5%' }}>
               <div style={{
 
@@ -302,7 +302,7 @@ const Add = () => {
                 width: "500px",
                 paddingLeft: '4%',
                 borderRadius: "10px",
-                backgroundColor: '#D4D4D4'
+                backgroundColor: 'white'
               }}>
                 <Grid container direction="column" component="form" >
                   <Grid item sx={{ paddingTop: '29px' }}>
@@ -406,15 +406,15 @@ const Add = () => {
                 indicatorColor='transparent'
                 sx={{ borderRadius: '10px' }}
               >
-                <Tab sx={{ backgroundColor: editvalue === 0 ? '#EB996E' : 'white', color: "black" }} label="Pet Food" />
-                <Tab sx={{ backgroundColor: editvalue === 1 ? '#EB996E' : 'white', color: "black" }} label="pet accessories" />
-                <Tab sx={{ backgroundColor: editvalue === 2 ? '#EB996E' : 'white', color: "black" }} label="others" />
+                <Tab sx={{ backgroundColor: editvalue === 0 ? 'orange' : 'white', color: "black" }} label="Pet Food" />
+                <Tab sx={{ backgroundColor: editvalue === 1 ? 'orange' : 'white', color: "black" }} label="pet accessories" />
+                <Tab sx={{ backgroundColor: editvalue === 2 ? 'orange' : 'white', color: "black" }} label="others" />
               </Tabs>
 
             </Box>
           </Grid>
           {editvalue === 0 && (
-            <div style={{ marginTop: '3%', marginLeft: '5%', marginRight: '12%', marginBottom: '5%', backgroundColor: '#FEEED7', display: "flex", flexWrap: "wrap", width: '90%', height: 'auto' }}>
+            <div style={{ marginTop: '3%', marginLeft: '5%', marginRight: '12%', marginBottom: '5%', backgroundColor: 'white', display: "flex", flexWrap: "wrap", width: '90%', height: 'auto' }}>
               {cart && cart.map((menu, index) => (
                 <Box
                   sx={{
@@ -496,11 +496,11 @@ const Add = () => {
       {update && (
         <div>
           {update_cart && update_cart.map((menu, index) => (
-            <><Box sx={{ backgroundColor: '#EB996E', width: '13%', border: '10px', borderRadius: '10px', textAlign: 'center', marginLeft: '20%', marginTop: '2%' }}>
+            <><Box sx={{ backgroundColor: 'orange', width: '13%', border: '10px', borderRadius: '10px', textAlign: 'center', marginLeft: '20%', marginTop: '2%' }}>
               <Typography>Update Product</Typography>
-            </Box><div style={{ marginTop: '2%', marginLeft: '20%', marginBottom: '5%', backgroundColor: '#FEEED7', width: '60%', height: '80vh', display: 'flex', flexWrap: 'wrap' }}>
-                <div style={{ width: '100%', backgroundColor: '#D4D4D4', margin: '2%' }}>
-                  <div style={{ height: '250px', width: '100%', backgroundColor: '#D4D4D4', display: 'flex' }}>
+            </Box><div style={{ marginTop: '2%', marginLeft: '20%', marginBottom: '5%', backgroundColor: 'white', width: '60%', height: '80vh', display: 'flex', flexWrap: 'wrap' }}>
+                <div style={{ width: '100%', backgroundColor: '#f0f0f5', margin: '2%' }}>
+                  <div style={{ height: '250px', width: '100%', backgroundColor: '#f0f0f5', display: 'flex' }}>
                     <div style={{ height: '200px', width: '40%', marginTop: '3%', marginLeft: '2%', display: 'inline', backgroundColor: '#F9F8F8' }}>
 
                    
@@ -518,7 +518,7 @@ const Add = () => {
                     </div>
 
                     <div style={{ height: '200px', width: '60%', display: 'inline', marginTop: '3%', marginLeft: '10%' }}>
-                      <Box sx={{ height: '100px', width: '90%', backgroundColor: '#F9F8F8' }}>
+                      <Box sx={{ height: '100px', width: '90%', backgroundColor: '#f0f0f5' }}>
                         <Typography sx={{ paddingLeft: '2%', paddingTop: '2%' }}>{menu.name}</Typography>
                         <Typography sx={{ paddingTop: '2%', paddingLeft: '2%' }}>{menu.description}</Typography>
                         <Typography sx={{ paddingTop: '15%' }}>Update Price :</Typography>
@@ -530,12 +530,12 @@ const Add = () => {
 
                   </div>
                   <div style={{ marginLeft: '15px' }}>
-                    <Typography sx={{ backgroundColor: '#F9F8F' }}>Upadate Description:</Typography>
-                    <TextField onChange={(e) => setupdatedescription(e.target.value)} size="small" placeholder="description" sx={{ width: '95%', marginTop: '10px', backgroundColor: '#F9f8f8' }}></TextField>
-                    <Typography sx={{ backgroundColor: '#F9F8F', marginTop: '15px' }}>Upadate Avalibility:</Typography>
-                    <TextField onChange={(e) => setupdateavailibility(e.target.value)} size="small" placeholder="quantity" sx={{ width: '45%', marginTop: '10px', backgroundColor: '#F9f8f8' }}></TextField>
+                    <Typography sx={{ backgroundColor: '#f0f0f5' }}>Upadate Description:</Typography>
+                    <TextField onChange={(e) => setupdatedescription(e.target.value)} size="small" placeholder="description" sx={{ width: '95%', marginTop: '10px', backgroundColor: '#f0f0f5' }}></TextField>
+                    <Typography sx={{ backgroundColor: '#f0f0f5', marginTop: '15px' }}>Upadate Avalibility:</Typography>
+                    <TextField onChange={(e) => setupdateavailibility(e.target.value)} size="small" placeholder="quantity" sx={{ width: '45%', marginTop: '10px', backgroundColor: '#f0f0f5' }}></TextField>
 
-                    <Button onClick={() => updatestore(menu.item_id)} sx={{ backgroundColor: '#ED5C01', width: '95%', marginTop: '30px', height: '5vh', ':hover': { backgroundColor: '#ED5C01' }, textAlign: 'center', color: 'white' }}>update</Button>
+                    <Button onClick={() => updatestore(menu.item_id)} sx={{ backgroundColor: 'orange', width: '95%', marginTop: '30px', height: '5vh', ':hover': { backgroundColor: '#ED5C01' }, textAlign: 'center', color: 'white' }}>update</Button>
 
                   </div>
                 </div>
