@@ -5,14 +5,9 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-<<<<<<< HEAD:frontend/src/styles/MainHome.css
     font-family: "Reem Kufi", sans-serif !important;
   }
   img {  
-=======
-}
-  img {
->>>>>>> c3129402dd1efaf35757f1e60d006328e91368ef:frontend/src/styles/Common/MainHome.css
     max-width: 100%;
     height: auto;
   }
