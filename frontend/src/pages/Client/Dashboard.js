@@ -4,29 +4,50 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
-import logoImage from "../../assests/cover.png"; // Import the image
+import logoImage from "../../assests/cover.png";
+import card2 from "../../assests/cover.png"
+import PrimarySearchAppBar from "../../components/Layout/Header";
+import Image1 from '../../assests/cover.png'
+import Image2 from '../../assests/pic3.jpg'
+import Image3 from '../../assests/medi-help-image.png'
+import Image4 from '../../assests/pet-foods.png'
 
+import Button from '@mui/material/Button';
+
+import {useNavigate} from 'react-router-dom'
 
 const images = [
   {
-    img:'logoImage',
-    url:  `url(${logoImage})`,
+    url: Image1,
     title: 'petcare',
     width: '40%',
+    slag: '/petcare'
   },
   {
-    img:'logoImage',
-    url: '../../assests/cover.png',
-    title: 'Burgers',
+    url: Image2,
+    title: 'Bording-House',
     width: '30%',
+    slag: '/def'
   },
   {
-    img:'logoImage',
-    url: '/static/images/buttons/camera.jpg',
-    title: 'Camera',
+    url: Image3,
+    title: 'Medi house',
     width: '30%',
+    slag: '/ghi'
   },
-];
+ 
+  {
+    
+    url: Image4,
+    title: 'Medi house',
+    width: '100%',
+    marginTop : '1%' ,
+    height:450,
+    slag: '/ghi'
+  },
+];  
+
+
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: 'relative',
@@ -38,7 +59,7 @@ const ImageButton = styled(ButtonBase)(({ theme }) => ({
   '&:hover, &.Mui-focusVisible': {
     zIndex: 1,
     '& .MuiImageBackdrop-root': {
-      opacity: 0.15,
+      opacity: 0.2,
     },
     '& .MuiImageMarked-root': {
       opacity: 0,
@@ -92,19 +113,33 @@ const ImageMarked = styled('span')(({ theme }) => ({
   transition: theme.transitions.create('opacity'),
 }));
 export const Dashboard = () => {
+  const navigate = useNavigate();
+
   return (
-   
-        
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%' }}>
+    <div className='dashboard'>
+
+        <><PrimarySearchAppBar />
+        <div >
+          <h1 style={{textAlign:"center",fontSize:"60px",fontWeight:"40",marginTop:"30px"}}>Keep your Pet <span style={{color:"orange"}}>Happy</span> </h1>
+
+        </div>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%' ,marginTop:"60px"}}>
       {images.map((image) => (
         <ImageButton
           focusRipple
           key={image.title}
           style={{
             width: image.width,
+            marginTop : image.marginTop,
+            height : image.height
           }}
+
+          onClick={() => {
+            navigate(image.slag);
+          } }
+
         >
-          <ImageSrc style={{ backgroundImage: `url(${image.img})` }} />
+          <ImageSrc style={{ backgroundImage: `url(${image.url})` }} />
           <ImageBackdrop className="MuiImageBackdrop-root" />
           <Image>
             <Typography
@@ -123,9 +158,17 @@ export const Dashboard = () => {
             </Typography>
           </Image>
         </ImageButton>
-      ))}
-    </Box>
-    
+      )
+
+      )}
+      {/* <div className='bottm'>
+      <h2>happt tail shop</h2>
+    </div> */}
+    </Box></>
+
+     
+  </div>
+  
    
   )
 }
