@@ -9,7 +9,6 @@ import Email from "./pages/Common/Email";
 import { Dashboard } from "./pages/Client/Dashboard";
 import { Reports } from "./pages/Client/Reports";
 
-import Reset from "./pages/Common/Reset";
 import Menu from "./pages/Client/Menu";
 import Petcare from "./pages/Client/Petcare"
 
