@@ -16,7 +16,7 @@ import Petcare from "./pages/Client/Petcare"
 
 
 
-import Reset from "./pages/Common/Reset";
+
 
 import Cart from "./pages/Client/Cart"
 import Header from "./components/Layout/Header";
@@ -35,7 +35,7 @@ import BoardingPets from "./pages/Boarding_house_manager/Boardpets";
 import BoardingPackages from "./pages/Boarding_house_manager/Packages";
 import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 
-import Pet_grooming from "../src/pages/Client/Pet_grooming";
+import Petgrooming from "../src/pages/Client/Pet_grooming";
 
 
 import Refund from "./pages/Boarding_house_manager/Refund";
@@ -91,7 +91,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard/>}></Route>
           <Route path="/petcare" element={<Petcare/>}></Route>
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
-          <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route>
+          <Route path="/Pet_grooming" element={<Petgrooming/>}></Route>
 
 
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Tabs, Typography, Grid, Stack, Avatar, Box, Tab, Table, TableBody, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
+import { Tabs, Typography, Grid, Stack, Avatar, Box, Tab, Table, TableBody, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material'
 
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import profile from "../../assests/profile.jpg";
@@ -106,11 +106,11 @@ const Complain = () => {
               <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell >Complain ID:</StyledTableCell>
-                    <StyledTableCell >Client </StyledTableCell>
-                    <StyledTableCell >Complain Date</StyledTableCell>
-                    <StyledTableCell >Complain</StyledTableCell>
-                    <StyledTableCell >View</StyledTableCell>
+                    <StyledTableCell align="left" sx={{width:'15%'}}>Complain ID:</StyledTableCell>
+                    <StyledTableCell align="left"sx={{width:'15%'}} >Client </StyledTableCell>
+                    <StyledTableCell align="left" sx={{width:'20%'}}>Complain Date</StyledTableCell>
+                    <StyledTableCell align="left" sx={{width:'35%'}}>Complain</StyledTableCell>
+                    <StyledTableCell align="left" sx={{width:'25%'}}>View</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -119,10 +119,10 @@ const Complain = () => {
                       <StyledTableCell component="th" scope="row">
                         {row.name}
                       </StyledTableCell>
-                      <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                      <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                      <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                      <StyledTableCell align="right">{row.protein}</StyledTableCell>
+                      <StyledTableCell align="left">{row.calories}</StyledTableCell>
+                      <StyledTableCell align="left">{row.fat}</StyledTableCell>
+                      <StyledTableCell align="left">{row.carbs}</StyledTableCell>
+                      <StyledTableCell align="left"><Button sx={{}}>{row.protein}</Button></StyledTableCell>
                     </StyledTableRow>
                   ))}
                 </TableBody>
