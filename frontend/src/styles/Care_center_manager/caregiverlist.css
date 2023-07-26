@@ -1,0 +1,91 @@
+.maintopic{
+    margin: 20px;
+    padding-bottom: 5%;
+}
+
+.topicfont{
+    font-size: 25px;
+    float: left;
+    height: 10px;
+    
+}
+
+.top-img{
+    height: 200px;
+}
+
+.top-name{
+    margin: 10px;
+    font-size: 20px;
+}
+
+.assignbtn{
+    margin-top: 0;
+    width: 50%;
+    background-color: #000000;
+    border: none;
+    height: 35px;
+    color: #ffff;
+    border-radius: 5px;
+}
+
+.mainbutton:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+/* Float THREE columns side by side */
+.column {
+    float: left;
+    width: 33.33%;
+    padding: 0 0px 40px;
+  }
+  
+  /* Remove extra left and right margins, due to padding */
+  .row {
+    margin: 0px -5px;
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  /* Responsive columns */
+  @media screen and (max-width: 800px) {
+    .column {
+      width: 100%;
+      display: block;
+      margin-bottom: 35px;
+    }
+  }
+
+
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin: auto;
+    text-align: center;
+    font-family: arial;
+  }
+  
+  .title {
+    color: grey;
+    font-size: 15px;
+  }
+  
+  .icon-plus{
+    margin-left: 10px;
+    font-size: 12px;
+    margin-bottom: 3px;
+  }
+
+  .icon-star{
+    margin-left: 10px;
+    margin-right: 5px;
+    font-size: 15px;
+    margin-bottom: 5px;
+    color: #fde401;
+  }
+
