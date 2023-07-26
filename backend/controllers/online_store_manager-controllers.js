@@ -1,83 +1,124 @@
 
-import {db} from '../database.js'
+import { db } from '../database.js'
 
+export const get_item = async (req, res, next) => {
+    const id = req.params.id;
+   
+    var item_catogery = ""
+    if (id === '0') {
+        item_catogery = "foods";
+    }
+    if (id === '1') {
+        item_catogery = "accessories"
+    }
+    if (id === '2') {
+        item_catogery = "others"
+    }
 
-export const add_store = async(req,res,next)=>{
-    const {item_code,image,description,price,quntity,} = req.body
+    const sqlQuery = 'select *from item where catogories = ?'
     const values = [
-        item_code,
+        item_catogery
+    ]
+    db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
+        }
+        else if (data.length < 1) {
+            return res.json({ message: 'No records' })
+        }
+        return res.json({ data })
+    })
+}
+export const add_store = async (req, res, next) => {
+    const { name, price, description, quantity, item, Categories, image } = req.body
+    const values = [
+
+        name,
+        price,
         image,
         description,
-        price,
-        quntity
+        quantity,
+        item,
+        Categories
     ]
-    const sqlQuery = 'SELECT *FROM table WHERE item_code = ?'
-    db.query(sqlQuery,[values[0]],(err,data)=>{
-        if(data.length>0){
-            return res.json({message:"item code is exist"})
-        }
-        const sqlQuery1 = "INSERT INTO TABLE () VALUES ()"
-        db.query(sqlQuery1,values,(err,data)=>{
-            if(err){
-                return res.json({message:"There is an internal error"})
-            }
 
-            return res.json({message:"added successfully"})
-        })
+
+    const sqlQuery1 = "INSERT INTO item (name,unit_price,image,description,quantity,item,catogories) VALUES (?,?,?,?,?,?,?)"
+    db.query(sqlQuery1, values, (err, data) => {
+        if (err) {
+            return res.json({ message: "There is an internal error" })
+        }
+
+        return res.json({ message: "added successfully" })
     })
+
 }
 
-export const update_store = async(req,res,next)=> {
-    const {item_code,price,quantity} = req.body
+export const update_store = async (req, res, next) => {
+    const { id, updatedescription, updateavailibility, updateprice } = req.body
+   
     const values = [
-        item_code,
-        price,
-        quantity
+        updateprice,
+        updateavailibility,
+        updatedescription,
+        id
     ]
-    const sqlQuery = 'UPDATE TABLE SET price = ? , quantity = ? WHERE item_code = ? '
+    const sqlQuery = 'UPDATE item SET unit_price = ? , quantity = ?,description = ? WHERE item_id = ? '
 
-    db.query(sqlQuery,values,(err,data) =>{
-        if(err){
-            return res.json({message:"There is an internal error"})
+    db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+            return res.json({ message: "There is an internal error" })
         }
-        return res.json({message:"update successfully"})
+        return res.json({ message: "update successfully" })
     })
 }
 
-export const delete_store = async(req,res,next)=>{
-    const {item_code,reason} = req.body;
+export const delete_store = async (req, res, next) => {
+    const { deleteid} = req.body;
     const values = [
-        item_code,
-        reason
+       deleteid
     ]
 
-    const sqlQuery = 'DELETE FROM table WHERE item_code = ?'
+    const sqlQuery = 'DELETE FROM item WHERE item_id = ?'
 
-    db.query(sqlQuery,values,(err,data)=>{
-        if(err){
-            return res.json({message:"There is an internal error"})
+    db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+            return res.json({ message: "There is an internal error" })
         }
-        return res.json({message:"deleted succcessfully"})
+        return res.json({ message: "deleted succcessfully" })
     })
 
 }
 
-export const view_complain = async(req,res,next)=>{
+export const view_complain = async (req, res, next) => {
     const status = 'pending'
     const sqlQuery = 'SELECT *FROM TABLE WHERE status = ?'
-    const records =[
+    const records = [
         status
     ]
-    db.query(sqlQuery,records,(err,data)=>{
-        if(data.length==0){
-            return res.json({message:"No records"})
+    db.query(sqlQuery, records, (err, data) => {
+        if (data.length == 0) {
+            return res.json({ message: "No records" })
         }
-        return res.json({data})
+        return res.json({ data })
     })
-} 
+}
+export const get_cart = async (req, res, next) => {
+    const id = req.params.id
+    const sqlQuery = "select *from item where item_id = ?"
+    const values = [
+        id
+    ]
+    db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+            return res.json({ message: 'there is an error' })
+        }
+        return res.json({ data })
+    })
 
-export const handling_complain = async(req,res,next)=>{
-    const {user_id,response_txt} = req.body
+}
+export const handling_complain = async (req, res, next) => {
+    const { user_id, response_txt } = req.body
 
     const date = new Date()
     const response_date = date.toLocaleDateString()
@@ -93,11 +134,11 @@ export const handling_complain = async(req,res,next)=>{
         user_id
     ]
 
-    db.query(sqlQuery,records,(err,data)=>{
-        if(err){
-            res.json({message:"There is an internal error"})
+    db.query(sqlQuery, records, (err, data) => {
+        if (err) {
+            res.json({ message: "There is an internal error" })
         }
-        return res.json({message:"responsed_successfully"})
+        return res.json({ message: "responsed_successfully" })
     })
 }
 
