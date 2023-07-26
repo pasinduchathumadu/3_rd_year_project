@@ -1,9 +1,10 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
   .App{
     display:flex;
     flex-direction: column;
     width: 100vw;
     height: 100vh;
-    font-family: osnovapro,sans-serif; 
+    font-family: "Reem Kurf",sans-serif !important;
+    
   
   }
