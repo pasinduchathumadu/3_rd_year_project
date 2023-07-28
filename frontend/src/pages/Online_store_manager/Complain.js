@@ -42,6 +42,7 @@ const Complain = () => {
   const [givendate , setdate] = useState("")
   const [success,setsuccess] = useState(false)
   const [error, seterror] = useState(false)
+  const [getsecondform , setsecondform] = useState(false)
   const [complain_message, setmessage] = useState("")
   const [addsubject,setsubject] = useState("")
   const [selectfile, setfile] = useState(null)
@@ -105,10 +106,12 @@ const Complain = () => {
          
           })
           if (res.data.message === "Added") {
+            seterror(false)
             setsuccess(true)
           }
           else{
             seterror(true)
+            setsuccess(false)
           }
         }
         catch(err){
@@ -123,11 +126,29 @@ const Complain = () => {
   const Response = (value1) => {
     setid(value1)
     setform(true);
+    seterror(false)
+    setsuccess(false)
   };
+
+  const secondclose = () =>{
+    seterror(false)
+    setsuccess(false)
+    setsecondform(false)
+    setvalue(1)
+
+  }
+
+  const view = (value2) =>{
+    setid(value2)
+    setsecondform(true)
+    seterror(false)
+    setsuccess(false)
+  }
  const closeform = () => {
   seterror(false)
   setsuccess(false)
   setform(false)
+  setvalue(1)
  }
   const get_complain = async () => {
     try {
@@ -143,11 +164,10 @@ const Complain = () => {
     get_complain()
       .then((data) => setcomplain(data.data))
       .catch((err) => console.log(err));
-  }, []);
+  }, [value]);
 
   const handleChange = (event, new_value) => {
     setvalue(new_value);
-    get_complain();
   };
 
 
@@ -300,6 +320,46 @@ const Complain = () => {
                 </div>
 
           )}
+          {value === 1 &&(
+            <div>
+            <Grid sx={{ marginTop: '3%', marginLeft: '3%', marginRight: '7%' }}>
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                  <TableHead>
+                    <TableRow>
+                      <StyledTableCell align="left" sx={{ width: '15%' }}>Complain ID:</StyledTableCell>
+                      <StyledTableCell align="left" sx={{ width: '15%' }}>Client</StyledTableCell>
+                      <StyledTableCell align="left" sx={{ width: '20%' }}>Complain Date</StyledTableCell>
+                      <StyledTableCell align="left" sx={{ width: '35%' }}>Response Date & Time</StyledTableCell>
+                      <StyledTableCell align="left" sx={{ width: '25%' }}>View</StyledTableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {Complain && Complain.map((row, index) => (
+                      <StyledTableRow key={index}>
+                        <StyledTableCell component="th" scope="row">
+                          COM  {row.complain_id}
+                        </StyledTableCell>
+                        <StyledTableCell align="left">{row.email}</StyledTableCell>
+                        <StyledTableCell align="left">{row.date}</StyledTableCell>
+                        <StyledTableCell align="left">
+                         {row.response_date}
+                        </StyledTableCell>
+                        <StyledTableCell align="left">
+                          <Button onClick={() => view(row.complain_id)} sx={{ backgroundColor: 'orange', width: '75%', color: 'white', ':hover': { backgroundColor: 'orange' } }}>
+                            View
+                          </Button>
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Grid>
+          </div>
+
+          )}
+
         </Grid>
       </div>
       {getform && (
@@ -357,6 +417,49 @@ const Complain = () => {
           </Box>
         </div>
       )}
+      {getsecondform && (
+        <div style={{ backdropFilter: 'blur(4px)', position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            
+          <Box sx={{ backgroundColor: '#f0f0f5', width: '70%', height: '80vh' }}>
+            <div style={{marginLeft:'95%',marginTop:'1%',fontSize:"24px"}}>
+              
+              <IconButton onClick={()=>secondclose()}> <CloseIcon  sx={{color:'red'}}/></IconButton>
+            
+
+            </div>
+          
+          
+            <div style={{ padding: '3%' }}>
+              {Complain && Complain.map((menu,index) => (
+                  <><Typography sx={{ paddingTop: '15px', paddingBottom: '30px',fontSize:'20px',textAlign:'center'}}>
+                  Complain
+                </Typography><TextField
+                    value={menu.complain_txt}
+                    multiline
+                    rows={4}
+                    fullWidth
+                    sx={{ backgroundColor: '#ffffff' }}
+                    />
+                    <Typography sx={{ paddingTop: '15px', paddingBottom: '30px',fontSize:'20px',textAlign:'center' }}>
+                    Response
+                  </Typography><TextField
+                    value={menu.response_txt}
+                    multiline
+                    rows={4}
+                    fullWidth
+                    sx={{ backgroundColor: '#ffffff' }}
+                    /></>
+                
+
+              ))}
+             
+            
+           
+            </div>
+          </Box>
+        </div>
+      )}
+
     </>
   );
 };
