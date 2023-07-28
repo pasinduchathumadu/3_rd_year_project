@@ -150,6 +150,7 @@ const Complain = () => {
   setform(false)
   setvalue(1)
  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const get_complain = async () => {
     try {
       const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/view/${value}`);
@@ -164,7 +165,7 @@ const Complain = () => {
     get_complain()
       .then((data) => setcomplain(data.data))
       .catch((err) => console.log(err));
-  }, [value]);
+  }, [get_complain, value]);
 
   const handleChange = (event, new_value) => {
     setvalue(new_value);
