@@ -107,6 +107,7 @@ function App() {
           <Route path="/handling_complain" element={<Complain/>}/>
           <Route path="/online_manager" element={<Onlinehome />}/>
           <Route path="/online_add" element={<OnlineAdd/>}/>
+          <Route path="/online_home" element={<Onlinehome/>}/>
 
         </Routes>
       </main>

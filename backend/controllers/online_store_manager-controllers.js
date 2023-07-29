@@ -91,8 +91,18 @@ export const delete_store = async (req, res, next) => {
 }
 
 export const view_complain = async (req, res, next) => {
-    const status = 'pending'
-    const sqlQuery = 'SELECT *FROM TABLE WHERE status = ?'
+    const id = req.params.id 
+ 
+    var status = ""
+    if(id === '0'){
+        status = "pending"
+    }
+    else if(id === '1'){
+        status = "replied"
+    }
+
+    
+    const sqlQuery = 'SELECT *FROM complain WHERE status = ? && user_role = "online_store_manager"'
     const records = [
         status
     ]
@@ -142,3 +152,34 @@ export const handling_complain = async (req, res, next) => {
     })
 }
 
+export const add_response = async (req,res,next) => {
+    const{id,response,newdate} = req.body;
+  
+    const values = [
+        newdate,
+        response,
+     
+        id
+    ] 
+    const sqlQuery = "Update complain set response_date = ? , response_txt = ?, status = 'replied'  where complain_id = ?"
+    db.query(sqlQuery,values,(err,data)=>{
+        if(err){
+            return res.json({message:'There is an internal an error'})
+        }
+        return res.json({message:'Added'})
+    })
+
+}
+
+export const add_complain = async(req,res,next) => {
+    const {addsubject,complain_message,image} = req.body;
+
+    const values = [
+        addsubject,
+        complain_message,
+        image
+    ]
+
+    
+
+}
