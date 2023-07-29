@@ -43,8 +43,6 @@ const clientrows = [
     createData2(5, 6, "Complain text 5", '2023-07-16', 'completed'),
 ];
 
-
-
 const Complains = () => {
     // drop down
     const [clients, setClients] = React.useState('1');

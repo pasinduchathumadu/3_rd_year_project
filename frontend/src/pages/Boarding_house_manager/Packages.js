@@ -166,10 +166,6 @@ const Packages = () => {
                         <TextField id="outlined-basic" placeholder="Facility 03" variant="outlined"  sx={{marginBottom:'5px'}} />
                     </div>
                     
-                    {/* <div className="form-label">
-                        <FormLabel>Upload Package Image</FormLabel>
-                        <input type="file" placeholder=" Choose a file" variant="outlined" />
-                    </div> */}
                     <Button variant="contained" onClick={()=> afterSubmit()} sx={{background:"#fe9e0d", marginTop:'10px', ':hover':{backgroundColor: "#fe9e0d"}, width:'100%'}}>Add Package</Button>
                 </div>
             </FormControl>
