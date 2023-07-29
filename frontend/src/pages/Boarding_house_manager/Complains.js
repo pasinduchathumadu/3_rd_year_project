@@ -305,8 +305,7 @@ const Complains = () => {
                             </div>
                             <Button variant="contained" onClick={()=>afterAddingResponse()} sx={{background:"orange", width:'100%', marginTop:'10px', ':hover':{backgroundColor: "#fe9e0d"}}}>Add Response</Button>
                         </div>
-                    </FormControl>
-                    
+                    </FormControl>  
                 </div>
             )}
 
@@ -329,7 +328,7 @@ const Complains = () => {
 
                             <div className="form-label">
                                 <FormLabel>Response   </FormLabel>
-                                <p >This is the response for your complain</p></div>
+                                <p style={{paddingRight:'20px', paddingLeft:'30px', paddingTop:'10px', paddingBottom:'10px', borderStyle:'solid', borderColor:'black', borderRadius:'10px'}} >This is the response for your complain</p></div>
 
                             <Button variant="contained" onClick={()=>afterViewingResponse()} sx={{background:"#fe9e0d", width:'100%', marginTop:'10px', ':hover':{backgroundColor: "#fe9e0d"}}}>OK</Button>
                         </div>

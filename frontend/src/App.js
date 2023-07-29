@@ -25,12 +25,16 @@ import ComContent from  "./pages/Common/ComContent";
 import Contact from  "./pages/Common/Contact";
 import Footer from  "./pages/Common/Footer";
 
-
 import BoardingHome from "./pages/Boarding_house_manager/Home";
 import BoardingClients from "./pages/Boarding_house_manager/Clients";
 import BoardingPets from "./pages/Boarding_house_manager/Boardpets";
 import BoardingPackages from "./pages/Boarding_house_manager/Packages";
 import BoardingComplains from "./pages/Boarding_house_manager/Complains";
+
+import AdminHome from './pages/Admin/Home';
+import AdminUsers from './pages/Admin/Users';
+import AdminRefund from './pages/Admin/Refund';
+import AdminComplains from './pages/Admin/Complains';
 
 import Petgrooming from "../src/pages/Client/Pet_grooming";
 
@@ -88,17 +92,19 @@ function App() {
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
           <Route path="/Pet_grooming" element={<Petgrooming/>}></Route>
 
-
-
-
-
            {/* boarding house manager */}
            <Route path="/boarding_dashboard" element={<BoardingHome />} />
           <Route path="/boarding_clients" element={<BoardingClients />} />
           <Route path="/boarding_pets" element={<BoardingPets />} />
           <Route path="/boarding_packages" element={<BoardingPackages />} />
           <Route path="/boarding_complains" element={<BoardingComplains />} /> 
-         
+
+          {/* admin */}
+          <Route path="/admin_dashboard" element={<AdminHome />} />
+          <Route path="/admin_users" element={<AdminUsers />} />
+          <Route path="/admin_refund" element={<AdminRefund />} />
+          <Route path="/admin_complains" element={<AdminComplains />} /> 
+
 
            {/*  */}
            <Route path="/caregiverlist" element={< Caregiverlist />} />
