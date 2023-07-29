@@ -5,7 +5,7 @@ import ProfilePicture from '../../assests/profile-picture.png';
 // import PetImage from '../../assests/blog-1.png';
 // import OwnerImage from '../../assests/profile-picture.png';
 
-import Slip from '../../assests/profile.jpg';
+import Slip from '../../assests/bankslip2.jpeg';
 
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { styled } from '@mui/material/styles';
