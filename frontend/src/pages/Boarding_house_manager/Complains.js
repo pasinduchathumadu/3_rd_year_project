@@ -305,8 +305,7 @@ const Complains = () => {
                             </div>
                             <Button variant="contained" onClick={()=>afterAddingResponse()} sx={{background:"orange", width:'100%', marginTop:'10px', ':hover':{backgroundColor: "#fe9e0d"}}}>Add Response</Button>
                         </div>
-                    </FormControl>
-                    
+                    </FormControl>  
                 </div>
             )}
 
