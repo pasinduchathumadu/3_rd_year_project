@@ -64,15 +64,26 @@ const secondrows = [
     createDataRows(5, 'John Bye', '2023-07-10 to 2023-07-12', '16:00:00', '1500.00', 'cancelled'),
 ];
 
-const Clients = () => {
-    const [clients, setClients] = React.useState('1');
-  
-    const [showRequests, setShowRequests] = useState(0);
+function createRefundData(rfid,rqid, name,date, payment, rqStatus, rfStatus) {
+    return {rfid, rqid, name,date, payment, rqStatus, rfStatus};
 
+}
+
+const refundrows = [
+    createRefundData(1,1,'John Deo', '2023-07-10', '1200.00', 'cancelled', 'pending'),
+    createRefundData(2,2,'John Ziya', '2023-07-12', '1200.00', 'incomplete', 'pending'),
+    createRefundData(3,3,'Jonathan Perera', '2023-07-13', '1200.00', 'cancelled', 'completed'),
+    createRefundData(4,4,'Gulio Dias', '2023-07-11', '1200.00', 'incomplete', 'completed'),
+];
+
+const Clients = () => {
+    // drop down
+    const [clients, setClients] = React.useState('1');
     const handleChange = (event) => {
         setClients(event.target.value);
     };
-
+  
+    const [showRequests, setShowRequests] = useState(0);
     const handleForm = (event,existing_value) => {
         setShowRequests(existing_value)
     };
@@ -104,11 +115,13 @@ const Clients = () => {
 
                     <Tab sx={{backgroundColor:showRequests === 0 ? 'orange':'#F0F0F5',color:'black'}} label="Clients' Request" ></Tab>
                     <Tab sx={{backgroundColor:showRequests === 1 ? 'orange':'#F0F0F5',color:'black'}} label="Refund Requests"></Tab>
+                    <Tab sx={{backgroundColor:showRequests === 2 ? 'orange':'#F0F0F5',color:'black'}} label="Clients"></Tab>
 
                 </Tabs>
             </Box>
 
-            {showRequests===1 && (
+            {/* clients */}
+            {showRequests===2 && (
                 <div>
                     <div className="drop-down-box">
                         <Box sx={{ width: '150px', marginLeft: '1350px' }}>
@@ -165,12 +178,10 @@ const Clients = () => {
                 </div>
             )}
 
+            {/* clients request */}
             {showRequests===0 && (
                 <div>
                     <div className="drop-down-box1">
-                        <div className="top-button-header">
-                            <Button variant="contained"  sx={{background: "black" ,':hover':{backgroundColor: "black"}}}>Refund for Requests</Button>
-                        </div>
                         <Box sx={{ width: '150px', marginLeft: '1350px' }}>
                             <FormControl fullWidth>
                                 <Select
@@ -221,7 +232,68 @@ const Clients = () => {
                                                 <Button sx={{ color: 'white', backgroundColor: '#fe9e0d', ':hover': { backgroundColor: '#fe9e0d' } }}>Pets Details</Button>
                                             </StyledTableCell>
                                             <StyledTableCell align="center">
-                                                {secondrows.status === 'accepted' ? <Button sx={{ color: 'white', backgroundColor: '#555555', ':hover': { backgroundColor: '#555555' } }}>Completed</Button> : ""}
+                                                {secondrows.status === 'accepted' ? <Button sx={{ color: 'white', backgroundColor: '#000000', ':hover': { backgroundColor: '#555555' } }}>Completed</Button> : ""}
+                                            </StyledTableCell>
+                                        </StyledTableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </div>
+                </div>
+            )}
+
+            {/* refund requests */}
+            {showRequests===1 && (
+                <div>
+                    <div className="drop-down-box1">
+                        <Box sx={{ width: '150px', marginLeft: '1350px' }}>
+                            <FormControl fullWidth>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={clients}
+                                    variant='filled'
+                                    label="clients"
+                                    onChange={handleChange}
+                                    l
+                                    sx={{ fontSize: '11px' }}
+                                >
+                                    <MenuItem value={1}>All</MenuItem>
+                                    <MenuItem value={2}>Pending</MenuItem>
+                                    <MenuItem value={3}>Completed</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Box>
+                    </div>
+                    <div className="form-content">
+                        <TableContainer component={Paper}>
+                            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                                <TableHead>
+                                    <TableRow>
+                                        <StyledTableCell align="center">Refund ID</StyledTableCell>
+                                        <StyledTableCell align="center">Request ID</StyledTableCell>
+                                        <StyledTableCell align="center">Client Name</StyledTableCell>
+                                        <StyledTableCell align="center">Cancelled / Incompleted Date </StyledTableCell>
+                                        <StyledTableCell align="center">Payment (Rs.)</StyledTableCell>
+                                        <StyledTableCell align="center">Request Status</StyledTableCell>
+                                        <StyledTableCell align="center">Refund Status</StyledTableCell>
+                                        <StyledTableCell align="center"></StyledTableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {refundrows.map((refundrow) => (
+                                        <StyledTableRow key={refundrow.rfid}>
+                                            <StyledTableCell align="center">{refundrow.rfid}</StyledTableCell>
+                                            <StyledTableCell align="center">{refundrow.rqid}</StyledTableCell>
+                                            <StyledTableCell align="center">{refundrow.name}</StyledTableCell>
+                                            <StyledTableCell align="center">{refundrow.date}</StyledTableCell>
+                                            <StyledTableCell align="center">{refundrow.payment}</StyledTableCell>
+                                            <StyledTableCell align="center">{refundrow.rqStatus}</StyledTableCell>
+                                            <StyledTableCell align="center">{refundrow.rfStatus}</StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                {refundrow.rfStatus === 'completed' ? <Button sx={{ color: 'white', width:'80%', backgroundColor: '#000000', ':hover': { backgroundColor: '#555555' } }}>Refund Details</Button> 
+                                                :  <Button sx={{ color: 'white', width:'80%', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Refund </Button> }
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     ))}

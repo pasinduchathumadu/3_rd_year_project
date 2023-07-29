@@ -15,9 +15,6 @@ import Petcare from "./pages/Client/Petcare"
 
 
 
-
-
-
 import Cart from "./pages/Client/Cart"
 import Header from "./components/Layout/Header";
 
@@ -37,8 +34,6 @@ import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 
 import Petgrooming from "../src/pages/Client/Pet_grooming";
 
-
-import Refund from "./pages/Boarding_house_manager/Refund";
 
 import Caregiverlist from "./pages/Care_center_manager/caregiverlist";
 
@@ -103,7 +98,6 @@ function App() {
           <Route path="/boarding_pets" element={<BoardingPets />} />
           <Route path="/boarding_packages" element={<BoardingPackages />} />
           <Route path="/boarding_complains" element={<BoardingComplains />} /> 
-          <Route path="/refund" element = { <Refund /> } />         
          
 
            {/*  */}
