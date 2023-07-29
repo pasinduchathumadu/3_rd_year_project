@@ -4,8 +4,6 @@ import Header from "../../components/Layout/Header";
 import ProfilePicture from '../../assests/profile-picture.png';
 import PetImage from '../../assests/blog-1.png';
 import OwnerImage from '../../assests/profile-picture.png';
-import BankSlip from '../../assests/idli.jpg';
-
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -23,6 +21,8 @@ import Box from '@mui/material/Box';
 import { Tab } from "@mui/material";
 import { Tabs } from "@mui/material";
 import { FormLabel, TextField } from "@mui/material";
+import StarIcon from '@mui/icons-material/Star';
+import Slip from '../../assests/bankslip1.png';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -208,7 +208,9 @@ const Clients = () => {
                                             <StyledTableCell align="center">{row.address}</StyledTableCell>
                                             <StyledTableCell align="center">{row.contact}</StyledTableCell>
                                             <StyledTableCell align="center">{row.usability}</StyledTableCell>
-                                            <StyledTableCell align="center">{row.status}</StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                {row.status === "premium" ? <><StarIcon sx={{color:'orange'}} /> premium</> : "regular"}
+                                            </StyledTableCell>
                                             <StyledTableCell align="center">
                                                 <Button onClick={()=> viewPet()} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Pets Details</Button>
                                             </StyledTableCell>
@@ -472,7 +474,7 @@ const Clients = () => {
 
                             <div className="form-label">
                                 <FormLabel>Uploaded Bank Slip : </FormLabel>
-                                <img src={ BankSlip } alt="bank slip" style={{width:'100%', height:'auto', border:'solid black 1px', borderRadius:'10px'}} />
+                                <img src={ Slip } alt="bank slip" style={{width:'100%', height:'auto', border:'solid black 1px', borderRadius:'10px'}} />
                             </div>
                             {/* <Button variant="contained" onClick={() => afterAddingComplain()} sx={{ background: 'orange', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Complain</Button> */}
                             <Button variant="contained" onClick={() => FinishRefundViewing()} sx={{ background: 'orange', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Finish Viewing</Button>

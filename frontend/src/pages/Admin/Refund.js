@@ -24,6 +24,7 @@ import Box from '@mui/material/Box';
 import { Tab } from "@mui/material";
 import { Tabs } from "@mui/material";
 import { FormLabel, TextField } from "@mui/material";
+import StarIcon from '@mui/icons-material/Star';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {

@@ -129,7 +129,7 @@ const Users = () => {
             <Header />
             <div className="top">
                 <div className="top-line">
-                    <p>Administator</p>
+                    <p>Administrator</p>
                     <p className="top-line-text">Today</p>
                     <p class="top-line-text">18 June 2023</p>
                 </div>
