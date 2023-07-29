@@ -8,8 +8,8 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import AssignmentLateIcon from '@mui/icons-material/AssignmentLate';
 import  ProfilePicture  from '../../assests/profile-picture.png';
-import BoxPicture1 from '../../assests/boarding-analyse-1.png';
-import BoxPicture2 from '../../assests/boarding-analyse-2.png';
+// import BoxPicture1 from '../../assests/boarding-analyse-1.png';
+// import BoxPicture2 from '../../assests/boarding-analyse-2.png';
 import Box from '@mui/material/Box';
 import PetsIcon from '@mui/icons-material/Pets';
 import MenuItem from '@mui/material/MenuItem';
@@ -49,13 +49,12 @@ const Home = () => {
                 </div>
             </div>
         
-
             <div className="boarding-wrapper-main">
                 <div className="boarding-wrapper">
                     <div className="boarding-box-header">
-                        <AnalyticsIcon sx={{marginRight:'10px', marginTop:'6px', color:'orange'}} />
+                        <AnalyticsIcon sx={{marginRight:'10px', marginTop:'2px', color:'orange'}} />
                         <h3>Analytical Overview</h3>
-                        <Box sx={{ minWidth: 120, marginLeft:'340px'}}>
+                        <Box sx={{ minWidth: 120, marginLeft:'315px'}}>
                             <FormControl fullWidth>
                                 <Select
                                     labelId="demo-simple-select-label"
@@ -75,7 +74,6 @@ const Home = () => {
                     </div>
 
                     <div className="boarding-wrapper-box-mian">
-                        {/* <div className="boarding-wrapper-box" style={{backgroundImage:`url(${ BoxPicture1 })` }}> */}
                         <div className="boarding-wrapper-box" style={{backgroundColor:'white' }}>
                             <p style={{ fontWeight:'bold'}}><PetsIcon sx={{color:'orange', marginRight:'5px'}} />Current Boarding Pets</p>
                             <br />
@@ -91,7 +89,7 @@ const Home = () => {
 
                 <div className="boarding-wrapper">
                     <div className="boarding-box-header">
-                        <AssignmentLateIcon sx={{marginRight:'10px', marginTop:'6px', color:'orange'}}/>
+                        <AssignmentLateIcon sx={{marginRight:'10px', marginTop:'2px', color:'orange'}}/>
                         <h3>Pending Boarding Requests</h3>
                     </div>
                     
@@ -169,7 +167,7 @@ const Home = () => {
             <div className="boarding-wrapper-main">
                 <div className="boarding-wrapper">
                     <div className="boarding-box-header">
-                        <AssessmentIcon sx={{marginRight:'10px', marginTop:'6px', color:'orange'}}/>
+                        <AssessmentIcon sx={{marginRight:'10px', marginTop:'2px', color:'orange'}}/>
                         <h3>Pet Analyze</h3>
 
                         <Box sx={{ minWidth: 120, marginLeft:'400px'}}>
@@ -195,7 +193,7 @@ const Home = () => {
 
                 <div className="boarding-wrapper">
                     <div className="boarding-box-header">
-                        <InventoryIcon sx={{marginRight:'10px', marginTop:'6px', color:'orange'}}/>
+                        <InventoryIcon sx={{marginRight:'10px', marginTop:'2px', color:'orange'}}/>
                         <h3>Packages</h3>
                     </div>  
                 </div>
