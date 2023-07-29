@@ -102,8 +102,8 @@ const Clients = () => {
                 sx={{borderRadius:'10px'}}
                 >
 
-                    <Tab sx={{backgroundColor:showRequests === 0 ? 'orange':'white',color:'black'}} label="Clients' Request" ></Tab>
-                    <Tab sx={{backgroundColor:showRequests === 1 ? 'orange':'white',color:'black'}} label="Clients"></Tab>
+                    <Tab sx={{backgroundColor:showRequests === 0 ? 'orange':'#F0F0F5',color:'black'}} label="Clients' Request" ></Tab>
+                    <Tab sx={{backgroundColor:showRequests === 1 ? 'orange':'#F0F0F5',color:'black'}} label="Refund Requests"></Tab>
 
                 </Tabs>
             </Box>
@@ -231,6 +231,8 @@ const Clients = () => {
                     </div>
                 </div>
             )}
+
+            {/* pet details */}
 
         </div>
     );

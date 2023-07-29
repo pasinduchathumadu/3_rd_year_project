@@ -142,9 +142,9 @@ const Packages = () => {
                 </div>
             )}
 
-        {/* add a new package */}
+            {/* add a new package */}
             {form && (
-            <FormControl  sx={{marginLeft:'30%', borderRadius: '10px', width:'700px', border: '1px', borderStyle:'solid', padding:'20px',backgroundColor:'rgb(255, 240, 224)', fontFamily:'osnovapro,sans-serif'}}>
+            <FormControl  sx={{marginLeft:'30%', borderRadius: '10px', width:'700px', padding:'20px',backgroundColor:'#F0F0F5'}}>
                 <div style={{backgroundColor:'white', padding:'15px', borderRadius:'10px' }}>
                     <div className="form-topic">
                         Add New Package
@@ -161,15 +161,15 @@ const Packages = () => {
 
                     <div className="form-label">
                         <FormLabel>Facilities</FormLabel>
-                        <TextField id="outlined-basic" placeholder="Facilities" variant="outlined" sx={{marginBottom:'5px'}} />
-                        <TextField id="outlined-basic" placeholder="Facilities" variant="outlined"  sx={{marginBottom:'5px'}} />
-                        <TextField id="outlined-basic" placeholder="Facilities" variant="outlined"  sx={{marginBottom:'5px'}} />
+                        <TextField id="outlined-basic" placeholder="Facility 01" variant="outlined" sx={{marginBottom:'5px'}} />
+                        <TextField id="outlined-basic" placeholder="Facility 02" variant="outlined"  sx={{marginBottom:'5px'}} />
+                        <TextField id="outlined-basic" placeholder="Facility 03" variant="outlined"  sx={{marginBottom:'5px'}} />
                     </div>
                     
-                    <div className="form-label">
+                    {/* <div className="form-label">
                         <FormLabel>Upload Package Image</FormLabel>
                         <input type="file" placeholder=" Choose a file" variant="outlined" />
-                    </div>
+                    </div> */}
                     <Button variant="contained" onClick={()=> afterSubmit()} sx={{background:"#fe9e0d", marginTop:'10px', ':hover':{backgroundColor: "#fe9e0d"}, width:'100%'}}>Add Package</Button>
                 </div>
             </FormControl>
@@ -177,10 +177,13 @@ const Packages = () => {
 
             {/* update package */}
             {updateform && (
-            <FormControl  sx={{marginLeft:'30%', borderRadius: '10px', width:'700px', border: '1px', borderStyle:'solid', padding:'20px',backgroundColor:'rgb(255, 240, 224)', fontFamily:'osnovapro,sans-serif'}}>
+            <FormControl  sx={{marginLeft:'30%', borderRadius: '10px', width:'700px', padding:'20px',backgroundColor:'#F0F0F5'}}>
                 <div style={{backgroundColor:'white', padding:'15px', borderRadius:'10px' }}>
                     <div className="form-topic">
                         Update Package
+                    </div>
+                    <div className="form-label">
+                        <FormLabel>Package ID : 02</FormLabel>
                     </div>
                     <div className="form-label">
                         <FormLabel>Package Name</FormLabel>
@@ -194,15 +197,15 @@ const Packages = () => {
 
                     <div className="form-label">
                         <FormLabel>Facilities</FormLabel>
-                        <TextField id="outlined-basic" placeholder="Facilities" variant="outlined" sx={{marginBottom:'5px'}} />
-                        <TextField id="outlined-basic" placeholder="Facilities" variant="outlined"  sx={{marginBottom:'5px'}} />
-                        <TextField id="outlined-basic" placeholder="Facilities" variant="outlined"  sx={{marginBottom:'5px'}} />
+                        <TextField id="outlined-basic" placeholder="Facility 01" variant="outlined" sx={{marginBottom:'5px'}} />
+                        <TextField id="outlined-basic" placeholder="Facility 02" variant="outlined"  sx={{marginBottom:'5px'}} />
+                        <TextField id="outlined-basic" placeholder="Facility 03" variant="outlined"  sx={{marginBottom:'5px'}} />
                     </div>
                     
-                    <div className="form-label">
+                    {/* <div className="form-label">
                         <FormLabel>Update Package Image</FormLabel>
                         <input type="file" placeholder=" Choose a file" variant="outlined" />
-                    </div>
+                    </div> */}
                     <Button variant="contained" onClick={()=> afterUpdate()} sx={{background:"#fe9e0d", marginTop:'10px', ':hover':{backgroundColor: "#fe9e0d"}, width:'100%'}}>Update Package</Button>
                 </div>
             </FormControl>

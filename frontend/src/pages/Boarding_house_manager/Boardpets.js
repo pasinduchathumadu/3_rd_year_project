@@ -110,9 +110,9 @@ const BoardPets = () => {
                 indicatorColor="transparent"
                 sx={{borderRadius:'10px'}}
                 >
-                    <Tab sx={{backgroundColor:present === 0 ? 'orange':'white',color:'black'}} label="Current Boarding Pets" ></Tab>
-                    <Tab sx={{backgroundColor:present === 1 ? 'orange':'white',color:'black'}} label="Requested Pets"></Tab>
-                    <Tab sx={{backgroundColor:present === 2 ? 'orange':'white',color:'black'}} label="Past Boarded Pets"></Tab>
+                    <Tab sx={{backgroundColor:present === 0 ? 'orange':'#F0F0F5',color:'black'}} label="Current Boarding Pets" ></Tab>
+                    <Tab sx={{backgroundColor:present === 1 ? 'orange':'#F0F0F5',color:'black'}} label="Requested Pets"></Tab>
+                    <Tab sx={{backgroundColor:present === 2 ? 'orange':'#F0F0F5',color:'black'}} label="Past Boarded Pets"></Tab>
                 </Tabs>
             </Box>
 
