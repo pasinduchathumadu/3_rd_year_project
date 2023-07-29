@@ -17,6 +17,29 @@ import Table from '@mui/material/Table';
 import TableHead from '@mui/material/TableHead';
 import Button from '@mui/material/Button';
 import { FormLabel, TextField } from "@mui/material";
+import { styled } from '@mui/material/styles';
+import  { tableCellClasses } from '@mui/material/TableCell';
+
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+    },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+        border: 0,
+    },
+}));
 
 // data for magaers complains
 function createData1(com_id, user_id, text, date, status) {
@@ -139,29 +162,29 @@ const Complains = () => {
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 700 }} aria-label="customized table">
                                 <TableHead>
-                                    <TableRow>
-                                        <TableCell align="center">Complain ID</TableCell>
-                                        <TableCell align="center">Client ID</TableCell>
-                                        <TableCell align="center">Complain</TableCell>
-                                        <TableCell align="center">Placed Date</TableCell>
-                                        <TableCell align="center">Status</TableCell>
-                                        <TableCell align="center"></TableCell>
-                                    </TableRow>
+                                    <StyledTableRow>
+                                        <StyledTableCell align="center">Complain ID</StyledTableCell>
+                                        <StyledTableCell align="center">Client ID</StyledTableCell>
+                                        <StyledTableCell align="center">Complain</StyledTableCell>
+                                        <StyledTableCell align="center">Placed Date</StyledTableCell>
+                                        <StyledTableCell align="center">Status</StyledTableCell>
+                                        <StyledTableCell align="center"></StyledTableCell>
+                                    </StyledTableRow>
                                 </TableHead>
                                 <TableBody>
                                     {clientrows.map((clientrow) => (
-                                        <TableRow key={clientrow.com_id}>
-                                            <TableCell align="center">{clientrow.com_id}</TableCell>
-                                            <TableCell align="center">{clientrow.user_id}</TableCell>
-                                            <TableCell align="center">{clientrow.text}</TableCell>
-                                            <TableCell align="center">{clientrow.date}</TableCell>
-                                            <TableCell align="center">{clientrow.status}</TableCell>
-                                            <TableCell align="center">
+                                        <StyledTableRow key={clientrow.com_id}>
+                                            <StyledTableCell align="center">{clientrow.com_id}</StyledTableCell>
+                                            <StyledTableCell align="center">{clientrow.user_id}</StyledTableCell>
+                                            <StyledTableCell align="center">{clientrow.text}</StyledTableCell>
+                                            <StyledTableCell align="center">{clientrow.date}</StyledTableCell>
+                                            <StyledTableCell align="center">{clientrow.status}</StyledTableCell>
+                                            <StyledTableCell align="center">
                                                 {clientrow.status === "pending" ?
                                                     <Button onClick={() => addResponse()} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Add Response</Button>
                                                     : <Button onClick={()=> viewResponse()} sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }}>View Response</Button>}
-                                            </TableCell>
-                                        </TableRow>
+                                            </StyledTableCell>
+                                        </StyledTableRow>
                                     ))}
                                 </TableBody>
                             </Table>
@@ -196,29 +219,29 @@ const Complains = () => {
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 700 }} aria-label="customized table">
                                 <TableHead>
-                                    <TableRow>
-                                        <TableCell align="center">Complain ID</TableCell>
-                                        <TableCell align="center">Manager ID</TableCell>
-                                        <TableCell align="center">Complain</TableCell>
-                                        <TableCell align="center">Placed Date</TableCell>
-                                        <TableCell align="center">Status</TableCell>
-                                        <TableCell align="center"></TableCell>
-                                    </TableRow>
+                                    <StyledTableRow>
+                                        <StyledTableCell align="center">Complain ID</StyledTableCell>
+                                        <StyledTableCell align="center">Manager ID</StyledTableCell>
+                                        <StyledTableCell align="center">Complain</StyledTableCell>
+                                        <StyledTableCell align="center">Placed Date</StyledTableCell>
+                                        <StyledTableCell align="center">Status</StyledTableCell>
+                                        <StyledTableCell align="center"></StyledTableCell>
+                                    </StyledTableRow>
                                 </TableHead>
                                 <TableBody>
                                     {managerows.map((managerow) => (
-                                        <TableRow key={managerow.com_id}>
-                                            <TableCell align="center">{managerow.com_id}</TableCell>
-                                            <TableCell align="center">{managerow.user_id}</TableCell>
-                                            <TableCell align="center">{managerow.text}</TableCell>
-                                            <TableCell align="center">{managerow.date}</TableCell>
-                                            <TableCell align="center">{managerow.status}</TableCell>
-                                            <TableCell align="center">
+                                        <StyledTableRow key={managerow.com_id}>
+                                            <StyledTableCell align="center">{managerow.com_id}</StyledTableCell>
+                                            <StyledTableCell align="center">{managerow.user_id}</StyledTableCell>
+                                            <StyledTableCell align="center">{managerow.text}</StyledTableCell>
+                                            <StyledTableCell align="center">{managerow.date}</StyledTableCell>
+                                            <StyledTableCell align="center">{managerow.status}</StyledTableCell>
+                                            <StyledTableCell align="center">
                                                 {managerow.status === "pending" ?
                                                     <Button onClick={() => addResponse()} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Add Response</Button> :
                                                     <Button onClick={()=> viewResponse()} sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }}>View Response</Button>}
-                                            </TableCell>
-                                        </TableRow>
+                                            </StyledTableCell>
+                                        </StyledTableRow>
                                     ))}
                                 </TableBody>
                             </Table>

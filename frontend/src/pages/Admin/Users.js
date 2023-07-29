@@ -19,9 +19,31 @@ import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { FormLabel, TextField } from "@mui/material";
+import { styled } from '@mui/material/styles';
+import  { tableCellClasses } from '@mui/material/TableCell';
 import Image from '../../assests/profile.jpg';
 import PetImage from '../../assests/dog1.jpg';
 import PetImage1 from '../../assests/dog.jpg';
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+    },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+        border: 0,
+    },
+}));
 
 // data for clients
 function createData1(id, name, email, contact, address, category) {
@@ -140,30 +162,30 @@ const Users = () => {
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 700 }} aria-label="customized table">
                                 <TableHead>
-                                    <TableRow>
-                                        <TableCell align="center"></TableCell>
-                                        <TableCell align="center">Manager ID</TableCell>
-                                        <TableCell align="center">Name</TableCell>
-                                        <TableCell align="center">Email</TableCell>
-                                        <TableCell align="center">Contact Number</TableCell>
-                                        <TableCell align="center">Address</TableCell>
-                                        <TableCell align="center">Work</TableCell>
-                                        <TableCell align="center"></TableCell>
-                                    </TableRow>
+                                    <StyledTableRow>
+                                        <StyledTableCell align="center"></StyledTableCell>
+                                        <StyledTableCell align="center">Manager ID</StyledTableCell>
+                                        <StyledTableCell align="center">Name</StyledTableCell>
+                                        <StyledTableCell align="center">Email</StyledTableCell>
+                                        <StyledTableCell align="center">Contact Number</StyledTableCell>
+                                        <StyledTableCell align="center">Address</StyledTableCell>
+                                        <StyledTableCell align="center">Work</StyledTableCell>
+                                        <StyledTableCell align="center"></StyledTableCell>
+                                    </StyledTableRow>
                                 </TableHead>
                                 <TableBody>
                                     {managerows.map((managerow) => (
-                                        <TableRow key={managerow.id}>
-                                            <TableCell align="center"><img src={Image} style={{ width: '80px', borderRadius: '50%' }} alt="image" /></TableCell>
-                                            <TableCell align="center">{managerow.id}</TableCell>
-                                            <TableCell align="center">{managerow.name}</TableCell>
-                                            <TableCell align="center">{managerow.email}</TableCell>
-                                            <TableCell align="center">{managerow.contact}</TableCell>
-                                            <TableCell align="center">{managerow.address}</TableCell>
-                                            {/* <TableCell align="center">{managerow.nic}</TableCell> */}
-                                            <TableCell align="center">{managerow.store}</TableCell>
-                                            <TableCell align="center"><EditIcon onClick={() => updateManager()} /><DeleteIcon sx={{ color: 'red' }} /></TableCell>
-                                        </TableRow>
+                                        <StyledTableRow key={managerow.id}>
+                                            <StyledTableCell align="center"><img src={Image} style={{ width: '80px', borderRadius: '50%' }} alt="image" /></StyledTableCell>
+                                            <StyledTableCell align="center">{managerow.id}</StyledTableCell>
+                                            <StyledTableCell align="center">{managerow.name}</StyledTableCell>
+                                            <StyledTableCell align="center">{managerow.email}</StyledTableCell>
+                                            <StyledTableCell align="center">{managerow.contact}</StyledTableCell>
+                                            <StyledTableCell align="center">{managerow.address}</StyledTableCell>
+                                            {/* <StyledTableCell align="center">{managerow.nic}</StyledTableCell> */}
+                                            <StyledTableCell align="center">{managerow.store}</StyledTableCell>
+                                            <StyledTableCell align="center"><EditIcon onClick={() => updateManager()} /><DeleteIcon sx={{ color: 'red' }} /></StyledTableCell>
+                                        </StyledTableRow>
                                     ))}
                                 </TableBody>
                             </Table>
@@ -200,29 +222,29 @@ const Users = () => {
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 700 }} aria-label="customized table">
                                 <TableHead>
-                                    <TableRow>
-                                        <TableCell align="center">Client ID</TableCell>
-                                        <TableCell align="center"> Name</TableCell>
-                                        <TableCell align="center"> Email</TableCell>
-                                        <TableCell align="center">Contact Numebr</TableCell>
-                                        <TableCell align="center">Address</TableCell>
-                                        <TableCell align="center">Category</TableCell>
-                                        <TableCell align="center"></TableCell>
-                                        <TableCell align="center"></TableCell>
-                                    </TableRow>
+                                    <StyledTableRow>
+                                        <StyledTableCell align="center">Client ID</StyledTableCell>
+                                        <StyledTableCell align="center"> Name</StyledTableCell>
+                                        <StyledTableCell align="center"> Email</StyledTableCell>
+                                        <StyledTableCell align="center">Contact Numebr</StyledTableCell>
+                                        <StyledTableCell align="center">Address</StyledTableCell>
+                                        <StyledTableCell align="center">Category</StyledTableCell>
+                                        <StyledTableCell align="center"></StyledTableCell>
+                                        <StyledTableCell align="center"></StyledTableCell>
+                                    </StyledTableRow>
                                 </TableHead>
                                 <TableBody>
                                     {clientrows.map((clientrow) => (
-                                        <TableRow key={clientrow.id}>
-                                            <TableCell align="center">{clientrow.id}</TableCell>
-                                            <TableCell align="center">{clientrow.name}</TableCell>
-                                            <TableCell align="center">{clientrow.email}</TableCell>
-                                            <TableCell align="center">{clientrow.contact}</TableCell>
-                                            <TableCell align="center">{clientrow.address}</TableCell>
-                                            <TableCell align="center">{clientrow.category}</TableCell>
-                                            <TableCell align="center"><Button onClick={() => PetViewing()} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Pet Details</Button></TableCell>
-                                            <TableCell align="center"><DeleteIcon sx={{ color: 'red' }} /></TableCell>
-                                        </TableRow>
+                                        <StyledTableRow key={clientrow.id}>
+                                            <StyledTableCell align="center">{clientrow.id}</StyledTableCell>
+                                            <StyledTableCell align="center">{clientrow.name}</StyledTableCell>
+                                            <StyledTableCell align="center">{clientrow.email}</StyledTableCell>
+                                            <StyledTableCell align="center">{clientrow.contact}</StyledTableCell>
+                                            <StyledTableCell align="center">{clientrow.address}</StyledTableCell>
+                                            <StyledTableCell align="center">{clientrow.category}</StyledTableCell>
+                                            <StyledTableCell align="center"><Button onClick={() => PetViewing()} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Pet Details</Button></StyledTableCell>
+                                            <StyledTableCell align="center"><DeleteIcon sx={{ color: 'red' }} /></StyledTableCell>
+                                        </StyledTableRow>
                                     ))}
                                 </TableBody>
                             </Table>
@@ -284,6 +306,10 @@ const Users = () => {
                                 Update Managers Details
                             </div>
 
+                            <div className="form-label">
+                                <img src={ Image } alt="manager photo" style={{borderRadius:'50%', width:'200px', height:'auto',marginLeft:'35%'}} />
+                            </div>
+
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <div className="form-label">
                                     <FormLabel>Manager ID : 02</FormLabel>
@@ -307,10 +333,10 @@ const Users = () => {
                                 </div>
                             </div>
 
-                            <div className="form-label">
+                            {/* <div className="form-label">
                                 <FormLabel>Profile Picture</FormLabel>
                                 <input type="file" placeholder=" Choose a file" variant="outlined" />
-                            </div>
+                            </div> */}
                             <Button variant="contained" onClick={() => FinishUpdate()} sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Update</Button>
                         </div>
                     </FormControl>
