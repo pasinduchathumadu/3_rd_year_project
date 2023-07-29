@@ -5,7 +5,7 @@ import ProfilePicture from '../../assests/profile-picture.png';
 // import PetImage from '../../assests/blog-1.png';
 // import OwnerImage from '../../assests/profile-picture.png';
 
-import Slip from '../../assests/profile.jpg';
+import Slip from '../../assests/bankslip2.jpeg';
 
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { styled } from '@mui/material/styles';
@@ -24,6 +24,7 @@ import Box from '@mui/material/Box';
 import { Tab } from "@mui/material";
 import { Tabs } from "@mui/material";
 import { FormLabel, TextField } from "@mui/material";
+import StarIcon from '@mui/icons-material/Star';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {

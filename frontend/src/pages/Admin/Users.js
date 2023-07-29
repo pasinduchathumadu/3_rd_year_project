@@ -24,6 +24,7 @@ import  { tableCellClasses } from '@mui/material/TableCell';
 import Image from '../../assests/profile.jpg';
 import PetImage from '../../assests/dog1.jpg';
 import PetImage1 from '../../assests/dog.jpg';
+import StarIcon from '@mui/icons-material/Star';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -128,7 +129,7 @@ const Users = () => {
             <Header />
             <div className="top">
                 <div className="top-line">
-                    <p>Administator</p>
+                    <p>Administrator</p>
                     <p className="top-line-text">Today</p>
                     <p class="top-line-text">18 June 2023</p>
                 </div>
@@ -241,7 +242,9 @@ const Users = () => {
                                             <StyledTableCell align="center">{clientrow.email}</StyledTableCell>
                                             <StyledTableCell align="center">{clientrow.contact}</StyledTableCell>
                                             <StyledTableCell align="center">{clientrow.address}</StyledTableCell>
-                                            <StyledTableCell align="center">{clientrow.category}</StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                {clientrow.category === "premium" ? <><StarIcon sx={{color:'orange'}} /> premium</> : "regular"}
+                                            </StyledTableCell>
                                             <StyledTableCell align="center"><Button onClick={() => PetViewing()} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Pet Details</Button></StyledTableCell>
                                             <StyledTableCell align="center"><DeleteIcon sx={{ color: 'red' }} /></StyledTableCell>
                                         </StyledTableRow>
