@@ -53,9 +53,9 @@ const Home = () => {
             <div className="boarding-wrapper-main">
                 <div className="boarding-wrapper">
                     <div className="boarding-box-header">
-                        <AnalyticsIcon className="box-icons"/>
+                        <AnalyticsIcon sx={{marginRight:'10px', marginTop:'6px', color:'orange'}} />
                         <h3>Analytical Overview</h3>
-                        <Box sx={{ minWidth: 120, marginLeft:'315px'}}>
+                        <Box sx={{ minWidth: 120, marginLeft:'340px'}}>
                             <FormControl fullWidth>
                                 <Select
                                     labelId="demo-simple-select-label"
@@ -71,26 +71,27 @@ const Home = () => {
                                     <MenuItem value={3}>Last Months</MenuItem>
                                 </Select>
                             </FormControl>
-                        </Box>
-                        
+                        </Box>  
                     </div>
+
                     <div className="boarding-wrapper-box-mian">
-                        <div className="boarding-wrapper-box" style={{backgroundImage:`url(${ BoxPicture1 })` }}>
-                            <p><PetsIcon />Current Boarding Pets</p>
+                        {/* <div className="boarding-wrapper-box" style={{backgroundImage:`url(${ BoxPicture1 })` }}> */}
+                        <div className="boarding-wrapper-box" style={{backgroundColor:'white' }}>
+                            <p style={{ fontWeight:'bold'}}><PetsIcon sx={{color:'orange', marginRight:'5px'}} />Current Boarding Pets</p>
                             <br />
-                            <h1 style={{fontWeight: 1000, textAlign: 'center'}}>10</h1>
+                            <h1 style={{fontWeight: '1000', textAlign: 'center', fontSize:'40px', color:'orange'}}>10</h1>
                         </div>
-                        <div className="boarding-wrapper-box" style={{backgroundImage:`url(${ BoxPicture2 })` }} >
-                            <p><PetsIcon />Completed Requests</p>
+                        <div className="boarding-wrapper-box" style={{backgroundColor:'white' }} >
+                            <p style={{ fontWeight:'bold'}}><PetsIcon sx={{color:'orange',  marginRight:'5px'}} />Completed Requests</p>
                             <br />
-                            <h1 style={{fontWeight: 1000, textAlign: 'center' }}>06</h1>
+                            <h1 style={{ fontWeight:'1000', textAlign: 'center', fontSize:'40px', color:'orange' }}>06</h1>
                         </div>
                     </div>
                 </div>
 
                 <div className="boarding-wrapper">
                     <div className="boarding-box-header">
-                        <AssignmentLateIcon className="box-icons"/>
+                        <AssignmentLateIcon sx={{marginRight:'10px', marginTop:'6px', color:'orange'}}/>
                         <h3>Pending Boarding Requests</h3>
                     </div>
                     
@@ -112,8 +113,8 @@ const Home = () => {
                             <Table>
                                 <TableHead sx={{backgroundColor:'#fe9e0d', color:'white'}}>
                                     <TableRow>
-                                        <TableCell align="center">Pet ID</TableCell>
                                         <TableCell align="center">Client ID</TableCell>
+                                        <TableCell align="center">Pet ID</TableCell>
                                         <TableCell align="center">Pickup Date</TableCell>
                                         <TableCell align="center">Pickup Time</TableCell>
                                     </TableRow>
@@ -146,15 +147,15 @@ const Home = () => {
                             <Table>
                                 <TableHead sx={{backgroundColor:'#fe9e0d', color:'white'}}>
                                     <TableRow>
-                                        <TableCell align="center">Pet ID</TableCell>
                                         <TableCell align="center">Client ID</TableCell>
+                                        <TableCell align="center">Pet ID</TableCell>
                                         <TableCell align="center">Pickup Date</TableCell>
                                         <TableCell align="center">Pickup Time</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    <TableCell align="center">01</TableCell>
-                                    <TableCell align="center">04</TableCell>
+                                    <TableCell align="center">02</TableCell>
+                                    <TableCell align="center">03</TableCell>
                                     <TableCell align="center">20/07/2023</TableCell>
                                     <TableCell align="center">10:00:00</TableCell>
                                 </TableBody>
@@ -168,7 +169,7 @@ const Home = () => {
             <div className="boarding-wrapper-main">
                 <div className="boarding-wrapper">
                     <div className="boarding-box-header">
-                        <AssessmentIcon className="box-icons"/>
+                        <AssessmentIcon sx={{marginRight:'10px', marginTop:'6px', color:'orange'}}/>
                         <h3>Pet Analyze</h3>
 
                         <Box sx={{ minWidth: 120, marginLeft:'400px'}}>
@@ -194,7 +195,7 @@ const Home = () => {
 
                 <div className="boarding-wrapper">
                     <div className="boarding-box-header">
-                        <InventoryIcon className="box-icons"/>
+                        <InventoryIcon sx={{marginRight:'10px', marginTop:'6px', color:'orange'}}/>
                         <h3>Packages</h3>
                     </div>  
                 </div>
