@@ -474,7 +474,7 @@ const Clients = () => {
 
                             <div className="form-label">
                                 <FormLabel>Uploaded Bank Slip : </FormLabel>
-                                <img src={ Slip } alt="bank slip" style={{width:'100%', height:'auto', border:'solid black 1px', borderRadius:'10px'}} />
+                                <img src={ Slip } alt="bank slip" style={{width:'100%', height:'auto',  borderRadius:'10px'}} />
                             </div>
                             {/* <Button variant="contained" onClick={() => afterAddingComplain()} sx={{ background: 'orange', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Complain</Button> */}
                             <Button variant="contained" onClick={() => FinishRefundViewing()} sx={{ background: 'orange', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Finish Viewing</Button>

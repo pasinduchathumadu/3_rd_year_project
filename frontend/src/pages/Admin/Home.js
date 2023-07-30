@@ -61,7 +61,7 @@ const Home = () => {
                                 sx={{ fontSize: '12px' }}>
                                 <MenuItem value={1}>Today</MenuItem>
                                 <MenuItem value={2}>Last 7 days</MenuItem>
-                                <MenuItem value={3}>Last Months</MenuItem>
+                                <MenuItem value={3}>Last Month</MenuItem>
                             </Select>
                         </FormControl>
                     </Box>
@@ -69,19 +69,19 @@ const Home = () => {
 
                 {/* upper 3 boxes */}
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                    <div style={{ backgroundColor: 'white', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
-                        <p style={{ marginBottom: '30px', fontWeight: 'bold', marginLeft: '10px' }}><PeopleIcon sx={{ color: 'orange', marginRight:'6px',  marginLeft:'5px' }} /> Clients</p>
-                        <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center' }}>50</p>
+                    <div style={{ backgroundColor: 'orange', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
+                        <p style={{ marginBottom: '30px', fontWeight: 'bold', marginLeft: '10px' }}><PeopleIcon sx={{ color: 'black', marginRight:'6px',  marginLeft:'5px' }} /> Clients</p>
+                        <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color:'white' }}>50</p>
                     </div>
 
-                    <div style={{ backgroundColor: 'white', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
-                        <p style={{ marginBottom: '30px', fontWeight: 'bold' }}><AccountCircleIcon sx={{ color: 'orange', marginRight:'6px',  marginLeft:'5px' }} />Managers</p>
-                        <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center' }}>5</p>
+                    <div style={{ backgroundColor: 'orange', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
+                        <p style={{ marginBottom: '30px', fontWeight: 'bold' }}><AccountCircleIcon sx={{ color: 'black', marginRight:'6px',  marginLeft:'5px' }} />Managers</p>
+                        <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color:'white'  }}>5</p>
                     </div>
 
-                    <div style={{ backgroundColor: 'white', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
-                        <p style={{ marginBottom: '20px', fontWeight: 'bold' }}><ListIcon sx={{ color: 'orange', marginRight:'6px' , marginLeft:'5px' }} /> Pending Payment Slip Verifications</p>
-                        <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center' }}>3</p>
+                    <div style={{ backgroundColor: 'orange', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
+                        <p style={{ marginBottom: '20px', fontWeight: 'bold' }}><ListIcon sx={{ color: 'black', marginRight:'6px' , marginLeft:'5px' }} /> Pending Verifications</p>
+                        <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color:'white'  }}>3</p>
                     </div>
                 </div>
 
