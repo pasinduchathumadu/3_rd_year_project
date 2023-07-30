@@ -59,9 +59,9 @@ const Home = () => {
             </div>
 
             <div className="boarding-wrapper-main">
-                <div className="boarding-wrapper">
+                <div className="boarding-wrapper" style={{ backgroundColor: 'orange' }}>
                     <div className="boarding-box-header">
-                        <AnalyticsIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'orange' }} />
+                        <AnalyticsIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
                         <h3>Analytical Overview</h3>
                         <Box sx={{ minWidth: 120, marginLeft: '315px' }}>
                             <FormControl fullWidth>
@@ -96,9 +96,9 @@ const Home = () => {
                     </div>
                 </div>
 
-                <div className="boarding-wrapper">
+                <div className="boarding-wrapper" style={{ backgroundColor: 'orange' }}>
                     <div className="boarding-box-header">
-                        <AssignmentLateIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'orange' }} />
+                        <AssignmentLateIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
                         <h3>Pending Boarding Requests</h3>
                     </div>
 
@@ -174,10 +174,12 @@ const Home = () => {
             </div>
 
             <div className="boarding-wrapper-main">
-                <div className="boarding-wrapper">
-                    <div className="boarding-box-header">
-                        <AssessmentIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'orange' }} />
-                        <h3>Pet Analyze</h3>
+                <div className="boarding-wrapper" style={{ backgroundColor: '#F0F0F5'}}>
+                    <div className="boarding-box-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                            <AssessmentIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
+                            <h3 style={{ color: 'black' }}>Pet Analyze</h3>
+                        </div>
 
                         <Box sx={{ minWidth: 120, marginLeft: '400px' }}>
                             <FormControl fullWidth>
@@ -196,10 +198,12 @@ const Home = () => {
                                 </Select>
                             </FormControl>
                         </Box>
-
+                    </div>
+                    <div>
                         <ChartContainer
                             width={500}
-                            height={300}
+                            height={250}
+                            sx={{marginBottom:'100px'}}
                             series={[{ data: uData, label: 'uv', type: 'bar' }]}
                             xAxis={[{ scaleType: 'band', data: xLabels }]}
                         >
@@ -207,18 +211,19 @@ const Home = () => {
                         </ChartContainer>
                     </div>
 
+
                 </div>
 
-                <div className="boarding-wrapper">
+                <div className="boarding-wrapper" style={{ backgroundColor: '#F0F0F5' }}>
                     <div className="boarding-box-header">
-                        <InventoryIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'orange' }} />
-                        <h3>Packages</h3>
+                        <InventoryIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
+                        <h3 style={{ color: 'black' }}>Packages</h3>
 
                         <PieChart
                             series={[
                                 {
                                     data: [
-                                        { id: 0, value: 15 , label: 'Gold' },
+                                        { id: 0, value: 15, label: 'Gold' },
                                         { id: 1, value: 20, label: 'Silver' },
                                         { id: 2, value: 10, label: 'Platinum' },
                                     ],
@@ -226,7 +231,7 @@ const Home = () => {
                             ]}
                             width={400}
                             height={200}
-                            // ColorScheme = {customColorScheme}
+                        // ColorScheme = {customColorScheme}
                         />
                     </div>
                 </div>

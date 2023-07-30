@@ -191,7 +191,9 @@ const Complains = () => {
                                                 <StyledTableCell align="center">{row.date}</StyledTableCell>
                                                 <StyledTableCell align="center">{row.time}</StyledTableCell>
                                                 <StyledTableCell align="center">
-                                                    {row.status === "pending" ? <Button onClick={()=>addResponse()} sx={{color:'white', backgroundColor:'#fe9e0d', ':hover': { backgroundColor: '#fe9e0d' } }}>Add Response</Button> : "Completed" } 
+                                                    {row.status === "pending" ? 
+                                                    <Button onClick={()=>addResponse()} sx={{color:'white', backgroundColor:'#fe9e0d', ':hover': { backgroundColor: '#fe9e0d' } }}>Add Response</Button> :
+                                                    <Button onClick={()=>viewResponse()} sx={{color:'white', backgroundColor:'black', ':hover': { backgroundColor: 'black' } }}>View Response</Button>} 
                                                 </StyledTableCell>
                                             </StyledTableRow>
                                         ))}

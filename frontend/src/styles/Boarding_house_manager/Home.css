@@ -26,13 +26,12 @@ body {
 }
 
 .boarding-wrapper {
-    background-color: #F0F0F5;
     width: 710px;
     height:280px;
     padding: 20px;
     border-radius: 10px;
     margin: 10px;
-    /* margin-left: 10px; */
+   
    
 }
 .boarding-wrapper-box {
