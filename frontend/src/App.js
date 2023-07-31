@@ -84,7 +84,6 @@ function App() {
           <Route path="/reset" element={<Reset />} />
           <Route path="/signup" element={<Signup onSignup={handleSignup}/>} />
           <Route path="/blog" element={<Blogs />} />
-          {/* <Route path="/blogs" element={isLoggedIn ? <Blogs /> : <Navigate to="/login" />} /> */}
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/reports" element={<Reports/>}></Route>
           <Route path="/dashboard" element={<Dashboard/>}></Route>

@@ -20,12 +20,7 @@ export default function Petcare() {
   return (
     <><PrimarySearchAppBar />
 
-    {/* <FormGroup>
-      <FormControlLabel control={<Checkbox defaultChecked />} label="Label" />
-      <FormControlLabel required control={<Checkbox />} label="Required" />
-      <FormControlLabel disabled control={<Checkbox />} label="Disabled" />
-    </FormGroup> */}
-    
+ 
     <h1 style={{textAlign:"center",fontSize:"60px",fontWeight:"40",marginTop:"30px"}}> Pet <span style={{color:"orange"}}>care</span> </h1>
     <div style={{marginLeft:"180px",display:"flex",gap:"30px",marginTop:"35px"}}>
     <Card sx={{ maxWidth: 345 ,transition: "transform 0.5s ",
