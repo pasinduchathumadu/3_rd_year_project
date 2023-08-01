@@ -1,26 +1,28 @@
 import product1  from '../../assests/a.png'
 import product2  from '../../assests/b.png'
 import product3  from '../../assests/c.png'
-import product4  from '../../assests/4.png'
-import product5  from '../../assests/5.png'
-import product6  from '../../assests/6.webp'
-import product7  from '../../assests/7.webp'
-import product8  from '../../assests/8.webp'
+import product4  from '../../assests/f.png'
+import product5  from '../../assests/cat1.png'
+import product6  from '../../assests/h.png'
+import product7  from '../../assests/cat2.png'
+import product8  from '../../assests/bird1.png'
+import product9  from '../../assests/bird4.png'
+import product10  from '../../assests/j.png'
 
 
 export const PRODUCTS =[
     {
         id : 1,
-        productName:"iphone",
+        productName:"parrot",
         price:999.0,
-        productImages:product1,
+        productImages:product9,
     },
 
     {
         id : 2,
         productName:"macBook pro",
         price:1999.0,
-        productImages:product2,
+        productImages:product10,
     },
 
     {

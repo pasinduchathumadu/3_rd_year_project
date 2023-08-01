@@ -5,7 +5,7 @@ export const Product=(props) => {
 
 
         return <div className='product'>
-                    <img src={productImages}/>
+                    <img src={productImages} style={{width:"40vh",height:"40vh"}}/>
                     <div className='description'>
                         <p>
                             <b>{productName}</b>

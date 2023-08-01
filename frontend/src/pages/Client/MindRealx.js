@@ -37,6 +37,10 @@ function MindRealx() {
             <p style={{ fontSize: "80px", fontWeight: "10", marginTop: "-240px",textAlign:"left"}}>
             You can spend time
             </p>
+            <p style={{ fontSize: "40px", fontWeight: "100", marginTop: "-44px",textAlign:"left",marginLeft:"20px"}}>
+            Non bred pets
+            </p>
+            
           
 
         <div style={{lineHeight:"1.5"}}>
@@ -55,7 +59,7 @@ function MindRealx() {
         
      <div style={{textAlign:"left",marginTop:"80px",marginLeft:"20px"}}>
      <p style={{ fontSize: "20px", fontWeight: "10",textAlign:"left" }}>
-            Up to 1500 LKR  
+            Free 
           </p>
 
     <Link to="/Shop" style={{ textDecoration: 'none' }}>
