@@ -2,7 +2,7 @@ import React from 'react';
 import PrimarySearchAppBar from "../../components/Layout/Header";
 import petImage from '../../assests/black2.jpg'; // Replace 'path/to/your/image.png' with the actual path to your image
 import Button from '@mui/material/Button';
-import petImage2 from '../../assests/white2.jpg'; // Replace 'path/to/your/image.png' with the actual path to your image
+import petImage2 from '../../assests/top.png'; // Replace 'path/to/your/image.png' with the actual path to your image
 
 
 
@@ -15,12 +15,12 @@ function MindRealx() {
       <PrimarySearchAppBar />
 
 
-      <div style={{
-        backgroundImage:`linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)) ,url(${petImage2})`,
+  <div style={{
+        // backgroundImage:`linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)) ,url(${petImage2})`,
         width: "90%",
         height: "100vh",
-        backgroundColor: "#fbfbfb",
-        color: "white",
+        backgroundColor: "rgb(235 235 235)",
+        color: "black",
         marginTop: "100px",
         marginLeft: "auto",
         marginRight: "auto",
@@ -30,38 +30,49 @@ function MindRealx() {
         borderRadius: "18px",
         textAlign: "center"
       }}>
-        <div>
-            <div>
+     
+   <div>
             <p style={{ fontSize: "80px", fontWeight: "10", marginTop: "-380px",textAlign:"left"}}>
             You can spend time
-          </p>
+            </p>
           
 
-              <div style={{lineHeight:"1.5"}}>
+        <div style={{lineHeight:"1.5"}}>
               <p style={{ fontSize: "20px", fontWeight: "10", marginTop: "20px", textAlign:"left",marginLeft:"20px",lineHeight:"1.15"}}>
             if tou dont have any pet? dont worry we can give you our lovely pets for you,
            
-          </p>
+              </p>
          
-          <p style={{ fontSize: "20px", fontWeight: "10", marginTop: "20px", textAlign:"left",marginLeft:"20px",lineHeight:"1.15"}}>
-          So harryUp spend your valuble time with our cute pets
+              <p style={{ fontSize: "20px", fontWeight: "10", marginTop: "20px", textAlign:"left",marginLeft:"20px",lineHeight:"1.15"}}>
+                So harryUp spend your valuble time with our cute pets
 
+              </p>
+
+          
+      </div>
+        
+     <div style={{textAlign:"left",marginTop:"80px",marginLeft:"20px"}}>
+     <p style={{ fontSize: "20px", fontWeight: "10",textAlign:"left" }}>
+            Up to 1500 LKR  
           </p>
-              </div>
-
-
-            </div>
-
-        </div>
-        {/* <img
-          src={petImage}
+          <Button variant="outlined" sx={{color:"white",borderColor:"orange",color:"black"}}>GET Started</Button>
+     </div>
+   </div>
+            
+            <img
+          src={petImage2}
           alt="Pet"
           style={{
             width: "auto",
             height: "50vh",
-            marginTop: "20px",
+            textAlign:"left",
+            marginLeft:"500px",
+            marginBottom:"-300px"
           }}
-        /> */}
+        />
+
+       
+      
 
       </div>
 
