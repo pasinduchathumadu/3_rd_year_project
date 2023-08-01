@@ -1,8 +1,6 @@
 
 import React, { useState } from "react";
-
 import '../../styles/Boarding_house_manager/Home.css';
-import Header from "../../components/Layout/Header";
 import  ProfilePicture  from '../../assests/profile-picture.png';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -120,7 +118,6 @@ const Complains = () => {
 
     return (
         <div className="home-container">
-            <Header />
             <div className="top">
                 <div className="top-line">
                     <p>Boarding House Manager</p>
