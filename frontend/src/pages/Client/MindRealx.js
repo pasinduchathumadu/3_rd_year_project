@@ -71,7 +71,7 @@ function MindRealx() {
     </Link>     </div>
    </div>
             
-            <img
+            <img className='smooth-scroll'
           src={petImage2}
           alt="Pet"
           style={{
@@ -132,7 +132,7 @@ function MindRealx() {
           </Link>
       </div>
 
-      <div  className='smooth-scroll' style={{textAlign:"center",border: "2px solid orange" ,width:"80%",height:"50vh",marginLeft:"auto",marginRight:"auto",marginTop:"10px"}}>
+      <div  className='smooth-scroll' style={{textAlign:"center",border: "2px solid orange" ,width:"80%",height:"50vh",marginLeft:"auto",marginRight:"auto",marginTop:"30px",marginBottom:"30px"}}>
         <h3 style={{marginTop:"40px",fontSize:"40px",fontWeight:"1"}}>What's in the pro package</h3>
 
         <p >

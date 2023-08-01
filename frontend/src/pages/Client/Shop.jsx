@@ -6,9 +6,11 @@ import PrimarySearchAppBar from "../../components/Layout/Header";
 
 
 
+
 export const Shop = () => {
   return (
     <><PrimarySearchAppBar />
+    <div className='smooth-scroll'>
     <div className='shop'>
       <div className='shopTitle'>
         <h2>Happy <span style={{color:"orange"}}>tails shop</span></h2>
@@ -17,6 +19,7 @@ export const Shop = () => {
         {PRODUCTS.map((product) => (
           <Product data={product} />))}
       </div>
+    </div>
     </div></>
   )
 }
