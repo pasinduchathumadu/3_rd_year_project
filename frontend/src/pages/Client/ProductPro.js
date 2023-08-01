@@ -8,13 +8,19 @@ import product8  from '../../assests/bird1.png'
 import product9  from '../../assests/bird4.png'
 import product10  from '../../assests/pro5.png'
 import product11  from '../../assests/pro6.png'
+import product12  from '../../assests/pro7.png'
+import product13  from '../../assests/pro8.png'
+import product14  from '../../assests/pro9.png'
+
+
+
 
 
 
 export const PRODUCTS =[
     {
         id : 1,
-        productName:"parrot",
+        productName:"Golden Retriever labrado",
         price:999.0,
         productImages:product5,
     },
@@ -28,9 +34,9 @@ export const PRODUCTS =[
 
     {
         id : 3,
-        productName:"Norwegian Forest cat",
-        price:1799.0,
-        productImages:product11,
+        productName:"adult black and gold Yorkshire terrie",
+        price:5.0,
+        productImages:product14,
     },
 
     {
@@ -42,23 +48,23 @@ export const PRODUCTS =[
 
     {
         id : 5,
-        productName:"LED Light",
+        productName:"two adult Siberian Huskies",
         price:50.0,
-        productImages:product5,
+        productImages:product12,
     },
 
     {
         id : 6,
-        productName:" Bengal cat",
+        productName:"Golden Retriever",
         price:25.0,
         productImages:product6,
     },
 
     {
         id : 7,
-        productName:"Hifer Golf-shirt",
+        productName:"Rottweiler",
         price:250.0,
-        productImages:product7,
+        productImages:product13,
     },
 
     {
@@ -66,5 +72,12 @@ export const PRODUCTS =[
         productName:"Golden Rastha Cap",
         price:5.0,
         productImages:product8,
+    },
+    {
+        id : 9,
+        productName:"Norwegian Forest cat",
+        price:1799.0,
+        productImages:product11,
+       
     }
 ]
