@@ -8,6 +8,11 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import "../../styles/Client/Mindrelax.css";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { CardActionArea } from '@mui/material';
 
 
 function Pet_grooming() {
@@ -55,13 +60,33 @@ function Pet_grooming() {
         <h1 style={{textAlign:"center",color:"white",fontSize:"10vh",fontWeight:"1"}}>choice your plan now!</h1>
         <h3 style={{textAlign:"center",color:"white",fontWeight:"1"}}>No Risk, 30-Day Money Back Return Policy,</h3><br></br>
         <Pricing/>
-        <h1>hellow world</h1>
+        <h1 style={{fontSize:"80px",textAlign:"center",fontWeight:"1",marginTop:"30px"}}>SELECT A SERVICE</h1>
       </div>
 
 
-      <div>
-       
-      </div>
+      
+    <div className='servises'>
+    <Card sx={{ maxWidth: 345 }}>
+      <CardActionArea>
+        <CardMedia
+          component="img"
+          height="140"
+          image="/static/images/cards/contemplative-reptile.jpg"
+          alt="green iguana"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            Lizard
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Lizards are a widespread group of squamate reptiles, with over 6,000
+            species, ranging across all continents except Antarctica
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+    </Card>
+
+    </div>
       </>
   )
 }
