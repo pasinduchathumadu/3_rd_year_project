@@ -15,7 +15,6 @@ body {
 }
 
 body {
-    /* background-color: #f6f6f6; */
     background-color: #ffffff;
 }
 
@@ -27,7 +26,6 @@ body {
 
 .boarding-wrapper {
     width: 710px;
-    /* height:280px; */
     padding: 20px;
     border-radius: 10px;
     margin: 10px;
