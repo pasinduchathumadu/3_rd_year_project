@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Forgot from "./pages/Common/Forget";
 import Signup  from "./pages/Common/Signup"
@@ -19,7 +19,8 @@ import Petcare from "./pages/Client/Petcare"
 
 
 import Cart from "./pages/Client/Cart"
-import Header from "./components/Layout/Header";
+import LandingHeader from "../../frontend/src/components/Layout/LandingHeader"
+
 
 import Home from  "./pages/Common/Home";
 import Services from  "./pages/Common/Services";
@@ -46,14 +47,52 @@ import Caregiverlist from "./pages/Care_center_manager/caregiverlist";
 import Onlinehome from "./pages/Online_store_manager/Home"
 import OnlineAdd from "./pages/Online_store_manager/Add"
 import Complain from "./pages/Online_store_manager/Complain";
+import Clientorders from "./pages/Online_store_manager/Clients_orders";
 
-
+import { useNavigate } from "react-router-dom";
+import HomeHeader from './components/Layout/Homeheader'
+import Complains from "./pages/Boarding_house_manager/Complains";
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [issignup,setIssignup] = useState(false)
 
-  const handleLogin = () => {
+  
+
+  const [isLoggedIn, setIsLoggedIn] = useState("")
+  const [issignup,setIssignup] = useState(false)
+  const [user_role,setuserrole] = useState("")
+
+
+
+  useEffect(() => {
+    // Check if the user is already logged in from previous sessions
+    const storedUserRole = localStorage.getItem("userRole");
+    const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
+
+    if (storedUserRole && storedIsLoggedIn) {
+      setuserrole(storedUserRole);
+      setIsLoggedIn(storedIsLoggedIn === "true");
+    }
+  }, []);
+
+  const navigate = useNavigate()
+  const handleLogin = (role,email) => {
     setIsLoggedIn(true);
+    setuserrole(role);
+    localStorage.setItem("userRole", role);
+    localStorage.setItem("isLoggedIn", "true");
+
+
+  
+    if(role === 'online_store_manager'){
+
+      localStorage.setItem("online_store_manager_email",email)
+      navigate('/online_home')
+    }
+    else if(role === 'boarding_house_manager'){
+      navigate('/boarding_dashboard')
+    }
+    else if(role === 'client'){
+      localStorage.setItem("client_email",email)
+    }
   };
   const handleSignup = () => {
     setIssignup(true);
@@ -66,8 +105,9 @@ function App() {
          
           <Route path="/email" element={issignup ?<Email /> : <Navigate to ="/signup"/>}/>
 
+
           <Route path="/" element={
-             <><Header />
+             <><LandingHeader />
              <div className="App">
              
               <Home />
@@ -78,15 +118,20 @@ function App() {
               <Footer />
             </div></>
           } />
-          <Route path="/menu" element={<Menu />}/>
-          <Route path="/cart" element = {<Cart />} />
+          <Route path="/signup" element={<Signup onSignup={handleSignup}/>} />
+          <Route path="/login" element={ <Login onLogin={handleLogin} />} />
+          
+
+          <Route path="/menu" element={<><HomeHeader userRole={'client'}/><Menu/></>}/>
+          <Route path="/cart" element = {<><HomeHeader userRole={'client'}/><Cart /></>} />
           <Route path="/email" element={!issignup ?<Email /> : <Navigate to ="/signup"/>}/>
           <Route path="/forget" element={<Forgot />} />
           <Route path="/reset" element={<Reset />} />
-          <Route path="/signup" element={<Signup onSignup={handleSignup}/>} />
+          
           <Route path="/blog" element={<Blogs />} />
           {/* <Route path="/blogs" element={isLoggedIn ? <Blogs /> : <Navigate to="/login" />} /> */}
-          <Route path="/login" element={<Login onLogin={handleLogin} />} />
+       
+      
           <Route path="/reports" element={<Reports/>}></Route>
           <Route path="/dashboard" element={<Dashboard/>}></Route>
           <Route path="/petcare" element={<Petcare/>}></Route>
@@ -98,22 +143,27 @@ function App() {
 
 
            {/* boarding house manager */}
-           <Route path="/boarding_dashboard" element={<BoardingHome />} />
-          <Route path="/boarding_clients" element={<BoardingClients />} />
-          <Route path="/boarding_pets" element={<BoardingPets />} />
-          <Route path="/boarding_packages" element={<BoardingPackages />} />
-          <Route path="/boarding_complains" element={<BoardingComplains />} /> 
-          <Route path="/refund" element = { <Refund /> } />         
-         
+           {isLoggedIn && user_role === "boarding_house_manager" &&(
+             <><Route path="/boarding_dashboard" element={<><HomeHeader userRole={"boarding_house_manager"}/><BoardingHome /></>} />
+             <Route path="/boarding_clients" element={<><HomeHeader userRole={"boarding_house_manager"}/><BoardingClients /></>} />
+             <Route path="/boarding_pets" element={<><HomeHeader userRole={"boarding_house_manager"}/><BoardingPets /></>} />
+             <Route path="/boarding_packages" element={<><HomeHeader userRole={"boarding_house_manager"}/><BoardingPackages /></>} />
+             <Route path="/boarding_complains" element={<><HomeHeader userRole={"boarding_house_manager"}/><BoardingComplains /></>} />
+             <Route path="/refund" element={<Refund />} /></>         
+            
+
+           )}
+          
 
            {/*  */}
            <Route path="/caregiverlist" element={< Caregiverlist />} />
 
-          
-          <Route path="/handling_complain" element={<Complain/>}/>
-          <Route path="/online_manager" element={<Onlinehome />}/>
-          <Route path="/online_add" element={<OnlineAdd/>}/>
-          <Route path="/online_home" element={<Onlinehome/>}/>
+           {isLoggedIn && user_role === "online_store_manager" && (
+          <><Route path="/handling_complain" element={<><HomeHeader userRole={"online_store_manager"} /><Complain /></>} />
+          <Route path="/online_add" element={<><HomeHeader userRole={"online_store_manager"} /><OnlineAdd /></>} />
+          <Route path="/online_home" element={<><HomeHeader userRole={"online_store_manager"} /><Onlinehome /></>} />
+          <Route path="/online_client" element={<><HomeHeader userRole={"online_store_manager"} /><Clientorders /></>} /></>
+           )}
 
         </Routes>
       </main>

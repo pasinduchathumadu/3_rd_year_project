@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { MenuList } from "../../components/data/data";
-import Header from "../../components/Layout/Header";
 import { useNavigate } from "react-router-dom";
 import '../../styles/Common/Email.css'
 import {
@@ -24,12 +22,13 @@ import '../../styles/Common/HeaderStyles.css'
 import dog from '../../assests/dog3.jpg'
 import dog1 from '../../assests/pic.jpg'
 import dog2 from '../../assests/dog.jpg'
+import axios from "axios";
 
 const Menu = () => {
   const navigate = useNavigate()
   const [value, setValue] = useState(0);
   const [value_dog, setdog] = useState("")
- 
+  const [MenuList,setmenu] = useState([])
   const [dogBackground, setDogBackground] = useState(dog)
   const handleselection = (event) => {
     setdog(event.target.value);
@@ -37,10 +36,49 @@ const Menu = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const submit = () => {
+  const email = localStorage.getItem("client_email")
+  const changelocation = () =>{
     navigate('/cart')
+  }
+  const submit = async(id) => {
+    try{
+      const res = await axios.post('http://localhost:5000/pet_care/user/temp_cart',{
+        id,
+        email
+      });
+      if(res.data.message === "added"){
+        changelocation()
+       
+      }
+      else{
+
+      }
+
+    }catch(err){
+      console.log("There is an internel error")
+    }
+   
+    
 
   }
+  const getImageSrc = (imageName) => {
+    return require(`../../../../backend/images/store/${imageName}`)
+  };
+  const get_store = async(req,res,next)=>{
+    try{
+      const res = await axios.get(`http://localhost:5000/pet_care/user/get_store/${value}`)
+      const data = await res.data
+      return data
+    }
+    catch(err){
+      console.log("There is an internel error")
+    }
+  }
+  useEffect(()=>{
+    get_store()
+    .then((data)=>setmenu(data.data))
+    .catch((err)=>console.log("There is an internel error"))
+  })
 
   useEffect(() => {
     // Change the background image every 2 minutes
@@ -61,7 +99,7 @@ const Menu = () => {
     };
   }, []);
   return (
-    <><Header />
+    <>
       <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
         <Box sx={{ width: '100%', height: '70vh', backgroundImage: `url(${dogBackground})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center' }}>
           <Grid sx={{ marginTop: '150px', marginLeft: '100px', fontStyle: 'bold' }}>
@@ -128,7 +166,7 @@ const Menu = () => {
         </Select>
       </FormControl>
      
-
+      
       <Box sx={{ marginTop: '40px', marginLeft: '20px', marginRight: '20px', display: "flex", flexWrap: "wrap", justifyContent: "center", border: '15px', borderRadius: '20px', borderColor: 'white', borderStyle: 'solid' }}>
       <Grid container justifyContent="center" sx={{marginTop:'30px'}} >
           <Typography sx={{ textAlign:'center',color:'black',fontSize:'20px',fontFamily:'inherit',backgroundColor:'orange',width:'180px',paddingLeft:'18px',paddingRight:'18px' }}>Food Item</Typography>
@@ -136,13 +174,13 @@ const Menu = () => {
         </Grid>
 
 
-        {MenuList.map((menu) => (
+        {MenuList.filter((menu,index)=>menu.catogories==='foods').map((menu) => (
           <Card sx={{ maxWidth: "300px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '35px' }}>
             <CardActionArea>
               <CardMedia
                 sx={{ minHeight: "300px" }}
                 component={"img"}
-                src={menu.image}
+                src={getImageSrc(menu.image)}
                 alt={menu.name} />
               <CardContent>
                 <Typography variant="h5" gutterBottom component={"div"}>
@@ -154,7 +192,7 @@ const Menu = () => {
                   backgroundColor: 'black', color: 'white', '&:active, &:focus': {
                     backgroundColor: 'black'
                   },':hover':{backgroundColor:'black'}
-                }} onClick={submit}>Add To Cart</Button>
+                }} onClick={()=>submit(menu.item_id)}>Add To Cart</Button>
               </CardContent>
             </CardActionArea>
           </Card>
@@ -167,13 +205,13 @@ const Menu = () => {
 
         </Grid>
 
-        {MenuList.map((menu) => (
+        {MenuList.filter((menu,index)=>menu.catogories==='toys').map((menu) => (
           <Card sx={{ maxWidth: "300px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '39px' }}>
             <CardActionArea>
               <CardMedia
                 sx={{ minHeight: "300px" }}
                 component={"img"}
-                src={menu.image}
+                src={getImageSrc(menu.image)}
                 alt={menu.name} />
               <CardContent>
                 <Typography variant="h5" gutterBottom component={"div"}>
@@ -193,18 +231,18 @@ const Menu = () => {
         ))}</Box>
         <Box sx={{ marginTop: '40px', marginLeft: '20px', marginRight: '20px', display: "flex", flexWrap: "wrap", justifyContent: "center", border: '15px', borderRadius: '20px', borderColor: 'white', borderStyle: 'solid' }}>
       <Grid container justifyContent="center" sx={{marginTop:'30px'}} >
-          <Typography sx={{ textAlign:'center',color:'black',fontSize:'20px',fontFamily:'inherit',backgroundColor:'orange',width:'180px',paddingLeft:'18px',paddingRight:'18px' }}>Others</Typography>
+          <Typography sx={{ textAlign:'center',color:'black',fontSize:'20px',fontFamily:'inherit',backgroundColor:'orange',width:'180px',paddingLeft:'18px',paddingRight:'18px' }}>Accessories</Typography>
 
         </Grid>
 
 
-        {MenuList.map((menu) => (
+        {MenuList.filter((menu,index)=>menu.catogories==='accessories').map((menu) => (
           <Card sx={{ maxWidth: "300px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '35px' }}>
             <CardActionArea>
               <CardMedia
                 sx={{ minHeight: "300px" }}
                 component={"img"}
-                src={menu.image}
+                src={getImageSrc(menu.image)}
                 alt={menu.name} />
               <CardContent>
                 <Typography variant="h5" gutterBottom component={"div"}>

@@ -1,34 +1,35 @@
 import { Grid, Paper, Button ,Alert,AlertTitle} from "@mui/material";
 import React, { useState } from "react";
 import zxcvbn from 'zxcvbn';
-import Header from "../../components/Layout/Header";
+import Header from "../../components/Layout/LandingHeader";
 import cover from "../../assests/pic3.jpg"
 import '../../styles/Common/Forget.css'
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 const Reset = () => {
   const [new_password, setnew] = useState("")
-  const [old_password, setold] = useState("")
   const [confirm, setconfirm] = useState("")
   const [error ,seterror] = useState(false)
   const [display_condition, set_condition] = useState(false)
   const [passwordStrength, setPasswordStrength] = useState('');
   const navigate = useNavigate()
-  const submit = async (e) => {
-    e.preventDefault()
+  const submit = async () => {
+
     try {
-      const res = await axios.post("http://localhost:5000/pet_care/user/reset", (
+      const res = await axios.post("http://localhost:5000/pet_care/user/reset",{
         new_password,
-        old_password,
         confirm
-      ))
-      if (res.data.message === "current password isn't match") {
-        seterror("Current Password is not matched")
+    })
+      if (res.data.message === "Password was not changed.") {
+        seterror("Password was not changed.")
 
-      } else if (res.data.message === "Password iS not changed") {
-        seterror("Password is not matched")
+      } else if (res.data.message === "New password and confirm password do not match.") {
+        seterror("New password and confirm password do not match.")
 
-      } else {
+      }else if(res.data.message === "All fields are required."){
+        seterror("All fields are required.")
+      }
+      else if(res.data.message === "Password Changed.") {
         navigate('/login')
 
       }
@@ -58,23 +59,31 @@ const Reset = () => {
   };
 
   return (
-    <div className="body">
+    <div className="body" 
+    style={{
+      backgroundImage: `url(${cover})`,
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "cover",
+      height: "100vh",
+    }}
+    >
     <><Header />
-      <Grid sx={{ display: "flex", borderRadius: "100px" }}>
+      <Grid >
         <Grid>
           <Paper
-            component="form"
-            onSubmit={submit}
+           
+           
             elevation={4}
             sx={{
               padding: "20px",
-              height: "50vh",
-              width: "600px",
-              marginTop: "130px",
-              marginLeft: "20px",
-              marginRight: "auto",
-              marginBottom: "auto",
-              borderRadius: "10px"
+            height: "50vh",
+            width: "40%",
+            marginLeft: "5%",
+            marginRight: "70%",
+            marginBottom: "auto",
+            borderRadius: "10px",
+            marginTop: '7%'
             }}
           >
             <Grid align="center">
@@ -82,11 +91,7 @@ const Reset = () => {
             </Grid>
 
 
-            <Grid sx={{ marginTop: "20px", fontSize: "12px" }}>
-              <div className="text-group" >
-
-                <input type="password" placeholder="Current Password" onChange={(e) => setold(e.target.value)} required />
-              </div>
+            <Grid sx={{ marginTop: "20px", fontSize: "12px",width:'150%'}}>
               <div className="text-group" >
 
                 <input type="password" placeholder="New Password" onChange={(e) => { setnew(e.target.value); setPasswordStrength(calculatePasswordStrength(e.target.value)); }} required />
@@ -110,7 +115,8 @@ const Reset = () => {
               color="primary"
               variant="contained"
               align="center"
-              sx={{ marginTop: "10px", marginLeft: '6%', backgroundColor: "orange", '&:hover': { backgroundColor: 'orange' }, width: '40%' }}
+              onClick={submit}
+              sx={{ marginTop: "10px", marginLeft: '6%', backgroundColor: "orange", '&:hover': { backgroundColor: 'orange' }, width: '75%' }}
             >
               Reset
             </Button>
@@ -121,21 +127,13 @@ const Reset = () => {
 
 
           </Paper>
-
-        </Grid>
-        <Grid sx={{ backgroundImage: `url(${cover})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", width: "50%", height: "90vh", marginLeft: '100px' }}>
-
-
-        </Grid>
-        {error && (
-          <Alert severity="error" sx={{ marginTop: '20px', marginLeft: '15px', marginRight: '15px' }}>
+          {error && (
+          <Alert severity="error" sx={{ marginTop: '20px', marginLeft: '5%',width:'15%' }}>
             <AlertTitle></AlertTitle>
-            <strong>Invalid Number Check it again</strong>
+            <strong>{error}</strong>
           </Alert>
-
-
         )}
-
+        </Grid>
       </Grid></>
       </div>
   );
