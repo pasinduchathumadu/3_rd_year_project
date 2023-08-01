@@ -12,6 +12,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
+
 import PrimarySearchAppBar from "../../components/Layout/Header";
 
 
@@ -57,11 +58,13 @@ export default function Petcare() {
                   boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", // Add box shadow on hover
                 },}}>
       <CardActionArea>
+      <Link to="/MindRealx" style={{ textDecoration: "none", color: "inherit" }}>
         <CardMedia style={{height:"35vh"}}
           component="img"
           height="140"
           image={image1}
           alt="green iguana" />
+          </Link>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             Mind relax
