@@ -207,7 +207,7 @@ const Add = () => {
 
   return (
     <div>
-      <Header />
+     
       <Grid sx={{ marginTop: '2%', marginRight: '2%', marginLeft: '2%', marginBottom: '2%' }}>
         <div style={{ display: 'flex' }}>
           <div style={{ display: 'inline', marginTop: '30px', marginLeft: '2%' }}>
