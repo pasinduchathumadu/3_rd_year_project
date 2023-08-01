@@ -15,9 +15,6 @@ import Petcare from "./pages/Client/Petcare"
 
 
 
-
-
-
 import Cart from "./pages/Client/Cart"
 import LandingHeader from "../../frontend/src/components/Layout/LandingHeader"
 
@@ -29,17 +26,19 @@ import ComContent from  "./pages/Common/ComContent";
 import Contact from  "./pages/Common/Contact";
 import Footer from  "./pages/Common/Footer";
 
-
 import BoardingHome from "./pages/Boarding_house_manager/Home";
 import BoardingClients from "./pages/Boarding_house_manager/Clients";
 import BoardingPets from "./pages/Boarding_house_manager/Boardpets";
 import BoardingPackages from "./pages/Boarding_house_manager/Packages";
 import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 
+import AdminHome from './pages/Admin/Home';
+import AdminUsers from './pages/Admin/Users';
+import AdminRefund from './pages/Admin/Refund';
+import AdminComplains from './pages/Admin/Complains';
+
 import Petgrooming from "../src/pages/Client/Pet_grooming";
 
-
-import Refund from "./pages/Boarding_house_manager/Refund";
 
 import Caregiverlist from "./pages/Care_center_manager/caregiverlist";
 
@@ -138,11 +137,8 @@ function App() {
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
           <Route path="/Pet_grooming" element={<Petgrooming/>}></Route>
 
-
-
-
-
            {/* boarding house manager */}
+
            {isLoggedIn && user_role === "boarding_house_manager" &&(
              <><Route path="/boarding_dashboard" element={<><HomeHeader userRole={"boarding_house_manager"}/><BoardingHome /></>} />
              <Route path="/boarding_clients" element={<><HomeHeader userRole={"boarding_house_manager"}/><BoardingClients /></>} />
@@ -154,6 +150,16 @@ function App() {
 
            )}
           
+
+         
+
+          {/* admin */}
+          <Route path="/admin_dashboard" element={<AdminHome />} />
+          <Route path="/admin_users" element={<AdminUsers />} />
+          <Route path="/admin_refund" element={<AdminRefund />} />
+          <Route path="/admin_complains" element={<AdminComplains />} /> 
+
+
 
            {/*  */}
            <Route path="/caregiverlist" element={< Caregiverlist />} />
