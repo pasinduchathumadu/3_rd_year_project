@@ -1,6 +1,5 @@
 import React from "react";
 import '../../styles/Boarding_house_manager/Home.css';
-import Header from "../../components/Layout/Header";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import InventoryIcon from '@mui/icons-material/Inventory';
@@ -18,19 +17,8 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Table, TableHead, TableRow, TableBody, TableCell } from "@mui/material";
-import { ChartContainer, BarPlot } from '@mui/x-charts';
+import { BarChart } from '@mui/x-charts/BarChart';
 import { PieChart } from '@mui/x-charts/PieChart';
-
-// bar chart data
-const uData = [12, 8];
-const xLabels = [
-    'Cats',
-    'Dogs',
-];
-
-// pie chart - colors
-// const customColorScheme = ['#FBBD08', '#A6A6A6', '#55555C'];
-
 
 const Home = () => {
     // drop down
@@ -41,7 +29,6 @@ const Home = () => {
     };
     return (
         <div className="home-container">
-            <Header />
             <div className="top">
                 <div className="top-line">
                     <p>Boarding House Manager</p>
@@ -59,7 +46,7 @@ const Home = () => {
             </div>
 
             <div className="boarding-wrapper-main">
-                <div className="boarding-wrapper" style={{ backgroundColor: 'orange' }}>
+                <div className="boarding-wrapper" style={{ backgroundColor: 'orange', height:'250px' }}>
                     <div className="boarding-box-header">
                         <AnalyticsIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
                         <h3>Analytical Overview</h3>
@@ -85,18 +72,16 @@ const Home = () => {
                     <div className="boarding-wrapper-box-mian">
                         <div className="boarding-wrapper-box" style={{ backgroundColor: 'white' }}>
                             <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'orange', marginRight: '5px' }} />Current Boarding Pets</p>
-                            <br />
                             <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>10</h1>
                         </div>
                         <div className="boarding-wrapper-box" style={{ backgroundColor: 'white' }} >
                             <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'orange', marginRight: '5px' }} />Completed Requests</p>
-                            <br />
                             <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>06</h1>
                         </div>
                     </div>
                 </div>
 
-                <div className="boarding-wrapper" style={{ backgroundColor: 'orange' }}>
+                <div className="boarding-wrapper" style={{ backgroundColor: 'orange',  height:'250px' }}>
                     <div className="boarding-box-header">
                         <AssignmentLateIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
                         <h3>Pending Boarding Requests</h3>
@@ -174,7 +159,7 @@ const Home = () => {
             </div>
 
             <div className="boarding-wrapper-main">
-                <div className="boarding-wrapper" style={{ backgroundColor: '#F0F0F5'}}>
+                <div className="boarding-wrapper" style={{ backgroundColor: '#F0F0F5',  height:'310px' }}>
                     <div className="boarding-box-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
                             <AssessmentIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
@@ -200,26 +185,60 @@ const Home = () => {
                         </Box>
                     </div>
                     <div>
-                        <ChartContainer
-                            width={500}
+                        <BarChart
+                            colors={['black']}
+                            sx={{ marginBottom: '3%', backgroundColor: '#f0f0f5' }}
+                            xAxis={[
+                                {
+                                    id: 'barCategories',
+                                    data: ['Cats', 'Dogs'],
+
+                                    scaleType: 'band',
+                                },
+                            ]}
+                            series={[
+                                {
+                                    data: [5, 10],
+                                },
+                            ]}
+
+                            width={600}
                             height={250}
-                            sx={{marginBottom:'100px'}}
-                            series={[{ data: uData, label: 'uv', type: 'bar' }]}
-                            xAxis={[{ scaleType: 'band', data: xLabels }]}
-                        >
-                            <BarPlot />
-                        </ChartContainer>
+                        />
                     </div>
 
 
                 </div>
 
-                <div className="boarding-wrapper" style={{ backgroundColor: '#F0F0F5' }}>
-                    <div className="boarding-box-header">
-                        <InventoryIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
-                        <h3 style={{ color: 'black' }}>Packages</h3>
+                <div className="boarding-wrapper" style={{ backgroundColor: '#F0F0F5', height:'310px' }}>
+                    <div className="boarding-box-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} >
+                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                            <InventoryIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
+                            <h3 style={{ color: 'black' }}>Packages</h3>
+                        </div>
+
+                        <Box sx={{ minWidth: 120, marginLeft: '400px' }}>
+                            <FormControl fullWidth>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={time}
+                                    variant='filled'
+                                    label="Time"
+                                    onChange={handleChange}
+                                    l
+                                    sx={{ fontSize: '12px' }}>
+                                    <MenuItem value={1}>Today</MenuItem>
+                                    <MenuItem value={2}>Last 7 days</MenuItem>
+                                    <MenuItem value={3}>Last Months</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Box>
+                    </div>
+                    <div>
 
                         <PieChart
+                            colors={['#FBBD08', '#A6A6A6', '#55555C']}
                             series={[
                                 {
                                     data: [
@@ -229,9 +248,8 @@ const Home = () => {
                                     ],
                                 },
                             ]}
-                            width={400}
+                            width={500}
                             height={200}
-                        // ColorScheme = {customColorScheme}
                         />
                     </div>
                 </div>
