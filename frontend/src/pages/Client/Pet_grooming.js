@@ -7,12 +7,13 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import "../../styles/Client/Mindrelax.css";
 
 
 function Pet_grooming() {
   return (
     <><PrimarySearchAppBar />
-    <div style={{
+    <div  className='smooth-scroll' style={{
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)),url(${backgroundImageUrl})`, // Set the background image using the backgroundImage CSS property
         backgroundSize: 'cover', // Adjust background image size to cover the entire div
         backgroundRepeat: 'no-repeat', // Prevent the background image from repeating
@@ -50,7 +51,7 @@ function Pet_grooming() {
 
       </div>
 
-      <div style={{backgroundColor:"orange",height:"40vh"}}>
+      <div style={{backgroundColor:"black",height:"40vh"}}>
         <h1 style={{textAlign:"center",color:"white",fontSize:"10vh",fontWeight:"1"}}>choice your plan now!</h1>
         <h3 style={{textAlign:"center",color:"white",fontWeight:"1"}}>No Risk, 30-Day Money Back Return Policy,</h3><br></br>
         <Pricing/>

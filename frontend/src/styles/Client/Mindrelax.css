@@ -1,0 +1,19 @@
+/* Add this CSS to create a smooth scroll animation */
+@keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .smooth-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp .5s ease-out forwards;
+    /* Change the animation duration (1s) and easing function (ease-out) as needed */
+  }
+  
