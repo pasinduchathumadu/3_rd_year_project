@@ -1,48 +1,91 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Table, TableHead, TableRow, TableCell, TableBody, Button, CardMedia, Typography, Grid } from "@mui/material";
-import Header from "../../components/Layout/Header";
+
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import axios from "axios";
 
 const CartTable = () => {
-  const calculateTotalAmount = () => {
-    let total = 0;
-    cartItems.forEach((item) => {
-      total += item.price * item.quantity;
-    });
-    return total;
+
+  const [cartItems,setCartItems] = useState([]) 
+  const [total , settotal] = useState("")
+  const email = localStorage.getItem("client_email")
+  const calculateTotalAmount = async() => {
+    const res = await axios.post("http://localhost:5000/pet_care/user/total",{
+      email
+    })
+    if(res.data.message !== "There is an internel error"){
+      settotal(res.data.data[0].total)
+      
+    }
+   
   };
 
   const getImageSrc = (imageName) => {
     return require(`../../assests/${imageName}`)
   };
-  const [cartItems, setCartItems] = useState([
-    { id: 1, name: "Banner", image: 'chhola.jpg', price: 10, quantity: 2 },
-    { id: 2, name: "Chhola", image: 'dosa.jpg', price: 15, quantity: 1 },
-    { id: 3, name: "Dosa", image: 'dosa.jpg', price: 20, quantity: 3 },
-  ]);
-
-  const handleIncreaseQuantity = (itemId) => {
-    const updatedItems = cartItems.map((item) => {
-      if (item.id === itemId) {
-        return { ...item, quantity: item.quantity + 1 };
+  
+  const handleIncreaseQuantity = async(itemId,quantity,price) => {
+    try{
+      const res = await axios.post("http://localhost:5000/pet_care/user/increase",{
+        email,
+        itemId,
+        quantity,
+        price
+      })
+      if(res.data.message === 'updated'){
+        calculateTotalAmount()
+        load_cart()
       }
-      return item;
-    });
-    setCartItems(updatedItems);
+    }catch(err){
+      console.log("There is an internel error")
+    }
+
+   
+  };
+  
+  useEffect(()=>{
+    calculateTotalAmount()
+    
+  })
+  const handleDecreaseQuantity = async(itemId,quantity,price) => {
+    try{
+      const res = await axios.post("http://localhost:5000/pet_care/user/decrease",{
+        email,
+        itemId,
+        quantity,
+        price
+      })
+      if(res.data.message === 'updated'){
+        calculateTotalAmount()
+        load_cart()
+      }
+    }catch(err){
+      console.log("There is an internel error")
+    }
+
+   
+  
   };
 
-  const handleDecreaseQuantity = (itemId) => {
-    const updatedItems = cartItems.map((item) => {
-      if (item.id === itemId && item.quantity > 1) {
-        return { ...item, quantity: item.quantity - 1 };
-      }
-      return item;
-    });
-    setCartItems(updatedItems);
-  };
+
+ const load_cart = async()=>{
+  try{
+    const res = await axios.get(`http://localhost:5000/pet_care/user/load_cart/${email}`)
+    const data = await res.data
+    return data
+
+  }catch(err){
+    console.log("There is an internel error")
+  }
+ }
+
+  useEffect(()=>{
+    load_cart()
+    .then((data)=>setCartItems(data.data))
+  })
 
   return (
-    <><Header />
+    <>
     <div style={{
       textAlign: 'center',
       fontWeight: 'bold',
@@ -69,7 +112,7 @@ const CartTable = () => {
         <TableBody>
           {cartItems.map((item) => (
             <TableRow key={item.id}>
-              <TableCell sx={{textAlign:'center'}}>{item.id}</TableCell>
+              <TableCell sx={{textAlign:'center'}}>{item.item_id}</TableCell>
               <TableCell sx={{textAlign:'center'}}>{item.name}</TableCell>
               <TableCell> <CardMedia
                 sx={{ minHeight: "35px", width: '50%', height: '18vh',marginLeft:'25%',marginRight:'25%'}}
@@ -77,13 +120,13 @@ const CartTable = () => {
                 src={getImageSrc(item.image)}
                 alt={item.name}
               /></TableCell>
-              <TableCell>RS.{item.price}</TableCell>
+              <TableCell>RS.{item.unit_price}</TableCell>
               <TableCell sx={{textAlign:'center'}}>
-                <Button variant="contained" sx={{ backgroundColor: 'black', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '20px', minHeight: '20px', fontSize: '12px', '&:hover': { backgroundColor: 'black' } }} onClick={() => handleDecreaseQuantity(item.id)}>-</Button>
+                <Button variant="contained" sx={{ backgroundColor: 'black', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '20px', minHeight: '20px', fontSize: '12px', '&:hover': { backgroundColor: 'black' } }} onClick={() => handleDecreaseQuantity(item.item_id,item.quantity,item.unit_price)}>-</Button>
                 {item.quantity}
-                <Button variant="contained" sx={{ backgroundColor: 'black', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '20px', minHeight: '20px', fontSize: '12px', '&:hover': { backgroundColor: 'black' } }} onClick={() => handleIncreaseQuantity(item.id)}>+</Button>
+                <Button variant="contained" sx={{ backgroundColor: 'black', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '20px', minHeight: '20px', fontSize: '12px', '&:hover': { backgroundColor: 'black' } }} onClick={() => handleIncreaseQuantity(item.item_id,item.quantity,item.unit_price)}>+</Button>
               </TableCell>
-              <TableCell>RS.{item.price * item.quantity}</TableCell>
+              <TableCell>RS.{item.unit_price * item.quantity}</TableCell>
 
               <TableCell><Button variant="contained" sx={{ backgroundColor: 'black',':hover':{backgroundColor:'black'}, marginLeft: '50px' }}>Remove Item</Button></TableCell>
             </TableRow>
@@ -91,7 +134,7 @@ const CartTable = () => {
         </TableBody>
       </Table>
       <Grid>
-        <Typography sx={{ float:'right', marginRight: '120px', marginTop: '20px', fontSize: '18px', marginBottom: '20px' }}>Total Price : RS.{calculateTotalAmount()}</Typography>
+        <Typography sx={{ float:'right', marginRight: '120px', marginTop: '20px', fontSize: '18px', marginBottom: '20px' }}>Total Price : RS.{total}</Typography>
       </Grid>
       <Grid sx={{ display: 'flex', justifyContent: 'flex-end',marginTop:'80px',marginRight:'90px'}}>
         <Button sx={{ backgroundColor: 'black', color: 'white', textAlign: 'center', marginLeft:'10px', width: '150px','&:hover':{backgroundColor:'black'} }}>Check out</Button>

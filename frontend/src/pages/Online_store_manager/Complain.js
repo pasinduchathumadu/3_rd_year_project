@@ -6,7 +6,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import profile from "../../assests/profile.jpg";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import Header from "../../components/Layout/Header"
+
 import CloseIcon from '@mui/icons-material/Close';
 import { styled } from '@mui/material/styles';
 
@@ -47,6 +47,7 @@ const Complain = () => {
   const [addsubject,setsubject] = useState("")
   const [selectfile, setfile] = useState(null)
   const [image,setimage] = useState("")
+  const [viewresponse,setviewresponse] = useState("")
   const handlefilechange = async (event) => {
     const file = event.target.files[0]
     setfile(file)
@@ -143,6 +144,7 @@ const Complain = () => {
     setsecondform(true)
     seterror(false)
     setsuccess(false)
+    get_view()
   }
  const closeform = () => {
   seterror(false)
@@ -161,6 +163,12 @@ const Complain = () => {
     }
   };
 
+  const get_view = async()=>{
+    const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/view_response/${id}`)
+    const data = await res.data;
+    setviewresponse(data.data)
+  }
+
   useEffect(() => {
     get_complain()
       .then((data) => setcomplain(data.data))
@@ -171,10 +179,12 @@ const Complain = () => {
     setvalue(new_value);
   };
 
+  
+
 
   return (
     <>
-      <Header />
+   
       <div>
         <Grid sx={{ marginTop: '2%', marginRight: '2%', marginLeft: '2%', marginBottom: '2%' }}>
           <div style={{ display: 'flex' }}>
@@ -431,7 +441,7 @@ const Complain = () => {
           
           
             <div style={{ padding: '3%' }}>
-              {Complain && Complain.map((menu,index) => (
+              {viewresponse && viewresponse.map((menu,index) => (
                   <><Typography sx={{ paddingTop: '15px', paddingBottom: '30px',fontSize:'20px',textAlign:'center'}}>
                   Complain
                 </Typography><TextField
