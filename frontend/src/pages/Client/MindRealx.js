@@ -125,7 +125,9 @@ function MindRealx() {
          <p style={{ fontSize: "20px", fontWeight: "10",marginBottom:"0px" }}>
             Up to 1500 LKR  
           </p>
+          <Link to="/NonBredShop" style={{ textDecoration: 'none' }}>
           <Button variant="outlined" sx={{color:"white",borderColor:"orange"}}>GET Started</Button>
+          </Link>
       </div>
     </div>
   );

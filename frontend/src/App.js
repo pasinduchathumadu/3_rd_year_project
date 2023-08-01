@@ -13,7 +13,7 @@ import Menu from "./pages/Client/Menu";
 import Petcare from "./pages/Client/Petcare"
 import MindRealx from "./pages/Client/MindRealx";
 import { Shop } from "./pages/Client/Shop";
-
+import { NonBredShop } from "./pages/Client/NonBredShop";
 
 
 import Reset from "./pages/Common/Reset";
@@ -85,6 +85,8 @@ function App() {
           <Route path="/petcare" element={<Petcare/>}></Route>
           <Route path="/MindRealx" element={<MindRealx/>}></Route>
           <Route path="/shop" element={<Shop/>}></Route>
+          <Route path="/NonBredShop" element={<NonBredShop/>}></Route>
+
 
 
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
