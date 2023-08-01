@@ -12,7 +12,7 @@ import { Reports } from "./pages/Client/Reports";
 import Menu from "./pages/Client/Menu";
 import Petcare from "./pages/Client/Petcare"
 import MindRealx from "./pages/Client/MindRealx";
-
+import { Shop } from "./pages/Client/Shop";
 
 
 
@@ -84,6 +84,8 @@ function App() {
           <Route path="/dashboard" element={<Dashboard/>}></Route>
           <Route path="/petcare" element={<Petcare/>}></Route>
           <Route path="/MindRealx" element={<MindRealx/>}></Route>
+          <Route path="/shop" element={<Shop/>}></Route>
+
 
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
           <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route>

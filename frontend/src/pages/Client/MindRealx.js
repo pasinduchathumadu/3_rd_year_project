@@ -2,7 +2,9 @@ import React from 'react';
 import PrimarySearchAppBar from "../../components/Layout/Header";
 import petImage from '../../assests/black2.jpg'; // Replace 'path/to/your/image.png' with the actual path to your image
 import Button from '@mui/material/Button';
-import petImage2 from '../../assests/top.png'; // Replace 'path/to/your/image.png' with the actual path to your image
+import petImage2 from '../../assests/top.png'; 
+import { Link } from 'react-router-dom';
+// Replace 'path/to/your/image.png' with the actual path to your image
 
 
 
@@ -18,7 +20,7 @@ function MindRealx() {
   <div style={{
         // backgroundImage:`linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)) ,url(${petImage2})`,
         width: "90%",
-        height: "100vh",
+        height: "110vh",
         backgroundColor: "rgb(235 235 235)",
         color: "black",
         marginTop: "100px",
@@ -32,7 +34,7 @@ function MindRealx() {
       }}>
      
    <div>
-            <p style={{ fontSize: "80px", fontWeight: "10", marginTop: "-380px",textAlign:"left"}}>
+            <p style={{ fontSize: "80px", fontWeight: "10", marginTop: "-240px",textAlign:"left"}}>
             You can spend time
             </p>
           
@@ -55,8 +57,12 @@ function MindRealx() {
      <p style={{ fontSize: "20px", fontWeight: "10",textAlign:"left" }}>
             Up to 1500 LKR  
           </p>
-          <Button variant="outlined" sx={{color:"white",borderColor:"orange",color:"black"}}>GET Started</Button>
-     </div>
+
+    <Link to="/Shop" style={{ textDecoration: 'none' }}>
+      <Button variant="outlined" sx={{ color: "white", borderColor: "orange", color: "black" }}>
+        GET Started
+      </Button>
+    </Link>     </div>
    </div>
             
             <img
@@ -64,10 +70,10 @@ function MindRealx() {
           alt="Pet"
           style={{
             width: "auto",
-            height: "50vh",
+            height: "48vh",
             textAlign:"left",
             marginLeft:"500px",
-            marginBottom:"-300px"
+            marginBottom:"-200px"
           }}
         />
 
