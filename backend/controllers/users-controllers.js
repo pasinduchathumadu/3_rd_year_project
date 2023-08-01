@@ -62,7 +62,7 @@ export const signup = async (req, res, next) => {
   
     const status = "De-Active";
 
-
+  
 
     const hashedPassword = hash.MD5(password);
 
