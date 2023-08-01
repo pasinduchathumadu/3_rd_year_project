@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
-import Header from "../../components/Layout/Header";
 import ProfilePicture from '../../assests/profile-picture.png';
-
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
@@ -59,7 +57,6 @@ const Packages = () => {
 
     return (
         <div className="home-container">
-            <Header />
             <div className="top">
                 <div className="top-line">
                     <p>Boarding House Manager</p>
@@ -214,8 +211,9 @@ const Packages = () => {
                         Popularity
                     </div>
                    
-                    <div style={{marginLeft:'200px'}}>
+                    <div>
                         <PieChart
+                        colors={['#FBBD08', '#A6A6A6', '#55555C']}
                             series={[
                                 {
                                     data: [
@@ -225,9 +223,8 @@ const Packages = () => {
                                     ],
                                 },
                             ]}
-                            width={400}
-                            height={200}
-                        // ColorScheme = {customColorScheme}
+                            width={600}
+                            height={300}
                         />
                     </div>
                     <Button variant="contained" onClick={() => afterview()} sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Finish Viewing</Button>
