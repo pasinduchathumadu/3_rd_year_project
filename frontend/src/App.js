@@ -48,7 +48,8 @@ import Clientorders from "./pages/Online_store_manager/Clients_orders";
 
 import { useNavigate } from "react-router-dom";
 import HomeHeader from './components/Layout/Homeheader'
-import Complains from "./pages/Boarding_house_manager/Complains";
+// import Complains from "./pages/Boarding_house_manager/Complains";
+
 function App() {
 
   
