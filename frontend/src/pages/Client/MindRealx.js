@@ -31,7 +31,10 @@ function MindRealx() {
         flexDirection: "column",
         justifyContent: "center",
         borderRadius: "18px",
-        textAlign: "center"
+        textAlign: "center",
+         wordSpacing: "10px",fontWeight:"1",
+        
+        
         
       }}>
      
@@ -39,7 +42,7 @@ function MindRealx() {
             <p style={{ fontSize: "80px", fontWeight: "10", marginTop: "-240px",textAlign:"left"}}>
             You can spend time
             </p>
-            <p style={{ fontSize: "40px", fontWeight: "100", marginTop: "-44px",textAlign:"left",marginLeft:"20px"}}>
+            <p style={{ fontSize: "40px", fontWeight: "100", marginTop: "-20px",textAlign:"left",marginLeft:"20px"}}>
             Non bred pets
             </p>
             
@@ -60,12 +63,12 @@ function MindRealx() {
       </div>
         
      <div className='smooth-scroll'style={{textAlign:"left",marginTop:"80px",marginLeft:"20px"}}>
-     <p style={{ fontSize: "20px", fontWeight: "10",textAlign:"left" }}>
+     <p style={{ fontSize: "20px", fontWeight: "10",textAlign:"left" ,marginLeft:"20px"}}>
             Free 
           </p>
 
     <Link to="/Shop" style={{ textDecoration: 'none' }}>
-      <Button variant="outlined" sx={{ color: "white", borderColor: "orange", color: "black" }}>
+      <Button variant="outlined" sx={{ color: "white", color: "white" ,backgroundColor:"black"}}>
         GET Started
       </Button>
     </Link>     </div>
@@ -102,7 +105,8 @@ function MindRealx() {
         justifyContent: "center",
         alignItems: "center",
         borderRadius: "18px",
-        textAlign: "center"
+        textAlign: "center",
+       wordSpacing: "10px",fontWeight:"1"
       }}>
         <div>
           <p style={{ fontSize: "20px", fontWeight: "10", marginTop: "10px", marginBottom: "-20px" }}>

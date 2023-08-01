@@ -12,7 +12,13 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
+import { CardActionArea, ListItem } from '@mui/material';
+import Bath from "../../assests/bath.jpg"
+import Haircut from "../../assests/haircut.png"
+import massage from "../../assests/massage.jpg"
+
+
+
 
 
 function Pet_grooming() {
@@ -60,33 +66,85 @@ function Pet_grooming() {
         <h1 style={{textAlign:"center",color:"white",fontSize:"10vh",fontWeight:"1"}}>choice your plan now!</h1>
         <h3 style={{textAlign:"center",color:"white",fontWeight:"1"}}>No Risk, 30-Day Money Back Return Policy,</h3><br></br>
         <Pricing/>
-        <h1 style={{fontSize:"80px",textAlign:"center",fontWeight:"1",marginTop:"30px"}}>SELECT A SERVICE</h1>
-      </div>
+        <h1 style={{ fontSize: "60px", textAlign: "center", fontWeight: "normal", marginTop: "40px", backgroundColor: "rgb(235 235 235)", letterSpacing: "-2px", wordSpacing: "10px" }}>
+  SELECT A SERVISE
+</h1>
 
 
-      
-    <div className='servises'>
-    <Card sx={{ maxWidth: 345 }}>
+
+
+
+
+  <div className='servises' style={{backgroundColor:"rgb(235 235 235)",borderRadius:"15px",width:"100%",height:"auto",marginLeft:"auto",marginRight:"auto",display:"flex",gap:"30px"}}>
+    <Card sx={{ maxWidth: 345,marginLeft:"10%",marginTop:"20px" }}>
       <CardActionArea>
-        <CardMedia
+        <CardMedia style={{height:"35vh"}}
           component="img"
           height="140"
-          image="/static/images/cards/contemplative-reptile.jpg"
+          image={Bath}
           alt="green iguana"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            Lizard
+            Bath
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+            Up to Rs.1000
           </Typography>
         </CardContent>
       </CardActionArea>
     </Card>
 
+
+
+    
+
+    <Card sx={{ maxWidth: 345,marginLeft:"20px",marginTop:"20px" }}>
+      <CardActionArea>
+        <CardMedia style={{height:"35vh"}}
+          component="img"
+          height="140"
+          image={Haircut}
+          alt="green iguana"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            Haircuts
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Up to Rs.1200
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+    </Card>
+
+
+    <Card sx={{ maxWidth: 345,marginLeft:"20px",marginTop:"20px" }}>
+      <CardActionArea>
+        <CardMedia style={{height:"35vh"}}
+          component="img"
+          height="140"
+          image={massage}
+          alt="green iguana"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            PetSpa
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Only Rs.1500
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+    </Card>
+
+
     </div>
+      </div>
+
+
+      
+    
       </>
   )
 }
