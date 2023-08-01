@@ -142,8 +142,8 @@ const Complains = () => {
                 indicatorColor="transparent"
                 sx={{borderRadius:'10px'}}
                 >
-                    <Tab sx={{backgroundColor:own === 0 ? 'orange':'white',color:'black'}} label="Clients' Complains" ></Tab>
-                    <Tab sx={{backgroundColor:own === 1 ? 'orange':'white',color:'black'}} label="My Complains"></Tab>
+                    <Tab sx={{backgroundColor:own === 0 ? 'orange':'#F0F0F5',color:'black'}} label="Clients' Complains" ></Tab>
+                    <Tab sx={{backgroundColor:own === 1 ? 'orange':'#F0F0F5',color:'black'}} label="My Complains"></Tab>
                 </Tabs>
             </Box>
 
@@ -191,7 +191,9 @@ const Complains = () => {
                                                 <StyledTableCell align="center">{row.date}</StyledTableCell>
                                                 <StyledTableCell align="center">{row.time}</StyledTableCell>
                                                 <StyledTableCell align="center">
-                                                    {row.status === "pending" ? <Button onClick={()=>addResponse()} sx={{color:'white', backgroundColor:'#fe9e0d', ':hover': { backgroundColor: '#fe9e0d' } }}>Add Response</Button> : "Completed" } 
+                                                    {row.status === "pending" ? 
+                                                    <Button onClick={()=>addResponse()} sx={{color:'white', backgroundColor:'#fe9e0d', ':hover': { backgroundColor: '#fe9e0d' } }}>Add Response</Button> :
+                                                    <Button onClick={()=>viewResponse()} sx={{color:'white', backgroundColor:'black', ':hover': { backgroundColor: 'black' } }}>View Response</Button>} 
                                                 </StyledTableCell>
                                             </StyledTableRow>
                                         ))}
@@ -262,20 +264,22 @@ const Complains = () => {
             {/* add new complain */}
             {form && (
                 <div>
-                    <FormControl  sx={{marginLeft:'30%', borderRadius: '10px', width:'700px', border: '1px', borderStyle:'solid', padding:'20px',backgroundColor:'#E3E3E3', fontFamily:'osnovapro,sans-serif'}}>
-                        <div className="form-topic">
-                            Add New Complain
-                        </div>
-                        <div className="form-label">
-                            <FormLabel>Enter your complain: </FormLabel>
-                            <TextField id="outlined-basic" placeholder="Complain" variant="outlined" />
-                        </div>
+                    <FormControl  sx={{marginLeft:'30%', borderRadius: '10px', width:'700px',padding:'20px',backgroundColor:'#F0F0F5'}}>
+                        <div style={{backgroundColor: 'white', padding:'10px', borderRadius:'10px'}}>
+                            <div className="form-topic">
+                                Add New Complain
+                            </div>
+                            <div className="form-label">
+                                <FormLabel>Enter your complain: </FormLabel>
+                                <TextField id="outlined-basic" placeholder="Complain" variant="outlined" />
+                            </div>
 
-                        <div className="form-label">
-                            <FormLabel>Upload an Image (if need): </FormLabel>
-                            <input type="file" placeholder=" Choose a file" variant="outlined" />
+                            <div className="form-label">
+                                <FormLabel>Upload an Image (if need): </FormLabel>
+                                <input type="file" placeholder=" Choose a file" variant="outlined" />
+                            </div>
+                            <Button variant="contained" onClick={()=> afterAddingComplain()} sx={{background:'orange', width:'100%', marginTop:'10px', ':hover':{backgroundColor: "#fe9e0d"}}}>Add Complain</Button>
                         </div>
-                        <Button variant="contained" onClick={()=> afterAddingComplain()} sx={{background:"#fe9e0d", marginTop:'10px', ':hover':{backgroundColor: "#fe9e0d"}}}>Add Complain</Button>
                     </FormControl>
                 </div>
             )}
@@ -283,44 +287,53 @@ const Complains = () => {
             {/* add response */}
             {addResponce && (
                 <div>
-                    <FormControl  sx={{marginLeft:'35%', borderRadius: '10px', width:'500px', border: '1px', borderStyle:'solid', padding:'20px',backgroundColor:'#E3E3E3', fontFamily:'osnovapro,sans-serif'}}>
-                        <div className="form-topic">
-                            Adding Response
-                        </div>
-                        <div className="form-label">
-                            <FormLabel>Complain ID : 05 </FormLabel>
-                        </div>
+                    <FormControl  sx={{marginLeft:'35%', borderRadius: '10px', width:'500px', padding:'20px',backgroundColor:'#F0F0F5'}}>
+                        <div style={{padding:'10px', borderRadius:'10px', backgroundColor:'white'}}>
+                            <div className="form-topic">
+                                Adding Response
+                            </div>
+                            <div className="form-label">
+                                <FormLabel>Complain ID : 05 </FormLabel>
+                            </div>
 
-                        <div className="form-label">
-                            <FormLabel>Enter the Response  </FormLabel>
-                            <TextField id="outlined-basic" placeholder=" response" variant="outlined"  />
-                        </div>
+                            <div className="form-label">
+                                <FormLabel>Enter the Response  </FormLabel>
+                                <TextField id="outlined-basic" placeholder=" response" variant="outlined"  />
+                            </div>
 
-                        <div className="form-label">
-                            <FormLabel>Upload an Image (if need): </FormLabel>
-                            <input type="file" placeholder=" Choose a file" variant="outlined" />
+                            <div className="form-label">
+                                <FormLabel>Upload an Image (if need): </FormLabel>
+                                <input type="file" placeholder=" Choose a file" variant="outlined" />
+                            </div>
+                            <Button variant="contained" onClick={()=>afterAddingResponse()} sx={{background:"orange", width:'100%', marginTop:'10px', ':hover':{backgroundColor: "#fe9e0d"}}}>Add Response</Button>
                         </div>
-                        <Button variant="contained" onClick={()=>afterAddingResponse()} sx={{background:"#fe9e0d", marginTop:'10px', ':hover':{backgroundColor: "#fe9e0d"}}}>Add Package</Button>
-                    </FormControl>
+                    </FormControl>  
                 </div>
             )}
 
             {/* view repsonse */}
             {viewResponce && (
                 <div>
-                    <FormControl  sx={{marginLeft:'35%', borderRadius: '10px', width:'500px', border: '1px', borderStyle:'solid', padding:'20px',backgroundColor:'#E3E3E3', fontFamily:'osnovapro,sans-serif'}}>
-                        <div className="form-topic">
-                             Viewing Response
-                        </div>
-                        <div className="form-label">
-                            <FormLabel>Complain ID : 05 </FormLabel>
-                        </div>
+                    <FormControl  sx={{marginLeft:'35%', borderRadius: '10px', width:'500px', padding:'20px',backgroundColor:'#F0F0F5', fontFamily:'osnovapro,sans-serif'}}>
+                        <div style={{padding:'10px', borderRadius:'10px', backgroundColor:'white'}}>
+                            <div className="form-topic">
+                                Viewing Response
+                            </div>
+                            <div className="form-label" style={{display:'flex', flexDirection:'row', justifyContent:'space between'}}>
+                                <FormLabel>Complain ID  </FormLabel>
+                                <FormLabel> : 05 </FormLabel>
+                            </div>
 
-                        <div className="form-label">
-                            <FormLabel>Response   </FormLabel>
-                            <p >This is the solution for your complain</p></div>
+                            <div className="form-label">
+                                <FormLabel>Complain  : <br /> This is complain text </FormLabel>
+                            </div>
 
-                        <Button variant="contained" onClick={()=>afterViewingResponse()} sx={{background:"#fe9e0d", marginTop:'10px', ':hover':{backgroundColor: "#fe9e0d"}}}>OK</Button>
+                            <div className="form-label">
+                                <FormLabel>Response   </FormLabel>
+                                <p style={{paddingRight:'20px', paddingLeft:'30px', paddingTop:'10px', paddingBottom:'10px', borderStyle:'solid', borderColor:'black', borderRadius:'10px'}} >This is the response for your complain</p></div>
+
+                            <Button variant="contained" onClick={()=>afterViewingResponse()} sx={{background:"#fe9e0d", width:'100%', marginTop:'10px', ':hover':{backgroundColor: "#fe9e0d"}}}>OK</Button>
+                        </div>
                     </FormControl>
                 </div>
             )}
