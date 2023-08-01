@@ -6,7 +6,8 @@ import { LocalStorage } from "node-localstorage";
 const localStorage = new LocalStorage('./scratch');
 export const verify = async (req, res, next) => {
 
-    const { entered_no } = req.body;
+    const { otp } = req.body;
+    console.log(otp)
 
     const email = localStorage.getItem("Temp_email");
 
@@ -20,7 +21,10 @@ export const verify = async (req, res, next) => {
         db.query(sqlQuery, records, (err, data) => {
             const verify_no = data[0].verify_no;
 
-            if (verify_no === entered_no) {
+            console.log(verify_no)
+
+            if (verify_no == otp) {
+            
 
                 const update_query = "UPDATE users SET status = 'Active' WHERE email = ?";
 
