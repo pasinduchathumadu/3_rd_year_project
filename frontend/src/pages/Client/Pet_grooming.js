@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import PrimarySearchAppBar from "../../components/Layout/Header";
+
 import backgroundImageUrl from '../../assests/Grooming.jpg';
 import Pricing from './Pricing';
 import Button from '@mui/material/Button';
@@ -31,7 +31,7 @@ function Pet_grooming() {
 
   return (
     <>
-      <PrimarySearchAppBar />
+     
       <div className='smooth-scroll' style={{
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)),url(${backgroundImageUrl})`,
         backgroundSize: 'cover',

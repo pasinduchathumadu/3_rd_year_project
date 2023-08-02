@@ -86,11 +86,13 @@ const Users = () => {
     // drop down
     const [clients, setClients] = React.useState('1');
     const handleChange = (event) => {
+       
         setClients(event.target.value);
     };
 
     const [users, setUsers] = useState(0);
     const handleForm = (event, existing_value) => {
+        setadd(false)
         setUsers(existing_value)
     };
 
