@@ -17,6 +17,7 @@ import TableHead from '@mui/material/TableHead';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
+import CircleIcon from '@mui/icons-material/Circle';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -135,7 +136,12 @@ const BoardPets = () => {
                                         <StyledTableRow key={current.id}>
                                             <StyledTableCell align="center">{current.id}</StyledTableCell>
                                             <StyledTableCell align="center">{current.category}</StyledTableCell>
-                                            <StyledTableCell align="center">{current.p_ckage}</StyledTableCell>
+                                            <StyledTableCell align="center">
+                                               {current.p_ckage === "gold" ? ( <> <CircleIcon sx={{color:'#FBBD08', marginRight:'5px'}}/> Gold </> )
+                                               : current.p_ckage === "silver" ? ( <>  <CircleIcon sx={{color:'#A6A6A6' , marginRight:'5px'}} />Silver </> )
+                                               : (<><CircleIcon sx={{color:'#55555C' , marginRight:'5px' }} />Platinum</>) 
+                                            }
+                                            </StyledTableCell>
                                             <StyledTableCell align="center">{current.aDate}</StyledTableCell>
                                             <StyledTableCell align="center">{current.rDate}</StyledTableCell>
                                             <StyledTableCell align="center">{current.payment}</StyledTableCell>
@@ -190,7 +196,12 @@ const BoardPets = () => {
                                         <StyledTableRow key={request.id}>
                                             <StyledTableCell align="center">{request.id}</StyledTableCell>
                                             <StyledTableCell align="center">{request.category}</StyledTableCell>
-                                            <StyledTableCell align="center">{request.p_ckage}</StyledTableCell>
+                                            <StyledTableCell align="center">
+                                               {request.p_ckage === "gold" ? ( <> <CircleIcon sx={{color:'#FBBD08', marginRight:'5px'}}/> Gold </> )
+                                               : request.p_ckage === "silver" ? ( <>  <CircleIcon sx={{color:'#A6A6A6' , marginRight:'5px'}} />Silver </> )
+                                               : (<><CircleIcon sx={{color:'#55555C' , marginRight:'5px' }} />Platinum</>) 
+                                            }
+                                            </StyledTableCell>
                                             <StyledTableCell align="center">{request.aDate}</StyledTableCell>
                                             <StyledTableCell align="center">{request.rDate}</StyledTableCell>
                                             <StyledTableCell align="center">{request.payment}</StyledTableCell>
@@ -226,7 +237,12 @@ const BoardPets = () => {
                                         <StyledTableRow key={complete.id}>
                                             <StyledTableCell align="center">{complete.id}</StyledTableCell>
                                             <StyledTableCell align="center">{complete.category}</StyledTableCell>
-                                            <StyledTableCell align="center">{complete.p_ckage}</StyledTableCell>
+                                            <StyledTableCell align="center">
+                                               {complete.p_ckage === "gold" ? ( <> <CircleIcon sx={{color:'#FBBD08', marginRight:'5px'}}/> Gold </> )
+                                               : complete.p_ckage === "silver" ? ( <>  <CircleIcon sx={{color:'#A6A6A6' , marginRight:'5px'}} />Silver </> )
+                                               : (<><CircleIcon sx={{color:'#55555C' , marginRight:'5px' }} />Platinum</>) 
+                                            }
+                                            </StyledTableCell>
                                             <StyledTableCell align="center">{complete.aDate}</StyledTableCell>
                                             <StyledTableCell align="center">{complete.rDate}</StyledTableCell>
                                             <StyledTableCell align="center">{complete.payment}</StyledTableCell>

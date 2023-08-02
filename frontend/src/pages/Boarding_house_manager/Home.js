@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import AssessmentIcon from '@mui/icons-material/Assessment';
@@ -11,14 +11,37 @@ import PetsIcon from '@mui/icons-material/Pets';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
+// import Accordion from '@mui/material/Accordion';
+// import AccordionSummary from '@mui/material/AccordionSummary';
+// import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Table, TableHead, TableRow, TableBody, TableCell } from "@mui/material";
+// import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Table, TableHead, TableRow, TableBody, TableCell, Button } from "@mui/material";
+import { tableCellClasses } from '@mui/material/TableCell';
+import { styled } from '@mui/material/styles';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { PieChart } from '@mui/x-charts/PieChart';
+import TableViewIcon from '@mui/icons-material/TableView';
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+    },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+        border: 0,
+    },
+}));
 
 const Home = () => {
     // drop down
@@ -27,6 +50,21 @@ const Home = () => {
     const handleChange = (event) => {
         setTime(event.target.value);
     };
+
+    const [main, setmain] = useState(true);
+    const [tables, setTables] = useState(false);
+    // click on particualar request box
+    const ClickRequest = () => {
+        setmain(false);
+        setTables(true);
+    }
+
+    // finish viewing the details 
+    const FinishViewing = () => {
+        setTables(false);
+        setmain(true);
+    }
+
     return (
         <div className="home-container">
             <div className="top">
@@ -46,7 +84,7 @@ const Home = () => {
             </div>
 
             <div className="boarding-wrapper-main">
-                <div className="boarding-wrapper" style={{ backgroundColor: 'orange', height:'250px' }}>
+                <div className="boarding-wrapper" style={{ backgroundColor: 'orange', height: '250px' }}>
                     <div className="boarding-box-header">
                         <AnalyticsIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
                         <h3>Analytical Overview</h3>
@@ -81,85 +119,35 @@ const Home = () => {
                     </div>
                 </div>
 
-                <div className="boarding-wrapper" style={{ backgroundColor: 'orange',  height:'250px' }}>
+                <div className="boarding-wrapper" style={{ backgroundColor: 'orange', height: '250px' }}>
                     <div className="boarding-box-header">
                         <AssignmentLateIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
                         <h3>Pending Boarding Requests</h3>
                     </div>
 
-                    <Accordion sx={{
-                        border: 'black',
-                        borderWidth: '2px',
-                        borderRadius: '10px',
-                        marginBottom: '10px',
-                        marginTop: '10px'
-                    }}>
-                        <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1a-content"
-                            id="panel1a-header"
-                        >
-                            <Typography>Request ID : 1</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <Table>
-                                <TableHead sx={{ backgroundColor: '#fe9e0d', color: 'white' }}>
-                                    <TableRow>
-                                        <TableCell align="center">Client ID</TableCell>
-                                        <TableCell align="center">Pet ID</TableCell>
-                                        <TableCell align="center">Pickup Date</TableCell>
-                                        <TableCell align="center">Pickup Time</TableCell>
-                                    </TableRow>
-                                </TableHead >
-                                <TableBody>
-                                    <TableCell align="center">01</TableCell>
-                                    <TableCell align="center">04</TableCell>
-                                    <TableCell align="center">20/07/2023</TableCell>
-                                    <TableCell align="center">10:00:00</TableCell>
-                                </TableBody>
-                            </Table>
-                        </AccordionDetails>
-                    </Accordion>
+                    {main && (
+                        <div>
+                            <div>
+                                <Typography sx={{ backgroundColor: '#F0F0F5', borderRadius: '10px', padding: '10px', width: '100%', marginBottom: '5px' }}>Request ID : 1 <TableViewIcon onClick={() => ClickRequest()} sx={{ marginLeft: '500px' }} /></Typography>
+                            </div>
 
-                    <Accordion sx={{
-                        border: 'black',
-                        borderWidth: '2px',
-                        borderRadius: '10px',
-                        marginBottom: '10px',
-                        marginTop: '10px'
-                    }}>
-                        <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel2a-content"
-                            id="panel2a-header"
-                        >
-                            <Typography>Request ID : 2</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <Table>
-                                <TableHead sx={{ backgroundColor: '#fe9e0d', color: 'white' }}>
-                                    <TableRow>
-                                        <TableCell align="center">Client ID</TableCell>
-                                        <TableCell align="center">Pet ID</TableCell>
-                                        <TableCell align="center">Pickup Date</TableCell>
-                                        <TableCell align="center">Pickup Time</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    <TableCell align="center">02</TableCell>
-                                    <TableCell align="center">03</TableCell>
-                                    <TableCell align="center">20/07/2023</TableCell>
-                                    <TableCell align="center">10:00:00</TableCell>
-                                </TableBody>
-                            </Table>
-                        </AccordionDetails>
-                    </Accordion>
+                            <div>
+                                <Typography sx={{ backgroundColor: '#F0F0F5', borderRadius: '10px', padding: '10px', width: '100%', marginBottom: '5px' }}>Request ID : 2 <TableViewIcon onClick={() => ClickRequest()} sx={{ marginLeft: '500px' }} /></Typography>
+                            </div>
+
+                            <div>
+                                <Typography sx={{ backgroundColor: '#F0F0F5', borderRadius: '10px', padding: '10px', width: '100%', marginBottom: '5px' }}>Request ID : 3 <TableViewIcon onClick={() => ClickRequest()} sx={{ marginLeft: '500px' }} /></Typography>
+                            </div>
+                        </div>
+                    )}
+
+
 
                 </div>
             </div>
 
             <div className="boarding-wrapper-main">
-                <div className="boarding-wrapper" style={{ backgroundColor: '#F0F0F5',  height:'310px' }}>
+                <div className="boarding-wrapper" style={{ backgroundColor: '#F0F0F5', height: '310px' }}>
                     <div className="boarding-box-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
                             <AssessmentIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
@@ -210,7 +198,7 @@ const Home = () => {
 
                 </div>
 
-                <div className="boarding-wrapper" style={{ backgroundColor: '#F0F0F5', height:'310px' }}>
+                <div className="boarding-wrapper" style={{ backgroundColor: '#F0F0F5', height: '310px' }}>
                     <div className="boarding-box-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} >
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
                             <InventoryIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
@@ -254,6 +242,38 @@ const Home = () => {
                     </div>
                 </div>
             </div>
+
+            {/* view details of pending boarding requests (after click on) */}
+            {tables && (
+                <div style={{ padding: '20px', margin: '20px', borderRadius: '10px', backgroundColor: '#f0f0f5' }}>
+                    <p>Request ID : 1 </p>
+                    <Table>
+                        <TableHead sx={{ backgroundColor: '#fe9e0d', color: 'blue' }}>
+                            <StyledTableRow>
+                                <StyledTableCell align="center">Client ID</StyledTableCell>
+                                <StyledTableCell align="center">Pet ID</StyledTableCell>
+                                <StyledTableCell align="center">Pickup Date</StyledTableCell>
+                                <StyledTableCell align="center">Pickup Time</StyledTableCell>
+                            </StyledTableRow>
+                        </TableHead >
+                        <TableBody>
+                            <StyledTableRow>
+                                <StyledTableCell align="center">01</StyledTableCell>
+                                <StyledTableCell align="center">04</StyledTableCell>
+                                <StyledTableCell align="center">20/07/2023</StyledTableCell>
+                                <StyledTableCell align="center">10:00:00</StyledTableCell>
+                            </StyledTableRow>
+                        </TableBody>
+                    </Table>
+
+                    <Button onClick={() => FinishViewing()} sx={{ backgroundColor: 'orange', color: 'white', width: '100px', marginTop: '10px', marginLeft: '90%' }}>Done</Button>
+
+                </div>
+            )}
+
+
+
+
         </div>
     )
 }
