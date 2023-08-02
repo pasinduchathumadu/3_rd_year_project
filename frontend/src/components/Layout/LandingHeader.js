@@ -60,12 +60,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function HomeHeader({ userRole }) {
   const navigate = useNavigate();
-
-  const logout = () => {
-    localStorage.removeItem('userRole');
-    localStorage.setItem('isLoggedIn', 'false');
-    navigate('/');
-  };
+  const login = ()=>{
+    navigate('/login')
+  }
+  const signup = () => {
+    navigate('/signup')
+  }
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -209,10 +209,10 @@ export default function HomeHeader({ userRole }) {
               <MoreIcon />
             </IconButton>
           </Box>
-          <Button onClick={logout} variant="contained" sx={{ backgroundColor: 'orange', marginRight: '10px', ':hover': { backgroundColor: 'orange' }, width: '6%' }}>
+          <Button onClick={login} variant="contained" sx={{ backgroundColor: 'orange', marginRight: '10px', ':hover': { backgroundColor: 'orange' }, width: '6%' }}>
             Login
           </Button>
-          <Button onClick={logout} variant="contained" sx={{ backgroundColor: 'orange', marginRight: '10px', ':hover': { backgroundColor: 'orange' }, width: '6%' }}>
+          <Button onClick={signup} variant="contained" sx={{ backgroundColor: 'orange', marginRight: '10px', ':hover': { backgroundColor: 'orange' }, width: '6%' }}>
             Signup
           </Button>
         </Toolbar>
