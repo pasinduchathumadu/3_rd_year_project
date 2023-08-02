@@ -33,7 +33,7 @@ const Add = () => {
   const [price, setprice] = useState("")
   const [quantity, setquantity] = useState("")
   const [image, setimage] = useState("")
-  const [cart, setgetitem] = useState("")
+  const [cart, setgetitem] = useState([])
   const [update_cart, setupdatecart] = useState("")
   const [updatedescription, setupdatedescription] = useState("")
   const [updateavailibility, setupdateavailibility] = useState("")
@@ -108,7 +108,7 @@ const Add = () => {
 
 
     try {
-      const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/get_item/${editvalue}`)
+      const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/get_item`)
       const data = await res.data
       setgetitem(data.data)
     } catch (err) {
@@ -415,7 +415,7 @@ const Add = () => {
           </Grid>
           {editvalue === 0 && (
             <div style={{ marginTop: '3%', marginLeft: '5%', marginRight: '12%', marginBottom: '5%', backgroundColor: 'white', display: "flex", flexWrap: "wrap", width: '90%', height: 'auto' }}>
-              {cart && cart.map((menu, index) => (
+              {cart.filter((menu,index)=>menu.catogories === 'foods').map((menu, index) => (
                 <Box
                   sx={{
                     width: "380px",
@@ -488,9 +488,9 @@ const Add = () => {
               ))}
             </div>
           )}
-             {editvalue === 1 && (
+             {!update && editvalue === 1 && (
             <div style={{ marginTop: '3%', marginLeft: '5%', marginRight: '12%', marginBottom: '5%', backgroundColor: 'white', display: "flex", flexWrap: "wrap", width: '90%', height: 'auto' }}>
-              {cart && cart.map((menu, index) => (
+              {cart.filter((menu)=>menu.catogories === 'accessories').map((menu, index) => (
                 <Box
                   sx={{
                     width: "380px",
@@ -563,9 +563,9 @@ const Add = () => {
               ))}
             </div>
           )}
-             {editvalue === 2 && (
+             {!update && editvalue === 2 && (
             <div style={{ marginTop: '3%', marginLeft: '5%', marginRight: '12%', marginBottom: '5%', backgroundColor: 'white', display: "flex", flexWrap: "wrap", width: '90%', height: 'auto' }}>
-              {cart && cart.map((menu, index) => (
+              {cart.filter((menu)=>menu.catogories === 'toys').map((menu, index) => (
                 <Box
                   sx={{
                     width: "380px",
@@ -638,6 +638,7 @@ const Add = () => {
               ))}
             </div>
           )}
+          
           <div>
           </div>
         </>
@@ -651,14 +652,14 @@ const Add = () => {
             </Box><div style={{ marginTop: '2%', marginLeft: '20%', marginBottom: '5%', backgroundColor: 'white', width: '60%', height: '80vh', display: 'flex', flexWrap: 'wrap' }}>
                 <div style={{ width: '100%', backgroundColor: '#f0f0f5', margin: '2%' }}>
                   <div style={{ height: '250px', width: '100%', backgroundColor: '#f0f0f5', display: 'flex' }}>
-                    <div style={{ height: '200px', width: '40%', marginTop: '3%', marginLeft: '2%', display: 'inline', backgroundColor: '#F9F8F8' }}>
+                    <div style={{ height: '220px', width: '40%', marginTop: '3%', marginLeft: '2%', display: 'inline', backgroundColor: '#F9F8F8' }}>
 
                    
 
-                      <Card sx={{ maxWidth: "380px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '8px' }}>
+                      <Card sx={{ maxWidth: "200px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '8px',height:'200px',marginLeft:'14%' }}>
                         <CardActionArea>
                           <CardMedia
-                            sx={{ minHeight: "150px" }}
+                            sx={{ minHeight: "10px" }}
                             component={"img"}
                             src={getImageSrc(menu.image)}
                             alt={menu.name} />
