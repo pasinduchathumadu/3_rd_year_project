@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
-import Header from "../../components/Layout/Header";
 import ProfilePicture from '../../assests/profile-picture.png';
-// import PetImage from '../../assests/blog-1.png';
-// import OwnerImage from '../../assests/profile-picture.png';
-
 import Slip from '../../assests/bankslip2.jpeg';
-
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -108,7 +103,6 @@ const Refund = () => {
 
     return (
         <div className="home-container">
-            <Header />
             <div className="top">
                 <div className="top-line">
                     <p>Administrator</p>

@@ -88,6 +88,9 @@ function App() {
     else if(role === 'boarding_house_manager'){
       navigate('/boarding_dashboard')
     }
+    else if (role === 'admin') {
+      navigate('/admin_dashboard')
+    }
     else if(role === 'client'){
       localStorage.setItem("client_email",email)
     }
@@ -149,20 +152,20 @@ function App() {
            )}
 
            {/* admin */}
-           {/* {isLoggedIn && user_role === "admin" &&(
+           {isLoggedIn && user_role === "admin" &&(
              <><Route path="/admin_dashboard" element={<><HomeHeader userRole={"admin"}/><AdminHome /></>} />
              <Route path="/admin_users" element={<><HomeHeader userRole={"admin"}/><AdminUsers /></>} />
              <Route path="/admin_refund" element={<><HomeHeader userRole={"admin"}/><AdminRefund /></>} />
              <Route path="/admin_complains" element={<><HomeHeader userRole={"admin"}/><AdminComplains /></>} />
              </>         
-           )} */}
+           )}
           
 
           {/* admin */}
-          <Route path="/admin_dashboard" element={<AdminHome />} />
+          {/* <Route path="/admin_dashboard" element={<AdminHome />} />
           <Route path="/admin_users" element={<AdminUsers />} />
           <Route path="/admin_refund" element={<AdminRefund />} />
-          <Route path="/admin_complains" element={<AdminComplains />} /> 
+          <Route path="/admin_complains" element={<AdminComplains />} />  */}
 
 
            {/*  */}

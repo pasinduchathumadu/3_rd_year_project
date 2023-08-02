@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Header from "../../components/Layout/Header";
 import ProfilePicture from '../../assests/profile-picture.png';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Box from '@mui/material/Box';
@@ -125,8 +124,6 @@ const Users = () => {
 
     return (
         <div className="home-container">
-
-            <Header />
             <div className="top">
                 <div className="top-line">
                     <p>Administrator</p>
@@ -192,7 +189,6 @@ const Users = () => {
                             </Table>
                         </TableContainer>
                     </div>
-
                 </div>
             )}
 

@@ -1,6 +1,5 @@
 import React from "react";
 import '../../styles/Boarding_house_manager/Home.css';
-import Header from "../../components/Layout/Header";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import ProfilePicture from '../../assests/profile-picture.png';
@@ -25,7 +24,7 @@ const Home = () => {
 
     return (
         <div className="home-container">
-            <Header />
+
             <div className="top">
                 <div className="top-line">
                     <p>Administrator</p>
