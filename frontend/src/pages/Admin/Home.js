@@ -70,17 +70,17 @@ const Home = () => {
                 {/* upper 3 boxes */}
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
                     <div style={{ backgroundColor: 'orange', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
-                        <p style={{ marginBottom: '30px', fontWeight: 'bold', marginLeft: '10px' }}><PeopleIcon sx={{ color: 'black', marginRight:'6px',  marginLeft:'5px' }} /> Clients</p>
+                        <p style={{ fontWeight: 'bold', marginLeft: '10px' }}><PeopleIcon sx={{ color: 'black', marginRight:'6px',  marginLeft:'5px' }} /> Clients</p>
                         <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color:'white' }}>50</p>
                     </div>
 
                     <div style={{ backgroundColor: 'orange', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
-                        <p style={{ marginBottom: '30px', fontWeight: 'bold' }}><AccountCircleIcon sx={{ color: 'black', marginRight:'6px',  marginLeft:'5px' }} />Managers</p>
+                        <p style={{ fontWeight: 'bold' }}><AccountCircleIcon sx={{ color: 'black', marginRight:'6px',  marginLeft:'5px' }} />Managers</p>
                         <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color:'white'  }}>5</p>
                     </div>
 
                     <div style={{ backgroundColor: 'orange', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
-                        <p style={{ marginBottom: '20px', fontWeight: 'bold' }}><ListIcon sx={{ color: 'black', marginRight:'6px' , marginLeft:'5px' }} /> Pending Verifications</p>
+                        <p style={{  fontWeight: 'bold' }}><ListIcon sx={{ color: 'black', marginRight:'6px' , marginLeft:'5px' }} /> Pending Verifications</p>
                         <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color:'white'  }}>3</p>
                     </div>
                 </div>
@@ -90,6 +90,7 @@ const Home = () => {
                     <div style={{ backgroundColor: 'white', padding: '10px', borderRadius: '20px', width: '600px', height: '280px' }}>
                         <p style={{ marginBottom: '30px', fontWeight: 'bold' }}><VerifiedIcon sx={{ color: 'orange', marginRight:'6px', marginLeft:'5px' }} /> Verified Refund Slips </p>
                         <PieChart
+                            colors={['#02FB1B', '#A65959']}
                             series={[
                                 {
                                     data: [
@@ -98,7 +99,7 @@ const Home = () => {
                                     ],
                                 },
                             ]}
-                            width={400}
+                            width={500}
                             height={200}
                         />
                     </div>
@@ -106,6 +107,7 @@ const Home = () => {
                     <div style={{ backgroundColor: 'white', padding: '10px', borderRadius: '20px', width: '600px', height: '280px' }}>
                         <p style={{ marginBottom: '30px', fontWeight: 'bold' }}><DangerousIcon sx={{ color: 'orange', marginRight:'6px',  marginLeft:'5px' }} /> Complains </p>
                         <PieChart
+                        colors={['#FFBE9D', '#790052']}
                             series={[
                                 {
                                     data: [
@@ -114,7 +116,7 @@ const Home = () => {
                                     ],
                                 },
                             ]}
-                            width={400}
+                            width={500}
                             height={200}
                         />
                     </div>                    

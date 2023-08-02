@@ -13,8 +13,6 @@ import Reset from "./pages/Common/Reset";
 import Menu from "./pages/Client/Menu";
 import Petcare from "./pages/Client/Petcare"
 
-
-
 import Cart from "./pages/Client/Cart"
 import LandingHeader from "../../frontend/src/components/Layout/LandingHeader"
 
@@ -50,7 +48,8 @@ import Clientorders from "./pages/Online_store_manager/Clients_orders";
 
 import { useNavigate } from "react-router-dom";
 import HomeHeader from './components/Layout/Homeheader'
-import Complains from "./pages/Boarding_house_manager/Complains";
+// import Complains from "./pages/Boarding_house_manager/Complains";
+
 function App() {
 
   
@@ -137,8 +136,8 @@ function App() {
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
           <Route path="/Pet_grooming" element={<Petgrooming/>}></Route>
 
-           {/* boarding house manager */}
 
+           {/* boarding house manager */}
            {isLoggedIn && user_role === "boarding_house_manager" &&(
              <><Route path="/boarding_dashboard" element={<><HomeHeader userRole={"boarding_house_manager"}/><BoardingHome /></>} />
              <Route path="/boarding_clients" element={<><HomeHeader userRole={"boarding_house_manager"}/><BoardingClients /></>} />
@@ -146,12 +145,8 @@ function App() {
              <Route path="/boarding_packages" element={<><HomeHeader userRole={"boarding_house_manager"}/><BoardingPackages /></>} />
              <Route path="/boarding_complains" element={<><HomeHeader userRole={"boarding_house_manager"}/><BoardingComplains /></>} />
              </>         
-            
-
            )}
           
-
-         
 
           {/* admin */}
           <Route path="/admin_dashboard" element={<AdminHome />} />
