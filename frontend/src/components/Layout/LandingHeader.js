@@ -67,6 +67,23 @@ export default function HomeHeader({ userRole }) {
     navigate('/signup')
   }
 
+  const home = () =>{
+    navigate('/')
+  }
+
+  const about = () => {
+    navigate('/about')
+  }
+
+  const contact = () => {
+    navigate('/contact')
+  }
+  const store = () => {
+    navigate('/store')
+  }
+  const blog = () => {
+    navigate('/blog')
+  }
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -177,12 +194,12 @@ export default function HomeHeader({ userRole }) {
             </Typography>
           </div>
           <Box sx={{ display: { xs: 'none', md: 'flex' }, marginLeft: '20%' }}>
-            <Button sx={{ color: 'white', textTransform: 'none', fontSize: '18px', ':hover': { color: 'orange' } }}>Home</Button>
-            <Button sx={{ color: 'white', textTransform: 'none', marginLeft: '4%', fontSize: '18px', ':hover': { color: 'orange' } }}>About</Button>
-            <Button sx={{ color: 'white', textTransform: 'none', marginLeft: '4%', fontSize: '18px', ':hover': { color: 'orange' } }}>Contact</Button>
+            <Button onClick={home} sx={{ color: 'white', textTransform: 'none', fontSize: '18px', ':hover': { color: 'orange' } }}>Home</Button>
+            <Button onClick={about} sx={{ color: 'white', textTransform: 'none', marginLeft: '4%', fontSize: '18px', ':hover': { color: 'orange' } }}>About</Button>
+            <Button onClick={contact} sx={{ color: 'white', textTransform: 'none', marginLeft: '4%', fontSize: '18px', ':hover': { color: 'orange' } }}>Contact</Button>
             
-            <Button sx={{ color: 'white', textTransform: 'none', marginLeft: '4%', fontSize: '18px', ':hover': { color: 'orange' } }}>Blog</Button>
-            <Button sx={{ color: 'white', textTransform: 'none', marginLeft: '4%', fontSize: '18px', ':hover': { color: 'orange' } }}>Store</Button>
+            <Button onClick={blog} sx={{ color: 'white', textTransform: 'none', marginLeft: '4%', fontSize: '18px', ':hover': { color: 'orange' } }}>Blog</Button>
+            <Button onClick={store} sx={{ color: 'white', textTransform: 'none', marginLeft: '4%', fontSize: '18px', ':hover': { color: 'orange' } }}>Store</Button>
             <ShoppingCartTwoToneIcon sx={{ fontSize: '46px' }} />
           </Box>
           <Box sx={{ marginLeft: '10%', flexGrow: 1, alignItems: 'center', width: '15%' }}>
