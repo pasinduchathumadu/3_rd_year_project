@@ -1,5 +1,5 @@
 import React from 'react';
-import PrimarySearchAppBar from "../../components/Layout/Header";
+
 import petImage from '../../assests/black2.jpg'; // Replace 'path/to/your/image.png' with the actual path to your image
 import Button from '@mui/material/Button';
 import petImage2 from '../../assests/top.png'; 
@@ -15,7 +15,7 @@ function MindRealx() {
 
     
     <div>
-      <PrimarySearchAppBar />
+   
 
 
   <div className='smooth-scroll' style={{

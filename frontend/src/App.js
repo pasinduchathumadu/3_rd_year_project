@@ -18,7 +18,7 @@ import { NonBredShop } from "./pages/Client/NonBredShop";
 
 
 
-
+import Header from "../src/components/Layout/Header"
 
 import Unregisterestore from "./pages/Client/Unregistered_store"
 import Cart from "./pages/Client/Cart"
@@ -37,8 +37,8 @@ import BoardingClients from "./pages/Boarding_house_manager/Clients";
 import BoardingPets from "./pages/Boarding_house_manager/Boardpets";
 import BoardingPackages from "./pages/Boarding_house_manager/Packages";
 import BoardingComplains from "./pages/Boarding_house_manager/Complains";
-import Pet_grooming from "../src/pages/Client/Pet_grooming";
 
+import Reset from "./pages/Common/Reset"
 
 import AdminHome from './pages/Admin/Home';
 import AdminUsers from './pages/Admin/Users';
@@ -99,6 +99,7 @@ function App() {
       navigate('/admin_dashboard')
     }
     else if(role === 'client'){
+      navigate('/dashboard')
       localStorage.setItem("client_email",email)
     }
   };
@@ -141,19 +142,23 @@ function App() {
 
           {/* <Route path="/blogs" element={isLoggedIn ? <Blogs /> : <Navigate to="/login" />} /> */}
        
-      
-          <Route path="/reports" element={<Reports/>}></Route>
-          <Route path="/dashboard" element={<Dashboard/>}></Route>
-          <Route path="/petcare" element={<Petcare/>}></Route>
-          <Route path="/MindRealx" element={<MindRealx/>}></Route>
-          <Route path="/shop" element={<Shop/>}></Route>
-          <Route path="/NonBredShop" element={<NonBredShop/>}></Route>
+        {isLoggedIn && user_role === "client" &&(
+           <><Route path="/reports" element={<><Header userRole={'client'} /><Reports /></>}>
+            </Route><Route path="/dashboard" element={<><Header userRole={'client'} /><Dashboard /></>}>
+              </Route><Route path="/petcare" element={<><Header userRole={'client'} /><Petcare /></>}>
+                </Route><Route path="/MindRealx" element={<><Header userRole={'client'} /><MindRealx /></>}>
+                  </Route><Route path="/shop" element={<><Header userRole={'client'} /><Shop /></>}>
+                    </Route><Route path="/NonBredShop" element={<><Header userRole={'client'} /><NonBredShop /></>}>
+                      </Route><Route path="/Pet_grooming" element={<><Header userRole={'client'} /><Petgrooming /></>}></Route></>
 
+ 
+
+        )}
+         
 
 
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
-          <Route path="/Pet_grooming" element={<Petgrooming/>}></Route>
-
+         
 
            {/* boarding house manager */}
            {isLoggedIn && user_role === "boarding_house_manager" &&(

@@ -108,7 +108,7 @@ const Add = () => {
 
 
     try {
-      const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/get_item/${value}`)
+      const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/get_item/${editvalue}`)
       const data = await res.data
       setgetitem(data.data)
     } catch (err) {
@@ -164,6 +164,7 @@ const Add = () => {
   };
   const editchange = (event, newValue) => {
     seteditvalue(newValue)
+    getitem()
     setupdate(false)
     setupdate_message(false)
     setupdate_error(false)
@@ -407,7 +408,7 @@ const Add = () => {
               >
                 <Tab sx={{ backgroundColor: editvalue === 0 ? 'orange' : 'white', color: "black" }} label="Pet Food" />
                 <Tab sx={{ backgroundColor: editvalue === 1 ? 'orange' : 'white', color: "black" }} label="pet accessories" />
-                <Tab sx={{ backgroundColor: editvalue === 2 ? 'orange' : 'white', color: "black" }} label="others" />
+                <Tab sx={{ backgroundColor: editvalue === 2 ? 'orange' : 'white', color: "black" }} label="Pet Toys" />
               </Tabs>
 
             </Box>
@@ -422,7 +423,7 @@ const Add = () => {
                     border: "10px",
                     borderRadius: "10px",
                     marginTop: "35px",
-                    height: '290px',
+                    height: '330px',
                     backgroundColor: '#D9D9D9',
                     marginLeft: '50px'
                   }}
@@ -437,9 +438,9 @@ const Add = () => {
                     </IconButton>
 
                   </Box>
-                  <Box sx={{ backgroundColor: '#FFFFFF', margin: '4%', height: '190px', display: 'flex' }}>
-                    <Box sx={{ border: '1px', borderColor: 'gray', borderStyle: 'solid', width: '75%', height: '180px', display: 'inline',marginTop:'6px' }}>
-                      <Card sx={{ maxWidth: "380px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '11px' }}>
+                  <Box sx={{ backgroundColor: '#FFFFFF', margin: '4%', height: '230px', display: 'flex' }}>
+                    <Box sx={{ border: '1px', borderColor: 'gray', borderStyle: 'solid', width: '75%', height: '200px', display: 'inline',marginTop:'6px' }}>
+                      <Card sx={{ maxWidth: "140px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '11px' }}>
                         <CardActionArea>
                           <CardMedia
                             sx={{ minHeight: "150px" }}
@@ -450,7 +451,157 @@ const Add = () => {
                         </CardActionArea>
                       </Card>
                     </Box>
-                    <Box sx={{ marginLeft: '1%', border: '1px', borderColor: 'gray', borderStyle: 'solid', width: '50%', height: '180px', display: 'inline',marginTop:'6px' }}>
+                    <Box sx={{ marginLeft: '1%', border: '1px', borderColor: 'gray', borderStyle: 'solid', width: '50%', height: '200px', display: 'inline',marginTop:'6px' }}>
+                      <div style={{ marginTop: '25px', marginLeft: '5px' }}>
+                        <Typography sx={{ fontFamily: 'Time New Roman', fontSize: '20px', fontStyle: 'bold', paddingBottom: '5px' }}>Name:{menu.name}</Typography>
+                        <Typography sx={{ fontFamily: 'Time New Roman', fontSize: '18px', fontStyle: 'bold' }}>Price:{menu.unit_price}</Typography>
+                        <Typography sx={{ fontFamily: 'Time New Roman', fontSize: '18px', fontStyle: 'bold' }}>Quantity:{menu.quantity}</Typography>
+                      </div>
+                    </Box>
+                  </Box>
+                  <div style={{ width: '50%', marginTop: '100px', backgroundColor: 'red' }}>
+
+                    <Dialog
+                      open={open}
+                      onClose={handleClose}
+                      aria-labelledby="alert-dialog-title"
+                      aria-describedby="alert-dialog-description"
+                    >
+                      <DialogTitle id="alert-dialog-title">
+                        Online Store Manager
+                      </DialogTitle>
+                      <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                          Are You Sure Do you want to Delete this Produt Permenatly?
+                        </DialogContentText>
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={handleClose}>Back</Button>
+                        <Button onClick={handledelete} autoFocus>
+                          Delete
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
+                  </div>
+
+                </Box>
+              ))}
+            </div>
+          )}
+             {editvalue === 1 && (
+            <div style={{ marginTop: '3%', marginLeft: '5%', marginRight: '12%', marginBottom: '5%', backgroundColor: 'white', display: "flex", flexWrap: "wrap", width: '90%', height: 'auto' }}>
+              {cart && cart.map((menu, index) => (
+                <Box
+                  sx={{
+                    width: "380px",
+                    m: 2,
+                    border: "10px",
+                    borderRadius: "10px",
+                    marginTop: "35px",
+                    height: '330px',
+                    backgroundColor: '#D9D9D9',
+                    marginLeft: '50px'
+                  }}
+                >
+                  <Box sx={{ margin: '5%', backgroundColor: '#FFFFFF', display: 'flex', height: '40px', padding: '2%', borderRadius: '10px' }}>
+                    Product ID:{menu.item_id}
+                    <IconButton sx={{ marginLeft: '36%' }} onClick={() => updatecart(menu.item_id)}>
+                      <EditIcon color="primary" />
+                    </IconButton>
+                    <IconButton sx={{ marginLeft: 'auto' }} onClick={() => handleClickOpen(menu.item_id)}>
+                      <DeleteIcon alignItems="center" sx={{ color: 'red', display: 'inline' }} />
+                    </IconButton>
+
+                  </Box>
+                  <Box sx={{ backgroundColor: '#FFFFFF', margin: '4%', height: '230px', display: 'flex' }}>
+                    <Box sx={{ border: '1px', borderColor: 'gray', borderStyle: 'solid', width: '75%', height: '200px', display: 'inline',marginTop:'6px' }}>
+                      <Card sx={{ maxWidth: "140px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '11px' }}>
+                        <CardActionArea>
+                          <CardMedia
+                            sx={{ minHeight: "150px" }}
+                            component={"img"}
+                            src={getImageSrc(menu.image)}
+                            alt={menu.name} />
+
+                        </CardActionArea>
+                      </Card>
+                    </Box>
+                    <Box sx={{ marginLeft: '1%', border: '1px', borderColor: 'gray', borderStyle: 'solid', width: '50%', height: '200px', display: 'inline',marginTop:'6px' }}>
+                      <div style={{ marginTop: '25px', marginLeft: '5px' }}>
+                        <Typography sx={{ fontFamily: 'Time New Roman', fontSize: '20px', fontStyle: 'bold', paddingBottom: '5px' }}>Name:{menu.name}</Typography>
+                        <Typography sx={{ fontFamily: 'Time New Roman', fontSize: '18px', fontStyle: 'bold' }}>Price:{menu.unit_price}</Typography>
+                        <Typography sx={{ fontFamily: 'Time New Roman', fontSize: '18px', fontStyle: 'bold' }}>Quantity:{menu.quantity}</Typography>
+                      </div>
+                    </Box>
+                  </Box>
+                  <div style={{ width: '50%', marginTop: '100px', backgroundColor: 'red' }}>
+
+                    <Dialog
+                      open={open}
+                      onClose={handleClose}
+                      aria-labelledby="alert-dialog-title"
+                      aria-describedby="alert-dialog-description"
+                    >
+                      <DialogTitle id="alert-dialog-title">
+                        Online Store Manager
+                      </DialogTitle>
+                      <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                          Are You Sure Do you want to Delete this Produt Permenatly?
+                        </DialogContentText>
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={handleClose}>Back</Button>
+                        <Button onClick={handledelete} autoFocus>
+                          Delete
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
+                  </div>
+
+                </Box>
+              ))}
+            </div>
+          )}
+             {editvalue === 2 && (
+            <div style={{ marginTop: '3%', marginLeft: '5%', marginRight: '12%', marginBottom: '5%', backgroundColor: 'white', display: "flex", flexWrap: "wrap", width: '90%', height: 'auto' }}>
+              {cart && cart.map((menu, index) => (
+                <Box
+                  sx={{
+                    width: "380px",
+                    m: 2,
+                    border: "10px",
+                    borderRadius: "10px",
+                    marginTop: "35px",
+                    height: '330px',
+                    backgroundColor: '#D9D9D9',
+                    marginLeft: '50px'
+                  }}
+                >
+                  <Box sx={{ margin: '5%', backgroundColor: '#FFFFFF', display: 'flex', height: '40px', padding: '2%', borderRadius: '10px' }}>
+                    Product ID:{menu.item_id}
+                    <IconButton sx={{ marginLeft: '36%' }} onClick={() => updatecart(menu.item_id)}>
+                      <EditIcon color="primary" />
+                    </IconButton>
+                    <IconButton sx={{ marginLeft: 'auto' }} onClick={() => handleClickOpen(menu.item_id)}>
+                      <DeleteIcon alignItems="center" sx={{ color: 'red', display: 'inline' }} />
+                    </IconButton>
+
+                  </Box>
+                  <Box sx={{ backgroundColor: '#FFFFFF', margin: '4%', height: '230px', display: 'flex' }}>
+                    <Box sx={{ border: '1px', borderColor: 'gray', borderStyle: 'solid', width: '75%', height: '200px', display: 'inline',marginTop:'6px' }}>
+                      <Card sx={{ maxWidth: "140px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '11px' }}>
+                        <CardActionArea>
+                          <CardMedia
+                            sx={{ minHeight: "150px" }}
+                            component={"img"}
+                            src={getImageSrc(menu.image)}
+                            alt={menu.name} />
+
+                        </CardActionArea>
+                      </Card>
+                    </Box>
+                    <Box sx={{ marginLeft: '1%', border: '1px', borderColor: 'gray', borderStyle: 'solid', width: '50%', height: '200px', display: 'inline',marginTop:'6px' }}>
                       <div style={{ marginTop: '25px', marginLeft: '5px' }}>
                         <Typography sx={{ fontFamily: 'Time New Roman', fontSize: '20px', fontStyle: 'bold', paddingBottom: '5px' }}>Name:{menu.name}</Typography>
                         <Typography sx={{ fontFamily: 'Time New Roman', fontSize: '18px', fontStyle: 'bold' }}>Price:{menu.unit_price}</Typography>

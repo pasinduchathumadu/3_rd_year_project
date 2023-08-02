@@ -13,9 +13,9 @@ export const get_item = async (req, res, next) => {
         item_catogery = "accessories"
     }
     if (id === '2') {
-        item_catogery = "others"
+        item_catogery = "toys"
     }
-
+ 
     const sqlQuery = 'select *from item where catogories = ?'
     const values = [
         item_catogery

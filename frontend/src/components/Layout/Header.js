@@ -1,5 +1,5 @@
 
-
+import { useNavigate } from 'react-router-dom';
 import * as React from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
@@ -62,7 +62,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar({userRole}) {
+
+  const navigate = useNavigate()
 
   const [state, setState] = React.useState({
         top: false,
@@ -105,6 +107,13 @@ export default function PrimarySearchAppBar() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  const logout = () =>{
+    localStorage.removeItem("userRole");
+    localStorage.setItem("isLoggedIn", "false");
+    navigate('/')
+
+  }
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -256,14 +265,14 @@ export default function PrimarySearchAppBar() {
             </IconButton>
             
           </Box>
-          <Button variant="contained" sx={{backgroundColor:"orange",marginRight:"10px"}}>logout</Button>
+          <Button onClick={logout} variant="contained" sx={{backgroundColor:"orange",marginRight:"10px",':hover':{backgroundColor:'orange'}}}>logout</Button>
 
 
 
         </Toolbar>
          
       </AppBar>
-         <TemporaryDrawer state={state} setState={setState} toggleDrawer={toggleDrawer}/>
+         <TemporaryDrawer state={state} setState={setState} toggleDrawer={toggleDrawer} userType={userRole}/>
 
       {renderMobileMenu}
       {renderMenu}

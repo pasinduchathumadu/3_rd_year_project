@@ -29,6 +29,10 @@ export default function TemporaryDrawer({ state, setState, toggleDrawer ,userTyp
   }else if (userType === 'admin') {
     data = ["Dashboard", "Users", "Refund Verifications", "Complains"];
     data_link = ["admin_dashboard", "admin_users", "admin_refund", "admin_complains"];
+  }
+  else if(userType === 'client'){
+    data = ["Dashboard","Pet Care","Mind Relaxing","Shop","Non-Breadshop","Pet Grooming","Reports"];
+    data_link = ["dashboard","petcare","MindRelax","shop","NonBredShop","Pet_grooming","reports"]
   } else {
     // Default values if userType doesn't match any of the conditions
     data = [];
