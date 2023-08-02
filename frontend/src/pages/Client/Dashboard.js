@@ -11,7 +11,7 @@ import Image1 from '../../assests/cover.png'
 import Image2 from '../../assests/pic3.jpg'
 import Image3 from '../../assests/medi-help-image.png'
 import Image4 from '../../assests/pet-foods.png'
-
+import "../../styles/Client/Shop.css"
 import Button from '@mui/material/Button';
 
 import {useNavigate} from 'react-router-dom'
@@ -119,13 +119,13 @@ export const Dashboard = () => {
     <div className='dashboard'>
 
         <><PrimarySearchAppBar />
-        <div >
+        <div className='smooth-scroll'>
           <h1 style={{textAlign:"center",fontSize:"60px",fontWeight:"40",marginTop:"30px"}}>Keep your Pet <span style={{color:"orange"}}>Happy</span> </h1>
 
         </div>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%' ,marginTop:"60px"}}>
       {images.map((image) => (
-        <ImageButton
+        <ImageButton className='smooth-scroll'
           focusRipple
           key={image.title}
           style={{

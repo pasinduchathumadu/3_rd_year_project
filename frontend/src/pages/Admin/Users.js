@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Header from "../../components/Layout/Header";
 import ProfilePicture from '../../assests/profile-picture.png';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Box from '@mui/material/Box';
@@ -20,11 +19,12 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { FormLabel, TextField } from "@mui/material";
 import { styled } from '@mui/material/styles';
-import  { tableCellClasses } from '@mui/material/TableCell';
+import { tableCellClasses } from '@mui/material/TableCell';
 import Image from '../../assests/profile.jpg';
 import PetImage from '../../assests/dog1.jpg';
 import PetImage1 from '../../assests/dog.jpg';
 import StarIcon from '@mui/icons-material/Star';
+// import { FormHelperText } from '@material-ui';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -74,6 +74,15 @@ const managerows = [
 
 
 const Users = () => {
+    // select manager role
+   
+        const [role, setRole] = React.useState('');
+      
+        const handle = (event) => {
+          setRole(event.target.value);
+        };
+ 
+
     // drop down
     const [clients, setClients] = React.useState('1');
     const handleChange = (event) => {
@@ -125,8 +134,6 @@ const Users = () => {
 
     return (
         <div className="home-container">
-
-            <Header />
             <div className="top">
                 <div className="top-line">
                     <p>Administrator</p>
@@ -192,7 +199,6 @@ const Users = () => {
                             </Table>
                         </TableContainer>
                     </div>
-
                 </div>
             )}
 
@@ -243,7 +249,7 @@ const Users = () => {
                                             <StyledTableCell align="center">{clientrow.contact}</StyledTableCell>
                                             <StyledTableCell align="center">{clientrow.address}</StyledTableCell>
                                             <StyledTableCell align="center">
-                                                {clientrow.category === "premium" ? <><StarIcon sx={{color:'orange'}} /> premium</> : "regular"}
+                                                {clientrow.category === "premium" ? <><StarIcon sx={{ color: 'orange' }} /> premium</> : "regular"}
                                             </StyledTableCell>
                                             <StyledTableCell align="center"><Button onClick={() => PetViewing()} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Pet Details</Button></StyledTableCell>
                                             <StyledTableCell align="center"><DeleteIcon sx={{ color: 'red' }} /></StyledTableCell>
@@ -269,30 +275,48 @@ const Users = () => {
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <div className="form-label">
                                     <FormLabel> Name</FormLabel>
-                                    <TextField id="outlined-basic" placeholder="Manager Name" type="text" variant="outlined" sx={{ width: '300px' }} />
+                                    <TextField id="outlined-basic" placeholder="Manager Name" type="text" variant="outlined" sx={{ width: '300px' }} required />
                                 </div>
                                 <div className="form-label">
                                     <FormLabel> Email Address</FormLabel>
-                                    <TextField id="outlined-basic" placeholder="youremail@gmail.com" type="email" variant="outlined" sx={{ width: '300px' }} />
+                                    <TextField id="outlined-basic" placeholder="youremail@gmail.com" type="email" variant="outlined" sx={{ width: '300px' }} required/>
                                 </div>
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <div className="form-label">
                                     <FormLabel> Contact Number</FormLabel>
-                                    <TextField id="outlined-basic" placeholder="Contact Number" type="text" variant="outlined" sx={{ width: '300px' }} />
+                                    <TextField id="outlined-basic" placeholder="Contact Number" type="text" variant="outlined" sx={{ width: '300px' }} required/>
                                 </div>
                                 <div className="form-label">
                                     <FormLabel> Address</FormLabel>
-                                    <TextField id="outlined-basic" placeholder=" Address" type="text" variant="outlined" sx={{ width: '300px' }} />
+                                    <TextField id="outlined-basic" placeholder=" Address" type="text" variant="outlined" sx={{ width: '300px' }} required/>
                                 </div>
                             </div>
                             <div className="form-label">
-                                <FormLabel> Store</FormLabel>
-                                <TextField id="outlined-basic" placeholder=" Store" variant="outlined" />
+                                <FormLabel> Role</FormLabel>
+                                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                                    <Select
+                                        value={role}
+                                        onChange={handle}
+                                        displayEmpty
+                                        inputProps={{ 'aria-label': 'Without label' }}
+                                        required
+                                    >
+                                        <MenuItem value="">
+                                            <em>None</em>
+                                        </MenuItem>
+                                        <MenuItem value={10}>Medi Help Center Manager</MenuItem>
+                                        <MenuItem value={20}>Boarding House Manager</MenuItem>
+                                        <MenuItem value={30}>Online Store Manager</MenuItem>
+                                        <MenuItem value={30}>Care Center Manager</MenuItem>
+                                        <MenuItem value={30}>Company Manager</MenuItem>
+                                    </Select>
+                                   
+                                </FormControl>
                             </div>
                             <div className="form-label">
                                 <FormLabel> Profile Picture</FormLabel>
-                                <input type="file"></input>
+                                <input type="file" style={{padding:'8px', backgroundColor:'blue', color:'white', width:'40%', borderRadius:'10px'}}></input>
                             </div>
                             <Button variant="contained" onClick={() => submitManager()} sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Add </Button>
                         </div>
@@ -310,7 +334,7 @@ const Users = () => {
                             </div>
 
                             <div className="form-label">
-                                <img src={ Image } alt="manager photo" style={{borderRadius:'50%', width:'200px', height:'auto',marginLeft:'35%'}} />
+                                <img src={Image} alt="manager photo" style={{ borderRadius: '50%', width: '200px', height: 'auto', marginLeft: '35%' }} />
                             </div>
 
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
