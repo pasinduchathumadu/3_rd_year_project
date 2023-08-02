@@ -77,8 +77,7 @@ function App() {
     setuserrole(role);
     localStorage.setItem("userRole", role);
     localStorage.setItem("isLoggedIn", "true");
-
-
+    localStorage.setItem('store_email',email)
   
     if(role === 'online_store_manager'){
 
@@ -121,13 +120,13 @@ function App() {
           <Route path="/login" element={ <Login onLogin={handleLogin} />} />
           
 
-          <Route path="/menu" element={<><HomeHeader userRole={'client'}/><Menu/></>}/>
-          <Route path="/cart" element = {<><HomeHeader userRole={'client'}/><Cart /></>} />
+          <Route path="/menu" element={isLoggedIn ? (<><HomeHeader userRole={user_role} /><Menu/></>):(<Navigate to='/login'/>)}/>
+          <Route path="/cart" element = {isLoggedIn ? (<><HomeHeader userRole={user_role}/><Cart /></>):(<Navigate to='/login'/>)} />
           <Route path="/email" element={!issignup ?<Email /> : <Navigate to ="/signup"/>}/>
           <Route path="/forget" element={<Forgot />} />
           <Route path="/reset" element={<Reset />} />
           
-          <Route path="/blog" element={<Blogs />} />
+          <Route path="/blog" element={isLoggedIn? (<><HomeHeader userRole={user_role}/><Blogs/></>):(<><LandingHeader/><Blogs/></>)} />
           {/* <Route path="/blogs" element={isLoggedIn ? <Blogs /> : <Navigate to="/login" />} /> */}
        
       

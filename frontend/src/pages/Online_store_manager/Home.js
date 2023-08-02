@@ -6,7 +6,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import profile from "../../assests/profile.jpg";
+import profile from "../../assests/pic12.jfif";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { BarChart } from '@mui/x-charts/BarChart';
@@ -14,8 +14,8 @@ import { PieChart, pieArcClasses } from '@mui/x-charts/PieChart';
 import axios from 'axios';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
-import PollIcon from '@mui/icons-material/Poll';
 import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
 
 
@@ -117,10 +117,10 @@ const Home = () => {
         <>
 
             <div>
-                <Grid sx={{ marginTop: '2%', marginRight: '2%', marginLeft: '2%', marginBottom: '2%' }}>
+                <Grid sx={{ marginTop: '1%', marginRight: '1%', marginLeft: '1%', marginBottom: '1%' }}>
                     {/* Header */}
                     <div style={{ display: 'flex' }}>
-                        <div style={{ display: 'inline', marginTop: '30px', marginLeft: '2%' }}>
+                        <div style={{ display: 'inline', marginTop: '30px', marginLeft: '2%',color:'rgb(139, 139, 139)' }}>
                             <Typography>
                                 Online Store Manager
                             </Typography>
@@ -131,10 +131,17 @@ const Home = () => {
                                 {date}
                             </Typography>
                         </div>
-                        <div style={{ display: 'flex', marginLeft: 'auto' }}>
+                        <div style={{ display: 'flex', marginLeft: 'auto',alignItems:'center',justifyContent:'center' }}>
+                            <div>
+                            <NotificationsIcon sx={{marginTop:'1%'}}/> 
+                            </div>
+                            <div style={{marginLeft:'1%'}}>
                             <Stack direction="row" spacing={2}>
-                                <Avatar alt="Travis Howard" src={profile} sx={{ width: 100, height: 100 }} />
+                             <Avatar alt="Travis Howard" src={profile} sx={{ width: 60, height: 60 }} />
                             </Stack>
+
+                            </div>
+                           
                         </div>
                     </div>
 
