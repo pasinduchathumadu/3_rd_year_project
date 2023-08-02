@@ -103,7 +103,8 @@ function App() {
          
           <Route path="/email" element={issignup ?<Email /> : <Navigate to ="/signup"/>}/>
 
-
+          <Route path="/about" element={<About/>} />
+          <Route path="/contact" element={<Contact/>}/>
           <Route path="/" element={
              <><LandingHeader />
              <div className="App">
