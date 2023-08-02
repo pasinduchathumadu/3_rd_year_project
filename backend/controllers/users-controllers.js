@@ -259,19 +259,36 @@ export const get_store = async(req,res,next) =>{
 
 export const temp_cart = async(req,res,next)=>{
   const {id , email } = req.body
-  const sqlQuery = "Insert Into temporary_card (item_id,email)VALUES(?,?)"
-  const values = [
-    id,
-    email
+  const sqlQuery1 = "SELECT *FROM temporary_card WHERE email = ? AND item_id = ?"
+  const values1 = [
+    email,
+    id
   ]
-  db.query(sqlQuery,values,(err,data)=>{
+  db.query(sqlQuery1,values1,(err,data)=>{
     if(err){
-      return res.json({message:'There is an internel error'})
+      return res.json({message:'There is an error'})
+    }
+    else if(data.length>0){
+      return res.json({message:'already in the cart'})
     }
     else{
-      return res.json({message:'added'})
+      const sqlQuery = "Insert Into temporary_card (item_id,email)VALUES(?,?)"
+      const values = [
+        id,
+        email
+      ]
+      db.query(sqlQuery,values,(err,data)=>{
+        if(err){
+          return res.json({message:'There is an internel error'})
+        }
+        else{
+          return res.json({message:'added'})
+        }
+      })
+
     }
   })
+ 
 }
 
 export const load_cart = async(req,res,next) =>{
