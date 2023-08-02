@@ -14,6 +14,18 @@
     opacity: 0;
     transform: translateY(20px);
     animation: fadeInUp .5s ease-out forwards;
+    
     /* Change the animation duration (1s) and easing function (ease-out) as needed */
   }
-  
+
+
+/* Mindrelax.css */
+.blur-background {
+  backdrop-filter: blur(8px); /* Adjust the blur strength as needed */
+  background-color: rgba(0, 0, 0, 0.5); /* Adjust the background color and opacity as needed */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
