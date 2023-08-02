@@ -7,6 +7,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 
 const Footer = () => {
     return (
+        
         <div className="footer-wrapper">
             <div className="footer-section-one">
                 <div className="footer-logo-container">

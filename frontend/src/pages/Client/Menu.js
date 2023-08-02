@@ -19,10 +19,12 @@ import {
   Typography,
 } from "@mui/material";
 import '../../styles/Common/HeaderStyles.css'
-import dog from '../../assests/dog3.jpg'
-import dog1 from '../../assests/pic.jpg'
-import dog2 from '../../assests/dog.jpg'
+import dog from '../../assests/pic3.jpg'
+import dog1 from '../../assests/dog3.jpg'
+import dog2 from '../../assests/pic57.webp'
 import axios from "axios";
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 const Menu = () => {
   const navigate = useNavigate()
@@ -30,6 +32,7 @@ const Menu = () => {
   const [value_dog, setdog] = useState("")
   const [MenuList,setmenu] = useState([])
   const [dogBackground, setDogBackground] = useState(dog)
+  const [error , seterror ] = useState([])
   const handleselection = (event) => {
     setdog(event.target.value);
   };
@@ -50,7 +53,11 @@ const Menu = () => {
         changelocation()
        
       }
-      else{
+      else if(res.data.message === 'already in the cart'){
+        seterror(() => ({
+     
+          [id]: 'already in the cart'
+        }));
 
       }
 
@@ -101,14 +108,14 @@ const Menu = () => {
   return (
     <>
       <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
-        <Box sx={{ width: '100%', height: '70vh', backgroundImage: `url(${dogBackground})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <Box sx={{ width: '100%', height: '80vh', backgroundImage: `url(${dogBackground})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center' }}>
           <Grid sx={{ marginTop: '150px', marginLeft: '100px', fontStyle: 'bold' }}>
-            <h1 style={{ fontSize: "55px", color: 'white' }}>50% discount for</h1>
+            <h1 style={{ fontSize: "55px", color: 'black' }}>50% discount for</h1>
             <Typography sx={{ fontSize: '24px', fontStyle: 'bold', marginTop: '10px', marginBottom: '10px', color: 'white' }}>FIRST ORDER</Typography>
             <Button variant="contained" sx={{ width: '15%', backgroundColor: 'orange' }}>SHOP NOW</Button>
           </Grid>
         </Box>
-        <Box sx={{ width: "90%", marginTop: '10px' }}>
+        <Box sx={{ width: "90%", marginTop: '30px' }}>
           <Tabs
             value={value}
             onChange={handleChange}
@@ -187,12 +194,17 @@ const Menu = () => {
                   {menu.name}
                 </Typography>
                 <Typography variant="body2">{menu.description}</Typography><br />
-                <Typography variant="body2" sx={{ color: "red", marginBottom: '9px' }}>RS.{menu.price}</Typography>
+                <Typography variant="body2" sx={{ color: "red", marginBottom: '9px' }}>RS.{menu.unit_price}</Typography>
                 <Button variant="contained" sx={{
                   backgroundColor: 'black', color: 'white', '&:active, &:focus': {
                     backgroundColor: 'black'
                   },':hover':{backgroundColor:'black'}
                 }} onClick={()=>submit(menu.item_id)}>Add To Cart</Button>
+                {error[menu.item_id] &&(
+                     <Stack sx={{ width: '90%',marginTop:'4%' }} spacing={2}>
+                       <Alert severity="warning">Already Added!</Alert>
+                     </Stack>
+                )}
               </CardContent>
             </CardActionArea>
           </Card>
@@ -218,12 +230,17 @@ const Menu = () => {
                   {menu.name}
                 </Typography>
                 <Typography variant="body2">{menu.description}</Typography><br />
-                <Typography variant="body2" sx={{ color: "red", marginBottom: '9px' }}>RS.{menu.price}</Typography>
+                <Typography variant="body2" sx={{ color: "red", marginBottom: '9px' }}>RS.{menu.unit_price}</Typography>
                 <Button variant="contained" sx={{
                   backgroundColor: 'black', color: 'white', '&:active, &:focus': {
                     backgroundColor: 'black'
                   },
                 }} onClick={submit}>Add To Cart</Button>
+                 {error[menu.item_id] &&(
+                     <Stack sx={{ width: '90%',marginTop:'4%' }} spacing={2}>
+                       <Alert severity="warning">Already Added!</Alert>
+                     </Stack>
+                )}
               </CardContent>
             </CardActionArea>
           </Card>
@@ -249,12 +266,17 @@ const Menu = () => {
                   {menu.name}
                 </Typography>
                 <Typography variant="body2">{menu.description}</Typography><br />
-                <Typography variant="body2" sx={{ color: "red", marginBottom: '9px' }}>RS.{menu.price}</Typography>
+                <Typography variant="body2" sx={{ color: "red", marginBottom: '9px' }}>RS.{menu.unit_price}</Typography>
                 <Button variant="contained" sx={{
                   backgroundColor: 'black', color: 'white', '&:active, &:focus': {
                     backgroundColor: 'black'
                   },':hover':{backgroundColor:'black'}
                 }} onClick={submit}>Add To Cart</Button>
+                 {error[menu.item_id] &&(
+                     <Stack sx={{ width: '90%',marginTop:'4%' }} spacing={2}>
+                       <Alert severity="warning">Already Added!</Alert>
+                     </Stack>
+                )}
               </CardContent>
             </CardActionArea>
           </Card>
