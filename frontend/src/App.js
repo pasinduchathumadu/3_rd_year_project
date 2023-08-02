@@ -9,9 +9,17 @@ import Email from "./pages/Common/Email";
 import { Dashboard } from "./pages/Client/Dashboard";
 import { Reports } from "./pages/Client/Reports";
 
-import Reset from "./pages/Common/Reset";
 import Menu from "./pages/Client/Menu";
 import Petcare from "./pages/Client/Petcare"
+
+import MindRealx from "./pages/Client/MindRealx";
+import { Shop } from "./pages/Client/Shop";
+import { NonBredShop } from "./pages/Client/NonBredShop";
+
+
+
+
+
 import Unregisterestore from "./pages/Client/Unregistered_store"
 import Cart from "./pages/Client/Cart"
 import LandingHeader from "../../frontend/src/components/Layout/LandingHeader"
@@ -29,6 +37,8 @@ import BoardingClients from "./pages/Boarding_house_manager/Clients";
 import BoardingPets from "./pages/Boarding_house_manager/Boardpets";
 import BoardingPackages from "./pages/Boarding_house_manager/Packages";
 import BoardingComplains from "./pages/Boarding_house_manager/Complains";
+import Pet_grooming from "../src/pages/Client/Pet_grooming";
+
 
 import AdminHome from './pages/Admin/Home';
 import AdminUsers from './pages/Admin/Users';
@@ -39,8 +49,6 @@ import Petgrooming from "../src/pages/Client/Pet_grooming";
 
 
 import Caregiverlist from "./pages/Care_center_manager/caregiverlist";
-
-
 import Onlinehome from "./pages/Online_store_manager/Home"
 import OnlineAdd from "./pages/Online_store_manager/Add"
 import Complain from "./pages/Online_store_manager/Complain";
@@ -131,12 +139,19 @@ function App() {
           <Route path="/reset" element={<Reset />} />
           
           <Route path="/blog" element={<Blogs />} />
+
           {/* <Route path="/blogs" element={isLoggedIn ? <Blogs /> : <Navigate to="/login" />} /> */}
        
       
           <Route path="/reports" element={<Reports/>}></Route>
           <Route path="/dashboard" element={<Dashboard/>}></Route>
           <Route path="/petcare" element={<Petcare/>}></Route>
+          <Route path="/MindRealx" element={<MindRealx/>}></Route>
+          <Route path="/shop" element={<Shop/>}></Route>
+          <Route path="/NonBredShop" element={<NonBredShop/>}></Route>
+
+
+
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
           <Route path="/Pet_grooming" element={<Petgrooming/>}></Route>
 

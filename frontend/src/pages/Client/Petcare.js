@@ -11,6 +11,8 @@ import { Link } from 'react-router-dom';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import "../../styles/Client/Mindrelax.css";
+
 
 import PrimarySearchAppBar from "../../components/Layout/Header";
 
@@ -20,14 +22,9 @@ export default function Petcare() {
   return (
     <><PrimarySearchAppBar />
 
-    {/* <FormGroup>
-      <FormControlLabel control={<Checkbox defaultChecked />} label="Label" />
-      <FormControlLabel required control={<Checkbox />} label="Required" />
-      <FormControlLabel disabled control={<Checkbox />} label="Disabled" />
-    </FormGroup> */}
-    
+ 
     <h1 style={{textAlign:"center",fontSize:"60px",fontWeight:"40",marginTop:"30px"}}> Pet <span style={{color:"orange"}}>care</span> </h1>
-    <div style={{marginLeft:"180px",display:"flex",gap:"30px",marginTop:"35px"}}>
+    <div className='smooth-scroll' style={{marginLeft:"180px",display:"flex",gap:"30px",marginTop:"35px"}}>
     <Card sx={{ maxWidth: 345 ,transition: "transform 0.5s ",
                 "&:hover": {
                   transform: "scale(1.1)", // Apply scale transform on hover
@@ -62,11 +59,13 @@ export default function Petcare() {
                   boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", // Add box shadow on hover
                 },}}>
       <CardActionArea>
+      <Link to="/MindRealx" style={{ textDecoration: "none", color: "inherit" }}>
         <CardMedia style={{height:"35vh"}}
           component="img"
           height="140"
           image={image1}
           alt="green iguana" />
+          </Link>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             Mind relax
