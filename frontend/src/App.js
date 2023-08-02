@@ -147,6 +147,15 @@ function App() {
              <Route path="/boarding_complains" element={<><HomeHeader userRole={"boarding_house_manager"}/><BoardingComplains /></>} />
              </>         
            )}
+
+           {/* admin */}
+           {/* {isLoggedIn && user_role === "admin" &&(
+             <><Route path="/admin_dashboard" element={<><HomeHeader userRole={"admin"}/><AdminHome /></>} />
+             <Route path="/admin_users" element={<><HomeHeader userRole={"admin"}/><AdminUsers /></>} />
+             <Route path="/admin_refund" element={<><HomeHeader userRole={"admin"}/><AdminRefund /></>} />
+             <Route path="/admin_complains" element={<><HomeHeader userRole={"admin"}/><AdminComplains /></>} />
+             </>         
+           )} */}
           
 
           {/* admin */}
@@ -154,7 +163,6 @@ function App() {
           <Route path="/admin_users" element={<AdminUsers />} />
           <Route path="/admin_refund" element={<AdminRefund />} />
           <Route path="/admin_complains" element={<AdminComplains />} /> 
-
 
 
            {/*  */}

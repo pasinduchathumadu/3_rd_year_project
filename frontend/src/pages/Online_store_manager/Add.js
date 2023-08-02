@@ -226,7 +226,6 @@ const Add = () => {
           <div style={{ display: 'inline', marginTop: '30px', paddingLeft: '450px' }}>
             <Typography sx={{ color: 'black', fontSize: '24px', fontFamily: 'fantasy', display: 'flex', alignItems: 'center' }}>
               Happy Tails Store <ShoppingCartIcon sx={{ fontSize: '48px' }} />
-
             </Typography>
           </div>
 

@@ -12,7 +12,12 @@ import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { PieChart, pieArcClasses } from '@mui/x-charts/PieChart';
 import axios from 'axios';
+import AnalyticsIcon from '@mui/icons-material/Analytics';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
+import PollIcon from '@mui/icons-material/Poll';
 import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
+
 
 const Home = () => {
     const input = new Date();
@@ -136,10 +141,10 @@ const Home = () => {
                     {/* First Row */}
                     <div style={{ display: 'flex', marginTop: '2%' }}>
                         <div style={{ flex: 1, backgroundColor: 'white', height: '40vh', marginLeft: '2%', display: 'inline' }}>
-                            <Box sx={{ backgroundColor: 'orange', height: '100%', padding: '16px' }}>
+                            <Box sx={{ backgroundColor: 'orange', height: '100%', padding: '16px', borderRadius:'10px' }}>
                                 <div style={{ padding: '2%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
                                     <div style={{ display: 'inline' }}>
-                                        <Typography sx={{ fontSize: '24px' }}>Analytical Overview</Typography>
+                                        <Typography sx={{ fontSize: '17px' }}><AnalyticsIcon />Analytical Overview</Typography>
 
                                     </div>
                                     <div style={{ display: 'inline', alignItems: 'center', marginLeft: 'auto' }}>
@@ -205,11 +210,12 @@ const Home = () => {
                             </Box>
                         </div>
                         <div style={{ flex: 1, backgroundColor: 'white', height: '40vh', marginLeft: '1%', display: 'inline' }}>
-                            <Box sx={{ backgroundColor: 'orange', height: '100%', padding: '16px', paddingTop: '1%' }}>
+                            <Box sx={{ backgroundColor: 'orange', height: '100%', padding: '16px', paddingTop: '1%', borderRadius:'10px' }}>
+
                                 <div style={{ margin: '2%' }}></div>
                                 <div style={{ padding: '2%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
                                     <div style={{ display: 'inline' }}>
-                                        <Typography sx={{ fontSize: '24px' }}>The Income of the Store</Typography>
+                                        <Typography sx={{ fontSize: '17px' }}><AccountBalanceWalletIcon />The Income of the Store</Typography>
 
                                     </div>
                                     <div style={{ display: 'inline', alignItems: 'center', marginLeft: 'auto' }}>
@@ -262,7 +268,8 @@ const Home = () => {
 
                     <div style={{ display: 'flex', marginTop: '2%' }}>
                         <div style={{ flex: 1, backgroundColor: 'white', height: '70vh', marginLeft: '2%' }}>
-                            <Box sx={{ backgroundColor: '#f0f0f5', height: '100%', padding: '1px' }}>
+
+                            <Box sx={{ backgroundColor: '#f0f0f5', height: '100%', padding: '1px', borderRadius:'10px'}}>
                                 <div style={{ padding: '5%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
                                     <div style={{ display: 'inline' }}>
                                         <Typography sx={{ fontSize: '24px', color: 'black' }}>Analyze The Product & Client Order</Typography>
@@ -292,6 +299,7 @@ const Home = () => {
                                     </div>
 
                                 </div>
+
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                     <ProductionQuantityLimitsIcon sx={{ marginLeft: '8%' }} />
                                     <Typography style={{ display: 'inline', marginLeft: '1%' }}>Products of The Store</Typography>
@@ -354,11 +362,14 @@ const Home = () => {
                                             height={380}
                                         />
                                     </div>
+
                                 </div>
                             </Box>
                         </div>
+
                         <div style={{ flex: 1, backgroundColor: 'white', height: '70vh', marginLeft: '1%' }}>
-                            <Box sx={{ backgroundColor: '#f0f0f5', height: '100%', padding: '16px' }}>
+
+                            <Box sx={{ backgroundColor: '#f0f0f5', height: '100%', padding: '16px', borderRadius:'10px' }}>
 
                                 <div style={{ marginTop: '10%', display: 'flex' }}>
                                     <div style={{ backgroundColor: 'white', flex: 1, marginRight: '5%', height: '25vh' }}>
@@ -377,7 +388,6 @@ const Home = () => {
                                         <Box sx={{ padding: '10%', textAlign: 'center' }}>
                                             <div style={{ display: 'flex', paddingLeft: '12%' }}>
                                                 <DoneAllIcon sx={{ display: 'inline', alignItems: 'center' }} /><Typography sx={{ display: 'inline', alignItems: 'center', marginLeft: '5%' }}>Remove Items</Typography>
-
                                             </div>
 
                                             <Typography sx={{ marginTop: '5%', textAlign: 'center', fontSize: '68px' }}>8</Typography>
@@ -395,6 +405,67 @@ const Home = () => {
                     </div>
 
                 </Grid>
+                
+                <div style={{ marginLeft: '25%', marginRight: '25%', marginBottom: '5%' }}>
+
+                    <Box sx={{ backgroundColor: 'orange', height: '100%', padding: '1px', borderRadius: '10px' }}>
+                        <div style={{ padding: '5%', display: 'flex', justifyContent: 'flex-center', alignItems: 'center' }}>
+                            <div style={{ display: 'inline' }}>
+                                <Typography sx={{ fontSize: '17px' }}><PollIcon /> Analyze The Orders</Typography>
+                            </div>
+
+                            <div style={{ display: 'inline', alignItems: 'center', marginLeft: 'auto' }}>
+                                <FormControl sx={{ minWidth: 120, backgroundColor: 'white' }} size="small">
+                                    <InputLabel disabled={true} displayPrint="none" htmlFor="demo-input" color="warning" variant="outlined" id="demo-select-small-label">Today</InputLabel>
+                                    <Select
+
+                                        id="demo-select-small"
+                                        value={age}
+                                        variant='outlined'
+                                        placeholder='AGE'
+                                        onChange={handleChange}
+                                    >
+                                        <MenuItem value="">
+                                            <em>None</em>
+                                        </MenuItem>
+                                        <MenuItem value={30}>Today</MenuItem>
+                                        <MenuItem value={10}>Last 7 Days</MenuItem>
+                                        <MenuItem value={20}>Last Month</MenuItem>
+
+                                    </Select>
+                                </FormControl>
+
+                            </div>
+
+                        </div>
+                        <div style={{ marginLeft: '4%' }}>
+                            <BarChart
+                                colors={['black']}
+                                sx={{ marginBottom: '3%', backgroundColor: '#f0f0f5' }}
+                                xAxis={[
+                                    {
+                                        id: 'barCategories',
+                                        data: ['Pending Orders', 'Completed Orders', 'Refund Orders'],
+
+                                        scaleType: 'band',
+                                    },
+                                ]}
+                                series={[
+                                    {
+                                        data: [`${pending}`, `${accept}`, `${refund}`],
+
+
+                                    },
+                                ]}
+
+                                width={700}
+                                height={400}
+                            />
+
+                        </div>
+
+                    </Box>
+                </div>
 
 
 
