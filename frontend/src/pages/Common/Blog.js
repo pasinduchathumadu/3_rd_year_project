@@ -10,8 +10,8 @@ import Header from "../../components/Layout/Header";
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import dog from '../../assests/dog3.jpg'
-import dog1 from '../../assests/pic.jpg'
-import dog2 from '../../assests/dog.jpg'
+import dog1 from '../../assests/pic59.jpg'
+import dog2 from '../../assests/pic56.webp'
 import logo from '../../assests/logo.png'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import axios from "axios"
@@ -118,8 +118,8 @@ const Blog = () => {
     return (
         <>
             <Header />
-            <Box sx={{ width: '100%', height: '70vh', backgroundImage: `url(${dogBackground})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center' }} />
-            <div style={{ display: 'flex', alignItems: 'center', paddingLeft: '30%', paddingTop: '4%' }}>
+            <Box sx={{ width: '100%', height: '80vh', backgroundImage: `url(${dogBackground})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center' }} />
+            <div style={{ display: 'flex', alignItems: 'center', paddingLeft: '35%', paddingTop: '4%' }}>
                 <img
                     style={{ width: '100px', height: '100px', display: 'inline', }}
                     src={`${logo}`}
