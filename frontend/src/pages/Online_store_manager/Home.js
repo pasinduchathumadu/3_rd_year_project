@@ -14,7 +14,7 @@ import { PieChart, pieArcClasses } from '@mui/x-charts/PieChart';
 import axios from 'axios';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
+
 import PollIcon from '@mui/icons-material/Poll';
 import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
 
@@ -406,66 +406,7 @@ const Home = () => {
 
                 </Grid>
                 
-                <div style={{ marginLeft: '25%', marginRight: '25%', marginBottom: '5%' }}>
-
-                    <Box sx={{ backgroundColor: 'orange', height: '100%', padding: '1px', borderRadius: '10px' }}>
-                        <div style={{ padding: '5%', display: 'flex', justifyContent: 'flex-center', alignItems: 'center' }}>
-                            <div style={{ display: 'inline' }}>
-                                <Typography sx={{ fontSize: '17px' }}><PollIcon /> Analyze The Orders</Typography>
-                            </div>
-
-                            <div style={{ display: 'inline', alignItems: 'center', marginLeft: 'auto' }}>
-                                <FormControl sx={{ minWidth: 120, backgroundColor: 'white' }} size="small">
-                                    <InputLabel disabled={true} displayPrint="none" htmlFor="demo-input" color="warning" variant="outlined" id="demo-select-small-label">Today</InputLabel>
-                                    <Select
-
-                                        id="demo-select-small"
-                                        value={age}
-                                        variant='outlined'
-                                        placeholder='AGE'
-                                        onChange={handleChange}
-                                    >
-                                        <MenuItem value="">
-                                            <em>None</em>
-                                        </MenuItem>
-                                        <MenuItem value={30}>Today</MenuItem>
-                                        <MenuItem value={10}>Last 7 Days</MenuItem>
-                                        <MenuItem value={20}>Last Month</MenuItem>
-
-                                    </Select>
-                                </FormControl>
-
-                            </div>
-
-                        </div>
-                        <div style={{ marginLeft: '4%' }}>
-                            <BarChart
-                                colors={['black']}
-                                sx={{ marginBottom: '3%', backgroundColor: '#f0f0f5' }}
-                                xAxis={[
-                                    {
-                                        id: 'barCategories',
-                                        data: ['Pending Orders', 'Completed Orders', 'Refund Orders'],
-
-                                        scaleType: 'band',
-                                    },
-                                ]}
-                                series={[
-                                    {
-                                        data: [`${pending}`, `${accept}`, `${refund}`],
-
-
-                                    },
-                                ]}
-
-                                width={700}
-                                height={400}
-                            />
-
-                        </div>
-
-                    </Box>
-                </div>
+               
 
 
 

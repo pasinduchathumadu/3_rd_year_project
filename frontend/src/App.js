@@ -12,7 +12,7 @@ import { Reports } from "./pages/Client/Reports";
 import Reset from "./pages/Common/Reset";
 import Menu from "./pages/Client/Menu";
 import Petcare from "./pages/Client/Petcare"
-
+import Unregisterestore from "./pages/Client/Unregistered_store"
 import Cart from "./pages/Client/Cart"
 import LandingHeader from "../../frontend/src/components/Layout/LandingHeader"
 
@@ -102,9 +102,9 @@ function App() {
         <Routes>
          
           <Route path="/email" element={issignup ?<Email /> : <Navigate to ="/signup"/>}/>
-
-          <Route path="/about" element={<About/>} />
-          <Route path="/contact" element={<Contact/>}/>
+          <Route path="/store" element={<><LandingHeader/><Unregisterestore/></>}/>
+          <Route path="/about" element={<><LandingHeader/><About/></>} />
+          <Route path="/contact" element={<><LandingHeader/><Contact/></>}/>
           <Route path="/" element={
              <><LandingHeader />
              <div className="App">
