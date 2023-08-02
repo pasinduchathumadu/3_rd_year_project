@@ -79,7 +79,7 @@ export default function HomeHeader({ userRole }) {
     navigate('/contact')
   }
   const store = () => {
-    navigate('/menu')
+    navigate('/store')
   }
   const blog = () => {
     navigate('/blog')
