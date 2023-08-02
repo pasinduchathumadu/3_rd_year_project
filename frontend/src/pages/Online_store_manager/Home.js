@@ -12,21 +12,25 @@ import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { PieChart, pieArcClasses } from '@mui/x-charts/PieChart';
 import axios from 'axios';
+import AnalyticsIcon from '@mui/icons-material/Analytics';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
+import PollIcon from '@mui/icons-material/Poll';
 
 const Home = () => {
     const input = new Date();
     const date = input.toDateString();
     const [age, setAge] = useState("")
 
-    const [count1 , setcount] = useState("")
-    const [count2 , setcount1] = useState("")
+    const [count1, setcount] = useState("")
+    const [count2, setcount1] = useState("")
     const [food, setfoods] = useState("")
-    const [accessories,setaccessories] = useState("")
-    const [toys,settoys] = useState("")
-    const [pending , setpending] = useState("")
-    const [refund, setrefund ] = useState("")
-    const [accept,setaccept] = useState("")
-  
+    const [accessories, setaccessories] = useState("")
+    const [toys, settoys] = useState("")
+    const [pending, setpending] = useState("")
+    const [refund, setrefund] = useState("")
+    const [accept, setaccept] = useState("")
+
 
     const handleChange = (event) => {
         setAge(event.target.value);
@@ -36,80 +40,80 @@ const Home = () => {
         { id: 1, value: 15, label: 'Discounts' },
         { id: 2, value: 20, label: 'Net Profit' },
     ];
-  
-    const get_order = async() => {
-        try{
+
+    const get_order = async () => {
+        try {
             const res = await axios.get("http://localhost:5000/pet_care/online_store_manager/get_order")
             const data = await res.data
             setpending(data.data[0].count_order)
             setaccept(data.data[1].count_order)
             setrefund(data.data[2].count_order)
 
-        }catch(err){
+        } catch (err) {
             console.log("There is an internel error")
         }
     }
-    const get_count2 = async(req,res,next)=>{
-        try{
+    const get_count2 = async (req, res, next) => {
+        try {
             const res = await axios.get('http://localhost:5000/pet_care/online_store_manager/get_count2')
             const data = await res.data
             setfoods(data.data[0].total_item)
             setaccessories(data.data[1].total_item)
             settoys(data.data[2].total_item)
-        }catch(err){
+        } catch (err) {
             console.log("There is an internel an error")
         }
     }
 
-    const get_count1 = async() =>{
-        try{
+    const get_count1 = async () => {
+        try {
 
             const res = await axios.get('http://localhost:5000/pet_care/online_store_manager/get_count1')
             const data = await res.data
             return data
 
-        }catch(err){
+        } catch (err) {
             console.log("There is an internel error")
         }
     }
-   
-    const get_count = async() =>{
-        try{
+
+    const get_count = async () => {
+        try {
             const res = await axios.get('http://localhost:5000/pet_care/online_store_manager/get_count')
             const data = await res.data
             return data
 
-        }catch(err){
+        } catch (err) {
             console.log("There is an email")
         }
     }
-    useEffect(()=>{
+    useEffect(() => {
         get_order()
-        
+
     })
     useEffect(() => {
         get_count()
-          .then((data) => setcount(data.data))
-          .catch((err) => console.log(err));
-      }, []);
+            .then((data) => setcount(data.data))
+            .catch((err) => console.log(err));
+    }, []);
 
-      useEffect(() => {
+    useEffect(() => {
         get_count2()
-       
-      }, []);
 
-      useEffect(() => {
+    }, []);
+
+    useEffect(() => {
         get_count1()
-          .then((data) => setcount1(data.data))
-          .catch((err) => console.log(err));
-      }, []);
+            .then((data) => setcount1(data.data))
+            .catch((err) => console.log(err));
+    }, []);
 
-    
+
 
 
     return (
         <>
-           
+
             <div>
                 <Grid sx={{ marginTop: '2%', marginRight: '2%', marginLeft: '2%', marginBottom: '2%' }}>
                     {/* Header */}
@@ -135,10 +139,10 @@ const Home = () => {
                     {/* First Row */}
                     <div style={{ display: 'flex', marginTop: '2%' }}>
                         <div style={{ flex: 1, backgroundColor: 'white', height: '40vh', marginLeft: '2%', display: 'inline' }}>
-                            <Box sx={{ backgroundColor: 'orange', height: '100%', padding: '16px' }}>
+                            <Box sx={{ backgroundColor: 'orange', height: '100%', padding: '16px', borderRadius:'10px' }}>
                                 <div style={{ padding: '2%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
                                     <div style={{ display: 'inline' }}>
-                                        <Typography sx={{ fontSize: '24px' }}>Analytical Overview</Typography>
+                                        <Typography sx={{ fontSize: '17px' }}><AnalyticsIcon />Analytical Overview</Typography>
 
                                     </div>
                                     <div style={{ display: 'inline', alignItems: 'center', marginLeft: 'auto' }}>
@@ -165,20 +169,20 @@ const Home = () => {
                                     </div>
 
                                 </div>
-                              
-                                  
+
+
                                 <div style={{ marginTop: '1%', display: 'flex' }}>
                                     <div style={{ backgroundColor: 'white', flex: 1, marginRight: '5%', height: '25vh' }}>
-                                       
-                                            
-                                    
+
+
+
                                         <Box sx={{ padding: '10%', textAlign: 'center' }}>
                                             <div style={{ display: 'flex', paddingLeft: '12%' }}>
                                                 <MoreHorizIcon sx={{ display: 'inline', alignItems: 'center' }} /><Typography sx={{ display: 'inline', alignItems: 'center', marginLeft: '5%' }}>Pending Complains</Typography>
 
                                             </div>
-                                            {count1 && count1.map((menu,index)=>(
-                                            <Typography sx={{ marginTop: '5%', textAlign: 'center', fontSize: '68px' }}>{menu.total}</Typography>
+                                            {count1 && count1.map((menu, index) => (
+                                                <Typography sx={{ marginTop: '5%', textAlign: 'center', fontSize: '68px' }}>{menu.total}</Typography>
                                             ))}
                                         </Box>
 
@@ -189,26 +193,26 @@ const Home = () => {
                                                 <DoneAllIcon sx={{ display: 'inline', alignItems: 'center' }} /><Typography sx={{ display: 'inline', alignItems: 'center', marginLeft: '5%' }}>Responded Complains</Typography>
 
                                             </div>
-                                            {count2 && count2.map((menu,index)=>(
+                                            {count2 && count2.map((menu, index) => (
                                                 <Typography sx={{ marginTop: '5%', textAlign: 'center', fontSize: '68px' }}>{menu.total}</Typography>
 
                                             ))}
 
-                                         
+
 
                                         </Box>
 
                                     </div>
                                 </div>
-                           
+
                             </Box>
                         </div>
                         <div style={{ flex: 1, backgroundColor: 'white', height: '40vh', marginLeft: '1%', display: 'inline' }}>
-                            <Box sx={{ backgroundColor: 'orange', height: '100%', padding: '16px',paddingTop:'1%' }}>
-                                <div style={{margin:'2%'}}></div>
-                            <div style={{ padding: '2%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
+                            <Box sx={{ backgroundColor: 'orange', height: '100%', padding: '16px', paddingTop: '1%', borderRadius:'10px' }}>
+                                <div style={{ margin: '2%' }}></div>
+                                <div style={{ padding: '2%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
                                     <div style={{ display: 'inline' }}>
-                                        <Typography sx={{ fontSize: '24px' }}>The Income of the Store</Typography>
+                                        <Typography sx={{ fontSize: '17px' }}><AccountBalanceWalletIcon />The Income of the Store</Typography>
 
                                     </div>
                                     <div style={{ display: 'inline', alignItems: 'center', marginLeft: 'auto' }}>
@@ -236,7 +240,7 @@ const Home = () => {
 
                                 </div>
                                 <PieChart
-                                colors={['black', 'white', 'blue']}
+                                    colors={['black', 'white', 'blue']}
                                     series={[
                                         {
                                             data,
@@ -248,8 +252,8 @@ const Home = () => {
                                         [`& .${pieArcClasses.faded}`]: {
                                             fill: 'gray',
                                         },
-                                        textAlign:'center',
-                                        
+                                        textAlign: 'center',
+
                                     }}
                                     height={200}
                                 />
@@ -258,14 +262,13 @@ const Home = () => {
                     </div>
 
                     {/* Second Row */}
-                   
+
                     <div style={{ display: 'flex', marginTop: '2%' }}>
                         <div style={{ flex: 1, backgroundColor: 'white', height: '70vh', marginLeft: '2%' }}>
-                            <Box sx={{ backgroundColor: 'black', height: '100%', padding: '1px' }}>
-                            <div style={{ padding: '5%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
+                            <Box sx={{ backgroundColor: 'black', height: '100%', padding: '1px', borderRadius:'10px' }}>
+                                <div style={{ padding: '5%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
                                     <div style={{ display: 'inline' }}>
-                                        <Typography sx={{ fontSize: '24px',color:'white' }}>The Products of the Store</Typography>
-
+                                        <Typography sx={{ fontSize: '17px', color: 'white' }}> <ProductionQuantityLimitsIcon />The Products of the Store</Typography>
                                     </div>
                                     <div style={{ display: 'inline', alignItems: 'center', marginLeft: 'auto' }}>
                                         <FormControl sx={{ minWidth: 120, backgroundColor: 'white' }} size="small">
@@ -291,45 +294,38 @@ const Home = () => {
                                     </div>
 
                                 </div>
-                             
-                                     <div style={{marginLeft:'5%'}}>
-                                   
-                                     <BarChart
-                                     colors={['orange']}
-                                     sx={{ marginBottom: '3%', backgroundColor: '#f0f0f5' }}
-                                     xAxis={[
-                                         {
-                                             id: 'barCategories',
-                                             data: ['Pet Foods', 'Pet Accessories', 'Pet Toys'],
-                                             
-                                             scaleType: 'band',
-                                         },
-                                     ]}
-                                     series={[
-                                         {
-                                             data: [`${food}`,`${accessories}`,`${toys}`],
-                                             
- 
-                                         },
-                                     ]}
- 
-                                     width={640}
-                                     height={400}
-                                 />
 
-                               
-                         
+                                <div style={{ marginLeft: '5%' }}>
 
-                           </div>
+                                    <BarChart
+                                        colors={['orange']}
+                                        sx={{ marginBottom: '3%', backgroundColor: '#f0f0f5' }}
+                                        xAxis={[
+                                            {
+                                                id: 'barCategories',
+                                                data: ['Pet Foods', 'Pet Accessories', 'Pet Toys'],
 
-                               
-                            
-                               
+                                                scaleType: 'band',
+                                            },
+                                        ]}
+                                        series={[
+                                            {
+                                                data: [`${food}`, `${accessories}`, `${toys}`],
+
+
+                                            },
+                                        ]}
+
+                                        width={640}
+                                        height={400}
+                                    />
+                                </div>
                             </Box>
                         </div>
+
                         <div style={{ flex: 1, backgroundColor: 'white', height: '70vh', marginLeft: '1%' }}>
-                            <Box sx={{ backgroundColor: 'black', height: '100%', padding: '16px' }}>
-                            
+                            <Box sx={{ backgroundColor: 'black', height: '100%', padding: '16px',  borderRadius:'10px' }}>
+
                                 <div style={{ marginTop: '10%', display: 'flex' }}>
                                     <div style={{ backgroundColor: 'white', flex: 1, marginRight: '5%', height: '25vh' }}>
                                         <Box sx={{ padding: '10%', textAlign: 'center' }}>
@@ -342,12 +338,11 @@ const Home = () => {
                                         </Box>
 
                                     </div>
-                                   
+
                                     <div style={{ backgroundColor: 'white', flex: 1, height: '25vh' }}>
                                         <Box sx={{ padding: '10%', textAlign: 'center' }}>
                                             <div style={{ display: 'flex', paddingLeft: '12%' }}>
                                                 <DoneAllIcon sx={{ display: 'inline', alignItems: 'center' }} /><Typography sx={{ display: 'inline', alignItems: 'center', marginLeft: '5%' }}>Remove Items</Typography>
-
                                             </div>
 
                                             <Typography sx={{ marginTop: '5%', textAlign: 'center', fontSize: '68px' }}>8</Typography>
@@ -357,75 +352,75 @@ const Home = () => {
                                     </div>
                                 </div>
 
-                                <Button sx={{width:'40%',backgroundColor:'orange',marginTop:'10%',marginLeft:'4%',color:'white',':hover':{backgroundColor:'orange'}}}>ADD NEW ONE</Button>
-                                <Button sx={{width:'40%',backgroundColor:'orange',marginTop:'10%',marginLeft:'12%',color:'white',':hover':{backgroundColor:'orange'}}}>FIND MORE</Button>
-                                
+                                <Button sx={{ width: '40%', backgroundColor: 'orange', marginTop: '10%', marginLeft: '4%', color: 'white', ':hover': { backgroundColor: 'orange' } }}>ADD NEW ONE</Button>
+                                <Button sx={{ width: '40%', backgroundColor: 'orange', marginTop: '10%', marginLeft: '12%', color: 'white', ':hover': { backgroundColor: 'orange' } }}>FIND MORE</Button>
+
                             </Box>
                         </div>
                     </div>
-                 
+
                 </Grid>
-                <div style={{marginLeft:'25%',marginRight:'25%',marginBottom:'5%'}}>
-               
-                            <Box sx={{ backgroundColor: 'orange', height: '100%', padding: '1px' }}>
-                            <div style={{ padding: '5%', display: 'flex', justifyContent: 'flex-center', alignItems: 'center' }}>
-                                    <div style={{ display: 'inline' }}>
-                                        <Typography sx={{ fontSize: '24px' }}>Analyze The Orders</Typography>
+                <div style={{ marginLeft: '25%', marginRight: '25%', marginBottom: '5%' }}>
 
-                                    </div>
-                                    <div style={{ display: 'inline', alignItems: 'center', marginLeft: 'auto' }}>
-                                        <FormControl sx={{ minWidth: 120, backgroundColor: 'white' }} size="small">
-                                            <InputLabel disabled={true} displayPrint="none" htmlFor="demo-input" color="warning" variant="outlined" id="demo-select-small-label">Today</InputLabel>
-                                            <Select
+                    <Box sx={{ backgroundColor: 'orange', height: '100%', padding: '1px', borderRadius: '10px' }}>
+                        <div style={{ padding: '5%', display: 'flex', justifyContent: 'flex-center', alignItems: 'center' }}>
+                            <div style={{ display: 'inline' }}>
+                                <Typography sx={{ fontSize: '17px' }}><PollIcon /> Analyze The Orders</Typography>
+                            </div>
 
-                                                id="demo-select-small"
-                                                value={age}
-                                                variant='outlined'
-                                                placeholder='AGE'
-                                                onChange={handleChange}
-                                            >
-                                                <MenuItem value="">
-                                                    <em>None</em>
-                                                </MenuItem>
-                                                <MenuItem value={30}>Today</MenuItem>
-                                                <MenuItem value={10}>Last 7 Days</MenuItem>
-                                                <MenuItem value={20}>Last Month</MenuItem>
+                            <div style={{ display: 'inline', alignItems: 'center', marginLeft: 'auto' }}>
+                                <FormControl sx={{ minWidth: 120, backgroundColor: 'white' }} size="small">
+                                    <InputLabel disabled={true} displayPrint="none" htmlFor="demo-input" color="warning" variant="outlined" id="demo-select-small-label">Today</InputLabel>
+                                    <Select
 
-                                            </Select>
-                                        </FormControl>
+                                        id="demo-select-small"
+                                        value={age}
+                                        variant='outlined'
+                                        placeholder='AGE'
+                                        onChange={handleChange}
+                                    >
+                                        <MenuItem value="">
+                                            <em>None</em>
+                                        </MenuItem>
+                                        <MenuItem value={30}>Today</MenuItem>
+                                        <MenuItem value={10}>Last 7 Days</MenuItem>
+                                        <MenuItem value={20}>Last Month</MenuItem>
 
-                                    </div>
+                                    </Select>
+                                </FormControl>
 
-                                </div>
-                                <div style={{marginLeft:'4%'}}>
-                                <BarChart
-                                    colors={['black']}
-                                    sx={{ marginBottom: '3%', backgroundColor: '#f0f0f5' }}
-                                    xAxis={[
-                                        {
-                                            id: 'barCategories',
-                                            data: ['Pending Orders','Completed Orders','Refund Orders'],
-                                            
-                                            scaleType: 'band',
-                                        },
-                                    ]}
-                                    series={[
-                                        {
-                                            data: [`${pending}`,`${accept}`,`${refund}`],
-                                            
+                            </div>
 
-                                        },
-                                    ]}
-
-                                    width={700}
-                                    height={400}
-                                />
-
-                                </div>
-                                
-                            </Box>
                         </div>
-              
+                        <div style={{ marginLeft: '4%' }}>
+                            <BarChart
+                                colors={['black']}
+                                sx={{ marginBottom: '3%', backgroundColor: '#f0f0f5' }}
+                                xAxis={[
+                                    {
+                                        id: 'barCategories',
+                                        data: ['Pending Orders', 'Completed Orders', 'Refund Orders'],
+
+                                        scaleType: 'band',
+                                    },
+                                ]}
+                                series={[
+                                    {
+                                        data: [`${pending}`, `${accept}`, `${refund}`],
+
+
+                                    },
+                                ]}
+
+                                width={700}
+                                height={400}
+                            />
+
+                        </div>
+
+                    </Box>
+                </div>
+
 
             </div>
         </>
