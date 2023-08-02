@@ -39,7 +39,7 @@ const Menu = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const email = localStorage.getItem("client_email")
+  const email = localStorage.getItem("store_email")
   const changelocation = () =>{
     navigate('/cart')
   }
