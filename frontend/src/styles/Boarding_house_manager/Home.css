@@ -4,7 +4,7 @@
     margin: 0;
     padding: 0;
     /* box-sizing: border-box; */
-    /* font-family: "Reem Kufi", sans-serif !important; */
+    font-family: "Reem Kufi", sans-serif;
 }
 
 body {
@@ -15,7 +15,7 @@ body {
 }
 
 body {
-    background-color: #f6f6f6;
+    background-color: #ffffff;
 }
 
 .boarding-wrapper-main {
@@ -25,24 +25,21 @@ body {
 }
 
 .boarding-wrapper {
-    background-color: antiquewhite;
     width: 710px;
-    height:280px;
     padding: 20px;
     border-radius: 10px;
     margin: 10px;
-    /* margin-left: 10px; */
+   
    
 }
 .boarding-wrapper-box {
     background-color: white;
     width: 500px;
-    height:170px;
+    height:140px;
     padding: 20px;
     border-radius: 10px;
     margin: 10px;
-    /* text-align: center; */
-    font-weight: bold;
+   
    
 }
 
@@ -70,11 +67,7 @@ body {
     display: flex;
     flex-direction: row;
     margin-bottom: 10px;
-    /* justify-content: space-evenly; */
-}
 
-.box-icons {
-    margin-right: 10px;
 }
 
 .top {
@@ -125,7 +118,7 @@ body {
 
 .boarding-card {
     text-align: center;
-    background-color: rgb(255, 240, 224);
+    background-color: #F0F0F5;
     padding: 20px;
     border-radius: 10px;
     width: 450px;
@@ -158,12 +151,12 @@ body {
 }
 
 .popularity-view {
-    border-color: black;
+    /* border-color: solid black 10px; */
     border-radius: 10px;
     padding: 20px;
-    margin-left: 300px;
-    width: 60%;
-    background-color: rgb(255, 240, 224);
+    margin-left: 400px;
+    width: 50%;
+    background-color: #F0F0F5;
     text-align: center;
     text-decoration: solid;
 }
