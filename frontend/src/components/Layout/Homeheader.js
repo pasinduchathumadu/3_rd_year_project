@@ -79,7 +79,18 @@ export default function HomeHeader({userRole}) {
     navigate('/')
     
   }
-
+  const home = () =>{
+    navigate('/home')
+  }
+  const about = () =>{
+    navigate('/about')
+  }
+  const blog = () =>{
+    navigate('/blog')
+  }
+  const store = () =>{
+    navigate('/menu')
+  }
   const toggleDrawer = (anchor, open) => (event) => {
     if (event && (event.type === 'keydown' || event.key === 'Tab' || event.key === 'Shift')) {
       return;
@@ -213,10 +224,10 @@ export default function HomeHeader({userRole}) {
            
          
           <Box sx={{ display: { xs: 'none', md: 'flex' },marginLeft:'25%'}}>
-            <Button sx={{ color: 'white', textTransform: 'none',fontSize:'18px',':hover':{color:'orange'}  }}>Home</Button>
-            <Button sx={{ color: 'white', textTransform: 'none',marginLeft:'4%',fontSize:'18px',':hover':{color:'orange'}   }}>About</Button>
-            <Button sx={{ color: 'white', textTransform: 'none',marginLeft:'4%' ,fontSize:'18px',':hover':{color:'orange'}  }}>Blog</Button>
-            <Button sx={{ color: 'white', textTransform: 'none',marginLeft:'4%',fontSize:'18px',':hover':{color:'orange'}   }}>Store</Button>
+            <Button onClick={home} sx={{ color: 'white', textTransform: 'none',fontSize:'18px',':hover':{color:'orange'}  }}>Home</Button>
+            <Button onClick={about}sx={{ color: 'white', textTransform: 'none',marginLeft:'4%',fontSize:'18px',':hover':{color:'orange'}   }}>About</Button>
+            <Button onClick={blog} sx={{ color: 'white', textTransform: 'none',marginLeft:'4%' ,fontSize:'18px',':hover':{color:'orange'}  }}>Blog</Button>
+            <Button onnclick={store}sx={{ color: 'white', textTransform: 'none',marginLeft:'4%',fontSize:'18px',':hover':{color:'orange'}   }}>Store</Button>
           
             <ShoppingCartTwoToneIcon sx={{ fontSize:'46px'}}/>
          
