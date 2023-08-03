@@ -34,7 +34,7 @@ const ViewAppointments = () => {
       <tr >
         <td>1</td>
         <td>Maria Anders</td>
-        <td>Thursday</td>
+        <td>2023.08.23</td>
         <td>12P.M</td>
         <td>John Deo</td>
         <td>0123456789</td>
@@ -45,7 +45,7 @@ const ViewAppointments = () => {
       <tr >
         <td>2</td>
         <td>Maria Anders</td>
-        <td>Thursday</td>
+        <td>2023.08.23</td>
         <td>12P.M</td>
         <td>John Deo</td>
         <td>0123456789</td>
@@ -55,7 +55,7 @@ const ViewAppointments = () => {
       <tr >
         <td>3</td>
         <td>Maria Anders</td>
-        <td>Thursday</td>
+        <td>2023.08.23</td>
         <td>12P.M</td>
         <td>John Deo</td>
         <td>0123456789</td>

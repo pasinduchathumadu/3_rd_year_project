@@ -31,7 +31,6 @@ import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 
 
 import Doctors from "./pages/Medi-help_manager/doctors";
-import DoctorsAdd from "./pages/Medi-help_manager/AddDoctors";
 import ViewAppointments from "./pages/Medi-help_manager/ViewAppointments";
 import PendingAppointments from "./pages/Medi-help_manager/PendingAppointments";
 import CompletedAppointments from "./pages/Medi-help_manager/CompletedAppointments";
@@ -95,10 +94,10 @@ function App() {
           
            <Route path="/Doctors" element={
             <div className="App">
-               <button className='btnadd' onClick={()=>setModelOpen(true)} > + Add Doctor</button>
+              
           <Doctors />
          
-          {modelOpen && <DoctorsAdd  />}
+        
           
           </div>
           } />

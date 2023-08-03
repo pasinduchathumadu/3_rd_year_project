@@ -46,7 +46,7 @@ label{
 
 
 .btnsubmit{
-    background-color: #d04f0e;
+    background-color: #FFA500;
     position: relative;
     left:300px;
     top:5px;
@@ -63,7 +63,7 @@ label{
 }
 
 .btncancel{
-    background-color: #313130; 
+    background-color: #070707; 
     left: 310px;
     position: relative;
     top:5px;
@@ -78,3 +78,13 @@ label{
     font-family: Verdana ;
     border-radius: 5px;
 }
+ select {
+    width: 100%;
+   
+    margin: 8px 0;
+    display: inline-block;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    height:40px;
+  }

@@ -24,12 +24,16 @@ const AddDoctors = () => {
                     <input name='phone'/>
                 </div>
                 <div>
-                    <label htmlFor='date'>Available Date</label>
-                    <input name='date' />
+                <label htmlFor='no' className='no'>Registration Number</label>
+                    <input name='no'/>
                 </div>
                 <div>
-                    <label htmlFor='time'>Available Time</label>
-                    <input name='time'/>
+                    <label htmlFor='time'>Type</label>
+                    <select id="country" name="country">
+                     <option value="companion">Companion-animal veterinarians</option>
+      <option value="specialists">Veterinary specialists</option>
+      <option value="food">Food-animal veterinarians</option>
+    </select>
                 </div>
                  
 

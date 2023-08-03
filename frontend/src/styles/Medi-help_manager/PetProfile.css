@@ -141,6 +141,8 @@ label{
     font-family: Verdana;
     font-size: 30px;
     position: relative;
-    left:500px;
+    text-align: center;
+    left:300px;
     top:40px;
+    background-color: #c9c9ce;
  }

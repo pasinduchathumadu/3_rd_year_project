@@ -1,8 +1,8 @@
 .btnadd{
     position: relative;
   left :-20px;
-    top:100px;
-    background-color: #d04f0e; 
+    top:200px;
+    background-color: #FFA500; 
     border: none;
     color: white;
     padding: 10px 10px;
@@ -18,7 +18,7 @@
 #customers {
     position: relative;
     left:50px;
-    
+    top:60px;
     font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 160%;
@@ -37,14 +37,14 @@
     padding-top: 2px;
     padding-bottom: 12px;
     text-align: center;
-    background-color: #FEEED7;
-    color: rgb(3, 3, 3);
+    background-color: #000000;
+    color: rgb(255, 255, 255);
   }
 
-  .btnedit{
+  .docbtnedit{
     position: relative;
   left:15px;
-   background-color: #977564; 
+   background-color: #4d4d4d; 
     border: none;
     color: white;
     width:50px;
@@ -58,10 +58,10 @@
 
 }
 
-.btndelete{
+.docbtndelete{
     position: relative;
   left:14px;
-   background-color: #3f1804; 
+   background-color: #929090; 
     border: none;
     color: white;
     width:50px;
@@ -97,14 +97,14 @@
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: center;
-  background-color: #FEEED7;
-  color: rgb(3, 3, 3);
+  background-color: #000000;
+  color: rgb(248, 246, 246);
 }
 
 .petbtndelete{
   position: relative;
 left:8px;
- background-color: #3f1804; 
+ background-color: #444444; 
   border: none;
   color: white;
   width:50px;
@@ -121,7 +121,7 @@ left:8px;
 .btnav{
   position: relative;
 left:20px;
- background-color: #c25924; 
+ background-color: #FFA500; 
   border: none;
   color: white;
   width:80px;
@@ -170,7 +170,7 @@ left:20px;
 .petbtnedit{
   position: relative;
 left:6px;
- background-color: #977564; 
+ background-color: #303030; 
   border: none;
   color: white;
   width:50px;
