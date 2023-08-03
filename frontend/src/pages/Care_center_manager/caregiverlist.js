@@ -1,13 +1,13 @@
 
 import React, { Component, useState } from "react";
 import Header from "../../components/Layout/Header";
-import "../../styles/Care_center_manager/Caregiverlist.css";
+import "../../styles/Care_center_manager/caregiverlist.css";
 import care from "../../assests/caregiver.jpg";
 import care2 from "../../assests/caregiver2.jpg";
 import AddIcon from "@mui/icons-material/Add";
 import StarIcon from "@mui/icons-material/Star";
 import Regicaregiver from "./Regicaregiver";
-import CaregiverProfile from "./CaregiverProfile";
+import CaregiverProfile from "./CaregiverProfile"
 import { Typography, Avatar, Stack } from "@mui/material";
 import profile from "../../assests/profile.jpg";
 

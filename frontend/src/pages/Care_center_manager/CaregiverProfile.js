@@ -1,8 +1,7 @@
-import React, { Component ,useState}  from "react";
-import Header from '../../components/Layout/Header';
+
 import '../../styles/Care_center_manager/CaregiverProfile.css';
 import care from "../../assests/caregiver.jpg";
-import care2 from "../../assests/caregiver2.jpg";
+
 import StarIcon from '@mui/icons-material/Star';
 
 function CaregiverProfile(){

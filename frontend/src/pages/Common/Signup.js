@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button,Alert,AlertTitle } from "@mui/material";
 import axios from "axios";
 import Header from "../../components/Layout/LandingHeader"
+import '../../styles/Common/Login.css';
 const Signup = ({onSignup}) =>{
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
