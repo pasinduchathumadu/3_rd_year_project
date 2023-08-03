@@ -51,6 +51,8 @@ import AdminUsers from './pages/Admin/Users';
 import AdminRefund from './pages/Admin/Refund';
 import AdminComplains from './pages/Admin/Complains';
 
+import Profile from './pages/Common/Profile';
+
 import Petgrooming from "../src/pages/Client/Pet_grooming";
 
 
@@ -188,6 +190,9 @@ function App() {
              <Route path="/admin_complains" element={<><HomeHeader userRole={"admin"}/><AdminComplains /></>} />
              </>         
            )}
+
+          <Route path="/profile" element={<Profile />} />
+
           
 
           {/* admin */}
