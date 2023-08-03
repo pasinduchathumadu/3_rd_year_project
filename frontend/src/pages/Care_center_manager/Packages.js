@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../../styles/Care_center_manager/Packages.css";
-import Header from "../../components/Layout/Header";
+
 import dog from "../../assests/dog_bath.jpg";
 import groom from "../../assests/dog_groom.jpg";
 import trim from "../../assests/dog_trim.jpg";
@@ -30,7 +30,7 @@ function Packages() {
 
   return (
     <>
-      <Header />
+    
       <div className="full-page">
       <div style={{ display: "flex" }}>
             <div

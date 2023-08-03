@@ -41,7 +41,7 @@ import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 
 import Packages from "./pages/Care_center_manager/Packages";
 import Complaints from "./pages/Care_center_manager/Complaints";
-import Caregiverlist from "./pages/Care_center_manager/Caregiverlist";
+import Caregiverlist from "./pages/Care_center_manager/caregiverlist";
 import Appointments from "./pages/Care_center_manager/Appointments";
 
 import Reset from "./pages/Common/Reset"
@@ -53,7 +53,7 @@ import AdminComplains from './pages/Admin/Complains';
 
 import Petgrooming from "../src/pages/Client/Pet_grooming";
 
-import Caregiverlist from "./pages/Care_center_manager/caregiverlist";
+
 import Onlinehome from "./pages/Online_store_manager/Home"
 import OnlineAdd from "./pages/Online_store_manager/Add"
 import Complain from "./pages/Online_store_manager/Complain";
@@ -107,6 +107,10 @@ function App() {
     else if(role === 'client'){
       navigate('/dashboard')
       localStorage.setItem("client_email",email)
+    }
+    else if(role === 'care_center_manager'){
+      navigate('/appoinments')
+      localStorage.setItem("care_center_manager",email)
     }
   };
   const handleSignup = () => {
@@ -193,11 +197,15 @@ function App() {
           <Route path="/admin_complains" element={<AdminComplains />} />  */}
 
 
-           {/* Care center manager */}
-           <Route path="/caregiverlist" element={<Caregiverlist />} />
-           <Route path="/packages" element={<Packages />} />
-           <Route path="/appointments" element={<Appointments />} />
-           <Route path="/complaints" element={<Complaints />} />
+           {isLoggedIn && user_role === "care_center_manager" && (
+            <><Route path="/caregiverlist" element={<><HomeHeader userRole={"care_center_manager"}/><Caregiverlist /></>} />
+            <Route path="/packages"  element={<><HomeHeader userRole={"care_center_manager"}/><Packages /></>} />
+            <Route path="/appointments"  element={<><HomeHeader userRole={"care_center_manager"}/><Appointments /></>} />
+            <Route path="/complaints"  element={<><HomeHeader userRole={"care_center_manager"}/><Complaints /></>} /></>
+             
+           )}
+
+          
 
 
            {isLoggedIn && user_role === "online_store_manager" && (

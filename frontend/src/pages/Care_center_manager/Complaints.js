@@ -12,7 +12,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Typography, Avatar, Stack, Grid, Box, Tab, Tabs } from "@mui/material";
 import profile from "../../assests/profile.jpg";
-import Header from "../../components/Layout/Header";
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -57,7 +57,7 @@ const rows2 = [
 
 
 function Complaints() {
-  const [modelOpen, setModelOpen] = useState(false);
+
 
   const input = new Date();
   const date = input.toDateString();
@@ -73,7 +73,7 @@ function Complaints() {
 
   return (
     <>
-      <Header />
+   
       <div className="container1">
         <Grid
           sx={{

@@ -19,23 +19,23 @@ function CPetProfile(){
 
             <div className='rightside'>
                 <form className="regform">
-                    <div  className="col">
-                    <div className="col-md-1">
+                    <div  className="col1">
+                    <div className="col1-md-1">
                         <label for="inputEmail4" className="form-label">Pet ID</label>
                         <input type="text" className="form-control" placeholder="001" aria-label="First name"></input>
                     </div>
-                    <div className="col-md-2">
+                    <div className="col1-md-2">
                     <label for="inputEmail4" className="form-label">Breed</label>
                         <input type="text" className="form-control" placeholder="Golden Retriever" aria-label="Last name"></input>
                     </div>
                     </div>
 
-                    <div  className="col">
-                    <div className="col-md-1">
+                    <div  className="col1">
+                    <div className="col1-md-1">
                         <label for="inputEmail4" className="form-label">Pet name</label>
                         <input type="email" className="form-control" placeholder="Coby"  id="inputEmail4"></input>
                     </div>
-                    <div className="col-md-2">
+                    <div className="col1-md-2">
                         <label for="inputPassword4" className="form-label">Age</label>
                         <input type="password" className="form-control" placeholder="3yrs"  id="inputPassword4"></input>
                     </div>
