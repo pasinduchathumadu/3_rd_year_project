@@ -1,0 +1,60 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* font-family: "Reem Kufi", sans-serif; */
+  }
+
+#customers {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  #customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  #customers tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #customers tr:hover {background-color: #ddd;}
+  
+  #customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #000000;
+    color: white;
+  }
+
+
+  .respondbtn{
+    background-color: #000000;
+    color: #ffff;
+
+  }
+
+  .userdetails{
+    margin: 20px 0px 20px 0px;
+    text-align: left;
+  }
+
+  .username{
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 0px;
+  }
+
+  .date{
+    font-size: 14px;
+  }
+  
+  .title-name{
+    font-size: 16px;
+  }

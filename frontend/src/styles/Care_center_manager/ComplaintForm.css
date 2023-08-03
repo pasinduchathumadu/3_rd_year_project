@@ -1,0 +1,63 @@
+.complaint-container{
+    position:fixed;
+    z-index: 1;
+    left: 0;
+    top:0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0,0,0,0.4)
+}
+
+.form-sheet{
+    width: 500px;
+    height: auto;
+    background-color: #f0f0f5;
+    color: rgb(66, 66, 66);
+    border-radius: 5px;
+    text-align: left;
+    padding: 10px;
+}
+
+.resform{
+    margin: 5px;
+}
+
+.submbtn{
+    width: 100%;
+    height: 40px;
+    background-color: #ee8c0d;
+    border: none;
+    margin-top: 20px;
+    border-radius: 5px;
+    color: #ffff;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.form-label{
+    width: 100%;
+    padding: 2px;
+    margin: 5px;
+    font-size: 16px;
+    color: black;
+}
+
+.form-text{
+    width: 100%;
+    height: 150px;
+    border: none;
+}
+
+.form-file{
+    width: 100%;
+    border: none;
+}
+
+.icon-cancel{
+    float: right;
+    color: #ff0000;
+    margin: -32px -12px 0px 0px;
+}
