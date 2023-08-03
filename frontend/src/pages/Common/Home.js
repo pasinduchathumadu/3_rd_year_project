@@ -5,8 +5,15 @@ import  '../../styles/Common/MainHome.css';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import BannerBackground from '../../assests/home-banner-background.png';
 import BannerImage from '../../assests/home-image-1.png';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+
+    const navigate =  useNavigate()
+    const start=()=>{
+        navigate('/login')
+    }
+   
     return( 
         <><div className="home-container">
     
@@ -24,7 +31,7 @@ const Home = () => {
                         From boarding services to veterinary care, grooming, and online consultations,
                         we have everything your furry friend requires for a happy and healthy life.
                     </p>
-                    <button className="secondary-button">Explore More  <ArrowForwardIcon /></button>
+                    <button onClick={start} className="secondary-button" style={{backgroundColor:'orange',color:'black'}}>Get Start Now  <ArrowForwardIcon /></button>
                 </div>
 
                 <div className="home-bannerImage-container">

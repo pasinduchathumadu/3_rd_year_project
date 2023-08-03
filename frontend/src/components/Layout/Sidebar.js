@@ -3,7 +3,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
-import Button from "@mui/material/Button";
+
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
@@ -17,7 +17,30 @@ import logoImage from "../../assests/cover.png"; // Import the image
 
 
 
-export default function TemporaryDrawer({ state, setState, toggleDrawer }) {
+export default function TemporaryDrawer({ state, setState, toggleDrawer ,userType }) {
+
+  let data, data_link;
+  if (userType === 'online_store_manager') {
+    data = ["Dashboard", "Product", "Client Orders", "Complains"];
+    data_link = ["online_home", "online_add", "online_client", "handling_complain"];
+  } else if (userType === 'boarding_house_manager') {
+    data = ["Dashboard", "Packages", "Boarding Pets", "Clients", "Complains"];
+    data_link = ["boarding_dashboard", "boarding_packages", "boarding_pets", "boarding_clients", "boarding_complains"];
+  }else if (userType === 'admin') {
+    data = ["Dashboard", "Users", "Refund Verifications", "Complains"];
+    data_link = ["admin_dashboard", "admin_users", "admin_refund", "admin_complains"];
+  }
+  else if(userType === 'client'){
+    data = ["Dashboard","Pet Care","Mind Relaxing","Shop","Non-Breadshop","Pet Grooming","Reports"];
+    data_link = ["dashboard","petcare","MindRelax","shop","NonBredShop","Pet_grooming","reports"]
+  } else {
+    // Default values if userType doesn't match any of the conditions
+    data = [];
+    data_link = [];
+  }
+ 
+
+
   const list = (anchor) => (
    
     <Box  className="sidebar" 
@@ -39,34 +62,26 @@ export default function TemporaryDrawer({ state, setState, toggleDrawer }) {
 
      
       <List sx={{ backgroundColor: "black", color: "white" }}>
-        {["Dashboard", "Analytics", "Reports", "News"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton href={`/${text.toLowerCase()}`}>
-              <ListItemIcon sx={{ color: "white" }}>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-          
-        ))}
+        
+       
+         
+           { data.map((text, index) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton sx={{':hover':{color:'orange'}}} href={`/${data_link[index].toLowerCase()}`}>
+                <ListItemIcon sx={{ color: "white" }}>
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+            
+          ))}
+
+       
       </List>
       </div>
       <Divider/>
-      <div className="list">
-      <List sx={{ backgroundColor: "black", color: "white" }}>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton href={`/${text.toLocaleLowerCase()}`}>
-              <ListItemIcon sx={{ color: "white" }}>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text}  />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      </div>
+     
     </Box>
     
   );

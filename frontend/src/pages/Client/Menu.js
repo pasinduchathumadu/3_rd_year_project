@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { MenuList } from "../../components/data/data";
-import Header from "../../components/Layout/Header";
 import { useNavigate } from "react-router-dom";
 import '../../styles/Common/Email.css'
 import {
@@ -21,26 +19,73 @@ import {
   Typography,
 } from "@mui/material";
 import '../../styles/Common/HeaderStyles.css'
-import dog from '../../assests/dog3.jpg'
-import dog1 from '../../assests/pic.jpg'
-import dog2 from '../../assests/dog.jpg'
+import dog from '../../assests/pic3.jpg'
+import dog1 from '../../assests/dog3.jpg'
+import dog2 from '../../assests/pic57.webp'
+import axios from "axios";
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 const Menu = () => {
   const navigate = useNavigate()
   const [value, setValue] = useState(0);
   const [value_dog, setdog] = useState("")
- 
+  const [MenuList,setmenu] = useState([])
   const [dogBackground, setDogBackground] = useState(dog)
+  const [error , seterror ] = useState([])
   const handleselection = (event) => {
     setdog(event.target.value);
   };
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const submit = () => {
+  const email = localStorage.getItem("store_email")
+  const changelocation = () =>{
     navigate('/cart')
+  }
+  const submit = async(id) => {
+    try{
+      const res = await axios.post('http://localhost:5000/pet_care/user/temp_cart',{
+        id,
+        email
+      });
+      if(res.data.message === "added"){
+        changelocation()
+       
+      }
+      else if(res.data.message === 'already in the cart'){
+        seterror(() => ({
+     
+          [id]: 'already in the cart'
+        }));
+
+      }
+
+    }catch(err){
+      console.log("There is an internel error")
+    }
+   
+    
 
   }
+  const getImageSrc = (imageName) => {
+    return require(`../../../../backend/images/store/${imageName}`)
+  };
+  const get_store = async(req,res,next)=>{
+    try{
+      const res = await axios.get(`http://localhost:5000/pet_care/user/get_store/${value}`)
+      const data = await res.data
+      return data
+    }
+    catch(err){
+      console.log("There is an internel error")
+    }
+  }
+  useEffect(()=>{
+    get_store()
+    .then((data)=>setmenu(data.data))
+    .catch((err)=>console.log("There is an internel error"))
+  })
 
   useEffect(() => {
     // Change the background image every 2 minutes
@@ -61,16 +106,16 @@ const Menu = () => {
     };
   }, []);
   return (
-    <><Header />
+    <>
       <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
-        <Box sx={{ width: '100%', height: '70vh', backgroundImage: `url(${dogBackground})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <Box sx={{ width: '100%', height: '80vh', backgroundImage: `url(${dogBackground})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center' }}>
           <Grid sx={{ marginTop: '150px', marginLeft: '100px', fontStyle: 'bold' }}>
-            <h1 style={{ fontSize: "55px", color: 'white' }}>50% discount for</h1>
+            <h1 style={{ fontSize: "55px", color: 'black' }}>50% discount for</h1>
             <Typography sx={{ fontSize: '24px', fontStyle: 'bold', marginTop: '10px', marginBottom: '10px', color: 'white' }}>FIRST ORDER</Typography>
             <Button variant="contained" sx={{ width: '15%', backgroundColor: 'orange' }}>SHOP NOW</Button>
           </Grid>
         </Box>
-        <Box sx={{ width: "90%", marginTop: '10px' }}>
+        <Box sx={{ width: "90%", marginTop: '30px' }}>
           <Tabs
             value={value}
             onChange={handleChange}
@@ -128,7 +173,7 @@ const Menu = () => {
         </Select>
       </FormControl>
      
-
+      
       <Box sx={{ marginTop: '40px', marginLeft: '20px', marginRight: '20px', display: "flex", flexWrap: "wrap", justifyContent: "center", border: '15px', borderRadius: '20px', borderColor: 'white', borderStyle: 'solid' }}>
       <Grid container justifyContent="center" sx={{marginTop:'30px'}} >
           <Typography sx={{ textAlign:'center',color:'black',fontSize:'20px',fontFamily:'inherit',backgroundColor:'orange',width:'180px',paddingLeft:'18px',paddingRight:'18px' }}>Food Item</Typography>
@@ -136,25 +181,30 @@ const Menu = () => {
         </Grid>
 
 
-        {MenuList.map((menu) => (
+        {MenuList.filter((menu,index)=>menu.catogories==='foods').map((menu) => (
           <Card sx={{ maxWidth: "300px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '35px' }}>
             <CardActionArea>
               <CardMedia
                 sx={{ minHeight: "300px" }}
                 component={"img"}
-                src={menu.image}
+                src={getImageSrc(menu.image)}
                 alt={menu.name} />
               <CardContent>
                 <Typography variant="h5" gutterBottom component={"div"}>
                   {menu.name}
                 </Typography>
                 <Typography variant="body2">{menu.description}</Typography><br />
-                <Typography variant="body2" sx={{ color: "red", marginBottom: '9px' }}>RS.{menu.price}</Typography>
+                <Typography variant="body2" sx={{ color: "red", marginBottom: '9px' }}>RS.{menu.unit_price}</Typography>
                 <Button variant="contained" sx={{
                   backgroundColor: 'black', color: 'white', '&:active, &:focus': {
                     backgroundColor: 'black'
                   },':hover':{backgroundColor:'black'}
-                }} onClick={submit}>Add To Cart</Button>
+                }} onClick={()=>submit(menu.item_id)}>Add To Cart</Button>
+                {error[menu.item_id] &&(
+                     <Stack sx={{ width: '90%',marginTop:'4%' }} spacing={2}>
+                       <Alert severity="warning">Already Added!</Alert>
+                     </Stack>
+                )}
               </CardContent>
             </CardActionArea>
           </Card>
@@ -167,25 +217,30 @@ const Menu = () => {
 
         </Grid>
 
-        {MenuList.map((menu) => (
+        {MenuList.filter((menu,index)=>menu.catogories==='toys').map((menu) => (
           <Card sx={{ maxWidth: "300px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '39px' }}>
             <CardActionArea>
               <CardMedia
                 sx={{ minHeight: "300px" }}
                 component={"img"}
-                src={menu.image}
+                src={getImageSrc(menu.image)}
                 alt={menu.name} />
               <CardContent>
                 <Typography variant="h5" gutterBottom component={"div"}>
                   {menu.name}
                 </Typography>
                 <Typography variant="body2">{menu.description}</Typography><br />
-                <Typography variant="body2" sx={{ color: "red", marginBottom: '9px' }}>RS.{menu.price}</Typography>
+                <Typography variant="body2" sx={{ color: "red", marginBottom: '9px' }}>RS.{menu.unit_price}</Typography>
                 <Button variant="contained" sx={{
                   backgroundColor: 'black', color: 'white', '&:active, &:focus': {
                     backgroundColor: 'black'
                   },
                 }} onClick={submit}>Add To Cart</Button>
+                 {error[menu.item_id] &&(
+                     <Stack sx={{ width: '90%',marginTop:'4%' }} spacing={2}>
+                       <Alert severity="warning">Already Added!</Alert>
+                     </Stack>
+                )}
               </CardContent>
             </CardActionArea>
           </Card>
@@ -193,30 +248,35 @@ const Menu = () => {
         ))}</Box>
         <Box sx={{ marginTop: '40px', marginLeft: '20px', marginRight: '20px', display: "flex", flexWrap: "wrap", justifyContent: "center", border: '15px', borderRadius: '20px', borderColor: 'white', borderStyle: 'solid' }}>
       <Grid container justifyContent="center" sx={{marginTop:'30px'}} >
-          <Typography sx={{ textAlign:'center',color:'black',fontSize:'20px',fontFamily:'inherit',backgroundColor:'orange',width:'180px',paddingLeft:'18px',paddingRight:'18px' }}>Others</Typography>
+          <Typography sx={{ textAlign:'center',color:'black',fontSize:'20px',fontFamily:'inherit',backgroundColor:'orange',width:'180px',paddingLeft:'18px',paddingRight:'18px' }}>Accessories</Typography>
 
         </Grid>
 
 
-        {MenuList.map((menu) => (
+        {MenuList.filter((menu,index)=>menu.catogories==='accessories').map((menu) => (
           <Card sx={{ maxWidth: "300px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '35px' }}>
             <CardActionArea>
               <CardMedia
                 sx={{ minHeight: "300px" }}
                 component={"img"}
-                src={menu.image}
+                src={getImageSrc(menu.image)}
                 alt={menu.name} />
               <CardContent>
                 <Typography variant="h5" gutterBottom component={"div"}>
                   {menu.name}
                 </Typography>
                 <Typography variant="body2">{menu.description}</Typography><br />
-                <Typography variant="body2" sx={{ color: "red", marginBottom: '9px' }}>RS.{menu.price}</Typography>
+                <Typography variant="body2" sx={{ color: "red", marginBottom: '9px' }}>RS.{menu.unit_price}</Typography>
                 <Button variant="contained" sx={{
                   backgroundColor: 'black', color: 'white', '&:active, &:focus': {
                     backgroundColor: 'black'
                   },':hover':{backgroundColor:'black'}
                 }} onClick={submit}>Add To Cart</Button>
+                 {error[menu.item_id] &&(
+                     <Stack sx={{ width: '90%',marginTop:'4%' }} spacing={2}>
+                       <Alert severity="warning">Already Added!</Alert>
+                     </Stack>
+                )}
               </CardContent>
             </CardActionArea>
           </Card>

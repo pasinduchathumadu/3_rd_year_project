@@ -1,3 +1,4 @@
+
 import React, { Component, useState } from "react";
 import Header from "../../components/Layout/Header";
 import "../../styles/Care_center_manager/Caregiverlist.css";
@@ -13,6 +14,7 @@ import profile from "../../assests/profile.jpg";
 function Caregiverlist() {
   const [modelOpen, setModelOpen] = useState(false);
   const [modelOpen2, setModelOpen2] = useState(false);
+
 
   const input = new Date();
   const date = input.toDateString();
@@ -79,8 +81,10 @@ function Caregiverlist() {
           </button>
         </div>
 
+
         <div className="row">
           <div className="column">
+
             <div class="card">
               <img src={care} alt="John" className="top-img" />
               <span className="top-name">John Doe</span>

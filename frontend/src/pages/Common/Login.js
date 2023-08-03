@@ -3,9 +3,9 @@ import '../../styles/Common/Login.css';
 import { useNavigate } from 'react-router-dom';
 import { Alert, AlertTitle, Button } from "@mui/material"
 import axios from 'axios';
-import Header from '../../components/Layout/Header';
+import Landingheader from '../../components/Layout/LandingHeader'
 
-const Login = ({ onLogin }) => {
+const Login = ({ onLogin}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error ,seterror] = useState(false)
@@ -36,10 +36,12 @@ const Login = ({ onLogin }) => {
       }
       else {
         seterror(false)
-        onLogin();
+      
+        onLogin(res.data.data[0].user_role,res.data.data[0].email);
+      
         setEmail("");
         setPassword("");
-        navigate(`/blogs`);
+       
       }
 
     } catch (err) {
@@ -66,7 +68,7 @@ const Login = ({ onLogin }) => {
 
   return (
     <div className='body'>
-    <><Header />
+    <><Landingheader />
     <div id="container" className="container">
 
       {/* FORM SECTION */}
