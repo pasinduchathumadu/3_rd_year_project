@@ -8,14 +8,13 @@ const CartTable = () => {
 
   const [cartItems,setCartItems] = useState([]) 
   const [total , settotal] = useState("")
-  const email = localStorage.getItem("client_email")
+  const email = localStorage.getItem("store_email")
   const calculateTotalAmount = async() => {
     const res = await axios.post("http://localhost:5000/pet_care/user/total",{
       email
     })
     if(res.data.message !== "There is an internel error"){
       settotal(res.data.data[0].total)
-      
     }
    
   };

@@ -1,33 +1,78 @@
-.maintopic{
-    margin: 20px;
-    padding-bottom: 5%;
-}
+
+
+
+  .full-page{
+    margin: 2%;
+  }
+
+  .maintopic{
+    margin: 2px;
+    padding-bottom: 4%;
+  }
 
 .topicfont{
-    font-size: 25px;
+    font-size: 20px;
     float: left;
     height: 10px;
-    
+    /* font-weight: 400;    */
 }
 
 .top-img{
     height: 200px;
+    width: 100%;
+    object-fit: cover;
 }
 
 .top-name{
-    margin: 10px;
+    margin: 20px;
     font-size: 20px;
 }
 
+.title {
+  color: grey;
+  font-size: 15px;
+  margin: 10px;
+}
+
+.reviews{
+  display: flex;
+  margin-left: 60px;
+
+}
+
 .assignbtn{
-    margin-top: 0;
+    margin: 20px;
     width: 50%;
     background-color: #000000;
     border: none;
     height: 35px;
     color: #ffff;
     border-radius: 5px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
 }
+
+.assignbtn:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.mainbutton{
+    float: right;
+    background-color: #da8517; /* Green */
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
 
 .mainbutton:hover {
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
@@ -65,27 +110,29 @@
   .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     max-width: 300px;
+    width: 300px;
+    height: auto;
     margin: auto;
     text-align: center;
     font-family: arial;
+    border-radius: 10px;
+    -webkit-transition-duration: 0.5s; /*Safari */
+    transition-duration: 0.5s;
   }
-  
-  .title {
-    color: grey;
-    font-size: 15px;
+
+  .card:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
   }
-  
-  .icon-plus{
-    margin-left: 10px;
-    font-size: 12px;
-    margin-bottom: 3px;
+
+  .css-i4bv87-MuiSvgIcon-root{
+    font-size: 1px;
+    margin-left: 3px;
   }
 
   .icon-star{
-    margin-left: 10px;
-    margin-right: 5px;
-    font-size: 15px;
-    margin-bottom: 5px;
+    margin-right: 3px;
+    font-size: 3px;
     color: #fde401;
   }
+
 

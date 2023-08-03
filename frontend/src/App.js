@@ -9,9 +9,17 @@ import Email from "./pages/Common/Email";
 import { Dashboard } from "./pages/Client/Dashboard";
 import { Reports } from "./pages/Client/Reports";
 
-import Reset from "./pages/Common/Reset";
 import Menu from "./pages/Client/Menu";
 import Petcare from "./pages/Client/Petcare"
+
+import MindRealx from "./pages/Client/MindRealx";
+import { Shop } from "./pages/Client/Shop";
+import { NonBredShop } from "./pages/Client/NonBredShop";
+
+
+
+import Header from "../src/components/Layout/Header"
+
 import Unregisterestore from "./pages/Client/Unregistered_store"
 import Cart from "./pages/Client/Cart"
 import LandingHeader from "../../frontend/src/components/Layout/LandingHeader"
@@ -30,6 +38,14 @@ import BoardingPets from "./pages/Boarding_house_manager/Boardpets";
 import BoardingPackages from "./pages/Boarding_house_manager/Packages";
 import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 
+
+import Packages from "./pages/Care_center_manager/Packages";
+import Complaints from "./pages/Care_center_manager/Complaints";
+import Caregiverlist from "./pages/Care_center_manager/caregiverlist";
+import Appointments from "./pages/Care_center_manager/Appointments";
+
+import Reset from "./pages/Common/Reset"
+
 import AdminHome from './pages/Admin/Home';
 import AdminUsers from './pages/Admin/Users';
 import AdminRefund from './pages/Admin/Refund';
@@ -40,9 +56,6 @@ import Profile from './pages/Common/Profile';
 import Petgrooming from "../src/pages/Client/Pet_grooming";
 
 
-import Caregiverlist from "./pages/Care_center_manager/caregiverlist";
-
-
 import Onlinehome from "./pages/Online_store_manager/Home"
 import OnlineAdd from "./pages/Online_store_manager/Add"
 import Complain from "./pages/Online_store_manager/Complain";
@@ -51,6 +64,7 @@ import Clientorders from "./pages/Online_store_manager/Clients_orders";
 import { useNavigate } from "react-router-dom";
 import HomeHeader from './components/Layout/Homeheader'
 // import Complains from "./pages/Boarding_house_manager/Complains";
+
 
 function App() {
 
@@ -79,8 +93,7 @@ function App() {
     setuserrole(role);
     localStorage.setItem("userRole", role);
     localStorage.setItem("isLoggedIn", "true");
-
-
+    localStorage.setItem('store_email',email)
   
     if(role === 'online_store_manager'){
 
@@ -94,7 +107,12 @@ function App() {
       navigate('/admin_dashboard')
     }
     else if(role === 'client'){
+      navigate('/dashboard')
       localStorage.setItem("client_email",email)
+    }
+    else if(role === 'care_center_manager'){
+      navigate('/appoinments')
+      localStorage.setItem("care_center_manager",email)
     }
   };
   const handleSignup = () => {
@@ -126,22 +144,33 @@ function App() {
           <Route path="/login" element={ <Login onLogin={handleLogin} />} />
           
 
-          <Route path="/menu" element={<><HomeHeader userRole={'client'}/><Menu/></>}/>
-          <Route path="/cart" element = {<><HomeHeader userRole={'client'}/><Cart /></>} />
+          <Route path="/menu" element={isLoggedIn ? (<><HomeHeader userRole={user_role} /><Menu/></>):(<Navigate to='/login'/>)}/>
+          <Route path="/cart" element = {isLoggedIn ? (<><HomeHeader userRole={user_role}/><Cart /></>):(<Navigate to='/login'/>)} />
           <Route path="/email" element={!issignup ?<Email /> : <Navigate to ="/signup"/>}/>
           <Route path="/forget" element={<Forgot />} />
           <Route path="/reset" element={<Reset />} />
-          
-          <Route path="/blog" element={<Blogs />} />
+
+          <Route path="/blog" element={isLoggedIn? (<><HomeHeader userRole={user_role}/><Blogs/></>):(<><LandingHeader/><Blogs/></>)} />
+
           {/* <Route path="/blogs" element={isLoggedIn ? <Blogs /> : <Navigate to="/login" />} /> */}
        
-      
-          <Route path="/reports" element={<Reports/>}></Route>
-          <Route path="/dashboard" element={<Dashboard/>}></Route>
-          <Route path="/petcare" element={<Petcare/>}></Route>
-          {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
-          <Route path="/Pet_grooming" element={<Petgrooming/>}></Route>
+        {isLoggedIn && user_role === "client" &&(
+           <><Route path="/reports" element={<><Header userRole={'client'} /><Reports /></>}>
+            </Route><Route path="/dashboard" element={<><Header userRole={'client'} /><Dashboard /></>}>
+              </Route><Route path="/petcare" element={<><Header userRole={'client'} /><Petcare /></>}>
+                </Route><Route path="/MindRealx" element={<><Header userRole={'client'} /><MindRealx /></>}>
+                  </Route><Route path="/shop" element={<><Header userRole={'client'} /><Shop /></>}>
+                    </Route><Route path="/NonBredShop" element={<><Header userRole={'client'} /><NonBredShop /></>}>
+                      </Route><Route path="/Pet_grooming" element={<><Header userRole={'client'} /><Petgrooming /></>}></Route></>
 
+ 
+
+        )}
+         
+
+
+          {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
+         
 
            {/* boarding house manager */}
            {isLoggedIn && user_role === "boarding_house_manager" &&(
@@ -173,8 +202,16 @@ function App() {
           <Route path="/admin_complains" element={<AdminComplains />} />  */}
 
 
-           {/*  */}
-           <Route path="/caregiverlist" element={< Caregiverlist />} />
+           {isLoggedIn && user_role === "care_center_manager" && (
+            <><Route path="/caregiverlist" element={<><HomeHeader userRole={"care_center_manager"}/><Caregiverlist /></>} />
+            <Route path="/packages"  element={<><HomeHeader userRole={"care_center_manager"}/><Packages /></>} />
+            <Route path="/appointments"  element={<><HomeHeader userRole={"care_center_manager"}/><Appointments /></>} />
+            <Route path="/complaints"  element={<><HomeHeader userRole={"care_center_manager"}/><Complaints /></>} /></>
+             
+           )}
+
+          
+
 
            {isLoggedIn && user_role === "online_store_manager" && (
           <><Route path="/handling_complain" element={<><HomeHeader userRole={"online_store_manager"} /><Complain /></>} />

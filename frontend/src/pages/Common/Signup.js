@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button,Alert,AlertTitle } from "@mui/material";
 import axios from "axios";
 import Header from "../../components/Layout/LandingHeader"
+import '../../styles/Common/Login.css';
 const Signup = ({onSignup}) =>{
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -110,7 +111,7 @@ const Signup = ({onSignup}) =>{
                   <div className="input-group">
                     <div className='first'>
                       <i className="bx bxs-user"></i>
-                      <input type="text" placeholder="Stret" onChange={(e) => setstreet(e.target.value)} required />
+                      <input type="text" placeholder="Street" onChange={(e) => setstreet(e.target.value)} required />
 
                     </div>
 
@@ -123,7 +124,7 @@ const Signup = ({onSignup}) =>{
                   </div>
                   <div className="input-group">
                     <i className="bx bxs-lock-alt"></i>
-                    <input type="password" placeholder="Contact number" onChange={(e) => setcontact_number(e.target.value)} required />
+                    <input type="text" placeholder="Contact number" onChange={(e) => setcontact_number(e.target.value)} required />
                   </div>
 
                   <Button sx={{ '&:hover': { backgroundColor: 'orange' } }} type='submit'>Sign up</Button>
