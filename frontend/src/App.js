@@ -29,12 +29,14 @@ import BoardingPackages from "./pages/Boarding_house_manager/Packages";
 import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 import Test from "./pages/Boarding_house_manager/Test";
 
-
-import Caregiverlist from "./pages/Care_center_manager/caregiverlist";
-
+import Packages from "./pages/Care_center_manager/Packages";
+import Complaints from "./pages/Care_center_manager/Complaints";
+import Caregiverlist from "./pages/Care_center_manager/Caregiverlist";
+import Appointments from "./pages/Care_center_manager/Appointments";
 
 import Onlinehome from "./pages/Online_store_manager/Home"
 import OnlineAdd from "./pages/Online_store_manager/Add"
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -88,13 +90,16 @@ function App() {
 
 
 
-           {/*  */}
-           <Route path="/caregiverlist" element={< Caregiverlist />} />
+           {/* Care center manager */}
+           <Route path="/caregiverlist" element={<Caregiverlist />} />
+           <Route path="/packages" element={<Packages />} />
+           <Route path="/appointments" element={<Appointments />} />
+           <Route path="/complaints" element={<Complaints />} />
 
-          
 
-          <Route path="/online_manager" element={<Onlinehome />}/>
-          <Route path="/online_add" element={<OnlineAdd/>}/>
+           {/* Online manager */}                              
+           <Route path="/online_manager" element={<Onlinehome />}/>
+           <Route path="/online_add" element={<OnlineAdd/>}/>
 
         </Routes>
       </main>
