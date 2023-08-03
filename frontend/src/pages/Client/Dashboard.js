@@ -14,6 +14,7 @@ import Image4 from '../../assests/pet-foods.png'
 import "../../styles/Client/Shop.css"
 import Button from '@mui/material/Button';
 
+
 import {useNavigate} from 'react-router-dom'
 
 const images = [
@@ -33,13 +34,13 @@ const images = [
     url: Image3,
     title: 'Medi house',
     width: '30%',
-    slag: '/ghi'
+    slag: '/medi'
   },
  
   {
     
     url: Image4,
-    title: 'Medi house',
+    title: 'Shop',
     width: '100%',
     marginTop : '1%' ,
     height:450,

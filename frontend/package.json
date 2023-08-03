@@ -20,7 +20,7 @@
     "cors": "^2.8.5",
     "dayjs": "^1.11.9",
     "express": "^4.18.2",
-    "framer-motion": "^10.12.18",
+    "framer-motion": "^10.15.0",
     "material-ui-popup-state": "^5.0.9",
     "mdb-react-ui-kit": "^6.1.0",
     "mdb-ui-kit": "^6.4.0",

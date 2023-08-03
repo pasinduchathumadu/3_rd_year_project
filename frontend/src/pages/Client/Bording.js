@@ -3,6 +3,8 @@ import "../../styles/Client/Bording.css";
 import PrimarySearchAppBar from "../../components/Layout/Header";
 import PetsIcon from '@mui/icons-material/Pets';
 import cage from "../../assests/2.png";
+import "../../styles/Client/Shop.css"
+
 
 
 
@@ -53,12 +55,12 @@ const Bording = () => {
   return (
     <><PrimarySearchAppBar />
 
-      <div className='header' style={{textAlign:"center",width:"100%",height:"60vh",marginTop:"auto",marginBottom:"auto",fontWeight:"1"}}><h2 style={{fontSize:"80px",marginTop:"90px"}}>Book your's <span style={{color:"orange"}}>pet</span> seet now</h2>
+      <div className='smooth-scroll' style={{textAlign:"center",width:"100%",height:"60vh",marginTop:"auto",marginBottom:"auto",fontWeight:"1"}}><h2 style={{fontSize:"80px",marginTop:"90px"}}>Book your's <span style={{color:"orange"}}>pet</span> seet now</h2>
       <h1 style={{marginTop:"20px",fontFamily:"sans-serif"}}>we protect and care yout pet</h1>
       <h1 style={{fontSize:"20px",fontWeight:"1"}}>24 x 7 service</h1>
       {/* {PetsIcon} */}
       {/* <PetsIcon  sx={{fontSize:"45px"}}/> */}
-      <img src={cage} alt="Cage" style={{fontSize:"20px",width:"80px",height:"80px"}}/>
+      <img  className="smooth-scroll" src={cage} alt="Cage" style={{fontSize:"20px",width:"80px",height:"80px"}}/>
 
       </div>
 
@@ -77,12 +79,12 @@ const Bording = () => {
 
       <ul className="showcase">
         <li>
-          <div className="seat"> <PetsIcon  sx={{fontSize:"20px",textAlign:"center",marginLeft:"30%",marginTop:"20%",color:"white"}}/></div>
+          <div className="seat"> </div>
           <small>N/A</small>
         </li>
 
         <li>
-          <div className="seat selected"> <PetsIcon  sx={{fontSize:"20px",textAlign:"center",marginLeft:"30%",marginTop:"20%",color:"white"}}/></div>
+          <div className="seat selected"> </div>
           <small>Selected</small>
         </li>
 
@@ -108,7 +110,7 @@ const Bording = () => {
                         ? "selected"
                         : ""}`}
                   onClick={() => handleSeatClick(rowIndex, seatIndex)}
-                >      <PetsIcon  sx={{fontSize:"20px",textAlign:"center",marginLeft:"30%",marginTop:"20%"}}/>
+                >      
                 </div>
               );
             })}

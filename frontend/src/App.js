@@ -47,6 +47,7 @@ import AdminRefund from './pages/Admin/Refund';
 import AdminComplains from './pages/Admin/Complains';
 import Bording from "./pages/Client/Bording";
 import Petgrooming from "../src/pages/Client/Pet_grooming";
+import Medi from "../src/pages/Client/Medi";
 
 
 import Caregiverlist from "./pages/Care_center_manager/caregiverlist";
@@ -152,6 +153,8 @@ function App() {
           <Route path="/shop" element={<Shop/>}></Route>
           <Route path="/NonBredShop" element={<NonBredShop/>}></Route>
           <Route path="/bording" element={<Bording/>}></Route>
+          <Route path="/medi" element={<Medi/>}></Route>
+
 
 
 
