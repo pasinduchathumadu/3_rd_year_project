@@ -38,6 +38,12 @@ import BoardingPets from "./pages/Boarding_house_manager/Boardpets";
 import BoardingPackages from "./pages/Boarding_house_manager/Packages";
 import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 
+
+import Packages from "./pages/Care_center_manager/Packages";
+import Complaints from "./pages/Care_center_manager/Complaints";
+import Caregiverlist from "./pages/Care_center_manager/Caregiverlist";
+import Appointments from "./pages/Care_center_manager/Appointments";
+
 import Reset from "./pages/Common/Reset"
 
 import AdminHome from './pages/Admin/Home';
@@ -46,7 +52,6 @@ import AdminRefund from './pages/Admin/Refund';
 import AdminComplains from './pages/Admin/Complains';
 
 import Petgrooming from "../src/pages/Client/Pet_grooming";
-
 
 import Caregiverlist from "./pages/Care_center_manager/caregiverlist";
 import Onlinehome from "./pages/Online_store_manager/Home"
@@ -57,6 +62,7 @@ import Clientorders from "./pages/Online_store_manager/Clients_orders";
 import { useNavigate } from "react-router-dom";
 import HomeHeader from './components/Layout/Homeheader'
 // import Complains from "./pages/Boarding_house_manager/Complains";
+
 
 function App() {
 
@@ -187,8 +193,12 @@ function App() {
           <Route path="/admin_complains" element={<AdminComplains />} />  */}
 
 
-           {/*  */}
-           <Route path="/caregiverlist" element={< Caregiverlist />} />
+           {/* Care center manager */}
+           <Route path="/caregiverlist" element={<Caregiverlist />} />
+           <Route path="/packages" element={<Packages />} />
+           <Route path="/appointments" element={<Appointments />} />
+           <Route path="/complaints" element={<Complaints />} />
+
 
            {isLoggedIn && user_role === "online_store_manager" && (
           <><Route path="/handling_complain" element={<><HomeHeader userRole={"online_store_manager"} /><Complain /></>} />

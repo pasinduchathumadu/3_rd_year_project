@@ -1,0 +1,204 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* font-family: "Reem Kufi", sans-serif; */
+  }
+
+  .full-page{
+    margin: 2%;
+  }
+
+  .maintopic1{
+    margin: 2px;
+    padding-bottom: 4%;
+  }
+
+.topicfont{
+    font-size: 20px;
+    float: left;
+    height: 10px;
+    /* font-weight: 400;    */
+}
+
+.mainbutton{
+    float: right;
+    background-color: #ee8c0d; 
+    border: none;
+    color: white;
+    padding: 7px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    font-size: 15px;
+    margin: 0 5px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+.mainbutton:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.card-link-edit{
+  margin-right:35px;
+}
+
+.card-title{
+    font-weight: 500;
+    font-size: 20px;
+    padding: 10px 10px 0px;
+    text-align: left;
+    text-transform: uppercase;
+  }
+
+.card-text{
+  font-weight: 500;
+  width: 97%;
+  margin: 10px 0px 10px 0px;
+  display: flex;
+  text-align: left;
+  font-size: 12px;
+}
+
+.card-price{
+  margin-bottom: 10px;
+  text-align: left;
+  padding-left: 10px;
+  text-transform: capitalize;
+}
+
+.list-group-item{
+    padding: 2%;
+    border-top: solid 0.05px #e6e6e6;
+    border-bottom: solid 0.05px #e6e6e6;
+    text-align: left;
+    list-style-type: none;
+    font-size: 12px;
+    display: flex;
+    text-transform: capitalize;
+}
+
+.list-group{
+    margin: 20px 0px 0px 0px;
+}
+
+.card-img-top{
+  height: 200px;
+  width: 100%;
+  padding: 10px;
+  object-fit: cover;
+}
+
+/* Float THREE columns side by side */
+.column {
+    float: left;
+    width: 33.33%;
+    padding: 0 0px 40px;
+  }
+  
+  /* Remove extra left and right margins, due to padding */
+  .row {
+    margin: 0px -5px;
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  /* Responsive columns */
+  @media screen and (max-width: 800px) {
+    .column {
+      width: 100%;
+      display: block;
+      margin-bottom: 35px;
+    }
+  }
+
+.cards{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    width: 300px;
+    height: auto;
+    margin: auto;
+    text-align: center;
+    font-family: arial;
+    border-radius: 10px;
+  }
+
+  .icon-edit{
+    color: #ffffff;
+    margin-left: 8px;
+    font-size: 15px;
+  }
+
+  .icon-del{
+    color:  #ffffff;
+    margin-left: 8px;
+    font-size: 15px;
+  }
+
+  .mainbutton .icon-plus{
+    margin: 0px 0px 0px 10px;
+  }
+
+  .icon-check{
+    margin-right: 7px;
+    color: #da8517;
+  }
+
+  .icon-leaf{
+    color: #ee8c0d;
+    margin: 0px 7px 0px 7px;
+    
+  }
+
+  .editbtn{
+    background-color: #ee8c0d;
+    border-style: none;
+    width: 95%;
+    border-radius: 5px;
+    color: #ffffff;
+    padding: 5px 50px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 0px 0px 0px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+  }
+
+  .editbtn:hover {
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+  }
+  
+  .delbtn{
+    background-color: #868686;
+    border-style: none;
+    width: 95%;
+    border-radius: 5px;
+    color: #ffffff;
+    padding: 5px 90px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+  }
+
+  .delbtn:hover {
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+  }
