@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import "../../styles/Client/Bording.css"
+import "../../styles/Client/Bording.css";
+import PrimarySearchAppBar from "../../components/Layout/Header";
+import PetsIcon from '@mui/icons-material/Pets';
+import cage from "../../assests/2.png";
+
+
 
 const Bording = () => {
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -17,9 +22,9 @@ const Bording = () => {
   ];
 
   const movies = [
-    { name: 'Avengers: Endgame', price: 10 },
-    { name: 'Joker', price: 12 },
-    { name: 'Toy Story 4', price: 8 },
+    { name: 'Dogs', price: 1000 },
+    { name: 'Cats', price: 800 },
+    { name: 'Birds', price: 500 },
     { name: 'The Lion King', price: 9 },
   ];
 
@@ -46,13 +51,25 @@ const Bording = () => {
   }, [selectedSeats, selectedMovieIndex, movies]);
 
   return (
+    <><PrimarySearchAppBar />
+
+      <div className='header' style={{textAlign:"center",width:"100%",height:"60vh",marginTop:"auto",marginBottom:"auto",fontWeight:"1"}}><h2 style={{fontSize:"80px",marginTop:"90px"}}>Book your's <span style={{color:"orange"}}>pet</span> seet now</h2>
+      <h1 style={{marginTop:"20px",fontFamily:"sans-serif"}}>we protect and care yout pet</h1>
+      <h1 style={{fontSize:"20px",fontWeight:"1"}}>24 x 7 service</h1>
+      {/* {PetsIcon} */}
+      {/* <PetsIcon  sx={{fontSize:"45px"}}/> */}
+      <img src={cage} alt="Cage" style={{fontSize:"20px",width:"80px",height:"80px"}}/>
+
+      </div>
+
+
     <div className='main'>
       <div className="movie-con">
-        <label>Pick a movie:</label>
+        <label>Pick a Cage:</label>
         <select id="movie" onChange={handleMovieChange} value={selectedMovieIndex}>
           {movies.map((movie, index) => (
             <option key={index} value={index}>
-              {movie.name} (${movie.price})
+              {movie.name} (Rs.{movie.price}-UP)
             </option>
           ))}
         </select>
@@ -60,12 +77,12 @@ const Bording = () => {
 
       <ul className="showcase">
         <li>
-          <div className="seat"></div>
+          <div className="seat"> <PetsIcon  sx={{fontSize:"20px",textAlign:"center",marginLeft:"30%",marginTop:"20%",color:"white"}}/></div>
           <small>N/A</small>
         </li>
 
         <li>
-          <div className="seat selected"></div>
+          <div className="seat selected"> <PetsIcon  sx={{fontSize:"20px",textAlign:"center",marginLeft:"30%",marginTop:"20%",color:"white"}}/></div>
           <small>Selected</small>
         </li>
 
@@ -83,16 +100,16 @@ const Bording = () => {
               const seatKey = `${rowIndex}-${seatIndex}`;
               return (
                 <div
+                
                   key={seatKey}
-                  className={`seat ${
-                    seat
+                  className={`seat ${seat
                       ? "occupied"
                       : selectedSeats.includes(seatKey)
-                      ? "selected"
-                      : ""
-                  }`}
+                        ? "selected"
+                        : ""}`}
                   onClick={() => handleSeatClick(rowIndex, seatIndex)}
-                ></div>
+                >      <PetsIcon  sx={{fontSize:"20px",textAlign:"center",marginLeft:"30%",marginTop:"20%"}}/>
+                </div>
               );
             })}
           </div>
@@ -103,7 +120,7 @@ const Bording = () => {
         You have selected <span id="count">{count}</span> seats for a price of ${' '}
         <span id="total">{total}</span>
       </p>
-    </div>
+    </div></>
   );
 };
 

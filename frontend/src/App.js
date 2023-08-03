@@ -57,7 +57,6 @@ import Clientorders from "./pages/Online_store_manager/Clients_orders";
 
 import { useNavigate } from "react-router-dom";
 import HomeHeader from './components/Layout/Homeheader'
-import { BordingNew } from "./pages/Client/BordingNew";
 // import Complains from "./pages/Boarding_house_manager/Complains";
 
 function App() {
@@ -153,7 +152,6 @@ function App() {
           <Route path="/shop" element={<Shop/>}></Route>
           <Route path="/NonBredShop" element={<NonBredShop/>}></Route>
           <Route path="/bording" element={<Bording/>}></Route>
-          <Route path="/bordingnew" element={<BordingNew/>}></Route>
 
 
 
