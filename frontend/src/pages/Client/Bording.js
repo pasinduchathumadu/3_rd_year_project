@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import "../../styles/Client/Bording.css"
 
 const Bording = () => {
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -23,13 +24,12 @@ const Bording = () => {
   ];
 
   const handleSeatClick = (rowIndex, seatIndex) => {
+    const seatKey = `${rowIndex}-${seatIndex}`;
     if (!seats[rowIndex][seatIndex]) {
-      const updatedSeats = [...selectedSeats, { row: rowIndex, seat: seatIndex }];
+      const updatedSeats = [...selectedSeats, seatKey];
       setSelectedSeats(updatedSeats);
     } else {
-      const updatedSeats = selectedSeats.filter(
-        (seat) => !(seat.row === rowIndex && seat.seat === seatIndex)
-      );
+      const updatedSeats = selectedSeats.filter((seat) => seat !== seatKey);
       setSelectedSeats(updatedSeats);
     }
   };
@@ -46,8 +46,8 @@ const Bording = () => {
   }, [selectedSeats, selectedMovieIndex, movies]);
 
   return (
-    <div>
-      <div className="movie-container">
+    <div className='main'>
+      <div className="movie-con">
         <label>Pick a movie:</label>
         <select id="movie" onChange={handleMovieChange} value={selectedMovieIndex}>
           {movies.map((movie, index) => (
@@ -75,17 +75,26 @@ const Bording = () => {
         </li>
       </ul>
 
-      <div className="container">
+      <div className="con">
         <div className="screen"></div>
         {seats.map((row, rowIndex) => (
-          <div className="row" key={rowIndex}>
-            {row.map((seat, seatIndex) => (
-              <div
-                key={seatIndex}
-                className={`seat ${seat ? 'occupied' : selectedSeats.find((s) => s.row === rowIndex && s.seat === seatIndex) ? 'selected' : ''}`}
-                onClick={() => handleSeatClick(rowIndex, seatIndex)}
-              ></div>
-            ))}
+          <div className="ro" key={rowIndex}>
+            {row.map((seat, seatIndex) => {
+              const seatKey = `${rowIndex}-${seatIndex}`;
+              return (
+                <div
+                  key={seatKey}
+                  className={`seat ${
+                    seat
+                      ? "occupied"
+                      : selectedSeats.includes(seatKey)
+                      ? "selected"
+                      : ""
+                  }`}
+                  onClick={() => handleSeatClick(rowIndex, seatIndex)}
+                ></div>
+              );
+            })}
           </div>
         ))}
       </div>

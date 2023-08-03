@@ -5,6 +5,7 @@ import Signup  from "./pages/Common/Signup"
 import Blogs from "./pages/Common/Blog";
 import Login from "./pages/Common/Login";
 import Email from "./pages/Common/Email";
+import Reset from "./pages/Common/Reset";
 
 import { Dashboard } from "./pages/Client/Dashboard";
 import { Reports } from "./pages/Client/Reports";
@@ -44,7 +45,7 @@ import AdminHome from './pages/Admin/Home';
 import AdminUsers from './pages/Admin/Users';
 import AdminRefund from './pages/Admin/Refund';
 import AdminComplains from './pages/Admin/Complains';
-
+import Bording from "./pages/Client/Bording";
 import Petgrooming from "../src/pages/Client/Pet_grooming";
 
 
@@ -56,6 +57,7 @@ import Clientorders from "./pages/Online_store_manager/Clients_orders";
 
 import { useNavigate } from "react-router-dom";
 import HomeHeader from './components/Layout/Homeheader'
+import { BordingNew } from "./pages/Client/BordingNew";
 // import Complains from "./pages/Boarding_house_manager/Complains";
 
 function App() {
@@ -100,6 +102,8 @@ function App() {
     }
     else if(role === 'client'){
       localStorage.setItem("client_email",email)
+      navigate('/dashboard')
+
     }
   };
   const handleSignup = () => {
@@ -148,6 +152,10 @@ function App() {
           <Route path="/MindRealx" element={<MindRealx/>}></Route>
           <Route path="/shop" element={<Shop/>}></Route>
           <Route path="/NonBredShop" element={<NonBredShop/>}></Route>
+          <Route path="/bording" element={<Bording/>}></Route>
+          <Route path="/bordingnew" element={<BordingNew/>}></Route>
+
+
 
 
 
