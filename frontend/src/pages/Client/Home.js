@@ -1,11 +1,14 @@
 import React from "react";
 
-
 const Home =()=>{
    
     return (
         <div>
-           <h1>hi first commit</h1>
+
+          
+           
+           <h1>hi  commit</h1>
+
         </div>
     )
 

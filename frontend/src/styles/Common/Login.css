@@ -21,17 +21,20 @@
     box-sizing: border-box;
 }
 
-html,
-body {
-    height: 100vh;
+
+.body{
     overflow: hidden;
+    height: 100vh;
+
 }
+
+
 
 .container {
     /* background-image: url("../assests/"); */
     position: relative;
     min-height: 100vh;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .row {

@@ -10,4 +10,13 @@
   .success {
     border: 1px solid green !important;
   }
-  
+  #error{
+    margin-top: 150px;
+}
+
+.noColor {
+  color: inherit;
+}
+#demo-select-small-label{
+  border: none !important;
+}
