@@ -112,7 +112,7 @@ const BoardPets = () => {
     }
 
     return (
-        <div className="home-container">
+        <div className="home-container" style={{ marginTop: '4%'}}>
             <div className="top">
                 <div className="top-line">
                     <p>Boarding House Manager</p>

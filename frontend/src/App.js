@@ -196,161 +196,35 @@ function App() {
               )
             }
           />
-          <Route
-            path="/cart"
-            element={
-              isLoggedIn ? (
-                <>
-                  <HomeHeader userRole={user_role} />
-                  <Cart />
-                </>
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
+          <Route path="/cart"element={isLoggedIn ? (<><HomeHeader userRole={user_role} /><Cart /></>) : (<Navigate to="/login" /> )  }/>
         
           <Route path="/forget" element={<Forgot />} />
           <Route path="/reset" element={<Reset />} />
 
-          <Route
-            path="/blog"
-            element={
-              isLoggedIn ? (
-                <>
-                  <HomeHeader userRole={user_role} />
-                  <Blogs />
-                </>
-              ) : (
-                <>
-                  <LandingHeader />
-                  <Blogs />
-                </>
-              )
-            }
-          />
+          <Route path="/blog" element={ isLoggedIn ? ( <><HomeHeader userRole={user_role} /><Blogs /></>) : (<><LandingHeader /><Blogs /></>)}/>
+               
 
           {/* <Route path="/blogs" element={isLoggedIn ? <Blogs /> : <Navigate to="/login" />} /> */}
 
           {isLoggedIn && user_role === "client" && (
-            <>
-              <Route
-                path="/reports"
-                element={
-                  <>
-                    <Header userRole={"client"} />
-                    <Reports />
-                  </>
-                }
-              ></Route>
-              <Route
-                path="/dashboard"
-                element={
-                  <>
-                    <Header userRole={"client"} />
-                    <Dashboard />
-                  </>
-                }
-              ></Route>
-              <Route
-                path="/petcare"
-                element={
-                  <>
-                    <Header userRole={"client"} />
-                    <Petcare />
-                  </>
-                }
-              ></Route>
-              <Route
-                path="/MindRealx"
-                element={
-                  <>
-                    <Header userRole={"client"} />
-                    <MindRealx />
-                  </>
-                }
-              ></Route>
-              <Route
-                path="/shop"
-                element={
-                  <>
-                    <Header userRole={"client"} />
-                    <Shop />
-                  </>
-                }
-              ></Route>
-              <Route
-                path="/NonBredShop"
-                element={
-                  <>
-                    <Header userRole={"client"} />
-                    <NonBredShop />
-                  </>
-                }
-              ></Route>
-              <Route
-                path="/Pet_grooming"
-                element={
-                  <>
-                    <Header userRole={"client"} />
-                    <Petgrooming />
-                  </>
-                }
-              ></Route>
-            </>
-          )}
+            <><Route path="/reports" element={<><Header userRole={"client"} /><Reports /> </>}></Route>
+            <Route path="/dashboard" element={<><Header userRole={"client"} /> <Dashboard /></>} ></Route>
+            <Route path="/petcare" element={<><Header userRole={"client"} /><Petcare /></>}></Route>
+            <Route path="/MindRealx" element={<><Header userRole={"client"} /><MindRealx /></>}></Route>
+            <Route path="/shop" element={<><Header userRole={"client"} /><Shop /></>}></Route>
+            <Route path="/NonBredShop" element={<><Header userRole={"client"} /><NonBredShop /></>}></Route>
+            <Route path="/Pet_grooming" element={ <><Header userRole={"client"} /><Petgrooming /></>}></Route></>)}
 
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
 
           {/* boarding house manager */}
           {isLoggedIn && user_role === "boarding_house_manager" && (
             <>
-              <Route
-                path="/boarding_dashboard"
-                element={
-                  <>
-                    <HomeHeader userRole={"boarding_house_manager"} />
-                    <BoardingHome />
-                  </>
-                }
-              />
-              <Route
-                path="/boarding_clients"
-                element={
-                  <>
-                    <HomeHeader userRole={"boarding_house_manager"} />
-                    <BoardingClients />
-                  </>
-                }
-              />
-              <Route
-                path="/boarding_pets"
-                element={
-                  <>
-                    <HomeHeader userRole={"boarding_house_manager"} />
-                    <BoardingPets />
-                  </>
-                }
-              />
-              <Route
-                path="/boarding_packages"
-                element={
-                  <>
-                    <HomeHeader userRole={"boarding_house_manager"} />
-                    <BoardingPackages />
-                  </>
-                }
-              />
-              <Route
-                path="/boarding_complains"
-                element={
-                  <>
-                    <HomeHeader userRole={"boarding_house_manager"} />
-                    <BoardingComplains />
-                  </>
-                }
-              />
-            </>
+              <Route path="/boarding_dashboard" element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingHome /></>} />
+              <Route path="/boarding_clients" element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingClients /></> }/>
+              <Route path="/boarding_pets" element={ <>  <HomeHeader userRole={"boarding_house_manager"} /> <BoardingPets />  </>}/>
+              <Route path="/boarding_packages" element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingPackages /></> } />
+              <Route path="/boarding_complains"element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingComplains /> </> }/></>
           )}
 
 
@@ -389,83 +263,18 @@ function App() {
 
           {isLoggedIn && user_role === "care_center_manager" && (
             <>
-              <Route
-                path="/caregiverlist"
-                element={
-                  <>
-                    <HomeHeader userRole={"care_center_manager"} />
-                    <Caregiverlist />
-                  </>
-                }
-              />
-              <Route
-                path="/packages"
-                element={
-                  <>
-                    <HomeHeader userRole={"care_center_manager"} />
-                    <Packages />
-                  </>
-                }
-              />
-              <Route
-                path="/appointments"
-                element={
-                  <>
-                    <HomeHeader userRole={"care_center_manager"} />
-                    <Appointments />
-                  </>
-                }
-              />
-              <Route
-                path="/complaints"
-                element={
-                  <>
-                    <HomeHeader userRole={"care_center_manager"} />
-                    <Complaints />
-                  </>
-                }
-              />
-            </>
+              <Route path="/caregiverlist" element={ <> <HomeHeader userRole={"care_center_manager"} /><Caregiverlist /></>}  />
+              <Route path="/packages" element={  <>   <HomeHeader userRole={"care_center_manager"} /> <Packages /></>  }/>
+              <Route path="/appointments" element={<>  <HomeHeader userRole={"care_center_manager"} />  <Appointments /></>  }/>
+              <Route path="/complaints"element={<>   <HomeHeader userRole={"care_center_manager"} /> <Complaints /></>  }  /></>
           )}
 
           {isLoggedIn && user_role === "online_store_manager" && (
             <>
-              <Route
-                path="/handling_complain"
-                element={
-                  <>
-                    <HomeHeader userRole={"online_store_manager"} />
-                    <Complain />
-                  </>
-                }
-              />
-              <Route
-                path="/online_add"
-                element={
-                  <>
-                    <HomeHeader userRole={"online_store_manager"} />
-                    <OnlineAdd />
-                  </>
-                }
-              />
-              <Route
-                path="/online_home"
-                element={
-                  <>
-                    <HomeHeader userRole={"online_store_manager"} />
-                    <Onlinehome />
-                  </>
-                }
-              />
-              <Route
-                path="/online_client"
-                element={
-                  <>
-                    <HomeHeader userRole={"online_store_manager"} />
-                    <Clientorders />
-                  </>
-                }
-              />
+              <Route  path="/handling_complain" element={ <>   <HomeHeader userRole={"online_store_manager"} />   <Complain /> </> }/>
+              <Route path="/online_add"element={<>   <HomeHeader userRole={"online_store_manager"} /> <OnlineAdd />  </>  }/>
+              <Route path="/online_home" element={<>  <HomeHeader userRole={"online_store_manager"} />  <Onlinehome /></> }/>
+              <Route path="/online_client" element={ <>   <HomeHeader userRole={"online_store_manager"} />   <Clientorders /> </> } />
             </>
           )}
           {/* company manager */}

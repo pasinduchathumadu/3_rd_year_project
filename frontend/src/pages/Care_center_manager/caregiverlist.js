@@ -22,7 +22,7 @@ function Caregiverlist() {
   return (
     <>
       <Header />
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex",marginTop:'4%' }}>
         <div
           style={{
             display: "inline",
