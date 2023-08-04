@@ -5,7 +5,7 @@ import Signup  from "./pages/Common/Signup"
 import Blogs from "./pages/Common/Blog";
 import Login from "./pages/Common/Login";
 import Email from "./pages/Common/Email";
-
+import Bill from "./pages/Client/Bill";
 import { Dashboard } from "./pages/Client/Dashboard";
 import { Reports } from "./pages/Client/Reports";
 
@@ -140,8 +140,7 @@ function App() {
           } />
           <Route path="/signup" element={<Signup onSignup={handleSignup}/>} />
           <Route path="/login" element={ <Login onLogin={handleLogin} />} />
-          
-
+          <Route path="/bill" element = {isLoggedIn?(<><HomeHeader userRole={user_role}/><Bill/></>):(<Navigate to='/bill'/>)}/>
           <Route path="/menu" element={isLoggedIn ? (<><HomeHeader userRole={user_role} /><Menu/></>):(<Navigate to='/login'/>)}/>
           <Route path="/cart" element = {isLoggedIn ? (<><HomeHeader userRole={user_role}/><Cart /></>):(<Navigate to='/login'/>)} />
           <Route path="/email" element={!issignup ?<Email /> : <Navigate to ="/signup"/>}/>

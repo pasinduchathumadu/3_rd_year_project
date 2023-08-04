@@ -1,9 +1,9 @@
 /* eslint-disable no-mixed-operators */
 import React, { useState } from "react";
-import Header from "../../components/Layout/Header";
+
 import { Grid, Typography, Avatar, Tab, Tabs, Box, TextField, Button, Select, MenuItem, Alert, AlertTitle, IconButton, CardMedia, Card, CardActionArea } from "@mui/material";
 import Stack from '@mui/material/Stack';
-import profile from "../../assests/profile.jpg";
+import profile from "../../assests/pic12.jfif";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import axios from "axios";
@@ -14,7 +14,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle'
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-
+import NotificationsIcon from '@mui/icons-material/Notifications';
 const Add = () => {
   const input = new Date();
   const date = input.toDateString();
@@ -208,8 +208,8 @@ const Add = () => {
 
   return (
     <div>
-     
-      <Grid sx={{ marginTop: '2%', marginRight: '2%', marginLeft: '2%', marginBottom: '2%' }}>
+
+      <Grid sx={{ marginTop: '4%', marginRight: '2%', marginLeft: '2%', marginBottom: '2%' }}>
         <div style={{ display: 'flex' }}>
           <div style={{ display: 'inline', marginTop: '30px', marginLeft: '2%' }}>
             <Typography>
@@ -230,12 +230,16 @@ const Add = () => {
             </Typography>
           </div>
 
-          <div style={{ display: 'flex', marginLeft: 'auto' }}>
-            <Stack direction="row" spacing={2}>
+          <div style={{ display: 'flex', marginLeft: 'auto', alignItems: 'center', justifyContent: 'center' }}>
+            <div>
+              <NotificationsIcon sx={{ marginTop: '1%' }} />
+            </div>
+            <div style={{ marginLeft: '1%' }}>
+              <Stack direction="row" spacing={2}>
+                <Avatar alt="Travis Howard" src={profile} sx={{ width: 60, height: 60 }} />
+              </Stack>
 
-              <Avatar alt="Travis Howard" src={profile} sx={{ width: 140, height: 140 }} />
-
-            </Stack>
+            </div>
 
           </div>
         </div>
@@ -294,7 +298,7 @@ const Add = () => {
             </Stack>
 
           )}
-          <div style={{ marginTop: '5%', marginLeft: '8%', marginRight: '12%', marginBottom: '5%', backgroundColor:'#f0f0f5', height: '700px' }}>
+          <div style={{ marginTop: '5%', marginLeft: '8%', marginRight: '12%', marginBottom: '5%', backgroundColor: '#f0f0f5', height: '700px' }}>
             <div style={{ paddingLeft: '28%', paddingTop: '5%' }}>
               <div style={{
 
@@ -415,7 +419,7 @@ const Add = () => {
           </Grid>
           {editvalue === 0 && (
             <div style={{ marginTop: '3%', marginLeft: '5%', marginRight: '12%', marginBottom: '5%', backgroundColor: 'white', display: "flex", flexWrap: "wrap", width: '90%', height: 'auto' }}>
-              {cart.filter((menu,index)=>menu.catogories === 'foods').map((menu, index) => (
+              {cart.filter((menu, index) => menu.catogories === 'foods').map((menu, index) => (
                 <Box
                   sx={{
                     width: "380px",
@@ -439,7 +443,7 @@ const Add = () => {
 
                   </Box>
                   <Box sx={{ backgroundColor: '#FFFFFF', margin: '4%', height: '230px', display: 'flex' }}>
-                    <Box sx={{ border: '1px', borderColor: 'gray', borderStyle: 'solid', width: '75%', height: '200px', display: 'inline',marginTop:'6px' }}>
+                    <Box sx={{ border: '1px', borderColor: 'gray', borderStyle: 'solid', width: '75%', height: '200px', display: 'inline', marginTop: '6px' }}>
                       <Card sx={{ maxWidth: "140px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '11px' }}>
                         <CardActionArea>
                           <CardMedia
@@ -451,7 +455,7 @@ const Add = () => {
                         </CardActionArea>
                       </Card>
                     </Box>
-                    <Box sx={{ marginLeft: '1%', border: '1px', borderColor: 'gray', borderStyle: 'solid', width: '50%', height: '200px', display: 'inline',marginTop:'6px' }}>
+                    <Box sx={{ marginLeft: '1%', border: '1px', borderColor: 'gray', borderStyle: 'solid', width: '50%', height: '200px', display: 'inline', marginTop: '6px' }}>
                       <div style={{ marginTop: '25px', marginLeft: '5px' }}>
                         <Typography sx={{ fontFamily: 'Time New Roman', fontSize: '20px', fontStyle: 'bold', paddingBottom: '5px' }}>Name:{menu.name}</Typography>
                         <Typography sx={{ fontFamily: 'Time New Roman', fontSize: '18px', fontStyle: 'bold' }}>Price:{menu.unit_price}</Typography>
@@ -488,9 +492,9 @@ const Add = () => {
               ))}
             </div>
           )}
-             {!update && editvalue === 1 && (
+          {!update && editvalue === 1 && (
             <div style={{ marginTop: '3%', marginLeft: '5%', marginRight: '12%', marginBottom: '5%', backgroundColor: 'white', display: "flex", flexWrap: "wrap", width: '90%', height: 'auto' }}>
-              {cart.filter((menu)=>menu.catogories === 'accessories').map((menu, index) => (
+              {cart.filter((menu) => menu.catogories === 'accessories').map((menu, index) => (
                 <Box
                   sx={{
                     width: "380px",
@@ -514,7 +518,7 @@ const Add = () => {
 
                   </Box>
                   <Box sx={{ backgroundColor: '#FFFFFF', margin: '4%', height: '230px', display: 'flex' }}>
-                    <Box sx={{ border: '1px', borderColor: 'gray', borderStyle: 'solid', width: '75%', height: '200px', display: 'inline',marginTop:'6px' }}>
+                    <Box sx={{ border: '1px', borderColor: 'gray', borderStyle: 'solid', width: '75%', height: '200px', display: 'inline', marginTop: '6px' }}>
                       <Card sx={{ maxWidth: "140px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '11px' }}>
                         <CardActionArea>
                           <CardMedia
@@ -526,7 +530,7 @@ const Add = () => {
                         </CardActionArea>
                       </Card>
                     </Box>
-                    <Box sx={{ marginLeft: '1%', border: '1px', borderColor: 'gray', borderStyle: 'solid', width: '50%', height: '200px', display: 'inline',marginTop:'6px' }}>
+                    <Box sx={{ marginLeft: '1%', border: '1px', borderColor: 'gray', borderStyle: 'solid', width: '50%', height: '200px', display: 'inline', marginTop: '6px' }}>
                       <div style={{ marginTop: '25px', marginLeft: '5px' }}>
                         <Typography sx={{ fontFamily: 'Time New Roman', fontSize: '20px', fontStyle: 'bold', paddingBottom: '5px' }}>Name:{menu.name}</Typography>
                         <Typography sx={{ fontFamily: 'Time New Roman', fontSize: '18px', fontStyle: 'bold' }}>Price:{menu.unit_price}</Typography>
@@ -563,9 +567,9 @@ const Add = () => {
               ))}
             </div>
           )}
-             {!update && editvalue === 2 && (
+          {!update && editvalue === 2 && (
             <div style={{ marginTop: '3%', marginLeft: '5%', marginRight: '12%', marginBottom: '5%', backgroundColor: 'white', display: "flex", flexWrap: "wrap", width: '90%', height: 'auto' }}>
-              {cart.filter((menu)=>menu.catogories === 'toys').map((menu, index) => (
+              {cart.filter((menu) => menu.catogories === 'toys').map((menu, index) => (
                 <Box
                   sx={{
                     width: "380px",
@@ -589,7 +593,7 @@ const Add = () => {
 
                   </Box>
                   <Box sx={{ backgroundColor: '#FFFFFF', margin: '4%', height: '230px', display: 'flex' }}>
-                    <Box sx={{ border: '1px', borderColor: 'gray', borderStyle: 'solid', width: '75%', height: '200px', display: 'inline',marginTop:'6px' }}>
+                    <Box sx={{ border: '1px', borderColor: 'gray', borderStyle: 'solid', width: '75%', height: '200px', display: 'inline', marginTop: '6px' }}>
                       <Card sx={{ maxWidth: "140px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '11px' }}>
                         <CardActionArea>
                           <CardMedia
@@ -601,7 +605,7 @@ const Add = () => {
                         </CardActionArea>
                       </Card>
                     </Box>
-                    <Box sx={{ marginLeft: '1%', border: '1px', borderColor: 'gray', borderStyle: 'solid', width: '50%', height: '200px', display: 'inline',marginTop:'6px' }}>
+                    <Box sx={{ marginLeft: '1%', border: '1px', borderColor: 'gray', borderStyle: 'solid', width: '50%', height: '200px', display: 'inline', marginTop: '6px' }}>
                       <div style={{ marginTop: '25px', marginLeft: '5px' }}>
                         <Typography sx={{ fontFamily: 'Time New Roman', fontSize: '20px', fontStyle: 'bold', paddingBottom: '5px' }}>Name:{menu.name}</Typography>
                         <Typography sx={{ fontFamily: 'Time New Roman', fontSize: '18px', fontStyle: 'bold' }}>Price:{menu.unit_price}</Typography>
@@ -638,7 +642,7 @@ const Add = () => {
               ))}
             </div>
           )}
-          
+
           <div>
           </div>
         </>
@@ -654,9 +658,9 @@ const Add = () => {
                   <div style={{ height: '250px', width: '100%', backgroundColor: '#f0f0f5', display: 'flex' }}>
                     <div style={{ height: '220px', width: '40%', marginTop: '3%', marginLeft: '2%', display: 'inline', backgroundColor: '#F9F8F8' }}>
 
-                   
 
-                      <Card sx={{ maxWidth: "200px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '8px',height:'200px',marginLeft:'14%' }}>
+
+                      <Card sx={{ maxWidth: "200px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '8px', height: '200px', marginLeft: '14%' }}>
                         <CardActionArea>
                           <CardMedia
                             sx={{ minHeight: "10px" }}

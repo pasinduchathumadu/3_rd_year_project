@@ -3,11 +3,13 @@ import { Table, TableHead, TableRow, TableCell, TableBody, Button, CardMedia, Ty
 
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const CartTable = () => {
 
   const [cartItems,setCartItems] = useState([]) 
   const [total , settotal] = useState("")
+  const navigate = useNavigate()
   const email = localStorage.getItem("store_email")
   const calculateTotalAmount = async() => {
     const res = await axios.post("http://localhost:5000/pet_care/user/total",{
@@ -18,7 +20,12 @@ const CartTable = () => {
     }
    
   };
-
+  const back = () =>{
+    navigate('/menu')
+  }
+  const check = ()=>{
+    navigate('/bill')
+  }
   const getImageSrc = (imageName) => {
     return require(`../../assests/${imageName}`)
   };
@@ -136,8 +143,8 @@ const CartTable = () => {
         <Typography sx={{ float:'right', marginRight: '120px', marginTop: '20px', fontSize: '18px', marginBottom: '20px' }}>Total Price : RS.{total}</Typography>
       </Grid>
       <Grid sx={{ display: 'flex', justifyContent: 'flex-end',marginTop:'80px',marginRight:'90px'}}>
-        <Button sx={{ backgroundColor: 'black', color: 'white', textAlign: 'center', marginLeft:'10px', width: '150px','&:hover':{backgroundColor:'black'} }}>Check out</Button>
-        <Button sx={{ backgroundColor: 'red', marginLeft: '10px', color: 'white', '&:hover': { backgroundColor: 'red' } }}>Clear all items</Button>
+        <Button onClick={check}  sx={{ backgroundColor: 'black', color: 'white', textAlign: 'center', marginLeft:'10px', width: '150px','&:hover':{backgroundColor:'black'} }}>Check out</Button>
+        <Button onClick={back} sx={{ backgroundColor: 'red', marginLeft: '10px', color: 'white', '&:hover': { backgroundColor: 'red' } }}>Back to the store</Button>
       </Grid>
     </div>
  
