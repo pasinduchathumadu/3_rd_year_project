@@ -47,6 +47,8 @@ import AdminUsers from "./pages/Admin/Users";
 import AdminRefund from "./pages/Admin/Refund";
 import AdminComplains from "./pages/Admin/Complains";
 
+import Profile from './pages/Common/Profile';
+
 import Petgrooming from "../src/pages/Client/Pet_grooming";
 
 import Onlinehome from "./pages/Online_store_manager/Home";
@@ -335,47 +337,33 @@ function App() {
             </>
           )}
 
-          {/* admin */}
-          {isLoggedIn && user_role === "admin" && (
-            <>
-              <Route
-                path="/admin_dashboard"
-                element={
-                  <>
-                    <HomeHeader userRole={"admin"} />
-                    <AdminHome />
-                  </>
-                }
-              />
-              <Route
-                path="/admin_users"
-                element={
-                  <>
-                    <HomeHeader userRole={"admin"} />
-                    <AdminUsers />
-                  </>
-                }
-              />
-              <Route
-                path="/admin_refund"
-                element={
-                  <>
-                    <HomeHeader userRole={"admin"} />
-                    <AdminRefund />
-                  </>
-                }
-              />
-              <Route
-                path="/admin_complains"
-                element={
-                  <>
-                    <HomeHeader userRole={"admin"} />
-                    <AdminComplains />
-                  </>
-                }
-              />
-            </>
-          )}
+
+          {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
+         
+
+           {/* boarding house manager */}
+           {isLoggedIn && user_role === "boarding_house_manager" &&(
+             <><Route path="/boarding_dashboard" element={<><HomeHeader userRole={"boarding_house_manager"}/><BoardingHome /></>} />
+             <Route path="/boarding_clients" element={<><HomeHeader userRole={"boarding_house_manager"}/><BoardingClients /></>} />
+             <Route path="/boarding_pets" element={<><HomeHeader userRole={"boarding_house_manager"}/><BoardingPets /></>} />
+             <Route path="/boarding_packages" element={<><HomeHeader userRole={"boarding_house_manager"}/><BoardingPackages /></>} />
+             <Route path="/boarding_complains" element={<><HomeHeader userRole={"boarding_house_manager"}/><BoardingComplains /></>} />
+             </>         
+           )}
+
+           {/* admin */}
+           {isLoggedIn && user_role === "admin" &&(
+             <><Route path="/admin_dashboard" element={<><HomeHeader userRole={"admin"}/><AdminHome /></>} />
+             <Route path="/admin_users" element={<><HomeHeader userRole={"admin"}/><AdminUsers /></>} />
+             <Route path="/admin_refund" element={<><HomeHeader userRole={"admin"}/><AdminRefund /></>} />
+             <Route path="/admin_complains" element={<><HomeHeader userRole={"admin"}/><AdminComplains /></>} />
+             </>         
+           )}
+
+          <Route path="/profile" element={<Profile />} />
+
+          
+
 
           {/* admin */}
           {/* <Route path="/admin_dashboard" element={<AdminHome />} />
