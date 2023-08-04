@@ -7,6 +7,7 @@ import multer from 'multer'
 
 
 
+
 const localStorage = new LocalStorage('./scratch');
 export const login = async (req, res, next) => {
 
@@ -258,7 +259,7 @@ export const get_store = async(req,res,next) =>{
 }
 
 export const temp_cart = async(req,res,next)=>{
-  const {id , email } = req.body
+  const {id , email,price } = req.body
   const sqlQuery1 = "SELECT *FROM temporary_card WHERE email = ? AND item_id = ?"
   const values1 = [
     email,
@@ -272,10 +273,11 @@ export const temp_cart = async(req,res,next)=>{
       return res.json({message:'already in the cart'})
     }
     else{
-      const sqlQuery = "Insert Into temporary_card (item_id,email)VALUES(?,?)"
+      const sqlQuery = "Insert Into temporary_card (item_id,email,total)VALUES(?,?,?)"
       const values = [
         id,
-        email
+        email,
+        price
       ]
       db.query(sqlQuery,values,(err,data)=>{
         if(err){
@@ -372,6 +374,35 @@ export const total = async(req,res,next) => {
     email
   ]
 
+  db.query(sqlQuery,values,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an internel error'})
+    }
+    else{
+      return res.json({data})
+    }
+  })
+}
+
+export const load_payement = async(req,res,next)=>{
+  const id = req.params.id
+  const values = [id]
+  const sqlQuery = "SELECT  temporary_card.quantity,temporary_card.total,item.name,item.unit_price FROM temporary_card INNER JOIN item ON item.item_id = temporary_card.item_id WHERE temporary_card.email = ?"
+  db.query(sqlQuery,values,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an error'})
+    }
+    else{
+      return res.json({data})
+    }
+  })
+}
+
+export const load_total = async(req,res,next)=>{
+  const id = req.params.id
+  const values = [id]
+ 
+  const sqlQuery = "SELECT SUM(total) AS new2 FROM temporary_card WHERE email = ?"
   db.query(sqlQuery,values,(err,data)=>{
     if(err){
       return res.json({message:'There is an internel error'})

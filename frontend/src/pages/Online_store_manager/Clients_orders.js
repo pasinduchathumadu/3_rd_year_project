@@ -1,10 +1,10 @@
 import React, { useState,useEffect } from "react";
-
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import {
     Tabs, Typography, Grid, Stack, Avatar, Box, Tab, Table, TableBody, TableContainer, TableHead, TableRow, Paper, Button
     , FormControl, InputLabel, MenuItem, Select, TextField, IconButton
 } from '@mui/material'
-import profile from "../../assests/profile.jpg"
+import profile from "../../assests/pic12.jfif"
 import axios from "axios";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloseIcon from '@mui/icons-material/Close';
@@ -141,7 +141,7 @@ const Client_orders = () => {
     return (
         <>
             <div>
-                <Grid sx={{ marginTop: '2%', marginRight: '2%', marginLeft: '2%', marginBottom: '2%' }}>
+                <Grid sx={{ marginTop: '4%', marginRight: '2%', marginLeft: '2%', marginBottom: '2%' }}>
                     <div style={{ display: 'flex' }}>
                         <div style={{ display: 'inline', marginTop: '30px', marginLeft: '2%' }}>
                             <Typography>
@@ -163,13 +163,17 @@ const Client_orders = () => {
                             </Typography>
                         </div>
 
-                        <div style={{ display: 'flex', marginLeft: 'auto' }}>
+                        <div style={{ display: 'flex', marginLeft: 'auto',alignItems:'center',justifyContent:'center' }}>
+                            <div>
+                            <NotificationsIcon sx={{marginTop:'1%'}}/> 
+                            </div>
+                            <div style={{marginLeft:'1%'}}>
                             <Stack direction="row" spacing={2}>
-
-                                <Avatar alt="Travis Howard" src={profile} sx={{ width: 140, height: 140 }} />
-
+                             <Avatar alt="Travis Howard" src={profile} sx={{ width: 60, height: 60 }} />
                             </Stack>
 
+                            </div>
+                           
                         </div>
                     </div>
 

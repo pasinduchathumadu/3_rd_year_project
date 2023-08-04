@@ -5,7 +5,7 @@ import Signup from "./pages/Common/Signup";
 import Blogs from "./pages/Common/Blog";
 import Login from "./pages/Common/Login";
 import Email from "./pages/Common/Email";
-
+import Bill from "./pages/Client/Bill";
 import { Dashboard } from "./pages/Client/Dashboard";
 import { Reports } from "./pages/Client/Reports";
 
@@ -114,10 +114,30 @@ function App() {
     <React.Fragment>
       <main>
         <Routes>
-          <Route
-            path="/email"
-            element={issignup ? <Email /> : <Navigate to="/signup" />}
-          />
+
+          <Route path="/email" element={issignup ? <Email /> : <Navigate to="/signup" />} />
+          <Route path="/store" element={<><LandingHeader /><Unregisterestore /></>} />
+          <Route path="/about" element={<><LandingHeader /><About /></>} />
+          <Route path="/contact" element={<><LandingHeader /><Contact /></>} />
+          <Route path="/" element={
+            <><LandingHeader />
+              <div className="App">
+
+                <Home />
+                <Services />
+                <About />
+                <ComContent />
+                <Contact />
+                <Footer />
+              </div></>
+          } />
+          <Route path="/signup" element={<Signup onSignup={handleSignup} />} />
+          <Route path="/login" element={<Login onLogin={handleLogin} />} />
+          <Route path="/bill" element={isLoggedIn ? (<><HomeHeader userRole={user_role} /><Bill /></>) : (<Navigate to='/bill' />)} />
+          <Route path="/menu" element={isLoggedIn ? (<><HomeHeader userRole={user_role} /><Menu /></>) : (<Navigate to='/login' />)} />
+          <Route path="/cart" element={isLoggedIn ? (<><HomeHeader userRole={user_role} /><Cart /></>) : (<Navigate to='/login' />)} />
+          <Route path="/email" element={!issignup ? <Email /> : <Navigate to="/signup" />} />
+
           <Route
             path="/store"
             element={
@@ -161,8 +181,7 @@ function App() {
               </>
             }
           />
-          <Route path="/signup" element={<Signup onSignup={handleSignup} />} />
-          <Route path="/login" element={<Login onLogin={handleLogin} />} />
+
 
           <Route
             path="/menu"
@@ -190,10 +209,7 @@ function App() {
               )
             }
           />
-          <Route
-            path="/email"
-            element={!issignup ? <Email /> : <Navigate to="/signup" />}
-          />
+        
           <Route path="/forget" element={<Forgot />} />
           <Route path="/reset" element={<Reset />} />
 
@@ -339,30 +355,30 @@ function App() {
 
 
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
-         
 
-           {/* boarding house manager */}
-           {isLoggedIn && user_role === "boarding_house_manager" &&(
-             <><Route path="/boarding_dashboard" element={<><HomeHeader userRole={"boarding_house_manager"}/><BoardingHome /></>} />
-             <Route path="/boarding_clients" element={<><HomeHeader userRole={"boarding_house_manager"}/><BoardingClients /></>} />
-             <Route path="/boarding_pets" element={<><HomeHeader userRole={"boarding_house_manager"}/><BoardingPets /></>} />
-             <Route path="/boarding_packages" element={<><HomeHeader userRole={"boarding_house_manager"}/><BoardingPackages /></>} />
-             <Route path="/boarding_complains" element={<><HomeHeader userRole={"boarding_house_manager"}/><BoardingComplains /></>} />
-             </>         
-           )}
 
-           {/* admin */}
-           {isLoggedIn && user_role === "admin" &&(
-             <><Route path="/admin_dashboard" element={<><HomeHeader userRole={"admin"}/><AdminHome /></>} />
-             <Route path="/admin_users" element={<><HomeHeader userRole={"admin"}/><AdminUsers /></>} />
-             <Route path="/admin_refund" element={<><HomeHeader userRole={"admin"}/><AdminRefund /></>} />
-             <Route path="/admin_complains" element={<><HomeHeader userRole={"admin"}/><AdminComplains /></>} />
-             </>         
-           )}
+          {/* boarding house manager */}
+          {isLoggedIn && user_role === "boarding_house_manager" && (
+            <><Route path="/boarding_dashboard" element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingHome /></>} />
+              <Route path="/boarding_clients" element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingClients /></>} />
+              <Route path="/boarding_pets" element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingPets /></>} />
+              <Route path="/boarding_packages" element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingPackages /></>} />
+              <Route path="/boarding_complains" element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingComplains /></>} />
+            </>
+          )}
+
+          {/* admin */}
+          {isLoggedIn && user_role === "admin" && (
+            <><Route path="/admin_dashboard" element={<><HomeHeader userRole={"admin"} /><AdminHome /></>} />
+              <Route path="/admin_users" element={<><HomeHeader userRole={"admin"} /><AdminUsers /></>} />
+              <Route path="/admin_refund" element={<><HomeHeader userRole={"admin"} /><AdminRefund /></>} />
+              <Route path="/admin_complains" element={<><HomeHeader userRole={"admin"} /><AdminComplains /></>} />
+            </>
+          )}
 
           <Route path="/profile" element={<Profile />} />
 
-          
+
 
 
           {/* admin */}
