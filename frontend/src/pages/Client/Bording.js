@@ -4,6 +4,7 @@ import PrimarySearchAppBar from "../../components/Layout/Header";
 import PetsIcon from '@mui/icons-material/Pets';
 import cage from "../../assests/2.png";
 import "../../styles/Client/Shop.css"
+import AOS from 'aos';
 
 
 
@@ -51,6 +52,12 @@ const Bording = () => {
     setCount(selectedSeatsCount);
     setTotal(selectedSeatsCount * selectedMoviePrice);
   }, [selectedSeats, selectedMovieIndex, movies]);
+
+
+  useEffect(() => {
+    AOS.init({duration:2000});
+  }, []); 
+
 
   return (
     <><PrimarySearchAppBar />

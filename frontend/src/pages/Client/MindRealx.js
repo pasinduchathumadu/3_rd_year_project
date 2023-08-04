@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PrimarySearchAppBar from "../../components/Layout/Header";
 import petImage from '../../assests/black2.jpg'; // Replace 'path/to/your/image.png' with the actual path to your image
 import Button from '@mui/material/Button';
 import petImage2 from '../../assests/top.png'; 
 import { Link } from 'react-router-dom';
 import "../../styles/Client/Mindrelax.css";
+import AOS from 'aos';
+
 // Replace 'path/to/your/image.png' with the actual path to your image
 
 
 
 function MindRealx() {
+  useEffect(() => {
+    AOS.init({ duration: 1000 });
+  }, []);
+
   return (
 
 
@@ -33,10 +39,13 @@ function MindRealx() {
         borderRadius: "18px",
         textAlign: "center",
          wordSpacing: "10px",fontWeight:"1",
+         
         
         
         
-      }}>
+      }}
+      data-aos="zoom-in"
+      >
      
    <div className='smooth-scroll'>
             <p style={{ fontSize: "80px", fontWeight: "10", marginTop: "-240px",textAlign:"left"}}>
@@ -62,7 +71,7 @@ function MindRealx() {
           
       </div>
         
-     <div className='smooth-scroll'style={{textAlign:"left",marginTop:"80px",marginLeft:"20px"}}>
+     <div className='smooth-scroll'style={{textAlign:"left",marginTop:"80px",marginLeft:"20px"}} data-aos="zoom-in">
      <p style={{ fontSize: "20px", fontWeight: "10",textAlign:"left" ,marginLeft:"20px"}}>
             Free 
           </p>
