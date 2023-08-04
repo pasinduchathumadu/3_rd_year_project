@@ -110,3 +110,16 @@
 .linkButton a.active:hover {
   color: #ffffff;
 }
+
+.boarding-profile-picture {
+  position: relative;
+  top:20px;
+  left: 500px;
+  height: 100px;
+
+   width: 100px;
+  border-radius: 50%;
+  border-color: black;
+  margin-right: 10px;
+  margin-left: 15px;
+}

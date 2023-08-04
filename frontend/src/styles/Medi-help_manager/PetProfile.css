@@ -10,7 +10,22 @@
     justify-content: center;
     background-color: rgba(0,0,0,0.4);
 }
+.btnadd{
+    position: relative;
+  left :40px;
+    top:-10px;
+    background-color: #FFA500; 
+    border: none;
+    color: white;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-family: Verdana ;
+    border-radius: 5px;
 
+}
 .add{
    border-radius: 5px;
    padding: 2rem;

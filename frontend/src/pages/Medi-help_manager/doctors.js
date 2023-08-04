@@ -1,99 +1,163 @@
 
 import React, { useState } from "react";
-import {Link} from 'react-router-dom'
+
 import  '../../styles/Medi-help_manager/doctorsStyles.css';
 import DeleteDoctor from "./DeleteDoctor";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import DoctorsAdd from "./AddDoctors";
-import { faTrashAlt, faEdit } from '@fortawesome/fontawesome-free';
 
 
-    
-    
+
+import { styled } from '@mui/material/styles';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import profile from "../../assests/profile.jpg";
+import { Typography, Avatar, Stack } from "@mui/material";
  
 
 
 const Doctors = () => {
   const [modelOpen,setModelOpen]=useState(false);
     const [show,setShow]=useState(false);
-    return (
-       
-      <div className="row">
-      <div className="col-md-12">
-       <p className="title">Doctor Details</p> 
-          <div className="card">
-          <div class="petsearch-container">
-              
 
-              <input type="text" placeholder="Search" name="search" />
-              
-          </div>
+    const input = new Date();
+    const date = input.toDateString();
+  
+   
+    
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}));
+
+function createData(name, calories, fat, carbs, protein) {
+  return { name, calories, fat, carbs, protein };
+}
+
+const rows = [
+  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+  createData('Eclair', 262, 16.0, 24, 6.0),
+  createData('Cupcake', 305, 3.7, 67, 4.3),
+  createData('Gingerbread', 356, 16.0, 49, 3.9),
+];
+    return (
+   
+      <div className="row">
+          <div style={{ display: 'flex' }}>
+                        <div style={{ display: 'inline', marginTop: '20px', marginLeft: '2%',color:'rgb(139, 139, 139)' }}>
+                            <Typography>
+                                 Medi Care Manager
+                            </Typography>
+                            <Typography>
+                                Today
+                            </Typography>
+                            <Typography>
+                                {date}
+                            </Typography>
+                        </div>
+                        <div
+              style={{
+                display: "flex",
+                marginTop: "30px",
+                width: "33.3%",
+                justifyContent:"center"
+              }}
+            >
+             <Typography
+                sx={{
+                  position:"relative",
+                  left:"200px",
+                  color: "black",
+                  fontSize: "24px",
+                  fontFamily: "fantasy",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                Doctor Details
+              </Typography>
+            </div>
+                        <div style={{ display: "flex",width:"33.3%" }}>
+              <Stack direction="row" spacing={2} width={1500}>
+              <img src={profile} alt="profilepicture" className="boarding-profile-picture" />
+              </Stack>
+            
+                           
+                        </div>
+                    </div>
+      <div className="col-md-12">
+      
+          <div className="card">
+       
               <div className="card-header">
              
               <button className='btnadd' onClick={()=>setModelOpen(true)} > + Add Doctor</button>
           
               </div>
-                        <table id="customers">
-  <tr>
-    <th>ID</th>
-    <th>Doctor Name</th>
-    <th>Phone Number</th>
-    <th>Email</th>
-    <th>Available Date</th>
-    <th>Time</th>
-    <th>Edit</th>
-    <th>Delete</th>
-  </tr>
-  <tr >
-    <td>1</td>
-    <td>Maria Anders</td>
-    <td>0123456789</td>
-    <td>maria@gmail.com</td>
-    <td>Monday-Friday</td>
-    <td>8A.M -7P.M</td>
-    <td><button className='docbtnedit'>Edit</button></td>
-    <td><button className='docbtndelete' onClick={()=>setShow(true)}>Delete</button></td>
-  </tr>
-  <tr>
-    <td>2</td>
-    <td>Christina Berglund</td>
-    <td>0123456789</td>
-    <td>christina@gmail.com</td>
-    <td>Monday-Friday</td>
-    <td>8A.M -7P.M</td>
-    <td><button className='docbtnedit'>Edit</button></td>
-    <td><button className='docbtndelete' onClick={()=>setShow(true)}>Delete</button></td>
-  </tr>
-  <tr>
-    <td>3</td>
-    <td>Christina Berglund</td>
-    <td>0123456789</td>
-    <td>christina@gmail.com</td>
-    <td>Monday-Friday</td>
-    <td>8A.M -7P.M</td>
-    <td><button className='docbtnedit'>Edit</button></td>
-    <td><button className='docbtndelete' onClick={()=>setShow(true)}>Delete</button></td>
-  </tr>
-  <tr>
-    <td>4</td>
-    <td>Maria Anders</td>
-    <td>0123456789</td>
-    <td>maria@gmail.com</td>
-    <td>Monday-Friday</td>
-    <td>8A.M -7P.M</td>
-    <td><button className='docbtnedit'>Edit</button></td>
-    <td><button className='docbtndelete' onClick={()=>setShow(true)}>Delete</button></td>
-  </tr>
-
- 
-</table>
+              <div id="customers">
+              <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+        <TableHead>
+          <TableRow>
+            <StyledTableCell>ID</StyledTableCell>
+            <StyledTableCell align="right">Doctor Name</StyledTableCell>
+            <StyledTableCell align="right">Phone Number</StyledTableCell>
+            <StyledTableCell align="right">Email</StyledTableCell>
+            <StyledTableCell align="right">Available Date</StyledTableCell>
+            <StyledTableCell align="right">Time</StyledTableCell>
+            <StyledTableCell align="right">Edit</StyledTableCell>
+            <StyledTableCell align="right">Delete</StyledTableCell>
+           
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row) => (
+            <StyledTableRow key={row.name}>
+              <StyledTableCell component="th" scope="row">
+                
+              </StyledTableCell>
+             
+              <StyledTableCell align="right"> Maria Anders</StyledTableCell>
+             <StyledTableCell align="right">0123456789</StyledTableCell>
+              <StyledTableCell align="right">maria@gmail.com</StyledTableCell>
+              <StyledTableCell align="right">Monday-Friday</StyledTableCell>
+              <StyledTableCell align="right">8A.M -7P.M</StyledTableCell>
+              <StyledTableCell align="right"><button className='docbtnedit'>Edit</button></StyledTableCell>
+              <StyledTableCell align="right"><button className='docbtndelete' onClick={()=>setShow(true)}>Delete</button></StyledTableCell>
+            </StyledTableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+    </div>
 {modelOpen && <DoctorsAdd  />}
 {show &&<DeleteDoctor />}
                     </div>
                 </div>
                 
             </div>
-            
+           
   
     )
 }
