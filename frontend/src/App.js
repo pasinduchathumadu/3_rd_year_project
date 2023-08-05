@@ -35,6 +35,7 @@ import BoardingPets from "./pages/Boarding_house_manager/Boardpets";
 import BoardingPackages from "./pages/Boarding_house_manager/Packages";
 import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 
+
 import Packages from "./pages/Care_center_manager/Packages";
 import Complaints from "./pages/Care_center_manager/Complaints";
 import Caregiverlist from "./pages/Care_center_manager/caregiverlist";
@@ -80,6 +81,7 @@ function App() {
       setIsLoggedIn(storedIsLoggedIn === "true");
     }
   }, []);
+
 
   const navigate = useNavigate();
   const handleLogin = (role, email) => {
@@ -223,6 +225,26 @@ function App() {
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
 
 
+          {/* medi care manager */}
+          
+          
+           <Route path="/Doctors" element={
+            <div className="App">
+              
+          <Doctors />
+         
+        
+          
+          </div>
+          } />
+          <Route path="/viewAppointments" element={<ViewAppointments />} />
+          <Route path="/viewPendingAppointments" element={<PendingAppointments />} />
+          <Route path="/viewCompletedAppointments" element={<CompletedAppointments />} />
+          <Route path="/PetProfiles" element={<PetProfiles />} />
+          <Route path="/viewDoctors" element={<ViewDoctors />} />
+          <Route path="/getAppointment" element={<GetAppointments />} />
+
+
           {/* boarding house manager */}
           {isLoggedIn && user_role === "boarding_house_manager" && (
             <><Route path="/boarding_dashboard" element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingHome /></>} />
@@ -310,6 +332,7 @@ function App() {
               />
             </>
           )}
+
         </Routes>
       </main>
     </React.Fragment>
