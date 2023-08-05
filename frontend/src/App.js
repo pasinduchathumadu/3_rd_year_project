@@ -40,7 +40,7 @@ import BoardingPets from "./pages/Boarding_house_manager/Boardpets";
 import BoardingPackages from "./pages/Boarding_house_manager/Packages";
 import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 import Pet_grooming from "../src/pages/Client/Pet_grooming";
-
+import Bath from "./pages/Client/Bath";
 
 import AdminHome from './pages/Admin/Home';
 import AdminUsers from './pages/Admin/Users';
@@ -156,6 +156,8 @@ function App() {
           <Route path="/bording" element={<Bording/>}></Route>
           <Route path="/medi" element={<Medi/>}></Route>
           <Route path="/popupform" element={<PopupForm/>}></Route>
+          <Route path="/bath" element={<Bath/>}></Route>
+
 
           
 
