@@ -100,7 +100,7 @@ function App() {
       navigate("/dashboard");
       localStorage.setItem("client_email", email);
     } else if (role === "care_center_manager") {
-      navigate("/appoinments");
+      navigate("/appointments");
       localStorage.setItem("care_center_manager", email);
     } else if (role === "company_manager") {
       navigate("/company_dashboard");
@@ -218,15 +218,7 @@ function App() {
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
 
           {/* boarding house manager */}
-          {isLoggedIn && user_role === "boarding_house_manager" && (
-            <>
-              <Route path="/boarding_dashboard" element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingHome /></>} />
-              <Route path="/boarding_clients" element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingClients /></> }/>
-              <Route path="/boarding_pets" element={ <>  <HomeHeader userRole={"boarding_house_manager"} /> <BoardingPets />  </>}/>
-              <Route path="/boarding_packages" element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingPackages /></> } />
-              <Route path="/boarding_complains"element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingComplains /> </> }/></>
-          )}
-
+          
 
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
 
