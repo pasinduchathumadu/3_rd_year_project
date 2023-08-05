@@ -5,7 +5,7 @@ const ViewVaccine = () => {
   return (
     <div className='add-container'>
          <div className='viewvaccine'>
-        <h1>Vaccine & Health Record</h1> 
+        <h1 className='h1'>Vaccine & Health Record</h1> 
         <hr />
             <form>
             

@@ -98,6 +98,7 @@ const Users = () => {
       
         };
  
+        
 
     // drop down
     const [clients, setClients] = React.useState('1');
@@ -133,7 +134,8 @@ const Users = () => {
             console.log("There is an internel error")
         }
     }
-    const submitManager = async() => {
+    const submitManager = async(e) => {
+        e.preventDefault()
        
     
         try{
@@ -145,7 +147,8 @@ const Users = () => {
                 contact,
                 city,
                 Street,
-                role
+                role,
+              
             })
             if(res.data.message === 'Email already exists'){
                 seterror("Email already exists")

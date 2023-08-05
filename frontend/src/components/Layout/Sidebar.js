@@ -46,8 +46,8 @@ export default function TemporaryDrawer({
     data_link = ["dashboard","petcare","MindRelax","shop","NonBredShop","Pet_grooming","reports"]
   }
   else if(userType === 'care_center_manager'){
-    data = ["Appoinments","Packages","Cargivers","Complains"];
-    data_link =["appoinments","packages","caregiverlist","complaints"]
+    data = ["Appointments","Packages","Cargivers","Complains"];
+    data_link =["appointments","packages","caregiverlist","complaints"]
   }
 
    else if (userType === "company_manager") {

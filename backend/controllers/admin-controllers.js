@@ -1,11 +1,14 @@
-
+import pkg from 'object-hash'
 import { db } from '../database.js'
-import pkg from "object-hash"
+
 import QRCode from 'qrcode'
 import nodemailer from "nodemailer"
 import Mailgen from 'mailgen'
+
+
 export const registration = async (req, res, next) => {
     const { email, first, second, id, contact, city, Street, role } = req.body;
+    try{
     const hash = pkg;
     const date = new Date();
     const date_joined = date.toLocaleDateString();
@@ -16,7 +19,9 @@ export const registration = async (req, res, next) => {
     }
 
     const verify_no = getRandomNumber(1000, 10000);
-    const hashedPassword = hash.MD5(verify_no);
+    
+    const hashedPassword = hash.MD5(verify_no.toString());
+    console.log(hashedPassword)
     const qrCodeValue = `Your Login Password : ${verify_no} `;
 
     const query1 = 'SELECT * FROM users WHERE email = ?';
@@ -138,6 +143,11 @@ export const registration = async (req, res, next) => {
             });
         });
     });
+
+    }catch(err){
+        console.log(err)
+    }
+    
 };
 export const get_manager = async(req,res,next)=>{
     const role = 'client'

@@ -5,31 +5,31 @@ const AddDoctors = () => {
   return (
     <div className='add-container'>
          <div className='add'>
-        <h1>Register Doctors</h1> 
+        <h1 className='h1'>Register Doctors</h1> 
         <hr />
             <form>
             
                 <div>
                     <label htmlFor='name'>Full Name</label>
-                    <input name='name'/>
+                    <input className="input" name='name'/>
                 </div>
                 
                     <div>
                     <label htmlFor='email' className='email'>Email</label>
-                    <input name='email'/>
+                    <input className="input" name='email'/>
                 </div>
                 
                     <div>
                     <label htmlFor='phone' className='phone'>Phone Number</label>
-                    <input name='phone'/>
+                    <input className="input" name='phone'/>
                 </div>
                 <div>
                 <label htmlFor='no' className='no'>Registration Number</label>
-                    <input name='no'/>
+                    <input className="input" name='no'/>
                 </div>
                 <div>
                     <label htmlFor='time'>Type</label>
-                    <select id="country" name="country">
+                    <select id="country" name="country" className='select'>
                      <option value="companion">Companion-animal veterinarians</option>
       <option value="specialists">Veterinary specialists</option>
       <option value="food">Food-animal veterinarians</option>
