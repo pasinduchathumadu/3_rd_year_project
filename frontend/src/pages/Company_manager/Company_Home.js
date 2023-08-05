@@ -6,38 +6,14 @@ import PetsIcon from "@mui/icons-material/Pets";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { TableRow, TableCell, Stack } from "@mui/material";
-import { tableCellClasses } from "@mui/material/TableCell";
-import { styled } from "@mui/material/styles";
+import { Stack } from "@mui/material";
 
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
 
 const Company_Home = () => {
   // drop down
@@ -49,8 +25,8 @@ const Company_Home = () => {
   };
 
   return (
-    <div className="home-container">
-      <Stack direction="row" justifyContent="space-between">
+    <Box>
+      <Stack direction="row" justifyContent="space-between" padding={2}>
         <Box>
           <Typography variant="inherit" color="textSecondary">
             Company Manager
@@ -63,7 +39,7 @@ const Company_Home = () => {
           </Typography>
         </Box>
         <Stack justifyContent="center" alignItems="center">
-          <Typography color="textPrimary" fontWeight={1000} fontSize={"20px"}>
+          <Typography color="textPrimary" fontWeight="bold" fontSize={"25px"}>
             Dasboard
           </Typography>
         </Stack>
@@ -302,7 +278,7 @@ const Company_Home = () => {
           </Box>
         </div>
       </div>
-    </div>
+    </Box>
   );
 };
 
