@@ -16,6 +16,7 @@ import Petcare from "./pages/Client/Petcare"
 import MindRealx from "./pages/Client/MindRealx";
 import { Shop } from "./pages/Client/Shop";
 import { NonBredShop } from "./pages/Client/NonBredShop";
+import PopupForm from "./pages/Client/popupform";
 
 
 
@@ -154,6 +155,9 @@ function App() {
           <Route path="/NonBredShop" element={<NonBredShop/>}></Route>
           <Route path="/bording" element={<Bording/>}></Route>
           <Route path="/medi" element={<Medi/>}></Route>
+          <Route path="/popupform" element={<PopupForm/>}></Route>
+
+          
 
 
 

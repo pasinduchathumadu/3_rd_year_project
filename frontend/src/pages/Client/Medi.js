@@ -2,7 +2,6 @@ import PrimarySearchAppBar from "../../components/Layout/Header";
 import cage from "../../assests/2.png";
 import pet_doctor from "../../assests/doctor.png";
 import "../../styles/Client/Shop.css"
-import Button from '@mui/material/Button';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -16,6 +15,11 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import doctor2 from "../../assests/doctor2.png"
 import { styled } from '@mui/material/styles';
+import { Link } from 'react-router-dom';
+import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, IconButton, Stack, TextField } from "@mui/material";
+import FormControlContext from "@mui/material/FormControl/FormControlContext";
+import CloseIcon from "@mui/icons-material/Close"
+import "../../styles/Client/Medi.css"
 
 
 
@@ -23,6 +27,12 @@ import { styled } from '@mui/material/styles';
 
 
 function Medi() {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const handlePopupToggle = () => {
+    setIsPopupOpen((prev) => !prev);
+  };
+
     const [scrollAnimation, setScrollAnimation] = useState(false);
 
   useEffect(() => {
@@ -48,6 +58,17 @@ function Medi() {
   const StyledDateTimePicker = styled(DateTimePicker)({
     color: 'white',
   });
+
+
+  const [open,openchange]=useState(false);
+  const functionopenpopup=()=>{
+      openchange(true);
+  }
+  const closepopup=()=>{
+      openchange(false);
+  }
+
+
 
   return (
     <><PrimarySearchAppBar />
@@ -134,9 +155,30 @@ function Medi() {
 
 
       <h1 style={{color:"white",textAlign:"center",marginTop:"90px",marginLeft:"300px"}}> Make your appoinment here</h1>
+      <div style={{textAlign:'center'}}>
+            <Button onClick={functionopenpopup}  variant="contained" sx={{ width:"500px",height:"50px",backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px',marginLeft:"-450px",marginTop:"260px", fontSize: '12px', '&:hover': { backgroundColor: 'orange' } }} >Enter details</Button>
 
-      <Button variant="contained" sx={{ width:"500px",height:"50px",backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', fontSize: '12px', marginTop:"300px",marginLeft:"-430px",'&:hover': { backgroundColor: 'orange' } }} >Click now</Button>
-
+            <Dialog 
+            // fullScreen 
+            open={open} onClose={closepopup} fullWidth maxWidth="sm">
+                <DialogTitle>User Registeration  <IconButton onClick={closepopup} style={{float:'right'}}><CloseIcon color="primary"></CloseIcon></IconButton>  </DialogTitle>
+                <DialogContent>
+                    {/* <DialogContentText>Do you want remove this user?</DialogContentText> */}
+                    <Stack spacing={2} margin={2} >
+                      <TextField variant="outlined" label="Username"></TextField>
+                      <TextField variant="outlined" label="Password"></TextField>
+                      <TextField variant="outlined" label="Email"></TextField>
+                      <TextField variant="outlined" label="Phone"></TextField>
+                      <FormControlLabel control={<Checkbox defaultChecked color="primary"></Checkbox>} label="Agree terms & conditions"></FormControlLabel>
+                      <Button sx={{backgroundColor:"orange"}} variant="contained">Submit</Button>
+                    </Stack>
+                </DialogContent>
+                <DialogActions>
+                {/* <Button color="success" variant="contained">Yes</Button>
+                    <Button onClick={closepopup} color="error" variant="contained">Close</Button> */}
+                </DialogActions>
+            </Dialog>
+        </div>
       </div>
         
         
