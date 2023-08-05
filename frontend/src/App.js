@@ -156,7 +156,7 @@ function App() {
           <Route path="/bording" element={<Bording/>}></Route>
           <Route path="/medi" element={<Medi/>}></Route>
           <Route path="/popupform" element={<PopupForm/>}></Route>
-          <Route path="/bath" element={<Bath/>}></Route>
+          <Route path="/Bath" element={<Bath/>}></Route>
 
 
           

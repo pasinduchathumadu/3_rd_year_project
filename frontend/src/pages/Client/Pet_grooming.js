@@ -19,6 +19,8 @@ import Bath from "../../assests/bath.jpg";
 import Haircut from "../../assests/haircut.png";
 import massage from "../../assests/massage.jpg";
 import FormDialog from './OpenForm';
+import { Link } from 'react-router-dom';
+
 
 function Pet_grooming() {
   const [isFormOpen, setFormOpen] = useState(false);
@@ -79,8 +81,10 @@ function Pet_grooming() {
           data-aos="zoom-in"
           style={{ backgroundColor: "rgb(235 235 235)", borderRadius: "15px", width: "100%", height: "auto", marginLeft: "auto", marginRight: "auto", display: "flex", gap: "30px" }}
         >
+        
           <Card sx={{ maxWidth: 345, marginLeft: "10%", marginTop: "20px" }}>
-            <CardActionArea>
+            <CardActionArea>  
+            <Link to="/Bath" style={{ textDecoration: "none", color: "inherit" }}>
               <CardMedia style={{ height: "35vh" }}
                 component="img"
                 height="140"
@@ -95,9 +99,11 @@ function Pet_grooming() {
                   Up to Rs.1000
                 </Typography>
               </CardContent>
+              </Link>
+
             </CardActionArea>
           </Card>
-
+          
           <Card sx={{ maxWidth: 345, marginLeft: "20px", marginTop: "20px" }}>
             <CardActionArea>
               <CardMedia style={{ height: "35vh" }}
