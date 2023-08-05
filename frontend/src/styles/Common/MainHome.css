@@ -1,11 +1,14 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap'); */
+
 * {
+    font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Reem Kufi", sans-serif;
-  }
+    font-family: "Reem Kufi", sans-serif !important;
 
-  img {
+  }
+  img {  
     max-width: 100%;
     height: auto;
   }
@@ -24,22 +27,8 @@
     background-color: #f6f6f6;
   }
   
-  nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    min-height: 90px;
-  }
-  .navbar-menu-container {
-    display: none;
-  }
-  .navbar-links-container a {
-    margin-right: 3rem;
-    text-decoration: none;
-    color: black;
-    font-size: 1.1rem;
-    font-weight: 600;
-  }
+  
+ 
   .primary-button {
     padding: 0.9rem 1.75rem;
     background-color: white;
@@ -150,34 +139,22 @@
     margin-top: 2rem;
     display: flex;
   }
-  /* .watch-video-button {
-    margin-left: 2rem;
-    background-color: transparent;
-    outline: none;
-    border: none;
-    border-radius: 5rem;
-    font-size: 1.1rem;
-    cursor: pointer;
-    font-weight: 600;
-    color: #484848;
-    transition: 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .watch-video-button svg {
-    font-size: 3rem;
-    margin-right: 1rem;
-  } */
+  
   .contact-page-wrapper h1 {
     max-width: 900px !important;
   }
   .contact-page-wrapper {
     display: flex;
     align-items: center;
-    justify-content: center;
+    /* justify-content: center; */
     flex-direction: column;
     margin: 6rem 0rem;
+    border: solid #F0F0F5;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    margin-left: 10%;
+    
   }
   .contact-form-container {
     background-color: white;
@@ -185,9 +162,10 @@
     width: 100%;
     margin-top: 3rem;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: left;
     padding: 1rem;
-    border-radius: 5rem;
+    border-radius: 5px;
   }
   .contact-form-container input {
     flex: 1;
@@ -213,9 +191,7 @@
     margin-right: 1.25rem;
     color: #585858;
   }
-  /* .footer-section-one {
-    border: 2px solid blue;
-  } */
+  
   .footer-section-two {
     flex: 1;
     display: flex;
@@ -232,36 +208,7 @@
     color: #4c4c4c;
     cursor: pointer;
   }
-  /* .testimonial-section-bottom {
-    margin-top: 2rem;
-    background-color: white;
-    padding: 1.5rem 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    max-width: 750px;
-    border-radius: 2rem;
-    flex-direction: column;
-    text-align: center;
-  }
-  .testimonial-section-bottom {
-    margin: 2rem auto;
-  }
-  .testimonial-section-bottom p {
-    font-weight: 700;
-    color: #515151;
-    max-width: 500px;
-    font-size: 1.1rem;
-    margin: 2rem 0rem;
-  } */
-  /* .testimonials-stars-container svg {
-    margin: 0rem 0.25rem;
-    font-size: 1.5rem;
-    color: #fe9e0d;
-  }
-  .testimonial-section-bottom h2 {
-    margin-top: 1.5rem;
-  } */
+  
   .work-section-wrapper {
     margin-top: 15rem;
   }
@@ -301,6 +248,7 @@
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+    margin-bottom: 5rem;
   }
   .work-section-info p {
     flex: 1;

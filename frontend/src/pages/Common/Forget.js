@@ -6,7 +6,7 @@ import Popper from '@mui/material/Popper';
 import Fade from '@mui/material/Fade';
 import Paper from '@mui/material/Paper';
 import cover from "../../assests/pic2.jpg"
-import Header from "../../components/Layout/Header";
+import Header from "../../components/Layout/LandingHeader";
 import '../../styles/Common/Forget.css'
 import { MuiOtpInput } from "mui-one-time-password-input";
 
@@ -37,7 +37,7 @@ const Forgot = () => {
                 })
                 if (res.data.message === "Valid Number") {
 
-                    navigate('/login')
+                    navigate('/reset')
                 }
                 else {
                     setnormal(true)
@@ -48,9 +48,6 @@ const Forgot = () => {
                 console.log("there is an internel error")
 
             }
-
-
-
 
         }
 
