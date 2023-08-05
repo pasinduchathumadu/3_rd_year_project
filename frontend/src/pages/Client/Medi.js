@@ -37,7 +37,7 @@ function Medi() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const offset = 400; // Adjust this value as needed
+      const offset = 500; // Adjust this value as needed
       if (window.scrollY > offset) {
         setScrollAnimation(true);
       } else {
