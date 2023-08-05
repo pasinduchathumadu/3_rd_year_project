@@ -31,7 +31,7 @@ function Packages() {
   return (
     <>
     
-      <div className="full-page">
+      <div className="full-page" style={{ marginTop: '4%'}}>
       <div style={{ display: "flex" }}>
             <div
               style={{ display: "inline", marginTop: "30px", marginLeft: "2%",width:"33.3%"}}

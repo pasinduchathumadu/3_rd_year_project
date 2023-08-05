@@ -1,6 +1,6 @@
 
 import React, { Component, useState } from "react";
-import Header from "../../components/Layout/Header";
+
 import "../../styles/Care_center_manager/caregiverlist.css";
 import care from "../../assests/caregiver.jpg";
 import care2 from "../../assests/caregiver2.jpg";
@@ -21,8 +21,8 @@ function Caregiverlist() {
 
   return (
     <>
-      <Header />
-      <div style={{ display: "flex" }}>
+     
+      <div style={{ display: "flex",marginTop:'4%' }}>
         <div
           style={{
             display: "inline",
@@ -88,7 +88,7 @@ function Caregiverlist() {
             <div class="card">
               <img src={care} alt="John" className="top-img" />
               <span className="top-name">John Doe</span>
-              <p class="title">Professional</p>
+              <p className="title1">Professional</p>
               <p className="reviews">
                 <StarIcon className="icon-star" />
                 5.0(20 Reviews)
@@ -108,7 +108,7 @@ function Caregiverlist() {
             <div class="card">
               <img src={care2} alt="John" className="top-img" />
               <span className="top-name">John Doe</span>
-              <p class="title">Trainee</p>
+              <p class="title1">Trainee</p>
               <p className="reviews">
                 <StarIcon className="icon-star" />
                 5.0(20 Reviews)
@@ -128,7 +128,7 @@ function Caregiverlist() {
             <div class="card">
               <img src={care} alt="John" className="top-img" />
               <span className="top-name">John Doe</span>
-              <p class="title">Professional</p>
+              <p class="title1">Professional</p>
               <p className="reviews">
                 <StarIcon className="icon-star" />
                 5.0(20 Reviews)
@@ -143,7 +143,7 @@ function Caregiverlist() {
             <div class="card">
               <img src={care2} alt="John" className="top-img" />
               <span className="top-name">John Doe</span>
-              <p class="title">Trainee</p>
+              <p class="title1">Trainee</p>
               <p className="reviews">
                 <StarIcon className="icon-star" />
                 5.0(20 Reviews)
@@ -158,7 +158,7 @@ function Caregiverlist() {
             <div class="card">
               <img src={care} alt="John" className="top-img" />
               <span className="top-name">John Doe</span>
-              <p class="title">Professional</p>
+              <p class="title1">Professional</p>
               <p className="reviews">
                 <StarIcon className="icon-star" />
                 5.0(20 Reviews)
@@ -173,7 +173,7 @@ function Caregiverlist() {
             <div class="card">
               <img src={care2} alt="John" className="top-img" />
               <span className="top-name">John Doe</span>
-              <p class="title">Professional</p>
+              <p class="title1">Professional</p>
               <p className="reviews">
                 <StarIcon className="icon-star" />
                 5.0(20 Reviews)

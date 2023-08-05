@@ -74,7 +74,7 @@ function Complaints() {
   return (
     <>
    
-      <div className="container1">
+      <div className="container1" style={{ marginTop: '4%'}}>
         <Grid
           sx={{
             marginTop: "2%",

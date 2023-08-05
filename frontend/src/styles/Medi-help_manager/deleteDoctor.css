@@ -1,0 +1,43 @@
+.delete-container{
+    position:fixed;
+    z-index: 1;
+    left: 0;
+    top:0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.delete{
+    border-radius: 5px;
+    padding: 2rem;
+    background-color: white;
+    width:35em;
+    height: 10rem;
+ 
+ 
+ }
+
+ .h4{
+    color: rgb(71, 71, 70);
+    position: relative;
+    left:100px;
+    
+} 
+
+
+
+.btnDelete{
+    background-color: #FFA500; 
+    left: 150px;
+    top:0px;
+}
+
+.btndcancel{
+    background-color: #313130; 
+    left: 180px;
+    top:0px;
+}

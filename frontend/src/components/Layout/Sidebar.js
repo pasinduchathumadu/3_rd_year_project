@@ -39,32 +39,18 @@ export default function TemporaryDrawer({
     ];
   } else if (userType === "admin") {
     data = ["Dashboard", "Users", "Refund Verifications", "Complains"];
-    data_link = [
-      "admin_dashboard",
-      "admin_users",
-      "admin_refund",
-      "admin_complains",
-    ];
-  } else if (userType === "client") {
-    data = [
-      "Dashboard",
-      "Pet Care",
-      "Mind Relaxing",
-      "Shop",
-      "Non-Breadshop",
-      "Pet Grooming",
-      "Reports",
-    ];
-    data_link = [
-      "dashboard",
-      "petcare",
-      "MindRelax",
-      "shop",
-      "NonBredShop",
-      "Pet_grooming",
-      "reports",
-    ];
-  } else if (userType === "company_manager") {
+    data_link = ["admin_dashboard", "admin_users", "admin_refund", "admin_complains"];
+  }
+  else if(userType === 'client'){
+    data = ["Dashboard","Pet Care","Mind Relaxing","Shop","Non-Breadshop","Pet Grooming","Reports"];
+    data_link = ["dashboard","petcare","MindRelax","shop","NonBredShop","Pet_grooming","reports"]
+  }
+  else if(userType === 'care_center_manager'){
+    data = ["Appointments","Packages","Cargivers","Complains"];
+    data_link =["appointments","packages","caregiverlist","complaints"]
+  }
+
+   else if (userType === "company_manager") {
     data = ["Dashboard", "Clients", "Competitions", "Complains"];
     data_link = [
       "company_dashboard",
