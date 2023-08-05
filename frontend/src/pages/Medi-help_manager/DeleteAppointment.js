@@ -10,7 +10,7 @@ function DeleteDoctor() {
        <form>
         
            <div>
-               <h4>Are You Want to Delete this Appointment ?</h4>
+               <h4 className='h4'>Are You Want to Delete this Appointment ?</h4>
                <button type='submit' className='btnDelete'>Delete</button>
                     <button type='cancel' className='btndcancel'>Cancel</button>
            </div>

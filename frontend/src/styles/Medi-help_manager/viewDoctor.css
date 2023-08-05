@@ -38,15 +38,15 @@
     border-radius: 5px; 
 }
 
-img{
+.img{
 position: relative;
 top:-30px;
 height:100px;
 width:5000px;
 
-}
+} 
 
-h6{
+.h6{
     position: relative;
     top:-35px;
     left:5px;
@@ -61,7 +61,7 @@ h6{
    position: relative;
    left:1050px;
    top:50px;
-}
+} 
 
 .avalDoc{
 position: relative;

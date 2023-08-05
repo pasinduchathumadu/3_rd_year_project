@@ -64,6 +64,14 @@ import CompanyComplaints from "./pages/Company_manager/Company_Complaints";
 
 import { useNavigate } from "react-router-dom";
 import HomeHeader from "./components/Layout/Homeheader";
+
+import Doctors from "./pages/Medi-help_manager/doctors";
+import ViewAppointments from "./pages/Medi-help_manager/ViewAppointments";
+import PendingAppointments from "./pages/Medi-help_manager/PendingAppointments";
+import CompletedAppointments from "./pages/Medi-help_manager/CompletedAppointments";
+import PetProfiles from "./pages/Medi-help_manager/PetProfile";
+import ViewDoctors from "./pages/Medi-help_manager/ViewDoctors";
+import GetAppointments from "./pages/Medi-help_manager/GetAppointments";
 // import Complains from "./pages/Boarding_house_manager/Complains";
 
 function App() {

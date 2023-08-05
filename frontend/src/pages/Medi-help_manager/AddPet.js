@@ -5,7 +5,7 @@ const AddPet = () => {
   return (
     <div className='add-container'>
          <div className='add'>
-        <h1>Register Pet</h1> 
+        <h1 className='h1'>Register Pet</h1> 
         <hr />
             <form>
             

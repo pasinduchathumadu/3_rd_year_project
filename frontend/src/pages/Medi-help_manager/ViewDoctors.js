@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 
 import React, { useState } from "react";
 import {Link} from 'react-router-dom'
@@ -32,7 +33,7 @@ const ViewDoctors = () => {
     <div className="img">
    <img src ="https://img.freepik.com/free-photo/attractive-young-male-nutriologist-lab-coat-smiling-against-white-background_662251-2960.jpg?w=2000" /> 
     </div>
-     <h6>Jenny Wilson<br />  Specialist</h6>
+     <h6 className="h6">Jenny Wilson<br />  Specialist</h6>
    
     <button className='btnapp' onClick={()=>setModelOpen(true)}>Get Appointment</button>
   </div>
@@ -48,7 +49,7 @@ const ViewDoctors = () => {
     <div className="img">
    <img src ="https://img.freepik.com/free-photo/attractive-young-male-nutriologist-lab-coat-smiling-against-white-background_662251-2960.jpg?w=2000" /> 
     </div>
-     <h6>Jenny Wilson<br />  Specialist</h6>
+     <h6 className="h6">Jenny Wilson<br />  Specialist</h6>
    
      <Link to='/getAppointment'> <button className='btnapp'>Get Appointment</button></Link>
   </div>
@@ -56,7 +57,7 @@ const ViewDoctors = () => {
     <div className="img">
    <img src ="https://img.freepik.com/free-photo/attractive-young-male-nutriologist-lab-coat-smiling-against-white-background_662251-2960.jpg?w=2000" /> 
     </div>
-     <h6>Jenny Wilson<br />  Specialist</h6>
+     <h6 className="h6">Jenny Wilson<br />  Specialist</h6>
    
      <Link to='/getAppointment'> <button className='btnapp'>Get Appointment</button></Link>
   </div>
@@ -72,7 +73,7 @@ const ViewDoctors = () => {
     <div className="img">
    <img src ="https://img.freepik.com/free-photo/attractive-young-male-nutriologist-lab-coat-smiling-against-white-background_662251-2960.jpg?w=2000" /> 
     </div>
-     <h6>Jenny Wilson<br />  Specialist</h6>
+     <h6 className="h6">Jenny Wilson<br />  Specialist</h6>
    
    <Link to='/getAppointment'> <button className='btnapp'>Get Appointment</button></Link>
   </div>
@@ -80,7 +81,7 @@ const ViewDoctors = () => {
     <div className="img">
    <img src ="https://img.freepik.com/free-photo/attractive-young-male-nutriologist-lab-coat-smiling-against-white-background_662251-2960.jpg?w=2000" /> 
     </div>
-     <h6>Jenny Wilson<br />  Specialist</h6>
+     <h6 className="h6">Jenny Wilson<br />  Specialist</h6>
    
     <Link to='/getAppointment'> <button className='btnapp'>Get Appointment</button></Link>
   </div>
@@ -88,7 +89,7 @@ const ViewDoctors = () => {
     <div className="img">
    <img src ="https://static7.depositphotos.com/1158045/696/i/600/depositphotos_6961638-stock-photo-doctor-portrait.jpg" /> 
     </div>
-     <h6>Jenny Wilson<br />  Specialist</h6>
+     <h6 className="h6">Jenny Wilson<br />  Specialist</h6>
    
     <Link to='/getAppointment'> <button className='btnapp'>Get Appointment</button></Link>
   </div>
@@ -96,7 +97,7 @@ const ViewDoctors = () => {
     <div className="img">
    <img src ="https://static7.depositphotos.com/1158045/696/i/600/depositphotos_6961638-stock-photo-doctor-portrait.jpg" /> 
     </div>
-     <h6>Jenny Wilson<br />  Specialist</h6>
+     <h6 className="h6">Jenny Wilson<br />  Specialist</h6>
    
      <Link to='/getAppointment'> <button className='btnapp'>Get Appointment</button></Link>
   </div>
@@ -104,7 +105,7 @@ const ViewDoctors = () => {
     <div className="img">
    <img src ="https://static7.depositphotos.com/1158045/696/i/600/depositphotos_6961638-stock-photo-doctor-portrait.jpg" /> 
     </div>
-     <h6>Jenny Wilson<br />  Specialist</h6>
+     <h6 className="h6">Jenny Wilson<br />  Specialist</h6>
    
     <Link to='/getAppointment'> <button className='btnapp'>Get Appointment</button></Link>
   </div>
@@ -112,7 +113,7 @@ const ViewDoctors = () => {
     <div className="img">
    <img src ="https://static7.depositphotos.com/1158045/696/i/600/depositphotos_6961638-stock-photo-doctor-portrait.jpg" /> 
     </div>
-     <h6>Jenny Wilson<br />  Specialist</h6>
+     <h6 className="h6">Jenny Wilson<br />  Specialist</h6>
    
     <Link to='/getAppointment'> <button className='btnapp'>Get Appointment</button></Link>
   </div>
@@ -120,7 +121,7 @@ const ViewDoctors = () => {
     <div className="img">
    <img src ="https://static7.depositphotos.com/1158045/696/i/600/depositphotos_6961638-stock-photo-doctor-portrait.jpg" /> 
     </div>
-     <h6>Jenny Wilson<br />  Specialist</h6>
+     <h6 className="h6">Jenny Wilson<br />  Specialist</h6>
    
      <Link to='/getAppointment'> <button className='btnapp'>Get Appointment</button></Link>
   </div>
