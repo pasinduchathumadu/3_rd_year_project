@@ -104,6 +104,9 @@ function Pet_grooming() {
             </CardActionArea>
           </Card>
           
+        
+        <Link to="/Haircuts" style={{ textDecoration: "none", color: "inherit" }}>
+
           <Card sx={{ maxWidth: 345, marginLeft: "20px", marginTop: "20px" }}>
             <CardActionArea>
               <CardMedia style={{ height: "35vh" }}
@@ -122,6 +125,8 @@ function Pet_grooming() {
               </CardContent>
             </CardActionArea>
           </Card>
+          </Link>
+
 
           <Card sx={{ maxWidth: 345, marginLeft: "20px", marginTop: "20px" }}>
             <CardActionArea>

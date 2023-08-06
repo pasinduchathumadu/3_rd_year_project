@@ -41,6 +41,7 @@ import BoardingPackages from "./pages/Boarding_house_manager/Packages";
 import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 import Pet_grooming from "../src/pages/Client/Pet_grooming";
 import Bath from "./pages/Client/Bath";
+import Haircuts from "./pages/Client/Haircuts";
 
 import AdminHome from './pages/Admin/Home';
 import AdminUsers from './pages/Admin/Users';
@@ -49,7 +50,7 @@ import AdminComplains from './pages/Admin/Complains';
 import Bording from "./pages/Client/Bording";
 import Petgrooming from "../src/pages/Client/Pet_grooming";
 import Medi from "../src/pages/Client/Medi";
-
+import { DoctorList } from "./pages/Client/DoctorList";
 
 import Caregiverlist from "./pages/Care_center_manager/caregiverlist";
 import Onlinehome from "./pages/Online_store_manager/Home"
@@ -157,6 +158,10 @@ function App() {
           <Route path="/medi" element={<Medi/>}></Route>
           <Route path="/popupform" element={<PopupForm/>}></Route>
           <Route path="/Bath" element={<Bath/>}></Route>
+          <Route path="/Haircuts" element={<Haircuts/>}></Route>
+          <Route path="/DoctorList" element={<DoctorList/>}></Route>
+
+
 
 
           

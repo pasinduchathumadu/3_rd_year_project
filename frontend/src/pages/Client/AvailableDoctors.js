@@ -10,7 +10,7 @@ import product9  from '../../assests/bird4.png'
 import product10  from '../../assests/j.png'
 
 
-export const PRODUCTS =[
+export const DOCTORS =[
     {
         id : 1,
         productName:"parrot",

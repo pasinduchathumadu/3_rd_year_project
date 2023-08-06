@@ -2,10 +2,11 @@
 
 * {
   box-sizing: border-box;
+  color: black
 }
 
 .main {
-  background-color: #242333;
+  background-color: #a9a6a65c;
   display: flex;
   flex-direction: column;
   color: white;
@@ -115,5 +116,5 @@ p.text {
 }
 
 p.text span {
-  color: #6feaf6;
+  color: rgb(18, 19, 52);
 }

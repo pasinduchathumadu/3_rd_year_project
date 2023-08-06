@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PrimarySearchAppBar from '../../components/Layout/Header';
-import BathImage from '../../assests/bath2.jpg'; // Import the background image
+import BathImage from '../../assests/washing.jpg'; // Import the background image
 import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, IconButton, Stack, TextField } from "@mui/material";
 import FormControlContext from "@mui/material/FormControl/FormControlContext";
 import CloseIcon from "@mui/icons-material/Close"
@@ -11,7 +11,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 
-function Bath() {
+function Haircuts() {
 
     const [open,openchange]=useState(false);
     const functionopenpopup=()=>{
@@ -29,7 +29,7 @@ function Bath() {
     <div>
       <PrimarySearchAppBar />
 
-      <div style={{ display: 'flex' }} data-aos="zoom-in" >
+      <div style={{ display: 'flex' }} data-aos="zoom-in">
         <div
           style={{
             backgroundImage: `url(${BathImage})`, // Set the background image
@@ -110,4 +110,4 @@ function Bath() {
   );
 }
 
-export default Bath;
+export default Haircuts;
