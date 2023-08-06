@@ -5,7 +5,12 @@ import PetsIcon from '@mui/icons-material/Pets';
 import cage from "../../assests/2.png";
 import "../../styles/Client/Shop.css"
 import AOS from 'aos';
-
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import Button from '@mui/material/Button';
+import platinum from "../../assests/platinum.png"
 
 
 
@@ -55,21 +60,50 @@ const Bording = () => {
 
 
   useEffect(() => {
-    AOS.init({duration:2000});
+    AOS.init({duration:500});
   }, []); 
 
 
   return (
     <><PrimarySearchAppBar />
 
-      <div className='smooth-scroll' style={{textAlign:"center",width:"100%",height:"60vh",marginTop:"auto",marginBottom:"auto",fontWeight:"1"}}><h2 style={{fontSize:"80px",marginTop:"90px"}}>Book your's <span style={{color:"orange"}}>pet</span> seet now</h2>
+      <div className='smooth-scroll' style={{textAlign:"center",width:"100%",height:"75vh",marginTop:"auto",marginBottom:"auto",fontWeight:"1"}}><h2 style={{fontSize:"80px",marginTop:"90px"}}>Book your's <span style={{color:"orange"}}>pet</span> seet now</h2>
       <h1 style={{marginTop:"20px",fontFamily:"sans-serif"}}>we protect and care yout pet</h1>
       <h1 style={{fontSize:"20px",fontWeight:"1"}}>24 x 7 service</h1>
       {/* {PetsIcon} */}
       {/* <PetsIcon  sx={{fontSize:"45px"}}/> */}
       <img  className="smooth-scroll" src={cage} alt="Cage" style={{fontSize:"20px",width:"80px",height:"80px"}}/>
+      <h1 style={{marginTop:"20px",fontFamily:"sans-serif"}}>Bording packages</h1>
+
 
       </div>
+
+
+
+      <div style={{width:"100%",height:"80vh",backgroundColor:"",display:"flex"}} >
+
+
+        <div style={{width:"33%",backgroundColor:"#e3e2e1",marginRight:"auto",marginLeft:"auto"}}data-aos="flip-left">
+
+
+        </div>
+
+
+        <div style={{width:"33%",        backgroundImage: "linear-gradient(to left, #000000, #1b1b1b, #2e2e2e, #444444, #5a5a5a, #5a5a5a, #5a5a5a, #5a5a5a, #444444, #2e2e2e, #1b1b1b, #000000)"
+,marginRight:"auto",marginLeft:"auto",}}data-aos="fade-up">
+        <img  className="smooth-scroll" src={platinum} alt="Cage" style={{fontSize:"20px",width:"150px",height:"150px",marginLeft:"34%",marginTop:"-50px"}}/>
+
+
+        </div>
+
+
+        <div style={{width:"33%",backgroundColor:"orange",marginRight:"auto",marginLeft:"auto"}}data-aos="flip-right">
+
+        </div>
+
+
+      </div>
+
 
 
     <div className='main'>
@@ -129,7 +163,18 @@ const Bording = () => {
         You have selected <span id="count">{count}</span> seats for a price of ${' '}
         <span id="total">{total}</span>
       </p>
-    </div></>
+      <p style={{color:"black",marginTop:"30px"}}>Select your time slot</p>
+      <LocalizationProvider dateAdapter={AdapterDayjs} sx={{color:"white"}}>
+            <DemoContainer components={['DateTimePicker']} sx={{ width: "500px", marginLeft: "45px", marginTop: "10px" }}>
+              <DateTimePicker label="Book your time" sx={{color:"black",backgroundColor:"white",borderRadius:"10px"}} />
+            </DemoContainer>
+       </LocalizationProvider>
+
+       <Button sx={{backgroundColor:"black", width: "500px", marginLeft: "45px", marginTop: "10px",'&:hover': { backgroundColor: 'black' }}} variant="contained">Submit</Button>
+
+
+    </div>
+    </>
   );
 };
 
