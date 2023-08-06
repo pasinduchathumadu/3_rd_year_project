@@ -11,6 +11,11 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import Button from '@mui/material/Button';
 import platinum from "../../assests/platinum.png"
+import gold from "../../assests/gold.png"
+import silver from "../../assests/silver.png"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+
 
 
 
@@ -80,24 +85,61 @@ const Bording = () => {
 
 
 
-      <div style={{width:"100%",height:"80vh",backgroundColor:"",display:"flex"}} >
+      <div style={{width:"100%",height:"80vh",backgroundColor:"",display:"flex",padding:"13px"}} >
 
 
-        <div style={{width:"33%",backgroundColor:"#e3e2e1",marginRight:"auto",marginLeft:"auto"}}data-aos="flip-left">
+        <div style={{width:"33%",       backgroundImage: "linear-gradient(to left, #5d5d5d, #797979, #959595, #b3b3b3, #d2d2d2, #d2d2d2, #d1d1d1, #d1d1d1, #b1b1b1, #939292, #757475, #595858)",
+marginRight:"auto",marginLeft:"auto", borderRadius:"8px"}}data-aos="flip-left">
+          <img  className="smooth-scroll" src={silver} alt="Cage" style={{fontSize:"20px",width:"150px",height:"150px",marginLeft:"34%",marginTop:"-50px"}}/>
+          <h1 style={{color:"black",textAlign:"center",fontWeight:"1"}}>Rs.1000</h1>
+          <ol style={{ listStyleType: 'none', padding: 0 ,textAlign:"center",marginTop:"20px",color:"black",fontSize:"20px"}}>
+              <li className="tick-icon">With foods</li>
+              <li className="tick-icon">Free washing</li>
+              <li className="tick-icon">Third item</li>
+          </ol>
+         
+
 
 
         </div>
 
 
-        <div style={{width:"33%",        backgroundImage: "linear-gradient(to left, #000000, #1b1b1b, #2e2e2e, #444444, #5a5a5a, #5a5a5a, #5a5a5a, #5a5a5a, #444444, #2e2e2e, #1b1b1b, #000000)"
-,marginRight:"auto",marginLeft:"auto",}}data-aos="fade-up">
+        <div 
+        style={{
+          width:"33%", height:"85vh", marginTop:"-30px",  
+          backgroundImage: "linear-gradient(to left, #000000, #1b1b1b, #2e2e2e, #444444, #5a5a5a, #5a5a5a, #5a5a5a, #5a5a5a, #444444, #2e2e2e, #1b1b1b, #000000)"
+          ,marginRight:"auto",marginLeft:"auto",
+          borderRadius:"8px"
+          }}data-aos="fade-up">
         <img  className="smooth-scroll" src={platinum} alt="Cage" style={{fontSize:"20px",width:"150px",height:"150px",marginLeft:"34%",marginTop:"-50px"}}/>
+        <h1 style={{color:"white",textAlign:"center",fontWeight:"1"}}>Rs.3500</h1>
+        <ol style={{ listStyleType: 'none', padding: 0 ,textAlign:"center",marginTop:"20px",color:"white",fontSize:"20px"}}>
+              <li className="tick-icon">With premium foods</li>
+              <li className="tick-icon">Confotable cages</li>
+              <li className="tick-icon">AC Cages</li>
+              <li className="tick-icon">Free washing</li>
+              <li className="tick-icon">Free Clinic</li>
+              <li className="tick-icon">Free spa</li>
 
 
+
+          </ol>
+         
+            
         </div>
 
 
-        <div style={{width:"33%",backgroundColor:"orange",marginRight:"auto",marginLeft:"auto"}}data-aos="flip-right">
+        <div style={{width:"33%",        backgroundImage: "linear-gradient(to left, #cb8700, #d5941f, #dea133, #e8ae45, #f1bb56, #f1bb56, #f1bb56, #f1bb56, #e8ae45, #dea133, #d5941f, #cb8700)",
+marginRight:"auto",marginLeft:"auto", borderRadius:"8px"}}data-aos="flip-right">
+          <img  className="smooth-scroll" src={gold} alt="Cage" style={{fontSize:"20px",width:"150px",height:"150px",marginLeft:"34%",marginTop:"-50px"}}/>
+          <h1 style={{color:"black",textAlign:"center",fontWeight:"1"}}>Rs.2000</h1>
+          <ol style={{ listStyleType: 'none', padding: 0 ,textAlign:"center",marginTop:"20px",color:"black",fontSize:"20px"}}>
+              <li className="tick-icon">With foods</li>
+              <li className="tick-icon">AC cages</li>
+              <li className="tick-icon">Free washing</li>
+          </ol>
+         
+
 
         </div>
 

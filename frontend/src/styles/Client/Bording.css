@@ -117,3 +117,10 @@ p.text {
 p.text span {
   color: rgb(18, 19, 52);
 }
+
+
+.tick-icon::before {
+  content: '\f00c'; /* Font Awesome code for the check icon */
+  font-family: 'Font Awesome 5 Free';
+  margin-right: 8px;
+}
