@@ -36,6 +36,17 @@ import BoardingPackages from "./pages/Boarding_house_manager/Packages";
 import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 
 
+import Doctor from "./pages/Medi-help_manager/doctors";
+import ViewAppointments from "./pages/Medi-help_manager/ViewAppointments";
+import PendingAppointments from "./pages/Medi-help_manager/PendingAppointments";
+import CompletedAppointments from "./pages/Medi-help_manager/CompletedAppointments";
+import PetProfiles from "./pages/Medi-help_manager/PetProfile";
+import ViewDoctors from "./pages/Medi-help_manager/ViewDoctors";
+import GetAppointments from "./pages/Medi-help_manager/GetAppointments";
+import MediComplaints from "./pages/Medi-help_manager/Complains";
+
+  
+ 
 import Packages from "./pages/Care_center_manager/Packages";
 import Complaints from "./pages/Care_center_manager/Complaints";
 import Caregiverlist from "./pages/Care_center_manager/caregiverlist";
@@ -237,7 +248,7 @@ function App() {
           
           {isLoggedIn && user_role ==="medi_help_manager" &&(
              <><Route path="/Doctors" element={<div className="App">
-              <Doctors />
+              <Doctor />
             </div>} /><Route path="/viewAppointments" element={<ViewAppointments />} />
             <Route path="/viewPendingAppointments" element={<PendingAppointments />} />
             <Route path="/viewCompletedAppointments" element={<CompletedAppointments />} />
@@ -247,6 +258,22 @@ function App() {
             </>
           )}
           
+           <Route path="/Doctors" element={
+            <div className="App">
+              
+          <Doctors />
+         
+        
+          
+          </div>
+          } />
+          <Route path="/viewAppointments" element={<ViewAppointments />} />
+          <Route path="/viewPendingAppointments" element={<PendingAppointments />} />
+          <Route path="/viewCompletedAppointments" element={<CompletedAppointments />} />
+          <Route path="/PetProfiles" element={<PetProfiles />} />
+          <Route path="/viewDoctors" element={<ViewDoctors />} />
+          <Route path="/getAppointment" element={<GetAppointments />} />
+          <Route path="/complaints" element={<MediComplaints />} />
 
 
           {/* boarding house manager */}
