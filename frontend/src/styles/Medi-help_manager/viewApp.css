@@ -98,17 +98,17 @@
   .linkButton a:hover
  {
   background-color: #FFA500;
-  color: #ffffff; 
+  color:black; 
 }
 
 .linkButton a.active {
     background-color: #FFA500;
-    color: #ffffff;
+    color: black;
 
   }
   .linkButton a.active,
 .linkButton a.active:hover {
-  color: #ffffff;
+  color:black;
 }
 
 .boarding-profile-picture1 {
@@ -129,7 +129,7 @@
   left:10px;
    background-color:  #eaaf26; 
     border: none;
-    color: white;
+    color:black;
     width:50px;
     padding: 6px 6px;
     text-align: center;

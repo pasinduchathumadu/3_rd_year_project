@@ -1,7 +1,7 @@
 .docbox{
     background-color: lightgrey;
     width: 200px;
-    height: 200px;
+    height: 220px;
     border: 2px solid rgb(10, 10, 10);
     border-radius: 10px;
     padding: 40px;
@@ -40,9 +40,9 @@
 
 .img{
 position: relative;
-top:-30px;
+top:-20px;
 height:100px;
-width:5000px;
+width:500px;
 
 } 
 
