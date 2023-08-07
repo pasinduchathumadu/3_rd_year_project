@@ -84,7 +84,18 @@ const rows = [
                 Doctor Details
               </Typography>
             </div>
+
                     
+
+                        <div style={{ display: "flex",width:"33.3%" }}>
+             
+              <Stack direction="row" spacing={2} width={1500}>
+              <img src={profile} alt="profilepicture" className="boarding-profile-picture" />
+              </Stack>
+            
+                           
+                        </div>
+
                     </div>
       <div className="col-md-12">
       
@@ -97,7 +108,7 @@ const rows = [
               </div>
               <div id="customers6">
               <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+      <Table sx={{ minWidth: 900 }} aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell>ID</StyledTableCell>
