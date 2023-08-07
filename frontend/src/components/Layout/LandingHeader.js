@@ -82,7 +82,7 @@ export default function HomeHeader({ userRole }) {
     navigate('/store')
   }
   const blog = () => {
-    navigate('/blog')
+    navigate('/blogs')
   }
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
