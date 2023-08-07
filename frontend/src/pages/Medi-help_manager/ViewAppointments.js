@@ -56,7 +56,7 @@ const ViewAppointments = () => {
 
 
     
-    <div className="row">
+    <div className="row1">
        <div style={{ display: 'flex' }}>
                         <div style={{ display: 'inline', marginTop: '20px', marginLeft: '2%',color:'rgb(139, 139, 139)' }}>
                             <Typography>
@@ -70,55 +70,43 @@ const ViewAppointments = () => {
                             </Typography>
                         </div>
                         <div
-              style={{
-                display: "flex",
-                marginTop: "30px",
-                width: "33.3%",
-                justifyContent:"center"
-              }}
+                style={{ display: 'inline', marginTop: '30px', paddingLeft: '450px' }}
             >
              <Typography
-                sx={{
-                  position:"relative",
-                 left:"200px",
-                  color: "black",
-                  fontSize: "24px",
-                  fontFamily: "fantasy",
-                  display: "flex",
-                  alignItems: "center",
-                }}
+                 sx={{ color: 'black', fontSize: '24px', fontFamily: 'fantasy', display: 'flex', alignItems: 'center' }}
               >
                 Appointment Details
               </Typography>
             </div>
-                        <div style={{ display: "flex",width:"33.3%"}}>
-              <Stack direction="row" spacing={2} width={1500}>
-              <img src={profile} alt="profilepicture" className="boarding-profile-picture1" />
-                  
-                  
-              </Stack>
-            
+            <div style={{ display: 'flex', marginLeft: 'auto',alignItems:'center',justifyContent:'center',marginRight:'2%' }}>
                            
-                 </div>    
+                           <div style={{marginLeft:'1%'}}>
+                           <Stack direction="row" spacing={2}>
+                            <Avatar alt="Travis Howard" src={profile} sx={{ width: 60, height: 60 }} />
+                           </Stack>
+
+                           </div>
+                          
+                       </div>
                   
                         </div>
                        
     <div className="col-md-12">
       
-        <div className="card">
-        <div class="petsearch-container">
+        <div className="card1">
+        <div class="petsearch-container1">
             
 
             <input type="text" placeholder="Search" name="search" />
             
         </div>
-          <div className="card-header">
+          <div className="card-header1">
             <div className="linkButton">
             </div>
 </div>            
 
    
-          <div id="customers">
+          <div id="customers6" style={{marginLeft:'2%',marginRight:'2%',marginTop:'4%'}}>
           <TableContainer component={Paper}>
       <Table sx={{ minWidth: 950 }} aria-label="customized table">
         <TableHead>

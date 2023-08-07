@@ -235,7 +235,7 @@ function App() {
 
           {/* medi care manager */}
           
-          {isLoggedIn && user_role ==="medi_help_manager" &&(
+          
              <><Route path="/Doctors" element={<div className="App">
               <Doctors />
             </div>} /><Route path="/viewAppointments" element={<ViewAppointments />} />
@@ -245,7 +245,7 @@ function App() {
             <Route path="/viewDoctors" element={<ViewDoctors />} />
             <Route path="/getAppointment" element={<GetAppointments />} />
             </>
-          )}
+         
           
 
 
