@@ -66,7 +66,7 @@ const ViewAppointments = () => {
 
     
 
-    <>
+    <div style={{marginTop:'4%'}}>
       
     <div className="container1">
       <Grid
@@ -106,13 +106,16 @@ const ViewAppointments = () => {
             </Typography>
           </div>
           
-          <div style={{ display: "flex",width:"40.3%" }}>
-             
-              <Stack direction="row" spacing={2} width={1500}>
-              <img src={profile} alt="profilepicture" className="boarding-profile-picture" />
-           
-            </Stack>
-          </div>
+          <div style={{ display: 'flex', marginLeft: 'auto',alignItems:'center',justifyContent:'center' }}>
+                            
+                            <div style={{marginLeft:'1%'}}>
+                            <Stack direction="row" spacing={2}>
+                             <Avatar alt="Travis Howard" src={profile} sx={{ width: 60, height: 60 }} />
+                            </Stack>
+
+                            </div>
+                           
+                        </div>
         </div>
         <Grid>
           <Box
@@ -226,7 +229,7 @@ const ViewAppointments = () => {
 {show2 && <ViewForm/>}
           {show && <DeleteAppointment />}
     </div>
-  </>
+  </div>
 );
 }
 

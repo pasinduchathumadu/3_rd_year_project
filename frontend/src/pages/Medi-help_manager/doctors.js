@@ -63,7 +63,7 @@ const rows = [
 ];
     return (
    
-      <div className="row1">
+      <div className="row1" style={{marginTop:'4%'}}>
           <div style={{ display: 'flex' }}>
                         <div style={{ display: 'inline', marginTop: '30px', marginLeft: '2%' }}>
                             <Typography>
@@ -84,18 +84,15 @@ const rows = [
                 Doctor Details
               </Typography>
             </div>
-
-                    
-
-                        <div style={{ display: "flex",width:"33.3%" }}>
-             
-              <Stack direction="row" spacing={2} width={1500}>
-              <img src={profile} alt="profilepicture" className="boarding-profile-picture" />
-              </Stack>
-            
+            <div style={{ display: 'flex', marginLeft: 'auto',alignItems:'center',justifyContent:'center' }}>
+                           
+                            <div style={{marginLeft:'1%'}}>
+                            <Stack direction="row" spacing={2}>
+                             <Avatar alt="Travis Howard" src={profile} sx={{ width: 60, height: 60 }} />
+                            </Stack>
+                            </div>
                            
                         </div>
-
                     </div>
       <div className="col-md-12">
       

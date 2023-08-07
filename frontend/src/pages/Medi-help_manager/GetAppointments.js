@@ -1,37 +1,40 @@
 import React from 'react'
 import  '../../styles/Medi-help_manager/getapp.css';
+import { TextField, Typography } from '@mui/material';
 
 const GetAppointments = () => {
   return (
-    <div>
+    <div style={{marginTop:'4%'}}>
 
 
 <div className='bookform'>
-<div className='getapp-container'>
-         <div className='app'>
+<div className='getapp-container1'>
+         <div className='app1'>
         <h1>Appointment</h1> 
         <hr />
             <form>
             <div>
-                    <label htmlFor='email' className='email'>Patient ID</label>
-                    <input name='email'/>
+                  
+                   <TextField variant="outlined" placeholder="Email" size="small"  sx={{ width: '80%',marginTop:'3%' }} required></TextField>
                 </div>
                 <div>
-                    <label htmlFor='name'>Pateint Full Name</label>
-                    <input name='name'/>
+                <TextField variant="outlined" placeholder="Paitent Full Name" size="small"  sx={{ width: '80%',marginTop:'3%' }} required></TextField>
                 </div>
                 
                     
                 
                   
                 <div>
-                    <label htmlFor='date'>Select  Date</label>
-                    <input name='date' type='date'/>
+                    
+                   <Typography sx={{marginTop:'2%',marginBottom:'2%'}}>Select Date</Typography>
+                    <input name='date' type='date' style={{width:'50%',textAlign:'center'}}/>
                 </div>
-                <div>
-                    <label htmlFor='time'>Select Time</label>
-                    <input name='time' />
+                <div style={{marginBottom:'2%'}}>
+                    
+                   <Typography sx={{marginTop:'2%',marginBottom:'2%'}}>Select Date</Typography>
+                    <input name='time' type='time' style={{width:'50%',textAlign:'center'}}/>
                 </div>
+                
                  
 
                     <hr className='hr'/>

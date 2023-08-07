@@ -43,7 +43,7 @@ import CompletedAppointments from "./pages/Medi-help_manager/CompletedAppointmen
 import PetProfiles from "./pages/Medi-help_manager/PetProfile";
 import ViewDoctors from "./pages/Medi-help_manager/ViewDoctors";
 import GetAppointments from "./pages/Medi-help_manager/GetAppointments";
-import MediComplaints from "./pages/Medi-help_manager/Complains";
+
 
   
  
@@ -76,13 +76,7 @@ import CompanyComplaints from "./pages/Company_manager/Company_Complaints";
 import { useNavigate } from "react-router-dom";
 import HomeHeader from "./components/Layout/Homeheader";
 
-import Doctors from "./pages/Medi-help_manager/doctors";
-import ViewAppointments from "./pages/Medi-help_manager/ViewAppointments";
-import PendingAppointments from "./pages/Medi-help_manager/PendingAppointments";
-import CompletedAppointments from "./pages/Medi-help_manager/CompletedAppointments";
-import PetProfiles from "./pages/Medi-help_manager/PetProfile";
-import ViewDoctors from "./pages/Medi-help_manager/ViewDoctors";
-import GetAppointments from "./pages/Medi-help_manager/GetAppointments";
+
 // import Complains from "./pages/Boarding_house_manager/Complains";
 
 function App() {
@@ -248,33 +242,17 @@ function App() {
           
           
              <><Route path="/Doctors" element={<div className="App">
-              <Doctor />
-            </div>} /><Route path="/viewAppointments" element={<ViewAppointments />} />
-            <Route path="/viewPendingAppointments" element={<PendingAppointments />} />
-            <Route path="/viewCompletedAppointments" element={<CompletedAppointments />} />
-            <Route path="/PetProfiles" element={<PetProfiles />} />
-            <Route path="/viewDoctors" element={<ViewDoctors />} />
-            <Route path="/getAppointment" element={<GetAppointments />} />
+             <><HomeHeader userRole={"medi_help_manager"}/><Doctor /></>
+            </div>} /><Route path="/viewAppointments" element={<><HomeHeader userRole={"medi_help_manager"}/><ViewAppointments /></>} />
+            <Route path="/viewPendingAppointments" element={<><HomeHeader userRole={"medi_help_manager"}/><PendingAppointments /></>} />
+            <Route path="/viewCompletedAppointments" element={<><HomeHeader userRole={"medi_help_manager"}/><CompletedAppointments /></>} />
+            <Route path="/PetProfiles" element={<><HomeHeader userRole={"medi_help_manager"}/><PetProfiles /></>} />
+            <Route path="/viewDoctors" element={<><HomeHeader userRole={"medi_help_manager"}/><ViewDoctors /></>} />
+            <Route path="/getAppointment" element={<><HomeHeader userRole={"medi_help_manager"}/><GetAppointments /></>} />
             </>
          
           
-           <Route path="/Doctors" element={
-            <div className="App">
-              
-          <Doctors />
          
-        
-          
-          </div>
-          } />
-          <Route path="/viewAppointments" element={<ViewAppointments />} />
-          <Route path="/viewPendingAppointments" element={<PendingAppointments />} />
-          <Route path="/viewCompletedAppointments" element={<CompletedAppointments />} />
-          <Route path="/PetProfiles" element={<PetProfiles />} />
-          <Route path="/viewDoctors" element={<ViewDoctors />} />
-          <Route path="/getAppointment" element={<GetAppointments />} />
-          <Route path="/complaints" element={<MediComplaints />} />
-
 
           {/* boarding house manager */}
           {isLoggedIn && user_role === "boarding_house_manager" && (
