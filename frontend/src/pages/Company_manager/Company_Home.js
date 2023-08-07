@@ -1,81 +1,83 @@
 import React from "react";
-import "../../styles/Company_manager/Home.css";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 import ProfilePicture from "../../assests/profile-picture.png";
-import Box from "@mui/material/Box";
 import PetsIcon from "@mui/icons-material/Pets";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { TableRow, TableCell, Stack } from "@mui/material";
-import { tableCellClasses } from "@mui/material/TableCell";
-import { styled } from "@mui/material/styles";
+import { Stack } from "@mui/material";
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import CardActionArea from "@mui/material/CardActionArea";
 
 const Company_Home = () => {
   // drop down
   const [time, setTime] = React.useState("1");
 
-  return (
-    <div className="home-container">
-      <div className="top">
-        <div className="top-line">
-          <p>Company Manager</p>
-          <p className="top-line-text">Today</p>
-          <p class="top-line-text">08 August 2023</p>
-        </div>
-        <div className="top-line">
-          <p style={{ fontSize: "20px", fontWeight: 1000, color: "black" }}>
-            DashBoard
-          </p>
-        </div>
+  const handleCardClick = () => {
+    // Perform an action when the card is clicked
+    console.log("Card clicked!");
+  };
 
-        <div className="top-line">
+  return (
+    <Box>
+      <Stack direction="row" justifyContent="space-between" padding={2} sx={{marginTop:'4%'}}>
+        <Box>
+          <Typography variant="inherit" color="textSecondary">
+            Company Manager
+          </Typography>
+          <Typography variant="inherit" color="textSecondary">
+            Today
+          </Typography>
+          <Typography variant="inherit" color="textSecondary">
+            08 August 2023
+          </Typography>
+        </Box>
+        <Stack justifyContent="center" alignItems="center">
+          <Typography color="textPrimary" fontWeight="bold" fontSize={"25px"}>
+            Dasboard
+          </Typography>
+        </Stack>
+        <Stack direction="row" justifyContent="center" alignItems="center">
           <NotificationsIcon className="bell-icon" />
           <img
             src={ProfilePicture}
             alt="profilepicture"
             className="boarding-profile-picture"
           />
-        </div>
-      </div>
+        </Stack>
+      </Stack>
 
-      {/* <div className="boarding-wrapper-main">
+      <div className="boarding-wrapper-main">
         <div
           className="boarding-wrapper"
           style={{
             backgroundColor: "orange",
-            height: "30rem",
+            height: "100%",
             width: "100%",
           }}
         >
-          <div className="boarding-box-header">
-            <AnalyticsIcon
-              sx={{ marginRight: "10px", marginTop: "2px", color: "black" }}
-            />
-            <h3>Analytical Overview</h3>
-            <Box sx={{ minWidth: 120, marginLeft: "315px" }}>
-              <FormControl fullWidth>
+          <Stack
+            direction="row"
+            spacing={15}
+            mb={2}
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Stack direction="row" justifyContent="center" alignItems="center">
+              <AnalyticsIcon />
+              <Typography variant="h5" ml={2}>
+                Analytical Overview
+              </Typography>
+            </Stack>
+
+            <Box sx={{ minWidth: 10 }}>
+              <FormControl>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
@@ -91,52 +93,192 @@ const Company_Home = () => {
                 </Select>
               </FormControl>
             </Box>
-          </div>
+          </Stack>
 
-          <div className="boarding-wrapper-box-mian">
-            <div
-              className="boarding-wrapper-box"
-              style={{ backgroundColor: "white" }}
+          <Stack
+            direction="row"
+            spacing={15}
+            mb={5}
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Box sx={{ width: "250px" }}>
+              <Card variant="outlined">
+                <CardContent>
+                  <Stack
+                    direction={"row"}
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <PetsIcon sx={{ color: "orange", marginRight: "5px" }} />
+                    <Typography sx={{ fontSize: 14 }} color="text.secondary">
+                      Clients
+                    </Typography>
+                  </Stack>
+
+                  <Typography
+                    fontWeight="bold"
+                    variant="h3"
+                    component="div"
+                    align="center"
+                  >
+                    10
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Box>
+            <Box sx={{ width: "250px" }}>
+              <Card variant="outlined">
+                <CardContent>
+                  <Stack
+                    direction={"row"}
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <PetsIcon sx={{ color: "orange", marginRight: "5px" }} />
+                    <Typography sx={{ fontSize: 14 }} color="text.secondary">
+                      Incoming Competitions
+                    </Typography>
+                  </Stack>
+                  <Typography
+                    fontWeight="bold"
+                    variant="h3"
+                    component="div"
+                    align="center"
+                  >
+                    10
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Box>
+            <Box sx={{ width: "250px" }}>
+              <Card variant="outlined">
+                <CardContent>
+                  <Stack
+                    direction={"row"}
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <PetsIcon sx={{ color: "orange", marginRight: "5px" }} />
+                    <Typography sx={{ fontSize: 14 }} color="text.secondary">
+                      New Complaints
+                    </Typography>
+                  </Stack>
+                  <Typography
+                    fontWeight="bold"
+                    variant="h3"
+                    component="div"
+                    align="center"
+                  >
+                    10
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Box>
+          </Stack>
+
+          <Box
+            sx={{
+              backgroundColor: "white",
+              padding: "15px",
+              borderRadius: "20px",
+            }}
+          >
+            <Stack justifyContent="center" mb={2}>
+              <Typography variant="h5" ml={2}>
+                Recent Competitions
+              </Typography>
+            </Stack>
+            <Stack
+              direction="row"
+              spacing={15}
+              justifyContent="center"
+              alignItems="center"
             >
-              <p style={{ fontWeight: "bold" }}>
-                <PetsIcon sx={{ color: "orange", marginRight: "5px" }} />
-                Current Boarding Pets
-              </p>
-              <h1
-                style={{
-                  fontWeight: "1000",
-                  textAlign: "center",
-                  fontSize: "40px",
-                  color: "orange",
-                }}
-              >
-                10
-              </h1>
-            </div>
-            <div
-              className="boarding-wrapper-box"
-              style={{ backgroundColor: "white" }}
-            >
-              <p style={{ fontWeight: "bold" }}>
-                <PetsIcon sx={{ color: "orange", marginRight: "5px" }} />
-                Completed Requests
-              </p>
-              <h1
-                style={{
-                  fontWeight: "1000",
-                  textAlign: "center",
-                  fontSize: "40px",
-                  color: "orange",
-                }}
-              >
-                06
-              </h1>
-            </div>
-          </div>
+              <Box sx={{ minWidth: 275 }}>
+                <Card
+                  sx={{
+                    maxWidth: 345,
+                  }}
+                >
+                  <CardActionArea onClick={handleCardClick}>
+                    <CardMedia
+                      sx={{ height: 200 }}
+                      image="https://images.unsplash.com/photo-1581753418434-51c11169a3c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80"
+                    />
+                    <CardContent>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="div"
+                        align="center"
+                      >
+                        Lizard
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Lizards are a widespread group of squamate reptiles,
+                        with over 6,000 species, ranging across all continents
+                        except Antarctica
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Box>
+              <Box sx={{ minWidth: 275 }}>
+                <Card sx={{ maxWidth: 345 }}>
+                  <CardActionArea onClick={handleCardClick}>
+                    <CardMedia
+                      sx={{ height: 200 }}
+                      image="https://images.unsplash.com/photo-1581753418434-51c11169a3c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80"
+                    />
+                    <CardContent>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="div"
+                        align="center"
+                      >
+                        Lizard
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Lizards are a widespread group of squamate reptiles,
+                        with over 6,000 species, ranging across all continents
+                        except Antarctica
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Box>
+              <Box sx={{ minWidth: 275 }}>
+                <Card sx={{ maxWidth: 345 }}>
+                  <CardActionArea onClick={handleCardClick}>
+                    <CardMedia
+                      sx={{ height: 200 }}
+                      image="https://images.unsplash.com/photo-1581753418434-51c11169a3c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80"
+                    />
+                    <CardContent>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="div"
+                        align="center"
+                      >
+                        Lizard
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Lizards are a widespread group of squamate reptiles,
+                        with over 6,000 species, ranging across all continents
+                        except Antarctica
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Box>
+            </Stack>
+          </Box>
         </div>
-      </div> */}
-      <Stack sx={{ overflow: "auto"}}></Stack>
-    </div>
+      </div>
+    </Box>
   );
 };
 

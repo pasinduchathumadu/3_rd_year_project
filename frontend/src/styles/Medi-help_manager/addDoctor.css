@@ -21,16 +21,16 @@
 
 }
 
-h1{
+.h1{
 font-family: verdana;
 font-size: 20px;
 padding: 10px 10px;
 text-align: center;
 padding-bottom: 10px;
 
-}
+} 
 
-input{
+.input{
     width: 100%;
    
     margin: 8px 0;
@@ -40,9 +40,7 @@ input{
     box-sizing: border-box;
     height:40px;
 }
-label{
-    color: rgb(71, 71, 70);
-}
+
 
 
 .btnsubmit{
@@ -78,7 +76,7 @@ label{
     font-family: Verdana ;
     border-radius: 5px;
 }
- select {
+ .select {
     width: 100%;
    
     margin: 8px 0;

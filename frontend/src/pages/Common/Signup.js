@@ -106,7 +106,7 @@ const Signup = ({onSignup}) =>{
                   </div>
                   <div className="input-group">
                     <i className="bx bxs-user"></i>
-                    <input type="text" placeholder="Password" onChange={(e) => setPassword(e.target.value)} required />
+                    <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} required />
                   </div>
                   <div className="input-group">
                     <div className='first'>

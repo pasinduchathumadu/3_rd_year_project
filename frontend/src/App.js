@@ -64,6 +64,14 @@ import CompanyComplaints from "./pages/Company_manager/Company_Complaints";
 
 import { useNavigate } from "react-router-dom";
 import HomeHeader from "./components/Layout/Homeheader";
+
+import Doctors from "./pages/Medi-help_manager/doctors";
+import ViewAppointments from "./pages/Medi-help_manager/ViewAppointments";
+import PendingAppointments from "./pages/Medi-help_manager/PendingAppointments";
+import CompletedAppointments from "./pages/Medi-help_manager/CompletedAppointments";
+import PetProfiles from "./pages/Medi-help_manager/PetProfile";
+import ViewDoctors from "./pages/Medi-help_manager/ViewDoctors";
+import GetAppointments from "./pages/Medi-help_manager/GetAppointments";
 // import Complains from "./pages/Boarding_house_manager/Complains";
 
 function App() {
@@ -102,7 +110,7 @@ function App() {
       navigate("/dashboard");
       localStorage.setItem("client_email", email);
     } else if (role === "care_center_manager") {
-      navigate("/appoinments");
+      navigate("/appointments");
       localStorage.setItem("care_center_manager", email);
     } else if (role === "company_manager") {
       navigate("/company_dashboard");
@@ -204,7 +212,7 @@ function App() {
           <Route path="/reset" element={<Reset />} />
 
           <Route path="/blog" element={ isLoggedIn ? ( <><HomeHeader userRole={user_role} /><Blogs /></>) : (<><LandingHeader /><Blogs /></>)}/>
-               
+          <Route path="/blogs" element={<><LandingHeader/><Blogs/></>}/>     
 
           {/* <Route path="/blogs" element={isLoggedIn ? <Blogs /> : <Navigate to="/login" />} /> */}
 
@@ -220,37 +228,25 @@ function App() {
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
 
           {/* boarding house manager */}
-          {isLoggedIn && user_role === "boarding_house_manager" && (
-            <>
-              <Route path="/boarding_dashboard" element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingHome /></>} />
-              <Route path="/boarding_clients" element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingClients /></> }/>
-              <Route path="/boarding_pets" element={ <>  <HomeHeader userRole={"boarding_house_manager"} /> <BoardingPets />  </>}/>
-              <Route path="/boarding_packages" element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingPackages /></> } />
-              <Route path="/boarding_complains"element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingComplains /> </> }/></>
-          )}
-
+          
 
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
 
 
           {/* medi care manager */}
           
+          {isLoggedIn && user_role ==="medi_help_manager" &&(
+             <><Route path="/Doctors" element={<div className="App">
+              <Doctors />
+            </div>} /><Route path="/viewAppointments" element={<ViewAppointments />} />
+            <Route path="/viewPendingAppointments" element={<PendingAppointments />} />
+            <Route path="/viewCompletedAppointments" element={<CompletedAppointments />} />
+            <Route path="/PetProfiles" element={<PetProfiles />} />
+            <Route path="/viewDoctors" element={<ViewDoctors />} />
+            <Route path="/getAppointment" element={<GetAppointments />} />
+            </>
+          )}
           
-           <Route path="/Doctors" element={
-            <div className="App">
-              
-          <Doctors />
-         
-        
-          
-          </div>
-          } />
-          <Route path="/viewAppointments" element={<ViewAppointments />} />
-          <Route path="/viewPendingAppointments" element={<PendingAppointments />} />
-          <Route path="/viewCompletedAppointments" element={<CompletedAppointments />} />
-          <Route path="/PetProfiles" element={<PetProfiles />} />
-          <Route path="/viewDoctors" element={<ViewDoctors />} />
-          <Route path="/getAppointment" element={<GetAppointments />} />
 
 
           {/* boarding house manager */}

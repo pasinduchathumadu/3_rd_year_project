@@ -93,7 +93,7 @@ const ViewAppointments = () => {
             </div>
                         <div style={{ display: "flex",width:"33.3%"}}>
               <Stack direction="row" spacing={2} width={1500}>
-              <img src={profile} alt="profilepicture" className="boarding-profile-picture" />
+              <img src={profile} alt="profilepicture" className="boarding-profile-picture1" />
                   
                   
               </Stack>
