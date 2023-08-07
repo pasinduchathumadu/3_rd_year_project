@@ -40,7 +40,7 @@ const Company_Home = () => {
         </Box>
         <Stack justifyContent="center" alignItems="center">
           <Typography color="textPrimary" fontWeight="bold" fontSize={"25px"}>
-            Dasboard
+            Dasboar
           </Typography>
         </Stack>
         <Stack direction="row" justifyContent="center" alignItems="center">
