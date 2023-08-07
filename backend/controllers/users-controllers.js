@@ -14,7 +14,7 @@ export const login = async (req, res, next) => {
   try {
     const hash = pkg;
     const { email, password } = req.body;
-
+    console.log(password)
     const sqlQuery = 'SELECT * FROM users WHERE email = ? AND status = "Active"';
     const values = [
       email,
@@ -25,6 +25,7 @@ export const login = async (req, res, next) => {
   
     db.query(query3,(err,data)=>{
       if(err){
+       
         return res.json({message:"There is an internal error"})
       }
     })
@@ -37,9 +38,14 @@ export const login = async (req, res, next) => {
         const original = data[0].password;
         const userInputHash = hash.MD5(password)
         if (userInputHash === original) {
+          console.log(userInputHash)
+          console.log(original)
          
-          return res.status(200).json({data});
+         
+          return res.json({data});
         } else {
+          console.log(userInputHash)
+          console.log(original)
           return res.json({ message: "Password didn't Matched" });
         }
 

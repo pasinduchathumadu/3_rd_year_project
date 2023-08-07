@@ -6,7 +6,7 @@ const ViewProfile = () => {
     <div className='add-container'>
         
          <div className='viewprofile'>
-        <h1>Pet Profile</h1> 
+        <h1 className='h1'>Pet Profile</h1> 
         <hr />
             <form>
             
@@ -36,7 +36,7 @@ const ViewProfile = () => {
                     <button type='submit' className='btnsubmit'>Submit</button>
                     <button type='cancel' className='btncancel'>Cancel</button>
             </form>
-            <h1>Owner Profile</h1> 
+            <h1 className='h1'>Owner Profile</h1> 
         <hr />
             <form>
             
