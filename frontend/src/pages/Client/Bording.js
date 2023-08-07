@@ -65,7 +65,7 @@ const Bording = () => {
 
 
   useEffect(() => {
-    AOS.init({duration:500});
+    AOS.init({duration:800});
   }, []); 
 
 
@@ -85,10 +85,10 @@ const Bording = () => {
 
 
 
-      <div style={{width:"100%",height:"80vh",backgroundColor:"",display:"flex",padding:"13px"}} >
+      <div style={{width:"100%",height:"80vh",backgroundColor:"",display:"flex",padding:"100px"}} >
 
 
-        <div style={{width:"33%",       backgroundImage: "linear-gradient(to left, #5d5d5d, #797979, #959595, #b3b3b3, #d2d2d2, #d2d2d2, #d1d1d1, #d1d1d1, #b1b1b1, #939292, #757475, #595858)",
+        <div style={{width:"33%",height:"70vh" ,      backgroundImage: "linear-gradient(to left, #5d5d5d, #797979, #959595, #b3b3b3, #d2d2d2, #d2d2d2, #d1d1d1, #d1d1d1, #b1b1b1, #939292, #757475, #595858)",
 marginRight:"auto",marginLeft:"auto", borderRadius:"8px"}}data-aos="flip-left">
           <img  className="smooth-scroll" src={silver} alt="Cage" style={{fontSize:"20px",width:"150px",height:"150px",marginLeft:"34%",marginTop:"-50px"}}/>
           <h1 style={{color:"black",textAlign:"center",fontWeight:"1"}}>Rs.1000</h1>
@@ -106,10 +106,16 @@ marginRight:"auto",marginLeft:"auto", borderRadius:"8px"}}data-aos="flip-left">
 
         <div 
         style={{
-          width:"33%", height:"85vh", marginTop:"-30px",  
+          width:"33%", height:"85vh", marginTop:"-80px",  
           backgroundImage: "linear-gradient(to left, #000000, #1b1b1b, #2e2e2e, #444444, #5a5a5a, #5a5a5a, #5a5a5a, #5a5a5a, #444444, #2e2e2e, #1b1b1b, #000000)"
           ,marginRight:"auto",marginLeft:"auto",
-          borderRadius:"8px"
+          borderRadius:"8px",
+          transition: "transform 0.5s ",
+          "&:hover": {
+            transform: "scale(1.1)", // Apply scale transform on hover
+            boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", // Add box shadow on hover
+          },
+          
           }}data-aos="fade-up">
         <img  className="smooth-scroll" src={platinum} alt="Cage" style={{fontSize:"20px",width:"150px",height:"150px",marginLeft:"34%",marginTop:"-50px"}}/>
         <h1 style={{color:"white",textAlign:"center",fontWeight:"1"}}>Rs.3500</h1>
@@ -129,7 +135,7 @@ marginRight:"auto",marginLeft:"auto", borderRadius:"8px"}}data-aos="flip-left">
         </div>
 
 
-        <div style={{width:"33%",        backgroundImage: "linear-gradient(to left, #cb8700, #d5941f, #dea133, #e8ae45, #f1bb56, #f1bb56, #f1bb56, #f1bb56, #e8ae45, #dea133, #d5941f, #cb8700)",
+        <div style={{width:"33%",height:"70vh" ,         backgroundImage: "linear-gradient(to left, #cb8700, #d5941f, #dea133, #e8ae45, #f1bb56, #f1bb56, #f1bb56, #f1bb56, #e8ae45, #dea133, #d5941f, #cb8700)",
 marginRight:"auto",marginLeft:"auto", borderRadius:"8px"}}data-aos="flip-right">
           <img  className="smooth-scroll" src={gold} alt="Cage" style={{fontSize:"20px",width:"150px",height:"150px",marginLeft:"34%",marginTop:"-50px"}}/>
           <h1 style={{color:"black",textAlign:"center",fontWeight:"1"}}>Rs.2000</h1>
@@ -148,7 +154,7 @@ marginRight:"auto",marginLeft:"auto", borderRadius:"8px"}}data-aos="flip-right">
 
 
 
-    <div className='main'>
+    <div className='main' style={{marginTop:"20px"}}>
       <div className="movie-con">
         <label>Pick a Cage:</label>
         <select id="movie" onChange={handleMovieChange} value={selectedMovieIndex}>
