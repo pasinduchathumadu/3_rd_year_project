@@ -65,6 +65,7 @@ const ViewAppointments = () => {
 
 
     
+
     <>
       
     <div className="container1">
@@ -183,6 +184,7 @@ const ViewAppointments = () => {
           </TableContainer>
         )}
            {value === 1 && (
+
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 800 }} aria-label="customized table">
               <TableHead>
