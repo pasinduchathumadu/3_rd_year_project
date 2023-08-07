@@ -37,9 +37,10 @@ import CompletedAppointments from "./pages/Medi-help_manager/CompletedAppointmen
 import PetProfiles from "./pages/Medi-help_manager/PetProfile";
 import ViewDoctors from "./pages/Medi-help_manager/ViewDoctors";
 import GetAppointments from "./pages/Medi-help_manager/GetAppointments";
+import Complaints from "./pages/Medi-help_manager/Complains";
 function App() {
-  //popup
-  const [modelOpen,setModelOpen]=useState(false);
+  
+ 
 
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [issignup,setIssignup] = useState(false)
@@ -107,6 +108,7 @@ function App() {
           <Route path="/PetProfiles" element={<PetProfiles />} />
           <Route path="/viewDoctors" element={<ViewDoctors />} />
           <Route path="/getAppointment" element={<GetAppointments />} />
+          <Route path="/complaints" element={<Complaints />} />
         </Routes>
       </main>
     </React.Fragment>
