@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Link} from 'react-router-dom'
+
 import  '../../styles/Medi-help_manager/viewApp.css';
 import DeleteAppoint from "./DeleteAppointment";
 import { useLocation } from 'react-router-dom';
@@ -10,9 +10,9 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+
 import profile from "../../assests/profile.jpg";
-import { Typography, Avatar, Stack, Button } from "@mui/material";
+import { Typography, Avatar, Stack,Button} from "@mui/material";
 const ViewAppointments = () => {
   const input = new Date();
   const date = input.toDateString();
@@ -130,7 +130,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
                               <StyledTableCell align="right">Monday-Friday</StyledTableCell>
                               <StyledTableCell align="right">8A.M -7P.M</StyledTableCell>
                               <StyledTableCell align="right">Monday-Friday</StyledTableCell>
-                              <StyledTableCell align="right"><button className='btndelete' onClick={() => setShow(true)}>Delete</button></StyledTableCell>
+                              <StyledTableCell align="right"><Button sx={{backgroundColor:'black',':hover':{backgroundColor:'black'},color:'white'}} onClick={()=>setShow(true)}>Delete</Button></StyledTableCell>
                             </StyledTableRow>
                           ))}
                         </TableBody>

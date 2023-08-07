@@ -131,7 +131,7 @@ createData('Gingerbread', 356, 16.0, 49, 3.9),
                             <StyledTableCell align="right">Monday-Friday</StyledTableCell>
                             <StyledTableCell align="right">8A.M -7P.M</StyledTableCell>
                             <StyledTableCell align="right">Monday-Friday</StyledTableCell>
-                            <StyledTableCell align="right"><button className='btndelete' onClick={() => setShow(true)}>Delete</button></StyledTableCell>
+                            <StyledTableCell align="right"><Button sx={{backgroundColor:'black',color:'white',':hover':{backgroundColor:'black'}}} onClick={() => setShow(true)}>Delete</Button></StyledTableCell>
                           </StyledTableRow>
                         ))}
                       </TableBody>

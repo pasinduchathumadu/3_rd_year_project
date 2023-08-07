@@ -1,5 +1,6 @@
 import React from 'react'
 import  '../../styles/Medi-help_manager/addDoctor.css';
+import { Button, TextField, Typography } from '@mui/material';
 
 const AddDoctors = () => {
   return (
@@ -9,26 +10,23 @@ const AddDoctors = () => {
         <hr />
             <form>
             
-                <div>
-                    <label htmlFor='name'>Full Name</label>
-                    <input className="input" name='name'/>
+                <div style={{margin:'5%'}}>
+                <TextField variant="outlined" placeholder="Full Name" size="small"  sx={{ width: '80%' }} required></TextField>
+                  
                 </div>
                 
-                    <div>
-                    <label htmlFor='email' className='email'>Email</label>
-                    <input className="input" name='email'/>
+                    <div style={{margin:'5%'}}>
+                    <TextField variant="outlined" placeholder="Email" size="small"  sx={{ width: '80%' }} required></TextField>
+                  
                 </div>
                 
-                    <div>
-                    <label htmlFor='phone' className='phone'>Phone Number</label>
-                    <input className="input" name='phone'/>
+               
+                <div style={{margin:'5%'}}>
+                <TextField variant="outlined" placeholder="Registration Number" size="small"  sx={{ width: '80%' }} required></TextField>
+                  
                 </div>
-                <div>
-                <label htmlFor='no' className='no'>Registration Number</label>
-                    <input className="input" name='no'/>
-                </div>
-                <div>
-                    <label htmlFor='time'>Type</label>
+                <div style={{margin:'5%'}}>
+                  <Typography sx={{margin:'2%'}}>Type</Typography>
                     <select id="country" name="country" className='select'>
                      <option value="companion">Companion-animal veterinarians</option>
       <option value="specialists">Veterinary specialists</option>
@@ -37,9 +35,9 @@ const AddDoctors = () => {
                 </div>
                  
 
-                    <hr className='hr'/>
-                    <button type='submit' className='btnsubmit'>Submit</button>
-                    <button type='cancel' className='btncancel'>Cancel</button>
+                  
+                    <Button type='submit' sx={{backgroundColor:'orange',width:'30%',':hover':{backgroundColor:'orange'},color:'black',marginRight:'2%'}} >Submit</Button>
+                    <Button type='cancel' sx={{backgroundColor:'black',color:'white',width:'20%',':hover':{backgroundColor:'black'}}}>Cancel</Button>
             </form>
 
             </div>

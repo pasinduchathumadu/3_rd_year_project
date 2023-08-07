@@ -131,8 +131,8 @@ const rows = [
               <StyledTableCell align="right">maria@gmail.com</StyledTableCell>
               <StyledTableCell align="right">Monday-Friday</StyledTableCell>
               <StyledTableCell align="right">8A.M -7P.M</StyledTableCell>
-              <StyledTableCell align="right"><button className='docbtnedit'>Edit</button></StyledTableCell>
-              <StyledTableCell align="right"><button className='docbtndelete' onClick={()=>setShow(true)}>Delete</button></StyledTableCell>
+              <StyledTableCell align="right"><Button sx={{backgroundColor:'orange',':hover':{backgroundColor:'orange'},color:'white'}}>Edit</Button></StyledTableCell>
+              <StyledTableCell align="right"><Button sx={{backgroundColor:'red',':hover':{backgroundColor:'red'},color:'white'}} onClick={()=>setShow(true)}>Delete</Button></StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

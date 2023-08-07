@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import {Link} from 'react-router-dom'
+
 import  '../../styles/Medi-help_manager/PetProfile.css';
 import DeletePet from "./DeletePet";
 import AddPet from "./AddPet";
@@ -14,7 +14,7 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+
 import profile from "../../assests/profile.jpg";
 import { Typography, Avatar, Stack, Button } from "@mui/material";
 
