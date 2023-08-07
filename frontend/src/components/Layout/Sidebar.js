@@ -58,7 +58,9 @@ export default function TemporaryDrawer({
       "company_competitions",
       "company_complains",
     ];
-  } else {
+  } 
+  
+  else {
     // Default values if userType doesn't match any of the conditions
     data = [];
     data_link = [];

@@ -212,7 +212,7 @@ function App() {
           <Route path="/reset" element={<Reset />} />
 
           <Route path="/blog" element={ isLoggedIn ? ( <><HomeHeader userRole={user_role} /><Blogs /></>) : (<><LandingHeader /><Blogs /></>)}/>
-               
+          <Route path="/blogs" element={<><LandingHeader/><Blogs/></>}/>     
 
           {/* <Route path="/blogs" element={isLoggedIn ? <Blogs /> : <Navigate to="/login" />} /> */}
 
@@ -235,22 +235,18 @@ function App() {
 
           {/* medi care manager */}
           
+          {isLoggedIn && user_role ==="medi_help_manager" &&(
+             <><Route path="/Doctors" element={<div className="App">
+              <Doctors />
+            </div>} /><Route path="/viewAppointments" element={<ViewAppointments />} />
+            <Route path="/viewPendingAppointments" element={<PendingAppointments />} />
+            <Route path="/viewCompletedAppointments" element={<CompletedAppointments />} />
+            <Route path="/PetProfiles" element={<PetProfiles />} />
+            <Route path="/viewDoctors" element={<ViewDoctors />} />
+            <Route path="/getAppointment" element={<GetAppointments />} />
+            </>
+          )}
           
-           <Route path="/Doctors" element={
-            <div className="App">
-              
-          <Doctors />
-         
-        
-          
-          </div>
-          } />
-          <Route path="/viewAppointments" element={<ViewAppointments />} />
-          <Route path="/viewPendingAppointments" element={<PendingAppointments />} />
-          <Route path="/viewCompletedAppointments" element={<CompletedAppointments />} />
-          <Route path="/PetProfiles" element={<PetProfiles />} />
-          <Route path="/viewDoctors" element={<ViewDoctors />} />
-          <Route path="/getAppointment" element={<GetAppointments />} />
 
 
           {/* boarding house manager */}
