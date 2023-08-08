@@ -5,7 +5,12 @@ import Signup from "./pages/Common/Signup";
 import Blogs from "./pages/Common/Blog";
 import Login from "./pages/Common/Login";
 import Email from "./pages/Common/Email";
+
+
+
+
 import Bill from "./pages/Client/Bill";
+
 import { Dashboard } from "./pages/Client/Dashboard";
 import { Reports } from "./pages/Client/Reports";
 
@@ -15,6 +20,7 @@ import Petcare from "./pages/Client/Petcare";
 import MindRealx from "./pages/Client/MindRealx";
 import { Shop } from "./pages/Client/Shop";
 import { NonBredShop } from "./pages/Client/NonBredShop";
+import PopupForm from "./pages/Client/popupform";
 
 import Header from "../src/components/Layout/Header";
 
@@ -35,6 +41,17 @@ import BoardingPets from "./pages/Boarding_house_manager/Boardpets";
 import BoardingPackages from "./pages/Boarding_house_manager/Packages";
 import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 
+import Pet_grooming from "../src/pages/Client/Pet_grooming";
+import Bath from "./pages/Client/Bath";
+import Haircuts from "./pages/Client/Haircuts";
+
+
+import Bording from "./pages/Client/Bording";
+import Petgrooming from "../src/pages/Client/Pet_grooming";
+import Medi from "../src/pages/Client/Medi";
+import { DoctorList } from "./pages/Client/DoctorList";
+
+
 
 import Doctor from "./pages/Medi-help_manager/doctors";
 import ViewAppointments from "./pages/Medi-help_manager/ViewAppointments";
@@ -43,6 +60,7 @@ import CompletedAppointments from "./pages/Medi-help_manager/CompletedAppointmen
 import PetProfiles from "./pages/Medi-help_manager/PetProfile";
 import ViewDoctors from "./pages/Medi-help_manager/ViewDoctors";
 import GetAppointments from "./pages/Medi-help_manager/GetAppointments";
+
 
 
   
@@ -102,6 +120,7 @@ function App() {
     setuserrole(role);
     localStorage.setItem("userRole", role);
     localStorage.setItem("isLoggedIn", "true");
+
     localStorage.setItem("store_email", email);
 
     if (role === "online_store_manager") {
@@ -120,6 +139,7 @@ function App() {
     } else if (role === "company_manager") {
       navigate("/company_dashboard");
       localStorage.setItem("company_manager", email);
+
     }
   };
   const handleSignup = () => {
@@ -220,6 +240,30 @@ function App() {
           <Route path="/blogs" element={<><LandingHeader/><Blogs/></>}/>     
 
           {/* <Route path="/blogs" element={isLoggedIn ? <Blogs /> : <Navigate to="/login" />} /> */}
+
+       
+      
+          <Route path="/reports" element={<Reports/>}></Route>
+          <Route path="/dashboard" element={<Dashboard/>}></Route>
+          <Route path="/petcare" element={<Petcare/>}></Route>
+          <Route path="/MindRealx" element={<MindRealx/>}></Route>
+          <Route path="/shop" element={<Shop/>}></Route>
+          <Route path="/NonBredShop" element={<NonBredShop/>}></Route>
+          <Route path="/bording" element={<Bording/>}></Route>
+          <Route path="/medi" element={<Medi/>}></Route>
+          <Route path="/popupform" element={<PopupForm/>}></Route>
+          <Route path="/Bath" element={<Bath/>}></Route>
+          <Route path="/Haircuts" element={<Haircuts/>}></Route>
+          <Route path="/DoctorList" element={<DoctorList/>}></Route>
+
+
+
+
+          
+
+
+
+
 
           {isLoggedIn && user_role === "client" && (
             <><Route path="/reports" element={<><Header userRole={"client"} /><Reports /> </>}></Route>
