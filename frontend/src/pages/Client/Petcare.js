@@ -85,11 +85,13 @@ export default function Petcare() {
                   boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", // Add box shadow on hover
                 }, }}>
       <CardActionArea>
+        <Link to="/Bording" style={{ textDecoration: "none", color: "inherit" }}>
         <CardMedia style={{height:"35vh"}}
           component="img"
           height="180"
           image={image3}
           alt="green iguana" />
+          </Link>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             Pet  traning

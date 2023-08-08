@@ -1,4 +1,8 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import PrimarySearchAppBar from "../../components/Layout/Header";
 
 import backgroundImageUrl from '../../assests/Grooming.jpg';
 import Pricing from './Pricing';
@@ -17,6 +21,8 @@ import Bath from "../../assests/bath.jpg";
 import Haircut from "../../assests/haircut.png";
 import massage from "../../assests/massage.jpg";
 import FormDialog from './OpenForm';
+import { Link } from 'react-router-dom';
+
 
 function Pet_grooming() {
   const [isFormOpen, setFormOpen] = useState(false);
@@ -29,21 +35,30 @@ function Pet_grooming() {
     setFormOpen(false);
   };
 
+  useEffect(() => {
+    AOS.init({ duration: 1000 });
+  }, []);
+
   return (
     <>
-     
-      <div className='smooth-scroll' style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)),url(${backgroundImageUrl})`,
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
-        minHeight: '90vh',
-        display: 'flex',
-        flexDirection: "column",
-        justifyContent: 'center',
-        alignItems: 'center',
-        color: 'white',
-      }}>
+
+      <PrimarySearchAppBar />
+      <div
+        className='smooth-scroll'
+        style={{
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)),url(${backgroundImageUrl})`,
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          minHeight: '90vh',
+          display: 'flex',
+          flexDirection: "column",
+          justifyContent: 'center',
+          alignItems: 'center',
+          color: 'white',
+        }}
+      >
+
         <div style={{ height: "15vh", width: "90%", backgroundColor: "rgba(255, 255, 255, 0.5)", color: "black", marginRight: "10px", alignItems: 'center', display: 'flex', }}>
           <LocalizationProvider dateAdapter={AdapterDayjs} >
             <DemoContainer components={['DateTimePicker']} sx={{ width: "50vh", marginLeft: "10px", marginTop: "-10px" }}>
@@ -57,7 +72,7 @@ function Pet_grooming() {
         <h1 style={{ marginTop: "-290px", fontSize: '60px', fontWeight: 'bold' }}> Let's <span style={{ color: "orange", fontSize: '60px', fontWeight: 'bold' }}>Groom</span> your pet.</h1>
       </div>
 
-      <div style={{ backgroundColor: "black", height: "40vh" }}>
+      <div style={{ backgroundColor: "black", height: "40vh" }} data-aos="zoom-out-down">
         <h1 style={{ textAlign: "center", color: "white", fontSize: "10vh", fontWeight: "1" }}>choice your plan now!</h1>
         <h3 style={{ textAlign: "center", color: "white", fontWeight: "1" }}>No Risk, 30-Day Money Back Return Policy,</h3><br></br>
         <Pricing />
@@ -65,9 +80,15 @@ function Pet_grooming() {
           SELECT A SERVICE
         </h1>
 
-        <div className='servises' style={{ backgroundColor: "rgb(235 235 235)", borderRadius: "15px", width: "100%", height: "auto", marginLeft: "auto", marginRight: "auto", display: "flex", gap: "30px" }}>
+        <div
+          className='servises'
+          data-aos="zoom-in"
+          style={{ backgroundColor: "rgb(235 235 235)", borderRadius: "15px", width: "100%", height: "auto", marginLeft: "auto", marginRight: "auto", display: "flex", gap: "30px" }}
+        >
+        
           <Card sx={{ maxWidth: 345, marginLeft: "10%", marginTop: "20px" }}>
-            <CardActionArea>
+            <CardActionArea>  
+            <Link to="/Bath" style={{ textDecoration: "none", color: "inherit" }}>
               <CardMedia style={{ height: "35vh" }}
                 component="img"
                 height="140"
@@ -82,8 +103,13 @@ function Pet_grooming() {
                   Up to Rs.1000
                 </Typography>
               </CardContent>
+              </Link>
+
             </CardActionArea>
           </Card>
+          
+        
+        <Link to="/Haircuts" style={{ textDecoration: "none", color: "inherit" }}>
 
           <Card sx={{ maxWidth: 345, marginLeft: "20px", marginTop: "20px" }}>
             <CardActionArea>
@@ -103,6 +129,8 @@ function Pet_grooming() {
               </CardContent>
             </CardActionArea>
           </Card>
+          </Link>
+
 
           <Card sx={{ maxWidth: 345, marginLeft: "20px", marginTop: "20px" }}>
             <CardActionArea>
@@ -124,11 +152,9 @@ function Pet_grooming() {
           </Card>
         </div>
         <FormDialog open={isFormOpen} handleClose={handleFormClose} />
-        
-
       </div>
     </>
-  )
+  );
 }
 
 export default Pet_grooming;
