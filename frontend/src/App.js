@@ -41,7 +41,7 @@ import BoardingPets from "./pages/Boarding_house_manager/Boardpets";
 import BoardingPackages from "./pages/Boarding_house_manager/Packages";
 import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 
-import Pet_grooming from "../src/pages/Client/Pet_grooming";
+
 import Bath from "./pages/Client/Bath";
 import Haircuts from "./pages/Client/Haircuts";
 
@@ -93,6 +93,8 @@ import CompanyComplaints from "./pages/Company_manager/Company_Complaints";
 
 import { useNavigate } from "react-router-dom";
 import HomeHeader from "./components/Layout/Homeheader";
+
+import PaymentClient from './pages/Client/Payment'
 
 
 // import Complains from "./pages/Boarding_house_manager/Complains";
@@ -172,7 +174,7 @@ function App() {
           <Route path="/menu" element={isLoggedIn ? (<><HomeHeader userRole={user_role} /><Menu /></>) : (<Navigate to='/login' />)} />
           <Route path="/cart" element={isLoggedIn ? (<><HomeHeader userRole={user_role} /><Cart /></>) : (<Navigate to='/login' />)} />
           <Route path="/email" element={!issignup ? <Email /> : <Navigate to="/signup" />} />
-
+          <Route path="/payment" element={isLoggedIn ?(<><HomeHeader userRole={user_role}/><PaymentClient/></>):(<Navigate to='/login'/>)}/>
           <Route
             path="/store"
             element={
