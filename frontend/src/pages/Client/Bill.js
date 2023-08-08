@@ -11,7 +11,9 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import axios from "axios";
 import { styled } from '@mui/material/styles';
+import { useNavigate } from "react-router-dom";
 const Bill = () => {
+    const navigate = useNavigate("")
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
         ...theme.typography.body2,
@@ -19,6 +21,15 @@ const Bill = () => {
         textAlign: 'center',
         color: theme.palette.text.secondary,
     }));
+
+    const payment_fun = ()=>{
+        navigate('/payment')
+
+    }
+
+    const back = () =>{
+        navigate('/menu')
+    }
 
     function FormRow() {
         return (
@@ -157,8 +168,8 @@ const Bill = () => {
                     </div>
 
                     <div>
-                        <Button sx={{ width: '30%', backgroundColor: 'red', color: 'black', margin: '2%',':hover':{backgroundColor:'red'} }}>Cancel</Button>
-                        <Button sx={{ width: '50%', backgroundColor: 'orange', color: 'black',':hover':{backgroundColor:'orange'} }}>Buy Now (RS.{total1 && total1.map((menu,index)=>menu.new2)})</Button>
+                        <Button onClick={back} sx={{ width: '30%', backgroundColor: 'red', color: 'black', margin: '2%',':hover':{backgroundColor:'red'} }}>Cancel</Button>
+                        <Button onClick={payment_fun} sx={{ width: '50%', backgroundColor: 'orange', color: 'black',':hover':{backgroundColor:'orange'} }}>Buy Now (RS.{total1 && total1.map((menu,index)=>menu.new2)})</Button>
                     </div>
 
 

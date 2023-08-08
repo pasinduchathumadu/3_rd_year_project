@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import PrimarySearchAppBar from "../../components/Layout/Header";
+
 
 import backgroundImageUrl from '../../assests/Grooming.jpg';
 import Pricing from './Pricing';
@@ -42,7 +42,7 @@ function Pet_grooming() {
   return (
     <>
 
-      <PrimarySearchAppBar />
+  
       <div
         className='smooth-scroll'
         style={{

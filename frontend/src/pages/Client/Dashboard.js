@@ -47,7 +47,7 @@ const images = [
     width: '100%',
     marginTop : '1%' ,
     height:450,
-    slag: '/ghi'
+    slag: '/menu'
   },
 ];  
 
@@ -123,7 +123,7 @@ export const Dashboard = () => {
 
       
 
-        <><PrimarySearchAppBar />
+        <>
         
         <div style={{width:"100%",height:"100vh",backgroundColor:"black"}}>
           <div className='overlap'></div>

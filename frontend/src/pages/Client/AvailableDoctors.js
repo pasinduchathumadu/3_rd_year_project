@@ -1,5 +1,4 @@
-import product1  from '../../assests/a.png'
-import product2  from '../../assests/b.png'
+
 import product3  from '../../assests/c.png'
 import product4  from '../../assests/f.png'
 import product5  from '../../assests/cat1.png'
