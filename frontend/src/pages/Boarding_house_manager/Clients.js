@@ -67,16 +67,16 @@ const secondrows = [
     createDataRows(5, 'John Bye', '2023-07-10 to 2023-07-12', '16:00:00', '1500.00', 'cancelled'),
 ];
 
-function createRefundData(rfid, rqid, name, date, payment, rqStatus, rfStatus) {
-    return { rfid, rqid, name, date, payment, rqStatus, rfStatus };
+function createRefundData(rfid, rqid, name, date, payment, rqStatus, rfStatus,aStatus) {
+    return { rfid, rqid, name, date, payment, rqStatus, rfStatus,aStatus };
 
 }
 
 const refundrows = [
-    createRefundData(1, 1, 'John Deo', '2023-07-10', '1200.00', 'cancelled', 'pending'),
-    createRefundData(2, 2, 'John Ziya', '2023-07-12', '1200.00', 'incomplete', 'pending'),
-    createRefundData(3, 3, 'Jonathan Perera', '2023-07-13', '1200.00', 'cancelled', 'completed'),
-    createRefundData(4, 4, 'Gulio Dias', '2023-07-11', '1200.00', 'incomplete', 'completed'),
+    createRefundData(1, 1, 'John Deo', '2023-07-10', '1200.00', 'cancelled', 'pending',''),
+    createRefundData(2, 2, 'John Ziya', '2023-07-12', '1200.00', 'incomplete', 'pending',''),
+    createRefundData(3, 3, 'Jonathan Perera', '2023-07-13', '1200.00', 'cancelled', 'completed','verified'),
+    createRefundData(4, 4, 'Gulio Dias', '2023-07-11', '1200.00', 'incomplete', 'completed','rejected'),
 ];
 
 const Clients = () => {
@@ -320,8 +320,9 @@ const Clients = () => {
                                         <StyledTableCell align="center">Cancelled / Incompleted Date </StyledTableCell>
                                         <StyledTableCell align="center">Payment (Rs.)</StyledTableCell>
                                         <StyledTableCell align="center">Request Status</StyledTableCell>
-                                        <StyledTableCell align="center">Refund Status</StyledTableCell>
+                                        {/* <StyledTableCell align="center">Refund Status</StyledTableCell> */}
                                         <StyledTableCell align="center"></StyledTableCell>
+                                        <StyledTableCell align="center">Admin Status</StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -333,12 +334,19 @@ const Clients = () => {
                                             <StyledTableCell align="center">{refundrow.date}</StyledTableCell>
                                             <StyledTableCell align="center">{refundrow.payment}</StyledTableCell>
                                             <StyledTableCell align="center">{refundrow.rqStatus}</StyledTableCell>
-                                            <StyledTableCell align="center">{refundrow.rfStatus}</StyledTableCell>
+                                            {/* <StyledTableCell align="center">{refundrow.rfStatus}</StyledTableCell> */}
                                             <StyledTableCell align="center">
                                                 {refundrow.rfStatus === 'completed' 
                                                     ? <Button onClick={()=> ViewRefundDetails()} sx={{ color: 'white', width: '80%', backgroundColor: '#000000', ':hover': { backgroundColor: '#555555' } }}>Refund Details</Button>
                                                     : <Button onClick={() => RefundAdding()} sx={{ color: 'white', width: '80%', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Refund </Button>}
-                                                    {/* : <Button onClick ={()=> addRefund()} sx={{ color: 'white', width: '80%', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Refund </Button>} */}
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                {refundrow.aStatus === 'rejected'
+                                                ? (<Button sx={{ color: 'white', width: '80%', backgroundColor: 'red', ':hover': { backgroundColor: 'red' } }}>Rejected</Button>)
+                                                : refundrow.aStatus === 'verified' 
+                                                ? (<Button sx={{ color: 'white', width: '80%', backgroundColor: 'blue', ':hover': { backgroundColor: 'blue' } }}>Verified</Button>)
+                                                : ('')
+                                                }
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     ))}
