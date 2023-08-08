@@ -18,16 +18,16 @@
     background-color: #f0f0f5;
 }
 
-.col-mid-1{
+.col1-mid-1{
     width: 100%;
     padding-left: 10px;
 
 }
-.col-mid-2{
+.col1-mid-2{
     width: 100%;
     padding-right: 0px;
 }
-.col{
+.col1{
     display: flex;
     width: 100%;
 }

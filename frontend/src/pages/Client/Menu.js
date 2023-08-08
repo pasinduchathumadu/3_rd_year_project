@@ -43,11 +43,12 @@ const Menu = () => {
   const changelocation = () =>{
     navigate('/cart')
   }
-  const submit = async(id) => {
+  const submit = async(id,price) => {
     try{
       const res = await axios.post('http://localhost:5000/pet_care/user/temp_cart',{
         id,
-        email
+        email,
+        price
       });
       if(res.data.message === "added"){
         changelocation()
@@ -199,7 +200,7 @@ const Menu = () => {
                   backgroundColor: 'black', color: 'white', '&:active, &:focus': {
                     backgroundColor: 'black'
                   },':hover':{backgroundColor:'black'}
-                }} onClick={()=>submit(menu.item_id)}>Add To Cart</Button>
+                }} onClick={()=>submit(menu.item_id,menu.unit_price)}>Add To Cart</Button>
                 {error[menu.item_id] &&(
                      <Stack sx={{ width: '90%',marginTop:'4%' }} spacing={2}>
                        <Alert severity="warning">Already Added!</Alert>
@@ -234,8 +235,8 @@ const Menu = () => {
                 <Button variant="contained" sx={{
                   backgroundColor: 'black', color: 'white', '&:active, &:focus': {
                     backgroundColor: 'black'
-                  },
-                }} onClick={submit}>Add To Cart</Button>
+                  },':hover':{backgroundColor:'black'}
+                }}  onClick={()=>submit(menu.item_id,menu.unit_price)}>Add To Cart</Button>
                  {error[menu.item_id] &&(
                      <Stack sx={{ width: '90%',marginTop:'4%' }} spacing={2}>
                        <Alert severity="warning">Already Added!</Alert>
@@ -271,7 +272,7 @@ const Menu = () => {
                   backgroundColor: 'black', color: 'white', '&:active, &:focus': {
                     backgroundColor: 'black'
                   },':hover':{backgroundColor:'black'}
-                }} onClick={submit}>Add To Cart</Button>
+                }}  onClick={()=>submit(menu.item_id,menu.unit_price)}>Add To Cart</Button>
                  {error[menu.item_id] &&(
                      <Stack sx={{ width: '90%',marginTop:'4%' }} spacing={2}>
                        <Alert severity="warning">Already Added!</Alert>

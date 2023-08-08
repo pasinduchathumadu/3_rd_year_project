@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button,Alert,AlertTitle } from "@mui/material";
 import axios from "axios";
 import Header from "../../components/Layout/LandingHeader"
+import '../../styles/Common/Login.css';
 const Signup = ({onSignup}) =>{
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -105,7 +106,7 @@ const Signup = ({onSignup}) =>{
                   </div>
                   <div className="input-group">
                     <i className="bx bxs-user"></i>
-                    <input type="text" placeholder="Password" onChange={(e) => setPassword(e.target.value)} required />
+                    <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} required />
                   </div>
                   <div className="input-group">
                     <div className='first'>

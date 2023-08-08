@@ -43,15 +43,15 @@
 /* form */
 
 
-.col-md-1{
+.col1-md-1{
     width: 100%;
     padding-left: 10px;
 }
-.col-md-2{
+.col1-md-2{
     width: 100%;
     padding-right: 0px;
 }
-.col{
+.col1{
     display: flex;
     width: 100%;
 }

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+/* eslint-disable jsx-a11y/img-redundant-alt */
+import React, { useEffect, useState } from 'react';
 import ProfilePicture from '../../assests/profile-picture.png';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Box from '@mui/material/Box';
@@ -24,6 +25,10 @@ import Image from '../../assests/profile.jpg';
 import PetImage from '../../assests/dog1.jpg';
 import PetImage1 from '../../assests/dog.jpg';
 import StarIcon from '@mui/icons-material/Star';
+import axios from 'axios';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
+
 // import { FormHelperText } from '@material-ui';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -77,11 +82,23 @@ const Users = () => {
     // select manager role
    
         const [role, setRole] = React.useState('');
+        const [email,setemail] = useState(" ")
+        const [id,setId] = useState("")
+        const [first ,setfirst ] = useState(" ")
+        const [second , setsecond ] = useState(" ")
+        const [contact,setcontact ] = useState(" ")
+        const [city , setcity ] = useState(" ")
+        const [Street,setstreet ] = useState(" ")
+        const [error , seterror ] = useState(false)
+        const [manager,setmanager ] = useState([])
       
         const handle = (event) => {
-          setRole(event.target.value);
+          
+            setRole(event.target.value)
+      
         };
  
+        
 
     // drop down
     const [clients, setClients] = React.useState('1');
@@ -106,10 +123,57 @@ const Users = () => {
         setadd(true);
     }
     // after entering detials of new mamager
-    const submitManager = () => {
-        setadd(false);
-        setUsers(0);
+
+    const get_manager = async() => {
+        try{
+            const res = await axios.get('http://localhost:5000/pet_care/admin/get_managers')
+            const data = await res.data
+            return data
+
+        }catch(err){
+            console.log("There is an internel error")
+        }
     }
+    const submitManager = async(e) => {
+        e.preventDefault()
+       
+    
+        try{
+            const res = await axios.post("http://localhost:5000/pet_care/admin/registration",{
+                email,
+                first,
+                second,
+                id,
+                contact,
+                city,
+                Street,
+                role,
+              
+            })
+            if(res.data.message === 'Email already exists'){
+                seterror("Email already exists")
+            }
+            else if(res.data.message === 'Manager ID already exists'){
+                seterror("Manager ID already exists")
+            }else if(res.data.message === 'success'){
+                setUsers(0)
+                setadd(false)
+            }else if(res.data.message === 'message not send'){
+                seterror("message not send")
+            }
+
+        }catch(err){
+            console.log("There is error")
+
+        }
+        
+    }
+
+    useEffect(()=>{
+        get_manager()
+        .then((data)=>setmanager(data.data))
+        .catch((err)=>console.log(err))
+    })
 
     // click on update icon
     const updateManager = () => {
@@ -135,7 +199,7 @@ const Users = () => {
 
 
     return (
-        <div className="home-container">
+        <div className="home-container" style={{ marginTop: '4%'}}>
             <div className="top">
                 <div className="top-line">
                     <p>Administrator</p>
@@ -184,16 +248,16 @@ const Users = () => {
                                     </StyledTableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {managerows.map((managerow) => (
+                                    {manager && manager.map((managerow) => (
                                         <StyledTableRow key={managerow.id}>
                                             <StyledTableCell align="center"><img src={Image} style={{ width: '80px', borderRadius: '50%' }} alt="image" /></StyledTableCell>
-                                            <StyledTableCell align="center">{managerow.id}</StyledTableCell>
-                                            <StyledTableCell align="center">{managerow.name}</StyledTableCell>
+                                            <StyledTableCell align="center">{managerow.manager_id}</StyledTableCell>
+                                            <StyledTableCell align="center">{managerow.full_name}</StyledTableCell>
                                             <StyledTableCell align="center">{managerow.email}</StyledTableCell>
-                                            <StyledTableCell align="center">{managerow.contact}</StyledTableCell>
+                                            <StyledTableCell align="center">{managerow.contact_number}</StyledTableCell>
                                             <StyledTableCell align="center">{managerow.address}</StyledTableCell>
                                             {/* <StyledTableCell align="center">{managerow.nic}</StyledTableCell> */}
-                                            <StyledTableCell align="center">{managerow.store}</StyledTableCell>
+                                            <StyledTableCell align="center">{managerow.user_role}</StyledTableCell>
                                             <StyledTableCell align="center"><EditIcon onClick={() => updateManager()} /><DeleteIcon sx={{ color: 'red' }} /></StyledTableCell>
                                         </StyledTableRow>
                                     ))}
@@ -276,24 +340,38 @@ const Users = () => {
 
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <div className="form-label">
-                                    <FormLabel> Name</FormLabel>
-                                    <TextField id="outlined-basic" placeholder="Manager Name" type="text" variant="outlined" sx={{ width: '300px' }} required />
+                                    <FormLabel> Manager ID</FormLabel>
+                                    <TextField id="outlined-basic" placeholder="Manager ID" type="text" variant="outlined" sx={{ width: '300px' }} onChange={(e)=>setId(e.target.value)} required />
                                 </div>
                                 <div className="form-label">
                                     <FormLabel> Email Address</FormLabel>
-                                    <TextField id="outlined-basic" placeholder="youremail@gmail.com" type="email" variant="outlined" sx={{ width: '300px' }} required/>
+                                    <TextField id="outlined-basic" placeholder="youremail@gmail.com" type="email" variant="outlined" sx={{ width: '300px' }} onChange={(e)=>setemail(e.target.value)} required/>
                                 </div>
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <div className="form-label">
-                                    <FormLabel> Contact Number</FormLabel>
-                                    <TextField id="outlined-basic" placeholder="Contact Number" type="text" variant="outlined" sx={{ width: '300px' }} required/>
+                                    <FormLabel>First Name</FormLabel>
+                                    <TextField id="outlined-basic" placeholder="First Name" type="text" variant="outlined" sx={{ width: '300px' }} onChange={(e)=>setfirst(e.target.value)} required />
                                 </div>
                                 <div className="form-label">
-                                    <FormLabel> Address</FormLabel>
-                                    <TextField id="outlined-basic" placeholder=" Address" type="text" variant="outlined" sx={{ width: '300px' }} required/>
+                                    <FormLabel> Last Name</FormLabel>
+                                    <TextField id="outlined-basic" placeholder="Last Name" type="email" variant="outlined" sx={{ width: '300px' }} onChange={(e)=>setsecond(e.target.value)} required/>
                                 </div>
                             </div>
+                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <div className="form-label">
+                                    <FormLabel>Street</FormLabel>
+                                    <TextField id="outlined-basic" placeholder="Street" type="text" variant="outlined" sx={{ width: '300px' }} onChange={(e)=>setstreet(e.target.value)} required/>
+                                </div>
+                                <div className="form-label">
+                                    <FormLabel>City</FormLabel>
+                                    <TextField id="outlined-basic" placeholder="City" type="text" variant="outlined" sx={{ width: '300px' }} onChange={(e)=>setcity(e.target.value)}  required/>
+                                </div>
+                            </div>
+                            <div className="form-label">
+                                    <FormLabel>Contact Number</FormLabel>
+                                    <TextField id="outlined-basic" placeholder="Contact Number" type="text" variant="outlined" sx={{ width: '100%' }} onChange={(e)=>setcontact(e.target.value)} required/>
+                                </div>
                             <div className="form-label">
                                 <FormLabel> Role</FormLabel>
                                 <FormControl sx={{ m: 1, minWidth: 120 }}>
@@ -310,18 +388,27 @@ const Users = () => {
                                         <MenuItem value={10}>Medi Help Center Manager</MenuItem>
                                         <MenuItem value={20}>Boarding House Manager</MenuItem>
                                         <MenuItem value={30}>Online Store Manager</MenuItem>
-                                        <MenuItem value={30}>Care Center Manager</MenuItem>
-                                        <MenuItem value={30}>Company Manager</MenuItem>
+                                        <MenuItem value={40}>Care Center Manager</MenuItem>
+                                        <MenuItem value={50}>Company Manager</MenuItem>
                                     </Select>
                                    
                                 </FormControl>
                             </div>
-                            <div className="form-label">
-                                <FormLabel> Profile Picture</FormLabel>
-                                <input type="file" style={{padding:'8px', backgroundColor:'blue', color:'white', width:'40%', borderRadius:'10px'}}></input>
-                            </div>
-                            <Button variant="contained" onClick={() => submitManager()} sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Add </Button>
+                           
+                            <Button variant="contained" onClick={submitManager} sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Add </Button>
                         </div>
+                        <div style={{marginTop:'1%'}}>
+                        {error &&(
+                             <Stack sx={{ width: '100%' }} spacing={2}>
+                            
+                             <Alert severity="info">{error}</Alert>
+                         
+                           </Stack>
+
+                        )}
+
+                        </div>
+                  
                     </FormControl>
                 </div>
             )}

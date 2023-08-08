@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "../../styles/Care_center_manager/Complaints.css";
 import { Button } from "@mui/material";
-import ComplaintForm from "./ComplaintForm";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -12,7 +11,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Typography, Avatar, Stack, Grid, Box, Tab, Tabs } from "@mui/material";
 import profile from "../../assests/profile.jpg";
-import Header from "../../components/Layout/Header";
+
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -68,7 +67,7 @@ function Appo() {
     setAge(event.target.value);
   };
 
-  const [modelOpen, setModelOpen] = useState(false);
+
 
   const input = new Date();
   const date = input.toDateString();
@@ -84,8 +83,8 @@ function Appo() {
 
   return (
     <>
-      <Header />
-      <div className="container1">
+     
+      <div className="container1" style={{ marginTop: '4%'}}>
         <Grid
           sx={{
             marginTop: "2%",

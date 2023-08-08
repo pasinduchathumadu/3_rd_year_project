@@ -4,22 +4,22 @@
   box-sizing: border-box;
 }
 
-body {
-  background-color: #242333;
+.main {
+  background-color: #a9a6a65c;
   display: flex;
   flex-direction: column;
   color: white;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: 135vh;
   font-family: 'Lato', 'sans-serif';
 }
 
-.movie-container {
+.movie-con {
   margin: 20px 0;
 }
 
-.movie-container select {
+.movie-con select {
   background-color: #fff;
   border: 0;
   border-radius: 5px;
@@ -31,22 +31,25 @@ body {
   appearance: none;
 }
 
-.container {
+.con {
   perspective: 1000px;
   margin-bottom: 30px;
 }
 
 .seat {
+  transition: transform 0.4s ;
   background-color: #444451;
   height: 60px;
   width: 75px;
   margin: 3px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+
 }
 
 .seat.selected {
   background-color: orange;
+
 }
 
 .seat.occupied {
@@ -92,8 +95,10 @@ body {
   margin-left: 10px;
 }
 
-.row {
+.ro {
   display: flex;
+
+  
 }
 
 .screen {
@@ -110,5 +115,12 @@ p.text {
 }
 
 p.text span {
-  color: #6feaf6;
+  color: rgb(18, 19, 52);
+}
+
+
+.tick-icon::before {
+  content: '\f00c'; /* Font Awesome code for the check icon */
+  font-family: 'Font Awesome 5 Free';
+  margin-right: 8px;
 }
