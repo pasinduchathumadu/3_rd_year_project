@@ -335,7 +335,7 @@ function App() {
               <Route path="/packages" element={  <>   <HomeHeader userRole={"care_center_manager"} /> <Packages /></>  }/>
               <Route path="/appointments" element={<>  <HomeHeader userRole={"care_center_manager"} />  <Appointments /></>  }/>
               <Route path="/complaints"element={<>   <HomeHeader userRole={"care_center_manager"} /> <Complaints /></>  }  /></>
-          )}
+           )} 
 
           {isLoggedIn && user_role === "online_store_manager" && (
             <>
