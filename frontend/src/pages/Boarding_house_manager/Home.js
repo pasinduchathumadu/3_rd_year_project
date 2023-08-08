@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -39,6 +40,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
+
 const Home = () => {
     // drop down
     const [time, setTime] = React.useState('1');
@@ -62,7 +64,8 @@ const Home = () => {
     }
 
     return (
-        <div className="home-container">
+
+        <div className="home-container" style={{ marginTop: '4%'}}>
             <div className="top">
                 <div className="top-line">
                     <p>Boarding House Manager</p>
@@ -78,6 +81,7 @@ const Home = () => {
                     <img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" />
                 </div>
             </div>
+
 
             <div className="boarding-wrapper-main">
                 <div className="boarding-wrapper" style={{ backgroundColor: 'orange', height: '250px' }}>

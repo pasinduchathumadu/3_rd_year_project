@@ -6,7 +6,7 @@ import StarIcon from '@mui/icons-material/Star';
 
 function CaregiverProfile(){
     return(
-        <div className="container-profile">
+        <div className="container-profile" >
             <div class="card-profile">
                 <img src={care} alt="John" className="top-img" />
                 <span  className="tops-name">John Doe</span>

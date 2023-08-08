@@ -18,7 +18,7 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
 // import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
-import PollIcon from '@mui/icons-material/Poll';
+
 
 import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
 
@@ -121,7 +121,7 @@ const Home = () => {
         <>
 
             <div>
-                <Grid sx={{ marginTop: '1%', marginRight: '1%', marginLeft: '1%', marginBottom: '1%' }}>
+                <Grid sx={{ marginTop: '4%', marginRight: '1%', marginLeft: '1%', marginBottom: '1%' }}>
                     {/* Header */}
                     <div style={{ display: 'flex' }}>
                         <div style={{ display: 'inline', marginTop: '30px', marginLeft: '2%',color:'rgb(139, 139, 139)' }}>

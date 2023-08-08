@@ -7,13 +7,14 @@ import multer from 'multer'
 
 
 
+
 const localStorage = new LocalStorage('./scratch');
 export const login = async (req, res, next) => {
 
   try {
     const hash = pkg;
     const { email, password } = req.body;
-
+    console.log(password)
     const sqlQuery = 'SELECT * FROM users WHERE email = ? AND status = "Active"';
     const values = [
       email,
@@ -24,6 +25,7 @@ export const login = async (req, res, next) => {
   
     db.query(query3,(err,data)=>{
       if(err){
+       
         return res.json({message:"There is an internal error"})
       }
     })
@@ -36,9 +38,14 @@ export const login = async (req, res, next) => {
         const original = data[0].password;
         const userInputHash = hash.MD5(password)
         if (userInputHash === original) {
+          console.log(userInputHash)
+          console.log(original)
          
-          return res.status(200).json({data});
+         
+          return res.json({data});
         } else {
+          console.log(userInputHash)
+          console.log(original)
           return res.json({ message: "Password didn't Matched" });
         }
 
@@ -258,7 +265,7 @@ export const get_store = async(req,res,next) =>{
 }
 
 export const temp_cart = async(req,res,next)=>{
-  const {id , email } = req.body
+  const {id , email,price } = req.body
   const sqlQuery1 = "SELECT *FROM temporary_card WHERE email = ? AND item_id = ?"
   const values1 = [
     email,
@@ -272,10 +279,11 @@ export const temp_cart = async(req,res,next)=>{
       return res.json({message:'already in the cart'})
     }
     else{
-      const sqlQuery = "Insert Into temporary_card (item_id,email)VALUES(?,?)"
+      const sqlQuery = "Insert Into temporary_card (item_id,email,total)VALUES(?,?,?)"
       const values = [
         id,
-        email
+        email,
+        price
       ]
       db.query(sqlQuery,values,(err,data)=>{
         if(err){
@@ -372,6 +380,35 @@ export const total = async(req,res,next) => {
     email
   ]
 
+  db.query(sqlQuery,values,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an internel error'})
+    }
+    else{
+      return res.json({data})
+    }
+  })
+}
+
+export const load_payement = async(req,res,next)=>{
+  const id = req.params.id
+  const values = [id]
+  const sqlQuery = "SELECT  temporary_card.quantity,temporary_card.total,item.name,item.unit_price FROM temporary_card INNER JOIN item ON item.item_id = temporary_card.item_id WHERE temporary_card.email = ?"
+  db.query(sqlQuery,values,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an error'})
+    }
+    else{
+      return res.json({data})
+    }
+  })
+}
+
+export const load_total = async(req,res,next)=>{
+  const id = req.params.id
+  const values = [id]
+ 
+  const sqlQuery = "SELECT SUM(total) AS new2 FROM temporary_card WHERE email = ?"
   db.query(sqlQuery,values,(err,data)=>{
     if(err){
       return res.json({message:'There is an internel error'})

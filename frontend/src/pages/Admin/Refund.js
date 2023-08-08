@@ -102,7 +102,7 @@ const Refund = () => {
     }
 
     return (
-        <div className="home-container">
+        <div className="home-container" style={{ marginTop: '4%'}}>
             <div className="top">
                 <div className="top-line">
                     <p>Administrator</p>

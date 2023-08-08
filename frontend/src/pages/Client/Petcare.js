@@ -18,7 +18,7 @@ import "../../styles/Client/Mindrelax.css";
 
 export default function Petcare() {
   return (
-    <>
+    <div style={{marginTop:'4%'}}>
 
  
     <h1 style={{textAlign:"center",fontSize:"60px",fontWeight:"40",marginTop:"30px"}}> Pet <span style={{color:"orange"}}>care</span> </h1>
@@ -85,11 +85,13 @@ export default function Petcare() {
                   boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", // Add box shadow on hover
                 }, }}>
       <CardActionArea>
+        <Link to="/Bording" style={{ textDecoration: "none", color: "inherit" }}>
         <CardMedia style={{height:"35vh"}}
           component="img"
           height="180"
           image={image3}
           alt="green iguana" />
+          </Link>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             Pet  traning
@@ -106,6 +108,6 @@ export default function Petcare() {
 
 
    
-    </div></>
+    </div></div>
   );
 }
