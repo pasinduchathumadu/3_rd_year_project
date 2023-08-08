@@ -79,7 +79,7 @@ import AdminComplains from "./pages/Admin/Complains";
 
 import Profile from './pages/Common/Profile';
 
-import Petgrooming from "../src/pages/Client/Pet_grooming";
+
 
 import Onlinehome from "./pages/Online_store_manager/Home";
 import OnlineAdd from "./pages/Online_store_manager/Add";
@@ -243,18 +243,6 @@ function App() {
 
        
       
-          <Route path="/reports" element={<Reports/>}></Route>
-          <Route path="/dashboard" element={<Dashboard/>}></Route>
-          <Route path="/petcare" element={<Petcare/>}></Route>
-          <Route path="/MindRealx" element={<MindRealx/>}></Route>
-          <Route path="/shop" element={<Shop/>}></Route>
-          <Route path="/NonBredShop" element={<NonBredShop/>}></Route>
-          <Route path="/bording" element={<Bording/>}></Route>
-          <Route path="/medi" element={<Medi/>}></Route>
-          <Route path="/popupform" element={<PopupForm/>}></Route>
-          <Route path="/Bath" element={<Bath/>}></Route>
-          <Route path="/Haircuts" element={<Haircuts/>}></Route>
-          <Route path="/DoctorList" element={<DoctorList/>}></Route>
 
 
 
@@ -272,6 +260,12 @@ function App() {
             <Route path="/MindRealx" element={<><Header userRole={"client"} /><MindRealx /></>}></Route>
             <Route path="/shop" element={<><Header userRole={"client"} /><Shop /></>}></Route>
             <Route path="/NonBredShop" element={<><Header userRole={"client"} /><NonBredShop /></>}></Route>
+            <Route path="/bording" element={<><Header userRole={"client"}/><Bording/></>}></Route>
+            <Route path="/medi" element={<><Header userRole={"client"}/><Medi/></>}></Route>
+            <Route path="/popupform" element={<><Header userRole={"client"}/><PopupForm/></>}></Route>
+            <Route path="/Bath" element={<><Header userRole={"client"}/><Bath/></>}></Route>
+            <Route path="/Haircuts" element={<><Header userRole={"client"}/><Haircuts/></>}></Route>
+            <Route path="/DoctorList" element={<><Header userRole={"client"}/><DoctorList/></>}></Route>
             <Route path="/Pet_grooming" element={ <><Header userRole={"client"} /><Petgrooming /></>}></Route></>)}
 
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}

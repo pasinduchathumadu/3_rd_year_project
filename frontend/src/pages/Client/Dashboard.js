@@ -123,7 +123,7 @@ export const Dashboard = () => {
 
       
 
-        <><PrimarySearchAppBar />
+        <>
         
         <div style={{width:"100%",height:"100vh",backgroundColor:"black"}}>
           <div className='overlap'></div>

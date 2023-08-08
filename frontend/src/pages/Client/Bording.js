@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "../../styles/Client/Bording.css";
-import PrimarySearchAppBar from "../../components/Layout/Header";
-import PetsIcon from '@mui/icons-material/Pets';
+
 import cage from "../../assests/2.png";
 import "../../styles/Client/Shop.css"
 import AOS from 'aos';
@@ -13,8 +12,7 @@ import Button from '@mui/material/Button';
 import platinum from "../../assests/platinum.png"
 import gold from "../../assests/gold.png"
 import silver from "../../assests/silver.png"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+
 
 
 
@@ -70,7 +68,7 @@ const Bording = () => {
 
 
   return (
-    <><PrimarySearchAppBar />
+    <>
 
       <div className='smooth-scroll' style={{textAlign:"center",width:"100%",height:"75vh",marginTop:"auto",marginBottom:"auto",fontWeight:"1"}}><h2 style={{fontSize:"80px",marginTop:"90px"}}>Book your's <span style={{color:"orange"}}>pet</span> seet now</h2>
       <h1 style={{marginTop:"20px",fontFamily:"sans-serif"}}>we protect and care yout pet</h1>

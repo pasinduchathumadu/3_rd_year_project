@@ -1,4 +1,4 @@
-import PrimarySearchAppBar from "../../components/Layout/Header";
+
 import cage from "../../assests/2.png";
 import pet_doctor from "../../assests/doctor.png";
 import "../../styles/Client/Shop.css"
@@ -72,7 +72,7 @@ function Medi() {
 
 
   return (
-    <><PrimarySearchAppBar />
+    <>
     <div>
 
 

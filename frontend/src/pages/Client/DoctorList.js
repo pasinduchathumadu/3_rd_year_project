@@ -2,8 +2,7 @@ import React from 'react'
 import { DOCTORS } from './AvailableDoctors';
 import { MindRelaxDoctors } from './MindRelaxDoctors';
 import "../../styles/Client/DoctorList.css"
-import PrimarySearchAppBar from "../../components/Layout/Header";
-import petImage from '../../assests/png.png'; // Replace 'path/to/your/image.png' with the actual path to your image
+// Replace 'path/to/your/image.png' with the actual path to your image
 
 
 
@@ -11,7 +10,7 @@ import petImage from '../../assests/png.png'; // Replace 'path/to/your/image.png
 
 export const DoctorList = () => {
   return (
-    <><PrimarySearchAppBar />
+    <>
     <div className='smooth-scroll'>
     <div style={{width:"100%",height:"73vh", backgroundColor: "rgb(18, 19, 52)",marginTop:"auto"}} data-aos="fade-right">
         <h1 style={{color:"blue",fontSize:"80px",marginLeft:"15px"}}>Meet your doctor now</h1>
