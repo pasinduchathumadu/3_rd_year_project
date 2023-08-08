@@ -32,6 +32,11 @@ const Packages = () => {
         setNew(true);
         setForm(false);
     }
+    // cancel button of adding new package
+    const cancelAdding = () => {
+        setForm(false);
+        setNew(true);
+    }
     // after click on update icon
     const update = () => {
         setNew(false);
@@ -43,6 +48,12 @@ const Packages = () => {
         setNew(true);
         setUpdateform(false);
     }
+    // click on cancel button ofupdate package
+    const cancelUpdate = () => {
+        setUpdateform(false);
+        setNew(true);
+    }
+
     // after click on view popularity
     const clickPopularity = () => {
         setNew(false);
@@ -56,7 +67,7 @@ const Packages = () => {
     }
 
     return (
-        <div className="home-container" style={{ marginTop: '4%'}}>
+        <div className="home-container" >
             <div className="top">
                 <div className="top-line">
                     <p>Boarding House Manager</p>
@@ -78,7 +89,7 @@ const Packages = () => {
                     sx={{ borderRadius: '10px' }}
                 >
 
-                    <Tab sx={{ backgroundColor: 'orange' }} label="Boarding House Packages" ></Tab>
+                    <Tab sx={{ backgroundColor: 'orange', color: 'white' }} label="Boarding House Packages" ></Tab>
                 </Tabs>
             </Box>
 
@@ -147,7 +158,8 @@ const Packages = () => {
                         <div className="form-topic">
                             Add New Package
                         </div>
-                        <div className="form-label">
+                        <hr />
+                        <div style={{ marginTop: '20px' }} className="form-label">
                             <FormLabel>Package Name</FormLabel>
                             <TextField id="outlined-basic" placeholder="Package Name" variant="outlined" />
                         </div>
@@ -164,7 +176,11 @@ const Packages = () => {
                             <TextField id="outlined-basic" placeholder="Facility 03" variant="outlined" sx={{ marginBottom: '5px' }} />
                         </div>
 
-                        <Button variant="contained" onClick={() => afterSubmit()} sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Add Package</Button>
+                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Button variant="contained" onClick={() => afterSubmit()} sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Add Package</Button>
+                            <Button variant="contained" onClick={() => cancelAdding()} sx={{ background: "red", marginTop: '10px', ':hover': { backgroundColor: "red" }, marginLeft: '10px', width: '100%' }}> Cancel</Button>
+                        </div>
+
                     </div>
                 </FormControl>
             )}
@@ -176,27 +192,129 @@ const Packages = () => {
                         <div className="form-topic">
                             Update Package
                         </div>
-                        <div className="form-label">
-                            <FormLabel>Package ID : 02</FormLabel>
-                        </div>
-                        <div className="form-label">
-                            <FormLabel>Package Name</FormLabel>
-                            <TextField id="outlined-basic" placeholder="Package Name" variant="outlined" />
+                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <div className="form-label">
+                                <FormLabel>Package ID : </FormLabel>
+                                <Box
+                                    component="form"
+                                    sx={{
+                                        '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                    }}
+                                    noValidate
+                                    autoComplete="off"
+                                >
+                                    <div>
+                                        <TextField
+                                            disabled
+                                            id="outlined-disabled"
+                                            label=""
+                                            defaultValue="02"
+                                        /></div>
+
+                                </Box>
+                            </div>
+                            <div className="form-label">
+                                <FormLabel>Package Name : </FormLabel>
+                                <Box
+                                    component="form"
+                                    sx={{
+                                        '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                    }}
+                                    noValidate
+                                    autoComplete="off"
+                                >
+                                    <div>
+                                        <TextField
+                                            required
+                                            id="outlined-required"
+                                            label=""
+                                            defaultValue="Gold"
+                                        /></div>
+
+                                </Box>
+                            </div>
                         </div>
 
                         <div className="form-label">
                             <FormLabel>Price(per week) Rs.</FormLabel>
-                            <TextField id="outlined-basic" placeholder="Package Price" variant="outlined" />
+                            <Box
+                                component="form"
+                                sx={{
+                                    '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                }}
+                                noValidate
+                                autoComplete="off"
+                            >
+                                <div>
+                                    <TextField
+                                        required
+                                        type="number"
+                                        id="outlined-required"
+                                        label=""
+                                        defaultValue="4000.00"
+                                    /></div>
+
+                            </Box>
                         </div>
 
                         <div className="form-label">
                             <FormLabel>Facilities</FormLabel>
-                            <TextField id="outlined-basic" placeholder="Facility 01" variant="outlined" sx={{ marginBottom: '5px' }} />
-                            <TextField id="outlined-basic" placeholder="Facility 02" variant="outlined" sx={{ marginBottom: '5px' }} />
-                            <TextField id="outlined-basic" placeholder="Facility 03" variant="outlined" sx={{ marginBottom: '5px' }} />
-                        </div>
+                            <Box
+                                component="form"
+                                sx={{
+                                    '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                }}
+                                noValidate
+                                autoComplete="off"
+                            >
+                                <div>
+                                    <TextField
+                                        required
+                                        id="outlined-required"
+                                        label=""
+                                        defaultValue="Facility 01"
+                                    /></div>
 
-                        <Button variant="contained" onClick={() => afterUpdate()} sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Update Package</Button>
+                            </Box>
+                            <Box
+                                component="form"
+                                sx={{
+                                    '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                }}
+                                noValidate
+                                autoComplete="off"
+                            >
+                                <div>
+                                    <TextField
+                                        required
+                                        id="outlined-required"
+                                        label=""
+                                        defaultValue="Facility 02"
+                                    /></div>
+
+                            </Box>
+                            <Box
+                                component="form"
+                                sx={{
+                                    '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                }}
+                                noValidate
+                                autoComplete="off"
+                            >
+                                <div>
+                                    <TextField
+                                        required
+                                        id="outlined-required"
+                                        label=""
+                                        defaultValue="Facility 03"
+                                    /></div>
+
+                            </Box>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Button variant="contained" onClick={() => afterUpdate()} sx={{ background: "#fe9e0d", marginTop: '10px', marginRight: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Update Package</Button>
+                            <Button variant="contained" onClick={() => cancelUpdate()} sx={{ background: "red", marginTop: '10px', ':hover': { backgroundColor: "red" }, marginLeft: '10px', width: '100%' }}> Cancel</Button>
+                        </div>
                     </div>
                 </FormControl>
             )}
@@ -210,10 +328,10 @@ const Packages = () => {
                     <div className="form-topic">
                         Popularity
                     </div>
-                   
+
                     <div>
                         <PieChart
-                        colors={['#FBBD08', '#A6A6A6', '#55555C']}
+                            colors={['#FBBD08', '#A6A6A6', '#55555C']}
                             series={[
                                 {
                                     data: [
