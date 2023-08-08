@@ -139,11 +139,11 @@ const rows = [
               <StyledTableCell align="right">John Deo</StyledTableCell>
               <StyledTableCell align="right">0123456789</StyledTableCell>
               
-              <StyledTableCell align="right"><button className='btnav' onClick={()=>setModel2Open(true)}>AddVaccines</button></StyledTableCell>
-              <StyledTableCell align="right"><button className='btnvv' onClick={()=>setModel3Open(true)}>ViewVaccines</button></StyledTableCell>
-              <StyledTableCell align="right"><button className='btnvp' onClick={()=>setModel4Open(true)}>ViewProfile</button></StyledTableCell>
-              <StyledTableCell align="right"><button className='petbtnedit'>Edit</button></StyledTableCell>
-              <StyledTableCell align="right"><button className='petbtndelete' onClick={()=>setShow(true)}>Delete</button></StyledTableCell>
+              <StyledTableCell align="right"><Button sx={{backgroundColor:'orange',':hover':{backgroundColor:'orange'},color:'white'}} onClick={()=>setModel2Open(true)}>AddVaccines</Button></StyledTableCell>
+              <StyledTableCell align="right"><Button sx={{backgroundColor:'black',':hover':{backgroundColor:'black'},color:'white'}}  onClick={()=>setModel3Open(true)}>ViewVaccines</Button></StyledTableCell>
+              <StyledTableCell align="right"><Button sx={{backgroundColor:'black',':hover':{backgroundColor:'black'},color:'white'}}  onClick={()=>setModel4Open(true)}>ViewProfile</Button></StyledTableCell>
+              <StyledTableCell align="right"><Button sx={{backgroundColor:'black',':hover':{backgroundColor:'black'},color:'white'}} >Edit</Button></StyledTableCell>
+              <StyledTableCell align="right"><Button sx={{backgroundColor:'black',':hover':{backgroundColor:'black'},color:'white'}} onClick={()=>setShow(true)}>Delete</Button></StyledTableCell>
 
             </StyledTableRow>
           ))}

@@ -132,7 +132,7 @@ const rows = [
               <StyledTableCell align="right">Monday-Friday</StyledTableCell>
               <StyledTableCell align="right">8A.M -7P.M</StyledTableCell>
               <StyledTableCell align="right"><Button sx={{backgroundColor:'orange',':hover':{backgroundColor:'orange'},color:'white'}}>Edit</Button></StyledTableCell>
-              <StyledTableCell align="right"><Button sx={{backgroundColor:'red',':hover':{backgroundColor:'red'},color:'white'}} onClick={()=>setShow(true)}>Delete</Button></StyledTableCell>
+              <StyledTableCell align="right"><Button sx={{backgroundColor:'black',':hover':{backgroundColor:'black'},color:'white'}} onClick={()=>setShow(true)}>Delete</Button></StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
