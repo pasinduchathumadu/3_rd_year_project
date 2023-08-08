@@ -290,10 +290,10 @@ function App() {
              <><HomeHeader userRole={"medi_help_manager"}/><Doctor /></>
             </div>} /><Route path="/viewAppointments" element={<><HomeHeader userRole={"medi_help_manager"}/><ViewAppointments /></>} />
             <Route path="/viewPendingAppointments" element={<><HomeHeader userRole={"medi_help_manager"}/><PendingAppointments /></>} />
-            <Route path="/viewCompletedAppointments" element={<><HomeHeader userRole={"medi_help_manager"}/><CompletedAppointments /></>} />
+            {/* <Route path="/viewCompletedAppointments" element={<><HomeHeader userRole={"medi_help_manager"}/><CompletedAppointments /></>} /> */}
             <Route path="/PetProfiles" element={<><HomeHeader userRole={"medi_help_manager"}/><PetProfiles /></>} />
-            <Route path="/viewDoctors" element={<><HomeHeader userRole={"medi_help_manager"}/><ViewDoctors /></>} />
-            <Route path="/getAppointment" element={<><HomeHeader userRole={"medi_help_manager"}/><GetAppointments /></>} />
+            {/* <Route path="/viewDoctors" element={<><HomeHeader userRole={"medi_help_manager"}/><ViewDoctors /></>} /> */}
+            {/* <Route path="/getAppointment" element={<><HomeHeader userRole={"medi_help_manager"}/><GetAppointments /></>} /> */}
             </>
          
           

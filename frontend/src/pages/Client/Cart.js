@@ -29,6 +29,26 @@ const CartTable = () => {
   const getImageSrc = (imageName) => {
     return require(`../../assests/${imageName}`)
   };
+
+
+  const removeitem = async(id) =>{
+    try{
+      const res = await axios.post('http://localhost:5000/pet_care/user/delete_cart',{
+        id,
+        email
+        
+      })
+      if(res.data.message!== "There is an internel error"){
+        calculateTotalAmount()
+        load_cart()
+      }
+
+
+    }catch(err){
+      console.log(err)
+    }
+
+  }
   
   const handleIncreaseQuantity = async(itemId,quantity,price) => {
     try{
@@ -91,7 +111,7 @@ const CartTable = () => {
   })
 
   return (
-    <>
+    <div style={{marginTop:'4%'}}>
     <div style={{
       textAlign: 'center',
       fontWeight: 'bold',
@@ -134,7 +154,7 @@ const CartTable = () => {
               </TableCell>
               <TableCell>RS.{item.unit_price * item.quantity}</TableCell>
 
-              <TableCell><Button variant="contained" sx={{ backgroundColor: 'black',':hover':{backgroundColor:'black'}, marginLeft: '50px' }}>Remove Item</Button></TableCell>
+              <TableCell><Button onClick={()=>removeitem(item.item_id)} variant="contained" sx={{ backgroundColor: 'black',':hover':{backgroundColor:'black'}, marginLeft: '50px' }}>Remove Item</Button></TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -151,7 +171,7 @@ const CartTable = () => {
 
 
 
-    </>
+    </div>
   );
 };
 
