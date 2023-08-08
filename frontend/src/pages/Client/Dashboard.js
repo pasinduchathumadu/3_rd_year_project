@@ -47,7 +47,7 @@ const images = [
     width: '100%',
     marginTop : '1%' ,
     height:450,
-    slag: '/ghi'
+    slag: '/menu'
   },
 ];  
 
