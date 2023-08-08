@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import PrimarySearchAppBar from '../../components/Layout/Header';
+
 import BathImage from '../../assests/washing.jpg'; // Import the background image
-import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, IconButton, Stack, TextField } from "@mui/material";
-import FormControlContext from "@mui/material/FormControl/FormControlContext";
+import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, IconButton, Stack, TextField } from "@mui/material";
+
 import CloseIcon from "@mui/icons-material/Close"
 import petcare1 from "../../assests/dog.png";
 import petcare2 from "../../assests/grooming.png";
@@ -27,7 +27,7 @@ function Haircuts() {
   
   return (
     <div>
-      <PrimarySearchAppBar />
+  
 
       <div style={{ display: 'flex' }} data-aos="zoom-in">
         <div
