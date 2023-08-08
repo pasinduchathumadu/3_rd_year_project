@@ -26,7 +26,7 @@ function Haircuts() {
 
   
   return (
-    <div>
+    <div style={{marginTop:'4%'}}>
   
 
       <div style={{ display: 'flex' }} data-aos="zoom-in">
@@ -37,13 +37,13 @@ function Haircuts() {
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
             width: '70%',
-            height: '91.05vh',
+            height: '91.5vh',
           }}
         ></div>
 
         <div style={{ backgroundColor: 'white', width: '50%', height: '80vh' }}>
 
-            <div>
+            <div style={{marginTop:'5%'}}>
                 <h1 style={{textAlign:"center"}}>Pet Haircuts</h1>
                 <h2 style={{fontSize:"15px",fontWeight:"1",padding:"15px",marginLeft:"10px"}}>Our pet Haircut service provides a relaxing and thorough haircuts for your furry companions, leaving them clean, fresh, and happy.</h2>
                 {/* <h1 style={{marginTop:"20px",marginLeft:"30px",textAlign:"center" ,fontWeight:"1"}}>This are our packages</h1> */}

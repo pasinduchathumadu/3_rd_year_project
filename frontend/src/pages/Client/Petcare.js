@@ -18,7 +18,7 @@ import "../../styles/Client/Mindrelax.css";
 
 export default function Petcare() {
   return (
-    <>
+    <div style={{marginTop:'4%'}}>
 
  
     <h1 style={{textAlign:"center",fontSize:"60px",fontWeight:"40",marginTop:"30px"}}> Pet <span style={{color:"orange"}}>care</span> </h1>
@@ -108,6 +108,6 @@ export default function Petcare() {
 
 
    
-    </div></>
+    </div></div>
   );
 }

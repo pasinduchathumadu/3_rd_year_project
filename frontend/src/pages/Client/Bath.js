@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import PrimarySearchAppBar from '../../components/Layout/Header';
+
 import BathImage from '../../assests/bath2.jpg'; // Import the background image
 import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, IconButton, Stack, TextField } from "@mui/material";
 
@@ -26,8 +26,8 @@ function Bath() {
 
   
   return (
-    <div>
-      <PrimarySearchAppBar />
+    <div style={{marginTop:'4%'}}>
+    
 
       <div style={{ display: 'flex' }} data-aos="zoom-in" >
         <div
@@ -37,13 +37,13 @@ function Bath() {
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
             width: '70%',
-            height: '91.05vh',
+            height: '91.5vh',
           }}
         ></div>
 
         <div style={{ backgroundColor: 'white', width: '50%', height: '80vh' }}>
 
-            <div>
+            <div style={{marginTop:'5%'}}>
                 <h1 style={{textAlign:"center"}}>Pet Bathing</h1>
                 <h2 style={{fontSize:"15px",fontWeight:"1",padding:"15px",marginLeft:"10px"}}>Our pet bathing service provides a relaxing and thorough bath for your furry companions, leaving them clean, fresh, and happy.</h2>
                 {/* <h1 style={{marginTop:"20px",marginLeft:"30px",textAlign:"center" ,fontWeight:"1"}}>This are our packages</h1> */}

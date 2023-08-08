@@ -143,6 +143,11 @@ function App() {
       localStorage.setItem("company_manager", email);
 
     }
+    else if (role === "medi_help_manager") {
+      navigate("/Doctors");
+      localStorage.setItem("medi_help_manager", email);
+
+    }
   };
   const handleSignup = () => {
     setIssignup(true);
