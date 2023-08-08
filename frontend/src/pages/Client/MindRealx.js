@@ -49,7 +49,7 @@ function MindRealx() {
       data-aos="zoom-in"
       >
      
-   <div className='smooth-scroll'>
+   <div className='smooth-scroll' style={{marginLeft:'2%'}}>
             <p style={{ fontSize: "80px", fontWeight: "10", marginTop: "-240px",textAlign:"left"}}>
             You can spend time
             </p>
@@ -78,7 +78,7 @@ function MindRealx() {
             Free 
           </p>
 
-    <Link to="/Shop" style={{ textDecoration: 'none' }}>
+    <Link to="/Shop" style={{ textDecoration: 'none',marginTop:'9%' }}>
       <Button variant="outlined" sx={{ color: "white", color: "white" ,backgroundColor:"black"}}>
         GET Started
       </Button>
@@ -120,13 +120,13 @@ function MindRealx() {
        wordSpacing: "10px",fontWeight:"1"
       }}>
         <div>
-          <p style={{ fontSize: "20px", fontWeight: "10", marginTop: "10px", marginBottom: "-20px" }}>
+          <p style={{ fontSize: "20px", fontWeight: "10", marginTop: "10px", marginBottom: "10px" }}>
             You can spend time with our pets
           </p>
           <p style={{ fontSize: "80px", fontWeight: "10", marginBottom: "-40px" }}>
             Cats &amp; <span style={{ color: "orange" }}>Dogs</span>
           </p>
-          <p style={{ fontSize: "20px", fontWeight: "10", marginBottom: "0" }}>
+          <p style={{ fontSize: "20px", fontWeight: "10", marginBottom: "0",marginTop:'8%' }}>
             The most valuable pet care center in the world
           </p>
         </div>
@@ -143,11 +143,11 @@ function MindRealx() {
             Up to 1500 LKR  
           </p>
           <Link to="/NonBredShop" style={{ textDecoration: 'none' }}>
-          <Button variant="outlined" sx={{color:"white",borderColor:"orange"}}>GET Started</Button>
+          <Button variant="outlined" sx={{color:"white",borderColor:"orange",marginTop:'10%'}}>GET Started</Button>
           </Link>
       </div>
 
-      <div  className='smooth-scroll' style={{textAlign:"center",border: "2px solid orange" ,width:"80%",height:"50vh",marginLeft:"auto",marginRight:"auto",marginTop:"30px",marginBottom:"30px"}}>
+      <div  className='smooth-scroll' style={{textAlign:"center",border: "2px solid orange" ,width:"80%",height:"30vh",marginLeft:"auto",marginRight:"auto",marginTop:"30px",marginBottom:"30px"}}>
         <h3 style={{marginTop:"40px",fontSize:"40px",fontWeight:"1"}}>What's in the pro package</h3>
 
         <p >
