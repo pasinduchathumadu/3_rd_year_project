@@ -1,7 +1,9 @@
+
 import React, { useState, useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import PrimarySearchAppBar from "../../components/Layout/Header";
+
 import backgroundImageUrl from '../../assests/Grooming.jpg';
 import Pricing from './Pricing';
 import Button from '@mui/material/Button';
@@ -39,6 +41,7 @@ function Pet_grooming() {
 
   return (
     <>
+
       <PrimarySearchAppBar />
       <div
         className='smooth-scroll'
@@ -55,6 +58,7 @@ function Pet_grooming() {
           color: 'white',
         }}
       >
+
         <div style={{ height: "15vh", width: "90%", backgroundColor: "rgba(255, 255, 255, 0.5)", color: "black", marginRight: "10px", alignItems: 'center', display: 'flex', }}>
           <LocalizationProvider dateAdapter={AdapterDayjs} >
             <DemoContainer components={['DateTimePicker']} sx={{ width: "50vh", marginLeft: "10px", marginTop: "-10px" }}>

@@ -3,24 +3,10 @@
 import { db } from '../database.js'
 
 export const get_item = async (req, res, next) => {
-    const id = req.params.id;
    
-    var item_catogery = ""
-    if (id === '0') {
-        item_catogery = "foods";
-    }
-    if (id === '1') {
-        item_catogery = "accessories"
-    }
-    if (id === '2') {
-        item_catogery = "others"
-    }
-
-    const sqlQuery = 'select *from item where catogories = ?'
-    const values = [
-        item_catogery
-    ]
-    db.query(sqlQuery, values, (err, data) => {
+    const sqlQuery = 'select *from item'
+  
+    db.query(sqlQuery, (err, data) => {
         if (err) {
             return res.json({ message: 'There is an internal error' })
         }

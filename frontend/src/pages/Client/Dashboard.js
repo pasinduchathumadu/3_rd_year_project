@@ -6,7 +6,7 @@ import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
 import logoImage from "../../assests/cover.png";
 import card2 from "../../assests/cover.png"
-import PrimarySearchAppBar from "../../components/Layout/Header";
+
 import Image1 from '../../assests/cover.png'
 import Image2 from '../../assests/pic3.jpg'
 import Image3 from '../../assests/medi-help-image.png'

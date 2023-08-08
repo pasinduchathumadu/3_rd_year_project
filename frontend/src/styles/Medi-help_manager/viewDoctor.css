@@ -1,0 +1,89 @@
+.docbox{
+    background-color: lightgrey;
+    width: 200px;
+    height: 220px;
+    border: 2px solid rgb(10, 10, 10);
+    border-radius: 10px;
+    padding: 40px;
+    margin: 20px;
+    position: relative;
+    top:50px;
+    left:50px;
+   
+
+}
+.boxcontainer{
+
+    display: flex;
+  
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.btnapp{
+
+    background-color: #FFA500;
+    position: relative;
+    left:-20px;
+    top:-35px;
+   width:130px;
+    border: none;
+    color: white;
+    padding: 6px 6px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    font-family: Verdana ;
+    border-radius: 5px; 
+}
+
+.img{
+position: relative;
+top:-20px;
+height:100px;
+width:500px;
+
+} 
+
+.h6{
+    position: relative;
+    top:-35px;
+    left:5px;
+    font-family: verdana;
+}
+
+
+
+.doctorsearch-container{
+
+    width:400px;
+   position: relative;
+   left:1050px;
+   top:50px;
+} 
+
+.avalDoc{
+position: relative;
+left:200px;
+    width: 320px;
+  padding: 5px;
+  border-radius: 10px;
+  background-color: #373737;
+ text-decoration: none;
+ color: white;
+  margin: 0;
+}
+
+.allDoc{
+    position: relative;
+    left:500px;
+        width: 350px;
+      padding: 5px;
+      border-radius: 10px;
+      background-color: #373737;
+     text-decoration: none;
+     color: white;
+      margin: 0;
+  top:-30px;
+}
