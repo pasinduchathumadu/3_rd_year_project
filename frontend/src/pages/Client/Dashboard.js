@@ -144,6 +144,7 @@ export const Dashboard = () => {
           focusRipple
           key={image.title}
           style={{
+            fontSize:"80px",
             width: image.width,
             marginTop : image.marginTop,
             height : image.height
@@ -176,9 +177,7 @@ export const Dashboard = () => {
       )
 
       )}
-      {/* <div className='bottm'>
-      <h2>happt tail shop</h2>
-    </div> */}
+      
     </Box></>
 
      

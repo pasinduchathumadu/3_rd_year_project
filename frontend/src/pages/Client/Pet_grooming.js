@@ -1,8 +1,6 @@
-
 import React, { useState, useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-
 
 import backgroundImageUrl from '../../assests/Grooming.jpg';
 import Pricing from './Pricing';
@@ -25,7 +23,7 @@ import { Link } from 'react-router-dom';
 import platinum from "../../assests/platinum.png"
 import gold from "../../assests/gold.png"
 import silver from "../../assests/silver.png"
-
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 function Pet_grooming() {
   const [isFormOpen, setFormOpen] = useState(false);
@@ -89,12 +87,12 @@ function Pet_grooming() {
         <div
           className='servises'
           data-aos="zoom-in"
-          style={{ backgroundColor: "rgb(235 235 235)", borderRadius: "15px", width: "100%", height: "auto", marginLeft: "auto", marginRight: "auto", display: "flex", gap: "30px" ,marginTop:""}}
+          style={{ backgroundColor: "rgb(235 235 235)",  width: "100%", height: "110vh", marginLeft: "auto", marginRight: "auto", display: "flex", gap: "30px" ,marginTop:"-20px"}}
         >
         
-        <Card sx={{ maxWidth: 345, marginLeft: "10%", marginTop: "20px", height: "70vh", transition: "transform 0.5s",
+        <Card sx={{ maxWidth: 345, marginLeft: "10%", marginTop: "20px", height: "100vh", transition: "transform 0.5s",
       "&:hover": {
-        transform: "scale(1.2)",
+        transform: "scale(1.1)",
         boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
 
         // Gold color tint on hover
@@ -103,34 +101,48 @@ function Pet_grooming() {
         }
       }
     }}>
-      <CardActionArea>
-        <Link to="/Bath" style={{ textDecoration: "none", color: "inherit" }}>
-          <CardMedia
-            component="img"
-            height="140"
-            image={Bath}
-            alt="Bath"
-            className="cardMedia" // Added class name for selecting in CSS
-            sx={{ height: "35vh" }} // You can also define the height here
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: "center", fontSize: "30px" }}>
-              package 1
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Up to Rs.1000
-            </Typography>
-          </CardContent>
-        </Link>
-      </CardActionArea>
+       <CardActionArea>
+              <Link to="/Bath" style={{ textDecoration: "none", color: "inherit", }}>
+                <CardMedia
+                  component="img"
+                  height="140"
+                  image={Bath}
+                  alt="Bath"
+                  className="cardMedia"
+                  sx={{ height: "35vh" }}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: "", fontSize: "23px" }}>
+                    BATH
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Up to Rs.1000
+                  </Typography>
+                  <ol style={{ listStyleType: 'none', padding: 0, textAlign: "", marginTop: "40px", color: "black", fontSize: "20px" }}>
+                    <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Deep Cleaning Shampoo</li>
+                    <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Blow Dry</li>
+                    <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Ear Cleaning</li>
+                    <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> 15- Min Brushout</li>
+
+                  </ol>
+                  <Typography variant="body2" color="text.secondary" sx={{marginTop:"90px",textAlign:"center"}}>
+                    Clean grooming service without parabens,phthalates, and chamical dyes
+                  </Typography>
+
+                  <div style={{ display: 'flex', justifyContent: 'center', marginTop: '25px' }}>
+                  <Button sx={{ backgroundColor: "black",width:"90%" ,'&:hover': { backgroundColor: 'black' }}} variant="contained">Edit</Button>
+                </div>
+                </CardContent>
+              </Link>
+            </CardActionArea>
     </Card>
           
         
         <Link to="/Haircuts" style={{ textDecoration: "none", color: "inherit",height:"70vh" }}>
 
-          <Card sx={{ maxWidth: 345, marginLeft: "20px", marginTop: "20px",height:"70vh", transition: "transform 0.5s ",
+          <Card sx={{ maxWidth: 345, marginLeft: "20px", marginTop: "20px",height:"100vh", transition: "transform 0.5s ",
                 "&:hover": {
-                  transform: "scale(1.2)", // Apply scale transform on hover
+                  transform: "scale(1.1)", // Apply scale transform on hover
                   boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", // Add box shadow on hover
                 }, }}>
             <CardActionArea>
@@ -141,40 +153,76 @@ function Pet_grooming() {
                 alt="Haircut"
               />
               <CardContent>
-                <Typography gutterBottom variant="h5" component="div" sx={{textAlign:"center",fontSize:"30px"}}>
-                  package 2
+                <Typography gutterBottom variant="h5" component="div" sx={{textAlign:"",fontSize:"23px"}}>
+                  BATH AND HAIR CUTS
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   Up to Rs.1200
                 </Typography>
+                
+                <ol style={{ listStyleType: 'none', padding: 0, textAlign: "", marginTop: "40px", color: "black", fontSize: "20px" }}>
+          <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Deep Cleaning Shampoo</li>
+          <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Hair Cuting  And Styling</li>
+          <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Blow Dry</li>
+          <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Nail Trim</li>
+          <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Ear Cleaning</li>
+          <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> 15-Min Brushout</li>
+        </ol>
+        <Typography variant="body2" color="text.secondary" sx={{marginTop:"20px",textAlign:"center"}}>
+                    Clean grooming service without parabens,phthalates, and chamical dyes
+                  </Typography>
+
+                  <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                  <Button sx={{ backgroundColor: "black",width:"90%",'&:hover': { backgroundColor: 'black' } }} variant="contained">Edit</Button>
+                </div>
               </CardContent>
             </CardActionArea>
           </Card>
           </Link>
 
 
-          <Card sx={{ maxWidth: 345, marginLeft: "20px", marginTop: "20px" , transition: "transform 0.5s ",
-                "&:hover": {
-                  transform: "scale(1.2)", // Apply scale transform on hover
-                  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", // Add box shadow on hover
-                },}}>
-            <CardActionArea>
-              <CardMedia style={{ height: "35vh" }}
-                component="img"
-                height="140"
-                image={massage}
-                alt="PetSpa"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div" sx={{textAlign:"center",fontSize:"30px"}}>
-                  package 3
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Only Rs.1500
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
+          
+        <Link to="/Haircuts" style={{ textDecoration: "none", color: "inherit",height:"70vh" }}>
+
+<Card sx={{ maxWidth: 345, marginLeft: "20px", marginTop: "20px",height:"100vh", transition: "transform 0.5s ",
+      "&:hover": {
+        transform: "scale(1.1)", // Apply scale transform on hover
+        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", // Add box shadow on hover
+      }, }}>
+  <CardActionArea>
+    <CardMedia style={{ height: "35vh" }}
+      component="img"
+      height="140"
+      image={massage}
+      alt="Haircut"
+    />
+    <CardContent>
+      <Typography gutterBottom variant="h5" component="div" sx={{textAlign:"",fontSize:"23px"}}>
+        MINI GROOMING
+      </Typography>
+      <Typography variant="body2" color="text.secondary">
+        Up to Rs.1200
+      </Typography>
+      
+      <ol style={{ listStyleType: 'none', padding: 0, textAlign: "", marginTop: "40px", color: "black", fontSize: "20px" }}>
+          <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Hair Styling</li>
+          <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Sanitary Trim</li>
+          <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Body Massage</li>
+          <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> De-Shedding Treatment</li>
+          <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Ear Cleaning</li>
+          <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Nail Trim</li>
+        </ol>
+        <Typography variant="body2" color="text.secondary" sx={{marginTop:"20px",textAlign:"center"}}>
+                    Clean grooming service without parabens,phthalates, and chamical dyes
+                  </Typography>
+
+                  <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                  <Button sx={{ backgroundColor: "black",width:"90%",'&:hover': { backgroundColor: 'black' } }} variant="contained">Edit</Button>
+                </div>
+    </CardContent>
+  </CardActionArea>
+</Card>
+</Link>
         </div>
       </div>
     </>
