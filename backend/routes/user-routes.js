@@ -1,5 +1,5 @@
 import express from "express";
-import {login,signup,forget_password,reset_password,forget_confirmation,upload_file,get_store, temp_cart, load_cart,increase, decrease,total, load_payement, load_total} from "../controllers/users-controllers.js";
+import {login,signup,forget_password,reset_password,forget_confirmation,upload_file,get_store, temp_cart, load_cart,increase, decrease,total, load_payement, load_total,delete_cart,final_payment, back} from "../controllers/users-controllers.js";
 const user_route = express.Router();
 
 user_route.post('/login',login);
@@ -16,5 +16,7 @@ user_route.post('/decrease',decrease)
 user_route.post('/total',total)
 user_route.get('/load_payment/:id',load_payement)
 user_route.get('/load_total/:id',load_total)
-
+user_route.post('/delete_cart',delete_cart)
+user_route.post('/final_payment',final_payment)
+user_route.post('/back',back)
 export default user_route;
