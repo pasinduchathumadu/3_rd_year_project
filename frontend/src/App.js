@@ -287,11 +287,14 @@ function App() {
              <><Route path="/Doctors" element={<div className="App">
              <><HomeHeader userRole={"medi_help_manager"}/><Doctor /></>
             </div>} /><Route path="/viewAppointments" element={<><HomeHeader userRole={"medi_help_manager"}/><ViewAppointments /></>} />
+
           
             <Route path="/PetProfiles" element={<><HomeHeader userRole={"medi_help_manager"}/><PetProfiles /></>} />
            
             <Route path="/medi_complaints" element={<><HomeHeader userRole={"medi_help_manager"}/><MediComplaints/></>} />
             <Route path="/medi_dashboard" element={<><HomeHeader userRole={"medi_help_manager"} /><MediDashboard/></>} />
+
+          
             </>
          
           
@@ -333,7 +336,7 @@ function App() {
               <Route path="/packages" element={  <>   <HomeHeader userRole={"care_center_manager"} /> <Packages /></>  }/>
               <Route path="/appointments" element={<>  <HomeHeader userRole={"care_center_manager"} />  <Appointments /></>  }/>
               <Route path="/complaints"element={<>   <HomeHeader userRole={"care_center_manager"} /> <Complaints /></>  }  /></>
-          )}
+           )} 
 
           {isLoggedIn && user_role === "online_store_manager" && (
             <>

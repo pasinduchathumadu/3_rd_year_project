@@ -36,7 +36,7 @@ function Packages() {
             <div
               style={{ display: "inline", marginTop: "30px", marginLeft: "2%",width:"33.3%"}}
             >
-              <Typography>Online Store Manager</Typography>
+              <Typography>Care Center Manager</Typography>
               <Typography>Today</Typography>
               <Typography>{date}</Typography>
             </div>
@@ -60,14 +60,15 @@ function Packages() {
                 Packages
               </Typography>
             </div>
-            <div style={{ display: "flex",width:"33.3%" }}>
-              <Stack direction="row" spacing={2} width={300}>
+            <div style={{ display: 'flex', marginLeft: 'auto', alignItems: 'center', justifyContent: 'center' }}>
+               <div style={{ marginLeft: '150%' }}><Stack direction="row" spacing={2} width={300}>
                 <Avatar
                   alt="Travis Howard"
                   src={profile}
-                  sx={{ width: 100, height: 100, marginLeft:"100%"}}
+                  sx={{  width: 60, height: 60}}
                 />
               </Stack>
+              </div>
             </div>
           </div>
 

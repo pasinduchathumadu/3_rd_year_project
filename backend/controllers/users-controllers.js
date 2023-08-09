@@ -266,10 +266,12 @@ export const get_store = async(req,res,next) =>{
 
 export const temp_cart = async(req,res,next)=>{
   const {id , email,price } = req.body
-  const sqlQuery1 = "SELECT *FROM temporary_card WHERE email = ? AND item_id = ?"
+  const status = "pending"
+  const sqlQuery1 = "SELECT *FROM temporary_card WHERE email = ? AND item_id = ? AND status = ?"
   const values1 = [
     email,
-    id
+    id,
+    status
   ]
   db.query(sqlQuery1,values1,(err,data)=>{
     if(err){
@@ -301,13 +303,14 @@ export const temp_cart = async(req,res,next)=>{
 
 export const load_cart = async(req,res,next) =>{
   const email = req.params.id
+  const status = "pending"
 
-
-  const sqlQuery = "SELECT item.item_id, item.name, item.unit_price, item.image, item.description, temporary_card.quantity FROM item INNER JOIN temporary_card ON item.item_id = temporary_card.item_id where temporary_card.email = ? ";
+  const sqlQuery = "SELECT item.item_id, item.name, item.unit_price, item.image, item.description, temporary_card.quantity FROM item INNER JOIN temporary_card ON item.item_id = temporary_card.item_id where temporary_card.email = ? AND temporary_card.status = ? ";
 
 
   const values = [
-    email
+    email,
+    status
   ]
 
   db.query(sqlQuery,values,(err,data)=>{
@@ -324,14 +327,17 @@ export const increase = async(req,res,next)=>{
   const {email,itemId,quantity,price} = req.body
   const new_quantity = quantity+1
   const new_price = price * new_quantity
+  const status = "pending"
 
  
-  const sqlQuery = "UPDATE temporary_card SET quantity = ? , total = ? WHERE email = ? AND item_id = ?"
+  const sqlQuery = "UPDATE temporary_card SET quantity = ? , total = ? WHERE email = ? AND item_id = ? AND status = ?"
   const values = [
     new_quantity,
     new_price,
     email,
-    itemId
+    itemId,
+    status
+
   ]
   db.query(sqlQuery,values,(err,data)=>{
     if(err){
@@ -344,6 +350,7 @@ export const increase = async(req,res,next)=>{
 }
 export const decrease = async(req,res,next)=>{
   const {email,itemId,quantity,price} = req.body
+  const status = "pending"
   var new_quantity = 0
   if(quantity === 1){
     new_quantity =1
@@ -356,12 +363,13 @@ export const decrease = async(req,res,next)=>{
 
 
  
-  const sqlQuery = "UPDATE temporary_card SET quantity = ? , total = ?  WHERE email = ? AND item_id = ?"
+  const sqlQuery = "UPDATE temporary_card SET quantity = ? , total = ?  WHERE email = ? AND item_id = ? AND status = ?"
   const values = [
     new_quantity,
     new_price,
     email,
-    itemId
+    itemId,
+    status
   ]
   db.query(sqlQuery,values,(err,data)=>{
     if(err){
@@ -375,9 +383,11 @@ export const decrease = async(req,res,next)=>{
 
 export const total = async(req,res,next) => {
   const {email} = req.body
-  const sqlQuery = "SELECT SUM(total) AS total FROM temporary_card WHERE email = ?"
+  const status = "pending"
+  const sqlQuery = "SELECT SUM(total) AS total FROM temporary_card WHERE email = ? AND status = ?"
   const values = [
-    email
+    email,
+    status
   ]
 
   db.query(sqlQuery,values,(err,data)=>{
@@ -392,8 +402,10 @@ export const total = async(req,res,next) => {
 
 export const load_payement = async(req,res,next)=>{
   const id = req.params.id
-  const values = [id]
-  const sqlQuery = "SELECT  temporary_card.quantity,temporary_card.total,item.name,item.unit_price FROM temporary_card INNER JOIN item ON item.item_id = temporary_card.item_id WHERE temporary_card.email = ?"
+  const status = "pending"
+  const values = [id,status]
+
+  const sqlQuery = "SELECT  temporary_card.quantity,temporary_card.total,item.name,item.unit_price FROM temporary_card INNER JOIN item ON item.item_id = temporary_card.item_id WHERE temporary_card.email = ? AND temporary_card.status = ?"
   db.query(sqlQuery,values,(err,data)=>{
     if(err){
       return res.json({message:'There is an error'})
@@ -406,15 +418,84 @@ export const load_payement = async(req,res,next)=>{
 
 export const load_total = async(req,res,next)=>{
   const id = req.params.id
-  const values = [id]
+  const status = "pending"
+  const values = [id,status]
  
-  const sqlQuery = "SELECT SUM(total) AS new2 FROM temporary_card WHERE email = ?"
+  const sqlQuery = "SELECT SUM(total) AS new2 FROM temporary_card WHERE email = ? AND status = ?"
   db.query(sqlQuery,values,(err,data)=>{
     if(err){
       return res.json({message:'There is an internel error'})
     }
     else{
       return res.json({data})
+    }
+  })
+}
+
+export const delete_cart = async(req , res,next)=>{
+  const {id,email} = req.body
+  const status = "pending"
+  const sqlQuery = "DELETE FROM temporary_card WHERE item_id = ? AND email = ? AND status = ?"
+  const values = [
+    id,
+    email,
+    status
+  ]
+  db.query(sqlQuery,values,(err,data)=>{
+    if(err){
+      return res.json({message:"There is an internel error"})
+    }
+    else{
+      return res.json({message:'deleted'})
+    }
+  })
+}
+
+export const final_payment = async(req,res,next)=>{
+ 
+  const{date,time,shipping,contact,delivery,card,email,payment} = req.body;
+  var original_delivery = ""
+  if(delivery === '10'){
+    original_delivery = "Currier"
+  }
+  else if(delivery === '20'){
+    original_delivery = "Physically"
+  }
+  var original_card = ""
+  if(card === "30"){
+    original_card = "Credit"
+  }
+  else if(card === "40"){
+    original_card = "Debit"
+  }
+  const sqlQuery = 'INSERT INTO purchase_order (collecting_method,payment,placed_time,placed_date,shipping_address,shipping_number,payment_method,order_email)VALUES(?,?,?,?,?,?,?,?)'
+  const values = [original_delivery,payment,time,date,shipping,contact,original_card,email];
+  db.query(sqlQuery,values,(err,data)=>{
+    if(err){
+      console.log("pop")
+      return res.json({message:"There is an internel error"})
+    }
+    else{
+      
+      return res.json({message:"success"})
+    }
+  })
+}
+
+export const back = async(req,res,next)=>{
+  const {id} = req.body;
+  const status = "pending"
+  const sqlQuery = "DELETE FROM purchase_order WHERE order_email = ? AND po_status = ?"
+  const values = [
+    id,
+    status
+  ]
+  db.query(sqlQuery,values,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an internel error'})
+    }
+    else{
+      return res.json({message:'back'})
     }
   })
 }
