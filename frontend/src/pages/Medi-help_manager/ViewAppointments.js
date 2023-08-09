@@ -12,8 +12,10 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import profile from "../../assests/profile.jpg";
-import { Typography, Avatar, Stack, Grid, Box, Tab, Tabs } from "@mui/material";
+import { Typography, Avatar, Stack, Grid, Box, Tab, Tabs,Button  } from "@mui/material";
 import ViewForm from "./ViewForm";
+
+
 
 
 const ViewAppointments = () => {
@@ -176,10 +178,10 @@ const ViewAppointments = () => {
               <StyledTableCell align="right">12P.M</StyledTableCell>
               <StyledTableCell align="right">John Deo</StyledTableCell>
               <StyledTableCell align="right">0123456789</StyledTableCell>
-              <StyledTableCell align="right"><button className='btnstatus'onClick={() => setShow2(true)}>Update</button></StyledTableCell>
-              <StyledTableCell align="right"><button className='btnedit' onClick={() => setShow(true)}>View</button></StyledTableCell>
-              <StyledTableCell align="right"><button className='docbtndelete' onClick={()=>setShow(true)}>Delete</button></StyledTableCell>
-
+              <StyledTableCell align="right"><Button sx={{backgroundColor:'#7a7979',':hover':{backgroundColor:'#7a7979'},color:'white'}} onClick={()=>setShow2(true)}>Update</Button></StyledTableCell>
+              <StyledTableCell align="right"><Button sx={{backgroundColor:'orange',':hover':{backgroundColor:'orange'},color:'white'}}>Edit</Button></StyledTableCell>
+              <StyledTableCell align="right"><Button sx={{backgroundColor:'black',':hover':{backgroundColor:'black'},color:'white'}} onClick={()=>setShow(true)}>Delete</Button></StyledTableCell>
+              
                   </StyledTableRow>
                 ))}
               </TableBody>
@@ -215,8 +217,8 @@ const ViewAppointments = () => {
               <StyledTableCell align="right">John Deo</StyledTableCell>
               <StyledTableCell align="right">0123456789</StyledTableCell>
             
-              <StyledTableCell align="right"><button className='btnedit' onClick={() => setShow(true)}>View</button></StyledTableCell>
-              <StyledTableCell align="right"><button className='docbtndelete' onClick={()=>setShow(true)}>Delete</button></StyledTableCell>
+              <StyledTableCell align="right"><Button sx={{backgroundColor:'orange',':hover':{backgroundColor:'orange'},color:'white'}}>Edit</Button></StyledTableCell>
+              <StyledTableCell align="right"><Button sx={{backgroundColor:'black',':hover':{backgroundColor:'black'},color:'white'}} onClick={()=>setShow(true)}>Delete</Button></StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>
