@@ -104,6 +104,11 @@ const Complains = () => {
         setaddResponce(false);
     }
 
+    const cancelResponce = () => {
+        setaddResponce(false);
+        setOwn(0);
+    }
+
     // after click on view response
     const viewResponse = () => {
         setOwn(false);
@@ -117,7 +122,7 @@ const Complains = () => {
     }
 
     return (
-        <div className="home-container" style={{ marginTop: '4%'}}>
+        <div className="home-container" style={{ marginTop: '4%' }}>
             <div className="top">
                 <div className="top-line">
                     <p>Boarding House Manager</p>
@@ -268,14 +273,14 @@ const Complains = () => {
                             </div>
                             <div className="form-label">
                                 <FormLabel>Enter your complain: </FormLabel>
-                                <TextField id="outlined-basic" placeholder="Complain" variant="outlined"  sx={{ marginRight: '20px'}} />
+                                <TextField id="outlined-basic" placeholder="Complain" variant="outlined" sx={{ marginRight: '20px' }} />
                             </div>
 
                             <div className="form-label">
                                 <FormLabel>Upload an Image (if need): </FormLabel>
                                 {/* <input type="file" placeholder=" Choose a file" variant="outlined" /> */}
                                 <TextField
-                                    sx={{ marginRight: '20px'}}
+                                    sx={{ marginRight: '20px' }}
                                     type="file"
                                     variant="outlined"
                                     placeholder="Choose a file"
@@ -335,7 +340,10 @@ const Complains = () => {
                                 // onChange={handleFileChange}
                                 />
                             </div>
-                            <Button variant="contained" onClick={() => afterAddingResponse()} sx={{ background: "orange", width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Response</Button>
+                            <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
+                                <Button variant="contained" onClick={() => afterAddingResponse()} sx={{ background: "orange", width: '100%', marginRight:'10px', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Response</Button>
+                                <Button variant="contained" onClick={() => cancelResponce()} sx={{ background: 'red', width: '100%', marginTop: '10px', marginLeft: '10px', ':hover': { backgroundColor: "red" } }}> Cancel</Button>
+                            </div>
                         </div>
                     </FormControl>
                 </div>

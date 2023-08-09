@@ -266,7 +266,7 @@ const Home = () => {
                         </TableBody>
                     </Table>
 
-                    <Button onClick={() => FinishViewing()} sx={{ backgroundColor: 'orange', color: 'white', width: '100px', marginTop: '10px', marginLeft: '90%' }}>Done</Button>
+                    <Button onClick={() => FinishViewing()} sx={{ backgroundColor: 'orange', ':hover':{backgroundColor:'orange'}, color: 'white', width: '100px', marginTop: '10px', marginLeft: '90%' }}>Done</Button>
 
                 </div>
             )}
