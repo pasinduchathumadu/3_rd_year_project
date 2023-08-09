@@ -17,7 +17,7 @@ import TableHead from '@mui/material/TableHead';
 import Button from '@mui/material/Button';
 import { FormLabel, TextField } from "@mui/material";
 import { styled } from '@mui/material/styles';
-import  { tableCellClasses } from '@mui/material/TableCell';
+import { tableCellClasses } from '@mui/material/TableCell';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -107,7 +107,7 @@ const Complains = () => {
 
 
     return (
-        <div className="home-container" style={{ marginTop: '4%'}}>
+        <div className="home-container" style={{ marginTop: '4%' }}>
             <div className="top">
                 <div className="top-line">
                     <p>Administrator</p>
@@ -180,7 +180,7 @@ const Complains = () => {
                                             <StyledTableCell align="center">
                                                 {clientrow.status === "pending" ?
                                                     <Button onClick={() => addResponse()} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Add Response</Button>
-                                                    : <Button onClick={()=> viewResponse()} sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }}>View Response</Button>}
+                                                    : <Button onClick={() => viewResponse()} sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }}>View Response</Button>}
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     ))}
@@ -237,7 +237,7 @@ const Complains = () => {
                                             <StyledTableCell align="center">
                                                 {managerow.status === "pending" ?
                                                     <Button onClick={() => addResponse()} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Add Response</Button> :
-                                                    <Button onClick={()=> viewResponse()} sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }}>View Response</Button>}
+                                                    <Button onClick={() => viewResponse()} sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }}>View Response</Button>}
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     ))}
@@ -251,23 +251,69 @@ const Complains = () => {
             {/* add response */}
             {addResponce && (
                 <div>
-                    <FormControl sx={{ marginLeft: '35%', borderRadius: '10px', width: '500px', padding: '20px', backgroundColor: '#F0F0F5' }}>
+                    <FormControl sx={{ marginLeft: '35%', borderRadius: '10px', width: '600px', padding: '20px', backgroundColor: '#F0F0F5' }}>
                         <div style={{ padding: '10px', borderRadius: '10px', backgroundColor: 'white' }}>
                             <div className="form-topic">
                                 Adding Response
                             </div>
                             <div className="form-label">
-                                <FormLabel>Complain ID : 05 </FormLabel>
+                                <FormLabel>Complain ID </FormLabel>
+                                <Box
+                                    component="form"
+                                    sx={{
+                                        '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                    }}
+                                    noValidate
+                                    autoComplete="off"
+                                >
+                                    <div>
+                                        <TextField
+                                            disabled
+                                            id="outlined-disabled"
+                                            label=""
+                                            defaultValue="05"
+                                        /></div>
+
+                                </Box>
+                            </div>
+
+                            <div className="form-label">
+                                <FormLabel>Complain  </FormLabel>
+                                <Box
+                                    component="form"
+                                    sx={{
+                                        '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                    }}
+                                    noValidate
+                                    autoComplete="off"
+                                >
+                                    <div>
+                                        <TextField
+                                            disabled
+                                            id="outlined-disabled"
+                                            label=""
+                                            defaultValue="Card payment error"
+                                        /></div>
+
+                                </Box>
                             </div>
 
                             <div className="form-label">
                                 <FormLabel>Enter the Response  </FormLabel>
-                                <TextField id="outlined-basic" placeholder=" response" variant="outlined" />
+                                <TextField id="outlined-basic" placeholder=" response" variant="outlined" sx={{ marginLeft: '10px', marginRight: '20px' }} />
                             </div>
 
                             <div className="form-label">
                                 <FormLabel>Upload an Image (if need): </FormLabel>
-                                <input type="file" placeholder=" Choose a file" variant="outlined" />
+                                {/* <input type="file" placeholder=" Choose a file" variant="outlined" /> */}
+                                <TextField
+                                    sx={{ marginRight: '20px', marginLeft: '10px' }}
+                                    type="file"
+                                    variant="outlined"
+                                    placeholder="Choose a file"
+                                    inputProps={{ accept: 'image/*' }} // Add the accepted file types if needed
+                                // onChange={handleFileChange}
+                                />
                             </div>
                             <Button variant="contained" onClick={() => afterAddingResponse()} sx={{ background: "orange", width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Response</Button>
                         </div>
@@ -278,23 +324,73 @@ const Complains = () => {
             {/* view response */}
             {viewResponce && (
                 <div>
-                    <FormControl sx={{ marginLeft: '35%', borderRadius: '10px', width: '500px', padding: '20px', backgroundColor: '#F0F0F5', fontFamily: 'osnovapro,sans-serif' }}>
+                    <FormControl sx={{ marginLeft: '35%', borderRadius: '10px', width: '600px', padding: '20px', backgroundColor: '#F0F0F5', fontFamily: 'osnovapro,sans-serif' }}>
                         <div style={{ padding: '10px', borderRadius: '10px', backgroundColor: 'white' }}>
                             <div className="form-topic">
                                 Viewing Response
                             </div>
-                            <div className="form-label" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space between' }}>
+                            <div className="form-label">
                                 <FormLabel>Complain ID  </FormLabel>
-                                <FormLabel> : 05 </FormLabel>
+                                <Box
+                                    component="form"
+                                    sx={{
+                                        '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                    }}
+                                    noValidate
+                                    autoComplete="off"
+                                >
+                                    <div>
+                                        <TextField
+                                            disabled
+                                            id="outlined-disabled"
+                                            label=""
+                                            defaultValue="04"
+                                        /></div>
+
+                                </Box>
                             </div>
 
                             <div className="form-label">
-                                <FormLabel>Complain  : <br /> This is complain text </FormLabel>
+                                <FormLabel>Complain </FormLabel>
+                                <Box
+                                    component="form"
+                                    sx={{
+                                        '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                    }}
+                                    noValidate
+                                    autoComplete="off"
+                                >
+                                    <div>
+                                        <TextField
+                                            disabled
+                                            id="outlined-disabled"
+                                            label=""
+                                            defaultValue="Card payment error"
+                                        /></div>
+
+                                </Box>
                             </div>
 
                             <div className="form-label">
                                 <FormLabel>Response   </FormLabel>
-                                <p style={{ paddingRight: '20px', paddingLeft: '30px', paddingTop: '10px', paddingBottom: '10px', borderStyle: 'solid', borderColor: 'black', borderRadius: '10px' }} >This is the response for your complain</p></div>
+                                {/* <p style={{ paddingRight: '20px', paddingLeft: '30px', paddingTop: '10px', paddingBottom: '10px', borderStyle: 'solid', borderColor: 'black', borderRadius: '10px' }} >This is the response for your complain</p> */}
+                                <Box
+                                    component="form"
+                                    sx={{
+                                        '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                    }}
+                                    noValidate
+                                    autoComplete="off"
+                                >
+                                    <div>
+                                        <TextField
+                                            disabled
+                                            id="outlined-disabled"
+                                            label=""
+                                            defaultValue="It may be a connection issue"
+                                        /></div>
+                                </Box>
+                            </div>
 
                             <Button variant="contained" onClick={() => afterViewingResponse()} sx={{ background: "#fe9e0d", width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>OK</Button>
                         </div>

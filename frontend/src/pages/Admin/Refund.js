@@ -259,12 +259,12 @@ const Refund = () => {
                             </div>
                             <img src={Slip} alt="bank slip" style={{ width: '500px' }} />
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <Button onClick={() => AfterVerify()} sx={{ background: "orange", width: '100%', marginTop: '10px', ':hover': { backgroundColor: "orange" }, marginRight: '10px' }}>Verify</Button>
-                                <Button onClick={() => AfterVerify()} sx={{ background: "red", width: '100%', marginTop: '10px', ':hover': { backgroundColor: "red" }, marginLeft: '10px' }}>Reject</Button>
+                                <Button onClick={() => AfterVerify()} sx={{ background: "orange", color:'white', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "orange" }, marginRight: '10px' }}>Verify</Button>
+                                <Button onClick={() => AfterVerify()} sx={{ background: "red", color:'white', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "red" }, marginLeft: '10px' }}>Reject</Button>
                             </div>
                         </div>
 
-                        <div style={{ backgroundColor: 'white', borderRadius: '10px', marginLeft: '70px', height: '300px', width: '300px', marginTop: '40px', padding: '20px' }}>
+                        <div style={{ backgroundColor: 'white', borderRadius: '10px', marginLeft: '70px', height: '300px', width: '300px', marginTop: '30px',  padding: '20px' }}>
                             <div className="form-topic">
                                 Bank Details
                             </div>
@@ -290,7 +290,7 @@ const Refund = () => {
                             </div>
                             <Button sx={{ background: "blue", width: '90%', marginTop: '10px', marginBottom: '20px', ':hover': { backgroundColor: "blue" }, marginRight: '10px', color: 'white' }}>Verified</Button>
                             <img src={Slip} alt="bank slip" style={{ width: '500px' }} />
-                            <Button onClick={() => AfterViewing()} sx={{ background: "orange", width: '90%', marginTop: '10px', ':hover': { backgroundColor: "orange" }, marginRight: '10px' }}>OK</Button>
+                            <Button onClick={() => AfterViewing()} sx={{ background: "orange", color:'white', width: '90%', marginTop: '10px', ':hover': { backgroundColor: "orange" }, marginRight: '10px' }}>OK</Button>
                         </div>
 
                         <div style={{ backgroundColor: 'white', borderRadius: '10px', marginLeft: '70px', height: '300px', width: '300px', marginTop: '40px', padding: '20px' }}>
