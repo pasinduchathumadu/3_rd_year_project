@@ -94,6 +94,7 @@ const rows = [
                            
                         </div>
                     </div>
+                    
       <div className="col-md-12">
       
           <div className="card1">
@@ -110,10 +111,10 @@ const rows = [
           <TableRow>
             <StyledTableCell>ID</StyledTableCell>
             <StyledTableCell align="right">Doctor Name</StyledTableCell>
-            <StyledTableCell align="right">Phone Number</StyledTableCell>
-            <StyledTableCell align="right">Email</StyledTableCell>
-            <StyledTableCell align="right">Available Date</StyledTableCell>
-            <StyledTableCell align="right">Time</StyledTableCell>
+            <StyledTableCell align="right">Phone No</StyledTableCell>
+            <StyledTableCell align="right" sx={{textAlign:'center'}}>Email</StyledTableCell>
+            <StyledTableCell align="right">Register Number</StyledTableCell>
+            <StyledTableCell align="right" sx={{textAlign:'center'}}>Category</StyledTableCell>
             <StyledTableCell align="right">Edit</StyledTableCell>
             <StyledTableCell align="right">Delete</StyledTableCell>
            
@@ -129,8 +130,8 @@ const rows = [
               <StyledTableCell align="right"> Maria Anders</StyledTableCell>
              <StyledTableCell align="right">0123456789</StyledTableCell>
               <StyledTableCell align="right">maria@gmail.com</StyledTableCell>
-              <StyledTableCell align="right">Monday-Friday</StyledTableCell>
-              <StyledTableCell align="right">8A.M -7P.M</StyledTableCell>
+              <StyledTableCell align="right" sx={{textAlign:'center'}}>01234</StyledTableCell>
+              <StyledTableCell align="right" sx={{textAlign:'center'}}>Veterinary specialists</StyledTableCell>
               <StyledTableCell align="right"><Button sx={{backgroundColor:'orange',':hover':{backgroundColor:'orange'},color:'white'}}>Edit</Button></StyledTableCell>
               <StyledTableCell align="right"><Button sx={{backgroundColor:'black',':hover':{backgroundColor:'black'},color:'white'}} onClick={()=>setShow(true)}>Delete</Button></StyledTableCell>
             </StyledTableRow>
