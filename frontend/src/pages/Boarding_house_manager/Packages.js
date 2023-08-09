@@ -65,6 +65,8 @@ const Packages = () => {
         setNew(true);
         setPopularity(false);
     }
+    const input = new Date();
+    const date = input.toDateString();
 
     return (
         <div className="home-container" style={{marginTop:'4%'}} >
@@ -72,7 +74,7 @@ const Packages = () => {
                 <div className="top-line">
                     <p>Boarding House Manager</p>
                     <p className="top-line-text">Today</p>
-                    <p class="top-line-text">18 June 2023</p>
+                    <p class="top-line-text">{date}</p>
                 </div>
 
                 <div className="top-line">

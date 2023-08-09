@@ -98,8 +98,6 @@ const Users = () => {
 
     };
 
-
-
     // drop down
     const [clients, setClients] = React.useState('1');
     const handleChange = (event) => {
@@ -197,6 +195,9 @@ const Users = () => {
         setUsers(1);
     }
 
+    const input = new Date();
+    const date = input.toDateString();
+
 
     return (
         <div className="home-container" style={{ marginTop: '4%' }}>
@@ -204,7 +205,7 @@ const Users = () => {
                 <div className="top-line">
                     <p>Administrator</p>
                     <p className="top-line-text">Today</p>
-                    <p class="top-line-text">18 June 2023</p>
+                    <p class="top-line-text">{date}</p>
                 </div>
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
