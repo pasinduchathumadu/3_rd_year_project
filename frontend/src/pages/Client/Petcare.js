@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -10,9 +9,11 @@ import image2 from "../../assests/care-center-image.png";
 import image3 from "../../assests/pic3.jpg";
 import { Link } from 'react-router-dom';
 import video from "../../assests/Video3.mp4";
-import DownImage from "../../assests/down.png";
-
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import DownImage from '../../assests/down.png';
 import "../../styles/Client/Mindrelax.css";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 export default function Petcare() {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -29,8 +30,19 @@ export default function Petcare() {
     };
   }, []);
 
-  const videoPlaybackRate = 0.2 + scrollPosition * 0.001; // Adjust the factor to control the effect
-  const videoOpacity = 0.9- scrollPosition * 0.002; // Adjust the factor to control the effect
+  const videoPlaybackRate = 0.2 + scrollPosition * 0.001;
+  const videoOpacity = 0.9 - scrollPosition * 0.002;
+
+  const scrollToSection = () => {
+    const section = document.getElementById('section'); // Replace 'section' with the actual id
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+  useEffect(() => {
+    AOS.init({ duration: 1000 });
+  }, []);
+
 
   return (
     <>
@@ -39,7 +51,6 @@ export default function Petcare() {
           width: "100%",
           height: "100vh",
           backgroundColor: "black",
-          position: "relative",
         }}
       >
         <video
@@ -64,14 +75,20 @@ export default function Petcare() {
           >
             Pet Care
           </h1>
+          
           <p>keep your pet happy</p>
-          <p style={{marginTop:"200px"}}> OUR SERVISES</p>
-          <img src={DownImage} alt="Down Arrow" style={{ width: 40, height: 40,marginTop:"20px" }} /> {/* Use the image */}
-
+          <p style={{marginTop:"200px"}}> OUR SERVICES</p>
+          <img
+            src={DownImage}
+            alt="Down Arrow"
+            style={{ width: 40, height: 40, cursor: 'pointer',marginTop:"20px" }}
+            onClick={scrollToSection}
+          />
+          
 
         </div>
-      </div> 
-  <div className='smooth-scroll' style={{marginLeft:"180px",display:"flex",gap:"30px",marginTop:"35px"}}>
+      </div>
+  <div id="section" className='smooth-scroll' style={{marginLeft:"180px",display:"flex",gap:"30px",marginTop:"35px",}} data-aos="zoom-out-down">
     <Card sx={{ maxWidth: 345 ,transition: "transform 0.5s ",
                 "&:hover": {
                   transform: "scale(1.1)", // Apply scale transform on hover
