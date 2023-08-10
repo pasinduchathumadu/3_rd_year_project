@@ -132,9 +132,9 @@ const Users = () => {
             console.log("There is an internel error")
         }
     }
+
     const submitManager = async (e) => {
         e.preventDefault()
-
 
         try {
             const res = await axios.post("http://localhost:5000/pet_care/admin/registration", {
@@ -244,7 +244,7 @@ const Users = () => {
                                         <StyledTableCell align="center">Email</StyledTableCell>
                                         <StyledTableCell align="center">Contact Number</StyledTableCell>
                                         <StyledTableCell align="center">Address</StyledTableCell>
-                                        <StyledTableCell align="center">Work</StyledTableCell>
+                                        <StyledTableCell align="center">Role</StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
                                     </StyledTableRow>
                                 </TableHead>

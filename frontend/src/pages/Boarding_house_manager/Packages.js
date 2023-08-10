@@ -13,7 +13,9 @@ import Box from '@mui/material/Box';
 import { Tab } from "@mui/material";
 import { Tabs } from "@mui/material";
 import { PieChart } from '@mui/x-charts/PieChart';
-
+import axios from "axios";
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 const Packages = () => {
     const [new1, setNew] = useState(true);  //package cards
@@ -21,17 +23,21 @@ const Packages = () => {
     const [updateform, setUpdateform] = useState(false); //update form
     const [popularity, setPopularity] = useState(false); // popularity
 
+    const [error, seterror] = useState(false) //error handling
+
     // after click on add new package button
     const Change = () => {
         setNew(false);
         setForm(true);
     }
+
     // after click on submit button on the add new package form
-    const afterSubmit = () => {
-        // check
-        setNew(true);
-        setForm(false);
-    }
+    // const afterSubmit = () => {
+       
+    //     setNew(true);
+    //     setForm(false);
+    // }
+
     // cancel button of adding new package
     const cancelAdding = () => {
         setForm(false);
@@ -68,8 +74,43 @@ const Packages = () => {
     const input = new Date();
     const date = input.toDateString();
 
+    // after entering details of a new package
+    const [packageName, setPackage] = useState(" ")
+    const [price, setPrice] = useState(" ")
+    const [first, setFirst] = useState(" ")
+    const [second, setSecond] = useState(" ")
+    const [third, setThird] = useState(" ")
+
+    const [message, setMessage] = useState(' ')
+
+    const submitPackage = async () => {
+        // e.preventDefault()
+        seterror(false);
+        try {
+            const res = await axios.post('http://localhost:5000/pet_care/boarding_house_manager/addpackage', {
+                packageName,
+                price,
+                first,
+                second,
+                third,
+            })
+            if (res.data.message === 'There is an internal error') {
+                setMessage('You cannot add this package')
+                seterror(true)
+            } else if (res.data.message === 'success') {
+                setNew(true);
+                setForm(false);
+            } else if (res.data.message === 'Package Name already exists') {
+                setMessage("Package Name already exists")
+                seterror(true);
+            }
+        } catch (err) {
+            console.log("There is an internal error")
+        }
+    }
+
     return (
-        <div className="home-container" style={{marginTop:'4%'}} >
+        <div className="home-container" style={{ marginTop: '4%' }} >
             <div className="top">
                 <div className="top-line">
                     <p>Boarding House Manager</p>
@@ -163,27 +204,32 @@ const Packages = () => {
                         <hr />
                         <div style={{ marginTop: '20px' }} className="form-label">
                             <FormLabel>Package Name</FormLabel>
-                            <TextField id="outlined-basic" placeholder="Package Name" variant="outlined" />
+                            <TextField id="outlined-basic" placeholder="Package Name" variant="outlined" onChange={(e) => setPackage(e.target.value)} required />
                         </div>
 
                         <div className="form-label">
                             <FormLabel>Price(per week) Rs.</FormLabel>
-                            <TextField id="outlined-basic" placeholder="Package Price" variant="outlined" />
+                            <TextField id="outlined-basic" placeholder="Package Price" variant="outlined" onChange={(e) => setPrice(e.target.value)} required />
                         </div>
 
                         <div className="form-label">
                             <FormLabel>Facilities</FormLabel>
-                            <TextField id="outlined-basic" placeholder="Facility 01" variant="outlined" sx={{ marginBottom: '5px' }} />
-                            <TextField id="outlined-basic" placeholder="Facility 02" variant="outlined" sx={{ marginBottom: '5px' }} />
-                            <TextField id="outlined-basic" placeholder="Facility 03" variant="outlined" sx={{ marginBottom: '5px' }} />
+                            <TextField id="outlined-basic" placeholder="Facility 01" variant="outlined" sx={{ marginBottom: '5px' }} onChange={(e) => setFirst(e.target.value)} required />
+                            <TextField id="outlined-basic" placeholder="Facility 02" variant="outlined" sx={{ marginBottom: '5px' }} onChange={(e) => setSecond(e.target.value)} required />
+                            <TextField id="outlined-basic" placeholder="Facility 03" variant="outlined" sx={{ marginBottom: '5px' }} onChange={(e) => setThird(e.target.value)} required />
                         </div>
 
                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Button variant="contained" onClick={() => afterSubmit()} sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Add Package</Button>
+                            <Button variant="contained" onClick={() => submitPackage()} sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Add Package</Button>
                             <Button variant="contained" onClick={() => cancelAdding()} sx={{ background: "red", marginTop: '10px', ':hover': { backgroundColor: "red" }, marginLeft: '10px', width: '100%' }}> Cancel</Button>
                         </div>
 
                     </div>
+                    {error && (
+                        <Stack sx={{ width: '100%' }} spacing={2}>
+                            <Alert severity="error">{message}</Alert>
+                        </Stack>
+                    )}
                 </FormControl>
             )}
 
