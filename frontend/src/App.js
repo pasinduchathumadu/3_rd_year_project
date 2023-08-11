@@ -44,6 +44,8 @@ import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 
 import Bath from "./pages/Client/Bath";
 import Haircuts from "./pages/Client/Haircuts";
+import MiniGrooming from "./pages/Client/MiniGrooming.js";
+
 import Bording from "./pages/Client/Bording";
 import Petgrooming from "../src/pages/Client/Pet_grooming";
 import Medi from "../src/pages/Client/Medi";
@@ -269,6 +271,8 @@ function App() {
             <Route path="/popupform" element={<><Header userRole={"client"}/><PopupForm/></>}></Route>
             <Route path="/Bath" element={<><Header userRole={"client"}/><Bath/></>}></Route>
             <Route path="/Haircuts" element={<><Header userRole={"client"}/><Haircuts/></>}></Route>
+            <Route path="/MiniGrooming" element={<><Header userRole={"client"}/><MiniGrooming/></>}></Route>
+
             <Route path="/DoctorList" element={<><Header userRole={"client"}/><DoctorList/></>}></Route>
             <Route path="/OrderTable" element={<><Header userRole={"client"}/><OrderTable/></>}></Route>
 

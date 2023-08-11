@@ -182,7 +182,7 @@ function Pet_grooming() {
 
 
           
-        <Link to="/Haircuts" style={{ textDecoration: "none", color: "inherit",height:"70vh" }}>
+        <Link to="/MiniGrooming" style={{ textDecoration: "none", color: "inherit",height:"70vh" }}>
 
 <Card sx={{ maxWidth: 345, marginLeft: "20px", marginTop: "20px",height:"100vh", transition: "transform 0.5s ",
       "&:hover": {
