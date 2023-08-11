@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
 import ProfilePicture from '../../assests/profile-picture.png';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -108,6 +108,25 @@ const Packages = () => {
             console.log("There is an internal error")
         }
     }
+
+    // get packages details and view
+    const getPackage = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/getPackage')
+            const data = await res.data
+            return data
+
+        }catch (err) {
+            console.log("There is an internal error")
+        }
+    }
+    const [boardingpackage, setboardingpackage] = useState([]);
+    useEffect(() => {
+        getPackage()
+        .then((data) => setboardingpackage(data.data))
+        .catch((err) => console.log(err))
+    })
+
 
     return (
         <div className="home-container" style={{ marginTop: '4%' }} >

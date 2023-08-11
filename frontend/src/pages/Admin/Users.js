@@ -65,17 +65,17 @@ const clientrows = [
 ];
 
 // data for managers
-function createData2(id, name, email, contact, address, store) {
-    return { id, name, email, contact, address, store };
-}
+// function createData2(id, name, email, contact, address, store) {
+//     return { id, name, email, contact, address, store };
+// }
 
-const managerows = [
-    createData2(1, "John Deo", 'abcx@gmail.com', '0771234432', 'No. 23, Main Street, Maharagama', 'medi-help'),
-    createData2(2, "Griya Fernando", 'abcw@gmail.com', '0771234432', 'No. 20, Seocnd Street, Nugegoda', 'online-store'),
-    createData2(3, "Theraa Perera", 'abcu@gmail.com', '0771234432', 'No. 90, Down Street, Kottawa', 'boarding-house'),
-    createData2(4, "King Kimuthu", 'abcl@gmail.com', '0771234432', 'No. 3, Third Street, Colombo 07', 'care-center'),
-    createData2(5, "Jessy Geo", 'abck@gmail.com', '0771234432', 'No. 2, Galle Road, Colombo 07', 'company'),
-];
+// const managerows = [
+//     createData2(1, "John Deo", 'abcx@gmail.com', '0771234432', 'No. 23, Main Street, Maharagama', 'medi-help'),
+//     createData2(2, "Griya Fernando", 'abcw@gmail.com', '0771234432', 'No. 20, Seocnd Street, Nugegoda', 'online-store'),
+//     createData2(3, "Theraa Perera", 'abcu@gmail.com', '0771234432', 'No. 90, Down Street, Kottawa', 'boarding-house'),
+//     createData2(4, "King Kimuthu", 'abcl@gmail.com', '0771234432', 'No. 3, Third Street, Colombo 07', 'care-center'),
+//     createData2(5, "Jessy Geo", 'abck@gmail.com', '0771234432', 'No. 2, Galle Road, Colombo 07', 'company'),
+// ];
 
 
 const Users = () => {
@@ -120,8 +120,8 @@ const Users = () => {
         setUsers(false);
         setadd(true);
     }
-    // after entering detials of new mamager
 
+    // get and view managers' details 
     const get_manager = async () => {
         try {
             const res = await axios.get('http://localhost:5000/pet_care/admin/get_managers')
@@ -133,6 +133,7 @@ const Users = () => {
         }
     }
 
+    // add a new manager
     const submitManager = async (e) => {
         e.preventDefault()
 
@@ -249,7 +250,7 @@ const Users = () => {
                                     </StyledTableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {manager && manager.map((managerow) => (
+                                    {manager && manager.map((managerow,index) => (
                                         <StyledTableRow key={managerow.id}>
                                             <StyledTableCell align="center"><img src={Image} style={{ width: '80px', borderRadius: '50%' }} alt="image" /></StyledTableCell>
                                             <StyledTableCell align="center">{managerow.manager_id}</StyledTableCell>
@@ -257,7 +258,6 @@ const Users = () => {
                                             <StyledTableCell align="center">{managerow.email}</StyledTableCell>
                                             <StyledTableCell align="center">{managerow.contact_number}</StyledTableCell>
                                             <StyledTableCell align="center">{managerow.address}</StyledTableCell>
-                                            {/* <StyledTableCell align="center">{managerow.nic}</StyledTableCell> */}
                                             <StyledTableCell align="center">{managerow.user_role}</StyledTableCell>
                                             <StyledTableCell align="center"><EditIcon onClick={() => updateManager()} /><DeleteIcon sx={{ color: 'red' }} /></StyledTableCell>
                                         </StyledTableRow>
