@@ -54,12 +54,10 @@ import OrderTable from "./pages/Client/OrderTable";
 
 import Doctor from "./pages/Medi-help_manager/doctors";
 import ViewAppointments from "./pages/Medi-help_manager/ViewAppointments";
-import PendingAppointments from "./pages/Medi-help_manager/PendingAppointments";
-import CompletedAppointments from "./pages/Medi-help_manager/CompletedAppointments";
-import PetProfiles from "./pages/Medi-help_manager/PetProfile";
-import ViewDoctors from "./pages/Medi-help_manager/ViewDoctors";
-import GetAppointments from "./pages/Medi-help_manager/GetAppointments";
 
+import PetProfiles from "./pages/Medi-help_manager/PetProfile";
+import MediComplaints from "./pages/Medi-help_manager/Complains";
+import MediDashboard from "./pages/Medi-help_manager/Dashboard";
 
 
   
@@ -140,6 +138,11 @@ function App() {
     } else if (role === "company_manager") {
       navigate("/company_dashboard");
       localStorage.setItem("company_manager", email);
+
+    }
+    else if (role === "medi_help_manager") {
+      navigate("/Doctors");
+      localStorage.setItem("medi_help_manager", email);
 
     }
   };
@@ -285,11 +288,14 @@ function App() {
              <><Route path="/Doctors" element={<div className="App">
              <><HomeHeader userRole={"medi_help_manager"}/><Doctor /></>
             </div>} /><Route path="/viewAppointments" element={<><HomeHeader userRole={"medi_help_manager"}/><ViewAppointments /></>} />
-            <Route path="/viewPendingAppointments" element={<><HomeHeader userRole={"medi_help_manager"}/><PendingAppointments /></>} />
-            <Route path="/viewCompletedAppointments" element={<><HomeHeader userRole={"medi_help_manager"}/><CompletedAppointments /></>} />
+
+          
             <Route path="/PetProfiles" element={<><HomeHeader userRole={"medi_help_manager"}/><PetProfiles /></>} />
-            <Route path="/viewDoctors" element={<><HomeHeader userRole={"medi_help_manager"}/><ViewDoctors /></>} />
-            <Route path="/getAppointment" element={<><HomeHeader userRole={"medi_help_manager"}/><GetAppointments /></>} />
+           
+            <Route path="/medi_complaints" element={<><HomeHeader userRole={"medi_help_manager"}/><MediComplaints/></>} />
+            <Route path="/medi_dashboard" element={<><HomeHeader userRole={"medi_help_manager"} /><MediDashboard/></>} />
+
+          
             </>
          
           
@@ -331,7 +337,7 @@ function App() {
               <Route path="/packages" element={  <>   <HomeHeader userRole={"care_center_manager"} /> <Packages /></>  }/>
               <Route path="/appointments" element={<>  <HomeHeader userRole={"care_center_manager"} />  <Appointments /></>  }/>
               <Route path="/complaints"element={<>   <HomeHeader userRole={"care_center_manager"} /> <Complaints /></>  }  /></>
-          )}
+           )} 
 
           {isLoggedIn && user_role === "online_store_manager" && (
             <>

@@ -12,7 +12,11 @@ import PetsIcon from '@mui/icons-material/Pets';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+// import Accordion from '@mui/material/Accordion';
+// import AccordionSummary from '@mui/material/AccordionSummary';
+// import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
+// import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Table, TableHead, TableRow, TableBody, TableCell, Button } from "@mui/material";
 import { tableCellClasses } from '@mui/material/TableCell';
 import { styled } from '@mui/material/styles';
@@ -41,7 +45,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 
-const Home = () => {
+const Dashboard = () => {
     // drop down
     const [time, setTime] = React.useState('1');
 
@@ -63,16 +67,14 @@ const Home = () => {
         setmain(true);
     }
 
-    const input = new Date();
-    const date = input.toDateString();
-
     return (
+
         <div className="home-container" style={{ marginTop: '4%'}}>
             <div className="top">
                 <div className="top-line">
-                    <p>Boarding House Manager</p>
+                    <p>Medi Care Manager</p>
                     <p className="top-line-text">Today</p>
-                    <p class="top-line-text">{date}</p>
+                    <p class="top-line-text">18 June 2023</p>
                 </div>
                 <div className="top-line">
                     <p style={{ fontSize: '20px', fontWeight: 1000, color: 'black' }}>DashBoard</p>
@@ -111,12 +113,12 @@ const Home = () => {
 
                     <div className="boarding-wrapper-box-mian">
                         <div className="boarding-wrapper-box" style={{ backgroundColor: 'white' }}>
-                            <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'orange', marginRight: '5px' }} />Current Boarding Pets</p>
+                            <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'orange', marginRight: '5px' }} />Pending Appointments</p>
                             <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>10</h1>
                         </div>
                         <div className="boarding-wrapper-box" style={{ backgroundColor: 'white' }} >
-                            <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'orange', marginRight: '5px' }} />Completed Boarded Pets</p>
-                            <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>04</h1>
+                            <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'orange', marginRight: '5px' }} />Completed Appointments</p>
+                            <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>06</h1>
                         </div>
                     </div>
                 </div>
@@ -124,21 +126,21 @@ const Home = () => {
                 <div className="boarding-wrapper" style={{ backgroundColor: 'orange', height: '250px' }}>
                     <div className="boarding-box-header">
                         <AssignmentLateIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
-                        <h3>Pending Boarding Requests</h3>
+                        <h3>Pending Appointments</h3>
                     </div>
 
                     {main && (
                         <div>
                             <div>
-                                <Typography sx={{ backgroundColor: '#F0F0F5', borderRadius: '10px', padding: '10px', width: '100%', marginBottom: '5px' }}>Request ID : 1 <TableViewIcon onClick={() => ClickRequest()} sx={{ marginLeft: '500px' }} /></Typography>
+                                <Typography sx={{ backgroundColor: '#F0F0F5', borderRadius: '10px', padding: '5px', width: '100%', marginBottom: '5px' }}>Appointment  ID : 1 <TableViewIcon onClick={() => ClickRequest()} sx={{ marginLeft: '500px' }} /></Typography>
                             </div>
 
                             <div>
-                                <Typography sx={{ backgroundColor: '#F0F0F5', borderRadius: '10px', padding: '10px', width: '100%', marginBottom: '5px' }}>Request ID : 2 <TableViewIcon onClick={() => ClickRequest()} sx={{ marginLeft: '500px' }} /></Typography>
+                                <Typography sx={{ backgroundColor: '#F0F0F5', borderRadius: '10px', padding: '5px', width: '100%', marginBottom: '5px' }}>Appointment ID : 2 <TableViewIcon onClick={() => ClickRequest()} sx={{ marginLeft: '500px' }} /></Typography>
                             </div>
 
                             <div>
-                                <Typography sx={{ backgroundColor: '#F0F0F5', borderRadius: '10px', padding: '10px', width: '100%', marginBottom: '5px' }}>Request ID : 3 <TableViewIcon onClick={() => ClickRequest()} sx={{ marginLeft: '500px' }} /></Typography>
+                                <Typography sx={{ backgroundColor: '#F0F0F5', borderRadius: '10px', padding: '5px', width: '100%', marginBottom: '5px' }}>Appointment ID : 3 <TableViewIcon onClick={() => ClickRequest()} sx={{ marginLeft: '500px' }} /></Typography>
                             </div>
                         </div>
                     )}
@@ -152,7 +154,7 @@ const Home = () => {
                 <div className="boarding-wrapper" style={{ backgroundColor: '#F0F0F5', height: '310px' }}>
                     <div className="boarding-box-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
-                            <AssessmentIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
+                            <AssessmentIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black',padding: '20px' }} />
                             <h3 style={{ color: 'black' }}>Pet Analyze</h3>
                         </div>
 
@@ -204,7 +206,7 @@ const Home = () => {
                     <div className="boarding-box-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} >
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
                             <InventoryIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
-                            <h3 style={{ color: 'black' }}>Packages Usage</h3>
+                            <h3 style={{ color: 'black' }}>Appointments</h3>
                         </div>
 
                         <Box sx={{ minWidth: 120, marginLeft: '400px' }}>
@@ -228,17 +230,17 @@ const Home = () => {
                     <div>
 
                         <PieChart
-                            colors={['#FBBD08', '#A6A6A6', '#55555C']}
+                            colors={['#FBBD08', '#A6A6A6', 'black']}
                             series={[
                                 {
                                     data: [
-                                        { id: 0, value: 15, label: 'Gold' },
-                                        { id: 1, value: 20, label: 'Silver' },
-                                        { id: 2, value: 10, label: 'Platinum' },
+                                        { id: 0, value: 15, label: 'Pending' },
+                                        { id: 1, value: 20, label: 'Accepted' },
+                                        { id: 2, value: 10, label: 'Complete' },
                                     ],
                                 },
                             ]}
-                            width={600}
+                            width={550}
                             height={200}
                         />
                     </div>
@@ -268,7 +270,7 @@ const Home = () => {
                         </TableBody>
                     </Table>
 
-                    <Button onClick={() => FinishViewing()} sx={{ backgroundColor: 'orange', ':hover':{backgroundColor:'orange'}, color: 'white', width: '100px', marginTop: '10px', marginLeft: '90%' }}>Done</Button>
+                    <Button onClick={() => FinishViewing()} sx={{ backgroundColor: 'orange', color: 'white', width: '100px', marginTop: '10px', marginLeft: '90%' }}>Done</Button>
 
                 </div>
             )}
@@ -280,4 +282,4 @@ const Home = () => {
     )
 }
 
-export default Home
+export default Dashboard

@@ -80,6 +80,9 @@ export default function HomeHeader({userRole}) {
     navigate('/')
     
   }
+  const changecart = () =>{
+    navigate('/cart')
+  }
   const home = () =>{
     navigate('/')
   }
@@ -229,8 +232,8 @@ export default function HomeHeader({userRole}) {
             <Button onClick={about}sx={{ color: 'white', textTransform: 'none',marginLeft:'4%',fontSize:'18px',':hover':{color:'orange'}   }}>About</Button>
             <Button onClick={blog} sx={{ color: 'white', textTransform: 'none',marginLeft:'4%' ,fontSize:'18px',':hover':{color:'orange'}  }}>Blog</Button>
             <Button onClick={store}sx={{ color: 'white', textTransform: 'none',marginLeft:'4%',fontSize:'18px',':hover':{color:'orange'}   }}>Store</Button>
-          
-            <ShoppingCartTwoToneIcon sx={{ fontSize:'46px'}}/>
+            <IconButton onClick={changecart}> <ShoppingCartTwoToneIcon sx={{ fontSize:'46px',color:'white'}}/></IconButton>
+           
          
             
            

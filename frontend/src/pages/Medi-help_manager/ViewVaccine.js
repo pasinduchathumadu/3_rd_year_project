@@ -1,6 +1,6 @@
 import React from 'react'
 import  '../../styles/Medi-help_manager/view.css';
-
+import { Button, TextField, Typography } from '@mui/material';
 const ViewVaccine = () => {
   return (
     <div className='add-container'>
@@ -32,8 +32,8 @@ const ViewVaccine = () => {
                  </div>
 
                     <hr className='hr'/>
-                    <button type='submit' className='btnsubmit'>Submit</button>
-                    <button type='cancel' className='btncancel'>Cancel</button>
+                    
+                    <Button  sx={{marginLeft:'80%',backgroundColor:'black',color:'white',':hover':{backgroundColor:'black'}}} type='cancel'>Cancel</Button>
             </form>
 
             </div>

@@ -73,7 +73,7 @@ function Medi() {
 
   return (
     <>
-    <div>
+    <div style={{marginTop:'4%'}}>
 
 
 
