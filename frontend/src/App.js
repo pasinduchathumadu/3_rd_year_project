@@ -92,10 +92,27 @@ import CompanyComplaints from "./pages/Company_manager/Company_Complaints";
 import { useNavigate } from "react-router-dom";
 import HomeHeader from "./components/Layout/Homeheader";
 
-import PaymentClient from './pages/Client/Payment'
+import PaymentClient from './pages/Client/Payment';
+
+// sidebar icons
+import HomeIcon from '@mui/icons-material/Home';  //dashboard
+import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'; //complains
 
 
-// import Complains from "./pages/Boarding_house_manager/Complains";
+// clients
+import PetsIcon from '@mui/icons-material/Pets'; //add pets & boarding - pets
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital'; //crossing
+import StoreIcon from '@mui/icons-material/Store';  //shop
+import StorefrontIcon from '@mui/icons-material/Storefront'; //non-bread shop
+import AssessmentIcon from '@mui/icons-material/Assessment'; //reports
+
+// admin
+import GroupIcon from '@mui/icons-material/Group'; //users & boarding - clients 
+import RuleFolderIcon from '@mui/icons-material/RuleFolder'; //refund
+
+// boaridng house
+import InventoryIcon from '@mui/icons-material/Inventory'; //package
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState("");
