@@ -1,6 +1,9 @@
 import pkg from 'object-hash'
 import { db } from '../database.js'
 
+//  ----- PACKAGES -----
+
+// add new package 
 export const addPackage = async (req, res, next) => {
     const {
         packageName,
@@ -50,4 +53,17 @@ export const addPackage = async (req, res, next) => {
     }catch(err) {
         console.log(err)
     }
+}
+
+// get and view details of packages
+export const getPackage = async (req, res, next) => {
+    const sqlQuery = 'SELECT p.package_name, p.price, f.facility from boarding_package as p INNER JOIN boarding_package_facility as f ON p.package_id = f.package_id';
+
+    db.query(sqlQuery, (err,data) => {
+        if(err) {
+            return res.json({message: 'There is an internal error'})
+        }
+        return res.json({data})
+    })
+
 }
