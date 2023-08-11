@@ -137,20 +137,14 @@ export const Dashboard = () => {
           </div>
         </div>
 
-        {/* <div style={{width:"100%",height:"100vh",color:"black"}}>
-          <h1>Our services</h1>
-
-        </div> */}
-        {/* <div className='smooth-scroll'>
-          <h1 style={{textAlign:"center",fontSize:"60px",fontWeight:"40",marginTop:"30px"}}>Keep your Pet <span style={{color:"orange"}}>Happy</span> </h1>
-
-        </div> */}
+      
       <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%' ,marginTop:"60px"}} >
       {images.map((image) => (
         <ImageButton className='smooth-scroll'
           focusRipple
           key={image.title}
           style={{
+            fontSize:"80px",
             width: image.width,
             marginTop : image.marginTop,
             height : image.height
@@ -183,9 +177,7 @@ export const Dashboard = () => {
       )
 
       )}
-      {/* <div className='bottm'>
-      <h2>happt tail shop</h2>
-    </div> */}
+      
     </Box></>
 
      
