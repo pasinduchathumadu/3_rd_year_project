@@ -6,7 +6,7 @@ import Blogs from "./pages/Common/Blog";
 import Login from "./pages/Common/Login";
 import Email from "./pages/Common/Email";
 
-
+import TrackOrder from "./pages/Client/Storereview"
 
 
 import Bill from "./pages/Client/Bill";
@@ -44,12 +44,11 @@ import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 import AddPets from './pages/Client/AddPets';
 import Bath from "./pages/Client/Bath";
 import Haircuts from "./pages/Client/Haircuts";
-
-
 import Bording from "./pages/Client/Bording";
 import Petgrooming from "../src/pages/Client/Pet_grooming";
 import Medi from "../src/pages/Client/Medi";
 import { DoctorList } from "./pages/Client/DoctorList";
+import OrderTable from "./pages/Client/OrderTable";
 
 
 
@@ -238,6 +237,8 @@ function App() {
           />
           <Route path="/cart" element={isLoggedIn ? (<><HomeHeader userRole={user_role} /><Cart /></>) : (<Navigate to="/login" />)} />
 
+          <Route path="/track_order" element={isLoggedIn ?(<><HomeHeader userRole={user_role}/><TrackOrder/></>):(<Navigate to="/login"/>)}/>
+
           <Route path="/forget" element={<Forgot />} />
           <Route path="/reset" element={<Reset />} />
 
@@ -255,11 +256,9 @@ function App() {
 
 
 
-
-
-
           {isLoggedIn && user_role === "client" && (
             <><Route path="/reports" element={<><Header userRole={"client"} /><Reports /> </>}></Route>
+
               <Route path="/dashboard" element={<><Header userRole={"client"} /> <Dashboard /></>} ></Route>
               <Route path="/petcare" element={<><Header userRole={"client"} /><Petcare /></>}></Route>
               <Route path="/MindRealx" element={<><Header userRole={"client"} /><MindRealx /></>}></Route>
@@ -273,6 +272,7 @@ function App() {
               <Route path="/DoctorList" element={<><Header userRole={"client"} /><DoctorList /></>}></Route>
               <Route path="/addpet" element={<><Header userRole={"client"}/><AddPets /></>}></Route>
               <Route path="/Pet_grooming" element={<><Header userRole={"client"} /><Petgrooming /></>}></Route></>)}
+
 
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
 

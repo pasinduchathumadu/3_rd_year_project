@@ -472,7 +472,7 @@ export const final_payment = async(req,res,next)=>{
   const values = [original_delivery,payment,time,date,shipping,contact,original_card,email];
   db.query(sqlQuery,values,(err,data)=>{
     if(err){
-      console.log("pop")
+     
       return res.json({message:"There is an internel error"})
     }
     else{
@@ -498,4 +498,127 @@ export const back = async(req,res,next)=>{
       return res.json({message:'back'})
     }
   })
+}
+export const date_client = async(req,res,next)=>{
+  const {email,selectedDateString,selectedTimeString}=req.body
+
+  const sqlQuery = "SELECT *FROM carecenter_appointment WHERE placed_time = ? AND placed_date = ? AND client_email = ?"
+  const values = [
+    selectedTimeString,
+    selectedDateString,
+    email
+  ]
+  db.query(sqlQuery,values,(err,data)=>{
+    if(data.length>0){
+      return res.json({message:'already filled'})
+    }
+    else{
+      return res.json({message:"added"})
+    }
+  })
+
+ 
+}
+
+export const confirm = async(req,res,next)=>{
+  const id = req.params.id
+  const status = "completed"
+  const re_status = "pending"
+ 
+  const status2 = "waitting"
+  const sqlQuery2 = "UPDATE purchase_order SET po_status = ? WHERE order_email = ?"
+  const values2 = [
+    status2,
+    id
+  ]
+  db.query(sqlQuery2,values2,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an internel error'})
+    }
+  })
+
+  const sqlQuery1 = "UPDATE temporary_card SET po_id = (SELECT po_id FROM purchase_order WHERE po_status = ? AND order_email = ? ORDER BY po_id DESC LIMIT 1),status =? WHERE email = ? AND status = ?";
+  const values1 = [
+    status2,
+    id,
+    status,
+    id,
+    re_status
+  ]
+  db.query(sqlQuery1,values1,(err,data)=>{
+    if(err){
+      return res.json({message:"There is an internel error"})
+    }
+  })
+
+
+}
+
+export const generate = async(req,res,next)=>{
+  const id = req.params.id;
+  
+  const status = "completed"
+  const status2 = "waitting"
+  const sqlQuery=
+  `
+  SELECT i.name,tc.quantity,i.unit_price,tc.total,po.po_id,po.po_status,po.payment
+  FROM temporary_card tc
+  JOIN purchase_order po ON tc.po_id = po.po_id
+  JOIN item i ON tc.item_id = i.item_id
+  WHERE tc.email = ? AND tc.status = ? AND po.order_email = ? AND po.po_status = ?
+  ORDER BY po.po_id DESC
+  LIMIT 1
+  
+
+`;
+  const values = [
+    id,
+    status,
+    id,
+    status2
+  ]
+  db.query(sqlQuery,values,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an internel error'})
+    }
+  
+    return res.json({ data });
+  });
+  
+}
+
+export const client_load = async(req,res,next)=>{
+  const id = req.params.id
+ 
+  const status2 = "handed"
+  const sqlQuery='SELECT *FROM purchase_order WHERE order_email = ? AND po_status = ?'
+const values = [
+  id,
+  status2
+]
+ db.query(sqlQuery,values,(err,data)=>{
+  if(err){
+    return res.json({message:'There is an internel error'})
+  }
+  return res.json({data})
+ })
+ 
+}
+export const delete_order = async(req,res,next)=>{
+  const id = req.params.id
+  const sqlQuery = 'DELETE FROM purchase_order WHERE po_id =?'
+  const values = [
+    id
+  ]
+
+  db.query(sqlQuery,values,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an internel error'})
+    }
+
+    return res.json({message:"deleted"})
+
+  })
+
+  
 }
