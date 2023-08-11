@@ -44,12 +44,11 @@ import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 
 import Bath from "./pages/Client/Bath";
 import Haircuts from "./pages/Client/Haircuts";
-
-
 import Bording from "./pages/Client/Bording";
 import Petgrooming from "../src/pages/Client/Pet_grooming";
 import Medi from "../src/pages/Client/Medi";
 import { DoctorList } from "./pages/Client/DoctorList";
+import OrderTable from "./pages/Client/OrderTable";
 
 
 
@@ -268,6 +267,8 @@ function App() {
             <Route path="/Bath" element={<><Header userRole={"client"}/><Bath/></>}></Route>
             <Route path="/Haircuts" element={<><Header userRole={"client"}/><Haircuts/></>}></Route>
             <Route path="/DoctorList" element={<><Header userRole={"client"}/><DoctorList/></>}></Route>
+            <Route path="/OrderTable" element={<><Header userRole={"client"}/><OrderTable/></>}></Route>
+
             <Route path="/Pet_grooming" element={ <><Header userRole={"client"} /><Petgrooming /></>}></Route></>)}
 
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}

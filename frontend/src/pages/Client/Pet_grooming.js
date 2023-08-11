@@ -80,7 +80,7 @@ function Pet_grooming() {
 
 
 
-        <h1 style={{ fontSize: "60px", textAlign: "center", fontWeight: "normal", marginTop: "60px", backgroundColor: "rgb(235 235 235)", letterSpacing: "-2px", wordSpacing: "10px" ,height:"30vh"}}>
+        <h1 style={{ fontSize: "60px", color:"white",textAlign: "center", fontWeight: "10000", marginTop: "60px", backgroundColor: "black", letterSpacing: "-2px", wordSpacing: "10px" ,height:"30vh"}}>
           SELECT A PACKAGE
         </h1>
 
