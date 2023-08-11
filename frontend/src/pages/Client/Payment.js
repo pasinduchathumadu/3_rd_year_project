@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import pay from "../../assests/pay1.jpg"
-import { Button, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import StripeCheckout from "react-stripe-checkout"
 
 const Blogs = () => {
@@ -11,6 +11,15 @@ const Blogs = () => {
   const [payment,setpayment] = useState("")
   const [payment_charge,setprice] = useState("")
   const id = localStorage.getItem("store_email")
+
+  const confirm = async() =>{
+    try{
+    await axios.get(`http://localhost:5000/pet_care/user/confirm/${id}`)
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
   const [product] = useState({
     name: "React from FB",
     price:payment_charge,
@@ -83,7 +92,7 @@ const Blogs = () => {
         amount={product.price}
         shippingAddress
       >
-        <Button variant="contained" sx={{ width:"300px",height:"50px",backgroundColor: 'black', marginTop:'20%',marginLeft:'33%', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px', fontSize: '16px', '&:hover': { backgroundColor: 'black' } }} >Confirm  (Rs.{payment_charge})</Button>
+        <Button onClick={confirm} variant="contained" sx={{ width:"300px",height:"50px",backgroundColor: 'black', marginTop:'20%',marginLeft:'33%', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px', fontSize: '16px', '&:hover': { backgroundColor: 'black' } }} >Confirm  (Rs.{payment_charge})</Button>
         
       </StripeCheckout>
       <Button onClick={back} variant="contained" sx={{ width:"300px",height:"50px",backgroundColor: 'red', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px', fontSize: '16px', '&:hover': { backgroundColor: 'red' },marginTop:'20%',marginLeft:'1%' }} >Cancel</Button>

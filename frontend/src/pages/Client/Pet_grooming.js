@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
+
 import backgroundImageUrl from '../../assests/Grooming.jpg';
 import Pricing from './Pricing';
 import Button from '@mui/material/Button';
@@ -18,6 +19,7 @@ import { CardActionArea } from '@mui/material';
 import Bath from "../../assests/bath.jpg";
 import Haircut from "../../assests/haircut.png";
 import massage from "../../assests/massage.jpg";
+
 import FormDialog from './OpenForm';
 import { Link } from 'react-router-dom';
 import platinum from "../../assests/platinum.png"
@@ -25,16 +27,56 @@ import gold from "../../assests/gold.png"
 import silver from "../../assests/silver.png"
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
+
 function Pet_grooming() {
-  const [isFormOpen, setFormOpen] = useState(false);
 
-  const handleFormOpen = () => {
-    setFormOpen(true);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [error,seterror] = useState(false)
+  const [message,setmessage] = useState("")
+  const handleDateChange = (newDate) => {
+    setSelectedDate(newDate);
   };
 
-  const handleFormClose = () => {
-    setFormOpen(false);
+  const email = localStorage.getItem('store_email')
+  const input = new Date()
+  const date = format(input, 'MM-dd-yyyy')
+
+  const selectedDateString = selectedDate ? selectedDate.format('MM-DD-YYY') : '';
+  const selectedTimeString = selectedDate ? selectedDate.format('HH:mm:ss') : '';
+
+  
+  const handleFormOpen = async() => {
+    seterror(false)
+    if(date >selectedDateString){
+     seterror(true)
+     setmessage("You can't pick that date")
+      return
+    }
+
+    try{
+      const res = await axios.post('http://localhost:5000/pet_care/user/date_client',{
+        email,
+        selectedDateString,
+        selectedTimeString,
+      })
+      if(res.data.message === "already filled"){
+        seterror(true)
+        setmessage("This Time Slot Is not availble")
+      
+      }
+      else if(res.data.message === "added"){
+        seterror(true)
+        setmessage("You Time Slot is successfully placed now!")
+
+      }
+    }catch(err){
+        console.log("There is an internel error")
+    }
+   
+    
   };
+
+
 
   useEffect(() => {
     AOS.init({ duration: 1000 });
@@ -63,13 +105,23 @@ function Pet_grooming() {
         <div style={{ height: "15vh", width: "90%", backgroundColor: "rgba(255, 255, 255, 0.5)", color: "black", marginRight: "10px", alignItems: 'center', display: 'flex', }}>
           <LocalizationProvider dateAdapter={AdapterDayjs} >
             <DemoContainer components={['DateTimePicker']} sx={{ width: "50vh", marginLeft: "10px", marginTop: "-10px" }}>
-              <DateTimePicker label="Book your time" />
+              <DateTimePicker label="Book your time"  value={selectedDate}  onChange={handleDateChange} />
             </DemoContainer>
           </LocalizationProvider>
           <Button variant="contained" disableElevation sx={{ backgroundColor: "orange", marginLeft: "850px", marginTop: "0px" }} onClick={handleFormOpen}>
             Submit
           </Button>
         </div>
+        {error &&(
+           <div style={{marginTop:'2%'}}>
+           <Stack sx={{ width: '100%' }} spacing={2}>
+           <Alert severity="warning">{message}</Alert>
+           </Stack>
+           </div>
+
+        )}
+       
+       
         <h1 style={{ marginTop: "-290px", fontSize: '60px', fontWeight: 'bold' }}> Let's <span style={{ color: "orange", fontSize: '60px', fontWeight: 'bold' }}>Groom</span> your pet.</h1>
       </div>
 
@@ -224,6 +276,8 @@ function Pet_grooming() {
 </Card>
 </Link>
         </div>
+
+
       </div>
     </>
   );
