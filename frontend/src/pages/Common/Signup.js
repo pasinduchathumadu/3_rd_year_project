@@ -18,7 +18,33 @@ const Signup = ({onSignup}) =>{
 
   const handlesubmit = async(e) => {
     e.preventDefault();
+    if(email === null || password === null || first_name === null || last_name === null || street === null || city === null || contact_number === null){
+      seterror1(true)
+      setmessage("Fill Out All The Fields")
+      return;
+    }
+    var pattern = /^[A-Za-z]+$/;
+    const check =pattern.test(first_name.trim())
+    const check1 = pattern.test(last_name.trim())
+    const check2 = pattern.test(city.trim())
+
+    console.log(check)
+
+    if(!check || !check1 || !check2){
+      seterror1(true)
+      setmessage("Please Fill The Name Charactors Only")
+      return;
+    }
+
+    if(contact_number.length !== 10){
+      seterror1(true)
+      setmessage("Invalid Phone Number")
+      return;
+    }
+ 
     try{
+      // Test the input against the pattern
+     
       const res = await axios.post("http://localhost:5000/pet_care/user/signup",{
         email,
         password,

@@ -26,7 +26,7 @@ const Company_Home = () => {
 
   return (
     <Box>
-      <Stack direction="row" justifyContent="space-between" padding={2}>
+      <Stack direction="row" justifyContent="space-between" padding={2} sx={{marginTop:'4%'}}>
         <Box>
           <Typography variant="inherit" color="textSecondary">
             Company Manager
@@ -40,7 +40,7 @@ const Company_Home = () => {
         </Box>
         <Stack justifyContent="center" alignItems="center">
           <Typography color="textPrimary" fontWeight="bold" fontSize={"25px"}>
-            Dasboard
+            Dasboar
           </Typography>
         </Stack>
         <Stack direction="row" justifyContent="center" alignItems="center">

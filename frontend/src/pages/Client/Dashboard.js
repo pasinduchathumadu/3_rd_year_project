@@ -13,6 +13,10 @@ import Image3 from '../../assests/medi-help-image.png'
 import Image4 from '../../assests/pet-foods.png'
 import "../../styles/Client/Shop.css"
 import Button from '@mui/material/Button';
+import video from "../../assests/video2.mp4"
+import cage from "../../assests/png.png";
+import AOS from 'aos';
+
 
 import {useNavigate} from 'react-router-dom'
 
@@ -27,23 +31,23 @@ const images = [
     url: Image2,
     title: 'Bording-House',
     width: '30%',
-    slag: '/def'
+    slag: '/bording'
   },
   {
     url: Image3,
     title: 'Medi house',
     width: '30%',
-    slag: '/ghi'
+    slag: '/medi'
   },
  
   {
     
     url: Image4,
-    title: 'Medi house',
+    title: 'Shop',
     width: '100%',
     marginTop : '1%' ,
     height:450,
-    slag: '/ghi'
+    slag: '/menu'
   },
 ];  
 
@@ -116,19 +120,31 @@ export const Dashboard = () => {
   const navigate = useNavigate();
 
   return (
-    <div className='dashboard'>
+
+      
 
         <>
-        <div className='smooth-scroll'>
-          <h1 style={{textAlign:"center",fontSize:"60px",fontWeight:"40",marginTop:"30px"}}>Keep your Pet <span style={{color:"orange"}}>Happy</span> </h1>
+        
+        <div style={{width:"100%",height:"100vh",backgroundColor:"black"}}>
+          <div className='overlap'></div>
+          <video style={{width:"100%",height:"100%",objectFit:"cover"}} src={video} autoPlay loop muted playbackRate={0.2}/>
+          <div className='content'>
+            <h1 style={{fontSize:"80px",color:"white",marginTop:"-30vh"}} >Welcome happy tails</h1>
+            <p>keep your pet happy</p>
+            {/* <img  className="smooth-scroll" src={cage} alt="Cage" style={{fontSize:"20px",width:"100px",height:"100px",marginTop:"10px"}}/> */}
 
+
+          </div>
         </div>
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%' ,marginTop:"60px"}}>
+
+      
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%' ,marginTop:"60px"}} >
       {images.map((image) => (
         <ImageButton className='smooth-scroll'
           focusRipple
           key={image.title}
           style={{
+            fontSize:"80px",
             width: image.width,
             marginTop : image.marginTop,
             height : image.height
@@ -161,13 +177,10 @@ export const Dashboard = () => {
       )
 
       )}
-      {/* <div className='bottm'>
-      <h2>happt tail shop</h2>
-    </div> */}
+      
     </Box></>
 
      
-  </div>
   
    
   )

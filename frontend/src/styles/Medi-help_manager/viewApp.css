@@ -17,7 +17,7 @@
 
 #appointment {
     position: relative;
-    left:200px;
+    left:100px;
     top: 100px;
     font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;
@@ -98,28 +98,44 @@
   .linkButton a:hover
  {
   background-color: #FFA500;
-  color: #ffffff; 
+  color:black; 
 }
 
 .linkButton a.active {
     background-color: #FFA500;
-    color: #ffffff;
+    color: black;
 
   }
   .linkButton a.active,
 .linkButton a.active:hover {
-  color: #ffffff;
+  color:black;
 }
 
 .boarding-profile-picture1 {
   position: relative;
-  top:20px;
+  top:10px;
   left: 500px;
   height: 100px;
 
    width: 100px;
   border-radius: 50%;
   border-color: black;
-  margin-right: 10px;
+  margin-right: 0px;
   margin-left: 15px;
+}
+
+.btnstatus{
+  position: relative;
+  left:10px;
+   background-color:  #eaaf26; 
+    border: none;
+    color:black;
+    width:50px;
+    padding: 6px 6px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    font-family: Verdana ;
+    border-radius: 3px;
 }

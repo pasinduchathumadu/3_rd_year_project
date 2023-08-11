@@ -1,0 +1,73 @@
+.shopTitle {
+    margin-top: 100px;
+    text-align: center;
+    font-size: 40px;
+  }
+  
+  .products {
+    width: 100%;
+    height: auto;
+    padding: 55px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    place-items: center;
+  }
+  
+  .product {
+    transition: transform 0.5s;
+    background-color: #f8f8f8;
+    border-radius: 15px;
+    width: 250px;
+    height: 250px;
+    margin: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .product img {
+    width: 400px;
+  }
+  
+  .product .description {
+    text-align: center;
+  }
+  
+  .product:hover {
+    transform: scale(1.1);
+    transition: 0.3s ease-in;
+    cursor: pointer;
+  }
+  
+  .addToCartBttn {
+    transition: background-color 0.1s, color 0.4s, min-width 0.5s;
+    background-color: transparent;
+    border: 2px solid rgb(19, 19, 19);
+    min-width: 100px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 4px;
+  }
+  
+  .addToCartBttn:hover {
+    min-width: 100px;
+    transition: calc(0.5);
+    background-color: rgb(19, 19, 19);
+    color: white;
+    cursor: pointer;
+  }
+  
+  /* Shop.css */
+  .smooth-scroll {
+    /* Your existing styles for the div */
+  }
+  
+  .animate-scroll {
+    transform: translateY(-100px);
+    opacity: 0;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+  

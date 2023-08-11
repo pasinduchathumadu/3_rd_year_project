@@ -43,7 +43,7 @@ export default function TemporaryDrawer({
   }
   else if(userType === 'client'){
     data = ["Dashboard","Pet Care","Mind Relaxing","Shop","Non-Breadshop","Pet Grooming","Reports"];
-    data_link = ["dashboard","petcare","MindRelax","shop","NonBredShop","Pet_grooming","reports"]
+    data_link = ["dashboard","petcare","MindRealx","shop","NonBredShop","Pet_grooming","reports"]
   }
   else if(userType === 'care_center_manager'){
     data = ["Appointments","Packages","Cargivers","Complains"];
@@ -58,7 +58,9 @@ export default function TemporaryDrawer({
       "company_competitions",
       "company_complains",
     ];
-  } else {
+  } 
+  
+  else {
     // Default values if userType doesn't match any of the conditions
     data = [];
     data_link = [];

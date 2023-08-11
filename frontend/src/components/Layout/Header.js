@@ -192,7 +192,7 @@ export default function PrimarySearchAppBar({userRole}) {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static"  sx={{ backgroundColor: 'black' }}>
+      <AppBar position="fixed"  sx={{ backgroundColor: 'black' }}>
         <Toolbar>
           <IconButton
             size="large"
@@ -224,7 +224,7 @@ export default function PrimarySearchAppBar({userRole}) {
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ display: { xs: 'none', md: 'flex' ,marginLeft:"-450px"} }}>
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="error">
                 <MailIcon />
@@ -265,7 +265,7 @@ export default function PrimarySearchAppBar({userRole}) {
             </IconButton>
             
           </Box>
-          <Button onClick={logout} variant="contained" sx={{backgroundColor:"orange",marginRight:"10px",':hover':{backgroundColor:'orange'}}}>logout</Button>
+          <Button onClick={logout} variant="contained" sx={{backgroundColor:"orange",marginRight:"20px",':hover':{backgroundColor:'orange'}}}>logout</Button>
 
 
 

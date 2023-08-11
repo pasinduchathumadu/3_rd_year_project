@@ -5,7 +5,12 @@ import Signup from "./pages/Common/Signup";
 import Blogs from "./pages/Common/Blog";
 import Login from "./pages/Common/Login";
 import Email from "./pages/Common/Email";
+
+
+
+
 import Bill from "./pages/Client/Bill";
+
 import { Dashboard } from "./pages/Client/Dashboard";
 import { Reports } from "./pages/Client/Reports";
 
@@ -15,6 +20,7 @@ import Petcare from "./pages/Client/Petcare";
 import MindRealx from "./pages/Client/MindRealx";
 import { Shop } from "./pages/Client/Shop";
 import { NonBredShop } from "./pages/Client/NonBredShop";
+import PopupForm from "./pages/Client/popupform";
 
 import Header from "../src/components/Layout/Header";
 
@@ -36,6 +42,26 @@ import BoardingPackages from "./pages/Boarding_house_manager/Packages";
 import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 
 
+import Bath from "./pages/Client/Bath";
+import Haircuts from "./pages/Client/Haircuts";
+import Bording from "./pages/Client/Bording";
+import Petgrooming from "../src/pages/Client/Pet_grooming";
+import Medi from "../src/pages/Client/Medi";
+import { DoctorList } from "./pages/Client/DoctorList";
+import OrderTable from "./pages/Client/OrderTable";
+
+
+
+import Doctor from "./pages/Medi-help_manager/doctors";
+import ViewAppointments from "./pages/Medi-help_manager/ViewAppointments";
+
+import PetProfiles from "./pages/Medi-help_manager/PetProfile";
+import MediComplaints from "./pages/Medi-help_manager/Complains";
+import MediDashboard from "./pages/Medi-help_manager/Dashboard";
+
+
+  
+ 
 import Packages from "./pages/Care_center_manager/Packages";
 import Complaints from "./pages/Care_center_manager/Complaints";
 import Caregiverlist from "./pages/Care_center_manager/caregiverlist";
@@ -50,7 +76,7 @@ import AdminComplains from "./pages/Admin/Complains";
 
 import Profile from './pages/Common/Profile';
 
-import Petgrooming from "../src/pages/Client/Pet_grooming";
+
 
 import Onlinehome from "./pages/Online_store_manager/Home";
 import OnlineAdd from "./pages/Online_store_manager/Add";
@@ -65,13 +91,9 @@ import CompanyComplaints from "./pages/Company_manager/Company_Complaints";
 import { useNavigate } from "react-router-dom";
 import HomeHeader from "./components/Layout/Homeheader";
 
-import Doctors from "./pages/Medi-help_manager/doctors";
-import ViewAppointments from "./pages/Medi-help_manager/ViewAppointments";
-import PendingAppointments from "./pages/Medi-help_manager/PendingAppointments";
-import CompletedAppointments from "./pages/Medi-help_manager/CompletedAppointments";
-import PetProfiles from "./pages/Medi-help_manager/PetProfile";
-import ViewDoctors from "./pages/Medi-help_manager/ViewDoctors";
-import GetAppointments from "./pages/Medi-help_manager/GetAppointments";
+import PaymentClient from './pages/Client/Payment'
+
+
 // import Complains from "./pages/Boarding_house_manager/Complains";
 
 function App() {
@@ -97,6 +119,7 @@ function App() {
     setuserrole(role);
     localStorage.setItem("userRole", role);
     localStorage.setItem("isLoggedIn", "true");
+
     localStorage.setItem("store_email", email);
 
     if (role === "online_store_manager") {
@@ -115,6 +138,12 @@ function App() {
     } else if (role === "company_manager") {
       navigate("/company_dashboard");
       localStorage.setItem("company_manager", email);
+
+    }
+    else if (role === "medi_help_manager") {
+      navigate("/Doctors");
+      localStorage.setItem("medi_help_manager", email);
+
     }
   };
   const handleSignup = () => {
@@ -147,7 +176,7 @@ function App() {
           <Route path="/menu" element={isLoggedIn ? (<><HomeHeader userRole={user_role} /><Menu /></>) : (<Navigate to='/login' />)} />
           <Route path="/cart" element={isLoggedIn ? (<><HomeHeader userRole={user_role} /><Cart /></>) : (<Navigate to='/login' />)} />
           <Route path="/email" element={!issignup ? <Email /> : <Navigate to="/signup" />} />
-
+          <Route path="/payment" element={isLoggedIn ?(<><HomeHeader userRole={user_role}/><PaymentClient/></>):(<Navigate to='/login'/>)}/>
           <Route
             path="/store"
             element={
@@ -212,9 +241,21 @@ function App() {
           <Route path="/reset" element={<Reset />} />
 
           <Route path="/blog" element={ isLoggedIn ? ( <><HomeHeader userRole={user_role} /><Blogs /></>) : (<><LandingHeader /><Blogs /></>)}/>
-               
+          <Route path="/blogs" element={<><LandingHeader/><Blogs/></>}/>     
 
           {/* <Route path="/blogs" element={isLoggedIn ? <Blogs /> : <Navigate to="/login" />} /> */}
+
+       
+      
+
+
+
+
+          
+
+
+
+
 
           {isLoggedIn && user_role === "client" && (
             <><Route path="/reports" element={<><Header userRole={"client"} /><Reports /> </>}></Route>
@@ -223,6 +264,14 @@ function App() {
             <Route path="/MindRealx" element={<><Header userRole={"client"} /><MindRealx /></>}></Route>
             <Route path="/shop" element={<><Header userRole={"client"} /><Shop /></>}></Route>
             <Route path="/NonBredShop" element={<><Header userRole={"client"} /><NonBredShop /></>}></Route>
+            <Route path="/bording" element={<><Header userRole={"client"}/><Bording/></>}></Route>
+            <Route path="/medi" element={<><Header userRole={"client"}/><Medi/></>}></Route>
+            <Route path="/popupform" element={<><Header userRole={"client"}/><PopupForm/></>}></Route>
+            <Route path="/Bath" element={<><Header userRole={"client"}/><Bath/></>}></Route>
+            <Route path="/Haircuts" element={<><Header userRole={"client"}/><Haircuts/></>}></Route>
+            <Route path="/DoctorList" element={<><Header userRole={"client"}/><DoctorList/></>}></Route>
+            <Route path="/OrderTable" element={<><Header userRole={"client"}/><OrderTable/></>}></Route>
+
             <Route path="/Pet_grooming" element={ <><Header userRole={"client"} /><Petgrooming /></>}></Route></>)}
 
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
@@ -236,22 +285,21 @@ function App() {
           {/* medi care manager */}
           
           
-           <Route path="/Doctors" element={
-            <div className="App">
-              
-          <Doctors />
-         
-        
-          
-          </div>
-          } />
-          <Route path="/viewAppointments" element={<ViewAppointments />} />
-          <Route path="/viewPendingAppointments" element={<PendingAppointments />} />
-          <Route path="/viewCompletedAppointments" element={<CompletedAppointments />} />
-          <Route path="/PetProfiles" element={<PetProfiles />} />
-          <Route path="/viewDoctors" element={<ViewDoctors />} />
-          <Route path="/getAppointment" element={<GetAppointments />} />
+             <><Route path="/Doctors" element={<div className="App">
+             <><HomeHeader userRole={"medi_help_manager"}/><Doctor /></>
+            </div>} /><Route path="/viewAppointments" element={<><HomeHeader userRole={"medi_help_manager"}/><ViewAppointments /></>} />
 
+          
+            <Route path="/PetProfiles" element={<><HomeHeader userRole={"medi_help_manager"}/><PetProfiles /></>} />
+           
+            <Route path="/medi_complaints" element={<><HomeHeader userRole={"medi_help_manager"}/><MediComplaints/></>} />
+            <Route path="/medi_dashboard" element={<><HomeHeader userRole={"medi_help_manager"} /><MediDashboard/></>} />
+
+          
+            </>
+         
+          
+         
 
           {/* boarding house manager */}
           {isLoggedIn && user_role === "boarding_house_manager" && (
@@ -289,7 +337,7 @@ function App() {
               <Route path="/packages" element={  <>   <HomeHeader userRole={"care_center_manager"} /> <Packages /></>  }/>
               <Route path="/appointments" element={<>  <HomeHeader userRole={"care_center_manager"} />  <Appointments /></>  }/>
               <Route path="/complaints"element={<>   <HomeHeader userRole={"care_center_manager"} /> <Complaints /></>  }  /></>
-          )}
+           )} 
 
           {isLoggedIn && user_role === "online_store_manager" && (
             <>

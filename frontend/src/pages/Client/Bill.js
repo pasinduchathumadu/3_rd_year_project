@@ -11,7 +11,19 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import axios from "axios";
 import { styled } from '@mui/material/styles';
+import { useNavigate } from "react-router-dom";
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 const Bill = () => {
+    const navigate = useNavigate("")
+    const [delivery ,setdelivery ] = useState("")
+    const [card,setcard] = useState("")
+    const [shipping , setshipping] = useState("")
+    const [contact,setcontact] = useState("")
+    const [error,seterror] = useState(false)
+    const [error_message,setmessage] = useState("")
+    const email = localStorage.getItem("store_email")
+
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
         ...theme.typography.body2,
@@ -19,6 +31,48 @@ const Bill = () => {
         textAlign: 'center',
         color: theme.palette.text.secondary,
     }));
+
+   
+
+    const back = () =>{
+        navigate('/menu')
+    }
+
+    const changedelivery = (event,newValue) =>{
+        setdelivery(event.target.value)
+    }
+    const cardpayment = (event,newValue) =>{
+        setcard(event.target.value)
+    }
+    const final_payment = async(payment) =>{
+        if(!shipping || !card  || !contact || !delivery ){
+            seterror(true)
+            setmessage("Please Fill Out All The Fields")
+            return;
+        }
+        try{
+            const res = await axios.post("http://localhost:5000/pet_care/user/final_payment",{
+                date,
+                time,
+                shipping,
+                contact,
+                delivery,
+                card,
+                email,
+                payment
+
+            })
+            if(res.data.messsage === "There is an internel error"){
+              seterror(true)
+            }
+            else{
+                navigate('/payment')
+            }
+
+        }catch(err){
+            console.log(err);
+        }
+    }
 
     function FormRow() {
         return (
@@ -80,6 +134,14 @@ const Bill = () => {
             <Grid sx={{ marginLeft: '45%', fontSize: '18px', fontWeight: '400', marginTop: '1%' }}>
                 Order ID #0001
             </Grid>
+
+            {error &&(
+                 <Stack sx={{ width: '50%',marginLeft:'25%',marginTop:'2%' }} spacing={2}>
+                 <Alert severity="success">{error_message}</Alert>
+                 </Stack>
+
+            )}
+           
             <div style={{ display: 'flex' }}>
                 <Box sx={{ width: '50%', marginTop: '5%', marginLeft: '3%', border: '1px', borderRadius: '10px', borderStyle: "double", height: 'auto' }}>
                     <Typography sx={{ marginLeft: '40%', marginTop: '1%', marginBottom: '2%', fontSize: '24px', fontWeight: '600' }}>Shipping Details</Typography>
@@ -116,10 +178,10 @@ const Bill = () => {
                 </Box>
                 <Box sx={{ marginTop: '5%', marginLeft: '3%', border: '1px', borderRadius: '10px', borderStyle: "double", height: 'auto', width: '40%', backgroundColor: '#f0f0f5' }}>
                     <div style={{ margin: '1%' }}>
-                        <TextField id="outlined-basic" placeholder="Shipping Address" variant="outlined" sx={{ width: '100%', backgroundColor: 'white' }} />
+                        <TextField id="outlined-basic" onChange={(e)=>setshipping(e.target.value)} placeholder="Shipping Address" variant="outlined" sx={{ width: '100%', backgroundColor: 'white' }} required />
                     </div>
                     <div style={{ margin: '1%' }}>
-                        <TextField id="outlined-basic" placeholder="Contact Number" variant="outlined" sx={{ width: '100%', backgroundColor: 'white' }} />
+                        <TextField id="outlined-basic" onChange={(e)=>setcontact(e.target.value)} placeholder="Contact Number" variant="outlined" sx={{ width: '100%', backgroundColor: 'white' }} required />
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
                         <CalendarMonthIcon sx={{ marginLeft: '1%', marginRight: '1%' }} />{date}
@@ -129,12 +191,15 @@ const Bill = () => {
                         <FormControl>
                             <FormLabel sx={{ color: 'black', fontSize: '20px' }} id="demo-row-radio-buttons-group-label">Deliver on</FormLabel>
                             <RadioGroup
+                                value={delivery}
+                                onChange={changedelivery}
                                 row
                                 aria-labelledby="demo-row-radio-buttons-group-label"
                                 name="row-radio-buttons-group"
+                                required
                             >
-                                <FormControlLabel value="female" control={<Radio />} label="Currier" />
-                                <FormControlLabel value="male" control={<Radio />} label="Physically" />
+                                <FormControlLabel value={10} control={<Radio />} label="Currier" />
+                                <FormControlLabel value={20} control={<Radio />} label="Physically" />
 
 
                             </RadioGroup>
@@ -144,12 +209,15 @@ const Bill = () => {
                         <FormControl>
                             <FormLabel sx={{ color: 'black', fontSize: '20px' }} id="demo-row-radio-buttons-group-label">Payment Method</FormLabel>
                             <RadioGroup
+                                value={card}
+                                onChange={cardpayment}
                                 row
                                 aria-labelledby="demo-row-radio-buttons-group-label"
                                 name="row-radio-buttons-group"
+                                required
                             >
-                                <FormControlLabel value="female" control={<Radio />} label="Credit" />
-                                <FormControlLabel value="male" control={<Radio />} label="Debit" />
+                                <FormControlLabel value={30} control={<Radio />} label="Credit" />
+                                <FormControlLabel value={40} control={<Radio />} label="Debit" />
 
 
                             </RadioGroup>
@@ -157,8 +225,9 @@ const Bill = () => {
                     </div>
 
                     <div>
-                        <Button sx={{ width: '30%', backgroundColor: 'red', color: 'black', margin: '2%',':hover':{backgroundColor:'red'} }}>Cancel</Button>
-                        <Button sx={{ width: '50%', backgroundColor: 'orange', color: 'black',':hover':{backgroundColor:'orange'} }}>Buy Now (RS.{total1 && total1.map((menu,index)=>menu.new2)})</Button>
+                        <Button onClick={back} sx={{ width: '30%', backgroundColor: 'red', color: 'black', margin: '2%',':hover':{backgroundColor:'red'} }}>Cancel</Button>
+                        <Button onClick={() => final_payment(total1 && total1.map((menu,index) => menu.new2))} sx={{ width: '50%', backgroundColor: 'orange', color: 'black', ':hover': { backgroundColor: 'orange' } }}>Buy Now (RS.{total1 && total1.map((menu,index) => menu.new2)})</Button>
+
                     </div>
 
 

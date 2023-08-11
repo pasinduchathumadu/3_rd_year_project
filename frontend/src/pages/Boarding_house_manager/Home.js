@@ -12,11 +12,7 @@ import PetsIcon from '@mui/icons-material/Pets';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-// import Accordion from '@mui/material/Accordion';
-// import AccordionSummary from '@mui/material/AccordionSummary';
-// import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
-// import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Table, TableHead, TableRow, TableBody, TableCell, Button } from "@mui/material";
 import { tableCellClasses } from '@mui/material/TableCell';
 import { styled } from '@mui/material/styles';
@@ -67,14 +63,16 @@ const Home = () => {
         setmain(true);
     }
 
-    return (
+    const input = new Date();
+    const date = input.toDateString();
 
+    return (
         <div className="home-container" style={{ marginTop: '4%'}}>
             <div className="top">
                 <div className="top-line">
                     <p>Boarding House Manager</p>
                     <p className="top-line-text">Today</p>
-                    <p class="top-line-text">18 June 2023</p>
+                    <p class="top-line-text">{date}</p>
                 </div>
                 <div className="top-line">
                     <p style={{ fontSize: '20px', fontWeight: 1000, color: 'black' }}>DashBoard</p>
@@ -117,8 +115,8 @@ const Home = () => {
                             <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>10</h1>
                         </div>
                         <div className="boarding-wrapper-box" style={{ backgroundColor: 'white' }} >
-                            <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'orange', marginRight: '5px' }} />Completed Requests</p>
-                            <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>06</h1>
+                            <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'orange', marginRight: '5px' }} />Completed Boarded Pets</p>
+                            <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>04</h1>
                         </div>
                     </div>
                 </div>
@@ -206,7 +204,7 @@ const Home = () => {
                     <div className="boarding-box-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} >
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
                             <InventoryIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
-                            <h3 style={{ color: 'black' }}>Packages</h3>
+                            <h3 style={{ color: 'black' }}>Packages Usage</h3>
                         </div>
 
                         <Box sx={{ minWidth: 120, marginLeft: '400px' }}>
@@ -240,7 +238,7 @@ const Home = () => {
                                     ],
                                 },
                             ]}
-                            width={500}
+                            width={600}
                             height={200}
                         />
                     </div>
@@ -270,7 +268,7 @@ const Home = () => {
                         </TableBody>
                     </Table>
 
-                    <Button onClick={() => FinishViewing()} sx={{ backgroundColor: 'orange', color: 'white', width: '100px', marginTop: '10px', marginLeft: '90%' }}>Done</Button>
+                    <Button onClick={() => FinishViewing()} sx={{ backgroundColor: 'orange', ':hover':{backgroundColor:'orange'}, color: 'white', width: '100px', marginTop: '10px', marginLeft: '90%' }}>Done</Button>
 
                 </div>
             )}

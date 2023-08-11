@@ -17,7 +17,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import profile from "../../assests/profile.jpg";
-import { Typography, Avatar, Stack } from "@mui/material";
+import { Typography, Avatar, Stack, Button } from "@mui/material";
  
 
 
@@ -63,9 +63,9 @@ const rows = [
 ];
     return (
    
-      <div className="row">
+      <div className="row1" style={{marginTop:'4%'}}>
           <div style={{ display: 'flex' }}>
-                        <div style={{ display: 'inline', marginTop: '20px', marginLeft: '2%',color:'rgb(139, 139, 139)' }}>
+                        <div style={{ display: 'inline', marginTop: '30px', marginLeft: '2%' }}>
                             <Typography>
                                  Medi Care Manager
                             </Typography>
@@ -77,55 +77,44 @@ const rows = [
                             </Typography>
                         </div>
                         <div
-              style={{
-                display: "flex",
-                marginTop: "30px",
-                width: "33.3%",
-                justifyContent:"center"
-              }}
+             style={{ display: 'inline', marginTop: '30px', paddingLeft: '450px' }}
             >
              <Typography
-                sx={{
-                  position:"relative",
-                  left:"200px",
-                  color: "black",
-                  fontSize: "24px",
-                  fontFamily: "fantasy",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
+               sx={{ color: 'black', fontSize: '24px', fontFamily: 'fantasy', display: 'flex', alignItems: 'center' }}>
                 Doctor Details
               </Typography>
             </div>
-                        <div style={{ display: "flex",width:"33.3%" }}>
-              <Stack direction="row" spacing={2} width={1500}>
-              <img src={profile} alt="profilepicture" className="boarding-profile-picture" />
-              </Stack>
-            
+            <div style={{ display: 'flex', marginLeft: 'auto',alignItems:'center',justifyContent:'center' }}>
+                           
+                            <div style={{marginLeft:'1%'}}>
+                            <Stack direction="row" spacing={2}>
+                             <Avatar alt="Travis Howard" src={profile} sx={{ width: 60, height: 60 }} />
+                            </Stack>
+                            </div>
                            
                         </div>
                     </div>
+                    
       <div className="col-md-12">
       
-          <div className="card">
+          <div className="card1">
        
-              <div className="card-header">
+              <div className="card-header1">
              
-              <button className='btnadd' onClick={()=>setModelOpen(true)} > + Add Doctor</button>
+              <Button sx={{backgroundColor:'orange',':hover':{backgroundColor:'orange'},marginLeft:'90%',marginTop:'2%',marginBottom:'1%'}} onClick={()=>setModelOpen(true)} > + Add Doctor</Button>
           
               </div>
-              <div id="customers">
+              <div id="customers6">
               <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+      <Table sx={{ minWidth: 900 }} aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell>ID</StyledTableCell>
             <StyledTableCell align="right">Doctor Name</StyledTableCell>
-            <StyledTableCell align="right">Phone Number</StyledTableCell>
-            <StyledTableCell align="right">Email</StyledTableCell>
-            <StyledTableCell align="right">Available Date</StyledTableCell>
-            <StyledTableCell align="right">Time</StyledTableCell>
+            <StyledTableCell align="right">Phone No</StyledTableCell>
+            <StyledTableCell align="right" sx={{textAlign:'center'}}>Email</StyledTableCell>
+            <StyledTableCell align="right">Register Number</StyledTableCell>
+            <StyledTableCell align="right" sx={{textAlign:'center'}}>Category</StyledTableCell>
             <StyledTableCell align="right">Edit</StyledTableCell>
             <StyledTableCell align="right">Delete</StyledTableCell>
            
@@ -141,10 +130,10 @@ const rows = [
               <StyledTableCell align="right"> Maria Anders</StyledTableCell>
              <StyledTableCell align="right">0123456789</StyledTableCell>
               <StyledTableCell align="right">maria@gmail.com</StyledTableCell>
-              <StyledTableCell align="right">Monday-Friday</StyledTableCell>
-              <StyledTableCell align="right">8A.M -7P.M</StyledTableCell>
-              <StyledTableCell align="right"><button className='docbtnedit'>Edit</button></StyledTableCell>
-              <StyledTableCell align="right"><button className='docbtndelete' onClick={()=>setShow(true)}>Delete</button></StyledTableCell>
+              <StyledTableCell align="right" sx={{textAlign:'center'}}>01234</StyledTableCell>
+              <StyledTableCell align="right" sx={{textAlign:'center'}}>Veterinary specialists</StyledTableCell>
+              <StyledTableCell align="right"><Button sx={{backgroundColor:'orange',':hover':{backgroundColor:'orange'},color:'white'}}>Edit</Button></StyledTableCell>
+              <StyledTableCell align="right"><Button sx={{backgroundColor:'black',':hover':{backgroundColor:'black'},color:'white'}} onClick={()=>setShow(true)}>Delete</Button></StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
