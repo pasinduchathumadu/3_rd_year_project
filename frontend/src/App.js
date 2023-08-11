@@ -42,6 +42,7 @@ import BoardingPackages from "./pages/Boarding_house_manager/Packages";
 import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 
 import AddPets from './pages/Client/AddPets';
+import Crossing from './pages/Client/Crossing';
 import Bath from "./pages/Client/Bath";
 import Haircuts from "./pages/Client/Haircuts";
 import Bording from "./pages/Client/Bording";
@@ -271,6 +272,7 @@ function App() {
               <Route path="/Haircuts" element={<><Header userRole={"client"} /><Haircuts /></>}></Route>
               <Route path="/DoctorList" element={<><Header userRole={"client"} /><DoctorList /></>}></Route>
               <Route path="/addpet" element={<><Header userRole={"client"}/><AddPets /></>}></Route>
+              <Route path="/crossing" element={<><Header userRole={"client"}/><Crossing /></>}></Route>
               <Route path="/Pet_grooming" element={<><Header userRole={"client"} /><Petgrooming /></>}></Route></>)}
 
 

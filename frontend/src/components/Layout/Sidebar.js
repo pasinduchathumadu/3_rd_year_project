@@ -42,8 +42,8 @@ export default function TemporaryDrawer({
     data_link = ["admin_dashboard", "admin_users", "admin_refund", "admin_complains"];
   }
   else if(userType === 'client'){
-    data = ["Dashboard","Add Pets ","Shop","Non-Breadshop","Reports"];
-    data_link = ["dashboard","addpet","shop","NonBredShop","reports"]
+    data = ["Dashboard","Add Pets"," Crossing Features ", "Shop","Non-Breadshop","Reports"];
+    data_link = ["dashboard","addpet","crossing","shop","NonBredShop","reports"]
   }
   else if(userType === 'care_center_manager'){
     data = ["Appointments","Packages","Cargivers","Complains"];
