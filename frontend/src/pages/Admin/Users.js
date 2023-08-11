@@ -98,8 +98,6 @@ const Users = () => {
 
     };
 
-
-
     // drop down
     const [clients, setClients] = React.useState('1');
     const handleChange = (event) => {
@@ -134,9 +132,9 @@ const Users = () => {
             console.log("There is an internel error")
         }
     }
+
     const submitManager = async (e) => {
         e.preventDefault()
-
 
         try {
             const res = await axios.post("http://localhost:5000/pet_care/admin/registration", {
@@ -197,6 +195,9 @@ const Users = () => {
         setUsers(1);
     }
 
+    const input = new Date();
+    const date = input.toDateString();
+
 
     return (
         <div className="home-container" style={{ marginTop: '4%' }}>
@@ -204,7 +205,7 @@ const Users = () => {
                 <div className="top-line">
                     <p>Administrator</p>
                     <p className="top-line-text">Today</p>
-                    <p class="top-line-text">18 June 2023</p>
+                    <p class="top-line-text">{date}</p>
                 </div>
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
@@ -243,7 +244,7 @@ const Users = () => {
                                         <StyledTableCell align="center">Email</StyledTableCell>
                                         <StyledTableCell align="center">Contact Number</StyledTableCell>
                                         <StyledTableCell align="center">Address</StyledTableCell>
-                                        <StyledTableCell align="center">Work</StyledTableCell>
+                                        <StyledTableCell align="center">Role</StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
                                     </StyledTableRow>
                                 </TableHead>

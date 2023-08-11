@@ -93,6 +93,12 @@ const Complains = () => {
         setaddResponce(false);
     }
 
+    // cancel adding responce
+    const cancelResponse = () => {
+        setaddResponce(false);
+        setComplain(0);
+    }
+
     // after click on view response
     const viewResponse = () => {
         setComplain(false);
@@ -105,6 +111,8 @@ const Complains = () => {
         setviewResponce(false);
     }
 
+    const input = new Date();
+    const date = input.toDateString();
 
     return (
         <div className="home-container" style={{ marginTop: '4%' }}>
@@ -112,7 +120,8 @@ const Complains = () => {
                 <div className="top-line">
                     <p>Administrator</p>
                     <p className="top-line-text">Today</p>
-                    <p class="top-line-text">18 June 2023</p>
+                    {/* <p class="top-line-text">18 June 2023</p> */}
+                    <p class="top-line-text">{date}</p>
                 </div>
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
@@ -315,7 +324,10 @@ const Complains = () => {
                                 // onChange={handleFileChange}
                                 />
                             </div>
-                            <Button variant="contained" onClick={() => afterAddingResponse()} sx={{ background: "orange", width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Response</Button>
+                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <Button variant="contained" onClick={() => afterAddingResponse()} sx={{ background: "orange", marginRight: '10px', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Response</Button>
+                                <Button variant="contained" onClick={() => cancelResponse()} sx={{ background: "red", width: '100%', marginLeft: '10px', marginTop: '10px', ':hover': { backgroundColor: "red" } }}>Cancel</Button>
+                            </div>
                         </div>
                     </FormControl>
                 </div>

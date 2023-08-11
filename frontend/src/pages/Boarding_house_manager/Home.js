@@ -63,14 +63,16 @@ const Home = () => {
         setmain(true);
     }
 
-    return (
+    const input = new Date();
+    const date = input.toDateString();
 
+    return (
         <div className="home-container" style={{ marginTop: '4%'}}>
             <div className="top">
                 <div className="top-line">
                     <p>Boarding House Manager</p>
                     <p className="top-line-text">Today</p>
-                    <p class="top-line-text">18 June 2023</p>
+                    <p class="top-line-text">{date}</p>
                 </div>
                 <div className="top-line">
                     <p style={{ fontSize: '20px', fontWeight: 1000, color: 'black' }}>DashBoard</p>
@@ -266,7 +268,7 @@ const Home = () => {
                         </TableBody>
                     </Table>
 
-                    <Button onClick={() => FinishViewing()} sx={{ backgroundColor: 'orange', color: 'white', width: '100px', marginTop: '10px', marginLeft: '90%' }}>Done</Button>
+                    <Button onClick={() => FinishViewing()} sx={{ backgroundColor: 'orange', ':hover':{backgroundColor:'orange'}, color: 'white', width: '100px', marginTop: '10px', marginLeft: '90%' }}>Done</Button>
 
                 </div>
             )}
