@@ -1,9 +1,6 @@
-// import Add from '@mui/icons-material/Add';
 import { Avatar, FormControl, FormLabel, TextField, Typography } from '@mui/material';
 import React from 'react';
-// import { BsTranslate } from 'react-icons/bs';
 import BackgroundImage from '../../assests/pet_add.jpeg';
-// import FolderIcon from '@mui/icons-material/Folder';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import CatImage from '../../assests/cat_image.jpeg';
@@ -11,15 +8,9 @@ import DogImage from '../../assests/dog_image.jpeg';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-// import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-// import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-// import FormHelperText from '@mui/material/FormHelperText';
-// import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
 
 const AddPets = () => {
     // drop downs
@@ -37,9 +28,6 @@ const AddPets = () => {
 
     return (
         <div>
-            {/* <div style={{ marginTop: '5%', padding: '10px', marginLeft: '1330px' }}>
-                <Button sx={{ color: 'white', backgroundColor: 'orange', padding: '10px', borderRadius: '10px', width: '150px', ':hover':{backgroundColor:'orange'} }}><ArrowBackIcon sx={{ marginRight: '20px' }} />Back</Button>
-            </div> */}
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '5%'}}>
                 <div style={{ width: '50%', height: '100%', padding: '20px', marginLeft: '20px', marginRight: '5px', backgroundColor: '#F0F0F5', borderRadius: '10px' }}>
                     <FormControl>
