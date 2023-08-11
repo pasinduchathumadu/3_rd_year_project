@@ -6,7 +6,7 @@ import Blogs from "./pages/Common/Blog";
 import Login from "./pages/Common/Login";
 import Email from "./pages/Common/Email";
 
-
+import TrackOrder from "./pages/Client/Storereview"
 
 
 import Bill from "./pages/Client/Bill";
@@ -61,8 +61,8 @@ import MediComplaints from "./pages/Medi-help_manager/Complains";
 import MediDashboard from "./pages/Medi-help_manager/Dashboard";
 
 
-  
- 
+
+
 import Packages from "./pages/Care_center_manager/Packages";
 import Complaints from "./pages/Care_center_manager/Complaints";
 import Caregiverlist from "./pages/Care_center_manager/caregiverlist";
@@ -177,7 +177,7 @@ function App() {
           <Route path="/menu" element={isLoggedIn ? (<><HomeHeader userRole={user_role} /><Menu /></>) : (<Navigate to='/login' />)} />
           <Route path="/cart" element={isLoggedIn ? (<><HomeHeader userRole={user_role} /><Cart /></>) : (<Navigate to='/login' />)} />
           <Route path="/email" element={!issignup ? <Email /> : <Navigate to="/signup" />} />
-          <Route path="/payment" element={isLoggedIn ?(<><HomeHeader userRole={user_role}/><PaymentClient/></>):(<Navigate to='/login'/>)}/>
+          <Route path="/payment" element={isLoggedIn ? (<><HomeHeader userRole={user_role} /><PaymentClient /></>) : (<Navigate to='/login' />)} />
           <Route
             path="/store"
             element={
@@ -236,23 +236,23 @@ function App() {
               )
             }
           />
-          <Route path="/cart"element={isLoggedIn ? (<><HomeHeader userRole={user_role} /><Cart /></>) : (<Navigate to="/login" /> )  }/>
-        
+          <Route path="/cart" element={isLoggedIn ? (<><HomeHeader userRole={user_role} /><Cart /></>) : (<Navigate to="/login" />)} />
+          <Route path="/track_order" element={isLoggedIn ?(<><HomeHeader userRole={user_role}/><TrackOrder/></>):(<Navigate to="/login"/>)}/>
           <Route path="/forget" element={<Forgot />} />
           <Route path="/reset" element={<Reset />} />
 
-          <Route path="/blog" element={ isLoggedIn ? ( <><HomeHeader userRole={user_role} /><Blogs /></>) : (<><LandingHeader /><Blogs /></>)}/>
-          <Route path="/blogs" element={<><LandingHeader/><Blogs/></>}/>     
+          <Route path="/blog" element={isLoggedIn ? (<><HomeHeader userRole={user_role} /><Blogs /></>) : (<><LandingHeader /><Blogs /></>)} />
+          <Route path="/blogs" element={<><LandingHeader /><Blogs /></>} />
 
           {/* <Route path="/blogs" element={isLoggedIn ? <Blogs /> : <Navigate to="/login" />} /> */}
 
-       
-      
 
 
 
 
-          
+         
+
+
 
 
 
@@ -260,45 +260,45 @@ function App() {
 
           {isLoggedIn && user_role === "client" && (
             <><Route path="/reports" element={<><Header userRole={"client"} /><Reports /> </>}></Route>
-            <Route path="/dashboard" element={<><Header userRole={"client"} /> <Dashboard /></>} ></Route>
-            <Route path="/petcare" element={<><Header userRole={"client"} /><Petcare /></>}></Route>
-            <Route path="/MindRealx" element={<><Header userRole={"client"} /><MindRealx /></>}></Route>
-            <Route path="/shop" element={<><Header userRole={"client"} /><Shop /></>}></Route>
-            <Route path="/NonBredShop" element={<><Header userRole={"client"} /><NonBredShop /></>}></Route>
-            <Route path="/bording" element={<><Header userRole={"client"}/><Bording/></>}></Route>
-            <Route path="/medi" element={<><Header userRole={"client"}/><Medi/></>}></Route>
-            <Route path="/popupform" element={<><Header userRole={"client"}/><PopupForm/></>}></Route>
-            <Route path="/Bath" element={<><Header userRole={"client"}/><Bath/></>}></Route>
-            <Route path="/Haircuts" element={<><Header userRole={"client"}/><Haircuts/></>}></Route>
-            <Route path="/DoctorList" element={<><Header userRole={"client"}/><DoctorList/></>}></Route>
-            <Route path="/Pet_grooming" element={ <><Header userRole={"client"} /><Petgrooming /></>}></Route></>)}
+              <Route path="/dashboard" element={<><Header userRole={"client"} /> <Dashboard /></>} ></Route>
+              <Route path="/petcare" element={<><Header userRole={"client"} /><Petcare /></>}></Route>
+              <Route path="/MindRealx" element={<><Header userRole={"client"} /><MindRealx /></>}></Route>
+              <Route path="/shop" element={<><Header userRole={"client"} /><Shop /></>}></Route>
+              <Route path="/NonBredShop" element={<><Header userRole={"client"} /><NonBredShop /></>}></Route>
+              <Route path="/bording" element={<><Header userRole={"client"} /><Bording /></>}></Route>
+              <Route path="/medi" element={<><Header userRole={"client"} /><Medi /></>}></Route>
+              <Route path="/popupform" element={<><Header userRole={"client"} /><PopupForm /></>}></Route>
+              <Route path="/Bath" element={<><Header userRole={"client"} /><Bath /></>}></Route>
+              <Route path="/Haircuts" element={<><Header userRole={"client"} /><Haircuts /></>}></Route>
+              <Route path="/DoctorList" element={<><Header userRole={"client"} /><DoctorList /></>}></Route>
+              <Route path="/Pet_grooming" element={<><Header userRole={"client"} /><Petgrooming /></>}></Route></>)}
 
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
 
           {/* boarding house manager */}
-          
+
 
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
 
 
           {/* medi care manager */}
-          
-          
-             <><Route path="/Doctors" element={<div className="App">
-             <><HomeHeader userRole={"medi_help_manager"}/><Doctor /></>
-            </div>} /><Route path="/viewAppointments" element={<><HomeHeader userRole={"medi_help_manager"}/><ViewAppointments /></>} />
 
-          
-            <Route path="/PetProfiles" element={<><HomeHeader userRole={"medi_help_manager"}/><PetProfiles /></>} />
-           
-            <Route path="/medi_complaints" element={<><HomeHeader userRole={"medi_help_manager"}/><MediComplaints/></>} />
-            <Route path="/medi_dashboard" element={<><HomeHeader userRole={"medi_help_manager"} /><MediDashboard/></>} />
 
-          
-            </>
-         
-          
-         
+          <><Route path="/Doctors" element={<div className="App">
+            <><HomeHeader userRole={"medi_help_manager"} /><Doctor /></>
+          </div>} /><Route path="/viewAppointments" element={<><HomeHeader userRole={"medi_help_manager"} /><ViewAppointments /></>} />
+
+
+            <Route path="/PetProfiles" element={<><HomeHeader userRole={"medi_help_manager"} /><PetProfiles /></>} />
+
+            <Route path="/medi_complaints" element={<><HomeHeader userRole={"medi_help_manager"} /><MediComplaints /></>} />
+            <Route path="/medi_dashboard" element={<><HomeHeader userRole={"medi_help_manager"} /><MediDashboard /></>} />
+
+
+          </>
+
+
+
 
           {/* boarding house manager */}
           {isLoggedIn && user_role === "boarding_house_manager" && (
@@ -332,18 +332,18 @@ function App() {
 
           {isLoggedIn && user_role === "care_center_manager" && (
             <>
-              <Route path="/caregiverlist" element={ <> <HomeHeader userRole={"care_center_manager"} /><Caregiverlist /></>}  />
-              <Route path="/packages" element={  <>   <HomeHeader userRole={"care_center_manager"} /> <Packages /></>  }/>
-              <Route path="/appointments" element={<>  <HomeHeader userRole={"care_center_manager"} />  <Appointments /></>  }/>
-              <Route path="/complaints"element={<>   <HomeHeader userRole={"care_center_manager"} /> <Complaints /></>  }  /></>
-           )} 
+              <Route path="/caregiverlist" element={<> <HomeHeader userRole={"care_center_manager"} /><Caregiverlist /></>} />
+              <Route path="/packages" element={<>   <HomeHeader userRole={"care_center_manager"} /> <Packages /></>} />
+              <Route path="/appointments" element={<>  <HomeHeader userRole={"care_center_manager"} />  <Appointments /></>} />
+              <Route path="/complaints" element={<>   <HomeHeader userRole={"care_center_manager"} /> <Complaints /></>} /></>
+          )}
 
           {isLoggedIn && user_role === "online_store_manager" && (
             <>
-              <Route  path="/handling_complain" element={ <>   <HomeHeader userRole={"online_store_manager"} />   <Complain /> </> }/>
-              <Route path="/online_add"element={<>   <HomeHeader userRole={"online_store_manager"} /> <OnlineAdd />  </>  }/>
-              <Route path="/online_home" element={<>  <HomeHeader userRole={"online_store_manager"} />  <Onlinehome /></> }/>
-              <Route path="/online_client" element={ <>   <HomeHeader userRole={"online_store_manager"} />   <Clientorders /> </> } />
+              <Route path="/handling_complain" element={<>   <HomeHeader userRole={"online_store_manager"} />   <Complain /> </>} />
+              <Route path="/online_add" element={<>   <HomeHeader userRole={"online_store_manager"} /> <OnlineAdd />  </>} />
+              <Route path="/online_home" element={<>  <HomeHeader userRole={"online_store_manager"} />  <Onlinehome /></>} />
+              <Route path="/online_client" element={<>   <HomeHeader userRole={"online_store_manager"} />   <Clientorders /> </>} />
             </>
           )}
           {/* company manager */}
