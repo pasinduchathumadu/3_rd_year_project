@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
 import ProfilePicture from '../../assests/profile-picture.png';
 import PetImage from '../../assests/blog-1.png';
@@ -22,6 +22,8 @@ import { Tabs } from "@mui/material";
 import { FormLabel, TextField } from "@mui/material";
 import StarIcon from '@mui/icons-material/Star';
 import Slip from '../../assests/bankslip1.png';
+import axios from "axios";
+import CircleIcon from '@mui/icons-material/Circle';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -90,6 +92,40 @@ const Clients = () => {
     const handleForm = (event, existing_value) => {
         setShowRequests(existing_value)
     };
+
+    const [request, setrequest] = useState([]) //boarding request array
+
+    // boarding requests viewing
+    const view_requests = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/view_requests')
+            const data = await res.data
+            return data
+        }catch (err) {
+            console.log("There is an internal error")
+        }
+    }
+    useEffect (() => {
+        view_requests()
+        .then((data) => setrequest(data.data))
+        .catch((err) => console.log(err))
+    })
+
+    const [allclient, setallclient] = useState([])  //all clients - get services from boarding house
+    const view_allclients = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/view_allclients')
+            const data = await res.data
+            return data
+        }catch (err) {
+            console.log("There is an internal error")
+        }
+    }
+    useEffect(() => {
+        view_allclients()
+        .then((data) => setallclient(data.data))
+        .catch((err) => console.log(err))
+    })
 
     const input = new Date();
     const date = input.toDateString();
@@ -203,21 +239,21 @@ const Clients = () => {
                                         <StyledTableCell align="center">Client Name</StyledTableCell>
                                         <StyledTableCell align="center">Address</StyledTableCell>
                                         <StyledTableCell align="center">Contact Number</StyledTableCell>
-                                        <StyledTableCell align="center">Points</StyledTableCell>
+                                        {/* <StyledTableCell align="center">Points</StyledTableCell> */}
                                         <StyledTableCell align="center">Status</StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {rows.map((row) => (
-                                        <StyledTableRow key={row.id}>
-                                            <StyledTableCell align="center">{row.id}</StyledTableCell>
-                                            <StyledTableCell align="center">{row.name}</StyledTableCell>
-                                            <StyledTableCell align="center">{row.address}</StyledTableCell>
-                                            <StyledTableCell align="center">{row.contact}</StyledTableCell>
-                                            <StyledTableCell align="center">{row.usability}</StyledTableCell>
+                                    {allclient && allclient.map((client, index) => (
+                                        <StyledTableRow key={client.id}>
+                                            <StyledTableCell align="center">{client.client_id}</StyledTableCell>
+                                            <StyledTableCell align="center">{client.name}</StyledTableCell>
+                                            <StyledTableCell align="center">{client.address}</StyledTableCell>
+                                            <StyledTableCell align="center">{client.contact_number}</StyledTableCell>
+                                            {/* <StyledTableCell align="center">3</StyledTableCell> */}
                                             <StyledTableCell align="center">
-                                                {row.status === "premium" ? <><StarIcon sx={{ color: 'orange' }} /> premium</> : "regular"}
+                                                {client.status === "premium" ? <><StarIcon sx={{ color: 'orange' }} /> premium</> : "regular"}
                                             </StyledTableCell>
                                             <StyledTableCell align="center">
                                                 <Button onClick={() => viewPet()} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Pets Details</Button>
@@ -262,30 +298,30 @@ const Clients = () => {
                             <Table sx={{ minWidth: 700 }} aria-label="customized table">
                                 <TableHead>
                                     <TableRow>
-                                        <StyledTableCell align="center">Client ID</StyledTableCell>
+                                        <StyledTableCell align="center">Request ID</StyledTableCell>
                                         <StyledTableCell align="center">Client Name</StyledTableCell>
                                         <StyledTableCell align="center">Requested Date Period</StyledTableCell>
                                         <StyledTableCell align="center">Pick Up Time</StyledTableCell>
-                                        <StyledTableCell align="center">Payment (Rs.)</StyledTableCell>
+                                        <StyledTableCell align="center">Package ID</StyledTableCell>
                                         <StyledTableCell align="center">Request Status</StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {secondrows.map((secondrows) => (
-                                        <StyledTableRow key={secondrows.id}>
-                                            <StyledTableCell align="center">{secondrows.id}</StyledTableCell>
-                                            <StyledTableCell align="center">{secondrows.name}</StyledTableCell>
-                                            <StyledTableCell align="center">{secondrows.date}</StyledTableCell>
-                                            <StyledTableCell align="center">{secondrows.time}</StyledTableCell>
-                                            <StyledTableCell align="center">{secondrows.payment}</StyledTableCell>
-                                            <StyledTableCell align="center">{secondrows.status}</StyledTableCell>
+                                    {request && request.map((requestrow, index) => (
+                                        <StyledTableRow key={requestrow.id}>
+                                            <StyledTableCell align="center">{requestrow.request_id}</StyledTableCell>
+                                            <StyledTableCell align="center">{requestrow.client_id}</StyledTableCell>
+                                            <StyledTableCell align="center">{requestrow.board_date}</StyledTableCell>
+                                            <StyledTableCell align="center">{requestrow.board_time}</StyledTableCell>
+                                            <StyledTableCell align="center">{requestrow.package_id}</StyledTableCell>
+                                            <StyledTableCell align="center">{requestrow.request_status}</StyledTableCell>
                                             <StyledTableCell align="center">
                                                 <Button onClick={() => viewPet()} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Pets Details</Button>
                                             </StyledTableCell>
                                             <StyledTableCell align="center">
-                                                {secondrows.status === 'accepted' ? <Button sx={{ color: 'white', backgroundColor: '#000000', ':hover': { backgroundColor: '#000000' } }}>Completed</Button> : ""}
+                                                {requestrow.request_status === 'accepted' ? <Button sx={{ color: 'white', backgroundColor: '#000000', ':hover': { backgroundColor: '#000000' } }}>Completed</Button> : ""}
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     ))}
