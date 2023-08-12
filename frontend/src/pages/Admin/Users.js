@@ -51,19 +51,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-// data for clients
-function createData1(id, name, email, contact, address, category) {
-    return { id, name, email, contact, address, category };
-}
-
-const clientrows = [
-    createData1(1, "John Deo", 'abcq@gmail.com', '0771234432', 'No. 23, Main Street, Maharagama', 'premium'),
-    createData1(2, "Griya Fernando", 'abcd@gmail.com', '0771234432', 'No. 20, Seocnd Street, Nugegoda', 'regular'),
-    createData1(3, "Theraa Perera", 'abcc@gmail.com', '0771234432', 'No. 90, Down Street, Kottawa', 'premium'),
-    createData1(4, "King Kimuthu", 'abcs@gmail.com', '0771234432', 'No. 3, Third Street, Colombo 07', 'premium'),
-    createData1(5, "Jessy Geo", 'abcr@gmail.com', '0771234432', 'No. 2, Galle Road, Colombo 07', 'regular'),
-];
-
 
 const Users = () => {
     // select manager role
@@ -77,8 +64,8 @@ const Users = () => {
     const [city, setcity] = useState(" ")
     const [Street, setstreet] = useState(" ")
     const [error, seterror] = useState(false)
-    const [manager, setmanager] = useState([])
-    const [client, setclient] = useState([])
+    const [manager, setmanager] = useState([]) //managers array
+    const [client, setclient] = useState([]) //client array
 
     const handle = (event) => {
 
@@ -329,21 +316,6 @@ const Users = () => {
                                             <StyledTableCell align="center"><DeleteIcon sx={{ color: 'red' }} /></StyledTableCell>
                                         </StyledTableRow>
                                     ))}
-
-                                    {/* {clientrows.map((clientrow) => (
-                                        <StyledTableRow key={clientrow.id}>
-                                            <StyledTableCell align="center">{clientrow.id}</StyledTableCell>
-                                            <StyledTableCell align="center">{clientrow.name}</StyledTableCell>
-                                            <StyledTableCell align="center">{clientrow.email}</StyledTableCell>
-                                            <StyledTableCell align="center">{clientrow.contact}</StyledTableCell>
-                                            <StyledTableCell align="center">{clientrow.address}</StyledTableCell>
-                                            <StyledTableCell align="center">
-                                                {clientrow.category === "premium" ? <><StarIcon sx={{ color: 'orange' }} /> premium</> : "regular"}
-                                            </StyledTableCell>
-                                            <StyledTableCell align="center"><Button onClick={() => PetViewing()} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Pet Details</Button></StyledTableCell>
-                                            <StyledTableCell align="center"><DeleteIcon sx={{ color: 'red' }} /></StyledTableCell>
-                                        </StyledTableRow>
-                                    ))} */}
                                 </TableBody>
                             </Table>
                         </TableContainer>
