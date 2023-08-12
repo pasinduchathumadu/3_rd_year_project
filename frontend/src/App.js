@@ -98,7 +98,6 @@ import PaymentClient from './pages/Client/Payment';
 import HomeIcon from '@mui/icons-material/Home';  //dashboard
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'; //complains
 
-
 // clients
 import PetsIcon from '@mui/icons-material/Pets'; //add pets & boarding - pets
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital'; //crossing
@@ -107,11 +106,15 @@ import StorefrontIcon from '@mui/icons-material/Storefront'; //non-bread shop
 import AssessmentIcon from '@mui/icons-material/Assessment'; //reports
 
 // admin
-import GroupIcon from '@mui/icons-material/Group'; //users & boarding - clients 
+import GroupIcon from '@mui/icons-material/Group'; //users & boarding - clients & care center - caregivers
 import RuleFolderIcon from '@mui/icons-material/RuleFolder'; //refund
 
 // boaridng house
-import InventoryIcon from '@mui/icons-material/Inventory'; //package
+import InventoryIcon from '@mui/icons-material/Inventory'; //package , care center packages
+
+// care center
+import BookOnlineIcon from '@mui/icons-material/BookOnline'; // appointments
+
 
 
 function App() {
@@ -144,12 +147,13 @@ function App() {
       localStorage.setItem("online_store_manager_email", email);
       navigate("/online_home");
     } else if (role === "boarding_house_manager") {
+      localStorage.setItem('boarding_email',email)
       navigate("/boarding_dashboard");
     } else if (role === "admin") {
       navigate("/admin_dashboard");
     } else if (role === "client") {
       navigate("/dashboard");
-      localStorage.setItem("client_email", email);
+      localStorage.setItem("client_email", email); //session
     } else if (role === "care_center_manager") {
       navigate("/appointments");
       localStorage.setItem("care_center_manager", email);

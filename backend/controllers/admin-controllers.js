@@ -162,3 +162,17 @@ export const get_manager = async(req,res,next)=>{
         return res.json({data})
     })
 }
+
+export const get_client = async (req, res, next) => {
+    const role = 'client'
+    const sqlQuery = 'SELECT c.client_id as id, c.email as email, c.contact_number as contact, CONCAT(c.street," ",c.city) as address, c.status as category, CONCAT(u.first_name, " ", u.last_name) as name FROM client as c INNER JOIN  users as u ON c.email = u.email WHERE u.user_role=? ';
+    const values = [role]
+
+    db.query(sqlQuery, values,(err,data) => {
+        if(err) {
+            return res.json({message: 'There is an internal error'})
+        }
+        return res.json({data})
+    })
+
+}
