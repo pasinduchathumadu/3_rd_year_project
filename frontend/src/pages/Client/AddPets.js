@@ -10,6 +10,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import axios from 'axios';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const AddPets = () => {
     const [error, seterror] = useState(false);
@@ -188,6 +190,11 @@ const AddPets = () => {
                                     </AccordionSummary>
 
                                     <AccordionDetails>
+                                        <div style={{marginLeft:'90%'}}>
+                                            <EditIcon />
+                                            <DeleteIcon sx={{color:'red'}} />
+                                        </div>
+
                                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                                         <div>
                                             <Typography>Pet Category : </Typography>
@@ -212,7 +219,7 @@ const AddPets = () => {
                                                 <Box
                                                     component="form"
                                                     sx={{
-                                                        '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                                        '& .MuiTextField-root': { m: 1, width: '25ch'},
                                                     }}
                                                     noValidate
                                                     autoComplete="off"
@@ -225,8 +232,6 @@ const AddPets = () => {
                                                         /></div>
                                                 </Box>
                                             </div>
-                                            
-
                                         </div>
 
                                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -263,14 +268,13 @@ const AddPets = () => {
                                                             disabled
                                                             id="outlined-disabled"
                                                             label={menu.sex}
-                                                            placeholder={menu.sex}
-                                                        /></div>
+                                                            placeholder={menu.sex}/>
+                                                    </div>
                                                 </Box>
                                             </div>
                                         </div>
                                     </AccordionDetails>
                                 </Accordion>
-
                             ))}
                         </div>
                     </FormControl>
