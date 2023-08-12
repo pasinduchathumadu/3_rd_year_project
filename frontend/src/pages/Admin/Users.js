@@ -64,19 +64,6 @@ const clientrows = [
     createData1(5, "Jessy Geo", 'abcr@gmail.com', '0771234432', 'No. 2, Galle Road, Colombo 07', 'regular'),
 ];
 
-// data for managers
-// function createData2(id, name, email, contact, address, store) {
-//     return { id, name, email, contact, address, store };
-// }
-
-// const managerows = [
-//     createData2(1, "John Deo", 'abcx@gmail.com', '0771234432', 'No. 23, Main Street, Maharagama', 'medi-help'),
-//     createData2(2, "Griya Fernando", 'abcw@gmail.com', '0771234432', 'No. 20, Seocnd Street, Nugegoda', 'online-store'),
-//     createData2(3, "Theraa Perera", 'abcu@gmail.com', '0771234432', 'No. 90, Down Street, Kottawa', 'boarding-house'),
-//     createData2(4, "King Kimuthu", 'abcl@gmail.com', '0771234432', 'No. 3, Third Street, Colombo 07', 'care-center'),
-//     createData2(5, "Jessy Geo", 'abck@gmail.com', '0771234432', 'No. 2, Galle Road, Colombo 07', 'company'),
-// ];
-
 
 const Users = () => {
     // select manager role
@@ -91,6 +78,7 @@ const Users = () => {
     const [Street, setstreet] = useState(" ")
     const [error, seterror] = useState(false)
     const [manager, setmanager] = useState([])
+    const [client, setclient] = useState([])
 
     const handle = (event) => {
 
@@ -172,6 +160,25 @@ const Users = () => {
         get_manager()
             .then((data) => setmanager(data.data))
             .catch((err) => console.log(err))
+    })
+
+  
+
+    // view clients details
+    const get_client = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/pet_care/admin/get_client')
+            const data = await res.data
+            return data
+        }catch (err) {
+            console.log("There is an internal error")
+        }
+    }
+
+    useEffect(() => {
+        get_client()
+        .then((data) => setclient(data.data))
+        .catch((err) => console.log(err))
     })
 
     // click on update icon
@@ -308,7 +315,7 @@ const Users = () => {
                                     </StyledTableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {clientrows.map((clientrow) => (
+                                    {client && client.map((clientrow, index) => (
                                         <StyledTableRow key={clientrow.id}>
                                             <StyledTableCell align="center">{clientrow.id}</StyledTableCell>
                                             <StyledTableCell align="center">{clientrow.name}</StyledTableCell>
@@ -322,6 +329,21 @@ const Users = () => {
                                             <StyledTableCell align="center"><DeleteIcon sx={{ color: 'red' }} /></StyledTableCell>
                                         </StyledTableRow>
                                     ))}
+
+                                    {/* {clientrows.map((clientrow) => (
+                                        <StyledTableRow key={clientrow.id}>
+                                            <StyledTableCell align="center">{clientrow.id}</StyledTableCell>
+                                            <StyledTableCell align="center">{clientrow.name}</StyledTableCell>
+                                            <StyledTableCell align="center">{clientrow.email}</StyledTableCell>
+                                            <StyledTableCell align="center">{clientrow.contact}</StyledTableCell>
+                                            <StyledTableCell align="center">{clientrow.address}</StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                {clientrow.category === "premium" ? <><StarIcon sx={{ color: 'orange' }} /> premium</> : "regular"}
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center"><Button onClick={() => PetViewing()} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Pet Details</Button></StyledTableCell>
+                                            <StyledTableCell align="center"><DeleteIcon sx={{ color: 'red' }} /></StyledTableCell>
+                                        </StyledTableRow>
+                                    ))} */}
                                 </TableBody>
                             </Table>
                         </TableContainer>
