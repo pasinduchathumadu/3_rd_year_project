@@ -41,7 +41,8 @@ import BoardingPets from "./pages/Boarding_house_manager/Boardpets";
 import BoardingPackages from "./pages/Boarding_house_manager/Packages";
 import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 
-
+import AddPets from './pages/Client/AddPets';
+import Crossing from './pages/Client/Crossing';
 import Bath from "./pages/Client/Bath";
 import Haircuts from "./pages/Client/Haircuts";
 import Bording from "./pages/Client/Bording";
@@ -91,10 +92,30 @@ import CompanyComplaints from "./pages/Company_manager/Company_Complaints";
 import { useNavigate } from "react-router-dom";
 import HomeHeader from "./components/Layout/Homeheader";
 
-import PaymentClient from './pages/Client/Payment'
+import PaymentClient from './pages/Client/Payment';
+
+// sidebar icons
+import HomeIcon from '@mui/icons-material/Home';  //dashboard
+import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'; //complains
+
+// clients
+import PetsIcon from '@mui/icons-material/Pets'; //add pets & boarding - pets
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital'; //crossing
+import StoreIcon from '@mui/icons-material/Store';  //shop
+import StorefrontIcon from '@mui/icons-material/Storefront'; //non-bread shop
+import AssessmentIcon from '@mui/icons-material/Assessment'; //reports
+
+// admin
+import GroupIcon from '@mui/icons-material/Group'; //users & boarding - clients & care center - caregivers
+import RuleFolderIcon from '@mui/icons-material/RuleFolder'; //refund
+
+// boaridng house
+import InventoryIcon from '@mui/icons-material/Inventory'; //package , care center packages
+
+// care center
+import BookOnlineIcon from '@mui/icons-material/BookOnline'; // appointments
 
 
-// import Complains from "./pages/Boarding_house_manager/Complains";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState("");
@@ -126,12 +147,13 @@ function App() {
       localStorage.setItem("online_store_manager_email", email);
       navigate("/online_home");
     } else if (role === "boarding_house_manager") {
+      localStorage.setItem('boarding_email',email)
       navigate("/boarding_dashboard");
     } else if (role === "admin") {
       navigate("/admin_dashboard");
     } else if (role === "client") {
       navigate("/dashboard");
-      localStorage.setItem("client_email", email);
+      localStorage.setItem("client_email", email); //session
     } else if (role === "care_center_manager") {
       navigate("/appointments");
       localStorage.setItem("care_center_manager", email);
@@ -224,7 +246,9 @@ function App() {
 
         
           <Route path="/cart" element={isLoggedIn ? (<><HomeHeader userRole={user_role} /><Cart /></>) : (<Navigate to="/login" />)} />
+
           <Route path="/track_order" element={isLoggedIn ?(<><HomeHeader userRole={user_role}/><TrackOrder/></>):(<Navigate to="/login"/>)}/>
+
           <Route path="/forget" element={<Forgot />} />
           <Route path="/reset" element={<Reset />} />
 
@@ -233,23 +257,25 @@ function App() {
 
           {/* <Route path="/blogs" element={isLoggedIn ? <Blogs /> : <Navigate to="/login" />} /> */}
 
+
+
           {isLoggedIn && user_role === "client" && (
             <><Route path="/reports" element={<><Header userRole={"client"} /><Reports /> </>}></Route>
 
-            <Route path="/dashboard" element={<><Header userRole={"client"} /> <Dashboard /></>} ></Route>
-            <Route path="/petcare" element={<><Header userRole={"client"} /><Petcare /></>}></Route>
-            <Route path="/MindRealx" element={<><Header userRole={"client"} /><MindRealx /></>}></Route>
-            <Route path="/shop" element={<><Header userRole={"client"} /><Shop /></>}></Route>
-            <Route path="/NonBredShop" element={<><Header userRole={"client"} /><NonBredShop /></>}></Route>
-            <Route path="/bording" element={<><Header userRole={"client"}/><Bording/></>}></Route>
-            <Route path="/medi" element={<><Header userRole={"client"}/><Medi/></>}></Route>
-            <Route path="/popupform" element={<><Header userRole={"client"}/><PopupForm/></>}></Route>
-            <Route path="/Bath" element={<><Header userRole={"client"}/><Bath/></>}></Route>
-            <Route path="/Haircuts" element={<><Header userRole={"client"}/><Haircuts/></>}></Route>
-            <Route path="/DoctorList" element={<><Header userRole={"client"}/><DoctorList/></>}></Route>
-            <Route path="/OrderTable" element={<><Header userRole={"client"}/><OrderTable/></>}></Route>
-
-            <Route path="/Pet_grooming" element={ <><Header userRole={"client"} /><Petgrooming /></>}></Route></>)}
+              <Route path="/dashboard" element={<><Header userRole={"client"} /> <Dashboard /></>} ></Route>
+              <Route path="/petcare" element={<><Header userRole={"client"} /><Petcare /></>}></Route>
+              <Route path="/MindRealx" element={<><Header userRole={"client"} /><MindRealx /></>}></Route>
+              <Route path="/shop" element={<><Header userRole={"client"} /><Shop /></>}></Route>
+              <Route path="/NonBredShop" element={<><Header userRole={"client"} /><NonBredShop /></>}></Route>
+              <Route path="/bording" element={<><Header userRole={"client"} /><Bording /></>}></Route>
+              <Route path="/medi" element={<><Header userRole={"client"} /><Medi /></>}></Route>
+              <Route path="/popupform" element={<><Header userRole={"client"} /><PopupForm /></>}></Route>
+              <Route path="/Bath" element={<><Header userRole={"client"} /><Bath /></>}></Route>
+              <Route path="/Haircuts" element={<><Header userRole={"client"} /><Haircuts /></>}></Route>
+              <Route path="/DoctorList" element={<><Header userRole={"client"} /><DoctorList /></>}></Route>
+              <Route path="/addpet" element={<><Header userRole={"client"}/><AddPets /></>}></Route>
+              <Route path="/crossing" element={<><Header userRole={"client"}/><Crossing /></>}></Route>
+              <Route path="/Pet_grooming" element={<><Header userRole={"client"} /><Petgrooming /></>}></Route></>)}
 
 
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
@@ -288,6 +314,9 @@ function App() {
               <Route path="/boarding_complains" element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingComplains /></>} />
             </>
           )}
+
+          {/* <Route path="/addpet" element={<><Header /><AddPets /></>} /> */}
+
 
           {/* admin */}
           {isLoggedIn && user_role === "admin" && (

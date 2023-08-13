@@ -51,32 +51,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-// data for clients
-function createData1(id, name, email, contact, address, category) {
-    return { id, name, email, contact, address, category };
-}
-
-const clientrows = [
-    createData1(1, "John Deo", 'abcq@gmail.com', '0771234432', 'No. 23, Main Street, Maharagama', 'premium'),
-    createData1(2, "Griya Fernando", 'abcd@gmail.com', '0771234432', 'No. 20, Seocnd Street, Nugegoda', 'regular'),
-    createData1(3, "Theraa Perera", 'abcc@gmail.com', '0771234432', 'No. 90, Down Street, Kottawa', 'premium'),
-    createData1(4, "King Kimuthu", 'abcs@gmail.com', '0771234432', 'No. 3, Third Street, Colombo 07', 'premium'),
-    createData1(5, "Jessy Geo", 'abcr@gmail.com', '0771234432', 'No. 2, Galle Road, Colombo 07', 'regular'),
-];
-
-// data for managers
-function createData2(id, name, email, contact, address, store) {
-    return { id, name, email, contact, address, store };
-}
-
-const managerows = [
-    createData2(1, "John Deo", 'abcx@gmail.com', '0771234432', 'No. 23, Main Street, Maharagama', 'medi-help'),
-    createData2(2, "Griya Fernando", 'abcw@gmail.com', '0771234432', 'No. 20, Seocnd Street, Nugegoda', 'online-store'),
-    createData2(3, "Theraa Perera", 'abcu@gmail.com', '0771234432', 'No. 90, Down Street, Kottawa', 'boarding-house'),
-    createData2(4, "King Kimuthu", 'abcl@gmail.com', '0771234432', 'No. 3, Third Street, Colombo 07', 'care-center'),
-    createData2(5, "Jessy Geo", 'abck@gmail.com', '0771234432', 'No. 2, Galle Road, Colombo 07', 'company'),
-];
-
 
 const Users = () => {
     // select manager role
@@ -90,7 +64,8 @@ const Users = () => {
     const [city, setcity] = useState(" ")
     const [Street, setstreet] = useState(" ")
     const [error, seterror] = useState(false)
-    const [manager, setmanager] = useState([])
+    const [manager, setmanager] = useState([]) //managers array
+    const [client, setclient] = useState([]) //client array
 
     const handle = (event) => {
 
@@ -120,8 +95,8 @@ const Users = () => {
         setUsers(false);
         setadd(true);
     }
-    // after entering detials of new mamager
 
+    // get and view managers' details 
     const get_manager = async () => {
         try {
             const res = await axios.get('http://localhost:5000/pet_care/admin/get_managers')
@@ -133,6 +108,7 @@ const Users = () => {
         }
     }
 
+    // add a new manager
     const submitManager = async (e) => {
         e.preventDefault()
 
@@ -171,6 +147,25 @@ const Users = () => {
         get_manager()
             .then((data) => setmanager(data.data))
             .catch((err) => console.log(err))
+    })
+
+  
+
+    // view clients details
+    const get_client = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/pet_care/admin/get_client')
+            const data = await res.data
+            return data
+        }catch (err) {
+            console.log("There is an internal error")
+        }
+    }
+
+    useEffect(() => {
+        get_client()
+        .then((data) => setclient(data.data))
+        .catch((err) => console.log(err))
     })
 
     // click on update icon
@@ -249,7 +244,7 @@ const Users = () => {
                                     </StyledTableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {manager && manager.map((managerow) => (
+                                    {manager && manager.map((managerow,index) => (
                                         <StyledTableRow key={managerow.id}>
                                             <StyledTableCell align="center"><img src={Image} style={{ width: '80px', borderRadius: '50%' }} alt="image" /></StyledTableCell>
                                             <StyledTableCell align="center">{managerow.manager_id}</StyledTableCell>
@@ -257,7 +252,6 @@ const Users = () => {
                                             <StyledTableCell align="center">{managerow.email}</StyledTableCell>
                                             <StyledTableCell align="center">{managerow.contact_number}</StyledTableCell>
                                             <StyledTableCell align="center">{managerow.address}</StyledTableCell>
-                                            {/* <StyledTableCell align="center">{managerow.nic}</StyledTableCell> */}
                                             <StyledTableCell align="center">{managerow.user_role}</StyledTableCell>
                                             <StyledTableCell align="center"><EditIcon onClick={() => updateManager()} /><DeleteIcon sx={{ color: 'red' }} /></StyledTableCell>
                                         </StyledTableRow>
@@ -308,7 +302,7 @@ const Users = () => {
                                     </StyledTableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {clientrows.map((clientrow) => (
+                                    {client && client.map((clientrow, index) => (
                                         <StyledTableRow key={clientrow.id}>
                                             <StyledTableCell align="center">{clientrow.id}</StyledTableCell>
                                             <StyledTableCell align="center">{clientrow.name}</StyledTableCell>

@@ -54,7 +54,7 @@ const Home = () => {
     // click on particualar request box
     const ClickRequest = () => {
         setmain(false);
-        setTables(true);
+        // setTables(true);
     }
 
     // finish viewing the details 
@@ -67,7 +67,7 @@ const Home = () => {
     const date = input.toDateString();
 
     return (
-        <div className="home-container" style={{ marginTop: '4%'}}>
+        <div className="home-container" style={{ marginTop: '4%' }}>
             <div className="top">
                 <div className="top-line">
                     <p>Boarding House Manager</p>
@@ -122,31 +122,55 @@ const Home = () => {
                 </div>
 
                 <div className="boarding-wrapper" style={{ backgroundColor: 'orange', height: '250px' }}>
+
                     <div className="boarding-box-header">
                         <AssignmentLateIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
                         <h3>Pending Boarding Requests</h3>
                     </div>
-
                     {main && (
-                        <div>
+                        <><div>
                             <div>
-                                <Typography sx={{ backgroundColor: '#F0F0F5', borderRadius: '10px', padding: '10px', width: '100%', marginBottom: '5px' }}>Request ID : 1 <TableViewIcon onClick={() => ClickRequest()} sx={{ marginLeft: '500px' }} /></Typography>
+                                <Typography sx={{ backgroundColor: '#F0F0F5', borderRadius: '10px', padding: '10px', width: '100%', marginBottom: '5px' }}>Request ID: 1 <TableViewIcon onClick={() => ClickRequest()} sx={{ marginLeft: '500px' }} /></Typography>
                             </div>
 
                             <div>
-                                <Typography sx={{ backgroundColor: '#F0F0F5', borderRadius: '10px', padding: '10px', width: '100%', marginBottom: '5px' }}>Request ID : 2 <TableViewIcon onClick={() => ClickRequest()} sx={{ marginLeft: '500px' }} /></Typography>
+                                <Typography sx={{ backgroundColor: '#F0F0F5', borderRadius: '10px', padding: '10px', width: '100%', marginBottom: '5px' }}>Request ID: 2 <TableViewIcon onClick={() => ClickRequest()} sx={{ marginLeft: '500px' }} /></Typography>
                             </div>
 
                             <div>
-                                <Typography sx={{ backgroundColor: '#F0F0F5', borderRadius: '10px', padding: '10px', width: '100%', marginBottom: '5px' }}>Request ID : 3 <TableViewIcon onClick={() => ClickRequest()} sx={{ marginLeft: '500px' }} /></Typography>
+                                <Typography sx={{ backgroundColor: '#F0F0F5', borderRadius: '10px', padding: '10px', width: '100%', marginBottom: '5px' }}>Request ID: 3 <TableViewIcon onClick={() => ClickRequest()} sx={{ marginLeft: '500px' }} /></Typography>
                             </div>
-                        </div>
+                        </div></>
                     )}
 
-
-
+                    {/* view details of pending boarding requests (after click on) */}
+                    {!main && (
+                        <div style={{ padding: '10px', margin: '0px', borderRadius: '10px', backgroundColor: '#f0f0f5' }}>
+                            <Typography>Request ID : 1 </Typography>
+                            <Table>
+                                <TableHead sx={{ backgroundColor: '#fe9e0d', color: 'blue' }}>
+                                    <StyledTableRow>
+                                        <StyledTableCell align="center">Client ID</StyledTableCell>
+                                        <StyledTableCell align="center">Pet ID</StyledTableCell>
+                                        <StyledTableCell align="center">Pickup Date</StyledTableCell>
+                                        <StyledTableCell align="center">Pickup Time</StyledTableCell>
+                                        <StyledTableCell align="center"><Button onClick={() => FinishViewing()} sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white', width: '100px', marginTop: '10px' }}>Done</Button></StyledTableCell>
+                                    </StyledTableRow>
+                                </TableHead >
+                                <TableBody>
+                                    <StyledTableRow>
+                                        <StyledTableCell align="center">01</StyledTableCell>
+                                        <StyledTableCell align="center">04</StyledTableCell>
+                                        <StyledTableCell align="center">20/07/2023</StyledTableCell>
+                                        <StyledTableCell align="center">10:00:00</StyledTableCell>
+                                    </StyledTableRow>
+                                </TableBody>
+                            </Table>
+                        </div>
+                    )}
                 </div>
             </div>
+
 
             <div className="boarding-wrapper-main">
                 <div className="boarding-wrapper" style={{ backgroundColor: '#F0F0F5', height: '310px' }}>
@@ -196,8 +220,6 @@ const Home = () => {
                             height={250}
                         />
                     </div>
-
-
                 </div>
 
                 <div className="boarding-wrapper" style={{ backgroundColor: '#F0F0F5', height: '310px' }}>
@@ -244,38 +266,6 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-
-            {/* view details of pending boarding requests (after click on) */}
-            {tables && (
-                <div style={{ padding: '20px', margin: '20px', borderRadius: '10px', backgroundColor: '#f0f0f5' }}>
-                    <p>Request ID : 1 </p>
-                    <Table>
-                        <TableHead sx={{ backgroundColor: '#fe9e0d', color: 'blue' }}>
-                            <StyledTableRow>
-                                <StyledTableCell align="center">Client ID</StyledTableCell>
-                                <StyledTableCell align="center">Pet ID</StyledTableCell>
-                                <StyledTableCell align="center">Pickup Date</StyledTableCell>
-                                <StyledTableCell align="center">Pickup Time</StyledTableCell>
-                            </StyledTableRow>
-                        </TableHead >
-                        <TableBody>
-                            <StyledTableRow>
-                                <StyledTableCell align="center">01</StyledTableCell>
-                                <StyledTableCell align="center">04</StyledTableCell>
-                                <StyledTableCell align="center">20/07/2023</StyledTableCell>
-                                <StyledTableCell align="center">10:00:00</StyledTableCell>
-                            </StyledTableRow>
-                        </TableBody>
-                    </Table>
-
-                    <Button onClick={() => FinishViewing()} sx={{ backgroundColor: 'orange', ':hover':{backgroundColor:'orange'}, color: 'white', width: '100px', marginTop: '10px', marginLeft: '90%' }}>Done</Button>
-
-                </div>
-            )}
-
-
-
-
         </div>
     )
 }
