@@ -126,7 +126,6 @@ function Company_Clients() {
         </Tabs>
         {selectedTab === 0 && (
           <Box padding={2}>
-            1
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
@@ -165,7 +164,6 @@ function Company_Clients() {
         )}
         {selectedTab === 1 && (
           <Box padding={2}>
-            2
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>

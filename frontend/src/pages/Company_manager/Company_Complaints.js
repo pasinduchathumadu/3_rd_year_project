@@ -179,7 +179,7 @@ function Company_Complaints() {
                       <StyledTableCell>{row.fat}</StyledTableCell>
                       <StyledTableCell>{row.carbs}</StyledTableCell>
                       <StyledTableCell>
-                        <DialogForm title="Client Details" btn_name="View">
+                        <DialogForm title="Client Details" btn_name="Response">
                           <Form_Details />
                         </DialogForm>
                       </StyledTableCell>
