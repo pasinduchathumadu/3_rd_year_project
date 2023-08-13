@@ -1,5 +1,5 @@
 import express from "express";
-import {login,signup,forget_password,reset_password,forget_confirmation,upload_file,get_store, temp_cart, load_cart,increase, decrease,total, load_payement, load_total,delete_cart,final_payment, back,date_client,confirm,generate , client_load, delete_order} from "../controllers/users-controllers.js";
+import {login,signup,forget_password,reset_password,forget_confirmation,upload_file,get_store, temp_cart, load_cart,increase, decrease,total, load_payement, load_total,delete_cart,final_payment, back,date_client,confirm,generate , client_load, delete_order, random_assistant, get_allpackage, get_package, timeslot, delete_order_care} from "../controllers/users-controllers.js";
 const user_route = express.Router();
 
 user_route.post('/login',login);
@@ -24,4 +24,9 @@ user_route.get('/confirm/:id',confirm)
 user_route.get('/generate/:id',generate)
 user_route.get('/client_load/:id',client_load)
 user_route.get('/delete_order/:id',delete_order)
+user_route.post('/random_assistant',random_assistant)
+user_route.get('/get_allpackages',get_allpackage)
+user_route.get('/get_package/:id',get_package)
+user_route.get('/get_timeslot',timeslot)
+user_route.get('/delete_order_care/:id',delete_order_care)
 export default user_route;

@@ -222,19 +222,7 @@ function App() {
           />
 
 
-          <Route
-            path="/menu"
-            element={
-              isLoggedIn ? (
-                <>
-                  <HomeHeader userRole={user_role} />
-                  <Menu />
-                </>
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
+        
           <Route path="/cart" element={isLoggedIn ? (<><HomeHeader userRole={user_role} /><Cart /></>) : (<Navigate to="/login" />)} />
           <Route path="/track_order" element={isLoggedIn ?(<><HomeHeader userRole={user_role}/><TrackOrder/></>):(<Navigate to="/login"/>)}/>
           <Route path="/forget" element={<Forgot />} />
@@ -244,18 +232,6 @@ function App() {
           <Route path="/blogs" element={<><LandingHeader /><Blogs /></>} />
 
           {/* <Route path="/blogs" element={isLoggedIn ? <Blogs /> : <Navigate to="/login" />} /> */}
-
-
-
-
-
-         
-
-
-
-
-
-
 
           {isLoggedIn && user_role === "client" && (
             <><Route path="/reports" element={<><Header userRole={"client"} /><Reports /> </>}></Route>
