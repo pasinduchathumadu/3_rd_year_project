@@ -12,8 +12,11 @@ import video from "../../assests/Video3.mp4";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import DownImage from "../../assests/down.png";
 import "../../styles/Client/Mindrelax.css";
-import AOS from "aos";
-import "aos/dist/aos.css";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import video2 from "../../assests/video2.mp4"
+
+
 
 export default function Petcare() {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -30,7 +33,7 @@ export default function Petcare() {
     };
   }, []);
 
-  const videoPlaybackRate = 0.2 + scrollPosition * 0.001;
+  const videoPlaybackRate = 0.2 + scrollPosition * 0.0001;
   const videoOpacity = 0.9 - scrollPosition * 0.002;
 
   const scrollToSection = () => {
@@ -171,42 +174,8 @@ export default function Petcare() {
           <CardActions></CardActions>
         </Card>
 
-        <Card
-          sx={{
-            maxWidth: 345,
-            transition: "transform 0.5s ",
-            "&:hover": {
-              transform: "scale(1.1)", // Apply scale transform on hover
-              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", // Add box shadow on hover
-            },
-          }}
-        >
-          <CardActionArea>
-            <Link
-              to="/Bording"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <CardMedia
-                style={{ height: "35vh" }}
-                component="img"
-                height="180"
-                image={image3}
-                alt="green iguana"
-              />
-            </Link>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                Pet traning
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-          <CardActions></CardActions>
-        </Card>
-      </div>
-    </>
+   
+    </div></>
+
   );
 }

@@ -16,8 +16,7 @@ import Button from '@mui/material/Button';
 import video from "../../assests/video2.mp4"
 import cage from "../../assests/png.png";
 import AOS from 'aos';
-
-
+import logo from "../../assests/2.png";
 import {useNavigate} from 'react-router-dom'
 
 const images = [
@@ -129,6 +128,8 @@ export const Dashboard = () => {
           <div className='overlap'></div>
           <video style={{width:"100%",height:"100%",objectFit:"cover"}} src={video} autoPlay loop muted playbackRate={0.2}/>
           <div className='content'>
+
+
             <h1 style={{fontSize:"80px",color:"white",marginTop:"-30vh"}} >Welcome happy tails</h1>
             <p>keep your pet happy</p>
             {/* <img  className="smooth-scroll" src={cage} alt="Cage" style={{fontSize:"20px",width:"100px",height:"100px",marginTop:"10px"}}/> */}

@@ -45,6 +45,8 @@ import AddPets from './pages/Client/AddPets';
 import Crossing from './pages/Client/Crossing';
 import Bath from "./pages/Client/Bath";
 import Haircuts from "./pages/Client/Haircuts";
+import MiniGrooming from "./pages/Client/MiniGrooming.js";
+
 import Bording from "./pages/Client/Bording";
 import Petgrooming from "../src/pages/Client/Pet_grooming";
 import Medi from "../src/pages/Client/Medi";
@@ -274,6 +276,8 @@ function App() {
               <Route path="/Haircuts" element={<><Header userRole={"client"} /><Haircuts /></>}></Route>
               <Route path="/DoctorList" element={<><Header userRole={"client"} /><DoctorList /></>}></Route>
               <Route path="/addpet" element={<><Header userRole={"client"}/><AddPets /></>}></Route>
+              <Route path="/MiniGrooming" element={<><Header userRole={"client"}/><MiniGrooming/></>}></Route>
+              <Route path="/OrderTable" element={<><Header userRole={"client"}/><OrderTable/></>}></Route>
               <Route path="/crossing" element={<><Header userRole={"client"}/><Crossing /></>}></Route>
               <Route path="/Pet_grooming" element={<><Header userRole={"client"} /><Petgrooming /></>}></Route></>)}
 
