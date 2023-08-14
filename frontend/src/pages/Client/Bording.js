@@ -73,8 +73,7 @@ const Bording = () => {
       <div className='smooth-scroll' style={{textAlign:"center",width:"100%",height:"75vh",marginTop:"auto",marginBottom:"auto",fontWeight:"1"}}><h2 style={{fontSize:"80px",marginTop:"90px"}}>Book your's <span style={{color:"orange"}}>pet</span> seet now</h2>
       <h1 style={{marginTop:"20px",fontFamily:"sans-serif"}}>we protect and care yout pet</h1>
       <h1 style={{fontSize:"20px",fontWeight:"1"}}>24 x 7 service</h1>
-      {/* {PetsIcon} */}
-      {/* <PetsIcon  sx={{fontSize:"45px"}}/> */}
+      
       <img  className="smooth-scroll" src={cage} alt="Cage" style={{fontSize:"20px",width:"80px",height:"80px"}}/>
       <h1 style={{marginTop:"20px",fontFamily:"sans-serif"}}>Bording packages</h1>
 
