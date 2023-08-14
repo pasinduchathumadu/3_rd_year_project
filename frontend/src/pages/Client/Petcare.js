@@ -173,6 +173,42 @@ export default function Petcare() {
           </CardActionArea>
           <CardActions></CardActions>
         </Card>
+        <Card
+          sx={{
+            maxWidth: 345,
+            transition: "transform 0.5s ",
+            "&:hover": {
+              transform: "scale(1.1)", // Apply scale transform on hover
+              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", // Add box shadow on hover
+            },
+          }}
+        >
+          <CardActionArea>
+            <Link
+              to="/MindRealx"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <CardMedia
+                style={{ height: "35vh" }}
+                component="img"
+                height="140"
+                image={image3}
+                alt="green iguana"
+              />
+            </Link>
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                Pet training
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Lizards are a widespread group of squamate reptiles, with over
+                6,000 species, ranging across all continents except Antarctica
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <CardActions></CardActions>
+        </Card>
+
 
    
     </div></>
