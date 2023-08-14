@@ -16,8 +16,7 @@ import Button from '@mui/material/Button';
 import video from "../../assests/video2.mp4"
 import cage from "../../assests/png.png";
 import AOS from 'aos';
-
-
+import logo from "../../assests/2.png";
 import {useNavigate} from 'react-router-dom'
 
 const images = [
@@ -129,6 +128,8 @@ export const Dashboard = () => {
           <div className='overlap'></div>
           <video style={{width:"100%",height:"100%",objectFit:"cover"}} src={video} autoPlay loop muted playbackRate={0.2}/>
           <div className='content'>
+
+
             <h1 style={{fontSize:"80px",color:"white",marginTop:"-30vh"}} >Welcome happy tails</h1>
             <p>keep your pet happy</p>
             {/* <img  className="smooth-scroll" src={cage} alt="Cage" style={{fontSize:"20px",width:"100px",height:"100px",marginTop:"10px"}}/> */}
@@ -137,20 +138,14 @@ export const Dashboard = () => {
           </div>
         </div>
 
-        {/* <div style={{width:"100%",height:"100vh",color:"black"}}>
-          <h1>Our services</h1>
-
-        </div> */}
-        {/* <div className='smooth-scroll'>
-          <h1 style={{textAlign:"center",fontSize:"60px",fontWeight:"40",marginTop:"30px"}}>Keep your Pet <span style={{color:"orange"}}>Happy</span> </h1>
-
-        </div> */}
+      
       <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%' ,marginTop:"60px"}} >
       {images.map((image) => (
         <ImageButton className='smooth-scroll'
           focusRipple
           key={image.title}
           style={{
+            fontSize:"80px",
             width: image.width,
             marginTop : image.marginTop,
             height : image.height
@@ -183,9 +178,7 @@ export const Dashboard = () => {
       )
 
       )}
-      {/* <div className='bottm'>
-      <h2>happt tail shop</h2>
-    </div> */}
+      
     </Box></>
 
      

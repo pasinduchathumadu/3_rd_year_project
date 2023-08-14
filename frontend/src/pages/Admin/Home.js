@@ -21,6 +21,8 @@ const Home = () => {
     const handleChange = (event) => {
         setTime(event.target.value);
     };
+    const input = new Date();
+    const date = input.toDateString();
 
     return (
         <div className="home-container" style={{ marginTop: '4%'}}>
@@ -29,7 +31,7 @@ const Home = () => {
                 <div className="top-line">
                     <p>Administrator</p>
                     <p className="top-line-text">Today</p>
-                    <p class="top-line-text">18 June 2023</p>
+                    <p class="top-line-text">{date}</p>
                 </div>
                 <div className="top-line">
                     <p style={{ fontSize: '20px', fontWeight: 1000, color: 'black' }}>DashBoard</p>
@@ -79,7 +81,7 @@ const Home = () => {
                     </div>
 
                     <div style={{ backgroundColor: 'orange', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
-                        <p style={{  fontWeight: 'bold' }}><ListIcon sx={{ color: 'black', marginRight:'6px' , marginLeft:'5px' }} /> Pending Verifications</p>
+                        <p style={{  fontWeight: 'bold' }}><ListIcon sx={{ color: 'black', marginRight:'6px' , marginLeft:'5px' }} /> Pending Refund Verifications</p>
                         <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color:'white'  }}>3</p>
                     </div>
                 </div>
@@ -89,12 +91,12 @@ const Home = () => {
                     <div style={{ backgroundColor: 'white', padding: '10px', borderRadius: '20px', width: '600px', height: '280px' }}>
                         <p style={{ marginBottom: '30px', fontWeight: 'bold' }}><VerifiedIcon sx={{ color: 'orange', marginRight:'6px', marginLeft:'5px' }} /> Verified Refund Slips </p>
                         <PieChart
-                            colors={['#02FB1B', '#A65959']}
+                            colors={['orange', 'black']}
                             series={[
                                 {
                                     data: [
                                         { id: 0, value: 10, label: 'Pending' },
-                                        { id: 1, value: 15, label: 'Verified' },
+                                        { id: 1, value: 15, label: 'Complete' },
                                     ],
                                 },
                             ]}
@@ -106,12 +108,12 @@ const Home = () => {
                     <div style={{ backgroundColor: 'white', padding: '10px', borderRadius: '20px', width: '600px', height: '280px' }}>
                         <p style={{ marginBottom: '30px', fontWeight: 'bold' }}><DangerousIcon sx={{ color: 'orange', marginRight:'6px',  marginLeft:'5px' }} /> Complains </p>
                         <PieChart
-                        colors={['#FFBE9D', '#790052']}
+                        colors={['orange', 'black']}
                             series={[
                                 {
                                     data: [
                                         { id: 0, value: 20, label: ' Pending' },
-                                        { id: 1, value: 15, label: 'Verified' },
+                                        { id: 1, value: 15, label: 'Complete' },
                                     ],
                                 },
                             ]}
