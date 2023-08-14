@@ -1,5 +1,7 @@
 import express from "express";
-import {login,signup,forget_password,reset_password,forget_confirmation,upload_file,get_store, temp_cart, load_cart,increase, decrease,total, load_payement, load_total,delete_cart,final_payment, back} from "../controllers/users-controllers.js";
+
+import {login,signup,forget_password,reset_password,forget_confirmation,upload_file,get_store, temp_cart, load_cart,increase, decrease,total, load_payement, load_total,delete_cart,final_payment, back,date_client,confirm,generate , client_load, delete_order, random_assistant, get_allpackage, get_package, timeslot, delete_order_care,addpet, view_pets} from "../controllers/users-controllers.js";
+
 const user_route = express.Router();
 
 user_route.post('/login',login);
@@ -19,4 +21,20 @@ user_route.get('/load_total/:id',load_total)
 user_route.post('/delete_cart',delete_cart)
 user_route.post('/final_payment',final_payment)
 user_route.post('/back',back)
+user_route.post('/date_client',date_client)
+user_route.get('/confirm/:id',confirm)
+user_route.get('/generate/:id',generate)
+user_route.get('/client_load/:id',client_load)
+user_route.get('/delete_order/:id',delete_order)
+
+user_route.post('/random_assistant',random_assistant)
+user_route.get('/get_allpackages',get_allpackage)
+user_route.get('/get_package/:id',get_package)
+user_route.get('/get_timeslot',timeslot)
+user_route.get('/delete_order_care/:id',delete_order_care)
+
+
+user_route.post('/addpet', addpet);
+user_route.get('/view_pets/:email', view_pets);
+
 export default user_route;
