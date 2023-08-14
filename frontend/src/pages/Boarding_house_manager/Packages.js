@@ -16,6 +16,7 @@ import { PieChart } from '@mui/x-charts/PieChart';
 import axios from "axios";
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 const Packages = () => {
     const [new1, setNew] = useState(true);  //package cards
@@ -129,7 +130,7 @@ const Packages = () => {
 
 
     return (
-        <div className="home-container" style={{ marginTop: '4%' }} >
+        <div className="home-container" style={{ marginTop: '5%' }} >
             <div className="top">
                 <div className="top-line">
                     <p>Boarding House Manager</p>
@@ -169,12 +170,13 @@ const Packages = () => {
                         </div>
                         <Typography sx={{ color: '#FBBD08', fontSize: '35px', fontWeight: 'bold' }}>Gold</Typography>
                         <Typography sx={{ color: 'black', fontSize: '55px', fontWeight: 'bold' }}>Rs. 4000</Typography>
-                        <Typography sx={{ color: '#C0C0C0', fontSize: '25px', fontWeight: 'bold' }}>/ week</Typography>
+                        <Typography sx={{ color: '#C0C0C0', fontSize: '25px', fontWeight: 'bold' }}>/ day</Typography>
                         <div className="boarding-card-facility">
-                            <p><CheckIcon sx={{ marginRight: '20px' }} />Facility 01</p>
-                            <p><CheckIcon sx={{ marginRight: '20px' }} />Facility 02</p>
-                            <p><CheckIcon sx={{ marginRight: '20px' }} />Facility 03</p>
-                            <p><CheckIcon sx={{ marginRight: '20px' }} />Facility 04</p>
+                            <p><CheckCircleIcon sx={{ marginRight: '20px', color:'green' }} />Foods with <b>high brands</b></p>
+                            <p><CheckCircleIcon sx={{ marginRight: '20px', color:'green' }} /><b>Free</b> washing with <b>high brands</b> ingrediants</p>
+                            <p><CheckCircleIcon sx={{ marginRight: '20px', color:'green' }} /><b>Air conditional</b> apply</p>
+                            <p><CheckCircleIcon sx={{ marginRight: '20px', color:'green' }} /><b>Free</b> spa</p>
+                            <p><CheckCircleIcon sx={{ marginRight: '20px', color:'green' }} /><b>Free</b> medicine (if want)<br/>(within limited price range)</p>
                         </div>
                     </div>
 
@@ -185,13 +187,13 @@ const Packages = () => {
                         </div>
                         <Button variant="contained" sx={{ background: "#fe9e0d", ':hover': { backgroundColor: "#fe9e0d" } }}>most popular</Button>
                         <Typography sx={{ color: '#A6A6A6', fontSize: '35px', fontWeight: 'bold' }}>Silver</Typography>
-                        <Typography sx={{ color: 'black', fontSize: '55px', fontWeight: 'bold' }}>Rs. 3000</Typography>
-                        <Typography sx={{ color: '#C0C0C0', fontSize: '25px', fontWeight: 'bold' }}>/ week</Typography>
+                        <Typography sx={{ color: 'black', fontSize: '55px', fontWeight: 'bold' }}>Rs. 3400</Typography>
+                        <Typography sx={{ color: '#C0C0C0', fontSize: '25px', fontWeight: 'bold' }}>/ day</Typography>
                         <div className="boarding-card-facility">
-                            <p><CheckIcon sx={{ marginRight: '20px' }} />Facility 01</p>
-                            <p><CheckIcon sx={{ marginRight: '20px' }} />Facility 02</p>
-                            <p><CheckIcon sx={{ marginRight: '20px' }} />Facility 03</p>
-                            <p><CheckIcon sx={{ marginRight: '20px' }} />Facility 04</p>
+                            <p><CheckCircleIcon sx={{ marginRight: '20px', color:'green' }} />Foods  with <b>normal brands</b></p>
+                            <p><CheckCircleIcon sx={{ marginRight: '20px', color:'green' }} /><b>Free </b> washing with <b>normal brand</b> ingrediants </p>
+                            <p><CheckCircleIcon sx={{ marginRight: '20px', color:'green' }} /><b>Air conditional</b> apply</p>
+                            <p><CheckCircleIcon sx={{ marginRight: '20px', color:'green' }} /> <b>Free</b> spa</p>
                         </div>
                     </div>
 
@@ -201,13 +203,13 @@ const Packages = () => {
                             <DeleteIcon color="error" sx={{ marginLeft: '15px' }} />
                         </div>
                         <Typography sx={{ color: '#55555C', fontSize: '35px', fontWeight: 'bold' }}>Platinum</Typography>
-                        <Typography sx={{ color: 'black', fontSize: '55px', fontWeight: 'bold' }}>Rs. 2000</Typography>
-                        <Typography sx={{ color: '#C0C0C0', fontSize: '25px', fontWeight: 'bold' }}>/ week</Typography>
+                        <Typography sx={{ color: 'black', fontSize: '55px', fontWeight: 'bold' }}>Rs. 2200</Typography>
+                        <Typography sx={{ color: '#C0C0C0', fontSize: '25px', fontWeight: 'bold' }}>/ day</Typography>
                         <div className="boarding-card-facility">
-                            <p><CheckIcon sx={{ marginRight: '20px' }} />Facility 01</p>
-                            <p><CheckIcon sx={{ marginRight: '20px' }} />Facility 02</p>
-                            <p><CheckIcon sx={{ marginRight: '20px' }} />Facility 03</p>
-                            <p><CheckIcon sx={{ marginRight: '20px' }} />Facility 04</p>
+                            <p><CheckCircleIcon sx={{ marginRight: '20px', color:'green' }} /> Foods with <b>normal brands</b> </p>
+                            <p><CheckCircleIcon sx={{ marginRight: '20px', color:'green' }} /> Washing only</p>
+                            <p><CheckCircleIcon sx={{ marginRight: '20px', color:'green' }} /> <b>No</b> air condition apply  </p>
+                            {/* <p><CheckCircleIcon sx={{ marginRight: '20px', color:'green' }} /> </p> */}
                         </div>
                     </div>
                 </div>
@@ -227,8 +229,8 @@ const Packages = () => {
                         </div>
 
                         <div className="form-label">
-                            <FormLabel>Price(per week) Rs.</FormLabel>
-                            <TextField id="outlined-basic" placeholder="Package Price" variant="outlined" onChange={(e) => setPrice(e.target.value)} required />
+                            <FormLabel>Price(per day) Rs.</FormLabel>
+                            <TextField id="outlined-basic" placeholder="Package Price" variant="outlined" type="number" onChange={(e) => setPrice(e.target.value)} required />
                         </div>
 
                         <div className="form-label">

@@ -95,6 +95,50 @@ export const view_allclients = async(req, res, next) => {
         return res.json({data})
     })
 
+}
 
+// -------- COMPLAINS -----------------------
 
+// add new complain
+export const add_complain = async (req, res, next) => {
+    const {
+        email,
+        complain,
+    } = req.body;
+
+    const date = new Date()
+    const placed_date = date.toLocaleDateString()
+    const placed_time = date.toLocaleTimeString()
+    const status = 'pending';
+
+    try {
+        const checkQuery = 'SELECT * FROM manager WHERE email = ?';
+        const checkValues = [email];
+
+        db.query(checkQuery, checkValues, (err, data) => {
+            if(err) {
+                return res.json({message: "There is an internal error"})
+            }
+
+            const sqlQuery = 'INSERT INTO complain (email, complain_txt, date, time, status, user_role) VALUES (?,?,?,?,?,?)';
+            const values = [
+                data[0].email,
+                complain,
+                placed_date,
+                placed_time,
+                status,
+                data[0].user_role,   
+            ];
+
+            db.query(sqlQuery, values, (err, data) => {
+                if(err) {
+                    return res.json({message:'There is an internal errorrrrrr'})
+                }
+                return res.json({message:'success'})
+            })
+        })
+
+    }catch(err) {
+        console.log(err)
+    }
 }
