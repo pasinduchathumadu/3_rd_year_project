@@ -244,19 +244,7 @@ function App() {
           />
 
 
-          <Route
-            path="/menu"
-            element={
-              isLoggedIn ? (
-                <>
-                  <HomeHeader userRole={user_role} />
-                  <Menu />
-                </>
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
+        
           <Route path="/cart" element={isLoggedIn ? (<><HomeHeader userRole={user_role} /><Cart /></>) : (<Navigate to="/login" />)} />
 
           <Route path="/track_order" element={isLoggedIn ?(<><HomeHeader userRole={user_role}/><TrackOrder/></>):(<Navigate to="/login"/>)}/>
@@ -268,13 +256,6 @@ function App() {
           <Route path="/blogs" element={<><LandingHeader /><Blogs /></>} />
 
           {/* <Route path="/blogs" element={isLoggedIn ? <Blogs /> : <Navigate to="/login" />} /> */}
-
-
-
-
-
-
-
 
 
 
@@ -351,12 +332,7 @@ function App() {
 
 
 
-          {/* admin */}
-          {/* <Route path="/admin_dashboard" element={<AdminHome />} />
-          <Route path="/admin_users" element={<AdminUsers />} />
-          <Route path="/admin_refund" element={<AdminRefund />} />
-          <Route path="/admin_complains" element={<AdminComplains />} />  */}
-
+       
           {isLoggedIn && user_role === "care_center_manager" && (
             <>
               <Route path="/caregiverlist" element={<> <HomeHeader userRole={"care_center_manager"} /><Caregiverlist /></>} />
