@@ -6,10 +6,18 @@ import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, Fo
 import CloseIcon from "@mui/icons-material/Close"
 import petcare1 from "../../assests/bath4.jpg";
 import petcare2 from "../../assests/bath5.jpg";
+import caregiver from "../../assests/emp1.jpg";
+
 // import petcare3 from "../../assests/premium.jpg";
 import logo from "../../assests/2.png";
 import star from "../../assests/star3.png";
-
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -55,18 +63,48 @@ function Bath() {
           <h1 style={{color:"white",marginLeft:"30px",fontSize:"15px",fontWeight:"1"}}> thorough bath for your furry companions, leaving them clean, fresh, and happy. </h1>
           <img  className="smooth-scroll" src={star} alt="Cage" style={{fontSize:"10px",width:"150px",height:"150px",marginLeft:"100px",borderRadius: "50%",marginBottom:"-35px"}}/>
 
+
+
           <div style={{display:"flex",marginTop:"30px"}}>
          
           </div>
-          
-
+        
 
 
           </div>
 
         </div>
 
-  <div style={{ backgroundColor: '#f5f7f6', width: '90%', height: '80vh' ,marginLeft:"auto",marginRight:"auto",borderRadius:"8px"}}>
+        <div style={{backgroundColor:"black",width:"100%",height:"80vh"}}data-aos="zoom-in" >
+        <h2 style={{textAlign:"center",color:"orange",fontSize:"40px"}}>Our manager</h2>
+        <div style={{display:"flex",marginTop:"60px"}}>
+          <div>
+          <img
+            src={caregiver}
+            alt="Down Arrow"
+            style={{ width: 400, height: 400, cursor: 'pointer',borderRadius:"50%" }}
+        
+          />
+          </div>
+      <div style={{color:"white"}}>
+
+            <h1 style={{marginLeft:"400px",fontSize:"50px"}}data-aos="fade-right" >Pasindu guruge</h1>
+            <h1 style={{marginLeft:"400px",fontSize:"20px",fontWeight:"1"}}data-aos="fade-left">pasindu@gmail.com</h1>
+            <h1 style={{marginLeft:"400px",fontSize:"20px",fontWeight:"1"}}data-aos="fade-right" >070 025 4565</h1>
+            <h1 style={{marginLeft:"400px",fontSize:"100px",fontWeight:"1"}}data-aos="fade-right">10 <span style={{color:"orange",fontSize:"20px"}} > Pet grooming</span></h1>
+
+
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end',marginTop:"-380px" }} >
+                <h1 style={{ marginRight: '10px', fontSize: '20px', fontWeight: '1' }}>4.5</h1>
+                <FontAwesomeIcon icon={faStarHalfAlt} color="orange" size="2x" style={{ marginRight: '10px' }} />
+          </div>
+      </div>
+        </div>
+        
+       
+        </div>
+
+  <div style={{ backgroundColor: '#f5f7f6', width: '90%', height: '80vh' ,marginLeft:"auto",marginRight:"auto",borderRadius:"8px"}} data-aos="zoom-in">
 
             <div style={{marginTop:'5%'}}>
                 <h1 style={{textAlign:"center"}}>Appointment Details</h1>

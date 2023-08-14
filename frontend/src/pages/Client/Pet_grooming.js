@@ -71,7 +71,10 @@ function Pet_grooming() {
           </Button>
         </div>
         <h1 style={{ marginTop: "-290px", fontSize: '60px', fontWeight: 'bold' }}> Let's <span style={{ color: "orange", fontSize: '60px', fontWeight: 'bold' }}>Groom</span> your pet.</h1>
+        <Button sx={{ backgroundColor: "black",width:"20%",'&:hover': { backgroundColor: 'black' } }} variant="contained">Edit</Button>
+
       </div>
+
 
       <div style={{ backgroundColor: "black", height: "50vh" }} data-aos="zoom-out-down">
         <h1 style={{ textAlign: "center", color: "white", fontSize: "10vh", fontWeight: "1" }}>choice your plan now!</h1>

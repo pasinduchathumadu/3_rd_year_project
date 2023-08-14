@@ -14,6 +14,8 @@ import DownImage from '../../assests/down.png';
 import "../../styles/Client/Mindrelax.css";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import video2 from "../../assests/video2.mp4"
+
 
 export default function Petcare() {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -30,7 +32,7 @@ export default function Petcare() {
     };
   }, []);
 
-  const videoPlaybackRate = 0.2 + scrollPosition * 0.001;
+  const videoPlaybackRate = 0.2 + scrollPosition * 0.0001;
   const videoOpacity = 0.9 - scrollPosition * 0.002;
 
   const scrollToSection = () => {
