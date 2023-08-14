@@ -101,6 +101,10 @@ function Pet_grooming() {
         }}
       >
 
+
+
+        <h1 style={{ marginTop: "", fontSize: '60px', fontWeight: 'bold' }}> Let's <span style={{ color: "orange", fontSize: '60px', fontWeight: 'bold' }}>Groom</span> your pet.</h1>
+
         <div style={{ height: "15vh", width: "90%", backgroundColor: "rgba(255, 255, 255, 0.5)", color: "black", marginRight: "10px", alignItems: 'center', display: 'flex', }}>
           <LocalizationProvider dateAdapter={AdapterDayjs} >
             <DemoContainer components={['DateTimePicker']} sx={{ width: "50vh", marginLeft: "10px", marginTop: "-10px" }}>
@@ -120,9 +124,6 @@ function Pet_grooming() {
 
         )}
        
-       
-        <h1 style={{ marginTop: "-290px", fontSize: '60px', fontWeight: 'bold' }}> Let's <span style={{ color: "orange", fontSize: '60px', fontWeight: 'bold' }}>Groom</span> your pet.</h1>
-        <Button sx={{ backgroundColor: "black",width:"20%",'&:hover': { backgroundColor: 'black' } }} variant="contained">Edit</Button>
 
       </div>
 
