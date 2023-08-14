@@ -332,12 +332,7 @@ function App() {
 
 
 
-          {/* admin */}
-          {/* <Route path="/admin_dashboard" element={<AdminHome />} />
-          <Route path="/admin_users" element={<AdminUsers />} />
-          <Route path="/admin_refund" element={<AdminRefund />} />
-          <Route path="/admin_complains" element={<AdminComplains />} />  */}
-
+       
           {isLoggedIn && user_role === "care_center_manager" && (
             <>
               <Route path="/caregiverlist" element={<> <HomeHeader userRole={"care_center_manager"} /><Caregiverlist /></>} />
