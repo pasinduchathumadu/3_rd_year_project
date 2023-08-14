@@ -122,7 +122,10 @@ function Pet_grooming() {
        
        
         <h1 style={{ marginTop: "-290px", fontSize: '60px', fontWeight: 'bold' }}> Let's <span style={{ color: "orange", fontSize: '60px', fontWeight: 'bold' }}>Groom</span> your pet.</h1>
+        <Button sx={{ backgroundColor: "black",width:"20%",'&:hover': { backgroundColor: 'black' } }} variant="contained">Edit</Button>
+
       </div>
+
 
       <div style={{ backgroundColor: "black", height: "50vh" }} data-aos="zoom-out-down">
         <h1 style={{ textAlign: "center", color: "white", fontSize: "10vh", fontWeight: "1" }}>choice your plan now!</h1>
@@ -233,7 +236,7 @@ function Pet_grooming() {
 
 
           
-        <Link to="/Haircuts" style={{ textDecoration: "none", color: "inherit",height:"70vh" }}>
+        <Link to="/MiniGrooming" style={{ textDecoration: "none", color: "inherit",height:"70vh" }}>
 
 <Card sx={{ maxWidth: 345, marginLeft: "20px", marginTop: "20px",height:"100vh", transition: "transform 0.5s ",
       "&:hover": {
