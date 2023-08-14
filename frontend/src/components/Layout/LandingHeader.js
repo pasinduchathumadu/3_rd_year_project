@@ -200,7 +200,7 @@ export default function HomeHeader({ userRole }) {
             
             <Button onClick={blog} sx={{ color: 'white', textTransform: 'none', marginLeft: '4%', fontSize: '18px', ':hover': { color: 'orange' } }}>Blog</Button>
             <Button onClick={store} sx={{ color: 'white', textTransform: 'none', marginLeft: '4%', fontSize: '18px', ':hover': { color: 'orange' } }}>Store</Button>
-            <ShoppingCartTwoToneIcon sx={{ fontSize: '46px' }} />
+          
           </Box>
           <Box sx={{ marginLeft: '10%', flexGrow: 1, alignItems: 'center', width: '15%' }}>
             <Search style={{ justifyContent: 'flex-start' }}>
