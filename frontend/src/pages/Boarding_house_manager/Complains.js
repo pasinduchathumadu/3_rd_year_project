@@ -20,6 +20,7 @@ import TableHead from '@mui/material/TableHead';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import AddIcon from '@mui/icons-material/Add';
 import { FormLabel, TextField } from "@mui/material";
+import axios from "axios";
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -86,10 +87,10 @@ const Complains = () => {
         setForm(true);
     }
     // after click on submit button of add new complain form
-    const afterAddingComplain = () => {
-        setOwn(1);
-        setForm(false);
-    }
+    // const afterAddingComplain = () => {
+    //     setOwn(1);
+    //     setForm(false);
+    // }
 
     // click on add response button
     const addResponse = () => {
@@ -124,8 +125,34 @@ const Complains = () => {
     const input = new Date();
     const date = input.toDateString();
 
+    const email = localStorage.getItem("boarding_email");
+
+    const [complain,setcomplain] = useState("");
+    const [message, setMessage] = useState("");
+    const [error, seterror]= useState("");
+
+    const add_complain =  async () => {
+        seterror(false);
+        try {
+            const res= await axios.post('http://localhost:5000/pet_care/boarding_house_manager/add_complain', {
+                email,
+                complain,
+            })
+            if(res.data.message === 'There is an internal error') {
+                setMessage('You cannot add this package')
+                seterror(true)
+            }else if (res.data.message === 'success') {
+                setOwn(1);
+                setForm(false);
+
+            }
+        }catch (err) {
+            console.log("There is an internal error")
+        }
+    }
+
     return (
-        <div className="home-container" style={{ marginTop: '4%' }}>
+        <div className="home-container" style={{ marginTop: '5%' }}>
             <div className="top">
                 <div className="top-line">
                     <p>Boarding House Manager</p>
@@ -276,12 +303,11 @@ const Complains = () => {
                             </div>
                             <div className="form-label">
                                 <FormLabel>Enter your complain: </FormLabel>
-                                <TextField id="outlined-basic" placeholder="Complain" variant="outlined" sx={{ marginRight: '20px' }} />
+                                <TextField id="outlined-basic" placeholder="Complain" variant="outlined" sx={{ marginRight: '20px' }} onChange={(e) => setcomplain(e.target.value)} required />
                             </div>
 
                             <div className="form-label">
                                 <FormLabel>Upload an Image (if need): </FormLabel>
-                                {/* <input type="file" placeholder=" Choose a file" variant="outlined" /> */}
                                 <TextField
                                     sx={{ marginRight: '20px' }}
                                     type="file"
@@ -291,7 +317,7 @@ const Complains = () => {
                                 // onChange={handleFileChange}
                                 />
                             </div>
-                            <Button variant="contained" onClick={() => afterAddingComplain()} sx={{ background: 'orange', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Complain</Button>
+                            <Button variant="contained" onClick={() => add_complain()} sx={{ background: 'orange', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Complain</Button>
                         </div>
                     </FormControl>
                 </div>

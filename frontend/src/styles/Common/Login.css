@@ -1,5 +1,5 @@
 :root {
-    --primary-color:#eba434;
+    --primary-color: #eba434;
     --secondary-color: #eba434;
     --black: #000000;
     --white: #ffffff;
@@ -12,17 +12,20 @@
     --insta-color: #E1306C;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap'); */
 
 * {
-    font-family: 'Poppins', sans-serif;
+    /* font-family: 'Poppins', sans-serif; */
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /* font-family: "Reem Kurf", sans-serif !important; */
+
+
 }
 
 
-.body{
+.body {
     overflow: hidden;
     height: 100vh;
 

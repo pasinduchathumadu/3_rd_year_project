@@ -177,7 +177,7 @@ const Clients = () => {
 
 
     return (
-        <div className="home-container" style={{ marginTop: '4%' }}>
+        <div className="home-container" style={{ marginTop: '5%' }}>
             <div className="top">
                 <div className="top-line">
                     <p>Boarding House Manager</p>
@@ -200,7 +200,7 @@ const Clients = () => {
                     sx={{ borderRadius: '10px' }}
                 >
 
-                    <Tab sx={{ backgroundColor: showRequests === 0 ? 'orange' : '#F0F0F5', color: 'black' }} label="Clients' Request" ></Tab>
+                    <Tab sx={{ backgroundColor: showRequests === 0 ? 'orange' : '#F0F0F5', color: 'black' }} label="Clients' Boarding Request" ></Tab>
                     <Tab sx={{ backgroundColor: showRequests === 1 ? 'orange' : '#F0F0F5', color: 'black' }} label="Refund Requests"></Tab>
                     <Tab sx={{ backgroundColor: showRequests === 2 ? 'orange' : '#F0F0F5', color: 'black' }} label="Clients"></Tab>
 
@@ -300,9 +300,10 @@ const Clients = () => {
                                     <TableRow>
                                         <StyledTableCell align="center">Request ID</StyledTableCell>
                                         <StyledTableCell align="center">Client Name</StyledTableCell>
+                                        <StyledTableCell align="center">Pet ID</StyledTableCell>
+                                        <StyledTableCell align="center">Package ID</StyledTableCell>
                                         <StyledTableCell align="center">Requested Date Period</StyledTableCell>
                                         <StyledTableCell align="center">Pick Up Time</StyledTableCell>
-                                        <StyledTableCell align="center">Package ID</StyledTableCell>
                                         <StyledTableCell align="center">Request Status</StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
@@ -313,9 +314,10 @@ const Clients = () => {
                                         <StyledTableRow key={requestrow.id}>
                                             <StyledTableCell align="center">{requestrow.request_id}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.client_id}</StyledTableCell>
+                                            <StyledTableCell align="center"></StyledTableCell>
+                                            <StyledTableCell align="center">{requestrow.package_id}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.board_date}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.board_time}</StyledTableCell>
-                                            <StyledTableCell align="center">{requestrow.package_id}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.request_status}</StyledTableCell>
                                             <StyledTableCell align="center">
                                                 <Button onClick={() => viewPet()} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Pets Details</Button>
