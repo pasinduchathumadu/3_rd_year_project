@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
 import ProfilePicture from '../../assests/profile-picture.png';
 import Button from '@mui/material/Button';
@@ -54,17 +54,17 @@ const rows = [
     createData1(4, 4, "Complain text 4", '2023-07-15', '17:30:00', 'completed'),
     createData1(5, 6, "Complain text 5", '2023-07-16', '18:00:00', 'completed'),
 ];
-function createData2(id, text, date, time, status) {
-    return { id, text, date, time, status };
-}
+// function createData2(id, text, date, time, status) {
+//     return { id, text, date, time, status };
+// }
 
-const datarows = [
-    createData2(1, "Complain text 1", '2023-07-12', '14:00:00', 'pending'),
-    createData2(2, "Complain text 2", '2023-07-13', '12:00:00', 'pending'),
-    createData2(3, "Complain text 3", '2023-07-14', '13:10:00', 'pending'),
-    createData2(4, "Complain text 4", '2023-07-15', '17:30:00', 'completed'),
-    createData2(5, "Complain text 5", '2023-07-16', '18:00:00', 'completed'),
-];
+// const datarows = [
+//     createData2(1, "Complain text 1", '2023-07-12', '14:00:00', 'pending'),
+//     createData2(2, "Complain text 2", '2023-07-13', '12:00:00', 'pending'),
+//     createData2(3, "Complain text 3", '2023-07-14', '13:10:00', 'pending'),
+//     createData2(4, "Complain text 4", '2023-07-15', '17:30:00', 'completed'),
+//     createData2(5, "Complain text 5", '2023-07-16', '18:00:00', 'completed'),
+// ];
 
 const Complains = () => {
     // drop down
@@ -131,6 +131,7 @@ const Complains = () => {
     const [message, setMessage] = useState("");
     const [error, seterror]= useState("");
 
+    // adding a complain
     const add_complain =  async () => {
         seterror(false);
         try {
@@ -150,6 +151,42 @@ const Complains = () => {
             console.log("There is an internal error")
         }
     }
+
+    // viewing my complains
+    const [mycomplain, setmycomplain] = useState("");
+    const viewmyComplains = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/viewmyComplains')
+            const data = await res.data
+            return data
+
+        }catch(err) {
+            console.log("There is an internal error")
+        }
+    }
+    useEffect(() => {
+        viewmyComplains()
+        .then((data) => setmycomplain(data.data))
+        .catch((err) => console.log(err))
+    })
+
+    // viewing clients all complains
+    const [clientcomplain, setclientcomplain] = useState("");
+    const viewClientsComplains = async() => {
+        try {
+            const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/viewClientsComplains')
+            const data = await res.data
+            return data
+            
+        }catch (err) {
+            console.log("There is an internal error")
+        }
+    }
+    useEffect(() => {
+        viewClientsComplains()
+        .then((data) => setclientcomplain(data.data))
+        .catch((err) => console.log(err))
+    })
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
@@ -207,7 +244,7 @@ const Complains = () => {
                                 <TableHead>
                                     <TableRow>
                                         <StyledTableCell align="center">Complain ID</StyledTableCell>
-                                        <StyledTableCell align="center">Client ID</StyledTableCell>
+                                        <StyledTableCell align="center">Client Email Address</StyledTableCell>
                                         <StyledTableCell align="center">Complain</StyledTableCell>
                                         <StyledTableCell align="center">Placed Date</StyledTableCell>
                                         <StyledTableCell align="center">Placed Time</StyledTableCell>
@@ -215,15 +252,15 @@ const Complains = () => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {rows.map((row) => (
-                                        <StyledTableRow key={row.com_id}>
-                                            <StyledTableCell align="center">{row.com_id}</StyledTableCell>
-                                            <StyledTableCell align="center">{row.cl_id}</StyledTableCell>
-                                            <StyledTableCell align="center">{row.text}</StyledTableCell>
-                                            <StyledTableCell align="center">{row.date}</StyledTableCell>
-                                            <StyledTableCell align="center">{row.time}</StyledTableCell>
+                                    {clientcomplain && clientcomplain.map((clientrow, next) => (
+                                        <StyledTableRow key={clientrow.complain_id}>
+                                            <StyledTableCell align="center">{clientrow.complain_id}</StyledTableCell>
+                                            <StyledTableCell align="center">{clientrow.email}</StyledTableCell>
+                                            <StyledTableCell align="center">{clientrow.complain_txt}</StyledTableCell>
+                                            <StyledTableCell align="center">{clientrow.date}</StyledTableCell>
+                                            <StyledTableCell align="center">{clientrow.time}</StyledTableCell>
                                             <StyledTableCell align="center">
-                                                {row.status === "pending" ?
+                                                {clientrow.status === "pending" ?
                                                     <Button onClick={() => addResponse()} sx={{ color: 'white', backgroundColor: '#fe9e0d', ':hover': { backgroundColor: '#fe9e0d' } }}>Add Response</Button> :
                                                     <Button onClick={() => viewResponse()} sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }}>View Response</Button>}
                                             </StyledTableCell>
@@ -268,21 +305,21 @@ const Complains = () => {
                                 <TableHead>
                                     <TableRow>
                                         <StyledTableCell align="center">Complain ID</StyledTableCell>
-                                        <StyledTableCell align="center">Complain</StyledTableCell>
+                                        <StyledTableCell align="left">Complain</StyledTableCell>
                                         <StyledTableCell align="center">Placed Date</StyledTableCell>
                                         <StyledTableCell align="center">Placed Time</StyledTableCell>
                                         <StyledTableCell align="center">Status</StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {datarows.map((datarow) => (
-                                        <StyledTableRow key={datarow.id}>
-                                            <StyledTableCell align="center">{datarow.id}</StyledTableCell>
-                                            <StyledTableCell align="center">{datarow.text}</StyledTableCell>
-                                            <StyledTableCell align="center">{datarow.date}</StyledTableCell>
-                                            <StyledTableCell align="center">{datarow.time}</StyledTableCell>
+                                    {mycomplain && mycomplain.map((myrow, index) => (
+                                        <StyledTableRow key={myrow.id}>
+                                            <StyledTableCell align="center">{myrow.complain_id}</StyledTableCell>
+                                            <StyledTableCell align="left">{myrow.complain_txt}</StyledTableCell>
+                                            <StyledTableCell align="center">{myrow.date}</StyledTableCell>
+                                            <StyledTableCell align="center">{myrow.time}</StyledTableCell>
                                             <StyledTableCell align="center">
-                                                {datarow.status === "completed" ? <Button onClick={() => viewResponse()} sx={{ color: 'white', backgroundColor: '#fe9e0d', ':hover': { backgroundColor: '#fe9e0d' } }}>View Response</Button> : "Pending"}
+                                                {myrow.status === "completed" ? <Button onClick={() => viewResponse()} sx={{ color: 'white', backgroundColor: '#fe9e0d', ':hover': { backgroundColor: '#fe9e0d' } }}>View Response</Button> : "Pending"}
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     ))}

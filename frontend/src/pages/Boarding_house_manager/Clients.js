@@ -111,7 +111,8 @@ const Clients = () => {
         .catch((err) => console.log(err))
     })
 
-    const [allclient, setallclient] = useState([])  //all clients - get services from boarding house
+    const [allclient, setallclient] = useState([])  
+    //all clients - get services from boarding house
     const view_allclients = async () => {
         try {
             const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/view_allclients')
