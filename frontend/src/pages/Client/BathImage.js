@@ -28,6 +28,7 @@ export default function BathImage() {
           />
         </ImageListItem>
       ))}
+      
     </ImageList>
   );
 }
