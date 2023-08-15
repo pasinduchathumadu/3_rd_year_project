@@ -205,7 +205,7 @@ function Pet_grooming() {
 
 
   useEffect(() => {
-    AOS.init({ duration: 1000 });
+    AOS.init({ duration: 600 });
   }, []);
   
 
@@ -473,9 +473,9 @@ function Pet_grooming() {
 
             </div>
 
-            <div style={{ backgroundColor: "black", width: "100%", height: "80vh" }} data-aos="zoom-in" >
+            <div style={{ backgroundColor: "black", width: "100%", height: "80vh",     }} data-aos="zoom-in" >
               <h2 style={{ textAlign: "center", color: "orange", fontSize: "40px", paddingTop: '1%' }}>Your Assistant</h2>
-              <div style={{ display: "flex", marginTop: "60px" }}>
+              <div style={{ display: "flex", marginTop: "60px", marginLeft: "60px" }}>
                 <div>
                   {employee_detail && employee_detail.map((menu,index)=>(
                      <img
@@ -496,7 +496,7 @@ function Pet_grooming() {
                   </div>
 
 
-                  <><h1 style={{ marginLeft: "400px", fontSize: "50px" }} data-aos="fade-right">{employee_detail && employee_detail.map((menu, index) => menu.full_name)}</h1><h1 style={{ marginLeft: "400px", fontSize: "20px", fontWeight: "1" }} data-aos="fade-left">{employee_detail && employee_detail.map((menu, index) => menu.email)}</h1><h1 style={{ marginLeft: "400px", fontSize: "20px", fontWeight: "1" }} data-aos="fade-right">{employee_detail && employee_detail.map((menu, index) => menu.contact_number)}</h1><h1 style={{ marginLeft: "400px", fontSize: "100px", fontWeight: "1" }} data-aos="fade-right">10 <span style={{ color: "orange", fontSize: "20px" }}> Pet grooming</span>
+                  <><h1 style={{ marginLeft: "400px", fontSize: "50px",marginTop :"-179px" }} data-aos="fade-right">{employee_detail && employee_detail.map((menu, index) => menu.full_name)}</h1><h1 style={{ marginLeft: "400px", fontSize: "20px", fontWeight: "1" }} data-aos="fade-left">{employee_detail && employee_detail.map((menu, index) => menu.email)}</h1><h1 style={{ marginLeft: "400px", fontSize: "20px", fontWeight: "1" }} data-aos="fade-right">{employee_detail && employee_detail.map((menu, index) => menu.contact_number)}</h1><h1 style={{ marginLeft: "400px", fontSize: "100px", fontWeight: "1" }} data-aos="fade-right">10 <span style={{ color: "orange", fontSize: "20px" }}> Pet grooming</span>
                   </h1></>
 
                 </div>
