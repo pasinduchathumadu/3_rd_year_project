@@ -592,6 +592,7 @@ const Add = () => {
                     </IconButton>
 
                   </Box>
+                  
                   <Box sx={{ backgroundColor: '#FFFFFF', margin: '4%', height: '230px', display: 'flex' }}>
                     <Box sx={{ border: '1px', borderColor: 'gray', borderStyle: 'solid', width: '75%', height: '200px', display: 'inline', marginTop: '6px' }}>
                       <Card sx={{ maxWidth: "140px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '11px' }}>

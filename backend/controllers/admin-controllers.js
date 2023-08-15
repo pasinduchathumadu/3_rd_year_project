@@ -5,7 +5,7 @@ import QRCode from 'qrcode'
 import nodemailer from "nodemailer"
 import Mailgen from 'mailgen'
 
-
+// ---- USERS ----
 export const registration = async (req, res, next) => {
     const { email, first, second, id, contact, city, Street, role } = req.body;
     try{
@@ -175,4 +175,22 @@ export const get_client = async (req, res, next) => {
         return res.json({data})
     })
 
+}
+
+// --- DASHBOARD ---
+// count managers
+export const countManagers = async(req,res, next) => {
+    const sqlQuery = 'SELECT COUNT(manager_id) from manager;'
+
+    db.query(sqlQuery, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+// count managers
+export const countClients = async(req,res,next) => {
+    
 }
