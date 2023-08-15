@@ -96,6 +96,8 @@ import HomeHeader from "./components/Layout/Homeheader";
 
 import PaymentClient from './pages/Client/Payment';
 
+import ViewMedical from './pages/Client/ViewMedical';
+
 // sidebar icons
 import HomeIcon from '@mui/icons-material/Home';  //dashboard
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'; //complains
@@ -275,6 +277,7 @@ function App() {
               <Route path="/Bath" element={<><Header userRole={"client"} /><Bath /></>}></Route>
               <Route path="/Haircuts" element={<><Header userRole={"client"} /><Haircuts /></>}></Route>
               <Route path="/DoctorList" element={<><Header userRole={"client"} /><DoctorList /></>}></Route>
+              <Route path="/viewMedicalReports" element={<><Header userRole={"client"} /><ViewMedical /></>}></Route>
               <Route path="/addpet" element={<><Header userRole={"client"}/><AddPets /></>}></Route>
               <Route path="/MiniGrooming" element={<><Header userRole={"client"}/><MiniGrooming/></>}></Route>
               <Route path="/OrderTable" element={<><Header userRole={"client"}/><OrderTable/></>}></Route>

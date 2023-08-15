@@ -21,10 +21,7 @@ import FormControlContext from "@mui/material/FormControl/FormControlContext";
 import CloseIcon from "@mui/icons-material/Close"
 import "../../styles/Client/Medi.css"
 import { DoctorList } from "./DoctorList";
-
-
-
-
+import StarIcon from '@mui/icons-material/Star';
 
 
 function Medi() {
@@ -79,7 +76,7 @@ function Medi() {
 
     <div className='smooth-scroll' style={{width:"100%",height:"60vh",marginTop:"auto",marginBottom:"auto",fontWeight:"1",display:"flex"}} data-aos="zoom-out">
         <div>
-        <h2 style={{fontSize:"80px",marginTop:"30px",marginLeft:"50px"}}>meet your <span style={{color:"orange"}}>doctor</span> </h2>
+        <h2 style={{fontSize:"80px",marginTop:"30px",marginLeft:"50px"}}>Meet your <span style={{color:"orange"}}>Doctor</span> </h2>
         {/* <h1 style={{marginTop:"20px",fontFamily:"sans-serif",marginLeft:"50px"}}>we protect and care yout pet</h1> */}
         <h1 style={{fontSize:"20px",fontWeight:"1",marginLeft:"250px"}}>24 x 7 service</h1>
         <motion.div
@@ -102,8 +99,9 @@ function Medi() {
       </div>
 
       <div style={{width:"100%",height:"60vh",backgroundColor:"#121334",marginTop:"auto",color:"white"}}  >
-        <h2 style={{fontSize:"50px",marginLeft:"50px"}}>View your pet details</h2>
-        <h2 style={{fontSize:"20px",marginLeft:"50px"}}>We always protect your pet details</h2>
+        <h2 style={{fontSize:"50px",marginLeft:"50px"}}>Enter your pet details</h2>
+        <h2 style={{fontSize:"20px",marginLeft:"50px"}}>< StarIcon sx={{color:'red'}} />We always protect your pet details</h2>
+
         
         <Link to="/DoctorList" style={{ textDecoration: 'none' }}>
         <Button variant="contained" sx={{ width:"500px",height:"50px",backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px',marginLeft:"45px",marginTop:"20px", fontSize: '12px', '&:hover': { backgroundColor: 'orange' } }} >Click now</Button></Link>
@@ -114,8 +112,8 @@ function Medi() {
 
       <div style={{width:"100%",height:"60vh",backgroundColor:"white",marginTop:"auto"}}>
 
-        <h1 style={{textAlign:"center",marginTop:"20px"}}>Our servises</h1>
-        <h1 style={{textAlign:"center",fontSize:"80px",marginTop:"-20px",fontWeight:"1000",color:"rgb(163 169 168)"}}>Servises we provide</h1>
+        <h1 style={{textAlign:"center",marginTop:"20px"}}>Our Services</h1>
+        <h1 style={{textAlign:"center",fontSize:"80px",marginTop:"-20px",fontWeight:"1000",color:"rgb(163 169 168)"}}>Services we provide</h1>
 
 
       </div>
@@ -124,23 +122,23 @@ function Medi() {
 
         <div style={{width:"30%",height:"40vh",backgroundColor:"white",marginLeft:"auto",marginRight:"auto"}}data-aos="zoom-in">
         <img  className="smooth-scroll" src={petcare1} alt="Cage" style={{fontSize:"20px",width:"80px",height:"80px",marginLeft:"190px"}}/>
-        <h1 style={{textAlign:"center"}}>pet vaccine </h1>
+        <h1 style={{textAlign:"center"}}>Pet Vaccine </h1>
 
-        <h3 style={{textAlign:"center",fontWeight:"1"}}>pet dentel jaij jbaj jdai aowiu and djo laihws a  </h3>
+        <h3 style={{textAlign:"center",fontWeight:"1"}}>Protect your furry friend's health with our expert pet vaccines!</h3>
 
 
         </div>
         <div style={{width:"30%",height:"40vh",backgroundColor:"white",marginLeft:"auto",marginRight:"auto"}}data-aos="zoom-in">
         <img  className="smooth-scroll" src={petcare2} alt="Cage" style={{fontSize:"20px",width:"80px",height:"80px",marginLeft:"auto",marginRight:"auto",marginLeft:"190px"}}/>
-        <h1 style={{textAlign:"center"}}>pet dentel </h1>
-        <h3 style={{textAlign:"center",fontWeight:"1"}}>pet dentel wie he njdhru nsjp</h3>
+        <h1 style={{textAlign:"center"}}>Pet Dentel </h1>
+        <h3 style={{textAlign:"center",fontWeight:"1"}}>Keep your furry friend's smile shinning with our expert pet dental care services!</h3>
 
 
         </div>
         <div style={{width:"30%",height:"40vh",backgroundColor:"white",marginLeft:"auto",marginRight:"auto"}}data-aos="zoom-in">
         <img  className="smooth-scroll" src={petcare3} alt="Cage" style={{fontSize:"20px",width:"80px",height:"80px",marginLeft:"auto",marginRight:"auto",marginLeft:"190px"}}/>
-        <h1 style={{textAlign:"center"}}>pet sergury </h1>
-        <h3 style={{textAlign:"center",fontWeight:"1"}}>pet dentel jajwu ndndj </h3>
+        <h1 style={{textAlign:"center"}}>Pet Sergury </h1>
+        <h3 style={{textAlign:"center",fontWeight:"1"}}> Expert surgical care for your furry members, ensuring their healthy life!</h3>
 
 
         </div>
@@ -152,7 +150,7 @@ function Medi() {
       <img  className="smooth-scroll" src={doctor2} alt="Cage" style={{fontSize:"700px",width:"400px",height:"600px",marginTop:"-80px"}} />
 
 
-      <h1 style={{color:"white",textAlign:"center",marginTop:"90px",marginLeft:"300px"}}> Make your appoinment here</h1>
+      <h1 style={{color:"white",textAlign:"center",marginTop:"90px",marginLeft:"300px"}}> Make Your Appoinment Here</h1>
       <div style={{textAlign:'center'}}>
             <Button onClick={functionopenpopup}  variant="contained" sx={{ width:"500px",height:"50px",backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px',marginLeft:"-450px",marginTop:"260px", fontSize: '12px', '&:hover': { backgroundColor: 'orange' } }} >Enter details</Button>
 
