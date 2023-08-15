@@ -19,6 +19,8 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import TemporaryDrawer from './Sidebar';
 import Button from '@mui/material/Button';
+import { Link } from 'react-router-dom';
+
 
 
 
@@ -133,7 +135,10 @@ export default function PrimarySearchAppBar({userRole}) {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <Link to="/OrderTable" style={{ textDecoration: "none", color: "inherit", }}>
+      <MenuItem onClick={handleMenuClose}>My Appoinments</MenuItem>
+
+      </Link>
     </Menu>
   );
 
@@ -265,7 +270,21 @@ export default function PrimarySearchAppBar({userRole}) {
             </IconButton>
             
           </Box>
-          <Button onClick={logout} variant="contained" sx={{backgroundColor:"orange",marginRight:"20px",':hover':{backgroundColor:'orange'}}}>logout</Button>
+          <Button
+  onClick={logout}
+  variant="contained"
+  sx={{
+    backgroundColor: "black",
+    marginLeft: "30px",
+    border: "2px solid white", // Adding the border
+    ':hover': {
+      backgroundColor: 'black',
+      borderColor: 'gray',
+    },
+  }}
+>
+  logout
+</Button>
 
 
 

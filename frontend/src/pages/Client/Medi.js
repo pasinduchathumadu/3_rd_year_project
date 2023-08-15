@@ -101,14 +101,11 @@ function Medi() {
       <div style={{width:"100%",height:"60vh",backgroundColor:"#121334",marginTop:"auto",color:"white"}}  >
         <h2 style={{fontSize:"50px",marginLeft:"50px"}}>Enter your pet details</h2>
         <h2 style={{fontSize:"20px",marginLeft:"50px"}}>< StarIcon sx={{color:'red'}} />We always protect your pet details</h2>
+
         
         <Link to="/DoctorList" style={{ textDecoration: 'none' }}>
-        <Button variant="contained" sx={{ width:"500px",height:"50px",backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px',marginLeft:"45px",marginTop:"20px", fontSize: '12px', '&:hover': { backgroundColor: 'orange' } }} >Enter details</Button></Link>
-        <LocalizationProvider dateAdapter={AdapterDayjs} sx={{color:"white"}}>
-            <DemoContainer components={['DateTimePicker']} sx={{ width: "500px", marginLeft: "45px", marginTop: "10px" }}>
-              <DateTimePicker label="Book your time" sx={{color:"white",backgroundColor:"white",borderRadius:"10px"}} />
-            </DemoContainer>
-          </LocalizationProvider>
+        <Button variant="contained" sx={{ width:"500px",height:"50px",backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px',marginLeft:"45px",marginTop:"20px", fontSize: '12px', '&:hover': { backgroundColor: 'orange' } }} >Click now</Button></Link>
+        
 
       </div>
 
