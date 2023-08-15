@@ -98,6 +98,8 @@ import PaymentClient from './pages/Client/Payment';
 
 import ViewMedical from './pages/Client/ViewMedical';
 
+import ActivityTracking from './pages/Client/ActivityTracking';
+
 // sidebar icons
 import HomeIcon from '@mui/icons-material/Home';  //dashboard
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'; //complains
@@ -286,9 +288,6 @@ function App() {
 
 
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
-      
-
-          {/* boarding house manager */}
 
 
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
@@ -326,6 +325,11 @@ function App() {
           {/* <Route path="/addpet" element={<><Header /><AddPets /></>} /> */}
           {/* view vaccine records */}
           <Route path="/viewMedicalReports" element={<><Header /><ViewMedical /></>}></Route>  
+
+          {/* boarding house activity tracking */}
+          {/* <Route path="/activityTracking" element={<><Header /><ActivityTracking /></>}></Route>   */}
+          <Route path="activityTracking" element={<><Header /><ActivityTracking /></>}></Route>
+ 
           
 
 
