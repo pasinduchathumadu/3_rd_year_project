@@ -502,7 +502,7 @@ export const back = async (req, res, next) => {
 
 export const date_client = async(req,res,next)=>{
   const {selectedDateString,Id}=req.body
-
+  console.log(selectedDateString)
 
   const sqlQuery = "SELECT COUNT(time_slot) AS count1 FROM carecenter_appointment WHERE placed_date = ?  AND time_slot = ?"
   const values = [
@@ -634,10 +634,10 @@ export const delete_order = async (req, res, next) => {
 
 export const random_assistant = async(req,res,next)=>{
  
-  const {Id,date,email,package_id}=req.body
+  const {Id,selectedDateString,email,package_id}=req.body
   const sqlQuery = "INSERT INTO carecenter_appointment (placed_date,client_email,package_id,time_slot)VALUES(?,?,?,?)"
   const values = [
-    date,
+    selectedDateString,
     email,
     package_id,
     Id
@@ -645,30 +645,31 @@ export const random_assistant = async(req,res,next)=>{
 
   db.query(sqlQuery,values,(err,data_first)=>{
     if(err){
-      return res.json({message:'There is an internel --error'})
+      return res.json({message:'There is an internel error'})
     }
     const sqlQuery4 = "SELECT appointment_id FROM carecenter_appointment ORDER BY appointment_id DESC LIMIT 1"
     db.query(sqlQuery4,(err,data2)=>{
       if(err){
-        return res.json({message:'There is an internel error2'})
+        return res.json({message:'There is an internel error'})
       }
     const sqlQuery1 = "UPDATE carecenter_check SET emp_id = (SELECT emp_id FROM employee WHERE emp_id NOT IN (SELECT emp_id FROM carecenter_check WHERE timeslot_id = ? AND placed_date =? ) ORDER BY RAND() LIMIT 1) WHERE appointment_id = ? "
     const values1 = [
       Id,
-      date,
+      selectedDateString,
       data2[0].appointment_id
     ]
     console.log(values1[5])
-    db.query(sqlQuery1,values1,(err,data)=>{
+    db.query(sqlQuery1,values1,(err,data1)=>{
       if(err){
-        return res.json({message:'There is an error'})
+        return res.json({message:'There is an internel error'})
       }
       
         const sqlQuery2=
         `
   SELECT CONCAT(e.first_name, ' ', e.last_name) AS full_name,
          e.email,
-         e.contact_number
+         e.contact_number,
+         e.img
         
   FROM employee e
   INNER JOIN carecenter_check c ON c.emp_id = e.emp_id WHERE c.appointment_id = ?
@@ -680,7 +681,8 @@ export const random_assistant = async(req,res,next)=>{
      
         db.query(sqlQuery2,values3,(err,data)=>{
           if(err){
-            return res.json({message:'There is an internel error1'})
+            
+            return res.json({message:'There is an internel error'})
           }
           return res.json({data})
         })
@@ -699,7 +701,7 @@ export const get_allpackage = async(req,res,next)=>{
     if(err){
       return res.json({message:'There is an internel error'})
     }
-    return res.json({message:'success'})
+    return res.json({data})
   })
 }
 
@@ -713,7 +715,7 @@ export const get_package = async(req,res,next)=>{
     if(err){
       return res.json({message:'There is an error'})
     }
-    return res.json({message:success})
+    return res.json({data})
   })
 }
 
@@ -740,10 +742,6 @@ export const timeslot = async(req,res,next)=>{
     return res.json({data})
   })
 }
-
-
-
-
 // pet adding
 export const addpet = async (req, res, next) => {
   const {
