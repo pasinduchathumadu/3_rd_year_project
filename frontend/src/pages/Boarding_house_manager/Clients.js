@@ -268,7 +268,7 @@ const Clients = () => {
                 </div>
             )}
 
-            {/* clients request */}
+            {/* clients requests */}
             {showRequests === 0 && (
                 <div>
                     <div className="drop-down-box1">
@@ -288,8 +288,6 @@ const Clients = () => {
                                     <MenuItem value={2}>Pending</MenuItem>
                                     <MenuItem value={3}>Accepted</MenuItem>
                                     <MenuItem value={4}>Completed</MenuItem>
-                                    <MenuItem value={5}>Cancelled</MenuItem>
-                                    <MenuItem value={6}>Incomplete</MenuItem>
                                 </Select>
                             </FormControl>
                         </Box>
@@ -315,7 +313,7 @@ const Clients = () => {
                                         <StyledTableRow key={requestrow.id}>
                                             <StyledTableCell align="center">{requestrow.request_id}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.client_id}</StyledTableCell>
-                                            <StyledTableCell align="center"></StyledTableCell>
+                                            <StyledTableCell align="center">{requestrow.pet_id}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.package_id}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.board_date}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.board_time}</StyledTableCell>
@@ -352,8 +350,8 @@ const Clients = () => {
                                     sx={{ fontSize: '11px' }}
                                 >
                                     <MenuItem value={1}>All</MenuItem>
-                                    <MenuItem value={2}>Pending</MenuItem>
-                                    <MenuItem value={3}>Completed</MenuItem>
+                                    <MenuItem value={2}>Cancelled</MenuItem>
+                                    <MenuItem value={3}>Incompleted</MenuItem>
                                 </Select>
                             </FormControl>
                         </Box>
