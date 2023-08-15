@@ -277,7 +277,7 @@ function App() {
               <Route path="/Bath" element={<><Header userRole={"client"} /><Bath /></>}></Route>
               <Route path="/Haircuts" element={<><Header userRole={"client"} /><Haircuts /></>}></Route>
               <Route path="/DoctorList" element={<><Header userRole={"client"} /><DoctorList /></>}></Route>
-              <Route path="/viewMedicalReports" element={<><Header userRole={"client"} /><ViewMedical /></>}></Route>
+              {/* <Route path="/viewMedicalReports" element={<><Header userRole={"client"} /><ViewMedical /></>}></Route> */}
               <Route path="/addpet" element={<><Header userRole={"client"}/><AddPets /></>}></Route>
               <Route path="/MiniGrooming" element={<><Header userRole={"client"}/><MiniGrooming/></>}></Route>
               <Route path="/OrderTable" element={<><Header userRole={"client"}/><OrderTable/></>}></Route>
@@ -286,6 +286,7 @@ function App() {
 
 
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
+      
 
           {/* boarding house manager */}
 
@@ -323,6 +324,10 @@ function App() {
           )}
 
           {/* <Route path="/addpet" element={<><Header /><AddPets /></>} /> */}
+          {/* view vaccine records */}
+          <Route path="/viewMedicalReports" element={<><Header /><ViewMedical /></>}></Route>  
+          
+
 
 
           {/* admin */}
