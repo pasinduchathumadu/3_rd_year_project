@@ -136,7 +136,7 @@ export default function PrimarySearchAppBar({userRole}) {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <Link to="/OrderTable" style={{ textDecoration: "none", color: "inherit", }}>
-      <MenuItem onClick={handleMenuClose}>My Orders</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My Appoinments</MenuItem>
 
       </Link>
     </Menu>

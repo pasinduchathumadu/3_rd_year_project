@@ -71,6 +71,10 @@ function Bath() {
           </div>
 
         </div>
+        <div style={{backgroundColor:"black",width:"100%",height:"90vh"}}>
+
+
+        </div>
 
   <div style={{ backgroundColor: '#f5f7f6', width: '90%', height: '80vh' ,marginLeft:"auto",marginRight:"auto",borderRadius:"8px"}}>
 
