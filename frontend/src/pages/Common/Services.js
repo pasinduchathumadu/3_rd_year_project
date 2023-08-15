@@ -102,7 +102,8 @@ const Services = () => {
                   key={index}
                   sx={{
                     width: 200, // Set a fixed width for consistent cards
-                    maxWidth: "100%", // Prevent cards from becoming too wide
+                    maxWidth: "100%", 
+                    color:'black'// Prevent cards from becoming too wide
                   }}
                 >
                   <Link to="/login" style={{ textDecoration: "none" }}>
@@ -115,10 +116,11 @@ const Services = () => {
                         sx={{
                           height: 200,
                           width: "100%",
+                          color:'black'
                         }}
                       />
                       <CardContent>
-                        <Typography variant="h6">{data.title}</Typography>
+                        <Typography variant="h6" sx={{color:'black'}}>{data.title}</Typography>
                       </CardContent>
                     </CardActionArea>
                   </Link>
@@ -159,7 +161,8 @@ const Services = () => {
                     key={index}
                     sx={{
                       width: 200, // Set a fixed width for consistent cards
-                      maxWidth: "100%", // Prevent cards from becoming too wide
+                      maxWidth: "100%", 
+                      color:'black'// Prevent cards from becoming too wide
                     }}
                   >
                     <CardMedia
@@ -169,6 +172,7 @@ const Services = () => {
                       sx={{
                         height: 200,
                         width: "100%",
+                        color:'black'
                       }}
                     />
                     <CardContent>

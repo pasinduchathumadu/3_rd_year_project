@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -12,6 +12,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import DownImage from '../../assests/white2.jpg';
 import Button from '@mui/material/Button';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -51,9 +54,16 @@ const rows = [
  
 ];
 
+
+
+
 export default function OrderTable() {
+  useEffect(() => {
+    AOS.init({ duration: 450   });
+  }, []);
+
   return (
-<div style={{ padding: "",display:"flex" }}>
+<div style={{ padding: "",display:"flex" }}data-aos="zoom-in">
   <div style={{backgroundColor:"#f1f0f0",width:"20%",height:"100vh",color:"white"}}>
     <h2  style={{color:"black",marginTop:"80px",textAlign:"center",width:"90%",marginLeft:"8px",borderRadius:"4px"}}>Your Order Details</h2>
     
