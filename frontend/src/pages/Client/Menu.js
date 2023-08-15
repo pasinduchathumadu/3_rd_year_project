@@ -19,9 +19,9 @@ import {
   Typography,
 } from "@mui/material";
 import '../../styles/Common/HeaderStyles.css'
-import dog from '../../assests/pic3.jpg'
-import dog1 from '../../assests/dog3.jpg'
-import dog2 from '../../assests/pic57.webp'
+import dog from '../../assests/pettoy1.jpg'
+import dog1 from '../../assests/pettoy2.jpg'
+import dog2 from '../../assests/pettoy3.jpg'
 import axios from "axios";
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
@@ -106,12 +106,13 @@ const Menu = () => {
       clearInterval(interval); // Cleanup the interval on component unmount
     };
   }, []);
+  
   return (
     <>
       <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
-        <Box sx={{ width: '100%', height: '80vh', backgroundImage: `url(${dogBackground})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <Box sx={{ width: '100%', height: '80vh', backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(${dogBackground})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center' , transition: 'background-image 0.5s ease-in-out'}}>
           <Grid sx={{ marginTop: '150px', marginLeft: '100px', fontStyle: 'bold' }}>
-            <h1 style={{ fontSize: "55px", color: 'black' }}>50% discount for</h1>
+            <h1 style={{ fontSize: "55px", color: 'white' }}>50% discount for</h1>
             <Typography sx={{ fontSize: '24px', fontStyle: 'bold', marginTop: '10px', marginBottom: '10px', color: 'white' }}>FIRST ORDER</Typography>
             <Button variant="contained" sx={{ width: '15%', backgroundColor: 'orange' }}>SHOP NOW</Button>
           </Grid>
