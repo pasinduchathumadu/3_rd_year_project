@@ -9,9 +9,9 @@ import AlarmIcon from '@mui/icons-material/Alarm';
 
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
-import dog from '../../assests/dog3.jpg'
-import dog1 from '../../assests/pic59.jpg'
-import dog2 from '../../assests/pic56.webp'
+import dog from '../../assests/blog1.jpg'
+import dog1 from '../../assests/blog2.jpg'
+import dog2 from '../../assests/blog3.jpg'
 import logo from '../../assests/logo.png'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import axios from "axios"
@@ -73,7 +73,6 @@ const Blog = () => {
 
 
     useEffect(() => {
-        // Change the background image every 2 minutes
         const interval = setInterval(() => {
             setDogBackground((prevBackground) => {
                 if (prevBackground === dog) {
@@ -84,7 +83,7 @@ const Blog = () => {
                     return dog;
                 }
             });
-        }, 1200); // 2 minutes in milliseconds
+        }, 1200); 
 
         return () => {
             clearInterval(interval); // Cleanup the interval on component unmount
@@ -118,7 +117,7 @@ const Blog = () => {
     return (
         <>
            
-            <Box sx={{ width: '100%', height: '80vh', backgroundImage: `url(${dogBackground})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center' }} />
+            <Box sx={{ width: '100%', height: '80vh', backgroundImage: `url(${dogBackground})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center' ,  transition: 'background-image 1s ease-in-out'}} />
             <div style={{ display: 'flex', alignItems: 'center', paddingLeft: '35%', paddingTop: '4%' }}>
                 <img
                     style={{ width: '100px', height: '100px', display: 'inline', }}
@@ -192,7 +191,7 @@ const Blog = () => {
                                 )}
                             </div>
                             <CardContent>
-                                <Typography variant="h4" gutterBottom component={"div"} sx={{ color: 'red' }} >
+                                <Typography variant="h4" gutterBottom component={"div"} sx={{ color: 'black' }} >
                                     {menu.name}
                                 </Typography>
                                 <List>
@@ -223,7 +222,7 @@ const Blog = () => {
                                 <ListItem>
 
                                 </ListItem>
-                                <Typography variant="h6" gutterBottom component={"div"} >
+                                <Typography variant="h6" gutterBottom component={"div"} sx={{color:"#949494" ,fontSize:"15px"}} >
                                     {menu.description}
                                 </Typography>
                             </CardContent>
