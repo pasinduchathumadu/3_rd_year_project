@@ -812,7 +812,7 @@ export const view_pets = async (req, res, next) => {
     }
     const sqlQuery = 'SELECT pet_id, breed, name, category, sex, image from pet WHERE client_id = ? ';
     const values = [ data[0].client_id]
-    console.log(data[0].client_id)
+    // console.log(data[0].client_id)
 
     db.query(sqlQuery, values, (err, data) => {
       if (err) {

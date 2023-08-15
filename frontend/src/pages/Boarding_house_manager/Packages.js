@@ -176,7 +176,7 @@ const Packages = () => {
                             <p><CheckCircleIcon sx={{ marginRight: '20px', color:'green' }} /><b>Free</b> washing with <b>high brands</b> ingrediants</p>
                             <p><CheckCircleIcon sx={{ marginRight: '20px', color:'green' }} /><b>Air conditional</b> apply</p>
                             <p><CheckCircleIcon sx={{ marginRight: '20px', color:'green' }} /><b>Free</b> spa</p>
-                            <p><CheckCircleIcon sx={{ marginRight: '20px', color:'green' }} /><b>Free</b> medicine (if want)<br/>(within limited price range)</p>
+                            <p><CheckCircleIcon sx={{ marginRight: '20px', color:'green' }} /><b>Free</b> medicine (within limited price range)</p>
                         </div>
                     </div>
 
