@@ -166,67 +166,66 @@ const Packages = () => {
 
             {new1 && (
                 <div className="boarding-card-line">
-                    <div className="boarding-card">
+                    <div className="boarding-card" style={{backgroundColor:'#A6A6A6'}}>
                         <div className="boarding-two-icon">
                             <EditIcon onClick={() => update()} />
                             <DeleteIcon color="error" sx={{ marginLeft: '15px' }} />
                         </div>
                         <div>
-                            <Typography sx={{ color: '#FBBD08', fontSize: '35px', fontWeight: 'bold', position: 'absolute' }}>Gold</Typography>
-                            <img src={Gold} alt="gold" style={{ height: '200px', width: 'auto' }} />
+                            <Typography sx={{ color: 'white', fontSize: '35px', fontWeight: 'bold', position: 'absolute' }}>Silver</Typography>
+                            <img src={Silver} alt="silver" style={{ height: '200px', width: 'auto' }} /> 
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'row', marginLeft: '60px' }}>
-                            <Typography sx={{ color: 'black', fontSize: '55px', fontWeight: 'bold' }}>Rs. 4000</Typography>
-                            <Typography sx={{ color: '#C0C0C0', fontSize: '25px', fontWeight: 'bold', marginTop: '30px' }}>/ day</Typography>
+                            <Typography sx={{ color: 'black', fontSize: '55px', fontWeight: 'bold' }}>Rs.1000 </Typography>
+                            <Typography sx={{ color: 'white', fontSize: '25px', fontWeight: 'bold', marginTop: '30px' }}>/ day</Typography>
+                        </div>
+                        <div className="boarding-card-facility">
+                            <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /> Foods with <b>normal brands</b> </p>
+                            <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /> Washing only</p>
+                            <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /> <b>No</b> air condition apply  </p>
+                        </div>
+                    </div>
+
+                    <div className="boarding-card" style={{backgroundColor:'#55555C'}}>
+                        <div className="boarding-two-icon">
+                            <EditIcon onClick={() => update()} sx={{color:'white'}} />
+                            <DeleteIcon color="error" sx={{ marginLeft: '15px' }} />
+                        </div>
+                        <div>
+                            <Typography sx={{ color: 'white', fontSize: '35px', fontWeight: 'bold', position: 'absolute' }}>Platinum</Typography>
+                            <img src={Platinum} alt="platinum" style={{ height: '200px', width: 'auto', marginLeft: '50px' }} />
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'row', marginLeft: '60px' }}>
+                            <Typography sx={{ color: 'black', fontSize: '55px', fontWeight: 'bold' }}>Rs. 1500</Typography>
+                            <Typography sx={{ color: 'white', fontSize: '25px', fontWeight: 'bold', marginTop: '30px' }}>/ day</Typography>
                         </div>
                         <div className="boarding-card-facility">
                             <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} />Foods with <b>high brands</b></p>
                             <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b>Free</b> washing with <b>high brands</b> ingrediants</p>
                             <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b>Air conditional</b> apply</p>
                             <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b>Free</b> spa</p>
-                            <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b>Free</b> medicine (within limited price range)</p>
+                            <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b>Comforting</b> medicine</p>
                         </div>
                     </div>
 
-                    <div className="boarding-card">
+                    <div className="boarding-card" style={{backgroundColor:'#FBBD08'}}>
                         <div className="boarding-two-icon">
                             <EditIcon onClick={() => update()} />
                             <DeleteIcon color="error" sx={{ marginLeft: '15px' }} />
                         </div>
                         <div>
-                            <Typography sx={{ color: '#A6A6A6', fontSize: '35px', fontWeight: 'bold', position: 'absolute' }}>Silver</Typography>
-                            <img src={Silver} alt="silver" style={{ height: '200px', width: 'auto' }} />
+                            <Typography sx={{ color: 'white', fontSize: '35px', fontWeight: 'bold', position: 'absolute' }}>Gold</Typography>
+                            <img src={Gold} alt="gold" style={{ height: '200px', width: 'auto' }} />
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'row', marginLeft: '60px' }}>
-                            <Typography sx={{ color: 'black', fontSize: '55px', fontWeight: 'bold' }}>Rs. 3400</Typography>
-                            <Typography sx={{ color: '#C0C0C0', fontSize: '25px', fontWeight: 'bold', marginTop: '30px' }}>/ day</Typography>
+                            <Typography sx={{ color: 'black', fontSize: '55px', fontWeight: 'bold' }}>Rs. 1200</Typography>
+                            <Typography sx={{ color: 'white', fontSize: '25px', fontWeight: 'bold', marginTop: '30px' }}>/ day</Typography>
                         </div>
                         <div className="boarding-card-facility">
                             <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} />Foods  with <b>normal brands</b></p>
                             <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b>Free </b> washing with <b>normal brand</b> ingrediants </p>
                             <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b>Air conditional</b> apply</p>
                             <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /> <b>Free</b> spa</p>
-                        </div>
-                    </div>
-
-                    <div className="boarding-card">
-                        <div className="boarding-two-icon">
-                            <EditIcon onClick={() => update()} />
-                            <DeleteIcon color="error" sx={{ marginLeft: '15px' }} />
-                        </div>
-                        <div>
-                            <Typography sx={{ color: '#55555C', fontSize: '35px', fontWeight: 'bold', position: 'absolute' }}>Platinum</Typography>
-                            <img src={Platinum} alt="platinum" style={{ height: '200px', width: 'auto', marginLeft: '50px' }} />
-                        </div>
-                        {/* <Typography sx={{ color: '#55555C', fontSize: '35px', fontWeight: 'bold' }}>Platinum</Typography> */}
-                        <div style={{ display: 'flex', flexDirection: 'row', marginLeft: '60px' }}>
-                            <Typography sx={{ color: 'black', fontSize: '55px', fontWeight: 'bold' }}>Rs. 2200</Typography>
-                            <Typography sx={{ color: '#C0C0C0', fontSize: '25px', fontWeight: 'bold', marginTop: '30px' }}>/ day</Typography>
-                        </div>
-                        <div className="boarding-card-facility">
-                            <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /> Foods with <b>normal brands</b> </p>
-                            <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /> Washing only</p>
-                            <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /> <b>No</b> air condition apply  </p>
                         </div>
                     </div>
                 </div>
