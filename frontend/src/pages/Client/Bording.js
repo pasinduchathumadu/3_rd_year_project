@@ -11,7 +11,10 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import Button from '@mui/material/Button';
 import platinum from "../../assests/platinum.png"
 import gold from "../../assests/gold.png"
-import silver from "../../assests/silver.png"
+import silver from "../../assests/silver.png";
+import { Link } from 'react-router-dom';
+import StarIcon from '@mui/icons-material/Star';
+
 
 
 
@@ -70,23 +73,26 @@ const Bording = () => {
   return (
     <>
 
-      <div className='smooth-scroll' style={{ textAlign: "center", width: "100%", height: "75vh", marginTop: "auto", marginBottom: "auto", fontWeight: "1" }}><h2 style={{ fontSize: "80px", marginTop: "90px" }}>Book your's <span style={{ color: "orange" }}>pet</span> seet now</h2>
+      <div className='smooth-scroll' style={{ textAlign: "center", width: "100%", height: "75vh", marginTop: "auto", marginBottom: "auto", fontWeight: "1" }}><h2 style={{ fontSize: "80px", marginTop: "90px" }}>Book your <span style={{ color: "orange" }}>pets</span> Cage Now</h2>
         <h1 style={{ marginTop: "20px", fontFamily: "sans-serif" }}>We protect and care your pet</h1>
         <h1 style={{ fontSize: "20px", fontWeight: "1" }}>24 x 7 Service</h1>
 
         <img className="smooth-scroll" src={cage} alt="Cage" style={{ fontSize: "20px", width: "80px", height: "80px" }} />
-        <h1 style={{ marginTop: "20px", fontFamily: "sans-serif" }}>Boarding Packages</h1>
+        <div>
+          <Link to="/activityTracking"><Button sx={{ backgroundColor: 'orange', width: '500px', color: 'white', ':hover': { backgroundColor: 'orange' }, fontWeight: 'bold', fontSize: '18px' }}>View Your Past Pets Records</Button></Link>
+          <h1 style={{ marginTop: "20px", fontFamily: "sans-serif" }}>Boarding Packages</h1>
+        </div>
       </div>
 
       <div style={{ width: "100%", height: "80vh", backgroundColor: "", display: "flex", padding: "100px" }} >
-
 
         <div style={{
           width: "33%", height: "70vh", backgroundImage: "linear-gradient(to left, #5d5d5d, #797979, #959595, #b3b3b3, #d2d2d2, #d2d2d2, #d1d1d1, #d1d1d1, #b1b1b1, #939292, #757475, #595858)",
           marginRight: "auto", marginLeft: "auto", borderRadius: "8px"
         }} data-aos="flip-left">
           <img className="smooth-scroll" src={silver} alt="Cage" style={{ fontSize: "20px", width: "150px", height: "150px", marginLeft: "34%", marginTop: "-50px" }} />
-          <h1 style={{ color: "black", textAlign: "center", fontWeight: "1" }}>Rs.2200</h1>
+          <h1 style={{ color: "black", textAlign: "center", fontWeight: "1" }}>Rs.1000</h1>
+          <p style={{ color: "black", textAlign: "center", fontWeight: "2" }}>/ per day</p>
           <ol style={{ listStyleType: 'none', padding: 0, textAlign: "center", marginTop: "20px", color: "black", fontSize: "20px" }}>
             <li className="tick-icon">Foods with <b>normal brands</b></li>
             <li className="tick-icon">Washing only</li>
@@ -103,19 +109,19 @@ const Bording = () => {
             transition: "transform 0.5s ",
             "&:hover": {
               transform: "scale(1.1)", // Apply scale transform on hover
-              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", 
+              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
             },
 
           }} data-aos="fade-up">
           <img className="smooth-scroll" src={platinum} alt="Cage" style={{ fontSize: "20px", width: "150px", height: "150px", marginLeft: "34%", marginTop: "-50px" }} />
-          <h1 style={{ color: "white", textAlign: "center", fontWeight: "1" }}>Rs.3400</h1>
+          <h1 style={{ color: "white", textAlign: "center", fontWeight: "1" }}>Rs.1500</h1>
+          <p style={{ color: "black", textAlign: "center", fontWeight: "2", color: 'white' }}>/ per day</p>
           <ol style={{ listStyleType: 'none', padding: 0, textAlign: "center", marginTop: "20px", color: "white", fontSize: "20px" }}>
-            <li className="tick-icon">Foods  with <b>normal brands</b></li>
-            <li className="tick-icon"><b>Free </b> washing with <b>normal brand</b> ingrediants</li>
+            <li className="tick-icon">Foods with <b>high brands</b></li>
+            <li className="tick-icon"><b>Free</b> washing with <b>high brands</b> ingrediants</li>
             <li className="tick-icon"><b>Air conditional</b> apply</li>
             <li className="tick-icon"><b>Free</b> spa</li>
-            {/* <li className="tick-icon">Free Clinic</li> */}
-            {/* <li className="tick-icon">Free spa</li> */}
+            <li className="tick-icon"><b>Comforting</b> medicine </li>
           </ol>
         </div>
 
@@ -124,17 +130,17 @@ const Bording = () => {
           marginRight: "auto", marginLeft: "auto", borderRadius: "8px"
         }} data-aos="flip-right">
           <img className="smooth-scroll" src={gold} alt="Cage" style={{ fontSize: "20px", width: "150px", height: "150px", marginLeft: "34%", marginTop: "-50px" }} />
-          <h1 style={{ color: "black", textAlign: "center", fontWeight: "1" }}>Rs.4000</h1>
+          <h1 style={{ color: "black", textAlign: "center", fontWeight: "1" }}>Rs.1200</h1>
+          <p style={{ color: "black", textAlign: "center", fontWeight: "2" }}>/ per day</p>
           <ol style={{ listStyleType: 'none', padding: 0, textAlign: "center", marginTop: "20px", color: "black", fontSize: "20px" }}>
-            <li className="tick-icon">Foods with <b>high brands</b></li>
-            <li className="tick-icon"><b>Free</b> washing with <b>high brands</b> ingrediants</li>
+            <li className="tick-icon">Foods  with <b>normal brands</b></li>
+            <li className="tick-icon"><b>Free </b> washing with <b>normal brand</b> ingrediants</li>
             <li className="tick-icon"><b>Air conditional</b> apply</li>
             <li className="tick-icon"><b>Free</b> spa</li>
-            <li className="tick-icon"><b>Free</b> medicine (within limited price range)</li>
           </ol>
         </div>
       </div>
-      
+
       <div className='main' style={{ marginTop: "20px" }}>
         <div className="movie-con">
           <label>Pick a Cage:</label>
