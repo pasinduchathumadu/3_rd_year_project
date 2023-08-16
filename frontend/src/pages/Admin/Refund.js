@@ -104,7 +104,7 @@ const Refund = () => {
     const date = input.toDateString();
 
     return (
-        <div className="home-container" style={{ marginTop: '4%'}}>
+        <div className="home-container" style={{ marginTop: '5%'}}>
             <div className="top">
                 <div className="top-line">
                     <p>Administrator</p>

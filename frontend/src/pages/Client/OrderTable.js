@@ -10,10 +10,11 @@ import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import DownImage from '../../assests/white2.jpg';
+
 import Button from '@mui/material/Button';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import axios from 'axios';
 
 
 
@@ -44,20 +45,31 @@ const handleDelete = (rowId) => {
 const handleEdit = (rowId) => {
   // Implement your edit logic here
 };
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
 
-const rows = [
-  createData('Pet bathing', 1500, 6.0, 24, 4.0),
-  createData('Mini grooming', 23  , 9.0, 37, 4.3),
- 
-];
 
 
 
 
 export default function OrderTable() {
+
+  const [row,setorder] = useState([])
+
+  const get_orders = async(req,res,next)=>{
+    try{
+      const res = await axios.get('http://localhost:5000/pet_care/user/care_orders')
+      const data = await res.data
+      return data
+
+    }catch(err){
+      console.log("There is an internel error")
+    }
+  }
+
+  useEffect(()=>{
+    get_orders()
+    .then((data)=>setorder(data.data))
+  })
+  
   useEffect(() => {
     AOS.init({ duration: 450   });
   }, []);
@@ -77,32 +89,31 @@ export default function OrderTable() {
       <Table sx={{ minWidth: 700,marginTop:"100px" , border: "none"}} aria-label="customized table">
         <TableHead>
           <TableRow sx={{height:"5vh",fontWeight:"1000"}}>
-            <StyledTableCell>Packege details</StyledTableCell> 
-            <StyledTableCell align="right">Price(Rs.)</StyledTableCell>
-            <StyledTableCell align="right">Time</StyledTableCell>
-            <StyledTableCell align="right">PetID</StyledTableCell>
-            <StyledTableCell align="right">Edit</StyledTableCell>
-            <StyledTableCell align="right">Delete</StyledTableCell>
+            <StyledTableCell>Appointment ID</StyledTableCell> 
+            <StyledTableCell align="left">Placed Date</StyledTableCell>
+            <StyledTableCell align="left">Package Name</StyledTableCell>
+            <StyledTableCell align="left">Price</StyledTableCell>
+            <StyledTableCell align="left">Edit</StyledTableCell>
+            <StyledTableCell align="left">Delete</StyledTableCell>
 
 
           </TableRow>
         </TableHead>
-        <TableBody sx={{height:"50vh"}}>
-          {rows.map((row) => (
-            <StyledTableRow key={row.name} sx={{backgroundColor:"#f7f7f7",borderRadius:"8px",marginTop: "10px" }}>
-              <StyledTableCell component="th" scope="row">
-                {row.name}
-              </StyledTableCell >
-              <StyledTableCell align="right">{row.calories}</StyledTableCell>
-              <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-              <StyledTableCell align="right">{row.protein}</StyledTableCell>
-              <StyledTableCell align="right">
+        <TableBody >
+          {row && row.map((row) => (
+            <StyledTableRow key={row.name} >
+              
+              <StyledTableCell align="left">{row.appointment_id}</StyledTableCell>
+              <StyledTableCell align="left">{row.placed_date}</StyledTableCell>
+              <StyledTableCell align="left">{row.package_name}</StyledTableCell>
+              <StyledTableCell align="left">{row.price}</StyledTableCell>
+              <StyledTableCell align="left">
             {/* Delete icon */}
             <IconButton onClick={() => handleEdit(row.id)} sx={{color:"black"}}>
               <EditIcon />
             </IconButton>
           </StyledTableCell>  
-              <StyledTableCell align="right">
+              <StyledTableCell align="left">
             {/* Delete icon */}
             <IconButton onClick={() => handleDelete(row.id)} sx={{color:"red"}}>
               <DeleteIcon />
