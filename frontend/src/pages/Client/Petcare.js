@@ -132,10 +132,7 @@ export default function Petcare() {
                 Pet grooming
               </Typography>
               <Typography variant="body2" color="text.secondary">
-              <Skeleton animation="wave" />
-              <Skeleton animation="wave" />
-
-              <Skeleton animation={false} />
+              Enhance your pet's well-being and appearance with our expert grooming. Tailored treatments include bathing, fur trimming, nail care, and more, ensuring your furry companion looks and feels their best. Experience the joy of a pampered pet with our specialized grooming sessions.
                
               </Typography>
             </CardContent>
@@ -171,11 +168,7 @@ export default function Petcare() {
                 Mind relax
               </Typography>
               <Typography variant="body2" color="text.secondary">
-              <Skeleton animation="wave" />
-              <Skeleton animation="wave" />
-
-              <Skeleton animation={false} />
-               
+              Treat your pet to a rejuvenating spa-like grooming experience, providing a calming oasis of care and relaxation. Our skilled groomers pamper your furry friend, leaving them refreshed, adorable, and blissfully content.
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -209,10 +202,7 @@ export default function Petcare() {
                 Pet training
               </Typography>
               <Typography variant="body2" color="text.secondary">
-              <Skeleton animation="wave" />
-              <Skeleton animation="wave" />
-
-              <Skeleton animation={false} />
+              Unleash your pet's potential through our customized training. Tailored sessions build understanding and cooperation, enhancing skills and confidence for harmonious interactions.
                
               </Typography>
             </CardContent>
