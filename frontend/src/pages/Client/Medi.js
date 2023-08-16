@@ -97,7 +97,9 @@ function Medi() {
 
 
         <Link to="/DoctorList" style={{ textDecoration: 'none' }}>
-          <Button variant="contained" sx={{ width: "500px", height: "50px", backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px', marginLeft: "45px", marginTop: "20px", fontSize: '12px', '&:hover': { backgroundColor: 'orange' } }} >Click now</Button></Link>
+
+        <Button variant="contained" sx={{ width:"500px",height:"50px",backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px',marginLeft:"45px",marginTop:"20px", fontSize: '12px', '&:hover': { backgroundColor: 'orange' } }} >View Now</Button></Link>
+        
 
 
       </div>
@@ -143,9 +145,16 @@ function Medi() {
         <img className="smooth-scroll" src={doctor2} alt="Cage" style={{ fontSize: "700px", width: "400px", height: "600px", marginTop: "-80px" }} />
 
 
-        <h1 style={{ color: "white", textAlign: "center", marginTop: "90px", marginLeft: "300px" }}> Make Your Appoinment Here</h1>
-        <div style={{ textAlign: 'center' }}>
-          <Button onClick={functionopenpopup} variant="contained" sx={{ width: "500px", height: "50px", backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px', marginLeft: "-450px", marginTop: "260px", fontSize: '12px', '&:hover': { backgroundColor: 'orange' } }} >Enter details</Button>
+
+      <h1 style={{color:"white",textAlign:"center",marginTop:"90px",marginLeft:"300px"}}> Make your appoinment here</h1>
+      <div style={{textAlign:'center'}}>
+
+      <Link to="/DoctorList" style={{ textDecoration: 'none' }}>
+        <Button   variant="contained" sx={{ width:"500px",height:"50px",backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px',marginLeft:"-450px",marginTop:"260px", fontSize: '12px', '&:hover': { backgroundColor: 'orange' } }} >Enter details</Button>
+
+        </Link>
+        
+
 
           <Dialog
             // fullScreen 

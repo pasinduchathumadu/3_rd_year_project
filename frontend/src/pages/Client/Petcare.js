@@ -15,6 +15,8 @@ import "../../styles/Client/Mindrelax.css";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import video2 from "../../assests/video2.mp4"
+import Skeleton from '@mui/material/Skeleton';
+
 
 
 
@@ -95,10 +97,10 @@ export default function Petcare() {
         id="section"
         className="smooth-scroll"
         style={{
-          marginLeft: "180px",
+          marginLeft: "200px",
           display: "flex",
           gap: "30px",
-          marginTop: "35px",
+          marginTop: "50px",
         }}
         data-aos="zoom-out-down"
       >
@@ -130,8 +132,11 @@ export default function Petcare() {
                 Pet grooming
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
+              <Skeleton animation="wave" />
+              <Skeleton animation="wave" />
+
+              <Skeleton animation={false} />
+               
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -166,8 +171,11 @@ export default function Petcare() {
                 Mind relax
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
+              <Skeleton animation="wave" />
+              <Skeleton animation="wave" />
+
+              <Skeleton animation={false} />
+               
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -201,8 +209,11 @@ export default function Petcare() {
                 Pet training
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
+              <Skeleton animation="wave" />
+              <Skeleton animation="wave" />
+
+              <Skeleton animation={false} />
+               
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -211,7 +222,11 @@ export default function Petcare() {
 
 
    
-    </div></>
+    </div>
+    <div style={{height:"5vh"}}>
+
+    </div>
+    </>
 
   );
 }

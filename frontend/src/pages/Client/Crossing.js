@@ -1,11 +1,13 @@
 import { Typography, TextField, FormControl, FormLabel } from '@mui/material';
 import React from 'react';
-import CrossingImage from '../../assests/crossing.jpeg';
+import CrossingImage from '../../assests/cross.jpg';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import PetImage from '../../assests/add_pet.jpg';
+import PetImage from '../../assests/crospet.jpg';
+import Skeleton from '@mui/material/Skeleton';
+
 
 
 const Crossing = () => {
@@ -18,17 +20,17 @@ const Crossing = () => {
     return (
         <div style={{ marginTop: '4%', display: "flex", flexDirection: 'row', justifyContent: 'space-between' }}>
             <div style={{ width: '40%' }}>
-                <img src={CrossingImage} alt="crossing background image" style={{ height: '800px' }} />
+                <img src={CrossingImage} alt="crossing background image" style={{ height: '800px',position:"fixed" }} />
             </div>
 
-            <div style={{ width: '75%' }}>
-                <Typography sx={{ color: 'black', fontSize: '30px', padding: '20px', borderRadius: '10px', marginLeft: '250px' }}>Pet Crossing Features Guessing </Typography>
-                <div>
+            <div style={{ width: '60%' }}>
+                <Typography sx={{ color: 'black', fontSize: '30px', padding: '20px', borderRadius: '10px', textAlign:"center" }}>Pet Crossing Features Guessing </Typography>
+                <div style={{height:"100vh"}}>
                     {/* up */}
-                    <div style={{ padding: '20px', borderRadius: '10px', backgroundColor: '#f0f0f5', margin: '10px' }}>
+                    <div style={{ padding: '20px', borderRadius: '10px', backgroundColor: 'rgb(249 249 249)', margin: '10px',width:"50%",marginLeft:"auto",marginRight:"auto" }}>
                         <Typography>Upload your pet image here : </Typography>
                         <TextField
-                            sx={{ marginRight: '30px', width: '100%' }}
+                            sx={{ marginRight: '30px', width: '98%' }}
                             type="file"
                             variant="outlined"
                             placeholder="Choose a file"
@@ -38,11 +40,12 @@ const Crossing = () => {
 
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
                             <FormLabel sx={{ color: 'black' }}>Sex </FormLabel>
-                            <FormControl sx={{ m: 1, minWidth: 120 }}>
+                            <FormControl sx={{ m: 1,  }}>
                                 <Select
                                     value={sex}
                                     onChange={handleChangeSex}
                                     displayEmpty
+                                    sx={{ width: '100%' }}
                                 >
                                     <MenuItem value="">
                                         <em>None</em>
@@ -54,17 +57,17 @@ const Crossing = () => {
                         </div>
 
                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '10px', marginBottom: '10px' }}>
-                            <Button variant="contained" sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Submit</Button>
+                            <Button variant="contained" sx={{ background: "black", marginTop: '10px', ':hover': { backgroundColor: "black" }, width: '100%' }}>Submit</Button>
                             <Button variant="contained" sx={{ background: "red", marginTop: '10px', ':hover': { backgroundColor: "red" }, marginLeft: '10px', width: '100%' }}> Cancel</Button>
                         </div>
 
                     </div>
 
                     {/* down */}
-                    <div style={{ padding: '20px', borderRadius: '10px', backgroundColor: '#f0f0f5', margin: '10px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <div style={{ padding: '20px', borderRadius: '10px', backgroundColor: 'rgb(249 249 249)', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',marginLeft:"auto",marginRight:"auto" }}>
                         <div style={{ backgroundColor: 'white', borderRadius: '10px', padding: '15px', margin: '10px', width: '40%' }}>
-                            <Typography>Your Pet Image : </Typography>
-                            <img src={PetImage} style={{ height: '200px', width: "auto" }}></img>
+                            <Typography sx={{textAlign:"center"}} >Your Pet Image : </Typography>
+                            <img src={PetImage} style={{ height: '200px', width: "auto",marginLeft:"55px" }}></img>
                             <Typography>Sex : </Typography>
                             <Box
                                 component="form"
@@ -74,6 +77,9 @@ const Crossing = () => {
                                 noValidate
                                 autoComplete="off"
                             >
+                                 <Skeleton />
+      <Skeleton animation="wave" />
+      <Skeleton animation={false} />
                                 <div>
                                     <TextField
                                         disabled
@@ -85,22 +91,25 @@ const Crossing = () => {
                             </Box>
                         </div>
 
-                        <div style={{ backgroundColor: 'white', borderRadius: '10px', padding: '15px', margin: '10px', width: '50%' }}>
+                        <div style={{ backgroundColor: 'white', borderRadius: '10px', padding: '15px', margin: '10px', width: '50%',marginLeft:"auto",marginRight:"auto" }}>
                             <Typography sx={{ fontSize: '20px', marginLeft: '130px' }}>Crossing Features</Typography>
                             <Box
                                 sx={{
                                     marginTop: '10px',
-                                    marginLeft: '20px',
+                                    marginLeft: 'auto',
+                                    marginRight: 'auto',
                                     padding: '20px',
                                     width: 400,
                                     height: 280,
-                                    backgroundColor: '#f0f0f5',
+                                    backgroundColor: 'rgb(249 249 249)',
                                     '&:hover': {
                                         backgroundColor: '#f0f0f5',
                                         opacity: [0.9, 0.8, 0.7],
                                     },
                                 }} >
-                                This is the corssing features of you entered image pet
+                                     <Skeleton animation="wave" />
+                                     <Skeleton animation={false} />
+                                
                             </Box>
 
                         </div>
