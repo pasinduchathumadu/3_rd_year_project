@@ -20,6 +20,7 @@ import {useNavigate} from 'react-router-dom'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
+
 const images = [
   {
     url: Image1,
@@ -142,8 +143,13 @@ export const Dashboard = () => {
 
           </div>
         </div>
+        <div style={{textAlign:"center"}}>
         <h1 style={{textAlign:"center",fontSize:"60px"}} data-aos="zoom-in" >our services</h1>
+        <img className="smooth-scroll" src={cage} alt="Cage" style={{ fontSize: "20px", width: "80px", height: "80px" ,textAlign: "center"}} />
 
+
+        </div>
+       
       
       <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%' ,marginTop:"60px"}} data-aos="fade-up">
       {images.map((image) => (

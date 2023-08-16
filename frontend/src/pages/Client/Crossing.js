@@ -57,7 +57,7 @@ const Crossing = () => {
                         </div>
 
                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '10px', marginBottom: '10px' }}>
-                            <Button variant="contained" sx={{ background: "black", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Submit</Button>
+                            <Button variant="contained" sx={{ background: "black", marginTop: '10px', ':hover': { backgroundColor: "black" }, width: '100%' }}>Submit</Button>
                             <Button variant="contained" sx={{ background: "red", marginTop: '10px', ':hover': { backgroundColor: "red" }, marginLeft: '10px', width: '100%' }}> Cancel</Button>
                         </div>
 

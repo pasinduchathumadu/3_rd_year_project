@@ -97,10 +97,10 @@ export default function Petcare() {
         id="section"
         className="smooth-scroll"
         style={{
-          marginLeft: "180px",
+          marginLeft: "200px",
           display: "flex",
           gap: "30px",
-          marginTop: "35px",
+          marginTop: "50px",
         }}
         data-aos="zoom-out-down"
       >
@@ -222,7 +222,11 @@ export default function Petcare() {
 
 
    
-    </div></>
+    </div>
+    <div style={{height:"5vh"}}>
+
+    </div>
+    </>
 
   );
 }

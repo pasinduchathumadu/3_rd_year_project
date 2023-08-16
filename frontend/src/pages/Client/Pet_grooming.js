@@ -295,11 +295,11 @@ function Pet_grooming() {
             <div
               className='servises'
               data-aos="zoom-in"
-              style={{ backgroundColor: "rgb(235 235 235)", width: "100%", height: "110vh", marginLeft: "auto", marginRight: "auto", display: "flex", gap: "30px", marginTop: "-20px" }}
+              style={{ backgroundColor: "rgb(235 235 235)", height: "110vh", marginLeft: "auto", marginRight: "auto", display: "flex", gap: "", marginTop: "" }}
             >
 
               <Card sx={{
-                maxWidth: 345, marginLeft: "10%", marginTop: "20px", height: "100vh", transition: "transform 0.5s",
+                maxWidth: 345, marginLeft: "220px", marginTop: "20px", height: "100vh", transition: "transform 0.5s",
                 "&:hover": {
                   transform: "scale(1.1)",
                   boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
