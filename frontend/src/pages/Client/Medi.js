@@ -92,11 +92,12 @@ function Medi() {
       </div>
 
       <div style={{ width: "100%", height: "60vh", backgroundColor: "#121334", marginTop: "auto", color: "white" }}  >
-        <h2 style={{ fontSize: "50px", marginLeft: "50px" }}>Enter your pet details</h2>
+        <h2 style={{ fontSize: "50px", marginLeft: "50px" }}>View your Pets Previous Medical Reports</h2>
         <h2 style={{ fontSize: "20px", marginLeft: "50px" }}>< StarIcon sx={{ color: 'red' }} />We always protect your pet details</h2>
 
         <Link to="/viewMedicalReports" style={{ textDecoration: 'none' }}>
-        <Button variant="contained" sx={{ width:"500px",height:"50px",backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px',marginLeft:"45px",marginTop:"20px", fontSize: '16px', fontWeight:'bold', '&:hover': { backgroundColor: 'orange' } }} >View Previous Medical Reports</Button></Link>
+        {/* <Button variant="contained" sx={{ width:"500px",height:"50px",backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px',marginLeft:"45px",marginTop:"20px", fontSize: '16px', fontWeight:'bold', '&:hover': { backgroundColor: 'orange' } }} >View Previous Medical Reports</Button></Link> */}
+        <Button variant="contained" sx={{ width:"500px",height:"50px",backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px',marginLeft:"45px",marginTop:"20px", fontSize: '16px', fontWeight:'bold', '&:hover': { backgroundColor: 'orange' } }} >Click Here </Button></Link>
         
       </div>
 
