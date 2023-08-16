@@ -97,6 +97,32 @@ import HomeHeader from "./components/Layout/Homeheader";
 import PaymentClient from './pages/Client/Payment';
 
 
+import ViewMedical from './pages/Client/ViewMedical';
+
+import ActivityTracking from './pages/Client/ActivityTracking';
+
+// sidebar icons
+import HomeIcon from '@mui/icons-material/Home';  //dashboard
+import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'; //complains
+
+// clients
+import PetsIcon from '@mui/icons-material/Pets'; //add pets & boarding - pets
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital'; //crossing
+import StoreIcon from '@mui/icons-material/Store';  //shop
+import StorefrontIcon from '@mui/icons-material/Storefront'; //non-bread shop
+import AssessmentIcon from '@mui/icons-material/Assessment'; //reports
+
+// admin
+import GroupIcon from '@mui/icons-material/Group'; //users & boarding - clients & care center - caregivers
+import RuleFolderIcon from '@mui/icons-material/RuleFolder'; //refund
+
+// boaridng house
+import InventoryIcon from '@mui/icons-material/Inventory'; //package , care center packages
+
+// care center
+import BookOnlineIcon from '@mui/icons-material/BookOnline'; // appointments
+
+
 
 
 function App() {
@@ -255,6 +281,7 @@ function App() {
              
               <Route path="/Haircuts" element={<><Header userRole={"client"} /><Haircuts /></>}></Route>
               <Route path="/DoctorList" element={<><Header userRole={"client"} /><DoctorList /></>}></Route>
+              {/* <Route path="/viewMedicalReports" element={<><Header userRole={"client"} /><ViewMedical /></>}></Route> */}
               <Route path="/addpet" element={<><Header userRole={"client"}/><AddPets /></>}></Route>
               <Route path="/MiniGrooming" element={<><Header userRole={"client"}/><MiniGrooming/></>}></Route>
               <Route path="/OrderTable" element={<><Header userRole={"client"}/><OrderTable/></>}></Route>
@@ -263,8 +290,6 @@ function App() {
 
 
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
-
-          {/* boarding house manager */}
 
 
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
@@ -300,6 +325,15 @@ function App() {
           )}
 
           {/* <Route path="/addpet" element={<><Header /><AddPets /></>} /> */}
+          {/* view vaccine records */}
+          <Route path="/viewMedicalReports" element={<><Header /><ViewMedical /></>}></Route>  
+
+          {/* boarding house activity tracking */}
+          {/* <Route path="/activityTracking" element={<><Header /><ActivityTracking /></>}></Route>   */}
+          <Route path="activityTracking" element={<><Header /><ActivityTracking /></>}></Route>
+ 
+          
+
 
 
           {/* admin */}
