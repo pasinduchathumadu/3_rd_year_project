@@ -95,11 +95,9 @@ function Medi() {
         <h2 style={{ fontSize: "50px", marginLeft: "50px" }}>Enter your pet details</h2>
         <h2 style={{ fontSize: "20px", marginLeft: "50px" }}>< StarIcon sx={{ color: 'red' }} />We always protect your pet details</h2>
 
-
-        <Link to="/DoctorList" style={{ textDecoration: 'none' }}>
-          <Button variant="contained" sx={{ width: "500px", height: "50px", backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px', marginLeft: "45px", marginTop: "20px", fontSize: '12px', '&:hover': { backgroundColor: 'orange' } }} >Click now</Button></Link>
-
-
+        <Link to="/viewMedicalReports" style={{ textDecoration: 'none' }}>
+        <Button variant="contained" sx={{ width:"500px",height:"50px",backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px',marginLeft:"45px",marginTop:"20px", fontSize: '16px', fontWeight:'bold', '&:hover': { backgroundColor: 'orange' } }} >View Previous Medical Reports</Button></Link>
+        
       </div>
 
 
@@ -143,9 +141,16 @@ function Medi() {
         <img className="smooth-scroll" src={doctor2} alt="Cage" style={{ fontSize: "700px", width: "400px", height: "600px", marginTop: "-80px" }} />
 
 
-        <h1 style={{ color: "white", textAlign: "center", marginTop: "90px", marginLeft: "300px" }}> Make Your Appoinment Here</h1>
-        <div style={{ textAlign: 'center' }}>
-          <Button onClick={functionopenpopup} variant="contained" sx={{ width: "500px", height: "50px", backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px', marginLeft: "-450px", marginTop: "260px", fontSize: '12px', '&:hover': { backgroundColor: 'orange' } }} >Enter details</Button>
+
+      <h1 style={{color:"white",textAlign:"center",marginTop:"90px",marginLeft:"300px"}}> Make your appoinment here</h1>
+      <div style={{textAlign:'center'}}>
+
+      <Link to="/DoctorList" style={{ textDecoration: 'none' }}>
+        <Button   variant="contained" sx={{ width:"500px",height:"50px",backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px',marginLeft:"-450px",marginTop:"260px", fontSize: '12px', '&:hover': { backgroundColor: 'orange' } }} >Enter details</Button>
+
+        </Link>
+        
+
 
           <Dialog
             // fullScreen 

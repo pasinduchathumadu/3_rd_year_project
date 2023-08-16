@@ -38,6 +38,7 @@ import Stack from '@mui/material/Stack';
 import BathImage from '../../assests/bath2.jpg'; // Import the background image
 import { TextField, FormControlLabel} from "@mui/material";
 import Box from '@mui/material/Box';
+import Skeleton from '@mui/material/Skeleton';
 
 
 // import petcare3 from "../../assests/premium.jpg";
@@ -220,6 +221,7 @@ function Pet_grooming() {
     AOS.init({ duration: 1000 });
   }, []);
   
+  
 
   return (
     <>
@@ -296,7 +298,10 @@ function Pet_grooming() {
           <h1 style={{ marginTop: "-290px", fontSize: '60px', fontWeight: 'bold' }}> Let's <span style={{ color: "orange", fontSize: '60px', fontWeight: 'bold' }}>Groom</span> your pet.</h1>
 
 
-        </div><div style={{ backgroundColor: "black", height: "50vh" }} data-aos="zoom-out-down">
+        </div>
+        
+        <div style={{ backgroundColor: "black", height: "50vh" }} data-aos="zoom-out-down">
+             
             <h1 style={{ textAlign: "center", color: "white", fontSize: "10vh", fontWeight: "1" }}>choice your plan now!</h1>
             <h3 style={{ textAlign: "center", color: "white", fontWeight: "1" }}>No Risk, 30-Day Money Back Return Policy,</h3><br></br>
 
@@ -310,11 +315,11 @@ function Pet_grooming() {
             <div
               className='servises'
               data-aos="zoom-in"
-              style={{ backgroundColor: "rgb(235 235 235)", width: "100%", height: "110vh", marginLeft: "auto", marginRight: "auto", display: "flex", gap: "30px", marginTop: "-20px" }}
+              style={{ backgroundColor: "rgb(235 235 235)", height: "110vh", marginLeft: "auto", marginRight: "auto", display: "flex", gap: "", marginTop: "" }}
             >
 
               <Card sx={{
-                maxWidth: 345, marginLeft: "10%", marginTop: "20px", height: "100vh", transition: "transform 0.5s",
+                maxWidth: 345, marginLeft: "220px", marginTop: "20px", height: "100vh", transition: "transform 0.5s",
                 "&:hover": {
                   transform: "scale(1.1)",
                   boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
