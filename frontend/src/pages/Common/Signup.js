@@ -54,16 +54,12 @@ const Signup = ({onSignup}) =>{
       return;
     }
 
-    if(contact_number.length !== 10){
-      seterror1(true)
-      setmessage("Please provide a valid phone number.")
-      return;
-    }
+   
 
     
  
     try{
-      // Test the input against the pattern
+    
      
       const res = await axios.post("http://localhost:5000/pet_care/user/signup",{
         email,

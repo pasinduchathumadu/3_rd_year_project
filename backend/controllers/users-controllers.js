@@ -651,6 +651,9 @@ export const delete_order = async (req, res, next) => {
 export const random_assistant = async (req, res, next) => {
 
   const { Id, selectedDateString, email, package_id } = req.body
+  if(selectedDateString === null || Id === null){
+    return res.json({message:"There is an internel error"})
+  }
   const sqlQuery = "INSERT INTO carecenter_appointment (placed_date,client_email,package_id,time_slot)VALUES(?,?,?,?)"
   const values = [
     selectedDateString,
@@ -663,7 +666,7 @@ export const random_assistant = async (req, res, next) => {
   db.query(sqlQuery, values, (err, data) => {
     if (err) {
   
-      return res.json({ message: 'There is an internel erroreee' })
+      return res.json({ message: 'There is an internel error' })
     }
     const sqlQuery2 =
       "SELECT CONCAT(first_name, ' ', last_name)AS full_name, email,contact_number, img FROM employee"
