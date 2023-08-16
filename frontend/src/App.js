@@ -43,7 +43,7 @@ import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 
 import AddPets from './pages/Client/AddPets';
 import Crossing from './pages/Client/Crossing';
-import Bath from "./pages/Client/Bath";
+
 import Haircuts from "./pages/Client/Haircuts";
 import MiniGrooming from "./pages/Client/MiniGrooming.js";
 
@@ -96,6 +96,7 @@ import HomeHeader from "./components/Layout/Homeheader";
 
 import PaymentClient from './pages/Client/Payment';
 
+
 import ViewMedical from './pages/Client/ViewMedical';
 
 import ActivityTracking from './pages/Client/ActivityTracking';
@@ -120,6 +121,7 @@ import InventoryIcon from '@mui/icons-material/Inventory'; //package , care cent
 
 // care center
 import BookOnlineIcon from '@mui/icons-material/BookOnline'; // appointments
+
 
 
 
@@ -276,7 +278,7 @@ function App() {
               <Route path="/bording" element={<><Header userRole={"client"} /><Bording /></>}></Route>
               <Route path="/medi" element={<><Header userRole={"client"} /><Medi /></>}></Route>
               <Route path="/popupform" element={<><Header userRole={"client"} /><PopupForm /></>}></Route>
-              <Route path="/Bath" element={<><Header userRole={"client"} /><Bath /></>}></Route>
+             
               <Route path="/Haircuts" element={<><Header userRole={"client"} /><Haircuts /></>}></Route>
               <Route path="/DoctorList" element={<><Header userRole={"client"} /><DoctorList /></>}></Route>
               {/* <Route path="/viewMedicalReports" element={<><Header userRole={"client"} /><ViewMedical /></>}></Route> */}

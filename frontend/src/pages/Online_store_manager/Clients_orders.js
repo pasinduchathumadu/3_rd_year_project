@@ -59,9 +59,12 @@ const Client_orders = () => {
         setAge(event.target.value)
     }
 
-    const firstorder = () => {
-        setrefund(true)
-        setvalue(false)
+    const firstorder = async(id) => {
+        const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/accept/${id}`)
+        const data = await res.data
+        if(res.data.message === "Successfully Changed"){
+            get_orders()
+        }
     }
 
 
@@ -77,6 +80,15 @@ const Client_orders = () => {
         setimage(file.name)
     }
 
+
+    const handover = async(id)=>{
+        const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/handover/${id}`)
+        const data = await res.data
+        if(res.data.message === "Successfully Changed"){
+            get_orders()
+
+        }
+    }
     const handleFileUpload = async () => {
 
         try {
@@ -107,7 +119,7 @@ const Client_orders = () => {
         catch(err){
             console.log('There is an error')
         }
-    }
+    } 
 
     const get_clients = async() =>{
         try{
@@ -284,43 +296,43 @@ const Client_orders = () => {
                                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
                                     <TableHead>
                                         <TableRow>
-                                            <StyledTableCell align="left" sx={{ width: '15%' }}>Client ID</StyledTableCell>
+                                            <StyledTableCell align="left" sx={{ width: '15%' }}>Client Name</StyledTableCell>
                                             <StyledTableCell align="left" sx={{ width: '15%' }}>Client Email</StyledTableCell>
                                             <StyledTableCell align="left" sx={{ width: '15%' }}>Placed Date</StyledTableCell>
-                                            <StyledTableCell align="left" sx={{ width: '15%' }}>Payment (RS)</StyledTableCell>
+                                            <StyledTableCell align="left" sx={{ width: '15%' }}>Placed Time</StyledTableCell>
+                                            <StyledTableCell align="left" sx={{ width: '15%' }}>Payment (Rs.)</StyledTableCell>
                                             <StyledTableCell align="left" sx={{ width: '15%' }}>Order Status</StyledTableCell>
-                                            <StyledTableCell align="left" sx={{ width: '15%' }}></StyledTableCell>
-                                            <StyledTableCell align="left" sx={{ width: '10%' }}></StyledTableCell>
+                                          
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {orders && orders.map((row, index) => (
                                             <StyledTableRow key={index}>
                                                 <StyledTableCell component="th" scope="row">
-                                                    ID  {row.client_id}
+                                                    {row.first_name+" "+row.last_name}
                                                 </StyledTableCell>
                                                 <StyledTableCell align="left">{row.email}</StyledTableCell>
                                                 <StyledTableCell align="left">{row.placed_date}</StyledTableCell>
                                                 <StyledTableCell align="left">
 
-                                                    {row.payment}
+                                                    {row.placed_time}
 
                                                 </StyledTableCell>
                                                 <StyledTableCell align="left">
-
-                                                    <Typography>{row.po_status}</Typography>
-
-
-
+                                                    <Typography>{row.payment}</Typography>
                                                 </StyledTableCell>
-                                                <StyledTableCell align="left"><Button  sx={{ backgroundColor: 'orange', color: 'white', ':hover': { backgroundColor: 'orange' } }}>Order Details</Button></StyledTableCell>
-                                                {row.po_status === 'pending' &&(
-                                                     <StyledTableCell align="left"><Button onClick={() => firstorder()} sx={{ backgroundColor: 'red', color: 'white', ':hover': { backgroundColor: 'red' } }}>Accept</Button></StyledTableCell>
-
+                                              
+                                                {row.po_status === 'waitting' &&(
+                                                     <StyledTableCell align="left"><Button onClick={() => firstorder(row.po_id)} sx={{ backgroundColor: 'red', color: 'white', ':hover': { backgroundColor: 'red' } }}>Accept</Button></StyledTableCell>
                                                 )}
                                                 {row.po_status === 'cancelled' &&(
                                                     <StyledTableCell align="left"><Button onClick={() => firstorder()} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' } }}>refund</Button></StyledTableCell>
-
+                                                )}
+                                                  {row.po_status === 'accept' &&(
+                                                    <StyledTableCell align="left"><Button onClick={() => handover(row.po_id)} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' } }}>Ready To Hand Over</Button></StyledTableCell>
+                                                )}
+                                                 {row.po_status === 'handed' &&(
+                                                    <StyledTableCell align="left"><Typography sx={{color:'black',fontSize:'20px'}}>Completed</Typography></StyledTableCell>
                                                 )}
                                                 
                                             </StyledTableRow>

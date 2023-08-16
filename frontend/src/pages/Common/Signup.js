@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button,Alert,AlertTitle } from "@mui/material";
 import axios from "axios";
 import Header from "../../components/Layout/LandingHeader"
+import zxcvbn from 'zxcvbn';
 import '../../styles/Common/Login.css';
 const Signup = ({onSignup}) =>{
   const [email, setEmail] = useState("");
@@ -14,13 +15,30 @@ const Signup = ({onSignup}) =>{
   const [street,setstreet]=useState("");
   const [city,setcity] = useState("");
   const [contact_number,setcontact_number] = useState("");
+  const [passwordStrength, setPasswordStrength] = useState('');
+  const [display_condition, set_condition] = useState(false)
 
+  const calculatePasswordStrength = (password) => {
+    const strengthScore = zxcvbn(password).score;
 
+    set_condition(true)
+
+    if (strengthScore === 0) {
+      document.documentElement.style.setProperty('--password-strength-color', '#FF0000');
+      return 'Poor';
+    } else if (strengthScore === 1 || strengthScore === 2) {
+      document.documentElement.style.setProperty('--password-strength-color', '#ff8c00');
+      return 'Medium';
+    } else {
+      document.documentElement.style.setProperty('--password-strength-color', '#008000');
+      return 'Strong';
+    }
+  };
   const handlesubmit = async(e) => {
     e.preventDefault();
     if(email === null || password === null || first_name === null || last_name === null || street === null || city === null || contact_number === null){
       seterror1(true)
-      setmessage("Fill Out All The Fields")
+      setmessage("Kindly complete all the required fields.")
       return;
     }
     var pattern = /^[A-Za-z]+$/;
@@ -28,22 +46,20 @@ const Signup = ({onSignup}) =>{
     const check1 = pattern.test(last_name.trim())
     const check2 = pattern.test(city.trim())
 
-    console.log(check)
+   
 
     if(!check || !check1 || !check2){
       seterror1(true)
-      setmessage("Please Fill The Name Charactors Only")
+      setmessage("Please enter a valid name using only characters.")
       return;
     }
 
-    if(contact_number.length !== 10){
-      seterror1(true)
-      setmessage("Invalid Phone Number")
-      return;
-    }
+   
+
+    
  
     try{
-      // Test the input against the pattern
+    
      
       const res = await axios.post("http://localhost:5000/pet_care/user/signup",{
         email,
@@ -132,8 +148,13 @@ const Signup = ({onSignup}) =>{
                   </div>
                   <div className="input-group">
                     <i className="bx bxs-user"></i>
-                    <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} required />
+                    <input type="password" placeholder="Password"  onChange={(e) => { setPassword(e.target.value); setPasswordStrength(calculatePasswordStrength(e.target.value)); }} required />
+                   
                   </div>
+                  {display_condition && (
+                <p className="password-strength" style={{width:'20%',paddingLeft:'1%',paddingTop:'1%',paddingBottom:'1%',color:'white'}}>{passwordStrength}</p>
+
+              )}
                   <div className="input-group">
                     <div className='first'>
                       <i className="bx bxs-user"></i>

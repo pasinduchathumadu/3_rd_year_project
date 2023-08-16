@@ -41,13 +41,13 @@ const Blogs = () => {
       })
       if (res.data.message === "success") {
         console.log("success")
-        navigate('/login')
+        navigate('/menu')
       }
       else {
        console.log("failed")
       }
     } catch (err) {
-      navigate('/login')
+      navigate('/menu')
       console.log("failed")
 
     }
@@ -62,7 +62,7 @@ const Blogs = () => {
         navigate('/bill')
       }
       else{
-        console.log("Th")
+        console.log("There is an internel error")
       }
 
     }catch(err){

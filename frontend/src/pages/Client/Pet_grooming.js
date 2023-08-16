@@ -17,16 +17,18 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import "../../styles/Client/Mindrelax.css";
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
+
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import { CardActionArea, Grow } from "@mui/material";
+
 import Bath from "../../assests/bath.jpg";
 import Haircut from "../../assests/haircut.png";
 import massage from "../../assests/massage.jpg";
 
-import { format } from 'date-fns'
+import { format} from 'date-fns'
 import { Link, useNavigate } from 'react-router-dom';
 
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -36,10 +38,8 @@ import Stack from '@mui/material/Stack';
 import BathImage from '../../assests/bath2.jpg'; // Import the background image
 import { TextField, FormControlLabel} from "@mui/material";
 import Box from '@mui/material/Box';
+import Skeleton from '@mui/material/Skeleton';
 
-
-
-import caregiver from "../../assests/emp1.jpg";
 
 // import petcare3 from "../../assests/premium.jpg";
 import logo from "../../assests/2.png";
@@ -92,16 +92,19 @@ function Pet_grooming() {
 
   const input = new Date()
   const date = format(input, 'MM-dd-yyyy')
+  const currentDate = new Date();
+  const twoWeeksFromToday = new Date();
+  twoWeeksFromToday.setDate(currentDate.getDate() + 14);
 
   const selectedDateString = selectedDate ? selectedDate.format('MM-DD-YYYY') : '';
 
   const handleFormOpen = async () => {
     seterror(false)
     if (selectedDate === null || Id === null) {
-      console.log("ooo")
+    
       setfilled(true)
       seterror(true)
-      setmessage("Please Select Date & TimeSlot")
+      setmessage("Kindly choose a date and a time slot.")
       return
     }
     if (date > selectedDateString) {
@@ -109,6 +112,13 @@ function Pet_grooming() {
       seterror(true)
       setmessage("You can't pick that date")
       return
+    }
+
+    if (selectedDate > twoWeeksFromToday) {
+      setfilled(true);
+      seterror(true);
+      setmessage("You can only pick a date within two weeks from today");
+      return;
     }
 
 
@@ -120,13 +130,13 @@ function Pet_grooming() {
       if (res.data.message === "already filled") {
         seterror(true)
         setfilled(true)
-        setmessage("This Time Slot Is not availble")
+        setmessage("This time slot is not available")
 
       }
       else if (res.data.message === "added") {
         setfilled(false)
         seterror(true)
-        setmessage("You Time Slot is successfully placed now!")
+        setmessage("Your time slot has been successfully reserved!")
       }
     } catch (err) {
       console.log("There is an internel error")
@@ -149,14 +159,17 @@ function Pet_grooming() {
         setEmployeeDetail(data.data)
 
         if (res.data.message === "There is an internel error") {
+         
           navigate('/Pet_grooming')
         }
         else {
+  
           const res = await axios.get(`http://localhost:5000/pet_care/user/get_package/${package_id}`)
           const data = await res.data
           setselectpackage(data.data)
           setfirst(false)
           setbath(true)
+          console.log(bath)
         }
 
 
@@ -205,8 +218,9 @@ function Pet_grooming() {
 
 
   useEffect(() => {
-    AOS.init({ duration: 600 });
+    AOS.init({ duration: 1000 });
   }, []);
+  
   
 
   return (
@@ -266,7 +280,15 @@ function Pet_grooming() {
           {error && (
             <div style={{ marginTop: '2%',width:"40%"}}>
               <Stack sx={{ width: '100%' }} spacing={2}>
-                <Alert variant="filled" severity="error" >{message}</Alert>
+                {message === "Your time slot has been successfully reserved!" &&(
+                    <Alert variant="filled" severity="success" >{message}</Alert>
+                )}
+             
+              
+                  {message !== "Your time slot has been successfully reserved!" &&(
+                    <Alert variant="filled" severity="error" >{message}</Alert>
+                )}
+                 
               </Stack>
             </div>
 
@@ -276,7 +298,10 @@ function Pet_grooming() {
           <h1 style={{ marginTop: "-290px", fontSize: '60px', fontWeight: 'bold' }}> Let's <span style={{ color: "orange", fontSize: '60px', fontWeight: 'bold' }}>Groom</span> your pet.</h1>
 
 
-        </div><div style={{ backgroundColor: "black", height: "50vh" }} data-aos="zoom-out-down">
+        </div>
+        
+        <div style={{ backgroundColor: "black", height: "50vh" }} data-aos="zoom-out-down">
+             
             <h1 style={{ textAlign: "center", color: "white", fontSize: "10vh", fontWeight: "1" }}>choice your plan now!</h1>
             <h3 style={{ textAlign: "center", color: "white", fontWeight: "1" }}>No Risk, 30-Day Money Back Return Policy,</h3><br></br>
 
@@ -290,11 +315,11 @@ function Pet_grooming() {
             <div
               className='servises'
               data-aos="zoom-in"
-              style={{ backgroundColor: "rgb(235 235 235)", width: "100%", height: "110vh", marginLeft: "auto", marginRight: "auto", display: "flex", gap: "30px", marginTop: "-20px" }}
+              style={{ backgroundColor: "rgb(235 235 235)", height: "110vh", marginLeft: "auto", marginRight: "auto", display: "flex", gap: "", marginTop: "" }}
             >
 
               <Card sx={{
-                maxWidth: 345, marginLeft: "10%", marginTop: "20px", height: "100vh", transition: "transform 0.5s",
+                maxWidth: 345, marginLeft: "220px", marginTop: "20px", height: "100vh", transition: "transform 0.5s",
                 "&:hover": {
                   transform: "scale(1.1)",
                   boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
@@ -330,7 +355,7 @@ function Pet_grooming() {
                       </ol><Typography variant="body2" color="text.secondary" sx={{ marginTop: "90px", textAlign: "center" }}>
                         Clean grooming service without parabens,phthalates, and chamical dyes
                       </Typography><div style={{ display: 'flex', justifyContent: 'center', marginTop: '25px' }}>
-                        <Button onClick={() => random_assit(menu.package_id)} sx={{ backgroundColor: "black", width: "90%", '&:hover': { backgroundColor: 'black' } }} variant="contained">Edit</Button>
+                        <Button onClick={() => random_assit(menu.package_id)} sx={{ backgroundColor: "black", width: "90%", '&:hover': { backgroundColor: 'black' } }} variant="contained">SELECT</Button>
                       </div>
                     </CardContent>
                   ))}
@@ -377,7 +402,7 @@ function Pet_grooming() {
                       </Typography>
 
                       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-                        <Button sx={{ backgroundColor: "black", width: "90%", '&:hover': { backgroundColor: 'black' } }} variant="contained">Edit</Button>
+                        <Button sx={{ backgroundColor: "black", width: "90%", '&:hover': { backgroundColor: 'black' } }} variant="contained">SELECT</Button>
                       </div>
                     </CardContent>
                   </CardActionArea>
@@ -423,7 +448,7 @@ function Pet_grooming() {
                       </Typography>
 
                       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-                        <Button sx={{ backgroundColor: "black", width: "90%", '&:hover': { backgroundColor: 'black' } }} variant="contained">Edit</Button>
+                        <Button sx={{ backgroundColor: "black", width: "90%", '&:hover': { backgroundColor: 'black' } }} variant="contained">SELECT</Button>
                       </div>
                     </CardContent>
                   </CardActionArea>
@@ -436,101 +461,258 @@ function Pet_grooming() {
 
 
       )}
-
-      {bath && (
-        <div style={{ marginTop: '4%' }}>
-
-
-          <div style={{ display: 'f', }} data-aos="zoom-in" >
+{bath && (
+        <div style={{ marginTop: "4%" }}>
+          <div style={{ display: "f" }} data-aos="zoom-in">
             <div
               style={{
                 backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)),url(${BathImage})`,
-                backgroundSize: 'cover',
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center',
-                width: '100%',
-                height: '91.5vh',
-                marginTop: "0px  "
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center",
+                width: "100%",
+                height: "91.5vh",
+                marginTop: "0px  ",
               }}
             >
               <div style={{ padding: "80px" }}>
-                <img className="smooth-scroll" src={logo} alt="Cage" style={{ fontSize: "10px", width: "70px", height: "70px", marginLeft: "140px", borderRadius: "50%", marginBottom: "5px" }} />
+                <img
+                  className="smooth-scroll"
+                  src={logo}
+                  alt="Cage"
+                  style={{
+                    fontSize: "10px",
+                    width: "70px",
+                    height: "70px",
+                    marginLeft: "140px",
+                    borderRadius: "50%",
+                    marginBottom: "5px",
+                  }}
+                />
 
-                <h2 style={{ color: "white", marginLeft: "50px", fontSize: "50px" }}>Pet Bathing</h2>
-                <h1 style={{ color: "white", marginLeft: "30px", fontSize: "15px", fontWeight: "1" }}>Our pet bathing service provides a relaxing and </h1>
-                <h1 style={{ color: "white", marginLeft: "30px", fontSize: "15px", fontWeight: "1" }}> thorough bath for your furry companions, leaving them clean, fresh, and happy. </h1>
-                <img className="smooth-scroll" src={star} alt="Cage" style={{ fontSize: "10px", width: "150px", height: "150px", marginLeft: "100px", borderRadius: "50%", marginBottom: "-35px" }} />
+                <h2
+                  style={{
+                    color: "white",
+                    marginLeft: "50px",
+                    fontSize: "50px",
+                  }}
+                >
+                  Pet Bathing
+                </h2>
+                <h1
+                  style={{
+                    color: "white",
+                    marginLeft: "30px",
+                    fontSize: "15px",
+                    fontWeight: "1",
+                  }}
+                >
+                  Our pet bathing service provides a relaxing and{" "}
+                </h1>
+                <h1
+                  style={{
+                    color: "white",
+                    marginLeft: "30px",
+                    fontSize: "15px",
+                    fontWeight: "1",
+                  }}
+                >
+                  {" "}
+                  thorough bath for your furry companions, leaving them clean,
+                  fresh, and happy.{" "}
+                </h1>
+                <img
+                  className="smooth-scroll"
+                  src={star}
+                  alt="Cage"
+                  style={{
+                    fontSize: "10px",
+                    width: "150px",
+                    height: "150px",
+                    marginLeft: "100px",
+                    borderRadius: "50%",
+                    marginBottom: "-35px",
+                  }}
+                />
 
-
-
-                <div style={{ display: "flex", marginTop: "30px" }}>
-
-                </div>
-
-
-
+                <div style={{ display: "flex", marginTop: "30px" }}></div>
               </div>
-
             </div>
+            <Typography sx={{marginTop:'2%',marginLeft:'40%',color:'black',fontSize:'48px',fontWeight:'600'}}>Our Team</Typography>
+            <Stack
 
-            <div style={{ backgroundColor: "black", width: "100%", height: "80vh",     }} data-aos="zoom-in" >
-              <h2 style={{ textAlign: "center", color: "orange", fontSize: "40px", paddingTop: '1%' }}>Your Assistant</h2>
-              <div style={{ display: "flex", marginTop: "60px", marginLeft: "60px" }}>
-                <div>
-                  {employee_detail && employee_detail.map((menu,index)=>(
-                     <img
-                     component={"img"}
-                     src={getImageSrc(menu.img)}
-                     alt="Down Arrow"
-                     style={{ width: 400, height: 400, cursor: 'pointer', borderRadius: "50%" }}
- 
-                   />
+  direction={"row"}
+  spacing={2}
+  mt={4}
+  mb={4}
+  justifyContent={"center"}
+  alignItems="center"
+>
+  
+  {employee_detail &&
+    employee_detail.map((menu, index) => (
+      <Card
+        key={index}
+        sx={{
+          backgroundColor: "black",
+          width: 250, // Set a fixed width for consistent card sizes
+          margin: "auto", // Center the card horizontally
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        
+        <CardMedia>
+          <Stack mt={4}>
+            <img
+              component="img"
+              src={getImageSrc(menu.img)}
+              alt="Down Arrow"
+              style={{
+                width: 200,
+                height: 200,
+                cursor: "pointer",
+                borderRadius: "50%",
+              }}
+            />
+          </Stack>
+        </CardMedia>
 
-                  ))}
-                 
-                </div>
-                <div style={{ color: "white" }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginTop: "90px" }} >
-                    <h1 style={{ marginRight: '10px', fontSize: '20px', fontWeight: '1' }}>4.5</h1>
-                    <FontAwesomeIcon icon={faStarHalfAlt} color="orange" size="2x" style={{ marginRight: '10px' }} />
-                  </div>
+        <CardContent>
+          <Box>
+            <Stack justifyContent={"center"} alignItems={"center"} mb={2}>
+              <Typography
+                variant="h6"
+                data-aos="fade-right"
+                sx={{ color: "white" }}
+
+              >
+                {menu.full_name}
+              </Typography>
+            </Stack>
+
+            <Stack sx={{ color: "white" }}>
+              <Stack direction={"row"} alignItems={"center"}>
+                <Stack direction={"row"} alignItems={"center"} data-aos="fade-left">
+                  <Typography variant="h6" marginRight={1} marginLeft={3}>
+                    4.5
+                  </Typography>
+                  <FontAwesomeIcon icon={faStarHalfAlt} color="orange" size="1x" />
+                  <FontAwesomeIcon icon={faStarHalfAlt} color="orange" size="1x" />
+                  <FontAwesomeIcon icon={faStarHalfAlt} color="orange" size="1x" />
+                </Stack>
+              </Stack>
+
+              <Stack alignItems={"center"} justifyContent={"center"}>
+                <Typography variant="h6" data-aos="fade-left">
+                  {menu.email}
+                </Typography>
+                <Typography variant="h6" data-aos="fade-right">
+                  {menu.contact_number}
+                </Typography>
+                <Stack alignItems={"center"} justifyContent={"center"} mt={2} p={1}>
+                  <Typography
+                    variant="h3"
+                    p={1}
+                    data-aos="fade-right"
+                    sx={{
+                      color: "black",
+                      backgroundColor: "white",
+                      borderRadius: 10,
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+
+                    10 <span style={{ color: "orange", fontSize: "20px" }}> Pet grooming</span>
+                  </Typography>
+                </Stack>
+              </Stack>
+
+            </Stack>
+          </Box>
+        </CardContent>
+      </Card>
+    ))}
+</Stack>
 
 
-                  <><h1 style={{ marginLeft: "400px", fontSize: "50px",marginTop :"-179px" }} data-aos="fade-right">{employee_detail && employee_detail.map((menu, index) => menu.full_name)}</h1><h1 style={{ marginLeft: "400px", fontSize: "20px", fontWeight: "1" }} data-aos="fade-left">{employee_detail && employee_detail.map((menu, index) => menu.email)}</h1><h1 style={{ marginLeft: "400px", fontSize: "20px", fontWeight: "1" }} data-aos="fade-right">{employee_detail && employee_detail.map((menu, index) => menu.contact_number)}</h1><h1 style={{ marginLeft: "400px", fontSize: "100px", fontWeight: "1" }} data-aos="fade-right">10 <span style={{ color: "orange", fontSize: "20px" }}> Pet grooming</span>
-                  </h1></>
+            <div
+              style={{
+                backgroundColor: "#f5f7f6",
+                width: "90%",
+                height: "80vh",
+                marginLeft: "auto",
+                marginRight: "auto",
+                borderRadius: "8px",
+              }}
+              data-aos="zoom-in"
+            >
+              <div style={{ marginTop: "5%" }}>
+                <h1 style={{ textAlign: "center", paddingTop: "2%" }}>
+                  Appointment Details
+                </h1>
 
-                </div>
-              </div>
+                <Stack
+                  spacing={2}
+                  margin={2}
+                  style={{ padding: "450px", marginTop: "-400px" }}
+                >
+                  <TextField
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    variant="outlined"
+                    value={"Appointment Date: " + selectedDateString}
+                  ></TextField>
+                  <TextField
+                    variant="outlined"
+                    value={"Time Slot: " + personName}
+                  ></TextField>
+                  {selectpackage &&
+                    selectpackage.map((menu, index) => (
+                      <>
+                        <TextField
+                          variant="outlined"
+                          value={"PackageName: " + menu.package_name}
+                        ></TextField>
+                        <TextField
+                          variant="outlined"
+                          value={"Package Price: Rs." + menu.price}
+                        ></TextField>
+                      </>
+                    ))}
 
-
-            </div>
-
-            <div style={{ backgroundColor: '#f5f7f6', width: '90%', height: '80vh', marginLeft: "auto", marginRight: "auto", borderRadius: "8px" }} data-aos="zoom-in">
-
-              <div style={{ marginTop: '5%' }}>
-                <h1 style={{ textAlign: "center", paddingTop: '2%' }}>Appointment Details</h1>
-
-                <Stack spacing={2} margin={2} style={{ padding: "450px", marginTop: "-400px" }}>
-                  <TextField InputProps={{
-                    readOnly: true,
-                  }} variant="outlined"  value={"Appointment Date: " + selectedDateString}></TextField>
-                  <TextField variant="outlined" value={"Time Slot: " + personName}></TextField>
-                  {selectpackage && selectpackage.map((menu,index)=>(
-                       <><TextField variant="outlined" value={"PackageName: " + menu.package_name}></TextField>
-                       <TextField variant="outlined" value={"Package Price: Rs." + menu.price}></TextField></>
-
-                  ))}
-               
-              
-                  <FormControlLabel control={<Checkbox defaultChecked color="primary"></Checkbox>} label="Agree terms & conditions"></FormControlLabel>
+                  <FormControlLabel
+                    control={
+                      <Checkbox defaultChecked color="primary"></Checkbox>
+                    }
+                    label="Agree terms & conditions"
+                  ></FormControlLabel>
                   <Box display="flex" justifyContent="space-between">
-  <Button sx={{ backgroundColor: "black",width:'50%',':hover':{backgroundColor:'black'} }} variant="contained">
-    Make The Payment
-  </Button>
-  <Button sx={{ backgroundColor: "red",width:'40%',':hover':{backgroundColor:'red'} }} variant="contained">
-    Cancel
-  </Button>
-</Box>
+                    <Button
+                      sx={{
+                        backgroundColor: "black",
+                        width: "50%",
+                        ":hover": { backgroundColor: "black" },
+                      }}
+                      variant="contained"
+                    >
+                      Make The Payment
+                    </Button>
+                    <Button
+                      sx={{
+                        backgroundColor: "red",
+                        width: "40%",
+                        ":hover": { backgroundColor: "red" },
+                      }}
+                      variant="contained"
+                    >
+                      Cancel
+                    </Button>
+                  </Box>
                 </Stack>
               </div>
             </div>
@@ -544,3 +726,4 @@ function Pet_grooming() {
 }
 
 export default Pet_grooming;
+

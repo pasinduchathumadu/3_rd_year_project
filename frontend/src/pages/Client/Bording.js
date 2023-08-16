@@ -103,7 +103,7 @@ const Bording = () => {
             transition: "transform 0.5s ",
             "&:hover": {
               transform: "scale(1.1)", // Apply scale transform on hover
-              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", // Add box shadow on hover
+              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", 
             },
 
           }} data-aos="fade-up">
