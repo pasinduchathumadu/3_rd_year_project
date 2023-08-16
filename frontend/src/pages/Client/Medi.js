@@ -95,13 +95,9 @@ function Medi() {
         <h2 style={{ fontSize: "50px", marginLeft: "50px" }}>Enter your pet details</h2>
         <h2 style={{ fontSize: "20px", marginLeft: "50px" }}>< StarIcon sx={{ color: 'red' }} />We always protect your pet details</h2>
 
-
-        <Link to="/DoctorList" style={{ textDecoration: 'none' }}>
-
-        <Button variant="contained" sx={{ width:"500px",height:"50px",backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px',marginLeft:"45px",marginTop:"20px", fontSize: '12px', '&:hover': { backgroundColor: 'orange' } }} >View Now</Button></Link>
+        <Link to="/viewMedicalReports" style={{ textDecoration: 'none' }}>
+        <Button variant="contained" sx={{ width:"500px",height:"50px",backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px',marginLeft:"45px",marginTop:"20px", fontSize: '16px', fontWeight:'bold', '&:hover': { backgroundColor: 'orange' } }} >View Previous Medical Reports</Button></Link>
         
-
-
       </div>
 
 
