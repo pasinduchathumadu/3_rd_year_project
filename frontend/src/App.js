@@ -324,7 +324,7 @@ function App() {
 
           {/* boarding house activity tracking */}
           {/* <Route path="/activityTracking" element={<><Header /><ActivityTracking /></>}></Route>   */}
-          <Route path="activityTracking" element={<><Header /><ActivityTracking /></>}></Route>
+          <Route path="/activityTracking" element={<><Header /><ActivityTracking /></>}></Route>
  
           
 

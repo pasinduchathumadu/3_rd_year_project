@@ -79,12 +79,27 @@ const AddPets = () => {
     return (
         <div>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '5%' }}>
-                <div style={{ width: '50%', height: '100%', padding: '20px', marginLeft: '20px', marginRight: '5px', backgroundColor: '#F0F0F5', borderRadius: '10px' }}>
+                <div style={{ width: '50%', height: '100%', padding: '20px', marginLeft: '20px', marginRight: '5px', backgroundColor: 'rgb(245 245 245)', borderRadius: '10px' }}>
                     {/* add pets */}
                     <FormControl>
-                        <img src={BackgroundImage} style={{ width: '100%', height: 'auto', borderRadius: '10px' }} alt="background image" />
-                        <Typography sx={{ position: 'absolute', color: 'white', fontSize: '50px', padding: '20px', borderRadius: '10px', marginLeft: '180px' }}>Add Your Pets</Typography>
+                                        <div  style={{
+                                                        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6)),url(${BackgroundImage})`,
+                                                        backgroundSize: 'cover',
+                                                        backgroundRepeat: 'no-repeat',
+                                                        backgroundPosition: 'center',
+                                                        height:"50vh",
+                                                        width:"90vh",
+                                                        display: 'flex',
+                                                        flexDirection: "column",
+                                                        justifyContent: 'center',
+                                                        alignItems: 'center',
+                                                        color: 'white',
+                                                        borderRadius:"10px"
+          }}>
 
+                        </div>
+                        <Typography sx={{ position: 'absolute', color: 'white', fontSize: '50px', padding: '20px', borderRadius: '10px', marginLeft: '150px',marginTop:"120px" ,fontWeight:"10"}}>Add Your Pets</Typography>
+                <div style={{padding:"50px"}}>
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
                             <FormLabel sx={{ color: 'black' }}>Category</FormLabel>
                             <FormControl sx={{ m: 1, minWidth: 120 }}>
@@ -101,17 +116,6 @@ const AddPets = () => {
                                 </Select>
                             </FormControl>
                         </div>
-
-                        <div>
-                            <FormLabel sx={{ color: 'black', marginRight: '20px' }}>Pet Name</FormLabel>
-                            <TextField id="outlined-basic" placeholder="Pet Name" variant="outlined" required sx={{ width: '100%' }} onChange={(e) => setname(e.target.value)} />
-                        </div>
-
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <FormLabel sx={{ color: 'black' }}>Breed</FormLabel>
-                            <TextField id="outlined-basic" placeholder="Breed" variant="outlined" sx={{ width: '100%' }} onChange={(e) => setbreed(e.target.value)} />
-                        </div>
-
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
                             <FormLabel sx={{ color: 'black' }}>Sex </FormLabel>
                             <FormControl sx={{ m: 1, minWidth: 120 }}>
@@ -129,6 +133,18 @@ const AddPets = () => {
                             </FormControl>
                         </div>
 
+
+                        <div>
+                            <FormLabel sx={{ color: 'black', marginRight: '' }}>Pet Name</FormLabel>
+                            <TextField id="outlined-basic" placeholder="Pet Name" variant="outlined" required sx={{ width: '100%' }} onChange={(e) => setname(e.target.value)} />
+                        </div>
+
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <FormLabel sx={{ color: 'black' }}>Breed</FormLabel>
+                            <TextField id="outlined-basic" placeholder="Breed" variant="outlined" sx={{ width: '100%' }} onChange={(e) => setbreed(e.target.value)} />
+                        </div>
+
+                       
                         <div>
                             <FormLabel sx={{ color: 'black' }}>Profile Picture</FormLabel>
                             <TextField
@@ -145,10 +161,13 @@ const AddPets = () => {
                             <Button variant="contained" sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }} onClick={() => addpet()}>Submit</Button>
                             <Button variant="contained" sx={{ background: "red", marginTop: '10px', ':hover': { backgroundColor: "red" }, marginLeft: '10px', width: '100%' }}> Cancel</Button>
                         </div>
+
+
+                        </div>        
                     </FormControl>
                 </div>
 
-                <div style={{ width: '50%', height: '100%', padding: '20px', marginRight: '20px', marginLeft: '5px', backgroundColor: '#F0F0F5', borderRadius: '10px' }}>
+                <div style={{ width: '50%', height: '100%', padding: '20px', marginRight: '20px', marginLeft: '5px', backgroundColor: 'rgb(245 245 245)', borderRadius: '10px' }}>
                     {/* view pets */}
                     <FormControl>
                         <Typography sx={{ fontSize: '40px', padding: '20px', borderRadius: '10px', marginLeft: '250px' }}>Your Pets</Typography>
