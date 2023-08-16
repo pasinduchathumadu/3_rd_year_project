@@ -26,18 +26,19 @@ import Bath from "../../assests/bath.jpg";
 import Haircut from "../../assests/haircut.png";
 import massage from "../../assests/massage.jpg";
 
-import { format } from "date-fns";
-import { Link, useNavigate } from "react-router-dom";
 
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import axios from "axios";
-import Alert from "@mui/material/Alert";
-import Stack from "@mui/material/Stack";
-import BathImage from "../../assests/bath2.jpg"; // Import the background image
-import { TextField, FormControlLabel } from "@mui/material";
-import Box from "@mui/material/Box";
+import { format , addDays, isAfter} from 'date-fns'
+import { Link, useNavigate } from 'react-router-dom';
 
-import caregiver from "../../assests/emp1.jpg";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import axios from 'axios';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
+import BathImage from '../../assests/bath2.jpg'; // Import the background image
+import { TextField, FormControlLabel} from "@mui/material";
+import Box from '@mui/material/Box';
+
+
 
 // import petcare3 from "../../assests/premium.jpg";
 import logo from "../../assests/2.png";
@@ -88,8 +89,12 @@ function Pet_grooming() {
 
   const email = localStorage.getItem("store_email");
 
-  const input = new Date();
-  const date = format(input, "MM-dd-yyyy");
+  const input = new Date()
+  const date = format(input, 'MM-dd-yyyy')
+  const currentDate = new Date();
+  const twoWeeksFromToday = new Date();
+  twoWeeksFromToday.setDate(currentDate.getDate() + 14);
+
 
   const selectedDateString = selectedDate
     ? selectedDate.format("MM-DD-YYYY")
@@ -98,11 +103,12 @@ function Pet_grooming() {
   const handleFormOpen = async () => {
     seterror(false);
     if (selectedDate === null || Id === null) {
-      console.log("ooo");
-      setfilled(true);
-      seterror(true);
-      setmessage("Please Select Date & TimeSlot");
-      return;
+
+      setfilled(true)
+      seterror(true)
+      setmessage("Kindly choose a date and a time slot.")
+      return
+
     }
     if (date > selectedDateString) {
       setfilled(true);
@@ -110,6 +116,16 @@ function Pet_grooming() {
       setmessage("You can't pick that date");
       return;
     }
+
+
+    if (selectedDate > twoWeeksFromToday) {
+      setfilled(true);
+      seterror(true);
+      setmessage("You can only pick a date within two weeks from today");
+      return;
+    }
+
+
 
     try {
       const res = await axios.post(
@@ -120,13 +136,17 @@ function Pet_grooming() {
         }
       );
       if (res.data.message === "already filled") {
-        seterror(true);
-        setfilled(true);
-        setmessage("This Time Slot Is not availble");
-      } else if (res.data.message === "added") {
-        setfilled(false);
-        seterror(true);
-        setmessage("You Time Slot is successfully placed now!");
+
+        seterror(true)
+        setfilled(true)
+        setmessage("This time slot is not available")
+
+      }
+      else if (res.data.message === "added") {
+        setfilled(false)
+        seterror(true)
+        setmessage("Your time slot has been successfully reserved!")
+
       }
     } catch (err) {
       console.log("There is an internel error");
@@ -135,8 +155,12 @@ function Pet_grooming() {
 
   const random_assit = async (package_id) => {
     if (fill) {
-      navigate("/Pet_grooming");
-    } else {
+
+      
+      navigate('/Pet_grooming')
+    }
+    else {
+
       try {
         const res = await axios.post(
           "http://localhost:5000/pet_care/user/random_assistant",
@@ -151,6 +175,7 @@ function Pet_grooming() {
         setEmployeeDetail(data.data);
 
         if (res.data.message === "There is an internel error") {
+
           navigate("/Pet_grooming");
         } else {
           const res = await axios.get(
@@ -161,6 +186,7 @@ function Pet_grooming() {
           setfirst(false);
           setbath(true);
         }
+
       } catch (err) {
         console.log(err);
       }
@@ -336,26 +362,33 @@ function Pet_grooming() {
               your pet.
             </h1>
           </div>
-          <div
-            style={{ backgroundColor: "black", height: "50vh" }}
-            data-aos="zoom-out-down"
-          >
-            <h1
-              style={{
-                textAlign: "center",
-                color: "white",
-                fontSize: "10vh",
-                fontWeight: "1",
-              }}
-            >
-              choice your plan now!
-            </h1>
-            <h3
-              style={{ textAlign: "center", color: "white", fontWeight: "1" }}
-            >
-              No Risk, 30-Day Money Back Return Policy,
-            </h3>
-            <br></br>
+
+          {error && (
+            <div style={{ marginTop: '2%',width:"40%"}}>
+              <Stack sx={{ width: '100%' }} spacing={2}>
+                {message === "Your time slot has been successfully reserved!" &&(
+                    <Alert variant="filled" severity="success" >{message}</Alert>
+                )}
+                  {message !== "Your time slot has been successfully reserved!" &&(
+                    <Alert variant="filled" severity="error" >{message}</Alert>
+                )}
+              
+              </Stack>
+            </div>
+
+          )}
+
+
+          <h1 style={{ marginTop: "-290px", fontSize: '60px', fontWeight: 'bold' }}> Let's <span style={{ color: "orange", fontSize: '60px', fontWeight: 'bold' }}>Groom</span> your pet.</h1>
+
+
+        </div><div style={{ backgroundColor: "black", height: "50vh" }} data-aos="zoom-out-down">
+            <h1 style={{ textAlign: "center", color: "white", fontSize: "10vh", fontWeight: "1" }}>choice your plan now!</h1>
+            <h3 style={{ textAlign: "center", color: "white", fontWeight: "1" }}>No Risk, 30-Day Money Back Return Policy,</h3><br></br>
+
+
+
+
 
             <h1
               style={{
@@ -734,6 +767,7 @@ function Pet_grooming() {
               }}
             >
               <div style={{ padding: "80px" }}>
+
                 <img
                   className="smooth-scroll"
                   src={logo}
@@ -794,6 +828,7 @@ function Pet_grooming() {
                 />
 
                 <div style={{ display: "flex", marginTop: "30px" }}></div>
+
               </div>
             </div>
             <Stack
