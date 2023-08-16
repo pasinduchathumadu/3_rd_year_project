@@ -11,7 +11,7 @@ import "../../styles/Client/DoctorList.css"
 export const DoctorList = () => {
   return (
     <>
-    <div className='smooth-scroll'>
+    <div className='smooth-scroll' style={{marginTop:'4%'}}>
     <div style={{width:"100%",height:"73vh", backgroundColor: "rgb(18, 19, 52)",marginTop:"auto"}} data-aos="fade-right">
 
         <h1 style={{color:"blue",fontSize:"80px",marginLeft:"15px"}}>Meet Your Doctor Now</h1>

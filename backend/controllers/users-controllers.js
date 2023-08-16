@@ -578,14 +578,13 @@ export const generate = async (req, res, next) => {
   const id = req.params.id;
 
   const status = "completed"
-  const status2 = "waitting"
   const sqlQuery =
     `
   SELECT i.name,tc.quantity,i.unit_price,tc.total,po.po_id,po.po_status,po.payment
   FROM temporary_card tc
   JOIN purchase_order po ON tc.po_id = po.po_id
   JOIN item i ON tc.item_id = i.item_id
-  WHERE tc.email = ? AND tc.status = ? AND po.order_email = ? AND po.po_status = ?
+  WHERE tc.email = ? AND tc.status = ? AND po.order_email = ? 
   ORDER BY po.po_id DESC
   LIMIT 1
   
@@ -594,8 +593,8 @@ export const generate = async (req, res, next) => {
   const values = [
     id,
     status,
-    id,
-    status2
+    id
+ 
   ]
   db.query(sqlQuery, values, (err, data) => {
     if (err) {
@@ -807,7 +806,75 @@ export const view_pets = async (req, res, next) => {
       return res.json({ data })
     })
   })
+}
 
 
+
+
+export const get_appointment_id = async(req,res,next)=>{
+  const id = req.params.id
+  const sqlQuery = "SELECT *FROM carecenter_appointment WHERE client_email = ? ORDER BY appointment_id DESC LIMIT 1"
+  const value = [
+    id
+  ]
+  db.query(sqlQuery,value,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an internel error'})
+    }
+    const status = "completed"
+    const sqlQuery = "UPDATE carecenter_appointment SET appointment_status = ? WHERE appointment_id = ?"
+    const values = [
+      status,
+      data[0].appointment_id
+    ]
+    db.query(sqlQuery,values,(err,data)=>{
+      if(err){
+        return res.json({message:'There is an internel error'})
+      }
+      return res.json({message:'success'})
+    })
+    
+  })
+}
+
+export const cancel_appointment = async(req,res,next)=>{
+
+  const id = req.params.id
+  const sqlQuery = "DELETE FROM carecenter_appointment WHERE client_email = ? ORDER BY appointment_id DESC LIMIT 1"
+  const values = [
+    id
+  ]
+  db.query(sqlQuery,values,(err,data)=>{
+    if(err){
+      return res.json({message:"There is an internel error"})
+    }
+    return res.json({message:"deleted"})
+
+  })
+  
+}
+
+export const care_orders = async(req,res,next)=>{
+  const status = "completed"
+  const sqlQuery = "SELECT *FROM carecenter_appointment WHERE appointment_status = ?"
+  const value = [
+    status
+  ]
+  db.query(sqlQuery,value,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an internel error'})
+    }
+    const sqlQuery1 = "SELECT a.appointment_id,a.placed_date,p.package_name,p.price FROM carecenter_appointment a INNER JOIN carecenter_package p ON p.package_id = a.package_id WHERE a.appointment_id = ?"
+    const values = [
+      data[0].appointment_id
+
+    ]
+    db.query(sqlQuery1,values,(err,data)=>{
+      if(err){
+        return res.json({message:'There is an internel error'})
+      }
+      return res.json({data})
+    })
+  })
 }
 
