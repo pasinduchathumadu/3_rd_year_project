@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import pay from "../../assests/pay1.jpg"
-import { Button } from "@mui/material";
+import { Button,Stack,Typography } from "@mui/material";
 import StripeCheckout from "react-stripe-checkout"
 
 const Blogs = () => {
@@ -84,21 +84,74 @@ const Blogs = () => {
     .catch((err)=>console.log("There is an internel error"))
   })
   return (
-    <div style={{ backgroundImage: `url(${pay})` ,backgroundRepeat:'no-repeat',backgroundSize:'cover',backgroundPosition:'center',width:'100%',height:'100vh'}}>
-     
-      <StripeCheckout stripeKey="pk_test_51NGJbtSDLfwYkCbGu6RR8Pf0Pj8KoKTEdIogc7wKKhMBsoEzaoLuwmukYs8Tc6GF8YqvdXJ7AYzk5ktxfByXN1Wk00elCyMdCm"
-        token={makePayment}
-        name="Buy React"
-        amount={product.price}
-        shippingAddress
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundImage: `url(${pay})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        width: "100%",
+        height: "100vh",
+      }}
+    >
+      <div
+        style={{
+          backgroundColor: "rgba(0, 0, 0, 0.7)",
+          padding: "20px",
+          borderRadius: "10px",
+          textAlign: "center",
+        }}
       >
-        <Button onClick={confirm} variant="contained" sx={{ width:"300px",height:"50px",backgroundColor: 'black', marginTop:'20%',marginLeft:'33%', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px', fontSize: '16px', '&:hover': { backgroundColor: 'black' } }} >Confirm  (Rs.{payment_charge})</Button>
+        <Typography variant="h6" sx={{ color: "white", marginBottom: "20px" }}>
+          Are you sure?
+        </Typography>
+        <StripeCheckout
+          stripeKey="pk_test_51NGJbtSDLfwYkCbGu6RR8Pf0Pj8KoKTEdIogc7wKKhMBsoEzaoLuwmukYs8Tc6GF8YqvdXJ7AYzk5ktxfByXN1Wk00elCyMdCm"
+          token={makePayment}
+          name="Buy React"
+          amount={product.price}
+          shippingAddress
+        >
+            <Stack justifyContent={"center"} alignItems={"center" } direction={"row"} spacing={2}>
+
+          <Button
+            onClick={confirm}
+            variant="contained"
+            sx={{
+              width: "300px",
+              height: "50px",
+              backgroundColor: "black",
+              marginTop: "10px",
+              paddingLeft: "15px",
+              marginLeft:'1%',
+              fontSize: "16px",
+              "&:hover": { backgroundColor: "black" },
+            }}
+          >
+            Confirm (Rs.{payment_charge})
+          </Button>
+          <Button
+          onClick={back}
+          variant="contained"
+          sx={{
+            width: "300px",
+            height: "50px",
+            backgroundColor: "red",
+         
+            fontSize: "16px",
+            "&:hover": { backgroundColor: "red" },
+            marginTop: "10px",
+          }}
+        >
+          Cancel
+        </Button>            </Stack>
+
+        </StripeCheckout>
         
-      </StripeCheckout>
-      <Button onClick={back} variant="contained" sx={{ width:"300px",height:"50px",backgroundColor: 'red', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px', fontSize: '16px', '&:hover': { backgroundColor: 'red' },marginTop:'20%',marginLeft:'1%' }} >Cancel</Button>
-
-      <label id="hh"></label>
-
+      </div>
     </div>
   )
 };

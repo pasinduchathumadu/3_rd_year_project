@@ -1,6 +1,6 @@
 import express from "express";
 
-import {login,signup,forget_password,reset_password,forget_confirmation,upload_file,get_store, temp_cart, load_cart,increase, decrease,total, load_payement, load_total,delete_cart,final_payment, back,date_client,confirm,generate , client_load, delete_order, random_assistant, get_allpackage, get_package, timeslot, delete_order_care,addpet, view_pets} from "../controllers/users-controllers.js";
+import {login,signup,forget_password,reset_password,forget_confirmation,upload_file,get_store, temp_cart, load_cart,increase, decrease,total, load_payement, load_total,delete_cart,final_payment, back,date_client,confirm,generate , client_load, delete_order, random_assistant, get_allpackage, get_package, timeslot, delete_order_care,addpet, view_pets,get_appointment_id,cancel_appointment, care_orders} from "../controllers/users-controllers.js";
 
 const user_route = express.Router();
 
@@ -32,9 +32,9 @@ user_route.get('/get_allpackages',get_allpackage)
 user_route.get('/get_package/:id',get_package)
 user_route.get('/get_timeslot',timeslot)
 user_route.get('/delete_order_care/:id',delete_order_care)
-
-
+user_route.get('/cancel_appointment/:id',cancel_appointment)
 user_route.post('/addpet', addpet);
 user_route.get('/view_pets/:email', view_pets);
-
+user_route.get('/get_appointment_id/:id',get_appointment_id)
+user_route.get('/care_orders',care_orders)
 export default user_route;
