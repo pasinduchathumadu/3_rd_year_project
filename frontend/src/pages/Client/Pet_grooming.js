@@ -386,7 +386,7 @@ function Pet_grooming() {
 
 
           <h1 style={{ marginTop: "-290px", fontSize: '60px', fontWeight: 'bold' }}> Let's <span style={{ color: "orange", fontSize: '60px', fontWeight: 'bold' }}>Groom</span> your pet.</h1>
-
+           <Typography sx={{color:'red'}}>Note : Pick a Date within two weeks today onwards</Typography>
 
         </div>
 
@@ -435,7 +435,7 @@ function Pet_grooming() {
                       <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: "", fontSize: "23px" }}>
                         {menu.package_name}
                       </Typography><Typography variant="body2" color="text.secondary">
-                        Up to Rs.{menu.price}
+                        Rs.{menu.price}
                       </Typography><ol style={{ listStyleType: 'none', padding: 0, textAlign: "", marginTop: "40px", color: "black", fontSize: "20px" }}>
                         <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Deep Cleaning Shampoo</li>
                         <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Blow Dry</li>
@@ -476,7 +476,7 @@ function Pet_grooming() {
                           {menu.package_name}
 
                         </Typography><Typography variant="body2" color="text.secondary">
-                            Up to Rs.{menu.price}
+                            Rs.{menu.price}
                           </Typography>
                      
 
@@ -524,7 +524,7 @@ function Pet_grooming() {
                         <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: "", fontSize: "23px" }}>
                           {menu.package_name}
                         </Typography><Typography variant="body2" color="text.secondary">
-                            Up to Rs.{menu.price}
+                            Rs.{menu.price}
                           </Typography>
                      
 
@@ -1235,7 +1235,7 @@ function Pet_grooming() {
                                 }}
                               >
 
-                                10 <span style={{ color: "orange", fontSize: "20px" }}> Pet grooming</span>
+                                {menu.count}<span style={{ color: "orange", fontSize: "20px" }}> Pet grooming</span>
                               </Typography>
                             </Stack>
                           </Stack>
@@ -1410,4 +1410,3 @@ function Pet_grooming() {
 }
 
 export default Pet_grooming;
-
