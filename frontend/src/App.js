@@ -43,7 +43,7 @@ import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 
 import AddPets from './pages/Client/AddPets';
 import Crossing from './pages/Client/Crossing';
-import Bath from "./pages/Client/Bath";
+
 import Haircuts from "./pages/Client/Haircuts";
 import MiniGrooming from "./pages/Client/MiniGrooming.js";
 
@@ -96,26 +96,6 @@ import HomeHeader from "./components/Layout/Homeheader";
 
 import PaymentClient from './pages/Client/Payment';
 
-// sidebar icons
-import HomeIcon from '@mui/icons-material/Home';  //dashboard
-import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'; //complains
-
-// clients
-import PetsIcon from '@mui/icons-material/Pets'; //add pets & boarding - pets
-import LocalHospitalIcon from '@mui/icons-material/LocalHospital'; //crossing
-import StoreIcon from '@mui/icons-material/Store';  //shop
-import StorefrontIcon from '@mui/icons-material/Storefront'; //non-bread shop
-import AssessmentIcon from '@mui/icons-material/Assessment'; //reports
-
-// admin
-import GroupIcon from '@mui/icons-material/Group'; //users & boarding - clients & care center - caregivers
-import RuleFolderIcon from '@mui/icons-material/RuleFolder'; //refund
-
-// boaridng house
-import InventoryIcon from '@mui/icons-material/Inventory'; //package , care center packages
-
-// care center
-import BookOnlineIcon from '@mui/icons-material/BookOnline'; // appointments
 
 
 
@@ -272,7 +252,7 @@ function App() {
               <Route path="/bording" element={<><Header userRole={"client"} /><Bording /></>}></Route>
               <Route path="/medi" element={<><Header userRole={"client"} /><Medi /></>}></Route>
               <Route path="/popupform" element={<><Header userRole={"client"} /><PopupForm /></>}></Route>
-              <Route path="/Bath" element={<><Header userRole={"client"} /><Bath /></>}></Route>
+             
               <Route path="/Haircuts" element={<><Header userRole={"client"} /><Haircuts /></>}></Route>
               <Route path="/DoctorList" element={<><Header userRole={"client"} /><DoctorList /></>}></Route>
               <Route path="/addpet" element={<><Header userRole={"client"}/><AddPets /></>}></Route>

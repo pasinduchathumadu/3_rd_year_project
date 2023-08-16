@@ -26,7 +26,7 @@ import Bath from "../../assests/bath.jpg";
 import Haircut from "../../assests/haircut.png";
 import massage from "../../assests/massage.jpg";
 
-import { format } from 'date-fns'
+import { format , addDays, isAfter} from 'date-fns'
 import { Link, useNavigate } from 'react-router-dom';
 
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -37,9 +37,6 @@ import BathImage from '../../assests/bath2.jpg'; // Import the background image
 import { TextField, FormControlLabel} from "@mui/material";
 import Box from '@mui/material/Box';
 
-
-
-import caregiver from "../../assests/emp1.jpg";
 
 // import petcare3 from "../../assests/premium.jpg";
 import logo from "../../assests/2.png";
@@ -92,16 +89,18 @@ function Pet_grooming() {
 
   const input = new Date()
   const date = format(input, 'MM-dd-yyyy')
+  const currentDate = new Date();
+  const twoWeeksFromToday = new Date();
+  twoWeeksFromToday.setDate(currentDate.getDate() + 14);
 
   const selectedDateString = selectedDate ? selectedDate.format('MM-DD-YYYY') : '';
 
   const handleFormOpen = async () => {
     seterror(false)
     if (selectedDate === null || Id === null) {
-      console.log("ooo")
       setfilled(true)
       seterror(true)
-      setmessage("Please Select Date & TimeSlot")
+      setmessage("Kindly choose a date and a time slot.")
       return
     }
     if (date > selectedDateString) {
@@ -109,6 +108,13 @@ function Pet_grooming() {
       seterror(true)
       setmessage("You can't pick that date")
       return
+    }
+
+    if (selectedDate > twoWeeksFromToday) {
+      setfilled(true);
+      seterror(true);
+      setmessage("You can only pick a date within two weeks from today");
+      return;
     }
 
 
@@ -120,13 +126,13 @@ function Pet_grooming() {
       if (res.data.message === "already filled") {
         seterror(true)
         setfilled(true)
-        setmessage("This Time Slot Is not availble")
+        setmessage("This time slot is not available")
 
       }
       else if (res.data.message === "added") {
         setfilled(false)
         seterror(true)
-        setmessage("You Time Slot is successfully placed now!")
+        setmessage("Your time slot has been successfully reserved!")
       }
     } catch (err) {
       console.log("There is an internel error")
@@ -135,6 +141,7 @@ function Pet_grooming() {
 
   const random_assit = async (package_id) => {
     if (fill) {
+      
       navigate('/Pet_grooming')
     }
     else {
@@ -149,14 +156,17 @@ function Pet_grooming() {
         setEmployeeDetail(data.data)
 
         if (res.data.message === "There is an internel error") {
+         
           navigate('/Pet_grooming')
         }
         else {
+  
           const res = await axios.get(`http://localhost:5000/pet_care/user/get_package/${package_id}`)
           const data = await res.data
           setselectpackage(data.data)
           setfirst(false)
           setbath(true)
+          console.log(bath)
         }
 
 
@@ -266,7 +276,13 @@ function Pet_grooming() {
           {error && (
             <div style={{ marginTop: '2%',width:"40%"}}>
               <Stack sx={{ width: '100%' }} spacing={2}>
-                <Alert variant="filled" severity="error" >{message}</Alert>
+                {message === "Your time slot has been successfully reserved!" &&(
+                    <Alert variant="filled" severity="success" >{message}</Alert>
+                )}
+                  {message !== "Your time slot has been successfully reserved!" &&(
+                    <Alert variant="filled" severity="error" >{message}</Alert>
+                )}
+              
               </Stack>
             </div>
 
@@ -475,7 +491,7 @@ function Pet_grooming() {
 
             <div style={{ backgroundColor: "black", width: "100%", height: "80vh" }} data-aos="zoom-in" >
               <h2 style={{ textAlign: "center", color: "orange", fontSize: "40px", paddingTop: '1%' }}>Your Assistant</h2>
-              <div style={{ display: "flex", marginTop: "60px" }}>
+              <div style={{ display: "flex", marginTop: "60px", marginLeft: "60px" }}>
                 <div>
                   {employee_detail && employee_detail.map((menu,index)=>(
                      <img
