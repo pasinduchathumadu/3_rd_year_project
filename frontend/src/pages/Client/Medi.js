@@ -106,7 +106,7 @@ function Medi() {
         <h2 style={{fontSize:"20px",marginLeft:"50px"}}>We always protect your pet details</h2>
         
         <Link to="/DoctorList" style={{ textDecoration: 'none' }}>
-        <Button variant="contained" sx={{ width:"500px",height:"50px",backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px',marginLeft:"45px",marginTop:"20px", fontSize: '12px', '&:hover': { backgroundColor: 'orange' } }} >Click now</Button></Link>
+        <Button variant="contained" sx={{ width:"500px",height:"50px",backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px',marginLeft:"45px",marginTop:"20px", fontSize: '12px', '&:hover': { backgroundColor: 'orange' } }} >View Now</Button></Link>
         
 
       </div>
@@ -154,7 +154,12 @@ function Medi() {
 
       <h1 style={{color:"white",textAlign:"center",marginTop:"90px",marginLeft:"300px"}}> Make your appoinment here</h1>
       <div style={{textAlign:'center'}}>
-            <Button onClick={functionopenpopup}  variant="contained" sx={{ width:"500px",height:"50px",backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px',marginLeft:"-450px",marginTop:"260px", fontSize: '12px', '&:hover': { backgroundColor: 'orange' } }} >Enter details</Button>
+
+      <Link to="/DoctorList" style={{ textDecoration: 'none' }}>
+        <Button   variant="contained" sx={{ width:"500px",height:"50px",backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px',marginLeft:"-450px",marginTop:"260px", fontSize: '12px', '&:hover': { backgroundColor: 'orange' } }} >Enter details</Button>
+
+        </Link>
+        
 
             <Dialog 
             // fullScreen 

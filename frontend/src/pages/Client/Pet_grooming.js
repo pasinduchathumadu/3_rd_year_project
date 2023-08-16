@@ -36,6 +36,7 @@ import Stack from '@mui/material/Stack';
 import BathImage from '../../assests/bath2.jpg'; // Import the background image
 import { TextField, FormControlLabel} from "@mui/material";
 import Box from '@mui/material/Box';
+import Skeleton from '@mui/material/Skeleton';
 
 
 
@@ -208,6 +209,7 @@ function Pet_grooming() {
     AOS.init({ duration: 600 });
   }, []);
   
+  
 
   return (
     <>
@@ -276,7 +278,10 @@ function Pet_grooming() {
           <h1 style={{ marginTop: "-290px", fontSize: '60px', fontWeight: 'bold' }}> Let's <span style={{ color: "orange", fontSize: '60px', fontWeight: 'bold' }}>Groom</span> your pet.</h1>
 
 
-        </div><div style={{ backgroundColor: "black", height: "50vh" }} data-aos="zoom-out-down">
+        </div>
+        
+        <div style={{ backgroundColor: "black", height: "50vh" }} data-aos="zoom-out-down">
+             
             <h1 style={{ textAlign: "center", color: "white", fontSize: "10vh", fontWeight: "1" }}>choice your plan now!</h1>
             <h3 style={{ textAlign: "center", color: "white", fontWeight: "1" }}>No Risk, 30-Day Money Back Return Policy,</h3><br></br>
 
