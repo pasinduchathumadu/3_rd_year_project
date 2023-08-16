@@ -21,7 +21,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActionArea } from "@mui/material";
+import { CardActionArea, Grow } from "@mui/material";
 import Bath from "../../assests/bath.jpg";
 import Haircut from "../../assests/haircut.png";
 import massage from "../../assests/massage.jpg";
@@ -840,6 +840,7 @@ function Pet_grooming() {
               // alignItems={"center"}
             >
               <Card
+                data-aos="fade" // Add this line to apply fade-in animation
                 sx={{
                   backgroundColor: "black",
                   maxWidth: 800, // Set the maximum width as needed
@@ -873,11 +874,7 @@ function Pet_grooming() {
 
                 <CardContent>
                   <Box>
-                    <Stack
-                      justifyContent={"center"}
-                      alignItems={"center"}
-                      mb={2}
-                    >
+                    <Stack justifyContent={"center"} alignItems={"center"}>
                       {/* <Typography variant="h5">Your Assistant</Typography> */}
                       <Typography
                         variant="h6"
@@ -894,6 +891,7 @@ function Pet_grooming() {
                         direction={"row"}
                         alignItems={"center"}
                         justifyContent={"center"}
+                        mb={2}
                       >
                         <Stack
                           direction={"row"}
@@ -926,23 +924,27 @@ function Pet_grooming() {
                         </Stack>
                       </Stack>
 
-                      <Stack alignItems={"center"} justifyContent={"center"}>
-                        <Typography variant="h6" data-aos="fade-left">
+                      <Stack
+                        alignItems={"center"}
+                        justifyContent={"center"}
+                        spacing={1}
+                        p={2}
+                        sx={{
+                          backgroundColor: "gray",
+                          borderRadius: "10px",
+                        }}
+                      >
+                        <Typography variant="h7" data-aos="fade-left">
                           {employee_detail &&
                             employee_detail.map((menu, index) => menu.email)}
                         </Typography>
-                        <Typography variant="h6" data-aos="fade-right">
+                        <Typography variant="h7" data-aos="fade-right">
                           {employee_detail &&
                             employee_detail.map(
                               (menu, index) => menu.contact_number
                             )}
                         </Typography>
-                        <Stack
-                          alignItems={"center"}
-                          justifyContent={"center"}
-                          mt={2}
-                          p={1}
-                        >
+                        <Stack alignItems={"center"} justifyContent={"center"}>
                           <Typography
                             variant="h3"
                             p={1}
