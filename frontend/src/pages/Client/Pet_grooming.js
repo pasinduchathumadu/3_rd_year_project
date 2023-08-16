@@ -17,11 +17,13 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import "../../styles/Client/Mindrelax.css";
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
+
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import { CardActionArea, Grow } from "@mui/material";
+
 import Bath from "../../assests/bath.jpg";
 import Haircut from "../../assests/haircut.png";
 import massage from "../../assests/massage.jpg";
@@ -533,6 +535,7 @@ function Pet_grooming() {
             </div>
             <Typography sx={{marginTop:'2%',marginLeft:'40%',color:'black',fontSize:'48px',fontWeight:'600'}}>Our Team</Typography>
             <Stack
+
   direction={"row"}
   spacing={2}
   mt={4}
@@ -579,6 +582,7 @@ function Pet_grooming() {
                 variant="h6"
                 data-aos="fade-right"
                 sx={{ color: "white" }}
+
               >
                 {menu.full_name}
               </Typography>
@@ -616,10 +620,12 @@ function Pet_grooming() {
                       justifyContent: "center",
                     }}
                   >
+
                     10 <span style={{ color: "orange", fontSize: "20px" }}> Pet grooming</span>
                   </Typography>
                 </Stack>
               </Stack>
+
             </Stack>
           </Box>
         </CardContent>
