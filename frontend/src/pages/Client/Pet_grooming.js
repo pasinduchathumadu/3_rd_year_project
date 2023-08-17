@@ -1364,7 +1364,7 @@ function Pet_grooming() {
             }}
           >
             <Typography variant="h6" sx={{ color: "white", marginBottom: "20px" }}>
-              Are you sure?
+              Are you sure
             </Typography>
             <StripeCheckout
               stripeKey="pk_test_51NGJbtSDLfwYkCbGu6RR8Pf0Pj8KoKTEdIogc7wKKhMBsoEzaoLuwmukYs8Tc6GF8YqvdXJ7AYzk5ktxfByXN1Wk00elCyMdCm"
