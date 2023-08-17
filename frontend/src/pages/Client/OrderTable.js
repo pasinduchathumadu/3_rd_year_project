@@ -9,12 +9,17 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+
+import Dialog from "./Dialog";
+import EditForm from "./FormPopUp";
+
+
 
 import Button from '@mui/material/Button';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import axios from 'axios';
+
 
 
 
@@ -39,12 +44,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 
-const handleDelete = (rowId) => {
-  // Implement your delete logic here
-};
-const handleEdit = (rowId) => {
-  // Implement your edit logic here
-};
 
 
 
@@ -53,6 +52,15 @@ const handleEdit = (rowId) => {
 export default function OrderTable() {
 
   const [row,setorder] = useState([])
+
+  
+const handleDelete = async(rowId) => {
+  const res = await axios.get(`http://localhost:5000/pet_care/user/delete_appointment/${rowId}`)
+  if(res.data.message === "deleted"){
+    get_orders()
+  }
+  
+};
 
   const get_orders = async(req,res,next)=>{
     try{
@@ -69,6 +77,7 @@ export default function OrderTable() {
     get_orders()
     .then((data)=>setorder(data.data))
   })
+
   
   useEffect(() => {
     AOS.init({ duration: 450   });
@@ -84,7 +93,8 @@ export default function OrderTable() {
 
   
   </div>
-
+  
+  
     <TableContainer component={Paper} sx={{padding:"50px",boxShadow: "none"}}>
       <Table sx={{ minWidth: 700,marginTop:"100px" , border: "none"}} aria-label="customized table">
         <TableHead>
@@ -109,13 +119,16 @@ export default function OrderTable() {
               <StyledTableCell align="left">{row.price}</StyledTableCell>
               <StyledTableCell align="left">
             {/* Delete icon */}
-            <IconButton onClick={() => handleEdit(row.id)} sx={{color:"black"}}>
-              <EditIcon />
-            </IconButton>
+            {/* <IconButton onClick={() => handleEdit(row.id)} sx={{color:"black"}}> */}
+              {/* <EditIcon /> */}
+            {/* </IconButton> */}
+            <Dialog title="Appointment Changes" btn_name="Edit" >
+                          <EditForm />
+                        </Dialog>
           </StyledTableCell>  
               <StyledTableCell align="left">
             {/* Delete icon */}
-            <IconButton onClick={() => handleDelete(row.id)} sx={{color:"red"}}>
+            <IconButton onClick={() => handleDelete(row.appointment_id)} sx={{color:"red"}}>
               <DeleteIcon />
             </IconButton>
           </StyledTableCell>
@@ -125,6 +138,7 @@ export default function OrderTable() {
         </TableBody>
       </Table>
     </TableContainer>
+    
     </div>
   );
 }
