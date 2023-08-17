@@ -53,7 +53,7 @@
 }
 
 .seat.occupied {
-  background-color: rgb(133, 0, 0);
+  background-color:white;
 }
 
 .seat:nth-of-type(2) {

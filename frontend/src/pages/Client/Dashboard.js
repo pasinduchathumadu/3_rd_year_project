@@ -30,7 +30,7 @@ const images = [
   },
   {
     url: Image2,
-    title: 'Bording-House',
+    title: 'Boarding-House',
     width: '30%',
     slag: '/bording'
   },

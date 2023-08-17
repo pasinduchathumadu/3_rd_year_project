@@ -12,6 +12,8 @@ import Select from '@mui/material/Select';
 import axios from 'axios';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Skeleton from '@mui/material/Skeleton';
+
 
 const AddPets = () => {
     const [error, seterror] = useState(false);
@@ -171,8 +173,10 @@ const AddPets = () => {
                     {/* view pets */}
                     <FormControl>
                         <Typography sx={{ fontSize: '40px', padding: '20px', borderRadius: '10px', marginLeft: '250px' }}>Your Pets</Typography>
-
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <Skeleton />
+<Skeleton animation="wave"  sx={{width:"90vh"}}/>
+<Skeleton animation={false} />
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
 
                             {viewpet && viewpet.map((menu, index) => (
                                 <Accordion sx={{ marginBottom: '10px', width: '700px' }}>

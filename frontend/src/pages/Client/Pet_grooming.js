@@ -435,7 +435,7 @@ function Pet_grooming() {
                       <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: "", fontSize: "23px" }}>
                         {menu.package_name}
                       </Typography><Typography variant="body2" color="text.secondary">
-                        Up to Rs.{menu.price}
+                        {menu.price}
                       </Typography><ol style={{ listStyleType: 'none', padding: 0, textAlign: "", marginTop: "40px", color: "black", fontSize: "20px" }}>
                         <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Deep Cleaning Shampoo</li>
                         <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Blow Dry</li>
@@ -476,7 +476,7 @@ function Pet_grooming() {
                           {menu.package_name}
 
                         </Typography><Typography variant="body2" color="text.secondary">
-                            Up to Rs.{menu.price}
+                            {menu.price}
                           </Typography>
                      
 
@@ -524,7 +524,7 @@ function Pet_grooming() {
                         <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: "", fontSize: "23px" }}>
                           {menu.package_name}
                         </Typography><Typography variant="body2" color="text.secondary">
-                            Up to Rs.{menu.price}
+                            {menu.price}
                           </Typography>
                      
 
@@ -958,7 +958,7 @@ function Pet_grooming() {
                             <Typography variant="h6" data-aos="fade-left">
                               {menu.email}
                             </Typography>
-                            <Typography variant="h6" data-aos="fade-right">
+                            <Typography variant="h6" data-aos="fade-right" sx={{fontSize:"5px"}}>
                               {menu.contact_number}
                             </Typography>
                             <Stack alignItems={"center"} justifyContent={"center"} mt={2} p={1}>
@@ -975,7 +975,7 @@ function Pet_grooming() {
                                 }}
                               >
 
-                                10 <span style={{ color: "orange", fontSize: "20px" }}> Pet grooming</span>
+                                10 <span style={{ color: "red", fontSize: "20px"}}> Pet grooming</span>
                               </Typography>
                             </Stack>
                           </Stack>
