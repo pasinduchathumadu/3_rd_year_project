@@ -83,7 +83,7 @@ const Menu = () => {
       <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
         <Box sx={{ width: '100%', height: '80vh', backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(${dogBackground})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center',transition: 'background-image 1s ease-in-out'}}>
           <Grid sx={{ marginTop: '150px', marginLeft: '100px', fontStyle: 'bold' }}>
-            <h1 style={{ fontSize: "55px", color: 'white' ,textAlign:"center"}}>50% discount for</h1>
+            <h1 style={{ fontSize: "55px", color: 'white' ,textAlign:"center"}}>10% discount for</h1>
             <Typography sx={{ fontSize: '24px', fontStyle: 'bold', marginTop: '10px', marginBottom: '10px', color: 'white',textAlign:"center" }}>FIRST ORDER</Typography>
 
                     <Button
