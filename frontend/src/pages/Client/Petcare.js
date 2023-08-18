@@ -75,10 +75,10 @@ export default function Petcare() {
         />
         <div className="content">
           <h1 style={{ fontSize: "80px", color: "white", marginTop: "-30vh" }}>
-            Pet Care
+            Pet Care Center
           </h1>
 
-          <p>keep your pet happy</p>
+          <p>Keep your Pet Happy</p>
           <p style={{ marginTop: "200px" }}> OUR SERVICES</p>
           <img
             src={DownImage}
@@ -129,7 +129,7 @@ export default function Petcare() {
             </Link>
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                Pet grooming
+                Pet Grooming
               </Typography>
               <Typography variant="body2" color="text.secondary">
               <Skeleton animation="wave" />
@@ -168,7 +168,7 @@ export default function Petcare() {
             </Link>
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                Mind relax
+                Mind Relaxing
               </Typography>
               <Typography variant="body2" color="text.secondary">
               <Skeleton animation="wave" />
@@ -206,7 +206,7 @@ export default function Petcare() {
             </Link>
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                Pet training
+                Pet Training
               </Typography>
               <Typography variant="body2" color="text.secondary">
               <Skeleton animation="wave" />
