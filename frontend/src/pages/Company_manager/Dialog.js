@@ -60,9 +60,9 @@ export default function CustomizedDialogs({ children, title, btn_name }) {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      {/* <Button variant="outlined" onClick={handleClickOpen}>
         {btn_name}
-      </Button>
+      </Button> */}
       <BootstrapDialog aria-labelledby="customized-dialog-title" open={open}>
         <BootstrapDialogTitle
           id="customized-dialog-title"

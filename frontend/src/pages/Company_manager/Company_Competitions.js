@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,11 +10,12 @@ import Paper from "@mui/material/Paper";
 import DialogForm from "./Dialog";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ProfilePicture from "../../assests/profile-picture.png";
-import { Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Competition_Form from "./Competition_Form";
 import Add_Competition_Form from "./Add_Competition_Form";
+import axios from "axios";
 
 function Company_Competitions() {
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -37,15 +38,31 @@ function Company_Competitions() {
     },
   }));
 
-  function createData(id, name, date) {
-    return { id, name, date };
-  }
+  const [com, setcom] = useState([]);
 
-  const rows = [
-    createData("1", "Boley", "2023/08/22"),
-    createData("2", "Coly", "2023/09/01"),
-  ];
+  const get_competitions = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/pet_care/company_manager/get_competitions"
+      );
+      const data = await res.data;
+      return data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    get_competitions()
+      .then((data) => setcom(data.data))
+      .catch((err) => console.log(err));
+  });
   //modal
+
+  const handleclick = () => {
+    <DialogForm title="Competition Details">
+      <Competition_Form />
+    </DialogForm>;
+  };
 
   return (
     <>
@@ -102,17 +119,15 @@ function Company_Competitions() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
-                  <StyledTableRow key={row.id}>
+                {com.map((row) => (
+                  <StyledTableRow key={row.notice_id}>
                     <StyledTableCell component="th" scope="row">
-                      {row.id}
+                      {row.notice_id}
                     </StyledTableCell>
                     <StyledTableCell>{row.name}</StyledTableCell>
                     <StyledTableCell>{row.date}</StyledTableCell>
                     <StyledTableCell>
-                      <DialogForm title="Competition Details" btn_name="View">
-                        <Competition_Form />
-                      </DialogForm>
+                      <Button onClick={handleclick}>View</Button>
                     </StyledTableCell>
                   </StyledTableRow>
                 ))}

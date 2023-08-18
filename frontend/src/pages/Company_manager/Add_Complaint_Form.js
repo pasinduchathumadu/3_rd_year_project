@@ -1,18 +1,36 @@
 import React, { useState } from "react";
-import { TextField, Button, Stack, Box } from "@mui/material";
+import { TextField, Button, Box } from "@mui/material";
+import axios from "axios";
 
-const Add_Competition_Form = () => {
+const Add_Complaint_Form = () => {
   const [compDes, setDescription] = useState("");
   const [compFile, setFile] = useState("");
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    console.log(compDes, compFile);
-  }
+  const [error, seterror] = useState(false);
+
+  const submit = async () => {
+    if (compDes === null || compFile === null) {
+      return;
+    }
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/pet_care/company_manager/add_complaint",
+        {
+          compDes,
+          compFile
+        }
+      );
+      if (res.message === "successfully added") {
+        seterror(true);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <>
-      <form onSubmit={handleSubmit} action={"#"}>
+      <form action="">
         <TextField
           type="text"
           variant="outlined"
@@ -36,7 +54,12 @@ const Add_Competition_Form = () => {
           sx={{ mb: 2 }}
         />
         <Box display="flex" justifyContent="center" alignItems="center">
-          <Button variant="outlined" color="secondary" type="submit">
+          <Button
+            onClick={submit}
+            variant="outlined"
+            color="secondary"
+            type="submit"
+          >
             Submit
           </Button>
         </Box>
@@ -45,4 +68,4 @@ const Add_Competition_Form = () => {
   );
 };
 
-export default Add_Competition_Form;
+export default Add_Complaint_Form;
