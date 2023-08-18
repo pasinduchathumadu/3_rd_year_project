@@ -36,10 +36,28 @@ const Home = () => {
             console.log("There is an internal error")
         }
     }
-    const [countmanager, setcountmanager] = useState("")
+    const [managercount, setmanagercount] = useState("")
     useEffect(() => {
         countManagers()
-            .then((data) => setcountmanager(data.data))
+            .then((data) => setmanagercount(data.data))
+            .catch((err) => console.log(err))
+    })
+
+    // get the count of clients
+    const countClients = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/pet_care/admin/countClients')
+            const data = await res.data
+            return data
+
+        } catch (err) {
+            console.log("There is an internal error")
+        }
+    }
+    const [clientcount, setclientcount] = useState("")
+    useEffect(() => {
+        countClients()
+            .then((data) => setclientcount(data.data))
             .catch((err) => console.log(err))
     })
 
@@ -87,19 +105,22 @@ const Home = () => {
                     </Box>
                 </div>
 
-                {/* upper 3 boxes */}
-                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                    <div style={{ backgroundColor: 'orange', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
-                        <p style={{ fontWeight: 'bold', marginLeft: '10px' }}><PeopleIcon sx={{ color: 'black', marginRight: '6px', marginLeft: '5px' }} /> Clients</p>
-                        <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color: 'white' }}>50</p>
-                    </div>
 
-                    {/* {countmanager && countmanager.map((managerow, index) => ( */}
+                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                    {clientcount && clientcount.map((crow, next) => (
+                        <div style={{ backgroundColor: 'orange', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
+                            <p style={{ fontWeight: 'bold', marginLeft: '10px' }}><PeopleIcon sx={{ color: 'black', marginRight: '6px', marginLeft: '5px' }} /> Clients</p>
+                            <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color: 'white' }}>{crow.count}</p>
+                        </div>
+                    ))}
+
+
+                    {managercount && managercount.map((mrow, next) => (
                         <div style={{ backgroundColor: 'orange', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
                             <p style={{ fontWeight: 'bold' }}><AccountCircleIcon sx={{ color: 'black', marginRight: '6px', marginLeft: '5px' }} />Managers</p>
-                            <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color: 'white' }}>50</p>
+                            <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color: 'white' }}>{mrow.count}</p>
                         </div>
-                    {/* )} */}
+                    ))}
 
                     <div style={{ backgroundColor: 'orange', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
                         <p style={{ fontWeight: 'bold' }}><ListIcon sx={{ color: 'black', marginRight: '6px', marginLeft: '5px' }} /> Pending Refund Verifications</p>

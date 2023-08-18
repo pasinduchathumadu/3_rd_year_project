@@ -30,7 +30,7 @@ user_route.get('/delete_appointment/:id',delete_appointment)
 user_route.post('/random_assistant',random_assistant)
 user_route.get('/get_allpackages',get_allpackage)
 user_route.get('/get_package/:id',get_package)
-user_route.get('/get_timeslot',timeslot)
+user_route.get('/get_timeslot/:id',timeslot)
 user_route.get('/delete_order_care/:id',delete_order_care)
 user_route.get('/cancel_appointment/:id',cancel_appointment)
 user_route.post('/addpet', addpet);
@@ -38,4 +38,5 @@ user_route.get('/view_pets/:email', view_pets);
 user_route.get('/get_appointment_id/:id',get_appointment_id)
 user_route.get('/care_orders',care_orders)
 user_route.post('/edit_appointment',edit_appointment)
+
 export default user_route;
