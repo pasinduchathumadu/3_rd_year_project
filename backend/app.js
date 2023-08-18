@@ -7,6 +7,7 @@ import common_route from "./routes/commom-routes.js";
 import payment_route from "./routes/payment-routes.js";
 import online_store_manager from "./routes/online_store_manager-routes.js";
 import boarding_house_manager from "./routes/boarding-routes.js";
+import company_manager from "./routes/company-routes.js"
 // //calling database firstly
 import {db} from './database.js';
 import cors from "cors";
@@ -22,6 +23,7 @@ app.use("/pet_care/admin",admin_route);
 app.use("/pet_care/common",common_route);
 app.use("/pet_care/online_store_manager",online_store_manager);
 app.use("/pet_care/boarding_house_manager", boarding_house_manager);
+app.use("/pet_care/company_manager",company_manager)
 
 
 app.listen(5000,()=>{
