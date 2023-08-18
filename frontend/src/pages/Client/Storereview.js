@@ -221,7 +221,7 @@ const StateNode = () => {
                                         </div>
                                         </Typography>
 
-                                    </div></>  <Button onClick={()=>cancel(oid)} sx={{ backgroundColor: 'red', color: 'white', marginLeft: '30%', width: '40%', marginBottom: '2%', marginTop: '2%', ':hover': { backgroundColor: 'red' } }}>Cancel Order</Button>
+                                    </div></> 
                         
                         </Box>
                         {success &&(

@@ -870,6 +870,9 @@ export const care_orders = async(req,res,next)=>{
     if(err){
       return res.json({message:'There is an internel error'})
     }
+    if(data.length === 0){
+      return res.json({data})
+    }
     const sqlQuery1 = "SELECT a.appointment_id,a.placed_date,p.package_name,p.price FROM carecenter_appointment a INNER JOIN carecenter_package p ON p.package_id = a.package_id WHERE a.appointment_id = ?"
     const values = [
       data[0].appointment_id
@@ -883,4 +886,31 @@ export const care_orders = async(req,res,next)=>{
     })
   })
 }
+export const delete_appointment = async(req,res,next)=>{
+  const id = req.params.id
+  const sqlQuery ="DELETE FROM carecenter_appointment WHERE appointment_id = ?"
+  const value = [
+    id
+  ]
+  db.query(sqlQuery,value,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an internel error'})
+    }
+    return res.json({message:'deleted'})
+  })
+}
 
+export const edit_appointment = async(req,res,next)=>{
+  const{ id,selectedDate} = req.body
+  const sqlQuery = "UPDATE carecenter_appointment SET placed_date = ?,package_id = ?"
+  const value = [
+    id,
+    selectedDate,
+  ]
+  db.query(sqlQuery,value,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an internel error'})
+    }
+    return res.json({message:'success'})
+  })
+}
