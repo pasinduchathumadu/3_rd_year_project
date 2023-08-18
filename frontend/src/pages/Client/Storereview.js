@@ -194,158 +194,126 @@ const StateNode = () => {
                 Waitting
               </Paper>
             </Grid>
-            <Grid item>
-              <Paper
-                elevation={3}
-                style={circleStyle}
-                sx={{
-                  backgroundColor: state === "accept" ? "green" : "white",
-                  color: state === "accept" ? "white" : "black",
-                }}
-              >
-                {/* Content for State 2 */}
-                Accept
-              </Paper>
-            </Grid>
-            <Grid item>
-              <Paper
-                elevation={3}
-                style={circleStyle}
-                sx={{
-                  backgroundColor: state === "handed" ? "green" : "white",
-                  color: state === "handed" ? "white" : "black",
-                }}
-              >
-                {/* Content for State 3 */}
-                Hand Over
-              </Paper>
-            </Grid>
-            <Box
-              sx={{
-                minWidth: 250,
-                alignItems: "center",
-                marginTop: "1%",
-                marginLeft: "18%",
-              }}
-            >
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Order ID</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={age}
-                  label="Age"
-                  onChange={handleselect}
-                >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-          </Grid>
-          <div style={{ display: "flex" }}>
-            <Box
-              sx={{
-                width: "50%",
-                marginTop: "5%",
-                marginLeft: "25%",
-                border: "1px",
-                borderRadius: "10px",
-                borderStyle: "double",
-                height: "auto",
-              }}
-            >
-              <Typography
-                sx={{
-                  marginLeft: "40%",
-                  marginTop: "1%",
-                  marginBottom: "2%",
-                  fontSize: "24px",
-                  fontWeight: "600",
-                }}
-              >
-                Order ID #{oid}
-              </Typography>
-              <Box sx={{ flexGrow: 1 }}>
-                <Grid container spacing={1}>
-                  <Grid container item spacing={3}>
-                    <FormRow />
-                  </Grid>
-                </Grid>
-              </Box>
-              <>
-                <div style={{ marginTop: "1%", marginLeft: "1%" }}>
-                  {payment &&
-                    payment.map((item, index) => (
-                      <div style={{ display: "flex", flex: 3 }}>
-                        <div
-                          style={{
-                            flex: 3,
-                            marginLeft: "1%",
-                            marginBottom: "1%",
-                          }}
-                        >
-                          {item.name}
-                        </div>
-                        <div style={{ flex: 3, marginBottom: "1%" }}>
-                          {item.unit_price}
-                        </div>
-                        <div style={{ flex: 3, marginBottom: "1%" }}>
-                          {item.quantity}
-                        </div>
-                        <div
-                          style={{
-                            flex: 2,
-                            marginBottom: "1%",
-                            alignItems: "left",
-                          }}
-                        >
-                          {item.total}
-                        </div>
-                      </div>
-                    ))}
-                </div>
-                <div
-                  style={{
-                    border: "3px",
-                    borderRadius: "2px",
-                    borderStyle: "groove",
-                    marginLeft: "55%",
-                    marginRight: "5%",
-                    marginTop: "3%",
-                    marginBottom: "2%",
-                  }}
-                >
-                  <Typography sx={{ marginLeft: "4%", display: "flex" }}>
-                    Total
-                    <div style={{ marginLeft: "53%", display: "flex" }}>
-                      {full}
-                    </div>
-                  </Typography>
-                </div>
-              </>{" "}
-              <Button
-                onClick={() => cancel(oid)}
-                sx={{
-                  backgroundColor: "red",
-                  color: "white",
-                  marginLeft: "30%",
-                  width: "40%",
-                  marginBottom: "2%",
-                  marginTop: "2%",
-                  ":hover": { backgroundColor: "red" },
-                }}
-              >
-                Cancel Order
-              </Button>
-            </Box>
-            {success && (
-              <Stack sx={{ width: "100%" }} spacing={2}>
-                <Alert severity="success">
-                  This is a success alert — check it out!
-                </Alert>
-              </Stack>
+
+            {value === 0 && (
+                <><Grid container spacing={2} sx={{ marginTop: '3%', marginLeft: '38%',alignItems:'center' }}>
+                    <Grid item>
+                        <Paper elevation={3} style={circleStyle} sx={{backgroundColor: state === 'waitting'?'green':'white'}}>
+                            {/* Content for State 1 */}
+                            Waitting
+                        </Paper>
+                    </Grid>
+                    <Grid item>
+                        <Paper elevation={3} style={circleStyle}  sx={{backgroundColor: state === 'accept'?'green':'white'}}>
+                            {/* Content for State 2 */}
+                            Accept
+                        </Paper>
+                    </Grid>
+                    <Grid item>
+                        <Paper elevation={3} style={circleStyle}  sx={{backgroundColor: state === 'handed'?'green':'white'}}>
+                            {/* Content for State 3 */}
+                            Hand Over
+                        </Paper>
+                    </Grid>
+                    <Box sx={{ minWidth: 250 ,alignItems:'center', marginTop:'1%',marginLeft:'18%'}}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Order ID</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={age}
+          label="Age"
+          onChange={handleselect}
+        >
+          <MenuItem value={10}>Ten</MenuItem>
+          <MenuItem value={20}>Twenty</MenuItem>
+          <MenuItem value={30}>Thirty</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
+                </Grid><div style={{ display: 'flex' }}>
+                        <Box sx={{ width: '50%', marginTop: '5%', marginLeft: '25%', border: '1px', borderRadius: '10px', borderStyle: "double", height: 'auto' }}>
+                            <Typography sx={{ marginLeft: '40%', marginTop: '1%', marginBottom: '2%', fontSize: '24px', fontWeight: '600' }}>Order ID #{oid}</Typography>
+                            <Box sx={{ flexGrow: 1 }}>
+                                <Grid container spacing={1}>
+                                    <Grid container item spacing={3}>
+                                        <FormRow />
+                                    </Grid>
+
+                                </Grid>
+                            </Box>
+                            
+                            <><div style={{ marginTop: '1%', marginLeft: '1%' }}>
+
+                                    {payment && payment.map((item, index) => (
+                                           
+                                            <div style={{ display: 'flex', flex: 3 }}>
+                                            <div style={{ flex: 3, marginLeft: '1%', marginBottom: '1%' }}>{item.name}</div>
+                                            <div style={{ flex: 3, marginBottom: '1%' }}>{item.unit_price}</div>
+                                            <div style={{ flex: 3, marginBottom: '1%' }}>{item.quantity}</div>
+                                            <div style={{ flex: 2, marginBottom: '1%', alignItems: 'left' }}>{item.total}</div>
+                                        </div>
+
+                                      
+                                    ))}
+
+
+                                </div><div style={{ border: '3px', borderRadius: '2px', borderStyle: 'groove', marginLeft: '55%', marginRight: '5%', marginTop: '3%', marginBottom: '2%' }}>
+
+                                        <Typography sx={{ marginLeft: '4%', display: 'flex' }}>Total<div style={{ marginLeft: '53%', display: "flex" }}>
+                                         {full}
+                                        </div>
+                                        </Typography>
+
+                                    </div></> 
+                        
+                        </Box>
+                        {success &&(
+                             <Stack sx={{ width: '100%' }} spacing={2}>
+                                    <Alert severity="success">This is a success alert — check it out!</Alert>
+                             </Stack>
+                        )}
+                      
+
+
+                    </div></>
+
+            )}
+            {value === 1 &&(
+                 <Grid sx={{ marginTop: '3%', marginLeft: '3%', marginRight: '7%', marginBottom: '5%' }}>
+                 <TableContainer component={Paper}>
+                     <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                         <TableHead>
+                             <TableRow>
+                                 <StyledTableCell align="left" sx={{ width: '15%' }}>Order ID</StyledTableCell>
+                                 <StyledTableCell align="left" sx={{ width: '15%' }}>Placed Date</StyledTableCell>
+                                 <StyledTableCell align="left" sx={{ width: '20%' }}>HandOver Date</StyledTableCell>
+                                 <StyledTableCell align="left" sx={{ width: '30%' }}>Payment</StyledTableCell>
+                                 <StyledTableCell align="left" sx={{ width: '20%' }}>collecting_method</StyledTableCell>
+                             </TableRow>
+                         </TableHead>
+                         <TableBody>
+                             {Client && Client.map((row, index) => (
+                                 <StyledTableRow key={index}>
+                                     <StyledTableCell component="th" scope="row">
+                                         ID  {row.po_id}
+                                     </StyledTableCell>
+                                     <StyledTableCell align="left">{row.placed_time}</StyledTableCell>
+                                     <StyledTableCell align="left">{row.handover_date}</StyledTableCell>
+                                     <StyledTableCell align="left">
+
+                                         {row.payment}
+
+                                     </StyledTableCell>
+                                     <StyledTableCell align="left">{row.collecting_method}
+                                     </StyledTableCell>
+                                 </StyledTableRow>
+                             ))}
+                         </TableBody>
+                     </Table>
+                 </TableContainer>
+             </Grid>
+
             )}
           </div>
         </>

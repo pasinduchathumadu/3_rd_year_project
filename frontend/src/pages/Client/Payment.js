@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-import pay from "../../assests/pay1.jpg";
-import { Button, Typography } from "@mui/material";
-import StripeCheckout from "react-stripe-checkout";
+
+import pay from "../../assests/pay1.jpg"
+import { Button,Stack,Typography } from "@mui/material";
+import StripeCheckout from "react-stripe-checkout"
+
 
 const Blogs = () => {
   const navigate = useNavigate();
@@ -42,25 +44,31 @@ const Blogs = () => {
         }
       );
       if (res.data.message === "success") {
-        console.log("success");
-        navigate("/login");
-      } else {
-        console.log("failed");
+
+        console.log("success")
+        navigate('/menu')
+      }
+      else {
+       console.log("failed")
       }
     } catch (err) {
-      navigate("/login");
-      console.log("failed");
+      navigate('/menu')
+      console.log("failed")
+
     }
-  };
-  const back = async () => {
-    try {
-      const res = await axios.post("http://localhost:5000/pet_care/user/back", {
-        id,
-      });
-      if (res.data.message === "back") {
-        navigate("/bill");
-      } else {
-        console.log("Th");
+
+  }
+  const back = async()=>{
+    try{
+      const res = await axios.post('http://localhost:5000/pet_care/user/back',{
+        id
+      })
+      if(res.data.message === "back"){
+        navigate('/bill')
+      }
+      else{
+        console.log("There is an internel error")
+
       }
     } catch (err) {
       console.log(err);
@@ -82,22 +90,7 @@ const Blogs = () => {
       .catch((err) => console.log("There is an internel error"));
   });
   return (
-    // <div style={{ backgroundImage: `url(${pay})` ,backgroundRepeat:'no-repeat',backgroundSize:'cover',backgroundPosition:'center',width:'100%',height:'100vh'}}>
 
-    //   <StripeCheckout stripeKey="pk_test_51NGJbtSDLfwYkCbGu6RR8Pf0Pj8KoKTEdIogc7wKKhMBsoEzaoLuwmukYs8Tc6GF8YqvdXJ7AYzk5ktxfByXN1Wk00elCyMdCm"
-    //     token={makePayment}
-    //     name="Buy React"
-    //     amount={product.price}
-    //     shippingAddress
-    //   >
-    //     <Button onClick={confirm} variant="contained" sx={{ width:"300px",height:"50px",backgroundColor: 'black', marginTop:'20%',marginLeft:'33%', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px', fontSize: '16px', '&:hover': { backgroundColor: 'black' } }} >Confirm  (Rs.{payment_charge})</Button>
-
-    //   </StripeCheckout>
-    //   <Button onClick={back} variant="contained" sx={{ width:"300px",height:"50px",backgroundColor: 'red', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px', fontSize: '16px', '&:hover': { backgroundColor: 'red' },marginTop:'20%',marginLeft:'1%' }} >Cancel</Button>
-
-    //   <label id="hh"></label>
-
-    // </div>
     <div
       style={{
         display: "flex",
@@ -129,6 +122,8 @@ const Blogs = () => {
           amount={product.price}
           shippingAddress
         >
+            <Stack justifyContent={"center"} alignItems={"center" } direction={"row"} spacing={2}>
+
           <Button
             onClick={confirm}
             variant="contained"
@@ -138,30 +133,31 @@ const Blogs = () => {
               backgroundColor: "black",
               marginTop: "10px",
               paddingLeft: "15px",
-              paddingRight: "15px",
+              marginLeft:'1%',
               fontSize: "16px",
               "&:hover": { backgroundColor: "black" },
             }}
           >
             Confirm (Rs.{payment_charge})
           </Button>
-        </StripeCheckout>
-        <Button
+          <Button
           onClick={back}
           variant="contained"
           sx={{
             width: "300px",
             height: "50px",
             backgroundColor: "red",
-            paddingLeft: "15px",
-            paddingRight: "15px",
+         
             fontSize: "16px",
             "&:hover": { backgroundColor: "red" },
             marginTop: "10px",
           }}
         >
           Cancel
-        </Button>
+        </Button>            </Stack>
+
+        </StripeCheckout>
+
       </div>
     </div>
   );

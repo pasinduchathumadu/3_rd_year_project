@@ -15,6 +15,8 @@ import "../../styles/Client/Mindrelax.css";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import video2 from "../../assests/video2.mp4"
+import Skeleton from '@mui/material/Skeleton';
+
 
 
 
@@ -95,10 +97,10 @@ export default function Petcare() {
         id="section"
         className="smooth-scroll"
         style={{
-          marginLeft: "180px",
+          marginLeft: "200px",
           display: "flex",
           gap: "30px",
-          marginTop: "35px",
+          marginTop: "50px",
         }}
         data-aos="zoom-out-down"
       >
@@ -130,8 +132,8 @@ export default function Petcare() {
                 Pet grooming
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
+              Enhance your pet's well-being and appearance with our expert grooming. Tailored treatments include bathing, fur trimming, nail care, and more, ensuring your furry companion looks and feels their best. Experience the joy of a pampered pet with our specialized grooming sessions.
+               
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -166,8 +168,7 @@ export default function Petcare() {
                 Mind relax
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
+              Treat your pet to a rejuvenating spa-like grooming experience, providing a calming oasis of care and relaxation. Our skilled groomers pamper your furry friend, leaving them refreshed, adorable, and blissfully content.
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -201,8 +202,8 @@ export default function Petcare() {
                 Pet training
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
+              Unleash your pet's potential through our customized training. Tailored sessions build understanding and cooperation, enhancing skills and confidence for harmonious interactions.
+               
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -211,7 +212,11 @@ export default function Petcare() {
 
 
    
-    </div></>
+    </div>
+    <div style={{height:"5vh"}}>
+
+    </div>
+    </>
 
   );
 }
