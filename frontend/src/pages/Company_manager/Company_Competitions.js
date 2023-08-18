@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,11 +10,12 @@ import Paper from "@mui/material/Paper";
 import DialogForm from "./Dialog";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ProfilePicture from "../../assests/profile-picture.png";
-import { Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Competition_Form from "./Competition_Form";
 import Add_Competition_Form from "./Add_Competition_Form";
+import axios from "axios";
 
 function Company_Competitions() {
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -37,18 +38,31 @@ function Company_Competitions() {
     },
   }));
 
-  function createData(name, calories, fat, carbs, protein, price) {
-    return { name, calories, fat, carbs, protein, price };
-  }
+  const [com, setcom] = useState([]);
 
-  const rows = [
-    createData("Frozen yoghurt", 159, 6.0, 24, 4.0, 5),
-    createData("Ice cream sandwich", 237, 9.0, 37, 4.3, 10),
-    createData("Eclair", 262, 16.0, 24, 6.0, 15),
-    createData("Cupcake", 305, 3.7, 67, 4.3, 20),
-    createData("Gingerbread", 356, 16.0, 49, 3.9, 25),
-  ];
+  const get_competitions = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/pet_care/company_manager/get_competitions"
+      );
+      const data = await res.data;
+      return data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    get_competitions()
+      .then((data) => setcom(data.data))
+      .catch((err) => console.log(err));
+  });
   //modal
+
+  const handleclick = () => {
+    <DialogForm title="Competition Details">
+      <Competition_Form />
+    </DialogForm>;
+  };
 
   return (
     <>
@@ -101,27 +115,19 @@ function Company_Competitions() {
                   <StyledTableCell>Competition ID </StyledTableCell>
                   <StyledTableCell>Competition Name</StyledTableCell>
                   <StyledTableCell>Date</StyledTableCell>
-                  <StyledTableCell>Time</StyledTableCell>
-                  <StyledTableCell>Venue</StyledTableCell>
-                  <StyledTableCell>Notice Payment&nbsp;(Rs)</StyledTableCell>
                   <StyledTableCell>View Competition</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
-                  <StyledTableRow key={row.name}>
+                {com.map((row) => (
+                  <StyledTableRow key={row.notice_id}>
                     <StyledTableCell component="th" scope="row">
-                      {row.name}
+                      {row.notice_id}
                     </StyledTableCell>
-                    <StyledTableCell>{row.calories}</StyledTableCell>
-                    <StyledTableCell>{row.fat}</StyledTableCell>
-                    <StyledTableCell>{row.carbs}</StyledTableCell>
-                    <StyledTableCell>{row.protein}</StyledTableCell>
-                    <StyledTableCell>{row.price}</StyledTableCell>
+                    <StyledTableCell>{row.name}</StyledTableCell>
+                    <StyledTableCell>{row.date}</StyledTableCell>
                     <StyledTableCell>
-                      <DialogForm title="Competition Details" btn_name="View">
-                        <Competition_Form />
-                      </DialogForm>
+                      <Button onClick={handleclick}>View</Button>
                     </StyledTableCell>
                   </StyledTableRow>
                 ))}
