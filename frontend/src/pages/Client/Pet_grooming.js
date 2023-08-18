@@ -28,7 +28,7 @@ import Bath from "../../assests/bath.jpg";
 import Haircut from "../../assests/haircut.png";
 import massage from "../../assests/massage.jpg";
 
-import { format} from 'date-fns'
+import { format, setSeconds} from 'date-fns'
 import { Link, useNavigate } from 'react-router-dom';
 
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -60,16 +60,23 @@ const MenuProps = {
 function Pet_grooming() {
   
   const [personName, setPersonName] = React.useState('');
+  const [choose_package, setchoose] = React.useState('');
   const [timeslot, settimeslot] = useState([])
   const [Id, setSelectedId] = useState(null);
+  const [third , setthird ] = useState(false)
   const navigate = useNavigate()
   const handleChange = (event) => {
     const selectedValue = event.target.value;
     setPersonName(selectedValue);
     const selectedItem = timeslot.find(item => selectedValue === item.start + ' - ' + item.end);
     if (selectedItem) {
-      setSelectedId(selectedItem.id); // Set the corresponding ID to selectedId
+      setSelectedId(selectedItem.id);
     }
+  };
+  const handlepackage = (event) => {
+    const selectedValue = event.target.value;
+    setchoose(selectedValue);
+    setthird(true)
   };
   const [hair,sethair] = useState(false)
   const [mini,setmini] = useState(false)
@@ -267,7 +274,7 @@ function Pet_grooming() {
 
   const get_timeslot = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/pet_care/user/get_timeslot')
+      const res = await axios.get(`http://localhost:5000/pet_care/user/get_timeslot/${choose_package}`)
       const data = await res.data
       return data
 
@@ -341,31 +348,54 @@ function Pet_grooming() {
                 </DemoContainer>
               </LocalizationProvider>
               <FormControl sx={{ m: 1, width: 300 }}>
-                <InputLabel id="demo-single-checkbox-label">Time Slot</InputLabel>
+                <InputLabel id="demo-single-checkbox-label">Select Package</InputLabel>
                 <Select
                   labelId="demo-multiple-checkbox-label"
                   id="demo-multiple-checkbox"
-                  value={personName}
-                  onChange={handleChange}
+                  value={choose_package}
+                  onChange={handlepackage}
                   input={<OutlinedInput label="Tag" />}
                   renderValue={(selected) => selected}
                   MenuProps={MenuProps}
                 >
-                  {timeslot && timeslot.map((name, index) => (
-                    <MenuItem key={name.id} value={name.start + " - " + name.end}>
-                      <Checkbox checked={personName === name.start + " - " + name.end} />
-                      <ListItemText primary={name.start + " - " + name.end} />
+                  {package_care && package_care.map((name, index) => (
+                    <MenuItem key={name.id} value={name.package_name}>
+                      <Checkbox checked={choose_package === name.package_name} />
+                      <ListItemText primary={name.package_name} />
                     </MenuItem>
                   ))}
                 </Select>
               </FormControl>
+              {third &&(
+                 <><FormControl sx={{ m: 1, width: 300 }}>
+                  <InputLabel id="demo-single-checkbox-label">Time Slot</InputLabel>
+                  <Select
+                    labelId="demo-multiple-checkbox-label"
+                    id="demo-multiple-checkbox"
+                    value={personName}
+                    onChange={handleChange}
+                    input={<OutlinedInput label="Tag" />}
+                    renderValue={(selected) => selected}
+                    MenuProps={MenuProps}
+                  >
+                    {timeslot && timeslot.map((name, index) => (
+                      <MenuItem key={name.id} value={name.start + " - " + name.end}>
+                        <Checkbox checked={personName === name.start + " - " + name.end} />
+                        <ListItemText primary={name.start + " - " + name.end} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl><Button variant="contained" disableElevation sx={{ backgroundColor: "orange", marginLeft: "100px", marginTop: "0px", ':hover': { backgroundColor: 'orange' } }} onClick={handleFormOpen}>
+                    Submit
+                  </Button></>
+
+              )}
+             
 
             </div>
 
 
-            <Button variant="contained" disableElevation sx={{ backgroundColor: "orange", marginLeft: "500px", marginTop: "0px", ':hover': { backgroundColor: 'orange' } }} onClick={handleFormOpen}>
-              Submit
-            </Button>
+           
           </div>
           {error && (
             <div style={{ marginTop: '2%', width: "40%" }}>
