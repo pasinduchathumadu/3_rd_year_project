@@ -264,7 +264,8 @@ export const get_order = async(req,res,next) =>{
 }
 
 export const get_orders = async(req,res,next)=>{
-    const sqlQuery = 'SELECT *FROM purchase_order INNER JOIN client ON purchase_order.client_id = client.client_id'
+    const sqlQuery = 'SELECT * FROM purchase_order p INNER JOIN users u ON u.email = p.order_email'
+    
     db.query(sqlQuery,(err,data)=>{
         if(err){
             return res.json({message:'There is an internel error'})
@@ -273,4 +274,35 @@ export const get_orders = async(req,res,next)=>{
             return res.json({data})
         }
     })
+}
+
+export const accept = async(req,res,next)=>{
+    const id = req.params.id
+    const sqlQuery = "UPDATE purchase_order SET po_status = 'accept' WHERE po_id = ?"
+    const values = [
+        id
+    ]
+    db.query(sqlQuery,values,(err,data)=>{
+        if(err){
+            return res.json({message:'There is an internel error'})
+        }
+        return res.json({message:'Successfully Changed'})
+    })
+    
+}
+
+export const handover = async(req,res,next)=>{
+    const id = req.params.id
+    const sqlQuery = "UPDATE purchase_order SET po_status = 'handed' WHERE po_id = ?"
+    const values = [
+        id
+    ]
+    db.query(sqlQuery,values,(err,data)=>{
+        if(err){
+            return res.json({message:'There is an internel error'})
+        }
+        return res.json({message:'Successfully Changed'})
+    })
+    
+    
 }

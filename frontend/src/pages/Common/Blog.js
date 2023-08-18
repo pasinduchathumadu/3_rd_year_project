@@ -19,12 +19,14 @@ const Blog = () => {
     const [blog, setblog] = useState("")
     const [old_comments, get_comment] = useState("")
     const [like, setLike] = useState(0)
+    const [heart,setheart] = useState(0)
     const [id, setid] = useState(null)
     const [comments, setcomment] = useState(null)
     const [value, setValue] = useState(0);
     const [formIndex, setFormIndex] = useState(null);
     const [show, setShow] = useState(false)
     const [icon, seticon] = useState(false)
+    const [icon1, seticon1] = useState(false)
     const [dogBackground, setDogBackground] = useState(dog)
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -34,6 +36,9 @@ const Blog = () => {
     };
     const handleIncrease = () => {
         setLike((prevLikes) => prevLikes + 1);
+    };
+    const handleIncrease1 = () => {
+        setheart((prevLikes) => prevLikes + 1);
     };
 
     const Submit = async (id) => {
@@ -95,6 +100,12 @@ const Blog = () => {
 
         seticon(index)
     }
+    const all_function1 = (index) => {
+        handleIncrease1()
+
+        seticon1(index)
+    }
+
 
     const showForm = (index, id) => {
         setid(id)
@@ -237,8 +248,14 @@ const Blog = () => {
 
                                 </Typography>
                             </IconButton>
-                            <IconButton color="primary">
+                            <IconButton color="primary"onClick={() => all_function1(index)}>
                                 <FavoriteIcon sx={{ color: 'red' }} />
+                                <Typography variant="body2" color="textSecondary" sx={{ marginLeft: '10px' }}>
+                                    {icon1=== index && (
+                                        heart
+                                    )}
+
+                                </Typography>
                             </IconButton>
                             <TextField
                                 id="outlined-basic"

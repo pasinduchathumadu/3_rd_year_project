@@ -71,19 +71,19 @@ const Home = () => {
   const input = new Date();
   const date = input.toDateString();
 
-  return (
-    <div className="home-container" style={{ marginTop: "5%" }}>
-      <div className="top">
-        <div className="top-line">
-          <p>Boarding House Manager</p>
-          <p className="top-line-text">Today</p>
-          <p class="top-line-text">{date}</p>
-        </div>
-        <div className="top-line">
-          <p style={{ fontSize: "20px", fontWeight: 1000, color: "black" }}>
-            DashBoard
-          </p>
-        </div>
+
+    return (
+        <div className="home-container" style={{ marginTop: '6%' }}>
+            <div className="top">
+                <div className="top-line">
+                    <p>Boarding House Manager</p>
+                    <p className="top-line-text">Today</p>
+                    <p class="top-line-text">{date}</p>
+                </div>
+                <div className="top-line">
+                    <p style={{ fontSize: '20px', fontWeight: 1000, color: 'black' }}>DashBoard</p>
+                </div>
+
 
         <div className="top-line">
           <NotificationsIcon className="bell-icon" />
@@ -216,98 +216,50 @@ const Home = () => {
                   </Typography>
                 </div>
 
-                <div>
-                  <Typography
-                    sx={{
-                      backgroundColor: "#F0F0F5",
-                      borderRadius: "10px",
-                      padding: "10px",
-                      width: "100%",
-                      marginBottom: "5px",
-                    }}
-                  >
-                    Request ID: 3{" "}
-                    <TableViewIcon
-                      onClick={() => ClickRequest()}
-                      sx={{ marginLeft: "500px" }}
-                    />
-                  </Typography>
+            <div className="boarding-wrapper-main">
+                <div className="boarding-wrapper" style={{ backgroundColor: '#F0F0F5', height: '310px' }}>
+                    <div className="boarding-box-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                            <AssessmentIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
+                            <h3 style={{ color: 'black' }}>Pets Cages Usage</h3>
+                        </div>
+
+                        <Box sx={{ minWidth: 120, marginLeft: '400px' }}>
+                            <FormControl fullWidth>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={time}
+                                    variant='filled'
+                                    label="Time"
+                                    onChange={handleChange}
+                                    l
+                                    sx={{ fontSize: '12px' }}>
+                                    <MenuItem value={1}>Today</MenuItem>
+                                    <MenuItem value={2}>Last 7 days</MenuItem>
+                                    <MenuItem value={3}>Last Months</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Box>
+                    </div>
+                    <div>
+                    <PieChart
+                            // colors={['#FBBD08', '#A6A6A6', '#55555C']}
+                            colors={['#FBBD08', '#55555C']}
+                            series={[
+                                {
+                                    data: [
+                                        { id: 0, value: 15, label: 'Reserved' },
+                                        { id: 1, value: 25, label: 'Free' },
+                                    ],
+                                },
+                            ]}
+                            width={600}
+                            height={200}
+                        />
+                    </div>
                 </div>
-              </div>
-            </>
-          )}
 
-          {/* view details of pending boarding requests (after click on) */}
-          {!main && (
-            <div
-              style={{
-                padding: "10px",
-                margin: "0px",
-                borderRadius: "10px",
-                backgroundColor: "#f0f0f5",
-              }}
-            >
-              <Typography>Request ID : 1 </Typography>
-              <Table>
-                <TableHead sx={{ backgroundColor: "#fe9e0d", color: "blue" }}>
-                  <StyledTableRow>
-                    <StyledTableCell align="center">Client ID</StyledTableCell>
-                    <StyledTableCell align="center">Pet ID</StyledTableCell>
-                    <StyledTableCell align="center">
-                      Pickup Date
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      Pickup Time
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      <Button
-                        onClick={() => FinishViewing()}
-                        sx={{
-                          backgroundColor: "orange",
-                          ":hover": { backgroundColor: "orange" },
-                          color: "white",
-                          width: "100px",
-                          marginTop: "10px",
-                        }}
-                      >
-                        Done
-                      </Button>
-                    </StyledTableCell>
-                  </StyledTableRow>
-                </TableHead>
-                <TableBody>
-                  <StyledTableRow>
-                    <StyledTableCell align="center">01</StyledTableCell>
-                    <StyledTableCell align="center">04</StyledTableCell>
-                    <StyledTableCell align="center">20/07/2023</StyledTableCell>
-                    <StyledTableCell align="center">10:00:00</StyledTableCell>
-                  </StyledTableRow>
-                </TableBody>
-              </Table>
-            </div>
-          )}
-        </div>
-      </div>
-
-      <div className="boarding-wrapper-main">
-        <div
-          className="boarding-wrapper"
-          style={{ backgroundColor: "#F0F0F5", height: "310px" }}
-        >
-          <div
-            className="boarding-box-header"
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
-            <div style={{ display: "flex", flexDirection: "row" }}>
-              <AssessmentIcon
-                sx={{ marginRight: "10px", marginTop: "2px", color: "black" }}
-              />
-              <h3 style={{ color: "black" }}>Animal Analytics</h3>
-            </div>
 
             <Box sx={{ minWidth: 120, marginLeft: "400px" }}>
               <FormControl fullWidth>
@@ -337,37 +289,44 @@ const Home = () => {
                   id: "barCategories",
                   data: ["Cats", "Dogs"],
 
-                  scaleType: "band",
-                },
-              ]}
-              series={[
-                {
-                  data: [5, 10],
-                },
-              ]}
-              width={600}
-              height={250}
-            />
-          </div>
-        </div>
 
-        <div
-          className="boarding-wrapper"
-          style={{ backgroundColor: "#F0F0F5", height: "310px" }}
-        >
-          <div
-            className="boarding-box-header"
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
-            <div style={{ display: "flex", flexDirection: "row" }}>
-              <InventoryIcon
-                sx={{ marginRight: "10px", marginTop: "2px", color: "black" }}
-              />
-              <h3 style={{ color: "black" }}>Packages Usage</h3>
+                        <Box sx={{ minWidth: 120, marginLeft: '400px' }}>
+                            <FormControl fullWidth>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={time}
+                                    variant='filled'
+                                    label="Time"
+                                    onChange={handleChange}
+                                    l
+                                    sx={{ fontSize: '12px' }}>
+                                    <MenuItem value={1}>Today</MenuItem>
+                                    <MenuItem value={2}>Last 7 days</MenuItem>
+                                    <MenuItem value={3}>Last Months</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Box>
+                    </div>
+                    <div>
+                        <PieChart
+                            colors={['#FBBD08', '#A6A6A6', '#55555C']}
+                            series={[
+                                {
+                                    data: [
+                                        { id: 0, value: 15, label: 'Gold' },
+                                        { id: 1, value: 20, label: 'Silver' },
+                                        { id: 2, value: 10, label: 'Platinum' },
+                                    ],
+                                },
+                            ]}
+                            width={600}
+                            height={200}
+                        />
+                    </div>
+                    
+                </div>
+
             </div>
 
             <Box sx={{ minWidth: 120, marginLeft: "400px" }}>
