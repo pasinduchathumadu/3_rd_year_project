@@ -37,16 +37,13 @@ function Company_Competitions() {
     },
   }));
 
-  function createData(name, calories, fat, carbs, protein, price) {
-    return { name, calories, fat, carbs, protein, price };
+  function createData(id, name, date) {
+    return { id, name, date };
   }
 
   const rows = [
-    createData("Frozen yoghurt", 159, 6.0, 24, 4.0, 5),
-    createData("Ice cream sandwich", 237, 9.0, 37, 4.3, 10),
-    createData("Eclair", 262, 16.0, 24, 6.0, 15),
-    createData("Cupcake", 305, 3.7, 67, 4.3, 20),
-    createData("Gingerbread", 356, 16.0, 49, 3.9, 25),
+    createData("1", "Boley", "2023/08/22"),
+    createData("2", "Coly", "2023/09/01"),
   ];
   //modal
 
@@ -101,23 +98,17 @@ function Company_Competitions() {
                   <StyledTableCell>Competition ID </StyledTableCell>
                   <StyledTableCell>Competition Name</StyledTableCell>
                   <StyledTableCell>Date</StyledTableCell>
-                  <StyledTableCell>Time</StyledTableCell>
-                  <StyledTableCell>Venue</StyledTableCell>
-                  <StyledTableCell>Notice Payment&nbsp;(Rs)</StyledTableCell>
                   <StyledTableCell>View Competition</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {rows.map((row) => (
-                  <StyledTableRow key={row.name}>
+                  <StyledTableRow key={row.id}>
                     <StyledTableCell component="th" scope="row">
-                      {row.name}
+                      {row.id}
                     </StyledTableCell>
-                    <StyledTableCell>{row.calories}</StyledTableCell>
-                    <StyledTableCell>{row.fat}</StyledTableCell>
-                    <StyledTableCell>{row.carbs}</StyledTableCell>
-                    <StyledTableCell>{row.protein}</StyledTableCell>
-                    <StyledTableCell>{row.price}</StyledTableCell>
+                    <StyledTableCell>{row.name}</StyledTableCell>
+                    <StyledTableCell>{row.date}</StyledTableCell>
                     <StyledTableCell>
                       <DialogForm title="Competition Details" btn_name="View">
                         <Competition_Form />

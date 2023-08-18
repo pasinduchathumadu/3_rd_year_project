@@ -37,7 +37,7 @@ const Add_Competition_Form = () => {
         />
         <Box display="flex" justifyContent="center" alignItems="center">
           <Button variant="outlined" color="secondary" type="submit">
-            Register
+            Submit
           </Button>
         </Box>
       </form>
