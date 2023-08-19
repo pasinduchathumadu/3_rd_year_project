@@ -272,6 +272,7 @@ function App() {
               <Route path="/shop" element={<><Header userRole={"client"} /><Shop /></>}></Route>
               <Route path="/NonBredShop" element={<><Header userRole={"client"} /><NonBredShop /></>}></Route>
               <Route path="/bording" element={<><Header userRole={"client"} /><Bording /></>}></Route>
+              <Route path="/activityTracking" element={<><Header userRole={"client"} /><ActivityTracking /></>}></Route>
               <Route path="/medi" element={<><Header userRole={"client"} /><Medi /></>}></Route>
               <Route path="/popupform" element={<><Header userRole={"client"} /><PopupForm /></>}></Route>
               {/* <Route path="/Bath" element={<><Header userRole={"client"} /><Bath /></>}></Route> */}
