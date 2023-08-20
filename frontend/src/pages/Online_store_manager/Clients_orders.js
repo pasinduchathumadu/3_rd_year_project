@@ -61,7 +61,6 @@ const Client_orders = () => {
 
     const firstorder = async(id) => {
         const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/accept/${id}`)
-        const data = await res.data
         if(res.data.message === "Successfully Changed"){
             get_orders()
         }
@@ -82,33 +81,16 @@ const Client_orders = () => {
 
 
     const handover = async(id)=>{
-        const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/handover/${id}`)
-        const data = await res.data
+        const res = await axios.post(`http://localhost:5000/pet_care/online_store_manager/handover`,{
+            id,
+            date
+        })
+      
         if(res.data.message === "Successfully Changed"){
             get_orders()
-
         }
     }
-    const handleFileUpload = async () => {
 
-        try {
-            const formData = new FormData();
-            formData.append("image", selectfile);
-
-            const res = await axios.post("http://localhost:5000/pet_care/user/upload", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            });
-            if (res.data.message === "File uploaded successfully") {
-
-            }
-            console.log("File uploaded successfully!");
-            // Add any further handling of the response from the backend if needed.
-        } catch (err) {
-            console.log("There is an internal error", err);
-        }
-    }
 
     const get_orders = async()=>{
         try{

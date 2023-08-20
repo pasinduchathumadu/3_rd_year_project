@@ -528,6 +528,9 @@ export const date_client = async (req, res, next) => {
   ]
 
   db.query(sqlQuery, values, (err, data) => {
+    if(err){
+      return res.json({message:'There is an internel error'})
+    }
     if (data[0].count1 > 5) {
       return res.json({ message: 'already filled' })
 
@@ -586,7 +589,6 @@ export const generate = async (req, res, next) => {
   JOIN item i ON tc.item_id = i.item_id
   WHERE tc.email = ? AND tc.status = ? AND po.order_email = ? 
   ORDER BY po.po_id DESC
-  LIMIT 1
   
 
 `;
@@ -721,8 +723,13 @@ export const delete_order_care = async (req, res, next) => {
 }
 
 export const timeslot = async (req, res, next) => {
-  const sqlQuery = "SELECT *FROM carecenter_timeslot"
-  db.query(sqlQuery, (err, data) => {
+  const id = req.params.id
+
+  const sqlQuery = "SELECT *FROM carecenter_timeslot WHERE package_name = ?"
+  const values = [
+    id
+  ]
+  db.query(sqlQuery,values,(err, data) => {
     if (err) {
       return res.json({ message: 'There is an internel error' })
     }
@@ -914,3 +921,5 @@ export const edit_appointment = async(req,res,next)=>{
     return res.json({message:'success'})
   })
 }
+
+
