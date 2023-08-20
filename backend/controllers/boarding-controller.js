@@ -120,7 +120,7 @@ export const add_complain = async (req, res, next) => {
                 return res.json({ message: "There is an internal error" })
             }
 
-            const sqlQuery = 'INSERT INTO manager_complain (manager_id, complain_txt, com_date, com_time, complain_status, manager_role) VALUES (?,?,?,?,?,?)';
+            const sqlQuery = 'INSERT INTO manager_complain (manager_id, complain_txt, com_date, com_time, complain_status, manager_role) VALUES (?,?,?,?,?,?,?)';
             const values = [
                 data[0].manager_id,
                 complain,
@@ -145,7 +145,7 @@ export const add_complain = async (req, res, next) => {
 
 // view my complains
 export const viewmyComplains = async (req, res, next) => {
-    const sqlQuery = 'SELECT complain_id, complain_txt, com_date, com_time, complain_status FROM manager_complain WHERE manager_role = "boarding_house_manager" ';
+    const sqlQuery = 'SELECT complain_id, complain_txt, com_date, com_time, complain_status, response_txt FROM manager_complain WHERE manager_role = "boarding_house_manager" ';
 
     db.query(sqlQuery, (err, data) => {
         if (err) {
@@ -163,7 +163,7 @@ export const viewResponse = async (req, res, next) => {
 
 // view clients complains
 export const viewClientsComplains = async (req, res, next) => {
-        const sqlQuery = 'SELECT email,  complain_id, complain_txt, date, time, status FROM complain WHERE user_role = "client" ';
+        const sqlQuery = 'SELECT client_id, complain_id, complain_txt, com_date, com_time, complain_status, response_txt FROM client_complain WHERE manager_role = "boarding_house_manager" ';
         db.query(sqlQuery, (err, data) => {
             if (err) {
                 return res.json({ message: 'There is an internal error' })
