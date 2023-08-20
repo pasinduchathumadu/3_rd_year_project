@@ -405,9 +405,8 @@ const Complains = () => {
                                 <TextField id="outlined-basic" placeholder=" response" variant="outlined" sx={{ marginRight: '20px', marginLeft: '10px' }} />
                             </div>
 
-                            <div className="form-label">
+                            {/* <div className="form-label">
                                 <FormLabel>Upload an Image (if need): </FormLabel>
-                                {/* <input type="file" placeholder=" Choose a file" variant="outlined" /> */}
                                 <TextField
                                     sx={{ marginRight: '20px', marginLeft: '10px' }}
                                     type="file"
@@ -416,7 +415,7 @@ const Complains = () => {
                                     inputProps={{ accept: 'image/*' }} // Add the accepted file types if needed
                                 // onChange={handleFileChange}
                                 />
-                            </div>
+                            </div> */}
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <Button variant="contained" onClick={() => afterAddingResponse()} sx={{ background: "orange", width: '100%', marginRight: '10px', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Response</Button>
                                 <Button variant="contained" onClick={() => cancelResponce()} sx={{ background: 'red', width: '100%', marginTop: '10px', marginLeft: '10px', ':hover': { backgroundColor: "red" } }}> Cancel</Button>
