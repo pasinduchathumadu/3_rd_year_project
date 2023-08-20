@@ -61,6 +61,23 @@ const Home = () => {
             .catch((err) => console.log(err))
     })
 
+    // get managers complains count separetly
+    const countComplains = async () => {
+        try {
+            const res = await axios.get("http://localhost:5000/pet_care/admin/countComplains")
+            const data = await res.data
+            return data
+        } catch(err) {
+            console.log("There is an internal error")
+        }
+    }
+    const [complaincount, setcomplaincount ] = useState("")
+    useEffect(() => {
+        countComplains()
+        .then((data) => setcomplaincount(data.data))
+        .catch((err) => console.log(err))
+    })
+
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
 
@@ -147,15 +164,16 @@ const Home = () => {
                         />
                     </div>
 
+                    { complaincount && complaincount.map((comcount,next) => (
                     <div style={{ backgroundColor: 'white', padding: '10px', borderRadius: '20px', width: '600px', height: '280px' }}>
-                        <p style={{ marginBottom: '30px', fontWeight: 'bold' }}><DangerousIcon sx={{ color: 'orange', marginRight: '6px', marginLeft: '5px' }} /> Complains </p>
+                        <p style={{ marginBottom: '30px', fontWeight: 'bold' }}><DangerousIcon sx={{ color: 'orange', marginRight: '6px', marginLeft: '5px' }} />Managers' Complains Analyse </p>
                         <PieChart
                             colors={['orange', 'black']}
                             series={[
                                 {
                                     data: [
-                                        { id: 0, value: 20, label: ' Pending' },
-                                        { id: 1, value: 15, label: 'Complete' },
+                                        { id: 0, value: comcount.pending_com, label: ' Pending' },
+                                        { id: 1, value: comcount.completed_com, label: 'Complete' },
                                     ],
                                 },
                             ]}
@@ -163,6 +181,7 @@ const Home = () => {
                             height={200}
                         />
                     </div>
+                    ))}
                 </div>
             </div>
         </div>

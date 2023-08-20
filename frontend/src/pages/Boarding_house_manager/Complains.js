@@ -305,21 +305,22 @@ const Complains = () => {
                                 <TableHead>
                                     <TableRow>
                                         <StyledTableCell align="center">Complain ID</StyledTableCell>
-                                        <StyledTableCell align="left">Complain</StyledTableCell>
+                                        <StyledTableCell align="center">Complain</StyledTableCell>
                                         <StyledTableCell align="center">Placed Date</StyledTableCell>
                                         <StyledTableCell align="center">Placed Time</StyledTableCell>
                                         <StyledTableCell align="center">Status</StyledTableCell>
+                                        {/* <StyledTableCell align="center">Response</StyledTableCell> */}
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {mycomplain && mycomplain.map((myrow, index) => (
-                                        <StyledTableRow key={myrow.id}>
+                                        <StyledTableRow key={myrow.complain_id}>
                                             <StyledTableCell align="center">{myrow.complain_id}</StyledTableCell>
                                             <StyledTableCell align="left">{myrow.complain_txt}</StyledTableCell>
-                                            <StyledTableCell align="center">{myrow.date}</StyledTableCell>
-                                            <StyledTableCell align="center">{myrow.time}</StyledTableCell>
+                                            <StyledTableCell align="center">{myrow.com_date}</StyledTableCell>
+                                            <StyledTableCell align="center">{myrow.com_time}</StyledTableCell>
                                             <StyledTableCell align="center">
-                                                {myrow.status === "completed" ? <Button onClick={() => viewResponse()} sx={{ color: 'white', backgroundColor: '#fe9e0d', ':hover': { backgroundColor: '#fe9e0d' } }}>View Response</Button> : "Pending"}
+                                                {myrow.complain_status === "completed" ? <Button onClick={() => viewResponse()} sx={{ color: 'white', backgroundColor: '#fe9e0d', ':hover': { backgroundColor: '#fe9e0d' } }}>View Response</Button> : "Pending"}
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     ))}
@@ -337,23 +338,24 @@ const Complains = () => {
                         <div style={{ backgroundColor: 'white', padding: '10px', borderRadius: '10px' }}>
                             <div className="form-topic">
                                 Add New Complain
+                                <hr />
                             </div>
                             <div className="form-label">
                                 <FormLabel>Enter your complain: </FormLabel>
-                                <TextField id="outlined-basic" placeholder="Complain" variant="outlined" sx={{ marginRight: '20px' }} onChange={(e) => setcomplain(e.target.value)} required />
+                                <TextField id="outlined-basic" placeholder="Complain" variant="outlined" sx={{ marginRight: '20px' , marginTop:'10px'}} onChange={(e) => setcomplain(e.target.value)} required />
                             </div>
 
-                            <div className="form-label">
+                            {/* <div className="form-label">
                                 <FormLabel>Upload an Image (if need): </FormLabel>
                                 <TextField
                                     sx={{ marginRight: '20px' }}
                                     type="file"
                                     variant="outlined"
                                     placeholder="Choose a file"
-                                    inputProps={{ accept: 'image/*' }} // Add the accepted file types if needed
-                                // onChange={handleFileChange}
+                                    inputProps={{ accept: 'image/*' }}
                                 />
-                            </div>
+                            </div> */}
+
                             <Button variant="contained" onClick={() => add_complain()} sx={{ background: 'orange', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Complain</Button>
                         </div>
                     </FormControl>

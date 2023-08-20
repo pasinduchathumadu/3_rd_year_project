@@ -120,13 +120,13 @@ export const add_complain = async (req, res, next) => {
                 return res.json({ message: "There is an internal error" })
             }
 
-            const sqlQuery = 'INSERT INTO complain (email, complain_txt, date, time, status, user_role) VALUES (?,?,?,?,?,?)';
+            const sqlQuery = 'INSERT INTO manager_complain (manager_id, complain_txt, com_date, com_time, complain_status, manager_role) VALUES (?,?,?,?,?,?)';
             const values = [
-                data[0].email,
+                data[0].manager_id,
                 complain,
                 placed_date,
                 placed_time,
-                status,
+                "pending",
                 data[0].user_role,
             ];
 
@@ -145,7 +145,7 @@ export const add_complain = async (req, res, next) => {
 
 // view my complains
 export const viewmyComplains = async (req, res, next) => {
-    const sqlQuery = 'SELECT complain_id, complain_txt, date, time, status FROM complain WHERE user_role = "boarding_house_manager" ';
+    const sqlQuery = 'SELECT complain_id, complain_txt, com_date, com_time, complain_status FROM manager_complain WHERE manager_role = "boarding_house_manager" ';
 
     db.query(sqlQuery, (err, data) => {
         if (err) {
