@@ -220,7 +220,7 @@ const Complains = () => {
                                         <StyledTableRow key={crow.complain_id}>
                                             <StyledTableCell align="center">{crow.complain_id}</StyledTableCell>
                                             <StyledTableCell align="center">{crow.client_id}</StyledTableCell>
-                                            <StyledTableCell align="center">{crow.complain_txt}</StyledTableCell>
+                                            <StyledTableCell align="left">{crow.complain_txt}</StyledTableCell>
                                             <StyledTableCell align="center">{crow.manager_role}</StyledTableCell>
                                             <StyledTableCell align="center">{crow.com_date}</StyledTableCell>
                                             <StyledTableCell align="center">
@@ -266,7 +266,7 @@ const Complains = () => {
                                     <StyledTableRow>
                                         <StyledTableCell align="center">Complain ID</StyledTableCell>
                                         <StyledTableCell align="center">Manager Role</StyledTableCell>
-                                        <StyledTableCell align="center">Complain</StyledTableCell>
+                                        <StyledTableCell align="left">Complain</StyledTableCell>
                                         <StyledTableCell align="center">Placed Date</StyledTableCell>
                                         <StyledTableCell align="center">Placed Time</StyledTableCell>
                                         {/* <StyledTableCell align="center">Status</StyledTableCell> */}
@@ -353,18 +353,16 @@ const Complains = () => {
                                 <TextField id="outlined-basic" placeholder=" response" variant="outlined" sx={{ marginLeft: '10px', marginRight: '20px' }} />
                             </div>
 
-                            <div className="form-label">
+                            {/* <div className="form-label">
                                 <FormLabel>Upload an Image (if need): </FormLabel>
-                                {/* <input type="file" placeholder=" Choose a file" variant="outlined" /> */}
                                 <TextField
                                     sx={{ marginRight: '20px', marginLeft: '10px' }}
                                     type="file"
                                     variant="outlined"
                                     placeholder="Choose a file"
-                                    inputProps={{ accept: 'image/*' }} // Add the accepted file types if needed
-                                // onChange={handleFileChange}
+                                    inputProps={{ accept: 'image/*' }}
                                 />
-                            </div>
+                            </div> */}
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <Button variant="contained" onClick={() => afterAddingResponse()} sx={{ background: "orange", marginRight: '10px', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Response</Button>
                                 <Button variant="contained" onClick={() => cancelResponse()} sx={{ background: "red", width: '100%', marginLeft: '10px', marginTop: '10px', ':hover': { backgroundColor: "red" } }}>Cancel</Button>

@@ -43,17 +43,17 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-function createData1(com_id, cl_id, text, date, time, status) {
-    return { com_id, cl_id, text, date, time, status };
-}
+// function createData1(com_id, cl_id, text, date, time, status) {
+//     return { com_id, cl_id, text, date, time, status };
+// }
 
-const rows = [
-    createData1(1, 1, "Complain text 1", '2023-07-12', '14:00:00', 'pending'),
-    createData1(2, 1, "Complain text 2", '2023-07-13', '12:00:00', 'pending'),
-    createData1(3, 3, "Complain text 3", '2023-07-14', '13:10:00', 'pending'),
-    createData1(4, 4, "Complain text 4", '2023-07-15', '17:30:00', 'completed'),
-    createData1(5, 6, "Complain text 5", '2023-07-16', '18:00:00', 'completed'),
-];
+// const rows = [
+//     createData1(1, 1, "Complain text 1", '2023-07-12', '14:00:00', 'pending'),
+//     createData1(2, 1, "Complain text 2", '2023-07-13', '12:00:00', 'pending'),
+//     createData1(3, 3, "Complain text 3", '2023-07-14', '13:10:00', 'pending'),
+//     createData1(4, 4, "Complain text 4", '2023-07-15', '17:30:00', 'completed'),
+//     createData1(5, 6, "Complain text 5", '2023-07-16', '18:00:00', 'completed'),
+// ];
 // function createData2(id, text, date, time, status) {
 //     return { id, text, date, time, status };
 // }
@@ -79,7 +79,7 @@ const Complains = () => {
     };
     const [form, setForm] = useState(false);
     const [addResponce, setaddResponce] = useState(false);
-    const [viewResponce, setviewResponce] = useState(false);
+    // const [viewResponce, setviewResponce] = useState(false);
 
     // after click on add new complain button
     const addForm = () => {
@@ -111,43 +111,43 @@ const Complains = () => {
     }
 
     // after click on view response
-    const viewResponse = () => {
-        setOwn(false);
-        setviewResponce(true);
-    }
+    // const viewResponse = () => {
+    //     setOwn(false);
+    //     setviewResponce(true);
+    // }
 
-    // after viewing the response
-    const afterViewingResponse = () => {
-        setOwn(1);
-        setviewResponce(false);
-    }
+    // // after viewing the response
+    // const afterViewingResponse = () => {
+    //     setOwn(1);
+    //     setviewResponce(false);
+    // }
 
     const input = new Date();
     const date = input.toDateString();
 
     const email = localStorage.getItem("boarding_email");
 
-    const [complain,setcomplain] = useState("");
+    const [complain, setcomplain] = useState("");
     const [message, setMessage] = useState("");
-    const [error, seterror]= useState("");
+    const [error, seterror] = useState("");
 
     // adding a complain
-    const add_complain =  async () => {
+    const add_complain = async () => {
         seterror(false);
         try {
-            const res= await axios.post('http://localhost:5000/pet_care/boarding_house_manager/add_complain', {
+            const res = await axios.post('http://localhost:5000/pet_care/boarding_house_manager/add_complain', {
                 email,
                 complain,
             })
-            if(res.data.message === 'There is an internal error') {
+            if (res.data.message === 'There is an internal error') {
                 setMessage('You cannot add this package')
                 seterror(true)
-            }else if (res.data.message === 'success') {
+            } else if (res.data.message === 'success') {
                 setOwn(1);
                 setForm(false);
 
             }
-        }catch (err) {
+        } catch (err) {
             console.log("There is an internal error")
         }
     }
@@ -160,32 +160,32 @@ const Complains = () => {
             const data = await res.data
             return data
 
-        }catch(err) {
+        } catch (err) {
             console.log("There is an internal error")
         }
     }
     useEffect(() => {
         viewmyComplains()
-        .then((data) => setmycomplain(data.data))
-        .catch((err) => console.log(err))
+            .then((data) => setmycomplain(data.data))
+            .catch((err) => console.log(err))
     })
 
     // viewing clients all complains
     const [clientcomplain, setclientcomplain] = useState("");
-    const viewClientsComplains = async() => {
+    const viewClientsComplains = async () => {
         try {
             const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/viewClientsComplains')
             const data = await res.data
             return data
-            
-        }catch (err) {
+
+        } catch (err) {
             console.log("There is an internal error")
         }
     }
     useEffect(() => {
         viewClientsComplains()
-        .then((data) => setclientcomplain(data.data))
-        .catch((err) => console.log(err))
+            .then((data) => setclientcomplain(data.data))
+            .catch((err) => console.log(err))
     })
 
     return (
@@ -244,25 +244,27 @@ const Complains = () => {
                                 <TableHead>
                                     <TableRow>
                                         <StyledTableCell align="center">Complain ID</StyledTableCell>
-                                        <StyledTableCell align="center">Client Email Address</StyledTableCell>
+                                        <StyledTableCell align="center">Client ID</StyledTableCell>
                                         <StyledTableCell align="center">Complain</StyledTableCell>
                                         <StyledTableCell align="center">Placed Date</StyledTableCell>
                                         <StyledTableCell align="center">Placed Time</StyledTableCell>
-                                        <StyledTableCell align="center">Status</StyledTableCell>
+                                        <StyledTableCell align="center">Response</StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {clientcomplain && clientcomplain.map((clientrow, next) => (
                                         <StyledTableRow key={clientrow.complain_id}>
                                             <StyledTableCell align="center">{clientrow.complain_id}</StyledTableCell>
-                                            <StyledTableCell align="center">{clientrow.email}</StyledTableCell>
+                                            <StyledTableCell align="center">{clientrow.client_id}</StyledTableCell>
                                             <StyledTableCell align="center">{clientrow.complain_txt}</StyledTableCell>
-                                            <StyledTableCell align="center">{clientrow.date}</StyledTableCell>
-                                            <StyledTableCell align="center">{clientrow.time}</StyledTableCell>
+                                            <StyledTableCell align="center">{clientrow.com_date}</StyledTableCell>
+                                            <StyledTableCell align="center">{clientrow.com_time}</StyledTableCell>
                                             <StyledTableCell align="center">
-                                                {clientrow.status === "pending" ?
-                                                    <Button onClick={() => addResponse()} sx={{ color: 'white', backgroundColor: '#fe9e0d', ':hover': { backgroundColor: '#fe9e0d' } }}>Add Response</Button> :
-                                                    <Button onClick={() => viewResponse()} sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }}>View Response</Button>}
+                                                {clientrow.response_txt === null ? (
+                                                    <Button onClick={() => addResponse()} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }} > Add Response</Button>
+                                                ) : (
+                                                    clientrow.response_txt
+                                                )}
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     ))}
@@ -273,31 +275,35 @@ const Complains = () => {
                 </div>
             )}
 
-            {/* Your Complains */}
+            {/* My Complains */}
             {own === 1 && (
                 <div>
                     <div className="drop-down-box">
-                        <div className="top-button-header">
-                            <Button variant="contained" onClick={() => addForm()} sx={{ background: "black", ':hover': { backgroundColor: "black" } }}>Add New Complain <AddIcon sx={{ marginLeft: '10px' }} /></Button>
+                        <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
+                            <div className="top-button-header">
+                                <Button variant="contained" onClick={() => addForm()} sx={{ background: "black", ':hover': { backgroundColor: "black" } }}>Add New Complain <AddIcon sx={{ marginLeft: '10px' }} /></Button>
+                            </div>
+                            <div>
+                                <Box sx={{ width: '150px', marginRight:'25px' }}>
+                                    <FormControl fullWidth>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={own}
+                                            variant='filled'
+                                            label="clients"
+                                            onChange={handleChange}
+                                            l
+                                            sx={{ fontSize: '11px' }}
+                                        >
+                                            <MenuItem value={1}>All</MenuItem>
+                                            <MenuItem value={2}>Pending</MenuItem>
+                                            <MenuItem value={2}>Completed</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </Box>
+                            </div>
                         </div>
-                        <Box sx={{ width: '150px', marginLeft: '1350px' }}>
-                            <FormControl fullWidth>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={own}
-                                    variant='filled'
-                                    label="clients"
-                                    onChange={handleChange}
-                                    l
-                                    sx={{ fontSize: '11px' }}
-                                >
-                                    <MenuItem value={1}>All</MenuItem>
-                                    <MenuItem value={2}>Pending</MenuItem>
-                                    <MenuItem value={2}>Completed</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Box>
                     </div>
                     <div className="form-content">
                         <TableContainer component={Paper}>
@@ -308,19 +314,21 @@ const Complains = () => {
                                         <StyledTableCell align="center">Complain</StyledTableCell>
                                         <StyledTableCell align="center">Placed Date</StyledTableCell>
                                         <StyledTableCell align="center">Placed Time</StyledTableCell>
-                                        <StyledTableCell align="center">Status</StyledTableCell>
-                                        {/* <StyledTableCell align="center">Response</StyledTableCell> */}
+                                        {/* <StyledTableCell align="center">Status</StyledTableCell> */}
+                                        <StyledTableCell align="center">Response</StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {mycomplain && mycomplain.map((myrow, index) => (
                                         <StyledTableRow key={myrow.complain_id}>
                                             <StyledTableCell align="center">{myrow.complain_id}</StyledTableCell>
-                                            <StyledTableCell align="left">{myrow.complain_txt}</StyledTableCell>
+                                            <StyledTableCell align="center">{myrow.complain_txt}</StyledTableCell>
                                             <StyledTableCell align="center">{myrow.com_date}</StyledTableCell>
                                             <StyledTableCell align="center">{myrow.com_time}</StyledTableCell>
                                             <StyledTableCell align="center">
-                                                {myrow.complain_status === "completed" ? <Button onClick={() => viewResponse()} sx={{ color: 'white', backgroundColor: '#fe9e0d', ':hover': { backgroundColor: '#fe9e0d' } }}>View Response</Button> : "Pending"}
+                                                {myrow.complain_status === "pending" ?
+                                                    <Button sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Pending</Button>
+                                                    : (myrow.response_txt)}
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     ))}
@@ -342,7 +350,7 @@ const Complains = () => {
                             </div>
                             <div className="form-label">
                                 <FormLabel>Enter your complain: </FormLabel>
-                                <TextField id="outlined-basic" placeholder="Complain" variant="outlined" sx={{ marginRight: '20px' , marginTop:'10px'}} onChange={(e) => setcomplain(e.target.value)} required />
+                                <TextField id="outlined-basic" placeholder="Complain" variant="outlined" sx={{ marginRight: '20px', marginTop: '10px' }} onChange={(e) => setcomplain(e.target.value)} required />
                             </div>
 
                             {/* <div className="form-label">
@@ -382,7 +390,6 @@ const Complains = () => {
                                 >
                                     <div>
                                         <TextField
-                                           
                                             disabled
                                             id="outlined-disabled"
                                             label=""
@@ -397,9 +404,8 @@ const Complains = () => {
                                 <TextField id="outlined-basic" placeholder=" response" variant="outlined" sx={{ marginRight: '20px', marginLeft: '10px' }} />
                             </div>
 
-                            <div className="form-label">
+                            {/* <div className="form-label">
                                 <FormLabel>Upload an Image (if need): </FormLabel>
-                                {/* <input type="file" placeholder=" Choose a file" variant="outlined" /> */}
                                 <TextField
                                     sx={{ marginRight: '20px', marginLeft: '10px' }}
                                     type="file"
@@ -408,7 +414,7 @@ const Complains = () => {
                                     inputProps={{ accept: 'image/*' }} // Add the accepted file types if needed
                                 // onChange={handleFileChange}
                                 />
-                            </div>
+                            </div> */}
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <Button variant="contained" onClick={() => afterAddingResponse()} sx={{ background: "orange", width: '100%', marginRight: '10px', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Response</Button>
                                 <Button variant="contained" onClick={() => cancelResponce()} sx={{ background: 'red', width: '100%', marginTop: '10px', marginLeft: '10px', ':hover': { backgroundColor: "red" } }}> Cancel</Button>
@@ -419,7 +425,7 @@ const Complains = () => {
             )}
 
             {/* view repsonse */}
-            {viewResponce && (
+            {/* {viewResponce && (
                 <div>
                     <FormControl sx={{ marginLeft: '35%', borderRadius: '10px', width: '500px', padding: '20px', backgroundColor: '#F0F0F5', fontFamily: 'osnovapro,sans-serif' }}>
                         <div style={{ padding: '10px', borderRadius: '10px', backgroundColor: 'white' }}>
@@ -491,7 +497,7 @@ const Complains = () => {
                         </div>
                     </FormControl>
                 </div>
-            )}
+            )} */}
 
 
         </div>
