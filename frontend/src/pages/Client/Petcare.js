@@ -75,10 +75,10 @@ export default function Petcare() {
         />
         <div className="content">
           <h1 style={{ fontSize: "80px", color: "white", marginTop: "-30vh" }}>
-            Pet Care
+            Pet Care Center
           </h1>
 
-          <p>keep your pet happy</p>
+          <p>Keep your Pet Happy</p>
           <p style={{ marginTop: "200px" }}> OUR SERVICES</p>
           <img
             src={DownImage}
@@ -129,7 +129,7 @@ export default function Petcare() {
             </Link>
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                Pet grooming
+                Pet Grooming
               </Typography>
               <Typography variant="body2" color="text.secondary">
               Enhance your pet's well-being and appearance with our expert grooming. Tailored treatments include bathing, fur trimming, nail care, and more, ensuring your furry companion looks and feels their best. Experience the joy of a pampered pet with our specialized grooming sessions.
@@ -165,7 +165,7 @@ export default function Petcare() {
             </Link>
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                Mind relax
+                Mind Relaxing
               </Typography>
               <Typography variant="body2" color="text.secondary">
               Treat your pet to a rejuvenating spa-like grooming experience, providing a calming oasis of care and relaxation. Our skilled groomers pamper your furry friend, leaving them refreshed, adorable, and blissfully content.
@@ -199,7 +199,7 @@ export default function Petcare() {
             </Link>
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                Pet training
+                Pet Training
               </Typography>
               <Typography variant="body2" color="text.secondary">
               Unleash your pet's potential through our customized training. Tailored sessions build understanding and cooperation, enhancing skills and confidence for harmonious interactions.

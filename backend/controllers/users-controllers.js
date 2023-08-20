@@ -775,10 +775,16 @@ export const addpet = async (req, res, next) => {
         data[0].client_id,
         breed,
         name,
+        // petcategory,
+        // petsex
         OriginalCategory,
         OriginalSex
       ];
       // console.log(values[0]);
+      // console.log(values[1]);
+      // console.log(values[2]);
+      // console.log(values[3]);
+      // console.log(values[4]);
       db.query(sqlQuery, values, (err, data) => {
         if (err) {
           return res.json({ message: "There is an internal error" })

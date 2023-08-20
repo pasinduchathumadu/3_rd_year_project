@@ -180,7 +180,7 @@ export const get_client = async (req, res, next) => {
 // --- DASHBOARD ---
 // count managers
 export const countManagers = async(req,res, next) => {
-    const sqlQuery = 'SELECT COUNT(manager_id) from manager;'
+    const sqlQuery = 'SELECT COUNT(manager_id) as count from manager;'
 
     db.query(sqlQuery, (err,data) => {
         if(err) {
@@ -192,5 +192,13 @@ export const countManagers = async(req,res, next) => {
 
 // count managers
 export const countClients = async(req,res,next) => {
+    const sqlQuery = 'SELECT COUNT(client_id) as count from client;'
+
+    db.query(sqlQuery, (err, data) => {
+        if(err) {
+            return res.json({message: 'There is an internal error'})
+        }
+        return res.json({data})
+    })
     
 }
