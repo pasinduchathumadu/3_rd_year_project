@@ -19,5 +19,5 @@ online_store_manager.get('/get_count2',get_count2)
 online_store_manager.get('/get_order',get_order)
 online_store_manager.get('/view_orders',get_orders)
 online_store_manager.get('/accept/:id',accept)
-online_store_manager.get('/handover/:id',handover)
+online_store_manager.post('/handover',handover)
 export default online_store_manager

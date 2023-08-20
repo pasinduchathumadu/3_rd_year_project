@@ -292,9 +292,10 @@ export const accept = async(req,res,next)=>{
 }
 
 export const handover = async(req,res,next)=>{
-    const id = req.params.id
-    const sqlQuery = "UPDATE purchase_order SET po_status = 'handed' WHERE po_id = ?"
+    const {id,date} = req.body
+    const sqlQuery = "UPDATE purchase_order SET po_status = 'handed',handover_date = ? WHERE po_id = ?"
     const values = [
+        date,
         id
     ]
     db.query(sqlQuery,values,(err,data)=>{
