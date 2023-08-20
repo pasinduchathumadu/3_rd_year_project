@@ -716,7 +716,7 @@ const Clients = () => {
 
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <div className="form-label">
-                                    <FormLabel>  Refund ID  </FormLabel>
+                                    <FormLabel> Refund ID :   </FormLabel>
                                     <Box
                                         component="form"
                                         sx={{
@@ -730,14 +730,35 @@ const Clients = () => {
                                                 disabled
                                                 id="outlined-disabled"
                                                 label=""
-                                                defaultValue=" 02 "
+                                                defaultValue="03"
+                                            /></div>
+                                    </Box>
+
+                                </div>
+
+                                <div className="form-label">
+                                    <FormLabel>Request ID  </FormLabel>
+                                    <Box
+                                        component="form"
+                                        sx={{
+                                            '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                        }}
+                                        noValidate
+                                        autoComplete="off"
+                                    >
+                                        <div>
+                                            <TextField
+                                                disabled
+                                                id="outlined-disabled"
+                                                label=""
+                                                defaultValue="04"
                                             /></div>
 
                                     </Box>
                                 </div>
 
-                                <div className="form-label" style={{ marginLeft: '290px' }} >
-                                    <FormLabel>Request ID </FormLabel>
+                                <div className="form-label">
+                                    <FormLabel>Refunded Amount(Rs.) </FormLabel>
                                     <Box
                                         component="form"
                                         sx={{
@@ -751,7 +772,7 @@ const Clients = () => {
                                                 disabled
                                                 id="outlined-disabled"
                                                 label=""
-                                                defaultValue=" 05 "
+                                                defaultValue="7500.00 "
                                             /></div>
 
                                     </Box>
