@@ -111,7 +111,8 @@ const Clients = () => {
         .catch((err) => console.log(err))
     })
 
-    const [allclient, setallclient] = useState([])  //all clients - get services from boarding house
+    const [allclient, setallclient] = useState([])  
+    //all clients - get services from boarding house
     const view_allclients = async () => {
         try {
             const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/view_allclients')
@@ -177,7 +178,7 @@ const Clients = () => {
 
 
     return (
-        <div className="home-container" style={{ marginTop: '4%' }}>
+        <div className="home-container" style={{ marginTop: '5%' }}>
             <div className="top">
                 <div className="top-line">
                     <p>Boarding House Manager</p>
@@ -200,7 +201,7 @@ const Clients = () => {
                     sx={{ borderRadius: '10px' }}
                 >
 
-                    <Tab sx={{ backgroundColor: showRequests === 0 ? 'orange' : '#F0F0F5', color: 'black' }} label="Clients' Request" ></Tab>
+                    <Tab sx={{ backgroundColor: showRequests === 0 ? 'orange' : '#F0F0F5', color: 'black' }} label="Clients' Boarding Request" ></Tab>
                     <Tab sx={{ backgroundColor: showRequests === 1 ? 'orange' : '#F0F0F5', color: 'black' }} label="Refund Requests"></Tab>
                     <Tab sx={{ backgroundColor: showRequests === 2 ? 'orange' : '#F0F0F5', color: 'black' }} label="Clients"></Tab>
 
@@ -267,7 +268,7 @@ const Clients = () => {
                 </div>
             )}
 
-            {/* clients request */}
+            {/* clients requests */}
             {showRequests === 0 && (
                 <div>
                     <div className="drop-down-box1">
@@ -287,8 +288,6 @@ const Clients = () => {
                                     <MenuItem value={2}>Pending</MenuItem>
                                     <MenuItem value={3}>Accepted</MenuItem>
                                     <MenuItem value={4}>Completed</MenuItem>
-                                    <MenuItem value={5}>Cancelled</MenuItem>
-                                    <MenuItem value={6}>Incomplete</MenuItem>
                                 </Select>
                             </FormControl>
                         </Box>
@@ -300,9 +299,10 @@ const Clients = () => {
                                     <TableRow>
                                         <StyledTableCell align="center">Request ID</StyledTableCell>
                                         <StyledTableCell align="center">Client Name</StyledTableCell>
+                                        <StyledTableCell align="center">Pet ID</StyledTableCell>
+                                        <StyledTableCell align="center">Package ID</StyledTableCell>
                                         <StyledTableCell align="center">Requested Date Period</StyledTableCell>
                                         <StyledTableCell align="center">Pick Up Time</StyledTableCell>
-                                        <StyledTableCell align="center">Package ID</StyledTableCell>
                                         <StyledTableCell align="center">Request Status</StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
@@ -313,9 +313,10 @@ const Clients = () => {
                                         <StyledTableRow key={requestrow.id}>
                                             <StyledTableCell align="center">{requestrow.request_id}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.client_id}</StyledTableCell>
+                                            <StyledTableCell align="center">{requestrow.pet_id}</StyledTableCell>
+                                            <StyledTableCell align="center">{requestrow.package_id}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.board_date}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.board_time}</StyledTableCell>
-                                            <StyledTableCell align="center">{requestrow.package_id}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.request_status}</StyledTableCell>
                                             <StyledTableCell align="center">
                                                 <Button onClick={() => viewPet()} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Pets Details</Button>
@@ -349,8 +350,8 @@ const Clients = () => {
                                     sx={{ fontSize: '11px' }}
                                 >
                                     <MenuItem value={1}>All</MenuItem>
-                                    <MenuItem value={2}>Pending</MenuItem>
-                                    <MenuItem value={3}>Completed</MenuItem>
+                                    <MenuItem value={2}>Cancelled</MenuItem>
+                                    <MenuItem value={3}>Incompleted</MenuItem>
                                 </Select>
                             </FormControl>
                         </Box>

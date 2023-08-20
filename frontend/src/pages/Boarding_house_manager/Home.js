@@ -1,4 +1,5 @@
 
+
 import React, { useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -67,7 +68,7 @@ const Home = () => {
     const date = input.toDateString();
 
     return (
-        <div className="home-container" style={{ marginTop: '4%' }}>
+        <div className="home-container" style={{ marginTop: '6%' }}>
             <div className="top">
                 <div className="top-line">
                     <p>Boarding House Manager</p>
@@ -177,7 +178,7 @@ const Home = () => {
                     <div className="boarding-box-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
                             <AssessmentIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
-                            <h3 style={{ color: 'black' }}>Pet Analyze</h3>
+                            <h3 style={{ color: 'black' }}>Pets Cages Usage</h3>
                         </div>
 
                         <Box sx={{ minWidth: 120, marginLeft: '400px' }}>
@@ -199,25 +200,19 @@ const Home = () => {
                         </Box>
                     </div>
                     <div>
-                        <BarChart
-                            colors={['black']}
-                            sx={{ marginBottom: '3%', backgroundColor: '#f0f0f5' }}
-                            xAxis={[
-                                {
-                                    id: 'barCategories',
-                                    data: ['Cats', 'Dogs'],
-
-                                    scaleType: 'band',
-                                },
-                            ]}
+                    <PieChart
+                            // colors={['#FBBD08', '#A6A6A6', '#55555C']}
+                            colors={['#FBBD08', '#55555C']}
                             series={[
                                 {
-                                    data: [5, 10],
+                                    data: [
+                                        { id: 0, value: 15, label: 'Reserved' },
+                                        { id: 1, value: 25, label: 'Free' },
+                                    ],
                                 },
                             ]}
-
                             width={600}
-                            height={250}
+                            height={200}
                         />
                     </div>
                 </div>
@@ -248,7 +243,6 @@ const Home = () => {
                         </Box>
                     </div>
                     <div>
-
                         <PieChart
                             colors={['#FBBD08', '#A6A6A6', '#55555C']}
                             series={[
@@ -264,6 +258,7 @@ const Home = () => {
                             height={200}
                         />
                     </div>
+                    
                 </div>
             </div>
         </div>

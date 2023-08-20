@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import "../../styles/Client/Dashboard.css"
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -15,9 +15,11 @@ import "../../styles/Client/Shop.css"
 import Button from '@mui/material/Button';
 import video from "../../assests/video2.mp4"
 import cage from "../../assests/png.png";
-import AOS from 'aos';
 import logo from "../../assests/2.png";
 import {useNavigate} from 'react-router-dom'
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 
 const images = [
   {
@@ -116,6 +118,10 @@ const ImageMarked = styled('span')(({ theme }) => ({
   transition: theme.transitions.create('opacity'),
 }));
 export const Dashboard = () => {
+  useEffect(() => {
+    AOS.init({ duration:450 });
+  }, []);
+
   const navigate = useNavigate();
 
   return (
@@ -137,18 +143,31 @@ export const Dashboard = () => {
 
           </div>
         </div>
+        <div style={{textAlign:"center"}}>
+        <h1 style={{textAlign:"center",fontSize:"60px"}} data-aos="zoom-in" >our services</h1>
+        <img className="smooth-scroll" src={cage} alt="Cage" style={{ fontSize: "20px", width: "80px", height: "80px" ,textAlign: "center"}} />
 
+
+        </div>
+       
       
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%' ,marginTop:"60px"}} >
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%' ,marginTop:"60px"}} data-aos="fade-up">
       {images.map((image) => (
         <ImageButton className='smooth-scroll'
           focusRipple
           key={image.title}
           style={{
-            fontSize:"80px",
+            fontSize:"1000px",
             width: image.width,
             marginTop : image.marginTop,
-            height : image.height
+            height : image.height,
+            transition: "transform 0.5s ",
+            "&:hover": {
+              transform: "scale(1.1)", // Apply scale transform on hover
+              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", // Add box shadow on hover
+            },
+          
+            
           }}
 
           onClick={() => {
@@ -156,9 +175,22 @@ export const Dashboard = () => {
           } }
 
         >
-          <ImageSrc style={{ backgroundImage: `url(${image.url})` }} />
+          <ImageSrc style={{ backgroundImage: `url(${image.url})`, }} />
+          <div
+    className="image-overlay"
+    style={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      backgroundColor: 'rgba(0, 0, 0, 0.3)',
+      
+     // Adjust the opacity and color as needed
+    }}
+  />
           <ImageBackdrop className="MuiImageBackdrop-root" />
-          <Image>
+          <Image >
             <Typography
               component="span"
               variant="subtitle1"
@@ -166,7 +198,14 @@ export const Dashboard = () => {
               sx={{
                 position: 'relative',
                 p: 4,
+                fontSize: '24px',
                 pt: 2,
+                transition: "transform 0.5s ",
+                "&:hover": {
+                  transform: "scale(1.1)", // Apply scale transform on hover
+                  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", // Add box shadow on hover
+                },
+              
                 pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
               }}
             >

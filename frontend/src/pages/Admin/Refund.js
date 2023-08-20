@@ -18,8 +18,8 @@ import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
 import { Tab } from "@mui/material";
 import { Tabs } from "@mui/material";
-import { FormLabel, TextField } from "@mui/material";
-import StarIcon from '@mui/icons-material/Star';
+// import { FormLabel, TextField } from "@mui/material";
+// import StarIcon from '@mui/icons-material/Star';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -104,7 +104,7 @@ const Refund = () => {
     const date = input.toDateString();
 
     return (
-        <div className="home-container" style={{ marginTop: '4%'}}>
+        <div className="home-container" style={{ marginTop: '5%'}}>
             <div className="top">
                 <div className="top-line">
                     <p>Administrator</p>
@@ -128,7 +128,7 @@ const Refund = () => {
                 >
 
                     <Tab sx={{ backgroundColor: refund === 0 ? 'orange' : '#F0F0F5', color: 'black' }} label="Boarding House Refund" ></Tab>
-                    <Tab sx={{ backgroundColor: refund === 1 ? 'orange' : '#F0F0F5', color: 'black' }} label=" Online Store Refund"></Tab>
+                    <Tab sx={{ backgroundColor: refund === 1 ? 'orange' : '#F0F0F5', color: 'black' }} label="Care Center Refund"></Tab>
                 </Tabs>
             </Box>
 
@@ -192,7 +192,7 @@ const Refund = () => {
             )}
 
 
-            {/* online store refund */}
+            {/*  boarding house refund */}
             {refund === 1 && (
                 <div>
                     <div className="drop-down-box">
@@ -221,7 +221,7 @@ const Refund = () => {
                                 <TableHead>
                                     <TableRow>
                                         <StyledTableCell align="center">Refund ID</StyledTableCell>
-                                        <StyledTableCell align="center">Order ID</StyledTableCell>
+                                        <StyledTableCell align="center">Appointment ID</StyledTableCell>
                                         <StyledTableCell align="center">Refund Date</StyledTableCell>
                                         <StyledTableCell align="center">Refund Time</StyledTableCell>
                                         <StyledTableCell align="center">Status</StyledTableCell>

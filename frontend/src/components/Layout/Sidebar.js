@@ -29,7 +29,7 @@ export default function TemporaryDrawer({
       "handling_complain",
     ];
   } else if (userType === "boarding_house_manager") {
-    data = ["Dashboard", "Packages", "Boarding Pets", "Clients", "Complains"];
+    data = ["Dashboard", "Packages", "Boarding Pets", "Boarding Requests", "Complains"];
     data_link = [
       "boarding_dashboard",
       "boarding_packages",
