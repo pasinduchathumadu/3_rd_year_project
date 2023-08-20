@@ -589,7 +589,6 @@ export const generate = async (req, res, next) => {
   JOIN item i ON tc.item_id = i.item_id
   WHERE tc.email = ? AND tc.status = ? AND po.order_email = ? 
   ORDER BY po.po_id DESC
-  LIMIT 1
   
 
 `;
