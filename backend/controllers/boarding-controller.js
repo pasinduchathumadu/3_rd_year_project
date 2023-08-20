@@ -11,6 +11,8 @@ export const addPackage = async (req, res, next) => {
         first,
         second,
         third,
+        fourth,
+        fifth,
     } = req.body;
 
     try {
@@ -36,11 +38,13 @@ export const addPackage = async (req, res, next) => {
                 return res.json({ message: "There is an internal error" });
             }
 
-            const query = 'INSERT INTO boarding_package_facility (package_id, facility) VALUES ((SELECT package_id FROM boarding_package ORDER BY package_id DESC LIMIT 1), ?), ((SELECT package_id FROM boarding_package ORDER BY package_id DESC LIMIT 1), ?), ((SELECT package_id FROM boarding_package ORDER BY package_id DESC LIMIT 1), ?)';
+            const query = 'INSERT INTO boarding_package_facility (package_id, facility) VALUES ((SELECT package_id FROM boarding_package ORDER BY package_id DESC LIMIT 1), ?), ((SELECT package_id FROM boarding_package ORDER BY package_id DESC LIMIT 1), ?), ((SELECT package_id FROM boarding_package ORDER BY package_id DESC LIMIT 1), ?), ((SELECT package_id FROM boarding_package ORDER BY package_id DESC LIMIT 1), ?),((SELECT package_id FROM boarding_package ORDER BY package_id DESC LIMIT 1), ?)';
             const values1 = [
                 first,
                 second,
-                third
+                third,
+                fourth,
+                fifth
             ]
 
             db.query(query, values1, (err, data1) => {

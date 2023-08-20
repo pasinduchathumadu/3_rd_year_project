@@ -84,6 +84,8 @@ const Packages = () => {
     const [first, setFirst] = useState(" ")
     const [second, setSecond] = useState(" ")
     const [third, setThird] = useState(" ")
+    const [fourth, setFourth] = useState(" ")
+    const [fifth, setFifth] = useState(" ")
 
     const [message, setMessage] = useState(' ')
 
@@ -97,6 +99,8 @@ const Packages = () => {
                 first,
                 second,
                 third,
+                fourth,
+                fifth,
             })
             if (res.data.message === 'There is an internal error') {
                 setMessage('You cannot add this package')
@@ -224,7 +228,7 @@ const Packages = () => {
                         <div className="boarding-card-facility">
                             <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} />Foods  with <b>normal brands</b></p>
                             <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b>Free </b> washing with <b>normal brand</b> ingrediants </p>
-                            <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b>Air conditional</b> apply</p>
+                            <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b> Half Air conditional</b> apply</p>
                             <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /> <b>Free</b> spa</p>
                         </div>
                     </div>
@@ -254,6 +258,8 @@ const Packages = () => {
                             <TextField id="outlined-basic" placeholder="Facility 01" variant="outlined" sx={{ marginBottom: '5px' }} onChange={(e) => setFirst(e.target.value)} required />
                             <TextField id="outlined-basic" placeholder="Facility 02" variant="outlined" sx={{ marginBottom: '5px' }} onChange={(e) => setSecond(e.target.value)} required />
                             <TextField id="outlined-basic" placeholder="Facility 03" variant="outlined" sx={{ marginBottom: '5px' }} onChange={(e) => setThird(e.target.value)} required />
+                            <TextField id="outlined-basic" placeholder="Facility 03" variant="outlined" sx={{ marginBottom: '5px' }} onChange={(e) => setFourth(e.target.value)}  />
+                            <TextField id="outlined-basic" placeholder="Facility 03" variant="outlined" sx={{ marginBottom: '5px' }} onChange={(e) => setFifth(e.target.value)}  />
                         </div>
 
                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
