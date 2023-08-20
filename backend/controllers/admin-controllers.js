@@ -215,9 +215,21 @@ export const countComplains = async(req,res, next) => {
     })   
 }
 
-// refund verfication count ***(only boarding) ***
+// all refund verfication count ***(only boarding) ***
 export const countRefund = async(req,res, next) => {
     const sqlQuery = 'SELECT (SELECT COUNT(refund_id) FROM boarding_refund WHERE admin_verification = "pending" AND refund_status = "completed" ) AS pending, (SELECT COUNT(refund_id) FROM boarding_refund WHERE admin_verification = "completed" AND refund_status = "completed") AS completed';
+
+    db.query(sqlQuery, (err,data) => {
+        if(err) {
+            return res.json({message: 'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+// pending count refund verfication count ***(only boarding) ***
+export const countPendingrefund = async(req,res, next) => {
+    const sqlQuery = 'SELECT (SELECT COUNT(refund_id) FROM boarding_refund WHERE admin_verification = "pending" AND refund_status = "completed" ) AS pending';
 
     db.query(sqlQuery, (err,data) => {
         if(err) {

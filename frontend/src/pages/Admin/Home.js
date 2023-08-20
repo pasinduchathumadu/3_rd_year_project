@@ -96,6 +96,24 @@ const Home = () => {
         .catch((err) => console.log(err))
     })
 
+    // get count of pending refund verifications
+    const [pending, setpending] = useState("")
+    const countPendingrefund = async() => {
+        try {
+            const res= await axios.get('http://localhost:5000/pet_care/admin/countPendingrefund')
+            const data = await res.data
+            return data
+
+        }catch(err) {
+            console.log('There is an internal error')
+        }
+    }
+    useEffect(() => {
+        countPendingrefund()
+        .then((data) => setpending(data.data))
+        .catch((err) => console.log(err))
+    })
+
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
 
@@ -157,10 +175,12 @@ const Home = () => {
                         </div>
                     ))}
 
+                    {pending && pending.map((prow, next) => (
                     <div style={{ backgroundColor: 'orange', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
                         <p style={{ fontWeight: 'bold' }}><ListIcon sx={{ color: 'black', marginRight: '6px', marginLeft: '5px' }} /> Pending Refund Verifications</p>
-                        <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color: 'white' }}>3</p>
+                        <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color: 'white' }}>{prow.pending}</p>
                     </div>
+                    ))}
                 </div>
 
                 {/* user 2 boxes */} 
