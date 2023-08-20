@@ -77,8 +77,7 @@ export const getPackage = async (req, res, next) => {
 
 // boarding requests viewing
 export const view_requests = async (req, res, next) => {
-    // const sqlQuery ='SELECT r.request_id, r.request_status, r.board_date, r.board_time, c. '
-    const sqlQuery = 'SELECT request_id, request_status, board_date, board_time, client_id, package_id,pet_id FROM boarding_request ';
+    const sqlQuery = 'SELECT * FROM boarding_request WHERE request_status = "completed" OR request_status = "pending" OR request_status = "accepted"';
 
     db.query(sqlQuery, (err, data) => {
         if (err) {
@@ -88,6 +87,19 @@ export const view_requests = async (req, res, next) => {
     })
 
 }
+
+// view incompleted & cancelled requests (for refund)
+export const refund_requests = async (req, res, next) => {
+    const sqlQuery = 'SELECT f.refund_id, f.client_id, f.request_id, f.admin_verification, f.refund_status, q.cancelled_date, q.price FROM boarding_refund f INNER JOIN boarding_request q ON f.request_id = q.request_id WHERE q.request_status = "incompleted" OR q.request_status = "cancelled" ';
+
+    db.query(sqlQuery, (err, data) => {
+        if(err) {
+            return res.json({message: 'There is an internal error'})
+        }
+        return res.json({ data })
+    })    
+}
+
 // view all clients get services from  boarding house
 export const view_allclients = async (req, res, next) => {
     const sqlQuery = 'SELECT c.client_id, CONCAT(c.street, " ", c.city) as address, c.contact_number, c.status, CONCAT(u.first_name, " ", u.last_name) as name FROM client c INNER JOIN users u ON c.email = u.email WHERE c.client_id IN (SELECT client_id FROM boarding_request)';
