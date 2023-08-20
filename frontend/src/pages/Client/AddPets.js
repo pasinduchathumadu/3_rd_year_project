@@ -175,7 +175,10 @@ const AddPets = () => {
                         <Typography sx={{ fontSize: '40px', padding: '20px', borderRadius: '10px', marginLeft: '250px' }}>Your Pets</Typography>
                         <Skeleton />
 <Skeleton animation="wave"  sx={{width:"90vh"}}/>
-<Skeleton animation={false} />
+<Skeleton animation="wave"  sx={{width:"90vh"}}/>
+
+
+<Skeleton animation={true} />
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
 
                             {viewpet && viewpet.map((menu, index) => (

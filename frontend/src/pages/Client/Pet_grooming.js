@@ -386,7 +386,7 @@ function Pet_grooming() {
 
 
           <h1 style={{ marginTop: "-290px", fontSize: '60px', fontWeight: 'bold' }}> Let's <span style={{ color: "orange", fontSize: '60px', fontWeight: 'bold' }}>Groom</span> your pet.</h1>
-           <Typography sx={{color:'red'}}>Note : Pick a Date within two weeks today onwards</Typography>
+           {/* <Typography sx={{color:'red',marginBottom:"10px"}}>Note : Pick a Date within two weeks today onwards</Typography> */}
 
         </div>
 
