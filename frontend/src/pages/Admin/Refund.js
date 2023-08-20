@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
 import ProfilePicture from '../../assests/profile-picture.png';
 import Slip from '../../assests/bankslip2.jpeg';
@@ -18,8 +18,7 @@ import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
 import { Tab } from "@mui/material";
 import { Tabs } from "@mui/material";
-// import { FormLabel, TextField } from "@mui/material";
-// import StarIcon from '@mui/icons-material/Star';
+import axios from "axios";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -103,6 +102,24 @@ const Refund = () => {
     const input = new Date();
     const date = input.toDateString();
 
+    // view boaridng house refundd details
+    const [boardingrf, setboardingrf ] = useState("");
+    const boardingRefund = async() => {
+        try {
+            const res = await axios.get('http://localhost:5000/pet_care/admin/boardingRefund')
+            const data = await res.data
+            return data
+
+        }catch(err) {
+            console.log("There is an internal error")
+        }
+    }
+    useEffect(() => {
+        boardingRefund()
+        .then((data) => setboardingrf(data.data))
+        .catch((err) => console.log(err))
+    })
+
     return (
         <div className="home-container" style={{ marginTop: '5%'}}>
             <div className="top">
@@ -163,21 +180,22 @@ const Refund = () => {
                                         <StyledTableCell align="center">Refund ID</StyledTableCell>
                                         <StyledTableCell align="center">Request ID</StyledTableCell>
                                         <StyledTableCell align="center">Refund Date</StyledTableCell>
-                                        <StyledTableCell align="center">Refund Time</StyledTableCell>
-                                        <StyledTableCell align="center">Status</StyledTableCell>
+                                        {/* <StyledTableCell align="center">Refund Time</StyledTableCell> */}
+                                        <StyledTableCell align="center">Refunded Amount (Rs.)</StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {firstrows.map((firstrow) => (
-                                        <StyledTableRow key={firstrow.rf_id}>
-                                            <StyledTableCell align="center">{firstrow.rf_id}</StyledTableCell>
-                                            <StyledTableCell align="center">{firstrow.rq_id}</StyledTableCell>
+                                    {boardingrf && boardingrf.map((firstrow, next) => (
+                                        <StyledTableRow key={firstrow.refund_id}>
+                                            <StyledTableCell align="center">{firstrow.refund_id}</StyledTableCell>
+                                            <StyledTableCell align="center">{firstrow.request_id}</StyledTableCell>
                                             <StyledTableCell align="center">{firstrow.date}</StyledTableCell>
-                                            <StyledTableCell align="center">{firstrow.time}</StyledTableCell>
-                                            <StyledTableCell align="center">{firstrow.status}</StyledTableCell>
+                                            {/* <StyledTableCell align="center">{firstrow.time}</StyledTableCell> */}
+                                            <StyledTableCell align="center">{firstrow.refund_mny}.00</StyledTableCell>
+                                            {/* <StyledTableCell align="center">{firstrow.status}</StyledTableCell> */}
                                             <StyledTableCell align="center">
-                                                {firstrow.status === 'pending' ?
+                                                {firstrow.admin_verification === 'pending' ?
                                                     <Button onClick={() => ViewBankSlip()} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, width: '200px' }}> View Bank Slip</Button> :
                                                     <Button onClick={() => ViewVerified()} sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' }, width: '200px' }}> View Verified Details</Button>
                                                 }

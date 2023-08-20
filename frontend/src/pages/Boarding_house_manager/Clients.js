@@ -93,8 +93,8 @@ const Clients = () => {
         setShowRequests(existing_value)
     };
 
-    const [request, setrequest] = useState([]) //boarding request array
     // boarding requests viewing
+    const [request, setrequest] = useState([]) //boarding request array
     const view_requests = async () => {
         try {
             const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/view_requests')
@@ -110,8 +110,8 @@ const Clients = () => {
             .catch((err) => console.log(err))
     })
 
-    const [allclient, setallclient] = useState([])
     //all clients - get services from boarding house
+    const [allclient, setallclient] = useState([])
     const view_allclients = async () => {
         try {
             const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/view_allclients')
@@ -377,8 +377,9 @@ const Clients = () => {
                                 <TableHead>
                                     <TableRow>
                                         <StyledTableCell align="center">Refund ID</StyledTableCell>
-                                        <StyledTableCell align="center">Request ID</StyledTableCell>
+                                        <StyledTableCell align="center">Boarding Request ID</StyledTableCell>
                                         <StyledTableCell align="center">Client ID</StyledTableCell>
+                                        {/* <StyledTableCell align="center">Boarding Request Status</StyledTableCell> */}
                                         <StyledTableCell align="center">Cancelled / Incompleted Date </StyledTableCell>
                                         <StyledTableCell align="center">Payment (Rs.)</StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
@@ -391,6 +392,7 @@ const Clients = () => {
                                             <StyledTableCell align="center">{refundrow.refund_id}</StyledTableCell>
                                             <StyledTableCell align="center">{refundrow.request_id}</StyledTableCell>
                                             <StyledTableCell align="center">{refundrow.client_id}</StyledTableCell>
+                                            {/* <StyledTableCell align="center">{refundrow.request_status}</StyledTableCell> */}
                                             <StyledTableCell align="center">
                                                 {refundrow.cancelled_date === "" ? "Incompleted Request" : refundrow.cancelled_date}
                                             </StyledTableCell>

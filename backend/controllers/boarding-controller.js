@@ -90,7 +90,7 @@ export const view_requests = async (req, res, next) => {
 
 // view incompleted & cancelled requests (for refund)
 export const refund_requests = async (req, res, next) => {
-    const sqlQuery = 'SELECT f.refund_id, f.client_id, f.request_id, f.admin_verification, f.refund_status, q.cancelled_date, q.price FROM boarding_refund f INNER JOIN boarding_request q ON f.request_id = q.request_id WHERE q.request_status = "incompleted" OR q.request_status = "cancelled" ';
+    const sqlQuery = 'SELECT f.refund_id, f.client_id, f.request_id, f.admin_verification, f.refund_status, q.cancelled_date, q.price, q.request_status FROM boarding_refund f INNER JOIN boarding_request q ON f.request_id = q.request_id WHERE q.request_status = "incompleted" OR q.request_status = "cancelled" ';
 
     db.query(sqlQuery, (err, data) => {
         if(err) {
