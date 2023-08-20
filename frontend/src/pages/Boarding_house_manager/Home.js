@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography';
 import { Table, TableHead, TableRow, TableBody, TableCell, Button } from "@mui/material";
 import { tableCellClasses } from '@mui/material/TableCell';
 import { styled } from '@mui/material/styles';
-import { BarChart } from '@mui/x-charts/BarChart';
+// import { BarChart } from '@mui/x-charts/BarChart';
 import { PieChart } from '@mui/x-charts/PieChart';
 import TableViewIcon from '@mui/icons-material/TableView';
 
@@ -51,7 +51,7 @@ const Home = () => {
     };
 
     const [main, setmain] = useState(true);
-    const [tables, setTables] = useState(false);
+    // const [tables, setTables] = useState(false);
     // click on particualar request box
     const ClickRequest = () => {
         setmain(false);
@@ -60,7 +60,7 @@ const Home = () => {
 
     // finish viewing the details 
     const FinishViewing = () => {
-        setTables(false);
+        // setTables(false);
         setmain(true);
     }
 
@@ -147,7 +147,7 @@ const Home = () => {
                     {/* view details of pending boarding requests (after click on) */}
                     {!main && (
                         <div style={{ padding: '10px', margin: '0px', borderRadius: '10px', backgroundColor: '#f0f0f5' }}>
-                            <Typography>Request ID : 1 </Typography>
+                            <Typography sx={{fontWeight:'bold'}}>Request ID : 1 </Typography>
                             <Table>
                                 <TableHead sx={{ backgroundColor: '#fe9e0d', color: 'blue' }}>
                                     <StyledTableRow>
@@ -155,7 +155,8 @@ const Home = () => {
                                         <StyledTableCell align="center">Pet ID</StyledTableCell>
                                         <StyledTableCell align="center">Pickup Date</StyledTableCell>
                                         <StyledTableCell align="center">Pickup Time</StyledTableCell>
-                                        <StyledTableCell align="center"><Button onClick={() => FinishViewing()} sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white', width: '100px', marginTop: '10px' }}>Done</Button></StyledTableCell>
+                                        <StyledTableCell align="center"></StyledTableCell>
+                                        {/* <StyledTableCell align="center"><Button onClick={() => FinishViewing()} sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white', width: '100px', marginTop: '10px' }}>Done</Button></StyledTableCell> */}
                                     </StyledTableRow>
                                 </TableHead >
                                 <TableBody>
@@ -164,6 +165,7 @@ const Home = () => {
                                         <StyledTableCell align="center">04</StyledTableCell>
                                         <StyledTableCell align="center">20/07/2023</StyledTableCell>
                                         <StyledTableCell align="center">10:00:00</StyledTableCell>
+                                        <StyledTableCell align="center"><Button onClick={() => FinishViewing()} sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white', width: '100px', marginTop: '10px' }}>Done</Button></StyledTableCell>
                                     </StyledTableRow>
                                 </TableBody>
                             </Table>
