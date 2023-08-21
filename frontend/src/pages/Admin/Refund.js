@@ -40,19 +40,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-// data for boaridng house refunds
-function createData1(rf_id, rq_id, date, time, status) {
-    return { rf_id, rq_id, date, time, status };
-}
 
-const firstrows = [
-    createData1(1, 4, '2023-06-20', '10:00:00', 'pending'),
-    createData1(2, 6, '2023-06-25', '12:00:00', 'pending'),
-    createData1(3, 9, '2023-07-12', '10:30:00', 'completed'),
-    createData1(4, 12, '2023-07-14', '14:10:00', 'completed'),
-];
-
-// data for online store refunds
+// data for care center  refunds
 function createData2(rf_id, o_id, date, time, status) {
     return { rf_id, o_id, date, time, status };
 }
