@@ -45,41 +45,41 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-function createData(id, name, address, contact, usability, status) {
-    return { id, name, address, contact, usability, status };
-}
+// function createData(id, name, address, contact, usability, status) {
+//     return { id, name, address, contact, usability, status };
+// }
 
-const rows = [
-    createData(1, 'John Deo', 'No:23, Main Road, Colombo', '0778912212', 3, 'regular'),
-    createData(2, 'John Perera', 'No:50, Second Road, Nugegoda', '0778022212', 5, 'premium'),
-    createData(3, 'John Nikil', 'No:30, Temple Road, Maharagama', '0770011112', 6, 'premium'),
-    createData(4, 'John Wistle', 'No:24, Katuwana Road, Homagama', '0746614212', 2, 'regular'),
-    createData(5, 'John Bye', 'No:2, Down Street, Kottawa', '0703332212', 2, 'regular'),
-];
+// const rows = [
+//     createData(1, 'John Deo', 'No:23, Main Road, Colombo', '0778912212', 3, 'regular'),
+//     createData(2, 'John Perera', 'No:50, Second Road, Nugegoda', '0778022212', 5, 'premium'),
+//     createData(3, 'John Nikil', 'No:30, Temple Road, Maharagama', '0770011112', 6, 'premium'),
+//     createData(4, 'John Wistle', 'No:24, Katuwana Road, Homagama', '0746614212', 2, 'regular'),
+//     createData(5, 'John Bye', 'No:2, Down Street, Kottawa', '0703332212', 2, 'regular'),
+// ];
 
-function createDataRows(id, name, date, time, payment, status) {
-    return { id, name, date, time, payment, status };
-}
+// function createDataRows(id, name, date, time, payment, status) {
+//     return { id, name, date, time, payment, status };
+// }
 
-const secondrows = [
-    createDataRows(1, 'John Deo', '2023-07-10 to 2023-07-12', '12:00:00', '1200.00', 'pending'),
-    createDataRows(2, 'John Perera', '2023-07-10 to 2023-07-12', '13:15:00', '2200.00', 'accepted'),
-    createDataRows(3, 'John Nikil', '2023-07-10 to 2023-07-12', '09:30:00', '2400.00', 'accepted'),
-    createDataRows(4, 'John Wistle', '2023-07-10 to 2023-07-12', '10:00:00', '1600.00', 'completed'),
-    createDataRows(5, 'John Bye', '2023-07-10 to 2023-07-12', '16:00:00', '1500.00', 'cancelled'),
-];
+// const secondrows = [
+//     createDataRows(1, 'John Deo', '2023-07-10 to 2023-07-12', '12:00:00', '1200.00', 'pending'),
+//     createDataRows(2, 'John Perera', '2023-07-10 to 2023-07-12', '13:15:00', '2200.00', 'accepted'),
+//     createDataRows(3, 'John Nikil', '2023-07-10 to 2023-07-12', '09:30:00', '2400.00', 'accepted'),
+//     createDataRows(4, 'John Wistle', '2023-07-10 to 2023-07-12', '10:00:00', '1600.00', 'completed'),
+//     createDataRows(5, 'John Bye', '2023-07-10 to 2023-07-12', '16:00:00', '1500.00', 'cancelled'),
+// ];
 
-function createRefundData(rfid, rqid, name, date, payment, rqStatus, rfStatus, aStatus) {
-    return { rfid, rqid, name, date, payment, rqStatus, rfStatus, aStatus };
+// function createRefundData(rfid, rqid, name, date, payment, rqStatus, rfStatus, aStatus) {
+//     return { rfid, rqid, name, date, payment, rqStatus, rfStatus, aStatus };
 
-}
+// }
 
-const refundrows = [
-    createRefundData(1, 1, 'John Deo', '2023-07-10', '1200.00', 'cancelled', 'pending', ''),
-    createRefundData(2, 2, 'John Ziya', '2023-07-12', '1200.00', 'incomplete', 'pending', ''),
-    createRefundData(3, 3, 'Jonathan Perera', '2023-07-13', '1200.00', 'cancelled', 'completed', 'verified'),
-    createRefundData(4, 4, 'Gulio Dias', '2023-07-11', '1200.00', 'incomplete', 'completed', 'rejected'),
-];
+// const refundrows = [
+//     createRefundData(1, 1, 'John Deo', '2023-07-10', '1200.00', 'cancelled', 'pending', ''),
+//     createRefundData(2, 2, 'John Ziya', '2023-07-12', '1200.00', 'incomplete', 'pending', ''),
+//     createRefundData(3, 3, 'Jonathan Perera', '2023-07-13', '1200.00', 'cancelled', 'completed', 'verified'),
+//     createRefundData(4, 4, 'Gulio Dias', '2023-07-11', '1200.00', 'incomplete', 'completed', 'rejected'),
+// ];
 
 const Clients = () => {
     // drop down
@@ -144,7 +144,6 @@ const Clients = () => {
             .catch((err) => console.log(err))
     })
 
-
     const input = new Date();
     const date = input.toDateString();
 
@@ -192,7 +191,6 @@ const Clients = () => {
         setviewRefund(false);
         setShowRequests(1);
     }
-
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
@@ -304,7 +302,8 @@ const Clients = () => {
                                     <MenuItem value={1}>All</MenuItem>
                                     <MenuItem value={2}>Pending</MenuItem>
                                     <MenuItem value={3}>Accepted</MenuItem>
-                                    <MenuItem value={4}>Completed</MenuItem>
+                                    <MenuItem value={4}>Arrived</MenuItem>
+                                    <MenuItem value={5}>Completed</MenuItem>
                                 </Select>
                             </FormControl>
                         </Box>
@@ -337,7 +336,11 @@ const Clients = () => {
                                             <StyledTableCell align="center">{requestrow.board_time}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.request_status}</StyledTableCell>
                                             <StyledTableCell align="center">
-                                                {requestrow.request_status === 'accepted' ? <Button sx={{ color: 'white', backgroundColor: '#000000', ':hover': { backgroundColor: '#000000' } }}>Completed</Button> : ""}
+                                                {requestrow.request_status === 'accepted' 
+                                                    ? (<Button sx={{ color: 'white', width:'150px', backgroundColor: '#000000', ':hover': { backgroundColor: '#000000' } }}>Arrived</Button>) :
+                                                requestrow.request_status === 'arrived' 
+                                                    ? (<Button sx={{ color: 'white', width:'150px', backgroundColor: '#000000', ':hover': { backgroundColor: '#000000' } }}>Completed</Button>)
+                                                    : "" }
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     ))}
@@ -392,7 +395,6 @@ const Clients = () => {
                                             <StyledTableCell align="center">{refundrow.refund_id}</StyledTableCell>
                                             <StyledTableCell align="center">{refundrow.request_id}</StyledTableCell>
                                             <StyledTableCell align="center">{refundrow.client_id}</StyledTableCell>
-                                            {/* <StyledTableCell align="center">{refundrow.request_status}</StyledTableCell> */}
                                             <StyledTableCell align="center">
                                                 {refundrow.cancelled_date === "" ? "Incompleted Request" : refundrow.cancelled_date}
                                             </StyledTableCell>
