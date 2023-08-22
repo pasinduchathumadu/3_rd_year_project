@@ -45,15 +45,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const Home = () => {
     // drop down
     const [time1, setTime1] = React.useState('1');
-    const [time2, setTime2] = React.useState('1');
+    // const [time2, setTime2] = React.useState('1');
     const [time3, setTime3] = React.useState('1');
 
     const handleChange1 = (event) => {
         setTime1(event.target.value);
     };
-    const handleChange2 = (event) => {
-        setTime2(event.target.value);
-    };
+    // const handleChange2 = (event) => {
+    //     setTime2(event.target.value);
+    // };
     const handleChange3 = (event) => {
         setTime3(event.target.value);
     };
@@ -244,8 +244,8 @@ const Home = () => {
                             <h3 style={{ color: 'black' }}> Cages Current Usage</h3>
                         </div>
 
-                        {/* <Link to= "/cages"><Button sx={{color:'white', backgroundColor:'orange', ':hover':{backgroundColor:'orange'}}}>View Cages Structure</Button></Link> */}
-                       <Button sx={{color:'white', backgroundColor:'orange', ':hover':{backgroundColor:'orange'}}}>View Cages Structure</Button> 
+                        <Link to= "/cages"><Button sx={{color:'white', backgroundColor:'orange', ':hover':{backgroundColor:'orange'}}}>View Cages Structure</Button></Link>
+                       {/* <Button sx={{color:'white', backgroundColor:'orange', ':hover':{backgroundColor:'orange'}}}>View Cage Structure</Button>  */}
 
                         {/* <Box sx={{ minWidth: 120, marginLeft: '400px' }}>
                             <FormControl fullWidth>
@@ -267,7 +267,6 @@ const Home = () => {
                     </div>
                     <div>
                         <PieChart
-                            // colors={['#FBBD08', '#A6A6A6', '#55555C']}
                             colors={['#FBBD08', '#55555C']}
                             series={[
                                 {

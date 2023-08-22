@@ -4,7 +4,6 @@ import React from 'react';
 import BackgroundImage from '../../assests/boarding_cover.jpg';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-
 const Cages = () => {
     return (
         <div style={{ marginTop: '4%' }}>
@@ -129,9 +128,6 @@ const Cages = () => {
                     </div>
                 </div>
             </div>
-
-
-
         </div>
     )
 }
