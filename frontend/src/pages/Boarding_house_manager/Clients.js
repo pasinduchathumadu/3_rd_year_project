@@ -144,6 +144,7 @@ const Clients = () => {
             .catch((err) => console.log(err))
     })
 
+
     const input = new Date();
     const date = input.toDateString();
 
@@ -382,7 +383,6 @@ const Clients = () => {
                                         <StyledTableCell align="center">Refund ID</StyledTableCell>
                                         <StyledTableCell align="center">Boarding Request ID</StyledTableCell>
                                         <StyledTableCell align="center">Client ID</StyledTableCell>
-                                        {/* <StyledTableCell align="center">Boarding Request Status</StyledTableCell> */}
                                         <StyledTableCell align="center">Cancelled / Incompleted Date </StyledTableCell>
                                         <StyledTableCell align="center">Payment (Rs.)</StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
@@ -698,7 +698,7 @@ const Clients = () => {
                                 // onChange={handleFileChange}
                                 />
                             </div>
-                            {/* <Button variant="contained" onClick={() => afterAddingComplain()} sx={{ background: 'orange', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Complain</Button> */}
+                           
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <Button variant="contained" onClick={() => PlaceRefund()} sx={{ background: 'orange', width: '100%', marginRight: '10px', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Place Refund</Button>
                                 <Button variant="contained" onClick={() => cancelRefund()} sx={{ background: 'red', width: '100%', marginTop: '10px', marginLeft: '10px', ':hover': { backgroundColor: "red" } }}> Cancel</Button>
