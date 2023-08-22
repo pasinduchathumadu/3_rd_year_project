@@ -217,7 +217,7 @@ export const countComplains = async(req,res, next) => {
 
 // all refund verfication count ***(only boarding) ***
 export const countRefund = async(req,res, next) => {
-    const sqlQuery = 'SELECT (SELECT COUNT(refund_id) FROM boarding_refund WHERE admin_verification = "pending" AND refund_status = "completed" ) AS pending, (SELECT COUNT(refund_id) FROM boarding_refund WHERE admin_verification = "completed" AND refund_status = "completed") AS completed';
+    const sqlQuery = 'SELECT (SELECT COUNT(refund_id) FROM boarding_refund WHERE admin_verification = "pending" AND refund_status = "completed" ) AS pending, (SELECT COUNT(refund_id) FROM boarding_refund WHERE admin_verification != "pending" AND refund_status = "completed") AS completed';
 
     db.query(sqlQuery, (err,data) => {
         if(err) {

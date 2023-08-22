@@ -194,7 +194,7 @@ const Home = () => {
                                 {
                                     data: [
                                         { id: 0, value: refund.pending, label: 'Pending' },
-                                        { id: 1, value: refund.completed, label: 'Verified' },
+                                        { id: 1, value: refund.completed, label: 'Completed' },
                                     ],
                                 },
                             ]}
