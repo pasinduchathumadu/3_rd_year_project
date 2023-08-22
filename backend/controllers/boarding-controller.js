@@ -61,10 +61,10 @@ export const addPackage = async (req, res, next) => {
 
 // get and view details of packages
 export const getPackage = async (req, res, next) => {
-    const sqlQuery = 'SELECT p.package_name, p.price, f.facility from boarding_package as p INNER JOIN boarding_package_facility as f ON p.package_id = f.package_id';
-    // const sqlQuery = 'SELECT p.id, p.package_name, p.price, f.facility_name FROM boarding_package p JOIN package_facility f ON p.id = f.package_id WHERE p.id = ?' ;
+    const sqlQuery = 'SELECT package_name, price,symbol from boarding_package WHERE package_id = "1" ';
+  
 
-    db.query(sqlQuery, (err, data) => {
+    db.query(sqlQuery,  (err, data) => {
         if (err) {
             return res.json({ message: 'There is an internal error' })
         }
@@ -110,6 +110,12 @@ export const view_allclients = async (req, res, next) => {
         }
         return res.json({ data })
     })
+}
+
+// viewing refund details of refund
+export const view_refundDetails = async(req,res,next) => {
+    
+
 
 }
 
@@ -238,7 +244,7 @@ export const countPets = async(req,res,next) => {
 
 }
 
-// get package usage
+// get package usage  [PACKAGES - view popularity]
 export const packageUsage = async(req,res, next) => {
     const sqlQuery = 'SELECT (SELECT COUNT(package_id) FROM boarding_request WHERE package_id = "1") AS silver, (SELECT COUNT(package_id) FROM boarding_request WHERE package_id = "2") AS platinum, (SELECT COUNT(package_id) FROM boarding_request WHERE package_id = "3") AS gold ';
     db.query(sqlQuery, (err, data) => {

@@ -135,6 +135,24 @@ const Packages = () => {
             .catch((err) => console.log(err))
     })
 
+    // view packages popularity
+    const [pckg, setpckg] = useState("")
+    const packageUsage = async () => {
+        try {
+            const res = await axios.get("http://localhost:5000/pet_care/boarding_house_manager/packageUsage")
+            const data = await res.data
+            return data
+
+        } catch (err) {
+            console.log('There is an internal error')
+        }
+    }
+    useEffect(() => {
+        packageUsage()
+            .then((data) => setpckg(data.data))
+            .catch((err) => console.log(err))
+    })
+
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }} >
@@ -170,14 +188,14 @@ const Packages = () => {
 
             {new1 && (
                 <div className="boarding-card-line">
-                    <div className="boarding-card" style={{backgroundColor:'#A6A6A6'}}>
+                    <div className="boarding-card" style={{ backgroundColor: '#A6A6A6' }}>
                         <div className="boarding-two-icon">
                             <EditIcon onClick={() => update()} />
                             <DeleteIcon color="error" sx={{ marginLeft: '15px' }} />
                         </div>
                         <div>
                             <Typography sx={{ color: 'white', fontSize: '35px', fontWeight: 'bold', position: 'absolute' }}>Silver</Typography>
-                            <img src={Silver} alt="silver" style={{ height: '200px', width: 'auto' }} /> 
+                            <img src={Silver} alt="silver" style={{ height: '200px', width: 'auto' }} />
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'row', marginLeft: '60px' }}>
                             <Typography sx={{ color: 'black', fontSize: '55px', fontWeight: 'bold' }}>Rs.1000 </Typography>
@@ -190,9 +208,9 @@ const Packages = () => {
                         </div>
                     </div>
 
-                    <div className="boarding-card" style={{backgroundColor:'#55555C'}}>
+                    <div className="boarding-card" style={{ backgroundColor: '#55555C' }}>
                         <div className="boarding-two-icon">
-                            <EditIcon onClick={() => update()} sx={{color:'white'}} />
+                            <EditIcon onClick={() => update()} sx={{ color: 'white' }} />
                             <DeleteIcon color="error" sx={{ marginLeft: '15px' }} />
                         </div>
                         <div>
@@ -212,7 +230,7 @@ const Packages = () => {
                         </div>
                     </div>
 
-                    <div className="boarding-card" style={{backgroundColor:'#FBBD08'}}>
+                    <div className="boarding-card" style={{ backgroundColor: '#FBBD08' }}>
                         <div className="boarding-two-icon">
                             <EditIcon onClick={() => update()} />
                             <DeleteIcon color="error" sx={{ marginLeft: '15px' }} />
@@ -258,8 +276,8 @@ const Packages = () => {
                             <TextField id="outlined-basic" placeholder="Facility 01" variant="outlined" sx={{ marginBottom: '5px' }} onChange={(e) => setFirst(e.target.value)} required />
                             <TextField id="outlined-basic" placeholder="Facility 02" variant="outlined" sx={{ marginBottom: '5px' }} onChange={(e) => setSecond(e.target.value)} required />
                             <TextField id="outlined-basic" placeholder="Facility 03" variant="outlined" sx={{ marginBottom: '5px' }} onChange={(e) => setThird(e.target.value)} required />
-                            <TextField id="outlined-basic" placeholder="Facility 03" variant="outlined" sx={{ marginBottom: '5px' }} onChange={(e) => setFourth(e.target.value)}  />
-                            <TextField id="outlined-basic" placeholder="Facility 03" variant="outlined" sx={{ marginBottom: '5px' }} onChange={(e) => setFifth(e.target.value)}  />
+                            <TextField id="outlined-basic" placeholder="Facility 03" variant="outlined" sx={{ marginBottom: '5px' }} onChange={(e) => setFourth(e.target.value)} />
+                            <TextField id="outlined-basic" placeholder="Facility 03" variant="outlined" sx={{ marginBottom: '5px' }} onChange={(e) => setFifth(e.target.value)} />
                         </div>
 
                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -415,29 +433,33 @@ const Packages = () => {
 
             {/* view popularity */}
             {popularity && (
-                <div className="popularity-view">
-                    <div className="form-topic">
-                        Popularity
-                    </div>
+                <>
+                    {pckg && pckg.map((pkrow, index) => (
+                        <div className="popularity-view">
+                            <div className="form-topic">
+                                Popularity
+                            </div>
 
-                    <div>
-                        <PieChart
-                            colors={['#FBBD08', '#A6A6A6', '#55555C']}
-                            series={[
-                                {
-                                    data: [
-                                        { id: 0, value: 15, label: 'Gold' },
-                                        { id: 1, value: 20, label: 'Silver' },
-                                        { id: 2, value: 10, label: 'Platinum' },
-                                    ],
-                                },
-                            ]}
-                            width={600}
-                            height={300}
-                        />
-                    </div>
-                    <Button variant="contained" onClick={() => afterview()} sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Finish Viewing</Button>
-                </div>
+                            <div>
+                                <PieChart
+                                    colors={['#FBBD08', '#A6A6A6', '#55555C']}
+                                    series={[
+                                        {
+                                            data: [
+                                                { id: 0, value: pkrow.gold, label: 'Gold' },
+                                                { id: 1, value: pkrow.silver, label: 'Silver' },
+                                                { id: 2, value: pkrow.platinum, label: 'Platinum' },
+                                            ],
+                                        },
+                                    ]}
+                                    width={600}
+                                    height={300}
+                                />
+                            </div>
+                            <Button variant="contained" onClick={() => afterview()} sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Finish Viewing</Button>
+                        </div>
+                    ))}
+                </>
             )}
         </div>
     )

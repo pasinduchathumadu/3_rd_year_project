@@ -12,13 +12,14 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
-import { Table, TableHead, TableRow, TableBody, TableCell, Button } from "@mui/material";
+import { Table, TableHead, TableRow, TableBody, TableCell, Button, Link } from "@mui/material";
 import { tableCellClasses } from '@mui/material/TableCell';
 import { styled } from '@mui/material/styles';
 // import { BarChart } from '@mui/x-charts/BarChart';
 import { PieChart } from '@mui/x-charts/PieChart';
 import TableViewIcon from '@mui/icons-material/TableView';
 import axios from "axios";
+import { Navigate, useNavigate } from "react-router";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -44,15 +45,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const Home = () => {
     // drop down
     const [time1, setTime1] = React.useState('1');
-    const [time2, setTime2] = React.useState('1');
+    // const [time2, setTime2] = React.useState('1');
     const [time3, setTime3] = React.useState('1');
 
     const handleChange1 = (event) => {
         setTime1(event.target.value);
     };
-    const handleChange2 = (event) => {
-        setTime2(event.target.value);
-    };
+    // const handleChange2 = (event) => {
+    //     setTime2(event.target.value);
+    // };
     const handleChange3 = (event) => {
         setTime3(event.target.value);
     };
@@ -240,10 +241,13 @@ const Home = () => {
                     <div className="boarding-box-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
                             <AssessmentIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
-                            <h3 style={{ color: 'black' }}>Pets Cages Usage</h3>
+                            <h3 style={{ color: 'black' }}> Cages Current Usage</h3>
                         </div>
 
-                        <Box sx={{ minWidth: 120, marginLeft: '400px' }}>
+                        <Link to= "/cages"><Button sx={{color:'white', backgroundColor:'orange', ':hover':{backgroundColor:'orange'}}}>View Cages Structure</Button></Link>
+                       {/* <Button sx={{color:'white', backgroundColor:'orange', ':hover':{backgroundColor:'orange'}}}>View Cage Structure</Button>  */}
+
+                        {/* <Box sx={{ minWidth: 120, marginLeft: '400px' }}>
                             <FormControl fullWidth>
                                 <Select
                                     labelId="demo-simple-select-label"
@@ -259,11 +263,10 @@ const Home = () => {
                                     <MenuItem value={3}>Last Month</MenuItem>
                                 </Select>
                             </FormControl>
-                        </Box>
+                        </Box> */}
                     </div>
                     <div>
                         <PieChart
-                            // colors={['#FBBD08', '#A6A6A6', '#55555C']}
                             colors={['#FBBD08', '#55555C']}
                             series={[
                                 {

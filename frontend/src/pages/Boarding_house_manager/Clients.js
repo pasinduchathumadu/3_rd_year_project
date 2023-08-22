@@ -45,42 +45,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-// function createData(id, name, address, contact, usability, status) {
-//     return { id, name, address, contact, usability, status };
-// }
-
-// const rows = [
-//     createData(1, 'John Deo', 'No:23, Main Road, Colombo', '0778912212', 3, 'regular'),
-//     createData(2, 'John Perera', 'No:50, Second Road, Nugegoda', '0778022212', 5, 'premium'),
-//     createData(3, 'John Nikil', 'No:30, Temple Road, Maharagama', '0770011112', 6, 'premium'),
-//     createData(4, 'John Wistle', 'No:24, Katuwana Road, Homagama', '0746614212', 2, 'regular'),
-//     createData(5, 'John Bye', 'No:2, Down Street, Kottawa', '0703332212', 2, 'regular'),
-// ];
-
-// function createDataRows(id, name, date, time, payment, status) {
-//     return { id, name, date, time, payment, status };
-// }
-
-// const secondrows = [
-//     createDataRows(1, 'John Deo', '2023-07-10 to 2023-07-12', '12:00:00', '1200.00', 'pending'),
-//     createDataRows(2, 'John Perera', '2023-07-10 to 2023-07-12', '13:15:00', '2200.00', 'accepted'),
-//     createDataRows(3, 'John Nikil', '2023-07-10 to 2023-07-12', '09:30:00', '2400.00', 'accepted'),
-//     createDataRows(4, 'John Wistle', '2023-07-10 to 2023-07-12', '10:00:00', '1600.00', 'completed'),
-//     createDataRows(5, 'John Bye', '2023-07-10 to 2023-07-12', '16:00:00', '1500.00', 'cancelled'),
-// ];
-
-// function createRefundData(rfid, rqid, name, date, payment, rqStatus, rfStatus, aStatus) {
-//     return { rfid, rqid, name, date, payment, rqStatus, rfStatus, aStatus };
-
-// }
-
-// const refundrows = [
-//     createRefundData(1, 1, 'John Deo', '2023-07-10', '1200.00', 'cancelled', 'pending', ''),
-//     createRefundData(2, 2, 'John Ziya', '2023-07-12', '1200.00', 'incomplete', 'pending', ''),
-//     createRefundData(3, 3, 'Jonathan Perera', '2023-07-13', '1200.00', 'cancelled', 'completed', 'verified'),
-//     createRefundData(4, 4, 'Gulio Dias', '2023-07-11', '1200.00', 'incomplete', 'completed', 'rejected'),
-// ];
-
 const Clients = () => {
     // drop down
     const [clients, setClients] = React.useState('1');
@@ -143,6 +107,7 @@ const Clients = () => {
             .then((data) => setrefund(data.data))
             .catch((err) => console.log(err))
     })
+
 
     const input = new Date();
     const date = input.toDateString();
@@ -382,8 +347,7 @@ const Clients = () => {
                                         <StyledTableCell align="center">Refund ID</StyledTableCell>
                                         <StyledTableCell align="center">Boarding Request ID</StyledTableCell>
                                         <StyledTableCell align="center">Client ID</StyledTableCell>
-                                        {/* <StyledTableCell align="center">Boarding Request Status</StyledTableCell> */}
-                                        <StyledTableCell align="center">Cancelled / Incompleted Date </StyledTableCell>
+                                        <StyledTableCell align="center">Cancelled Date / Incompleted  </StyledTableCell>
                                         <StyledTableCell align="center">Payment (Rs.)</StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
                                         <StyledTableCell align="center">Admin Verification</StyledTableCell>
@@ -698,7 +662,7 @@ const Clients = () => {
                                 // onChange={handleFileChange}
                                 />
                             </div>
-                            {/* <Button variant="contained" onClick={() => afterAddingComplain()} sx={{ background: 'orange', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Complain</Button> */}
+                           
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <Button variant="contained" onClick={() => PlaceRefund()} sx={{ background: 'orange', width: '100%', marginRight: '10px', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Place Refund</Button>
                                 <Button variant="contained" onClick={() => cancelRefund()} sx={{ background: 'red', width: '100%', marginTop: '10px', marginLeft: '10px', ':hover': { backgroundColor: "red" } }}> Cancel</Button>
