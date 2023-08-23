@@ -1,6 +1,6 @@
 import express from "express";
 
-import {login,signup,forget_password,reset_password,forget_confirmation,upload_file,get_store, temp_cart, load_cart,increase, decrease,total, load_payement, load_total,delete_cart,final_payment, back,date_client,confirm,generate , client_load, delete_order, random_assistant, get_allpackage, get_package, timeslot, delete_order_care,addpet, view_pets,get_appointment_id,cancel_appointment, care_orders,delete_appointment,edit_appointment} from "../controllers/users-controllers.js";
+import {login,signup,forget_password,reset_password,forget_confirmation,upload_file,get_store, temp_cart, load_cart,increase, decrease,total, load_payement, load_total,delete_cart,final_payment, back,date_client,confirm,generate , client_load, delete_order, random_assistant, get_allpackage, get_package, timeslot, delete_order_care,addpet, view_pets,get_appointment_id,cancel_appointment, care_orders,delete_appointment,edit_appointment,get_doctors,book_doctor,get_medi_user,check_appointment} from "../controllers/users-controllers.js";
 
 const user_route = express.Router();
 
@@ -38,5 +38,8 @@ user_route.get('/view_pets/:email', view_pets);
 user_route.get('/get_appointment_id/:id',get_appointment_id)
 user_route.get('/care_orders',care_orders)
 user_route.post('/edit_appointment',edit_appointment)
-
+user_route.get('/get_doctors',get_doctors)
+user_route.get('/get_medi_user/:id',get_medi_user)
+user_route.get('/book_doctor/:id',book_doctor)
+user_route.post('/check_appointment',check_appointment)
 export default user_route;
