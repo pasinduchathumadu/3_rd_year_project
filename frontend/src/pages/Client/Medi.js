@@ -12,8 +12,8 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import doctor2 from "../../assests/doctor2.png"
 
-import { Link } from 'react-router-dom';
-import { Button, Checkbox,IconButton, Stack, TextField, Typography } from "@mui/material";
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Alert, Button, Checkbox, IconButton, Stack, TextField, Typography } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close"
 import "../../styles/Client/Medi.css"
@@ -24,16 +24,18 @@ import StarIcon from '@mui/icons-material/Star';
 function Medi() {
 
 
-  const [vetdata , setdata] = useState([])
-  const [first ,setfirst] = useState(true)
-  const [second ,setsecond ] = useState(false)
-  const [book_doctor , setbookdoctor] = useState([])
-  const [user,setuser] = useState([])
-  const [appointment,setappoinment] = useState(false)
-  const [date_medi , setdate] = useState("")
- 
+  const [vetdata, setdata] = useState([])
+  const [first, setfirst] = useState(true)
+  const [second, setsecond] = useState(false)
+  const [book_doctor, setbookdoctor] = useState([])
+  const [user, setuser] = useState([])
+  const [appointment, setappoinment] = useState(false)
+  const [date_medi, setdate] = useState("")
+  const [error, seterror] = useState(false)
+  const [message, setmessage] = useState(false)
   const [scrollAnimation, setScrollAnimation] = useState(false);
- const email = localStorage.getItem('client_email')
+  const navigate = useNavigate()
+  const email = localStorage.getItem('client_email')
   useEffect(() => {
     const handleScroll = () => {
       const offset = 500; // Adjust this value as needed
@@ -54,161 +56,182 @@ function Medi() {
   useEffect(() => {
     AOS.init({ duration: 500 });
   }, []);
-  const openappointment = async(id)=>{
-    try{
-     
+  const openappointment = async (id) => {
+    try {
+
       const res = await axios.get(`http://localhost:5000/pet_care/user/book_doctor/${id}`)
       setappoinment(true)
       setbookdoctor(res.data.data)
-      get_medi_user()
+    
 
-    }catch(err){
+    } catch (err) {
       console.log(err)
     }
-  
+
 
   }
 
-  const close_form = ()=>{
+  const close_form = () => {
     setappoinment(false)
   }
-  const get_medi_user = async()=>{
-    try{
+  const get_medi_user = async () => {
+    try {
       const res = await axios.get(`http://localhost:5000/pet_care/user/get_medi_user/${email}`)
-      setuser(res.data.data)
+      const data = await res.data
+      return data
 
-    }catch(err){
+    } catch (err) {
       console.log(err)
     }
   }
 
- 
 
- 
-  const submit = async()=>{
-    try{
+
+
+  const submit = async () => {
+    try {
       const res = await axios.get('http://localhost:5000/pet_care/user/get_doctors')
-      if(res.message ==='There is an internel error'){
-        
+      if (res.message === 'There is an internel error') {
+
       }
-      else{
+      else {
         setdata(res.data.data)
         setfirst(false)
         setsecond(true)
 
       }
-     
 
-    }catch(err){
+
+    } catch (err) {
       console.log("There is an internel error")
     }
   }
-  const submit1 = async(id)=>{
-    const res = await axios.post('http://localhost:5000/pet_care/user/check_appointment',{
+  const submit1 = async (id) => {
+  
+    const res = await axios.post('http://localhost:5000/pet_care/user/check_appointment', {
       date_medi,
       email,
       id
     })
+    if (res.data.message === "Appoinments are over") {
+      seterror(true)
+      setmessage("No more Appointments are placed!!")
+
+    }
+    if (res.data.message === "doctors is not free") {
+  
+      seterror(true)
+      setmessage("Unavialable pick another day")
+
+    }
+    else{
+     
+
+    }
   }
 
   const getImageSrc = (imageName) => {
     return require(`../../../../backend/images/store/${imageName}`)
   };
-
+  useEffect(()=>{
+    get_medi_user()
+    .then((data)=>setuser(data.data))
+    .catch((err)=>console.log(err))
+  })
 
   return (
     <>
-    {first &&(
-      <div style={{ marginTop: '4%' }}>
-      <div className='smooth-scroll' style={{ width: "100%", height: "60vh", marginTop: "auto", marginBottom: "auto", fontWeight: "1", display: "flex" }} data-aos="zoom-out">
-          <div>
-            <h2 style={{ fontSize: "80px", marginTop: "30px", marginLeft: "50px" }}>Meet your <span style={{ color: "orange" }}>Doctor</span> </h2>
-            {/* <h1 style={{marginTop:"20px",fontFamily:"sans-serif",marginLeft:"50px"}}>we protect and care yout pet</h1> */}
-            <h1 style={{ fontSize: "20px", fontWeight: "1", marginLeft: "250px" }}>24 x 7 service</h1>
-            <motion.div
-              animate={{ x: 100 }}
-              transition={{ ease: "easeOut", duration: .8 }}
-            >
-              <img className="smooth-scroll" src={cage} alt="Cage" style={{ fontSize: "20px", width: "80px", height: "80px", marginLeft: "170px" }} />
-            </motion.div>
+      {first && (
+        <div style={{ marginTop: '4%' }}>
+          <div className='smooth-scroll' style={{ width: "100%", height: "60vh", marginTop: "auto", marginBottom: "auto", fontWeight: "1", display: "flex" }} data-aos="zoom-out">
+            <div>
+              <h2 style={{ fontSize: "80px", marginTop: "30px", marginLeft: "50px" }}>Meet your <span style={{ color: "orange" }}>Doctor</span> </h2>
+              {/* <h1 style={{marginTop:"20px",fontFamily:"sans-serif",marginLeft:"50px"}}>we protect and care yout pet</h1> */}
+              <h1 style={{ fontSize: "20px", fontWeight: "1", marginLeft: "250px" }}>24 x 7 service</h1>
+              <motion.div
+                animate={{ x: 100 }}
+                transition={{ ease: "easeOut", duration: .8 }}
+              >
+                <img className="smooth-scroll" src={cage} alt="Cage" style={{ fontSize: "20px", width: "80px", height: "80px", marginLeft: "170px" }} />
+              </motion.div>
+            </div>
+
+            <div data-aos="fade-up">
+              <img className="smooth-scroll" src={pet_doctor} alt="Cage" style={{ fontSize: "20px", width: "700px", height: "700px", marginTop: "188px", marginLeft: "150px" }} />
+
+            </div>
+
           </div>
 
-      <div data-aos="fade-up">
-        <img className="smooth-scroll" src={pet_doctor} alt="Cage" style={{ fontSize: "20px", width: "700px", height: "700px", marginTop: "188px", marginLeft: "150px" }} />
+          <div style={{ width: "100%", height: "60vh", backgroundColor: "#121334", marginTop: "auto", color: "white" }}  >
+            <h2 style={{ fontSize: "50px", marginLeft: "50px" }}>View your Pets Previous Medical Reports</h2>
+            <h2 style={{ fontSize: "20px", marginLeft: "50px" }}>< StarIcon sx={{ color: 'red' }} />We always protect your pet details</h2>
 
-      </div>
+            <Link to="/viewMedicalReports" style={{ textDecoration: 'none' }}>
+              {/* <Button variant="contained" sx={{ width:"500px",height:"50px",backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px',marginLeft:"45px",marginTop:"20px", fontSize: '16px', fontWeight:'bold', '&:hover': { backgroundColor: 'orange' } }} >View Previous Medical Reports</Button></Link> */}
+              <Button variant="contained" sx={{ width: "500px", height: "50px", backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px', marginLeft: "45px", marginTop: "20px", fontSize: '16px', fontWeight: 'bold', '&:hover': { backgroundColor: 'orange' } }} >Click Here </Button></Link>
 
-    </div>
-
-    <div style={{ width: "100%", height: "60vh", backgroundColor: "#121334", marginTop: "auto", color: "white" }}  >
-      <h2 style={{ fontSize: "50px", marginLeft: "50px" }}>View your Pets Previous Medical Reports</h2>
-      <h2 style={{ fontSize: "20px", marginLeft: "50px" }}>< StarIcon sx={{ color: 'red' }} />We always protect your pet details</h2>
-
-      <Link to="/viewMedicalReports" style={{ textDecoration: 'none' }}>
-      {/* <Button variant="contained" sx={{ width:"500px",height:"50px",backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px',marginLeft:"45px",marginTop:"20px", fontSize: '16px', fontWeight:'bold', '&:hover': { backgroundColor: 'orange' } }} >View Previous Medical Reports</Button></Link> */}
-      <Button variant="contained" sx={{ width:"500px",height:"50px",backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px',marginLeft:"45px",marginTop:"20px", fontSize: '16px', fontWeight:'bold', '&:hover': { backgroundColor: 'orange' } }} >Click Here </Button></Link>
-      
-    </div>
+          </div>
 
 
-    <div style={{ width: "100%", height: "60vh", backgroundColor: "white", marginTop: "auto" }}>
+          <div style={{ width: "100%", height: "60vh", backgroundColor: "white", marginTop: "auto" }}>
 
-      <h1 style={{ textAlign: "center", marginTop: "20px" }}>Our Services</h1>
-      <h1 style={{ textAlign: "center", fontSize: "80px", marginTop: "-20px", fontWeight: "1000", color: "rgb(163 169 168)" }}>Services we provide</h1>
-
-
-    </div>
-
-    <div style={{ display: "flex", marginTop: "-200px", textAlign: "ceneter" }} >
-
-      <div style={{ width: "30%", height: "40vh", backgroundColor: "white", marginLeft: "auto", marginRight: "auto" }} data-aos="zoom-in">
-        <img className="smooth-scroll" src={petcare1} alt="Cage" style={{ fontSize: "20px", width: "80px", height: "80px", marginLeft: "190px" }} />
-        <h1 style={{ textAlign: "center" }}>Pet Vaccine </h1>
-
-        <h3 style={{ textAlign: "center", fontWeight: "1" }}>Protect your furry friend's health with our expert pet vaccines!</h3>
+            <h1 style={{ textAlign: "center", marginTop: "20px" }}>Our Services</h1>
+            <h1 style={{ textAlign: "center", fontSize: "80px", marginTop: "-20px", fontWeight: "1000", color: "rgb(163 169 168)" }}>Services we provide</h1>
 
 
-      </div>
-      <div style={{ width: "30%", height: "40vh", backgroundColor: "white", marginLeft: "auto", marginRight: "auto" }} data-aos="zoom-in">
-        <img className="smooth-scroll" src={petcare2} alt="Cage" style={{ fontSize: "20px", width: "80px", height: "80px", marginLeft: "auto", marginRight: "auto", marginLeft: "190px" }} />
-        <h1 style={{ textAlign: "center" }}>Pet Dentel </h1>
-        <h3 style={{ textAlign: "center", fontWeight: "1" }}>Keep your furry friend's smile shinning with our expert pet dental care services!</h3>
+          </div>
+
+          <div style={{ display: "flex", marginTop: "-200px", textAlign: "ceneter" }} >
+
+            <div style={{ width: "30%", height: "40vh", backgroundColor: "white", marginLeft: "auto", marginRight: "auto" }} data-aos="zoom-in">
+              <img className="smooth-scroll" src={petcare1} alt="Cage" style={{ fontSize: "20px", width: "80px", height: "80px", marginLeft: "190px" }} />
+              <h1 style={{ textAlign: "center" }}>Pet Vaccine </h1>
+
+              <h3 style={{ textAlign: "center", fontWeight: "1" }}>Protect your furry friend's health with our expert pet vaccines!</h3>
 
 
-      </div>
-      <div style={{ width: "30%", height: "40vh", backgroundColor: "white", marginLeft: "auto", marginRight: "auto" }} data-aos="zoom-in">
-        <img className="smooth-scroll" src={petcare3} alt="Cage" style={{ fontSize: "20px", width: "80px", height: "80px", marginLeft: "auto", marginRight: "auto", marginLeft: "190px" }} />
-        <h1 style={{ textAlign: "center" }}>Pet Sergury </h1>
-        <h3 style={{ textAlign: "center", fontWeight: "1" }}> Expert surgical care for your furry members, ensuring their healthy life!</h3>
+            </div>
+            <div style={{ width: "30%", height: "40vh", backgroundColor: "white", marginLeft: "auto", marginRight: "auto" }} data-aos="zoom-in">
+              <img className="smooth-scroll" src={petcare2} alt="Cage" style={{ fontSize: "20px", width: "80px", height: "80px", marginLeft: "auto", marginRight: "auto", marginLeft: "190px" }} />
+              <h1 style={{ textAlign: "center" }}>Pet Dentel </h1>
+              <h3 style={{ textAlign: "center", fontWeight: "1" }}>Keep your furry friend's smile shinning with our expert pet dental care services!</h3>
 
 
-      </div>
+            </div>
+            <div style={{ width: "30%", height: "40vh", backgroundColor: "white", marginLeft: "auto", marginRight: "auto" }} data-aos="zoom-in">
+              <img className="smooth-scroll" src={petcare3} alt="Cage" style={{ fontSize: "20px", width: "80px", height: "80px", marginLeft: "auto", marginRight: "auto", marginLeft: "190px" }} />
+              <h1 style={{ textAlign: "center" }}>Pet Sergury </h1>
+              <h3 style={{ textAlign: "center", fontWeight: "1" }}> Expert surgical care for your furry members, ensuring their healthy life!</h3>
 
 
-    </div>
+            </div>
 
-    <div style={{ width: "100%", height: "73vh", backgroundColor: "#121334", marginTop: "auto", display: "flex" }} data-aos="fade-right">
-      <img className="smooth-scroll" src={doctor2} alt="Cage" style={{ fontSize: "700px", width: "400px", height: "600px", marginTop: "-80px" }} />
+
+          </div>
+
+          <div style={{ width: "100%", height: "73vh", backgroundColor: "#121334", marginTop: "auto", display: "flex" }} data-aos="fade-right">
+            <img className="smooth-scroll" src={doctor2} alt="Cage" style={{ fontSize: "700px", width: "400px", height: "600px", marginTop: "-80px" }} />
 
 
 
-    <h1  style={{color:"white",textAlign:"center",marginTop:"90px",marginLeft:"300px"}}> Make your appoinment here</h1>
-    <div style={{textAlign:'center'}}>
-
-    
-      <Button  onClick={submit} variant="contained" sx={{ width:"500px",height:"50px",backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px',marginLeft:"-450px",marginTop:"260px", fontSize: '12px', '&:hover': { backgroundColor: 'orange' } }} >Enter details</Button>
-
-      </div>
-    </div>
+            <h1 style={{ color: "white", textAlign: "center", marginTop: "90px", marginLeft: "300px" }}> Make your appoinment here</h1>
+            <div style={{ textAlign: 'center' }}>
 
 
+              <Button onClick={submit} variant="contained" sx={{ width: "500px", height: "50px", backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px', marginLeft: "-450px", marginTop: "260px", fontSize: '12px', '&:hover': { backgroundColor: 'orange' } }} >Enter details</Button>
 
-  </div>
+            </div>
+          </div>
 
-    )}
 
-    {second &&(
-       <><div className='smooth-scroll' style={{ filter: appointment ? 'blur(5px)' : 'none',marginTop:'4%' }}>
+
+        </div>
+
+      )}
+
+      {second && (
+        <><div className='smooth-scroll' style={{ filter: appointment ? 'blur(5px)' : 'none', marginTop: '4%' }}>
           <div style={{ width: "100%", height: "73vh", backgroundColor: "rgb(18, 19, 52)", marginTop: "auto" }} data-aos="fade-right">
 
             <h1 style={{ color: "blue", fontSize: "80px", marginLeft: "15px" }}>Meet Your Doctor Now</h1>
@@ -236,7 +259,7 @@ function Medi() {
 
                     <StarIcon sx={{ color: "orange", marginBottom: "-5px" }} />
 
-                    <Button onClick={()=>openappointment(product.vet_id)} sx={{ backgroundColor: 'black', color: 'white', marginTop: '2%',':hover':{backgroundColor:'black'} }}>Add Appoinment</Button>
+                    <Button onClick={() => openappointment(product.vet_id)} sx={{ backgroundColor: 'black', color: 'white', marginTop: '2%', ':hover': { backgroundColor: 'black' } }}>Add Appoinment</Button>
 
                   </div>
 
@@ -256,7 +279,7 @@ function Medi() {
 
                     <StarIcon sx={{ color: "orange", marginBottom: "-5px", marginLeft: '2px' }} />
 
-                    <Button onClick={()=>openappointment(product.vet_id)}  sx={{ backgroundColor: 'black', color: 'white', marginTop: '2%', ':hover': { backgroundColor: 'black' } }}>Add Appoinment</Button>
+                    <Button onClick={() => openappointment(product.vet_id)} sx={{ backgroundColor: 'black', color: 'white', marginTop: '2%', ':hover': { backgroundColor: 'black' } }}>Add Appoinment</Button>
 
                   </div>
 
@@ -266,80 +289,89 @@ function Medi() {
             </div>
           </div>
         </div>
-        {appointment &&(
-       <div
-       style={{
-         position: 'fixed',
-         top: 0,
-         left: 0,
-         width: '100%',
-         height: '100%',
-         background: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
-         display: 'flex',
-         justifyContent: 'center',
-         alignItems: 'center',
-       }}
-     >
-       <div
-         style={{
-           background: 'white',
-           paddingTop: '3%',
-           paddingLeft:'3%',
-           width:'50%',
-           borderRadius: '8px',
-           boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
-         }}
-       >
-         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-           <Typography  sx={{marginLeft:'30%',fontSize:'30px'}}>Doctor Appointment</Typography>
-           <IconButton onClick={close_form} sx={{marginRight:'18px'}}>
-             <CloseIcon color="primary" />
-           </IconButton>
-         </div>
-         <Typography sx={{marginLeft:'2%',fontSize:'20px',marginTop:'2%'}}>Do you want to book this doctor?</Typography>
-         {book_doctor.map((menu,index)=>
-          <Stack spacing={2} margin={2}>
-            <TextField variant="outlined" label="Client Name" defaultValue={user.map((product1,index)=>product1.first_name+" "+product1.last_name)}   InputProps={{
-    readOnly: true,
-  }}/>
-       
-          <TextField variant="outlined" label="Vet Name" defaultValue={menu.first_name+" "+menu.last_name}   InputProps={{
-    readOnly: true,
-  }}/>
-          <TextField variant="outlined" label="Channeling Fee" defaultValue={"RS."+menu.fee}  InputProps={{
-    readOnly: true,
-  }} />
-   
-  <Typography>Appointment Date: </Typography>
-          <TextField onChange={(e)=>setdate(e.target.value)} type="date" variant="outlined"></TextField>
-          <div style={{display:'flex',alignItems:'center'}}>
-          <Checkbox defaultChecked color="primary" label="d"/>
-          <Typography>Agree Terms & Condition</Typography>
+          {appointment && (
+            <div
+              style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                background: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <div
+                style={{
+                  background: 'white',
+                  paddingTop: '3%',
+                  paddingLeft: '3%',
+                  width: '50%',
+                  borderRadius: '8px',
+                  boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Typography sx={{ marginLeft: '30%', fontSize: '30px' }}>Doctor Appointment</Typography>
+                  <IconButton onClick={close_form} sx={{ marginRight: '18px' }}>
+                    <CloseIcon color="primary" />
+                  </IconButton>
+                </div>
+                <Typography sx={{ marginLeft: '2%', fontSize: '20px', marginTop: '2%' }}>Do you want to book this doctor?</Typography>
+                {book_doctor.map((menu, index) =>
+                  <Stack spacing={2} margin={2}>
+                    <TextField variant="outlined" label="Client Name" defaultValue={user.map((product1, index) => product1.first_name + " " + product1.last_name)} InputProps={{
+                      readOnly: true,
+                    }} />
 
-          </div>
-         
-          <Button
-          onClick={()=>submit1(menu.vet_id)}
-            style={{ backgroundColor: "black" }}
-            variant="contained"
-          
-          >
-            PAY
-          </Button>
-        </Stack>
-         )}
-        
-         
-       </div>
-     </div>
+                    <TextField variant="outlined" label="Vet Name" defaultValue={menu.first_name + " " + menu.last_name} InputProps={{
+                      readOnly: true,
+                    }} />
+                    <TextField variant="outlined" label="Channeling Fee" defaultValue={"RS." + menu.fee} InputProps={{
+                      readOnly: true,
+                    }} />
 
-        )}
+                    <Typography>Appointment Date: </Typography>
+                    <TextField onChange={(e) => setdate(e.target.value)} type="date" variant="outlined"></TextField>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <Checkbox defaultChecked color="primary" label="d" />
+                      <Typography>Agree Terms & Condition</Typography>
+
+                    </div>
+                    {error && (
+                  <Stack sx={{ width: '100%' }} spacing={2}>
+
+                    <Alert severity="warning">{message}</Alert>
+
+                  </Stack>
+
+                )}
+
+                    <Button
+                      onClick={() => submit1(menu.vet_id)}
+                      style={{ backgroundColor: "black" }}
+                      variant="contained"
+
+                    >
+                      PAY
+                    </Button>
+                  </Stack>
+                )}
+               
+
+
+              </div>
+            </div>
+
+          )}
         </>
 
-    )}
-      
+      )}
 
-   
+
+
     </>
   )
 }
