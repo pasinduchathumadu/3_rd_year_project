@@ -517,28 +517,36 @@ export const back = async (req, res, next) => {
 }
 
 export const date_client = async (req, res, next) => {
-  const { selectedDateString, Id } = req.body
-  console.log(selectedDateString)
-
-  const sqlQuery = "SELECT COUNT(time_slot) AS count1 FROM carecenter_appointment WHERE placed_date = ?  AND time_slot = ?"
-  const values = [
-
-    selectedDateString,
-    Id
+  const { selectedDateString, Id , choose_package } = req.body
+  //get the count of employee
+  const sqlQuery1 = "SELECT COUNT(emp_id) AS count2 FROM employee WHERE type = ?"
+  const value = [
+    choose_package
   ]
-
-  db.query(sqlQuery, values, (err, data) => {
+  db.query(sqlQuery1,value,(err,data1)=>{
     if(err){
       return res.json({message:'There is an internel error'})
     }
-    if (data[0].count1 > 5) {
-      return res.json({ message: 'already filled' })
-
-    }
-    else {
-      return res.json({ message: "added" })
-    }
+    const sqlQuery = "SELECT COUNT(time_slot) AS count1 FROM carecenter_appointment WHERE placed_date = ? AND time_slot = ?"
+    const values = [
+      selectedDateString,
+      Id
+    ]
+    db.query(sqlQuery, values, (err, data) => {
+      if(err){
+        return res.json({message:'There is an internel error'})
+      }
+      if (data[0].count1 > data1[0].count2) {
+        return res.json({ message: 'already filled' })
+  
+      }
+      else {
+        return res.json({ message: "added" })
+      }
+    })
   })
+  
+ 
 
 
 }
@@ -651,7 +659,7 @@ export const delete_order = async (req, res, next) => {
 
 export const random_assistant = async (req, res, next) => {
 
-  const { Id, selectedDateString, email, package_id } = req.body
+  const { Id, selectedDateString, email, package_id,choose_package } = req.body
   if(selectedDateString === null || Id === null){
     return res.json({message:"There is an internel error"})
   }
@@ -670,9 +678,12 @@ export const random_assistant = async (req, res, next) => {
       return res.json({ message: 'There is an internel error' })
     }
     const sqlQuery2 =
-      "SELECT CONCAT(first_name, ' ', last_name)AS full_name, email,contact_number, img FROM employee"
+      "SELECT CONCAT(first_name, ' ', last_name)AS full_name, email,contact_number, img FROM employee WHERE type = ?"
+    const value2 = [
+      choose_package
+    ]
 
-    db.query(sqlQuery2, (err, data) => {
+    db.query(sqlQuery2,value2,(err, data) => {
       if (err) {
         return res.json({ message: 'There is an internel error' })
       }
@@ -774,16 +785,11 @@ export const addpet = async (req, res, next) => {
         data[0].client_id,
         breed,
         name,
-        // petcategory,
-        // petsex
+    
         OriginalCategory,
         OriginalSex
       ];
-      // console.log(values[0]);
-      // console.log(values[1]);
-      // console.log(values[2]);
-      // console.log(values[3]);
-      // console.log(values[4]);
+   
       db.query(sqlQuery, values, (err, data) => {
         if (err) {
           return res.json({ message: "There is an internal error" })
@@ -919,6 +925,67 @@ export const edit_appointment = async(req,res,next)=>{
       return res.json({message:'There is an internel error'})
     }
     return res.json({message:'success'})
+  })
+}
+
+export const get_doctors = async(req,res,next)=>{
+  const sqlQuery = 'SELECT *FROM vet'
+  db.query(sqlQuery,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an internel error'})
+    }
+    return res.json({data})
+  })
+}
+
+export const book_doctor = async(req,res,next)=>{
+  const id = req.params.id
+
+  const sqlQuery = "SELECT *FROM vet WHERE vet_id = ?"
+  const value = [
+    id
+  ]
+  db.query(sqlQuery,value,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an internal error'})
+    }
+    return res.json({data})
+  })
+}
+
+export const check_appointment = async(req,res,next)=>{
+  const {date_medi,email,id} = req.body;
+  const sqlQuery = "SELECT COUNT(a.appointment_id) AS appointment_count,v.daily_count , v.unfree_date FROM vet v INNER JOIN medi_appointment a ON v.vet_id = a.vet_id WHERE a.placed_date = ? AND a.client_email = ? AND v.vet_id = ?"
+  const values = [
+    date_medi,
+    email,
+    id
+  ]
+  db.query(sqlQuery,values,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an internel errorhhh'})
+    }
+  
+ 
+   
+    return res.json({data})
+
+  })
+  
+
+}
+
+export const get_medi_user = async(req,res,next)=>{
+  const email= req.params.id
+  const sqlQuery = "SELECT *FROM users WHERE email = ?"
+  const value =[
+    email
+  ]
+  db.query(sqlQuery,value,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an internel error'})
+    }
+    return res.json({data})
   })
 }
 

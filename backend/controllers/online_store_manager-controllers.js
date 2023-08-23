@@ -89,12 +89,12 @@ export const view_complain = async (req, res, next) => {
     }
 
     
-    const sqlQuery = 'SELECT *FROM complain WHERE status = ? && user_role = "online_store_manager"'
+    const sqlQuery = 'SELECT *FROM client_complain WHERE complain_status = ? && manager_role = "online_store_manager"'
     const records = [
         status
     ]
     db.query(sqlQuery, records, (err, data) => {
-        if (data.length == 0) {
+        if (data.length <1) {
             return res.json({ message: "No records" })
         }
         return res.json({ data })
@@ -148,7 +148,7 @@ export const add_response = async (req,res,next) => {
      
         id
     ] 
-    const sqlQuery = "Update complain set response_date = ? , response_txt = ?, status = 'replied'  where complain_id = ?"
+    const sqlQuery = "Update client_complain set response_date = ? , response_txt = ?, complain_status = 'replied'  where complain_id = ?"
     db.query(sqlQuery,values,(err,data)=>{
         if(err){
             return res.json({message:'There is an internal an error'})
@@ -189,7 +189,7 @@ export const get_view_response = async(req,res,next)=>{
     const values = [
         id
     ]
-    const sqlQuery = "SELECT *FROM complain WHERE complain_id = ? "
+    const sqlQuery = "SELECT *FROM client_complain WHERE complain_id = ? "
     db.query(sqlQuery,values,(err,data)=>{
         if(err){
             return res.json({message:"There is an internel error"})
@@ -201,7 +201,7 @@ export const get_view_response = async(req,res,next)=>{
 }
 
 export const get_count = async(req,res,next) => {
-    const sqlQuery ="SELECT COUNT(status) AS total FROM complain WHERE status = 'pending' ";
+    const sqlQuery ="SELECT COUNT(status) AS total FROM client_complain WHERE status = 'pending' ";
     db.query(sqlQuery,(err,data)=>{
         if(err){
             return res.json({message:'There is an internel error'})
@@ -214,7 +214,7 @@ export const get_count = async(req,res,next) => {
 }
 
 export const get_count1 = async(req,res,next) => {
-    const sqlQuery ="SELECT COUNT(status) AS total FROM complain WHERE status = 'replied' ";
+    const sqlQuery ="SELECT COUNT(status) AS total FROM client_complain WHERE status = 'replied' ";
     db.query(sqlQuery,(err,data)=>{
         if(err){
             return res.json({message:'There is an internel error'})
