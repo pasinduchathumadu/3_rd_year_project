@@ -76,9 +76,8 @@ import AdminUsers from "./pages/Admin/Users";
 import AdminRefund from "./pages/Admin/Refund";
 import AdminComplains from "./pages/Admin/Complains";
 
-import Profile from './pages/Common/Profile';
-
-
+import ClientProfile from './pages/Common/ClientProfile';
+import ManagerProfile from './pages/Common/ManagerProfile';
 
 import Onlinehome from "./pages/Online_store_manager/Home";
 import OnlineAdd from "./pages/Online_store_manager/Add";
@@ -340,7 +339,8 @@ function App() {
             </>
           )}
 
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/clientprofile" element={<ClientProfile />} />
+          <Route path="/managerprofile" element={<ManagerProfile />} />
 
 
 

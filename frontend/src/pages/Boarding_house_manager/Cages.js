@@ -3,10 +3,28 @@ import Box from '@mui/material/Box';
 import React from 'react';
 import BackgroundImage from '../../assests/boarding_cover.jpg';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ProfilePicture from '../../assests/profile-picture.png';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+
 
 const Cages = () => {
+    const input = new Date();
+    const date = input.toDateString();
+    
     return (
-        <div style={{ marginTop: '4%' }}>
+        <div className="home-container" style={{ marginTop: '4%' }}>
+            <div className="top">
+                <div className="top-line">
+                    <p>Boarding House Manager</p>
+                    <p className="top-line-text">Today</p>
+                    <p class="top-line-text">{date}</p>
+                </div>
+                <div className="top-line">
+                    <NotificationsIcon className="bell-icon" />
+                    <img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" />
+                </div>
+            </div>
+
             <div style={{ position: 'absolute' }}>
                 <Typography sx={{ color: 'white', fontSize: '40px', marginLeft: '500px', marginTop: '50px', fontWeight: 'bold' }}>Boarding House - Cage Structure</Typography>
                 <Link to="/boarding_dashboard"><Button sx={{ color: 'white', width: '150px', backgroundColor: 'orange', borderRadius: '10px', ':hover': { backgroundColor: 'orange' }, marginLeft: '1300px' }}><ArrowBackIcon sx={{ marginRight: '20px' }} />Back</Button></Link>

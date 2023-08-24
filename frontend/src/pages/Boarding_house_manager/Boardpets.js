@@ -43,39 +43,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-// function createCurrentData(id, category, p_ckage, aDate, rDate, payment) {
-//     return { id, category, p_ckage, aDate, rDate, payment };
-// }
-
-// const currents = [
-//     createCurrentData(1, 'cat', 'silver', '2023-07-26', '2023-07-30', '1200.00'),
-//     createCurrentData(2, 'dog', 'gold', '2023-07-26', '2023-07-30', '1200.00'),
-//     createCurrentData(3, 'dog', 'silver', '2023-07-26', '2023-07-30', '1200.00'),
-//     createCurrentData(4, 'cat', 'platinum', '2023-07-26', '2023-07-30', '1200.00'),
-// ];
-
-// function createRequestedData(id, category, p_ckage, aDate, rDate, payment, status) {
-//     return { id, category, p_ckage, aDate, rDate, payment, status };
-// }
-
-// const requests = [
-//     createRequestedData(1, 'cat', 'silver', '2023-07-26', '2023-07-30', '1200.00', 'pending'),
-//     createRequestedData(2, 'dog', 'gold', '2023-07-26', '2023-07-30', '1200.00', 'pending'),
-//     createRequestedData(3, 'dog', 'silver', '2023-07-26', '2023-07-30', '1200.00', 'accepted'),
-//     createRequestedData(4, 'cat', 'platinum', '2023-07-26', '2023-07-30', '1200.00', 'accepted'),
-// ];
-
-// function createCompletedData(id, category, p_ckage, aDate, rDate, payment) {
-//     return { id, category, p_ckage, aDate, rDate, payment };
-// }
-
-// const completes = [
-//     createCompletedData(1, 'cat', 'silver', '2023-07-26', '2023-07-30', '1200.00'),
-//     createCompletedData(2, 'dog', 'gold', '2023-07-26', '2023-07-30', '1200.00'),
-//     createCompletedData(3, 'dog', 'silver', '2023-07-26', '2023-07-30', '1200.00'),
-//     createCompletedData(4, 'cat', 'platinum', '2023-07-26', '2023-07-30', '1200.00'),
-// ];
-
 const BoardPets = () => {
     const [present, setPresent] = useState(0);
     const handleForm = (event, existing_value) => {
@@ -223,12 +190,6 @@ const BoardPets = () => {
                                             <StyledTableCell align="center">{current.pet_id}</StyledTableCell>
                                             <StyledTableCell align="center">{current.category}</StyledTableCell>
                                             <StyledTableCell align="center">{current.package_id}</StyledTableCell>
-                                            {/* <StyledTableCell align="center">
-                                                {current.p_ckage === "gold" ? (<> <CircleIcon sx={{ color: '#FBBD08', marginRight: '5px' }} /> Gold </>)
-                                                    : current.p_ckage === "silver" ? (<>  <CircleIcon sx={{ color: '#A6A6A6', marginRight: '5px' }} />Silver </>)
-                                                        : (<><CircleIcon sx={{ color: '#55555C', marginRight: '5px' }} />Platinum</>)
-                                                }
-                                            </StyledTableCell> */}
                                             <StyledTableCell align="center">{current.board_arrival_date}</StyledTableCell>
                                             <StyledTableCell align="center">{current.board_carry_date}</StyledTableCell>
                                             <StyledTableCell align="center">{current.board_time}</StyledTableCell>

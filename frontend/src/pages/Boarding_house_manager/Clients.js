@@ -279,9 +279,9 @@ const Clients = () => {
                                 <TableHead>
                                     <TableRow>
                                         <StyledTableCell align="center">Request ID</StyledTableCell>
-                                        <StyledTableCell align="center">Client Name</StyledTableCell>
+                                        <StyledTableCell align="center">Client ID</StyledTableCell>
                                         <StyledTableCell align="center">Pet ID</StyledTableCell>
-                                        <StyledTableCell align="center">Package ID</StyledTableCell>
+                                        <StyledTableCell align="center">Package</StyledTableCell>
                                         <StyledTableCell align="center">Arrival Date</StyledTableCell>
                                         <StyledTableCell align="center">Carry Date</StyledTableCell>
                                         <StyledTableCell align="center">Arrival Time</StyledTableCell>
@@ -295,7 +295,7 @@ const Clients = () => {
                                             <StyledTableCell align="center">{requestrow.request_id}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.client_id}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.pet_id}</StyledTableCell>
-                                            <StyledTableCell align="center">{requestrow.package_id}</StyledTableCell>
+                                            <StyledTableCell align="center">{requestrow.package_name}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.board_arrival_date}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.board_carry_date}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.board_time}</StyledTableCell>
