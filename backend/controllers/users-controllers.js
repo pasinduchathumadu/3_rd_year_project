@@ -979,6 +979,10 @@ export const check_appointment = async(req,res,next)=>{
 
 }
 
+export const medi_payment = async(req,res,next)=>{
+  
+}
+
 export const get_medi_user = async(req,res,next)=>{
   const email= req.params.id
   const sqlQuery = "SELECT *FROM users WHERE email = ?"
