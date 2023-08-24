@@ -965,14 +965,22 @@ export const check_appointment = async(req,res,next)=>{
     if(err){
       return res.json({message:'There is an internel errorhhh'})
     }
-  
- 
-   
-    return res.json({data})
+
+    if(data[0].appointment_count>data[0].daily_count){
+      return res.json({message:'Appoinments are over'})
+    }
+    if(data[0].unfree_date === date_medi){
+      return res.json({message:'doctors is not free'})
+    }
+    return res.json({message:'added'})
 
   })
   
 
+}
+
+export const medi_payment = async(req,res,next)=>{
+  
 }
 
 export const get_medi_user = async(req,res,next)=>{
