@@ -11,10 +11,10 @@ import petcare3 from "../../assests/pet-care.png";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import doctor2 from "../../assests/doctor2.png"
-
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import pay from "../../assests/pay1.jpg"
+import { Link,useNavigate } from 'react-router-dom';
 import { Alert, Button, Checkbox, IconButton, Stack, TextField, Typography } from "@mui/material";
-
+import StripeCheckout from "react-stripe-checkout"
 import CloseIcon from "@mui/icons-material/Close"
 import "../../styles/Client/Medi.css"
 
@@ -33,8 +33,10 @@ function Medi() {
   const [date_medi, setdate] = useState("")
   const [error, seterror] = useState(false)
   const [message, setmessage] = useState(false)
+  const [payment,setpayment] = useState(false)
   const [scrollAnimation, setScrollAnimation] = useState(false);
   const navigate = useNavigate()
+  const [payment_charge, setprice] = useState("");
   const email = localStorage.getItem('client_email')
   useEffect(() => {
     const handleScroll = () => {
@@ -56,12 +58,20 @@ function Medi() {
   useEffect(() => {
     AOS.init({ duration: 500 });
   }, []);
+
+  const [product] = useState({
+    name: "React from FB",
+    price: payment_charge,
+    productBy: "facebook",
+  });
   const openappointment = async (id) => {
+   
     try {
 
       const res = await axios.get(`http://localhost:5000/pet_care/user/book_doctor/${id}`)
       setappoinment(true)
       setbookdoctor(res.data.data)
+      seterror(false)
     
 
     } catch (err) {
@@ -107,6 +117,12 @@ function Medi() {
     }
   }
   const submit1 = async (id) => {
+    
+   
+    if(date_medi === ""){
+      seterror(true)
+      setmessage("Please Provide Date!!!")
+    }
   
     const res = await axios.post('http://localhost:5000/pet_care/user/check_appointment', {
       date_medi,
@@ -125,9 +141,47 @@ function Medi() {
 
     }
     else{
-     
+      console.log("jddjdj")
+      setprice(book_doctor.map((menu,index)=>menu.fee))
+      setpayment(true)
+      setsecond(false)
+      
+    }
+  }
+
+  
+
+  const makePayment = async (token) => {
+    const body = {
+      token,
+      product
+    
+    };
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/pet_care/payment/card",
+        {
+          body,
+          headers,
+        }
+      );
+      if (res.data.message === "success") {
+
+        console.log("success")
+        navigate('/menu')
+      }
+      else {
+       console.log("failed")
+      }
+    } catch (err) {
+      navigate('/menu')
+      console.log("failed")
 
     }
+
   }
 
   const getImageSrc = (imageName) => {
@@ -175,57 +229,33 @@ function Medi() {
 
 
           <div style={{ width: "100%", height: "60vh", backgroundColor: "white", marginTop: "auto" }}>
-
             <h1 style={{ textAlign: "center", marginTop: "20px" }}>Our Services</h1>
             <h1 style={{ textAlign: "center", fontSize: "80px", marginTop: "-20px", fontWeight: "1000", color: "rgb(163 169 168)" }}>Services we provide</h1>
-
-
           </div>
-
           <div style={{ display: "flex", marginTop: "-200px", textAlign: "ceneter" }} >
-
             <div style={{ width: "30%", height: "40vh", backgroundColor: "white", marginLeft: "auto", marginRight: "auto" }} data-aos="zoom-in">
               <img className="smooth-scroll" src={petcare1} alt="Cage" style={{ fontSize: "20px", width: "80px", height: "80px", marginLeft: "190px" }} />
               <h1 style={{ textAlign: "center" }}>Pet Vaccine </h1>
-
               <h3 style={{ textAlign: "center", fontWeight: "1" }}>Protect your furry friend's health with our expert pet vaccines!</h3>
-
-
             </div>
             <div style={{ width: "30%", height: "40vh", backgroundColor: "white", marginLeft: "auto", marginRight: "auto" }} data-aos="zoom-in">
               <img className="smooth-scroll" src={petcare2} alt="Cage" style={{ fontSize: "20px", width: "80px", height: "80px", marginLeft: "auto", marginRight: "auto", marginLeft: "190px" }} />
               <h1 style={{ textAlign: "center" }}>Pet Dentel </h1>
               <h3 style={{ textAlign: "center", fontWeight: "1" }}>Keep your furry friend's smile shinning with our expert pet dental care services!</h3>
-
-
             </div>
             <div style={{ width: "30%", height: "40vh", backgroundColor: "white", marginLeft: "auto", marginRight: "auto" }} data-aos="zoom-in">
               <img className="smooth-scroll" src={petcare3} alt="Cage" style={{ fontSize: "20px", width: "80px", height: "80px", marginLeft: "auto", marginRight: "auto", marginLeft: "190px" }} />
               <h1 style={{ textAlign: "center" }}>Pet Sergury </h1>
               <h3 style={{ textAlign: "center", fontWeight: "1" }}> Expert surgical care for your furry members, ensuring their healthy life!</h3>
-
-
             </div>
-
-
           </div>
-
           <div style={{ width: "100%", height: "73vh", backgroundColor: "#121334", marginTop: "auto", display: "flex" }} data-aos="fade-right">
             <img className="smooth-scroll" src={doctor2} alt="Cage" style={{ fontSize: "700px", width: "400px", height: "600px", marginTop: "-80px" }} />
-
-
-
             <h1 style={{ color: "white", textAlign: "center", marginTop: "90px", marginLeft: "300px" }}> Make your appoinment here</h1>
             <div style={{ textAlign: 'center' }}>
-
-
               <Button onClick={submit} variant="contained" sx={{ width: "500px", height: "50px", backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px', marginLeft: "-450px", marginTop: "260px", fontSize: '12px', '&:hover': { backgroundColor: 'orange' } }} >Enter details</Button>
-
             </div>
           </div>
-
-
-
         </div>
 
       )}
@@ -233,22 +263,17 @@ function Medi() {
       {second && (
         <><div className='smooth-scroll' style={{ filter: appointment ? 'blur(5px)' : 'none', marginTop: '4%' }}>
           <div style={{ width: "100%", height: "73vh", backgroundColor: "rgb(18, 19, 52)", marginTop: "auto" }} data-aos="fade-right">
-
             <h1 style={{ color: "blue", fontSize: "80px", marginLeft: "15px" }}>Meet Your Doctor Now</h1>
             <h1 style={{ color: "white", fontSize: "20px", fontWeight: "1", marginLeft: "20px" }}>Expert vet doctors dedicated to your pet's well-being </h1>
             <h1 style={{ color: "white", fontSize: "20px", fontWeight: "1", marginLeft: "20px" }}> Trust us with their care</h1>
-
             <h1 style={{ color: "#a5a5ac", fontSize: "40px", fontWeight: "1000", marginLeft: "50px", marginTop: "30px" }}>24x7 service </h1>
-
           </div>
           <div className='shop'>
             <div className='shopTitle'>
-
               <h2>Happy Tails Veterinarians</h2>
-
             </div>
             <Typography sx={{ textAlign: 'center', marginTop: '2%', fontSize: '30px' }}>Week Days For Chanelling</Typography>
-            <div className='products'>
+            <div className='products' style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
               {vetdata && vetdata.filter((menu) => menu.working === 'week').map((product, index) => (
                 <div className='product' key={index}>
                   <img src={getImageSrc(product.img)} style={{ width: "40vh", height: "40vh" }} />
@@ -256,19 +281,14 @@ function Medi() {
                     <Typography sx={{ fontSize: '24px', color: 'black' }}>{product.first_name + " " + product.last_name}</Typography>
                     <Typography sx={{ fontSize: '20px', color: 'red' }}>Start at:{product.start_time}</Typography>
                     <Typography sx={{ fontSize: '15px', color: 'black' }}>{product.contact_number}</Typography>
-
                     <StarIcon sx={{ color: "orange", marginBottom: "-5px" }} />
-
                     <Button onClick={() => openappointment(product.vet_id)} sx={{ backgroundColor: 'black', color: 'white', marginTop: '2%', ':hover': { backgroundColor: 'black' } }}>Add Appoinment</Button>
-
                   </div>
-
-
                 </div>
               ))}
             </div>
             <Typography sx={{ textAlign: 'center', marginTop: '2%', fontSize: '30px' }}>Week-End Days For Chanelling</Typography>
-            <div className='products'>
+            <div className='products'style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
               {vetdata && vetdata.filter((menu) => menu.working === 'weekend').map((product, index) => (
                 <div className='product' key={index}>
                   <img src={getImageSrc(product.img)} style={{ width: "40vh", height: "40vh" }} />
@@ -325,50 +345,110 @@ function Medi() {
                     <TextField variant="outlined" label="Client Name" defaultValue={user.map((product1, index) => product1.first_name + " " + product1.last_name)} InputProps={{
                       readOnly: true,
                     }} />
-
                     <TextField variant="outlined" label="Vet Name" defaultValue={menu.first_name + " " + menu.last_name} InputProps={{
                       readOnly: true,
                     }} />
                     <TextField variant="outlined" label="Channeling Fee" defaultValue={"RS." + menu.fee} InputProps={{
                       readOnly: true,
                     }} />
-
                     <Typography>Appointment Date: </Typography>
                     <TextField onChange={(e) => setdate(e.target.value)} type="date" variant="outlined"></TextField>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                       <Checkbox defaultChecked color="primary" label="d" />
                       <Typography>Agree Terms & Condition</Typography>
-
                     </div>
                     {error && (
                   <Stack sx={{ width: '100%' }} spacing={2}>
-
                     <Alert severity="warning">{message}</Alert>
-
                   </Stack>
-
                 )}
-
                     <Button
                       onClick={() => submit1(menu.vet_id)}
                       style={{ backgroundColor: "black" }}
                       variant="contained"
-
                     >
                       PAY
                     </Button>
                   </Stack>
                 )}
-               
-
-
               </div>
             </div>
-
           )}
         </>
+      )}
+      {payment &&(
+        <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundImage: `url(${pay})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          width: "100%",
+          height: "100vh",
+        }}
+      >
+        <div
+          style={{
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+            padding: "20px",
+            borderRadius: "10px",
+            textAlign: "center",
+          }}
+        >
+          <Typography variant="h6" sx={{ color: "white", marginBottom: "20px" }}>
+            Are you sure?
+          </Typography>
+          <StripeCheckout
+            stripeKey="pk_test_51NGJbtSDLfwYkCbGu6RR8Pf0Pj8KoKTEdIogc7wKKhMBsoEzaoLuwmukYs8Tc6GF8YqvdXJ7AYzk5ktxfByXN1Wk00elCyMdCm"
+            token={makePayment}
+            name="Buy React"
+          
+            shippingAddress
+          >
+              <Stack justifyContent={"center"} alignItems={"center" } direction={"row"} spacing={2}>
+  
+            <Button
+           
+              variant="contained"
+              sx={{
+                width: "300px",
+                height: "50px",
+                backgroundColor: "black",
+                marginTop: "10px",
+                paddingLeft: "15px",
+                marginLeft:'1%',
+                fontSize: "16px",
+                "&:hover": { backgroundColor: "black" },
+              }}
+            >
+              Confirm{" "+payment_charge}
+            </Button>
+            <Button
+          
+            variant="contained"
+            sx={{
+              width: "300px",
+              height: "50px",
+              backgroundColor: "red",
+           
+              fontSize: "16px",
+              "&:hover": { backgroundColor: "red" },
+              marginTop: "10px",
+            }}
+          >
+            Cancel
+          </Button>
+          </Stack>
+          </StripeCheckout>
+  
+        </div>
+      </div>
 
       )}
+       
 
 
 
