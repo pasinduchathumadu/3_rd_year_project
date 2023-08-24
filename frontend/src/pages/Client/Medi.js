@@ -141,14 +141,26 @@ function Medi() {
 
     }
     else{
-      console.log("jddjdj")
       setprice(book_doctor.map((menu,index)=>menu.fee))
       setpayment(true)
       setsecond(false)
-      
     }
   }
+  const cancel = ()=>{
+    setpayment(false)
+    setfirst(true)
+    setappoinment(false)
+  }
+  const confirm = async()=>{
+    try{
+      const res = await axios.post('http://localhost:5000/pet_care/user/medi_payment',{
 
+      })
+
+    }catch(err){
+
+    }
+  }
   
 
   const makePayment = async (token) => {
@@ -171,13 +183,13 @@ function Medi() {
       if (res.data.message === "success") {
 
         console.log("success")
-        navigate('/menu')
+        navigate('/medi')
       }
       else {
        console.log("failed")
       }
     } catch (err) {
-      navigate('/menu')
+      navigate('/medi')
       console.log("failed")
 
     }
@@ -377,75 +389,72 @@ function Medi() {
         </>
       )}
       {payment &&(
-        <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundImage: `url(${pay})`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          width: "100%",
-          height: "100vh",
-        }}
-      >
-        <div
-          style={{
-            backgroundColor: "rgba(0, 0, 0, 0.7)",
-            padding: "20px",
-            borderRadius: "10px",
-            textAlign: "center",
-          }}
-        >
-          <Typography variant="h6" sx={{ color: "white", marginBottom: "20px" }}>
-            Are you sure?
-          </Typography>
-          <StripeCheckout
-            stripeKey="pk_test_51NGJbtSDLfwYkCbGu6RR8Pf0Pj8KoKTEdIogc7wKKhMBsoEzaoLuwmukYs8Tc6GF8YqvdXJ7AYzk5ktxfByXN1Wk00elCyMdCm"
-            token={makePayment}
-            name="Buy React"
-          
-            shippingAddress
-          >
-              <Stack justifyContent={"center"} alignItems={"center" } direction={"row"} spacing={2}>
-  
-            <Button
-           
-              variant="contained"
-              sx={{
-                width: "300px",
-                height: "50px",
-                backgroundColor: "black",
-                marginTop: "10px",
-                paddingLeft: "15px",
-                marginLeft:'1%',
-                fontSize: "16px",
-                "&:hover": { backgroundColor: "black" },
-              }}
-            >
-              Confirm{" "+payment_charge}
-            </Button>
-            <Button
-          
-            variant="contained"
-            sx={{
-              width: "300px",
-              height: "50px",
-              backgroundColor: "red",
-           
-              fontSize: "16px",
-              "&:hover": { backgroundColor: "red" },
-              marginTop: "10px",
-            }}
-          >
-            Cancel
-          </Button>
-          </Stack>
-          </StripeCheckout>
-  
-        </div>
-      </div>
+       <div
+       style={{
+         display: "flex",
+         justifyContent: "center",
+         alignItems: "center",
+         backgroundImage: `url(${pay})`,
+         backgroundRepeat: "no-repeat",
+         backgroundSize: "cover",
+         backgroundPosition: "center",
+         width: "100%",
+         height: "100vh",
+       }}
+     >
+       <div
+         style={{
+           backgroundColor: "rgba(0, 0, 0, 0.7)",
+           padding: "20px",
+           borderRadius: "10px",
+           textAlign: "center",
+         }}
+       >
+         <Typography variant="h6" sx={{ color: "white", marginBottom: "20px" }}>
+           Are you sure?
+         </Typography>
+         <StripeCheckout
+           stripeKey="pk_test_51NGJbtSDLfwYkCbGu6RR8Pf0Pj8KoKTEdIogc7wKKhMBsoEzaoLuwmukYs8Tc6GF8YqvdXJ7AYzk5ktxfByXN1Wk00elCyMdCm"
+           token={makePayment}
+           name="Buy React"
+           shippingAddress
+         >
+           <div style={{ display: "flex", justifyContent: "center" }}>
+             <Button
+               variant="contained"
+               sx={{
+                 width: "300px",
+                 height: "50px",
+                 backgroundColor: "black",
+                 marginTop: "10px",
+                 paddingLeft: "15px",
+                 marginLeft: "1%",
+                 fontSize: "16px",
+                 "&:hover": { backgroundColor: "black" },
+               }}
+             >
+               Confirm {" RS."+payment_charge}
+             </Button>
+           </div>
+         </StripeCheckout>
+         <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
+           <Button
+             onClick={cancel}
+             variant="contained"
+             sx={{
+               width: "300px",
+               height: "50px",
+               backgroundColor: "red",
+               fontSize: "16px",
+               "&:hover": { backgroundColor: "red" },
+             }}
+           >
+             Cancel
+           </Button>
+         </div>
+       </div>
+     </div>
+     
 
       )}
        
