@@ -169,14 +169,22 @@ function Medi() {
     setfirst(true)
     setappoinment(false)
   }
-  const confirm = async()=>{
+  const confirm = async(id)=>{
     try{
       const res = await axios.post('http://localhost:5000/pet_care/user/medi_payment',{
-
+        id,
+        date_medi,
+        email
       })
+      if(res.data.message==="There is an internel error"){
 
+
+      }
+      if(res.data.message === "success"){
+
+      }
     }catch(err){
-
+      console.log("There is an internel error")
     }
   }
   
@@ -439,6 +447,7 @@ function Medi() {
          >
            <div style={{ display: "flex", justifyContent: "center" }}>
              <Button
+             onClick={()=>confirm(book_doctor.map((menu,index)=>menu.vet_id))}
                variant="contained"
                sx={{
                  width: "300px",
