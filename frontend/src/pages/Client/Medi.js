@@ -19,11 +19,10 @@ import CloseIcon from "@mui/icons-material/Close"
 import "../../styles/Client/Medi.css"
 
 import StarIcon from '@mui/icons-material/Star';
-import {format } from 'date-fns';
+
 
 
 function Medi() {
-
 
   const [vetdata, setdata] = useState([])
   const [first, setfirst] = useState(true)
@@ -40,16 +39,10 @@ function Medi() {
   const [payment_charge, setprice] = useState("");
   const email = localStorage.getItem('client_email')
 
-
-  
- 
   const currentDate = new Date();
   const twoWeeksFromToday = new Date();
   twoWeeksFromToday.setDate(currentDate.getDate() + 14);
  
-
-
-
   useEffect(() => {
     const handleScroll = () => {
       const offset = 500; // Adjust this value as needed
@@ -106,10 +99,6 @@ function Medi() {
       console.log(err)
     }
   }
-
-
-
-
   const submit = async () => {
     try {
       const res = await axios.get('http://localhost:5000/pet_care/user/get_doctors')
@@ -136,10 +125,16 @@ function Medi() {
     }
   
     const selectedDate = new Date(date_medi);
-    if (selectedDate < currentDate || selectedDate > twoWeeksFromToday) {
+    if (selectedDate > twoWeeksFromToday) {
       seterror(true);
       setmessage("Please pick a valid date within the next two weeks.");
       return;
+    }
+    if(selectedDate < currentDate ){
+      seterror(true);
+      setmessage("You can't pick that day!!!");
+      return;
+
     }
   
     const res = await axios.post('http://localhost:5000/pet_care/user/check_appointment', {
