@@ -172,11 +172,11 @@ function Medi() {
         email
       })
       if(res.data.message==="There is an internel error"){
-
+        console.log("There is an internel error")
 
       }
       if(res.data.message === "success"){
-
+        console.log("success")
       }
     }catch(err){
       console.log("There is an internel error")

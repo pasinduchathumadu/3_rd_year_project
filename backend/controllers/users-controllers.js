@@ -1012,4 +1012,56 @@ export const get_medi_user = async(req,res,next)=>{
   })
 }
 
+export const pet_trainning = async(req,res,next)=>{
+  const sqlQuery = "SELECT *FROM pet_trainning_shedule"
+  db.query(sqlQuery,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an internel error'})
+    }
+    return res.json({data})
+  })
+
+}
+
+export const pet_booking = async(req,res,next)=>{
+  const {date_training,day,email} = req.body
+  const sqlQuery = "SELECT COUNT(b.id)AS count1,s.count,s.emp_id FROM pet_trainning_shedule s INNER JOIN pet_trainning_payment b ON b.day = s.day WHERE b.day = ?"
+  const value = [
+    day
+  ]
+  db.query(sqlQuery,value,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an internel error'})
+    }
+    const sqlQuery1 = "SELECT *FROM employee WHERE unfree_date_start <= ? AND unfree_date_end <= ?"
+    const values = [
+      date_training
+    ]
+    db.query(sqlQuery1,values,(err,data1)=>{
+      if(err){
+        return res.json({message:'There is an internel error'})
+      }
+      if(data1.length>0){
+        return res.json({message:'emplyee is not free'})
+      }
+      if(data[0].count1 <= data[0].count){
+        return res.json({message:'No more appointments are available'})
+      }
+      const sqlQuery2 = "INSERT INTO pet_trainning_payment (placed_date,day,client_email) VALUES(?,?,?)"
+      const values2 = [
+        date_training,
+        day,
+        email
+      ]
+      db.query(sqlQuery2,values2,(err,data)=>{
+        if(err){
+          return res.json({message:'There is an internel error'})
+        }
+        return res.json({message:'added'})
+      })
+    })
+  })
+  
+}
+
 
