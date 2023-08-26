@@ -538,8 +538,8 @@ export const date_client = async (req, res, next) => {
       }
       if (data[0].count1 > data1[0].count2) {
         return res.json({ message: 'already filled' })
-  
       }
+
       else {
         return res.json({ message: "added" })
       }
@@ -969,9 +969,11 @@ export const check_appointment = async(req,res,next)=>{
     if(data[0].appointment_count>data[0].daily_count){
       return res.json({message:'Appoinments are over'})
     }
-    const sqlQuery1 = "SELECT *FROM employee WHERE unfree_date_start <= ? AND unfree_date_end <=?"
+    const sqlQuery1 = "SELECT *FROM employee WHERE unfree_date_start <= ? AND unfree_date_end <=? AND emp_id ?"
     const value2 = [
-      date_medi
+      date_medi,
+      date_medi,
+      id
     ]
     db.query(sqlQuery1,value2,(err,data)=>{
       if(err){
@@ -1042,9 +1044,10 @@ export const pet_booking = async(req,res,next)=>{
     if(err){
       return res.json({message:'There is an internel error'})
     }
-    const sqlQuery1 = "SELECT *FROM employee WHERE unfree_date_start <= ? AND unfree_date_end <= ?"
+    const sqlQuery1 = "SELECT *FROM employee WHERE unfree_date_start <= ? AND unfree_date_end <= ? AND emp_id = ?"
     const values = [
-      date_training
+      date_training,
+      data[0].emp_id
     ]
     db.query(sqlQuery1,values,(err,data1)=>{
       if(err){
