@@ -955,7 +955,7 @@ export const book_doctor = async(req,res,next)=>{
 
 export const check_appointment = async(req,res,next)=>{
   const {date_medi,email,id} = req.body;
-  const sqlQuery = "SELECT COUNT(a.appointment_id) AS appointment_count,v.daily_count , v.unfree_date FROM vet v INNER JOIN medi_appointment a ON v.vet_id = a.vet_id WHERE a.placed_date = ? AND a.client_email = ? AND v.vet_id = ?"
+  const sqlQuery = "SELECT COUNT(a.appointment_id) AS appointment_count,v.daily_count  FROM vet v INNER JOIN medi_appointment a ON v.vet_id = a.vet_id WHERE a.placed_date = ? AND a.client_email = ? AND v.vet_id = ?"
   const values = [
     date_medi,
     email,
@@ -969,9 +969,18 @@ export const check_appointment = async(req,res,next)=>{
     if(data[0].appointment_count>data[0].daily_count){
       return res.json({message:'Appoinments are over'})
     }
-    if(data[0].unfree_date === date_medi){
-      return res.json({message:'doctors is not free'})
-    }
+    const sqlQuery1 = "SELECT *FROM employee WHERE unfree_date_start <= ? AND unfree_date_end <=?"
+    const value2 = [
+      date_medi
+    ]
+    db.query(sqlQuery1,value2,(err,data)=>{
+      if(err){
+        return res.json({message:'There is an internel error'})
+      }
+      if(data[0].length>0){
+        return res.json({message:'doctors is not free'})
+      }
+    })
     return res.json({message:'added'})
 
   })
