@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ProfilePicture from '../../assests/profile-picture.png';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Box from '@mui/material/Box';
@@ -18,6 +18,7 @@ import Button from '@mui/material/Button';
 import { FormLabel, TextField } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import { tableCellClasses } from '@mui/material/TableCell';
+import axios from 'axios';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -53,17 +54,17 @@ const managerows = [
     createData1(5, 6, "Complain text 5", '2023-07-16', 'completed'),
 ];
 // data for clients complains
-function createData2(com_id, user_id, text, date, status) {
-    return { com_id, user_id, text, date, status };
-}
+// function createData2(com_id, user_id, text, date, status, response) {
+//     return { com_id, user_id, text, date, status, response };
+// }
 
-const clientrows = [
-    createData2(1, 1, "Complain text 1", '2023-07-12', 'pending'),
-    createData2(2, 1, "Complain text 2", '2023-07-13', 'pending'),
-    createData2(3, 3, "Complain text 3", '2023-07-14', 'pending'),
-    createData2(4, 4, "Complain text 4", '2023-07-15', 'completed'),
-    createData2(5, 6, "Complain text 5", '2023-07-16', 'completed'),
-];
+// const clientrows = [
+//     createData2(1, 1, "Complain text 1", '2023-07-12', 'pending', 'PENDING'),
+//     createData2(2, 1, "Complain text 2", '2023-07-13', 'pending', 'PENDING'),
+//     createData2(3, 3, "Complain text 3", '2023-07-14', 'pending', 'PENDING'),
+//     createData2(4, 4, "Complain text 4", '2023-07-15', 'completed', 'Response'),
+//     createData2(5, 6, "Complain text 5", '2023-07-16', 'completed', 'Response'),
+// ];
 
 const Complains = () => {
     // drop down
@@ -114,6 +115,42 @@ const Complains = () => {
     const input = new Date();
     const date = input.toDateString();
 
+    // view clients complains
+    const [clientcom, setclientcom] = useState("");
+    const clientComplains = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/pet_care/admin/clientComplains')
+            const data = await res.data
+            return data
+
+        } catch (err) {
+            console.log("There is an internal error")
+        }
+    }
+    useEffect(() => {
+        clientComplains()
+            .then((data) => setclientcom(data.data))
+            .catch((err) => console.log(err))
+    })
+
+    // view managers complains
+    const [managercom, setmanagercom] = useState("");
+    const managerComplains = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/pet_care/admin/managerComplains')
+            const data = await res.data
+            return data
+
+        } catch (err) {
+            console.log("There is an internal error")
+        }
+    }
+    useEffect(() => {
+        managerComplains()
+            .then((data) => setmanagercom(data.data))
+            .catch((err) => console.log(err))
+    })
+
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
             <div className="top">
@@ -138,13 +175,13 @@ const Complains = () => {
                     indicatorColor="transparent"
                     sx={{ borderRadius: '10px' }}
                 >
-                    <Tab sx={{ backgroundColor: complain === 0 ? 'orange' : '#F0F0F5', color: 'black' }} label="Clients' Complains" ></Tab>
-                    <Tab sx={{ backgroundColor: complain === 1 ? 'orange' : '#F0F0F5', color: 'black' }} label="Managers' Complains"></Tab>
+                    <Tab sx={{ backgroundColor: complain === 0 ? 'orange' : '#F0F0F5', color: 'black' }} label="Managers' Complains" ></Tab>
+                    <Tab sx={{ backgroundColor: complain === 1 ? 'orange' : '#F0F0F5', color: 'black' }} label="Clients' Complains"></Tab>
                 </Tabs>
             </Box>
 
-            {/* client complains */}
-            {complain === 0 && (
+            {/* clients complains */}
+            {complain === 1 && (
                 <div>
                     <div className="drop-down-box">
                         <Box sx={{ width: '150px', marginLeft: '1350px' }}>
@@ -173,23 +210,23 @@ const Complains = () => {
                                         <StyledTableCell align="center">Complain ID</StyledTableCell>
                                         <StyledTableCell align="center">Client ID</StyledTableCell>
                                         <StyledTableCell align="center">Complain</StyledTableCell>
+                                        <StyledTableCell align="center">Related Manager</StyledTableCell>
                                         <StyledTableCell align="center">Placed Date</StyledTableCell>
-                                        <StyledTableCell align="center">Status</StyledTableCell>
-                                        <StyledTableCell align="center"></StyledTableCell>
+                                        <StyledTableCell align="center">Manager Response</StyledTableCell>
                                     </StyledTableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {clientrows.map((clientrow) => (
-                                        <StyledTableRow key={clientrow.com_id}>
-                                            <StyledTableCell align="center">{clientrow.com_id}</StyledTableCell>
-                                            <StyledTableCell align="center">{clientrow.user_id}</StyledTableCell>
-                                            <StyledTableCell align="center">{clientrow.text}</StyledTableCell>
-                                            <StyledTableCell align="center">{clientrow.date}</StyledTableCell>
-                                            <StyledTableCell align="center">{clientrow.status}</StyledTableCell>
+                                    {clientcom && clientcom.map((crow, next) => (
+                                        <StyledTableRow key={crow.complain_id}>
+                                            <StyledTableCell align="center">{crow.complain_id}</StyledTableCell>
+                                            <StyledTableCell align="center">{crow.client_id}</StyledTableCell>
+                                            <StyledTableCell align="left">{crow.complain_txt}</StyledTableCell>
+                                            <StyledTableCell align="center">{crow.manager_role}</StyledTableCell>
+                                            <StyledTableCell align="center">{crow.com_date}</StyledTableCell>
                                             <StyledTableCell align="center">
-                                                {clientrow.status === "pending" ?
-                                                    <Button onClick={() => addResponse()} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Add Response</Button>
-                                                    : <Button onClick={() => viewResponse()} sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }}>View Response</Button>}
+                                                {crow.complain_status === "pending" ?
+                                                    <Button sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Pending</Button>
+                                                    : (crow.response_txt)}
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     ))}
@@ -201,7 +238,7 @@ const Complains = () => {
             )}
 
             {/* managers complains */}
-            {complain === 1 && (
+            {complain === 0 && (
                 <div>
                     <div className="drop-down-box">
                         <Box sx={{ width: '150px', marginLeft: '1350px' }}>
@@ -228,25 +265,29 @@ const Complains = () => {
                                 <TableHead>
                                     <StyledTableRow>
                                         <StyledTableCell align="center">Complain ID</StyledTableCell>
-                                        <StyledTableCell align="center">Manager ID</StyledTableCell>
-                                        <StyledTableCell align="center">Complain</StyledTableCell>
+                                        <StyledTableCell align="center">Manager Role</StyledTableCell>
+                                        <StyledTableCell align="left">Complain</StyledTableCell>
                                         <StyledTableCell align="center">Placed Date</StyledTableCell>
-                                        <StyledTableCell align="center">Status</StyledTableCell>
-                                        <StyledTableCell align="center"></StyledTableCell>
+                                        <StyledTableCell align="center">Placed Time</StyledTableCell>
+                                        {/* <StyledTableCell align="center">Status</StyledTableCell> */}
+                                        <StyledTableCell align="center">Response</StyledTableCell>
                                     </StyledTableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {managerows.map((managerow) => (
-                                        <StyledTableRow key={managerow.com_id}>
-                                            <StyledTableCell align="center">{managerow.com_id}</StyledTableCell>
-                                            <StyledTableCell align="center">{managerow.user_id}</StyledTableCell>
-                                            <StyledTableCell align="center">{managerow.text}</StyledTableCell>
-                                            <StyledTableCell align="center">{managerow.date}</StyledTableCell>
-                                            <StyledTableCell align="center">{managerow.status}</StyledTableCell>
+                                    {managercom && managercom.map((mrow, next) => (
+                                        <StyledTableRow key={mrow.com_id}>
+                                            <StyledTableCell align="center">{mrow.complain_id}</StyledTableCell>
+                                            <StyledTableCell align="center">{mrow.manager_role}</StyledTableCell>
+                                            <StyledTableCell align="center">{mrow.complain_txt}</StyledTableCell>
+                                            <StyledTableCell align="center">{mrow.com_date}</StyledTableCell>
+                                            <StyledTableCell align="center">{mrow.com_time}</StyledTableCell>
+                                            {/* <StyledTableCell align="center">{mrow.complain_status}</StyledTableCell>                                            */}
                                             <StyledTableCell align="center">
-                                                {managerow.status === "pending" ?
-                                                    <Button onClick={() => addResponse()} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Add Response</Button> :
-                                                    <Button onClick={() => viewResponse()} sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }}>View Response</Button>}
+                                                {mrow.response_txt === null ? (
+                                                    <Button onClick={() => addResponse()} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }} > Add Response</Button>
+                                                ) : (
+                                                    mrow.response_txt
+                                                )}
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     ))}
@@ -312,18 +353,16 @@ const Complains = () => {
                                 <TextField id="outlined-basic" placeholder=" response" variant="outlined" sx={{ marginLeft: '10px', marginRight: '20px' }} />
                             </div>
 
-                            <div className="form-label">
+                            {/* <div className="form-label">
                                 <FormLabel>Upload an Image (if need): </FormLabel>
-                                {/* <input type="file" placeholder=" Choose a file" variant="outlined" /> */}
                                 <TextField
                                     sx={{ marginRight: '20px', marginLeft: '10px' }}
                                     type="file"
                                     variant="outlined"
                                     placeholder="Choose a file"
-                                    inputProps={{ accept: 'image/*' }} // Add the accepted file types if needed
-                                // onChange={handleFileChange}
+                                    inputProps={{ accept: 'image/*' }}
                                 />
-                            </div>
+                            </div> */}
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <Button variant="contained" onClick={() => afterAddingResponse()} sx={{ background: "orange", marginRight: '10px', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Response</Button>
                                 <Button variant="contained" onClick={() => cancelResponse()} sx={{ background: "red", width: '100%', marginLeft: '10px', marginTop: '10px', ':hover': { backgroundColor: "red" } }}>Cancel</Button>

@@ -202,3 +202,77 @@ export const countClients = async(req,res,next) => {
     })
     
 }
+
+// count complains separetly
+export const countComplains = async(req,res, next) => {
+    const sqlQuery = 'SELECT (SELECT COUNT(manager_id) FROM manager_complain WHERE complain_status = "pending") AS pending_com, (SELECT COUNT(manager_id) FROM manager_complain WHERE complain_status = "completed") AS completed_com';
+
+    db.query(sqlQuery, (err,data) => {
+        if(err) {
+            return res.json({message: 'There is an internal error'})
+        }
+        return res.json({data})
+    })   
+}
+
+// all refund verfication count ***(only boarding) ***
+export const countRefund = async(req,res, next) => {
+    const sqlQuery = 'SELECT (SELECT COUNT(refund_id) FROM boarding_refund WHERE admin_verification = "pending" AND refund_status = "completed" ) AS pending, (SELECT COUNT(refund_id) FROM boarding_refund WHERE admin_verification != "pending" AND refund_status = "completed") AS completed';
+
+    db.query(sqlQuery, (err,data) => {
+        if(err) {
+            return res.json({message: 'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+// pending count refund verfication count ***(only boarding) ***
+export const countPendingrefund = async(req,res, next) => {
+    const sqlQuery = 'SELECT (SELECT COUNT(refund_id) FROM boarding_refund WHERE admin_verification = "pending" AND refund_status = "completed" ) AS pending';
+
+    db.query(sqlQuery, (err,data) => {
+        if(err) {
+            return res.json({message: 'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+// --- COMPLAINS ---
+// view clients complains
+export const clientComplains = async(req, res, next) => {
+    const sqlQuery = 'SELECT * from client_complain';
+
+    db.query(sqlQuery, (err, data) => {
+        if(err) {
+            return res.json({message: 'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+// view managers complains
+export const managerComplains = async(req, res, next) => {
+    const sqlQuery = 'SELECT * from manager_complain';
+
+    db.query(sqlQuery, (err, data) => {
+        if(err) {
+            return res.json({message: 'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+// --- REFUND VERIFICATIONS ---
+// boarding - refund viewing
+export const boardingRefund = async(req, res, next) => {
+    const sqlQuery = 'SELECT * FROM boarding_refund WHERE refund_status = "completed" ';
+
+    db.query(sqlQuery,(err,data) => {
+        if(err) {
+            return res.json({message: 'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
