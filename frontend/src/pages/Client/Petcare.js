@@ -9,13 +9,12 @@ import image2 from "../../assests/care-center-image.png";
 import image3 from "../../assests/pic3.jpg";
 import { Link } from "react-router-dom";
 import video from "../../assests/Video3.mp4";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+
 import DownImage from "../../assests/down.png";
 import "../../styles/Client/Mindrelax.css";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import video2 from "../../assests/video2.mp4"
-import Skeleton from '@mui/material/Skeleton';
+
 
 
 
@@ -186,7 +185,7 @@ export default function Petcare() {
         >
           <CardActionArea>
             <Link
-              to="/MindRealx"
+              to="/trainning"
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <CardMedia
