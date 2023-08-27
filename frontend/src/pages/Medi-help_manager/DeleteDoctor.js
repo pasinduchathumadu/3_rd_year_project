@@ -5,7 +5,7 @@ import { Button } from '@mui/material';
 function DeleteDoctor() {
   return (
     <div className='delete-container'>
-    <div className='delete'>
+    <div className='boxdelete'>
    <h1>Delete Doctors</h1> 
    <hr />
        <form>

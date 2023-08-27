@@ -1,5 +1,5 @@
 :root {
-    --primary-color:#eba434;
+    --primary-color: #eba434;
     --secondary-color: #eba434;
     --black: #000000;
     --white: #ffffff;
@@ -12,17 +12,24 @@
     --insta-color: #E1306C;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap'); */
 
 * {
-    font-family: 'Poppins', sans-serif;
+
+
+    font-family: "Reem Kufi", sans-serif; 
+
+
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /* font-family: "Reem Kurf", sans-serif !important; */
+
+
 }
 
 
-.body{
+.body {
     overflow: hidden;
     height: 100vh;
 
@@ -254,9 +261,24 @@
 
 /* BACKGROUND */
 
-.container::before {
+
+@keyframes gradientAnimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  .container::before {
     content: "";
     position: absolute;
+    animation: gradientAnimation 10s infinite;
+  
     top: 0;
     right: 0;
     height: 100vh;
@@ -268,8 +290,7 @@
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-bottom-right-radius: max(50vw, 50vh);
     border-top-left-radius: max(50vw, 50vh);
-}
-
+  }
 .container.sign-in::before {
     transform: translate(0, 0);
     right: 50%;
@@ -349,3 +370,17 @@
         font-size: 2rem;
     }
 }
+
+
+
+@keyframes gradientAnimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }

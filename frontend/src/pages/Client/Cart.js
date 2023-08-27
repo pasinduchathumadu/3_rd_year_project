@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Table, TableHead, TableRow, TableCell, TableBody, Button, CardMedia, Typography, Grid } from "@mui/material";
-
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -29,6 +29,26 @@ const CartTable = () => {
   const getImageSrc = (imageName) => {
     return require(`../../assests/${imageName}`)
   };
+
+
+  const removeitem = async(id) =>{
+    try{
+      const res = await axios.post('http://localhost:5000/pet_care/user/delete_cart',{
+        id,
+        email
+        
+      })
+      if(res.data.message!== "There is an internel error"){
+        calculateTotalAmount()
+        load_cart()
+      }
+
+
+    }catch(err){
+      console.log(err)
+    }
+
+  }
   
   const handleIncreaseQuantity = async(itemId,quantity,price) => {
     try{
@@ -73,7 +93,9 @@ const CartTable = () => {
   
   };
 
-
+ const track = () => {
+  navigate('/track_order')
+ }
  const load_cart = async()=>{
   try{
     const res = await axios.get(`http://localhost:5000/pet_care/user/load_cart/${email}`)
@@ -91,12 +113,17 @@ const CartTable = () => {
   })
 
   return (
-    <>
+    <div style={{marginTop:'4%'}}>
     <div style={{
-      textAlign: 'center',
+      marginLeft:'45%',
       fontWeight: 'bold',
-      fontSize:'30px'
+      fontSize:'30px',
+      display:'inline'
     }}><ShoppingCartIcon sx={{marginTop:'50px', marginLeft:'50px'}} /> Cart</div>
+    <div style={{display:'inline',marginLeft:'25%',alignItems:'center'}}>
+      <BorderColorIcon sx={{alignItems:'center',marginLeft:'5%'}}/>
+      <Button onClick={track} sx={{backgroundColor:'black',color:'white',marginLeft:'2%',alignItems:'center',':hover':{backgroundColor:'black'}}}>Track Your Order</Button>
+    </div>
 
     <div style={{
       padding:'10px',
@@ -134,7 +161,7 @@ const CartTable = () => {
               </TableCell>
               <TableCell>RS.{item.unit_price * item.quantity}</TableCell>
 
-              <TableCell><Button variant="contained" sx={{ backgroundColor: 'black',':hover':{backgroundColor:'black'}, marginLeft: '50px' }}>Remove Item</Button></TableCell>
+              <TableCell><Button onClick={()=>removeitem(item.item_id)} variant="contained" sx={{ backgroundColor: 'black',':hover':{backgroundColor:'black'}, marginLeft: '50px' }}>Remove Item</Button></TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -151,7 +178,7 @@ const CartTable = () => {
 
 
 
-    </>
+    </div>
   );
 };
 

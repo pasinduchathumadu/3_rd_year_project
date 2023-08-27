@@ -1,401 +1,216 @@
-import React, { useState, useEffect } from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
-import Forgot from "./pages/Common/Forget";
-import Signup from "./pages/Common/Signup";
-import Blogs from "./pages/Common/Blog";
-import Login from "./pages/Common/Login";
-import Email from "./pages/Common/Email";
+import React, { useState, useEffect } from 'react';
+import "../../styles/Client/Bording.css";
+
+import cage from "../../assests/2.png";
+import "../../styles/Client/Shop.css"
+import AOS from 'aos';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import Button from '@mui/material/Button';
+import platinum from "../../assests/platinum.png"
+import gold from "../../assests/gold.png"
+import silver from "../../assests/silver.png";
+import { Link } from 'react-router-dom';
+import StarIcon from '@mui/icons-material/Star';
 
 
 
 
-import Bill from "./pages/Client/Bill";
-
-import { Dashboard } from "./pages/Client/Dashboard";
-import { Reports } from "./pages/Client/Reports";
-
-import Menu from "./pages/Client/Menu";
-import Petcare from "./pages/Client/Petcare";
-
-import MindRealx from "./pages/Client/MindRealx";
-import { Shop } from "./pages/Client/Shop";
-import { NonBredShop } from "./pages/Client/NonBredShop";
-import PopupForm from "./pages/Client/popupform";
-
-import Header from "../src/components/Layout/Header";
-
-import Unregisterestore from "./pages/Client/Unregistered_store";
-import Cart from "./pages/Client/Cart";
-import LandingHeader from "../../frontend/src/components/Layout/LandingHeader";
-
-import Home from "./pages/Common/Home";
-import Services from "./pages/Common/Services";
-import About from "./pages/Common/About";
-import ComContent from "./pages/Common/ComContent";
-import Contact from "./pages/Common/Contact";
-import Footer from "./pages/Common/Footer";
-
-import BoardingHome from "./pages/Boarding_house_manager/Home";
-import BoardingClients from "./pages/Boarding_house_manager/Clients";
-import BoardingPets from "./pages/Boarding_house_manager/Boardpets";
-import BoardingPackages from "./pages/Boarding_house_manager/Packages";
-import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 
 
-import Bath from "./pages/Client/Bath";
-import Haircuts from "./pages/Client/Haircuts";
+const Bording = () => {
+  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [selectedMovieIndex, setSelectedMovieIndex] = useState(0);
+  const [count, setCount] = useState(0);
+  const [total, setTotal] = useState(0);
 
+  const seats = [
+    [false, false, false, false, false, false, false, false],
+    [false, false, false, true, true, false, false, false],
+    [false, false, false, false, false, true, true, false],
+    [false, false, false, false, false, false, false, false],
+    [false, false, false, true, true, false, false, false],
+    [false, false, false, true, true, true, true, false],
+  ];
 
-import Bording from "./pages/Client/Bording";
-import Petgrooming from "../src/pages/Client/Pet_grooming";
-import Medi from "../src/pages/Client/Medi";
-import { DoctorList } from "./pages/Client/DoctorList";
-import Training_Pets from "./pages/Client/Training_Pets";
+  const movies = [
+    { name: 'Dogs', price: 1000 },
+    { name: 'Cats', price: 800 },
+    { name: 'Birds', price: 500 },
+    { name: 'The Lion King', price: 9 },
+  ];
 
+  const handleSeatClick = (rowIndex, seatIndex) => {
+    const seatKey = `${rowIndex}-${seatIndex}`;
+    if (!seats[rowIndex][seatIndex]) {
+      const updatedSeats = [...selectedSeats, seatKey];
+      setSelectedSeats(updatedSeats);
+    } else {
+      const updatedSeats = selectedSeats.filter((seat) => seat !== seatKey);
+      setSelectedSeats(updatedSeats);
+    }
+  };
 
-
-import Doctor from "./pages/Medi-help_manager/doctors";
-import ViewAppointments from "./pages/Medi-help_manager/ViewAppointments";
-import PendingAppointments from "./pages/Medi-help_manager/PendingAppointments";
-import CompletedAppointments from "./pages/Medi-help_manager/CompletedAppointments";
-import PetProfiles from "./pages/Medi-help_manager/PetProfile";
-import ViewDoctors from "./pages/Medi-help_manager/ViewDoctors";
-import GetAppointments from "./pages/Medi-help_manager/GetAppointments";
-
-
-
-  
- 
-import Packages from "./pages/Care_center_manager/Packages";
-import Complaints from "./pages/Care_center_manager/Complaints";
-import Caregiverlist from "./pages/Care_center_manager/caregiverlist";
-import Appointments from "./pages/Care_center_manager/Appointments";
-import TrainingAppointments from "./pages/Care_center_manager/TrainingAppointments";
-
-
-import Reset from "./pages/Common/Reset";
-
-import AdminHome from "./pages/Admin/Home";
-import AdminUsers from "./pages/Admin/Users";
-import AdminRefund from "./pages/Admin/Refund";
-import AdminComplains from "./pages/Admin/Complains";
-
-import Profile from './pages/Common/Profile';
-
-
-
-import Onlinehome from "./pages/Online_store_manager/Home";
-import OnlineAdd from "./pages/Online_store_manager/Add";
-import Complain from "./pages/Online_store_manager/Complain";
-import Clientorders from "./pages/Online_store_manager/Clients_orders";
-
-import CompanyHome from "./pages/Company_manager/Company_Home";
-import CompanyClients from "./pages/Company_manager/Company_Clients";
-import CompanyCompetitions from "./pages/Company_manager/Company_Competitions";
-import CompanyComplaints from "./pages/Company_manager/Company_Complaints";
-
-import { useNavigate } from "react-router-dom";
-import HomeHeader from "./components/Layout/Homeheader";
-
-import PaymentClient from './pages/Client/Payment'
-
-
-// import Complains from "./pages/Boarding_house_manager/Complains";
-
-function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState("");
-  const [issignup, setIssignup] = useState(false);
-  const [user_role, setuserrole] = useState("");
+  const handleMovieChange = (event) => {
+    setSelectedMovieIndex(event.target.value);
+  };
 
   useEffect(() => {
-    // Check if the user is already logged in from previous sessions
-    const storedUserRole = localStorage.getItem("userRole");
-    const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
+    const selectedMoviePrice = movies[selectedMovieIndex].price;
+    const selectedSeatsCount = selectedSeats.length;
+    setCount(selectedSeatsCount);
+    setTotal(selectedSeatsCount * selectedMoviePrice);
+  }, [selectedSeats, selectedMovieIndex, movies]);
 
-    if (storedUserRole && storedIsLoggedIn) {
-      setuserrole(storedUserRole);
-      setIsLoggedIn(storedIsLoggedIn === "true");
-    }
+
+  useEffect(() => {
+    AOS.init({ duration: 800 });
   }, []);
 
 
-  const navigate = useNavigate();
-  const handleLogin = (role, email) => {
-    setIsLoggedIn(true);
-    setuserrole(role);
-    localStorage.setItem("userRole", role);
-    localStorage.setItem("isLoggedIn", "true");
-
-    localStorage.setItem("store_email", email);
-
-    if (role === "online_store_manager") {
-      localStorage.setItem("online_store_manager_email", email);
-      navigate("/online_home");
-    } else if (role === "boarding_house_manager") {
-      navigate("/boarding_dashboard");
-    } else if (role === "admin") {
-      navigate("/admin_dashboard");
-    } else if (role === "client") {
-      navigate("/dashboard");
-      localStorage.setItem("client_email", email);
-    } else if (role === "care_center_manager") {
-      navigate("/appointments");
-      localStorage.setItem("care_center_manager", email);
-    } else if (role === "company_manager") {
-      navigate("/company_dashboard");
-      localStorage.setItem("company_manager", email);
-
-    }
-    else if (role === "medi_help_manager") {
-      navigate("/Doctors");
-      localStorage.setItem("medi_help_manager", email);
-
-    }
-  };
-  const handleSignup = () => {
-    setIssignup(true);
-  };
   return (
-    <React.Fragment>
-      <main>
-        <Routes>
+    <>
 
-          <Route path="/email" element={issignup ? <Email /> : <Navigate to="/signup" />} />
-          <Route path="/store" element={<><LandingHeader /><Unregisterestore /></>} />
-          <Route path="/about" element={<><LandingHeader /><About /></>} />
-          <Route path="/contact" element={<><LandingHeader /><Contact /></>} />
-          <Route path="/" element={
-            <><LandingHeader />
-              <div className="App">
+      <div className='smooth-scroll' style={{ textAlign: "center", width: "100%", height: "75vh", marginTop: "auto", marginBottom: "auto", fontWeight: "1" }}><h2 style={{ fontSize: "80px", marginTop: "90px" }}>Book your <span style={{ color: "orange" }}>pets</span> Cage Now</h2>
+        <h1 style={{ marginTop: "20px", fontFamily: "sans-serif" }}>We protect and care your pet</h1>
+        <h1 style={{ fontSize: "20px", fontWeight: "1" }}>24 x 7 Service</h1>
 
-                <Home />
-                <Services />
-                <About />
-                <ComContent />
-                <Contact />
-                <Footer />
-              </div></>
-          } />
-          <Route path="/signup" element={<Signup onSignup={handleSignup} />} />
-          <Route path="/login" element={<Login onLogin={handleLogin} />} />
-          <Route path="/bill" element={isLoggedIn ? (<><HomeHeader userRole={user_role} /><Bill /></>) : (<Navigate to='/bill' />)} />
-          {/* <Route path="/menu" element={isLoggedIn ? (<><HomeHeader userRole={user_role} /><Menu /></>) : (<Navigate to='/login' />)} /> */}
-          <Route path="/cart" element={isLoggedIn ? (<><HomeHeader userRole={user_role} /><Cart /></>) : (<Navigate to='/login' />)} />
-          <Route path="/email" element={!issignup ? <Email /> : <Navigate to="/signup" />} />
-          <Route path="/payment" element={isLoggedIn ?(<><HomeHeader userRole={user_role}/><PaymentClient/></>):(<Navigate to='/login'/>)}/>
-          <Route
-            path="/store"
-            element={
-              <>
-                <LandingHeader />
-                <Unregisterestore />
-              </>
-            }
-          />
-          <Route
-            path="/about"
-            element={
-              <>
-                <LandingHeader />
-                <About />
-              </>
-            }
-          />
-          <Route
-            path="/contact"
-            element={
-              <>
-                <LandingHeader />
-                <Contact />
-              </>
-            }
-          />
-          <Route
-            path="/"
-            element={
-              <>
-                <LandingHeader />
-                <div className="App">
-                  <Home />
-                  <Services />
-                  <About />
-                  <ComContent />
-                  <Contact />
-                  <Footer />
-                </div>
-              </>
-            }
-          />
+        <img className="smooth-scroll" src={cage} alt="Cage" style={{ fontSize: "20px", width: "80px", height: "80px" }} />
+        <div>
+          <Link to="/activityTracking"><Button sx={{ backgroundColor: 'orange', width: '500px', color: 'white', ':hover': { backgroundColor: 'orange' }, fontWeight: 'bold', fontSize: '18px' }}>View Your Past Pets Records</Button></Link>
+          <h1 style={{ marginTop: "20px", fontFamily: "sans-serif" }}>Boarding Packages</h1>
+        </div>
+      </div>
 
+      <div style={{ width: "100%", height: "80vh", backgroundColor: "", display: "flex", padding: "100px" }} >
 
-          <Route
-            path="/menu"
-            element={
-              // isLoggedIn ? (
-                <>
-                  <HomeHeader userRole={user_role} />
-                  <Menu />
-                </>
-              // ) : (
-              //   <Navigate to="/menu" />
-              // )
-            }
-          />
-          <Route path="/cart"element={isLoggedIn ? (<><HomeHeader userRole={user_role} /><Cart /></>) : (<Navigate to="/login" /> )  }/>
-        
-          <Route path="/forget" element={<Forgot />} />
-          <Route path="/reset" element={<Reset />} />
+        <div style={{
+          width: "33%", height: "70vh", backgroundImage: "linear-gradient(to left, #5d5d5d, #797979, #959595, #b3b3b3, #d2d2d2, #d2d2d2, #d1d1d1, #d1d1d1, #b1b1b1, #939292, #757475, #595858)",
+          marginRight: "auto", marginLeft: "auto", borderRadius: "8px"
+        }} data-aos="flip-left">
+          <img className="smooth-scroll" src={silver} alt="Cage" style={{ fontSize: "20px", width: "150px", height: "150px", marginLeft: "34%", marginTop: "-50px" }} />
+          <h1 style={{ color: "black", textAlign: "center", fontWeight: "1" }}>Rs.1000</h1>
+          <p style={{ color: "black", textAlign: "center", fontWeight: "2" }}>/ per day</p>
+          <ol style={{ listStyleType: 'none', padding: 0, textAlign: "center", marginTop: "20px", color: "black", fontSize: "20px" }}>
+            <li className="tick-icon">Foods with <b>normal brands</b></li>
+            <li className="tick-icon">Washing only</li>
+            <li className="tick-icon"><b>No</b> air condition apply </li>
+          </ol>
+        </div>
 
-          <Route path="/blog" element={ isLoggedIn ? ( <><HomeHeader userRole={user_role} /><Blogs /></>) : (<><LandingHeader /><Blogs /></>)}/>
-          <Route path="/blogs" element={<><LandingHeader/><Blogs/></>}/>     
+        <div
+          style={{
+            width: "33%", height: "85vh", marginTop: "-80px",
+            backgroundImage: "linear-gradient(to left, #000000, #1b1b1b, #2e2e2e, #444444, #5a5a5a, #5a5a5a, #5a5a5a, #5a5a5a, #444444, #2e2e2e, #1b1b1b, #000000)"
+            , marginRight: "auto", marginLeft: "auto",
+            borderRadius: "8px",
+            transition: "transform 0.5s ",
+            "&:hover": {
+              transform: "scale(1.1)", // Apply scale transform on hover
+              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+            },
 
-          {/* <Route path="/blogs" element={isLoggedIn ? <Blogs /> : <Navigate to="/login" />} /> */}
+          }} data-aos="fade-up">
+          <img className="smooth-scroll" src={platinum} alt="Cage" style={{ fontSize: "20px", width: "150px", height: "150px", marginLeft: "34%", marginTop: "-50px" }} />
+          <h1 style={{ color: "white", textAlign: "center", fontWeight: "1" }}>Rs.1500</h1>
+          <p style={{ color: "black", textAlign: "center", fontWeight: "2", color: 'white' }}>/ per day</p>
+          <ol style={{ listStyleType: 'none', padding: 0, textAlign: "center", marginTop: "20px", color: "white", fontSize: "20px" }}>
+            <li className="tick-icon">Foods with <b>high brands</b></li>
+            <li className="tick-icon"><b>Free</b> washing with <b>high brands</b> ingrediants</li>
+            <li className="tick-icon"><b>Air conditional</b> apply</li>
+            <li className="tick-icon"><b>Free</b> spa</li>
+            <li className="tick-icon"><b>Comforting</b> medicine </li>
+          </ol>
+        </div>
 
-       
-      
+        <div style={{
+          width: "33%", height: "70vh", backgroundImage: "linear-gradient(to left, #cb8700, #d5941f, #dea133, #e8ae45, #f1bb56, #f1bb56, #f1bb56, #f1bb56, #e8ae45, #dea133, #d5941f, #cb8700)",
+          marginRight: "auto", marginLeft: "auto", borderRadius: "8px"
+        }} data-aos="flip-right">
+          <img className="smooth-scroll" src={gold} alt="Cage" style={{ fontSize: "20px", width: "150px", height: "150px", marginLeft: "34%", marginTop: "-50px" }} />
+          <h1 style={{ color: "black", textAlign: "center", fontWeight: "1" }}>Rs.1200</h1>
+          <p style={{ color: "black", textAlign: "center", fontWeight: "2" }}>/ per day</p>
+          <ol style={{ listStyleType: 'none', padding: 0, textAlign: "center", marginTop: "20px", color: "black", fontSize: "20px" }}>
+            <li className="tick-icon">Foods  with <b>normal brands</b></li>
+            <li className="tick-icon"><b>Free </b> washing with <b>normal brand</b> ingrediants</li>
+            <li className="tick-icon"><b>Air conditional</b> apply</li>
+            <li className="tick-icon"><b>Free</b> spa</li>
+          </ol>
+        </div>
+      </div>
 
+      <div className='main' style={{ marginTop: "20px" }}>
+        <div className="movie-con">
+          <label>Pick a Cage:</label>
+          <select id="movie" onChange={handleMovieChange} value={selectedMovieIndex}>
+            {movies.map((movie, index) => (
+              <option key={index} value={index}>
+                {movie.name} (Rs.{movie.price}-UP)
+              </option>
+            ))}
+          </select>
+        </div>
 
+        <ul className="showcase">
+          <li>
+            <div className="seat"> </div>
+            <small>N/A</small>
+          </li>
 
+          <li>
+            <div className="seat selected"> </div>
+            <small>Selected</small>
+          </li>
 
-          
+          <li>
+            <div className="seat occupied"></div>
+            <small>Occupied</small>
+          </li>
+        </ul>
 
+        <div className="con">
+          <div className="screen"></div>
+          {seats.map((row, rowIndex) => (
+            <div className="ro" key={rowIndex}>
+              {row.map((seat, seatIndex) => {
+                const seatKey = `${rowIndex}-${seatIndex}`;
+                return (
+                  <div
 
+                    key={seatKey}
+                    className={`seat ${seat
+                      ? "occupied"
+                      : selectedSeats.includes(seatKey)
+                        ? "selected"
+                        : ""}`}
+                    onClick={() => handleSeatClick(rowIndex, seatIndex)}
+                  >
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+        </div>
 
+        <p className="text">
+          You have selected <span id="count">{count}</span> seats for a price of ${' '}
+          <span id="total">{total}</span>
+        </p>
+        <p style={{ color: "black", marginTop: "30px" }}>Select your time slot</p>
+        <LocalizationProvider dateAdapter={AdapterDayjs} sx={{ color: "white" }}>
+          <DemoContainer components={['DateTimePicker']} sx={{ width: "500px", marginLeft: "45px", marginTop: "10px" }}>
+            <DateTimePicker label="Book your time" sx={{ color: "black", backgroundColor: "white", borderRadius: "10px" }} />
+          </DemoContainer>
+        </LocalizationProvider>
 
-
-          {/* {isLoggedIn && user_role === "client" && ( */}
-            <><Route path="/reports" element={<><Header userRole={"client"} /><Reports /> </>}></Route>
-            <Route path="/dashboard" element={<><Header userRole={"client"} /> <Dashboard /></>} ></Route>
-            <Route path="/petcare" element={<><Header userRole={"client"} /><Petcare /></>}></Route>
-            <Route path="/MindRealx" element={<><Header userRole={"client"} /><MindRealx /></>}></Route>
-            <Route path="/shop" element={<><Header userRole={"client"} /><Shop /></>}></Route>
-            <Route path="/NonBredShop" element={<><Header userRole={"client"} /><NonBredShop /></>}></Route>
-            <Route path="/bording" element={<><Header userRole={"client"}/><Bording/></>}></Route>
-            <Route path="/medi" element={<><Header userRole={"client"}/><Medi/></>}></Route>
-            <Route path="/popupform" element={<><Header userRole={"client"}/><PopupForm/></>}></Route>
-            <Route path="/Bath" element={<><Header userRole={"client"}/><Bath/></>}></Route>
-            <Route path="/Haircuts" element={<><Header userRole={"client"}/><Haircuts/></>}></Route>
-            <Route path="/DoctorList" element={<><Header userRole={"client"}/><DoctorList/></>}></Route>
-            <Route path="/Pet_grooming" element={ <><Header userRole={"client"} /><Petgrooming /></>}></Route>
-            <Route path="/Training_Pets" element={ <><Header userRole={"client"} /><Training_Pets /></>}></Route></>{/* )} */}
-
-          {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
-
-          {/* boarding house manager */}
-          
-
-          {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
-
-
-          {/* medi care manager */}
-          
-          
-             <><Route path="/Doctors" element={<div className="App">
-             <><HomeHeader userRole={"medi_help_manager"}/><Doctor /></>
-            </div>} /><Route path="/viewAppointments" element={<><HomeHeader userRole={"medi_help_manager"}/><ViewAppointments /></>} />
-            <Route path="/viewPendingAppointments" element={<><HomeHeader userRole={"medi_help_manager"}/><PendingAppointments /></>} />
-            <Route path="/viewCompletedAppointments" element={<><HomeHeader userRole={"medi_help_manager"}/><CompletedAppointments /></>} />
-            <Route path="/PetProfiles" element={<><HomeHeader userRole={"medi_help_manager"}/><PetProfiles /></>} />
-            <Route path="/viewDoctors" element={<><HomeHeader userRole={"medi_help_manager"}/><ViewDoctors /></>} />
-            <Route path="/getAppointment" element={<><HomeHeader userRole={"medi_help_manager"}/><GetAppointments /></>} />
-            </>
-         
-          
-         
-
-          {/* boarding house manager */}
-          {isLoggedIn && user_role === "boarding_house_manager" && (
-            <><Route path="/boarding_dashboard" element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingHome /></>} />
-              <Route path="/boarding_clients" element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingClients /></>} />
-              <Route path="/boarding_pets" element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingPets /></>} />
-              <Route path="/boarding_packages" element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingPackages /></>} />
-              <Route path="/boarding_complains" element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingComplains /></>} />
-            </>
-          )}
-
-          {/* admin */}
-          {isLoggedIn && user_role === "admin" && (
-            <><Route path="/admin_dashboard" element={<><HomeHeader userRole={"admin"} /><AdminHome /></>} />
-              <Route path="/admin_users" element={<><HomeHeader userRole={"admin"} /><AdminUsers /></>} />
-              <Route path="/admin_refund" element={<><HomeHeader userRole={"admin"} /><AdminRefund /></>} />
-              <Route path="/admin_complains" element={<><HomeHeader userRole={"admin"} /><AdminComplains /></>} />
-            </>
-          )}
-
-          <Route path="/profile" element={<Profile />} />
+        <Button sx={{ backgroundColor: "black", width: "500px", marginLeft: "45px", marginTop: "10px", '&:hover': { backgroundColor: 'black' } }} variant="contained">Submit</Button>
 
 
-
-
-          {/* admin */}
-          {/* <Route path="/admin_dashboard" element={<AdminHome />} />
-          <Route path="/admin_users" element={<AdminUsers />} />
-          <Route path="/admin_refund" element={<AdminRefund />} />
-          <Route path="/admin_complains" element={<AdminComplains />} />  */}
-
-          {/* {isLoggedIn && user_role === "care_center_manager" && ( */}
-            
-              <Route path="/caregiverlist" element={ <> <HomeHeader userRole={"care_center_manager"} /><Caregiverlist /></>}  />
-              <Route path="/packages" element={  <>   <HomeHeader userRole={"care_center_manager"} /> <Packages /></>  }/>
-              <Route path="/appointments" element={<>  <HomeHeader userRole={"care_center_manager"} />  <Appointments /></>  }/>
-              <Route path="/complaints"element={<>   <HomeHeader userRole={"care_center_manager"} /> <Complaints /></>  }  />
-              <Route path="/trainingappointments"element={<> <HomeHeader userRole={"care_center_manager"} /> <TrainingAppointments /></>  }  />
-           {/* )}  */}
-
-          {/* {isLoggedIn && user_role === "online_store_manager" && ( */}
-            <>
-              <Route  path="/handling_complain" element={ <>   <HomeHeader userRole={"online_store_manager"} />   <Complain /> </> }/>
-              <Route path="/online_add"element={<>   <HomeHeader userRole={"online_store_manager"} /> <OnlineAdd />  </>  }/>
-              <Route path="/online_home" element={<>  <HomeHeader userRole={"online_store_manager"} />  <Onlinehome /></> }/>
-              <Route path="/online_client" element={ <>   <HomeHeader userRole={"online_store_manager"} />   <Clientorders /> </> } />
-            </>
-          {/* )} */}
-          {/* company manager */}
-          {isLoggedIn && user_role === "company_manager" && (
-            <>
-              <Route
-                path="/company_dashboard"
-                element={
-                  <>
-                    <HomeHeader userRole={"company_manager"} />
-                    <CompanyHome />
-                  </>
-                }
-              />
-              <Route
-                path="/company_clients"
-                element={
-                  <>
-                    <HomeHeader userRole={"company_manager"} />
-                    <CompanyClients />
-                  </>
-                }
-              />
-              <Route
-                path="/company_competitions"
-                element={
-                  <>
-                    <HomeHeader userRole={"company_manager"} />
-                    <CompanyCompetitions />
-                  </>
-                }
-              />
-              <Route
-                path="/company_complains"
-                element={
-                  <>
-                    <HomeHeader userRole={"company_manager"} />
-                    <CompanyComplaints />
-                  </>
-                }
-              />
-            </>
-          )}
-
-        </Routes>
-      </main>
-    </React.Fragment>
+      </div>
+    </>
   );
-}
+};
 
-export default App;
+export default Bording;

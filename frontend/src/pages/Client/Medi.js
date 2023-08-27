@@ -1,192 +1,216 @@
+import React, { useState, useEffect } from 'react';
+import "../../styles/Client/Bording.css";
 
 import cage from "../../assests/2.png";
-import pet_doctor from "../../assests/doctor.png";
 import "../../styles/Client/Shop.css"
+import AOS from 'aos';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import React, { useState, useEffect } from 'react';
-import {color, motion} from 'framer-motion'
-import petcare1 from "../../assests/vaccine.png";
-import petcare2 from "../../assests/tooth-cleaning.png";
-import petcare3 from "../../assests/pet-care.png";
-import AOS from 'aos';
-import 'aos/dist/aos.css';
-import doctor2 from "../../assests/doctor2.png"
-import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import platinum from "../../assests/platinum.png"
+import gold from "../../assests/gold.png"
+import silver from "../../assests/silver.png";
 import { Link } from 'react-router-dom';
-import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, IconButton, Stack, TextField } from "@mui/material";
-import FormControlContext from "@mui/material/FormControl/FormControlContext";
-import CloseIcon from "@mui/icons-material/Close"
-import "../../styles/Client/Medi.css"
-import { DoctorList } from "./DoctorList";
+import StarIcon from '@mui/icons-material/Star';
 
 
 
 
 
 
-function Medi() {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+const Bording = () => {
+  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [selectedMovieIndex, setSelectedMovieIndex] = useState(0);
+  const [count, setCount] = useState(0);
+  const [total, setTotal] = useState(0);
 
-  const handlePopupToggle = () => {
-    setIsPopupOpen((prev) => !prev);
+  const seats = [
+    [false, false, false, false, false, false, false, false],
+    [false, false, false, true, true, false, false, false],
+    [false, false, false, false, false, true, true, false],
+    [false, false, false, false, false, false, false, false],
+    [false, false, false, true, true, false, false, false],
+    [false, false, false, true, true, true, true, false],
+  ];
+
+  const movies = [
+    { name: 'Dogs', price: 1000 },
+    { name: 'Cats', price: 800 },
+    { name: 'Birds', price: 500 },
+    { name: 'The Lion King', price: 9 },
+  ];
+
+  const handleSeatClick = (rowIndex, seatIndex) => {
+    const seatKey = `${rowIndex}-${seatIndex}`;
+    if (!seats[rowIndex][seatIndex]) {
+      const updatedSeats = [...selectedSeats, seatKey];
+      setSelectedSeats(updatedSeats);
+    } else {
+      const updatedSeats = selectedSeats.filter((seat) => seat !== seatKey);
+      setSelectedSeats(updatedSeats);
+    }
   };
 
-    const [scrollAnimation, setScrollAnimation] = useState(false);
+  const handleMovieChange = (event) => {
+    setSelectedMovieIndex(event.target.value);
+  };
 
   useEffect(() => {
-    const handleScroll = () => {
-      const offset = 500; // Adjust this value as needed
-      if (window.scrollY > offset) {
-        setScrollAnimation(true);
-      } else {
-        setScrollAnimation(false);
-      }
-    };
+    const selectedMoviePrice = movies[selectedMovieIndex].price;
+    const selectedSeatsCount = selectedSeats.length;
+    setCount(selectedSeatsCount);
+    setTotal(selectedSeatsCount * selectedMoviePrice);
+  }, [selectedSeats, selectedMovieIndex, movies]);
 
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
 
   useEffect(() => {
-    AOS.init({ duration:500 });
+    AOS.init({ duration: 800 });
   }, []);
-  const StyledDateTimePicker = styled(DateTimePicker)({
-    color: 'white',
-  });
-
-
-  const [open,openchange]=useState(false);
-  const functionopenpopup=()=>{
-      openchange(true);
-  }
-  const closepopup=()=>{
-      openchange(false);
-  }
-
 
 
   return (
     <>
-    <div style={{marginTop:'4%'}}>
 
+      <div className='smooth-scroll' style={{ textAlign: "center", width: "100%", height: "75vh", marginTop: "auto", marginBottom: "auto", fontWeight: "1" }}><h2 style={{ fontSize: "80px", marginTop: "90px" }}>Book your <span style={{ color: "orange" }}>pets</span> Cage Now</h2>
+        <h1 style={{ marginTop: "20px", fontFamily: "sans-serif" }}>We protect and care your pet</h1>
+        <h1 style={{ fontSize: "20px", fontWeight: "1" }}>24 x 7 Service</h1>
 
-
-    <div className='smooth-scroll' style={{width:"100%",height:"60vh",marginTop:"auto",marginBottom:"auto",fontWeight:"1",display:"flex"}} data-aos="zoom-out">
+        <img className="smooth-scroll" src={cage} alt="Cage" style={{ fontSize: "20px", width: "80px", height: "80px" }} />
         <div>
-        <h2 style={{fontSize:"80px",marginTop:"30px",marginLeft:"50px"}}>meet your <span style={{color:"orange"}}>doctor</span> </h2>
-        {/* <h1 style={{marginTop:"20px",fontFamily:"sans-serif",marginLeft:"50px"}}>we protect and care yout pet</h1> */}
-        <h1 style={{fontSize:"20px",fontWeight:"1",marginLeft:"250px"}}>24 x 7 service</h1>
-        <motion.div
-        animate={{ x:100}}
-        transition={{ ease: "easeOut", duration: .8 }}
-        >
-       <img  className="smooth-scroll" src={cage} alt="Cage" style={{fontSize:"20px",width:"80px",height:"80px",marginLeft:"170px"}}/>
-
-
-       </motion.div>
-            
-        </div>
-
-      
-      <div data-aos="fade-up">
-      <img  className="smooth-scroll" src={pet_doctor} alt="Cage" style={{fontSize:"20px",width:"700px",height:"700px",marginTop:"188px",marginLeft:"150px"}}/>
-
-      </div>
-
-      </div>
-
-      <div style={{width:"100%",height:"60vh",backgroundColor:"#121334",marginTop:"auto",color:"white"}}  >
-        <h2 style={{fontSize:"50px",marginLeft:"50px"}}>Enter your pet details</h2>
-        <h2 style={{fontSize:"20px",marginLeft:"50px"}}>We always protect your pet details</h2>
-        
-        <Link to="/DoctorList" style={{ textDecoration: 'none' }}>
-        <Button variant="contained" sx={{ width:"500px",height:"50px",backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px',marginLeft:"45px",marginTop:"20px", fontSize: '12px', '&:hover': { backgroundColor: 'orange' } }} >Enter details</Button></Link>
-        <LocalizationProvider dateAdapter={AdapterDayjs} sx={{color:"white"}}>
-            <DemoContainer components={['DateTimePicker']} sx={{ width: "500px", marginLeft: "45px", marginTop: "10px" }}>
-              <DateTimePicker label="Book your time" sx={{color:"white",backgroundColor:"white",borderRadius:"10px"}} />
-            </DemoContainer>
-          </LocalizationProvider>
-
-      </div>
-
-
-      <div style={{width:"100%",height:"60vh",backgroundColor:"white",marginTop:"auto"}}>
-
-        <h1 style={{textAlign:"center",marginTop:"20px"}}>Our servises</h1>
-        <h1 style={{textAlign:"center",fontSize:"80px",marginTop:"-20px",fontWeight:"1000",color:"rgb(163 169 168)"}}>Servises we provide</h1>
-
-
-      </div>
-
-      <div style={{display:"flex",marginTop:"-200px",textAlign:"ceneter"}} >
-
-        <div style={{width:"30%",height:"40vh",backgroundColor:"white",marginLeft:"auto",marginRight:"auto"}}data-aos="zoom-in">
-        <img  className="smooth-scroll" src={petcare1} alt="Cage" style={{fontSize:"20px",width:"80px",height:"80px",marginLeft:"190px"}}/>
-        <h1 style={{textAlign:"center"}}>pet vaccine </h1>
-
-        <h3 style={{textAlign:"center",fontWeight:"1"}}>We will help you determine a vaccination regiment that will provide the safest and best protection for your Pet. </h3>
-
-
-        </div>
-        <div style={{width:"30%",height:"40vh",backgroundColor:"white",marginLeft:"auto",marginRight:"auto"}}data-aos="zoom-in">
-        <img  className="smooth-scroll" src={petcare2} alt="Cage" style={{fontSize:"20px",width:"80px",height:"80px",marginLeft:"auto",marginRight:"auto",marginLeft:"190px"}}/>
-        <h1 style={{textAlign:"center"}}>pet dentel </h1>
-        <h3 style={{textAlign:"center",fontWeight:"1"}}>We perform thorough cleanings, including the area beneath the gums that you can’t see or access at home.</h3>
-
-
-        </div>
-        <div style={{width:"30%",height:"40vh",backgroundColor:"white",marginLeft:"auto",marginRight:"auto"}}data-aos="zoom-in">
-        <img  className="smooth-scroll" src={petcare3} alt="Cage" style={{fontSize:"20px",width:"80px",height:"80px",marginLeft:"auto",marginRight:"auto",marginLeft:"190px"}}/>
-        <h1 style={{textAlign:"center"}}>pet sergury </h1>
-        <h3 style={{textAlign:"center",fontWeight:"1"}}>We believe in utilizing the highest level of medical technology and our surgeons are experienced and highly trained.</h3>
-
-
-        </div>
-
-        
-      </div>
-
-      <div style={{width:"100%",height:"73vh",backgroundColor:"#121334",marginTop:"auto",display:"flex"}} data-aos="fade-right">
-      <img  className="smooth-scroll" src={doctor2} alt="Cage" style={{fontSize:"700px",width:"400px",height:"600px",marginTop:"-80px"}} />
-
-
-      <h1 style={{color:"white",textAlign:"center",marginTop:"90px",marginLeft:"300px"}}> Make your appoinment here</h1>
-      <div style={{textAlign:'center'}}>
-            <Button onClick={functionopenpopup}  variant="contained" sx={{ width:"500px",height:"50px",backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px',marginLeft:"-450px",marginTop:"260px", fontSize: '12px', '&:hover': { backgroundColor: 'orange' } }} >Enter details</Button>
-
-            <Dialog 
-            // fullScreen 
-            open={open} onClose={closepopup} fullWidth maxWidth="sm">
-                <DialogTitle>User Registeration  <IconButton onClick={closepopup} style={{float:'right'}}><CloseIcon color="primary"></CloseIcon></IconButton>  </DialogTitle>
-                <DialogContent>
-                    {/* <DialogContentText>Do you want remove this user?</DialogContentText> */}
-                    <Stack spacing={2} margin={2} >
-                      <TextField variant="outlined" label="Username"></TextField>
-                      <TextField variant="outlined" label="Password"></TextField>
-                      <TextField variant="outlined" label="Email"></TextField>
-                      <TextField variant="outlined" label="Phone"></TextField>
-                      <FormControlLabel control={<Checkbox defaultChecked color="primary"></Checkbox>} label="Agree terms & conditions"></FormControlLabel>
-                      <Button sx={{backgroundColor:"orange"}} variant="contained">Submit</Button>
-                    </Stack>
-                </DialogContent>
-                <DialogActions>
-                {/* <Button color="success" variant="contained">Yes</Button>
-                    <Button onClick={closepopup} color="error" variant="contained">Close</Button> */}
-                </DialogActions>
-            </Dialog>
+          <Link to="/activityTracking"><Button sx={{ backgroundColor: 'orange', width: '500px', color: 'white', ':hover': { backgroundColor: 'orange' }, fontWeight: 'bold', fontSize: '18px' }}>View Your Past Pets Records</Button></Link>
+          <h1 style={{ marginTop: "20px", fontFamily: "sans-serif" }}>Boarding Packages</h1>
         </div>
       </div>
-        
-        
-        
-    </div></>
-  )
-}
 
-export default Medi
+      <div style={{ width: "100%", height: "80vh", backgroundColor: "", display: "flex", padding: "100px" }} >
+
+        <div style={{
+          width: "33%", height: "70vh", backgroundImage: "linear-gradient(to left, #5d5d5d, #797979, #959595, #b3b3b3, #d2d2d2, #d2d2d2, #d1d1d1, #d1d1d1, #b1b1b1, #939292, #757475, #595858)",
+          marginRight: "auto", marginLeft: "auto", borderRadius: "8px"
+        }} data-aos="flip-left">
+          <img className="smooth-scroll" src={silver} alt="Cage" style={{ fontSize: "20px", width: "150px", height: "150px", marginLeft: "34%", marginTop: "-50px" }} />
+          <h1 style={{ color: "black", textAlign: "center", fontWeight: "1" }}>Rs.1000</h1>
+          <p style={{ color: "black", textAlign: "center", fontWeight: "2" }}>/ per day</p>
+          <ol style={{ listStyleType: 'none', padding: 0, textAlign: "center", marginTop: "20px", color: "black", fontSize: "20px" }}>
+            <li className="tick-icon">Foods with <b>normal brands</b></li>
+            <li className="tick-icon">Washing only</li>
+            <li className="tick-icon"><b>No</b> air condition apply </li>
+          </ol>
+        </div>
+
+        <div
+          style={{
+            width: "33%", height: "85vh", marginTop: "-80px",
+            backgroundImage: "linear-gradient(to left, #000000, #1b1b1b, #2e2e2e, #444444, #5a5a5a, #5a5a5a, #5a5a5a, #5a5a5a, #444444, #2e2e2e, #1b1b1b, #000000)"
+            , marginRight: "auto", marginLeft: "auto",
+            borderRadius: "8px",
+            transition: "transform 0.5s ",
+            "&:hover": {
+              transform: "scale(1.1)", // Apply scale transform on hover
+              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+            },
+
+          }} data-aos="fade-up">
+          <img className="smooth-scroll" src={platinum} alt="Cage" style={{ fontSize: "20px", width: "150px", height: "150px", marginLeft: "34%", marginTop: "-50px" }} />
+          <h1 style={{ color: "white", textAlign: "center", fontWeight: "1" }}>Rs.1500</h1>
+          <p style={{ color: "black", textAlign: "center", fontWeight: "2", color: 'white' }}>/ per day</p>
+          <ol style={{ listStyleType: 'none', padding: 0, textAlign: "center", marginTop: "20px", color: "white", fontSize: "20px" }}>
+            <li className="tick-icon">Foods with <b>high brands</b></li>
+            <li className="tick-icon"><b>Free</b> washing with <b>high brands</b> ingrediants</li>
+            <li className="tick-icon"><b>Air conditional</b> apply</li>
+            <li className="tick-icon"><b>Free</b> spa</li>
+            <li className="tick-icon"><b>Comforting</b> medicine </li>
+          </ol>
+        </div>
+
+        <div style={{
+          width: "33%", height: "70vh", backgroundImage: "linear-gradient(to left, #cb8700, #d5941f, #dea133, #e8ae45, #f1bb56, #f1bb56, #f1bb56, #f1bb56, #e8ae45, #dea133, #d5941f, #cb8700)",
+          marginRight: "auto", marginLeft: "auto", borderRadius: "8px"
+        }} data-aos="flip-right">
+          <img className="smooth-scroll" src={gold} alt="Cage" style={{ fontSize: "20px", width: "150px", height: "150px", marginLeft: "34%", marginTop: "-50px" }} />
+          <h1 style={{ color: "black", textAlign: "center", fontWeight: "1" }}>Rs.1200</h1>
+          <p style={{ color: "black", textAlign: "center", fontWeight: "2" }}>/ per day</p>
+          <ol style={{ listStyleType: 'none', padding: 0, textAlign: "center", marginTop: "20px", color: "black", fontSize: "20px" }}>
+            <li className="tick-icon">Foods  with <b>normal brands</b></li>
+            <li className="tick-icon"><b>Free </b> washing with <b>normal brand</b> ingrediants</li>
+            <li className="tick-icon"><b>Air conditional</b> apply</li>
+            <li className="tick-icon"><b>Free</b> spa</li>
+          </ol>
+        </div>
+      </div>
+
+      <div className='main' style={{ marginTop: "20px" }}>
+        <div className="movie-con">
+          <label>Pick a Cage:</label>
+          <select id="movie" onChange={handleMovieChange} value={selectedMovieIndex}>
+            {movies.map((movie, index) => (
+              <option key={index} value={index}>
+                {movie.name} (Rs.{movie.price}-UP)
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <ul className="showcase">
+          <li>
+            <div className="seat"> </div>
+            <small>N/A</small>
+          </li>
+
+          <li>
+            <div className="seat selected"> </div>
+            <small>Selected</small>
+          </li>
+
+          <li>
+            <div className="seat occupied"></div>
+            <small>Occupied</small>
+          </li>
+        </ul>
+
+        <div className="con">
+          <div className="screen"></div>
+          {seats.map((row, rowIndex) => (
+            <div className="ro" key={rowIndex}>
+              {row.map((seat, seatIndex) => {
+                const seatKey = `${rowIndex}-${seatIndex}`;
+                return (
+                  <div
+
+                    key={seatKey}
+                    className={`seat ${seat
+                      ? "occupied"
+                      : selectedSeats.includes(seatKey)
+                        ? "selected"
+                        : ""}`}
+                    onClick={() => handleSeatClick(rowIndex, seatIndex)}
+                  >
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+
+        <p className="text">
+          You have selected <span id="count">{count}</span> seats for a price of ${' '}
+          <span id="total">{total}</span>
+        </p>
+        <p style={{ color: "black", marginTop: "30px" }}>Select your time slot</p>
+        <LocalizationProvider dateAdapter={AdapterDayjs} sx={{ color: "white" }}>
+          <DemoContainer components={['DateTimePicker']} sx={{ width: "500px", marginLeft: "45px", marginTop: "10px" }}>
+            <DateTimePicker label="Book your time" sx={{ color: "black", backgroundColor: "white", borderRadius: "10px" }} />
+          </DemoContainer>
+        </LocalizationProvider>
+
+        <Button sx={{ backgroundColor: "black", width: "500px", marginLeft: "45px", marginTop: "10px", '&:hover': { backgroundColor: 'black' } }} variant="contained">Submit</Button>
+
+
+      </div>
+    </>
+  );
+};
+
+export default Bording;
