@@ -518,25 +518,29 @@ export const back = async (req, res, next) => {
 
 export const date_client = async (req, res, next) => {
   const { selectedDateString, Id , choose_package } = req.body
+  const status = 'completed'
   //get the count of employee
-  const sqlQuery1 = "SELECT COUNT(emp_id) AS count2 FROM employee WHERE type = ?"
+  const sqlQuery1 = "SELECT COUNT(emp_id) AS count2 FROM employee WHERE type = ? AND  ? > unfree_date_start AND ? > unfree_date_end";
   const value = [
-    choose_package
+    choose_package,
+    selectedDateString,
+    selectedDateString
   ]
   db.query(sqlQuery1,value,(err,data1)=>{
     if(err){
       return res.json({message:'There is an internel error'})
     }
-    const sqlQuery = "SELECT COUNT(time_slot) AS count1 FROM carecenter_appointment WHERE placed_date = ? AND time_slot = ?"
+    const sqlQuery = "SELECT COUNT(time_slot) AS count1 FROM carecenter_appointment WHERE placed_date = ? AND time_slot = ? AND appointment_status = ?"
     const values = [
       selectedDateString,
-      Id
+      Id,
+      status
     ]
     db.query(sqlQuery, values, (err, data) => {
       if(err){
         return res.json({message:'There is an internel error'})
       }
-      if (data[0].count1 > data1[0].count2) {
+      if (data[0].count1 >= data1[0].count2) {
         return res.json({ message: 'already filled' })
       }
 
