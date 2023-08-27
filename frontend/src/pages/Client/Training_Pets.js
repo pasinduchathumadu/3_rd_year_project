@@ -15,7 +15,7 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import axios from 'axios'
 import React, { useState, useEffect } from "react";
-import { Button, Card, CardContent, CardMedia, Stack, TextField, Typography } from "@mui/material";
+import { Button, Card, CardContent, CardMedia, FormControl, InputLabel, MenuItem, Select, Stack, TextField, Typography } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 import { DateTimePicker } from "@mui/x-date-pickers";
@@ -49,7 +49,12 @@ const Training_Pets = () => {
 
     const [value, setValue] = React.useState('1');
     const [shedule, setshedule] = useState([]);
-
+    const [age, setAge] = React.useState('');
+    const [breed , setbreed ] = useState([])
+    
+  const handleChange1 = (event) => {
+    setAge(event.target.value);
+  };
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -88,11 +93,28 @@ const Training_Pets = () => {
             console.log('There is an internel error')
         }
     }
+
+    const get_breed = async()=>{
+        try{
+            const res = await axios.get('http://localhost:5000/pet_care/user/get_breed')
+            const data = await res.data
+            return data
+
+        }catch(err){
+            console.log("There is an internel error")
+        }
+    }
     useEffect(() => {
+        // Fetch schedule data
         get_shedule()
             .then((data) => setshedule(data.data))
-            .catch((err) => console.log(err))
-    })
+            .catch((err) => console.log(err));
+        
+        // Fetch breed data
+        get_breed()
+            .then((data) => setbreed(data.data))
+            .catch((err) => console.log(err));
+    }, []);
 
 
     return (
@@ -331,7 +353,27 @@ const Training_Pets = () => {
                     </DialogContentText>
                     {/* Replace with your actual date picker component */}
                     <TextField sx={{width:'100%'}} type="date" value={selectedDate} onChange={handleDateSelect} />
-
+                    <DialogContentText sx={{marginBottom:'4%',marginTop:'2%'}}>
+                        Dog Breed 
+                    </DialogContentText>
+                    <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Breed</InputLabel>
+       
+        <Select
+        labelId="demo-simple-select-label"
+        id="demo-simple-select"
+        value={age}
+        label="Breed"
+        onChange={handleChange1}
+      >
+        {breed && breed.map((menu,index)=>
+        <MenuItem value={menu.breed}>{menu.breed }</MenuItem>)}
+      </Select>
+    
+        
+      </FormControl>
+    </Box>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">

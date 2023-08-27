@@ -1085,4 +1085,15 @@ export const pet_booking = async(req,res,next)=>{
   
 }
 
+export const get_breed = async(req,res,next) =>{
+  const id = req.params.id
+  const sqlQuery ="SELECT *FROM dog_breed "
+  db.query(sqlQuery,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an internel error'})
+    }
+    return res.json({data})
+  })
+}
+
 
