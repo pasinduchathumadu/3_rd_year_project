@@ -130,7 +130,7 @@ function Medi() {
       setmessage("Please pick a valid date within the next two weeks.");
       return;
     }
-    if(selectedDate < currentDate ){
+    if(selectedDate < currentDate  ){
       seterror(true);
       setmessage("You can't pick that day!!!");
       return;

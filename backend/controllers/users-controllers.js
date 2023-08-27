@@ -682,9 +682,11 @@ export const random_assistant = async (req, res, next) => {
       return res.json({ message: 'There is an internel error' })
     }
     const sqlQuery2 =
-      "SELECT CONCAT(first_name, ' ', last_name)AS full_name, email,contact_number, img FROM employee WHERE type = ?"
+      "SELECT CONCAT(first_name, ' ', last_name)AS full_name, email,contact_number, img FROM employee WHERE type = ? AND ? > unfree_date_start AND ? > unfree_date_end"
     const value2 = [
-      choose_package
+      choose_package,
+      selectedDateString,
+      selectedDateString
     ]
 
     db.query(sqlQuery2,value2,(err, data) => {
@@ -967,29 +969,32 @@ export const check_appointment = async(req,res,next)=>{
   ]
   db.query(sqlQuery,values,(err,data)=>{
     if(err){
-      return res.json({message:'There is an internel errorhhh'})
+      return res.json({message:'There is an internel error'})
     }
 
     if(data[0].appointment_count>data[0].daily_count){
       return res.json({message:'Appoinments are over'})
     }
-    const sqlQuery1 = "SELECT *FROM employee WHERE unfree_date_start <= ? AND unfree_date_end <=? AND emp_id ?"
+  })
+    const sqlQuery1 = "SELECT *FROM vet WHERE vet_id = ? AND  ? > unfree_date_start AND ? > unfree_date_end"
     const value2 = [
+      id,
       date_medi,
-      date_medi,
-      id
+      date_medi
+    
     ]
-    db.query(sqlQuery1,value2,(err,data)=>{
+    db.query(sqlQuery1,value2,(err,data1)=>{
       if(err){
         return res.json({message:'There is an internel error'})
       }
-      if(data[0].length>0){
+      if(data1.length === 0){
         return res.json({message:'doctors is not free'})
       }
+      return res.json({message:'added'})
     })
-    return res.json({message:'added'})
+   
 
-  })
+
   
 
 }
@@ -1058,7 +1063,7 @@ export const pet_booking = async(req,res,next)=>{
         return res.json({message:'There is an internel error'})
       }
       if(data1.length>0){
-        return res.json({message:'emplyee is not free'})
+        return res.json({message:'employee is not free'})
       }
       if(data[0].count1 <= data[0].count){
         return res.json({message:'No more appointments are available'})
