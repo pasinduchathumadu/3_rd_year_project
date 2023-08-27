@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../styles/Care_center_manager/Appointments.css";
+import "../../styles/Care_center_manager/Complaints.css";
 import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -118,7 +118,7 @@ function Appo() {
                   alignItems: "center",
                 }}
               >
-                Appointments
+               Training Appointments
               </Typography>
             </div>
             <div style={{ display: "flex",width:"33.3%" }}>

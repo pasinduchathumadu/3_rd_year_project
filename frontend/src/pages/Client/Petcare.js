@@ -41,8 +41,9 @@ export default function Petcare() {
             Pet grooming
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+          Good grooming is just as important for your pet as it is for all of us.
+          To make this convenient, and pleasure for your pet, 
+          our specially trained teams are available to keep your pet well groomed and looking fine at all times.
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -69,8 +70,9 @@ export default function Petcare() {
             Mind relax
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+          Escape the worries of everyday life in our Pet care center, surrounded by quiet, contented felines and dogs.
+At Happy Tails, you can forget about the outside world and take a well-deserved break from reality by spending time with our pet friends.
+Our lovely team look forward to introducing our beautiful pets to you.
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -97,8 +99,8 @@ export default function Petcare() {
             Pet  traning
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+          Happy Tails Pet Training comes with a guarantee and personalized support, while we remain your consultants for the life of the pet even after training is completed. 
+          Our testimonials are proof of our outstanding performance!
           </Typography>
         </CardContent>
       </CardActionArea>

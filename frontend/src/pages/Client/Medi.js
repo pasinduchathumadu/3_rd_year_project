@@ -130,21 +130,21 @@ function Medi() {
         <img  className="smooth-scroll" src={petcare1} alt="Cage" style={{fontSize:"20px",width:"80px",height:"80px",marginLeft:"190px"}}/>
         <h1 style={{textAlign:"center"}}>pet vaccine </h1>
 
-        <h3 style={{textAlign:"center",fontWeight:"1"}}>pet dentel jaij jbaj jdai aowiu and djo laihws a  </h3>
+        <h3 style={{textAlign:"center",fontWeight:"1"}}>We will help you determine a vaccination regiment that will provide the safest and best protection for your Pet. </h3>
 
 
         </div>
         <div style={{width:"30%",height:"40vh",backgroundColor:"white",marginLeft:"auto",marginRight:"auto"}}data-aos="zoom-in">
         <img  className="smooth-scroll" src={petcare2} alt="Cage" style={{fontSize:"20px",width:"80px",height:"80px",marginLeft:"auto",marginRight:"auto",marginLeft:"190px"}}/>
         <h1 style={{textAlign:"center"}}>pet dentel </h1>
-        <h3 style={{textAlign:"center",fontWeight:"1"}}>pet dentel wie he njdhru nsjp</h3>
+        <h3 style={{textAlign:"center",fontWeight:"1"}}>We perform thorough cleanings, including the area beneath the gums that you can’t see or access at home.</h3>
 
 
         </div>
         <div style={{width:"30%",height:"40vh",backgroundColor:"white",marginLeft:"auto",marginRight:"auto"}}data-aos="zoom-in">
         <img  className="smooth-scroll" src={petcare3} alt="Cage" style={{fontSize:"20px",width:"80px",height:"80px",marginLeft:"auto",marginRight:"auto",marginLeft:"190px"}}/>
         <h1 style={{textAlign:"center"}}>pet sergury </h1>
-        <h3 style={{textAlign:"center",fontWeight:"1"}}>pet dentel jajwu ndndj </h3>
+        <h3 style={{textAlign:"center",fontWeight:"1"}}>We believe in utilizing the highest level of medical technology and our surgeons are experienced and highly trained.</h3>
 
 
         </div>

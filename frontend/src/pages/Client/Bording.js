@@ -70,8 +70,8 @@ const Bording = () => {
   return (
     <>
 
-      <div className='smooth-scroll' style={{textAlign:"center",width:"100%",height:"75vh",marginTop:"auto",marginBottom:"auto",fontWeight:"1"}}><h2 style={{fontSize:"80px",marginTop:"90px"}}>Book your's <span style={{color:"orange"}}>pet</span> seet now</h2>
-      <h1 style={{marginTop:"20px",fontFamily:"sans-serif"}}>we protect and care yout pet</h1>
+      <div className='smooth-scroll' style={{textAlign:"center",width:"100%",height:"75vh",marginTop:"auto",marginBottom:"auto",fontWeight:"1"}}><h2 style={{fontSize:"80px",marginTop:"90px"}}>Make your <span style={{color:"orange"}}>reservation</span> today</h2>
+      <h1 style={{marginTop:"20px",fontFamily:"sans-serif"}}>We protect your pet as our own</h1>
       <h1 style={{fontSize:"20px",fontWeight:"1"}}>24 x 7 service</h1>
       {/* {PetsIcon} */}
       {/* <PetsIcon  sx={{fontSize:"45px"}}/> */}
@@ -91,9 +91,10 @@ marginRight:"auto",marginLeft:"auto", borderRadius:"8px"}}data-aos="flip-left">
           <img  className="smooth-scroll" src={silver} alt="Cage" style={{fontSize:"20px",width:"150px",height:"150px",marginLeft:"34%",marginTop:"-50px"}}/>
           <h1 style={{color:"black",textAlign:"center",fontWeight:"1"}}>Rs.1000</h1>
           <ol style={{ listStyleType: 'none', padding: 0 ,textAlign:"center",marginTop:"20px",color:"black",fontSize:"20px"}}>
-              <li className="tick-icon">With foods</li>
-              <li className="tick-icon">Free washing</li>
-              <li className="tick-icon">Third item</li>
+              <li className="tick-icon">Two hour-long Group or Individual Playtime[Only for dogs]</li>
+              <li className="tick-icon">Custom play structures[Only for cats]</li>
+              <li className="tick-icon">Gourmet Snack</li>
+              <li className="tick-icon">Potty Breaks</li>
           </ol>
          
 
@@ -118,13 +119,14 @@ marginRight:"auto",marginLeft:"auto", borderRadius:"8px"}}data-aos="flip-left">
         <img  className="smooth-scroll" src={platinum} alt="Cage" style={{fontSize:"20px",width:"150px",height:"150px",marginLeft:"34%",marginTop:"-50px"}}/>
         <h1 style={{color:"white",textAlign:"center",fontWeight:"1"}}>Rs.3500</h1>
         <ol style={{ listStyleType: 'none', padding: 0 ,textAlign:"center",marginTop:"20px",color:"white",fontSize:"20px"}}>
-              <li className="tick-icon">With premium foods</li>
-              <li className="tick-icon">Confotable cages</li>
-              <li className="tick-icon">AC Cages</li>
-              <li className="tick-icon">Free washing</li>
-              <li className="tick-icon">Free Clinic</li>
-              <li className="tick-icon">Free spa</li>
-
+              <li className="tick-icon">Full Day of Group or Individual Playtime[Only for dogs]</li>
+              <li className="tick-icon">Custom play structures[Only for cats]</li>
+              <li className="tick-icon">Gourmet Snack</li>
+              <li className="tick-icon">Belly Rub and Tuck-in</li>
+              <li className="tick-icon">Premium Bedding Upgrade</li>
+              <li className="tick-icon">Pampering Session</li>
+              <li className="tick-icon">Potty Breaks</li>
+              <li className="tick-icon">Mid-Visit E-Photo</li>
 
 
           </ol>
@@ -138,12 +140,14 @@ marginRight:"auto",marginLeft:"auto", borderRadius:"8px"}}data-aos="flip-right">
           <img  className="smooth-scroll" src={gold} alt="Cage" style={{fontSize:"20px",width:"150px",height:"150px",marginLeft:"34%",marginTop:"-50px"}}/>
           <h1 style={{color:"black",textAlign:"center",fontWeight:"1"}}>Rs.2000</h1>
           <ol style={{ listStyleType: 'none', padding: 0 ,textAlign:"center",marginTop:"20px",color:"black",fontSize:"20px"}}>
-              <li className="tick-icon">With foods</li>
-              <li className="tick-icon">AC cages</li>
-              <li className="tick-icon">Free washing</li>
+              <li className="tick-icon">Half Day of Group or Individual Playtime[Only for dogs]</li>
+              <li className="tick-icon">Custom play structures[Only for cats]</li>
+              <li className="tick-icon">Gourmet Snack</li>
+              <li className="tick-icon">Belly Rub and Tuck-in</li>
+              <li className="tick-icon">Potty Breaks</li>
+
           </ol>
          
-
 
         </div>
 
