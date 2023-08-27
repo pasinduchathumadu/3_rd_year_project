@@ -1,57 +1,52 @@
 import React from 'react'
 import  '../../styles/Medi-help_manager/PetProfile.css';
-
+import { Button, TextField, Typography } from '@mui/material';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import Box from '@mui/material/Box';
 const AddVaccine = () => {
   return (
     <div className='add-container'>
          <div className='addvaccine'>
-        <h1>Vaccine & Health Record</h1> 
-        <hr />
-            <form>
-            
-                <div>
-                    <label htmlFor='name'>Vaccine Name</label>
-                    <input name='id' className='vname'/>
-                    <label htmlFor='name'>Date Given</label>
-                    <input name='id' className='vdate' type='date'/>
-                </div>
-                
-                <div>
-                    <label htmlFor='name'>Vaccine Name</label>
-                    <input name='id' className='vname'/>
-                    <label htmlFor='name'>Date Given</label>
-                    <input name='id' className='vdate' type='date'/>
-                </div>
-                
-                <div>
-                    <label htmlFor='name'>Vaccine Name</label>
-                    <input name='id' className='vname'/>
-                    <label htmlFor='name'>Date Given</label>
-                    <input name='id' className='vdate' type='date'/>
-                </div>
-                <div>
-                    <label htmlFor='name'>Vaccine Name</label>
-                    <input name='id' className='vname'/>
-                    <label htmlFor='name'>Date Given</label>
-                    <input name='id' className='vdate' type='date'/>
-                </div>
-                
-                <div>
-                    <label htmlFor='date'>Other Information</label>
-                    <input name='date' />
-                </div>
-                    <div> <label htmlFor='name'>Next Vaccination Date</label>
-                    <input name='id' className='vdate' type='date'/></div>
-                 
-
-                    <hr className='hr'/>
-                    <button type='submit' className='btnsubmit'>Submit</button>
-                    <button type='cancel' className='btncancel'>Cancel</button>
-            </form>
-
+     
+    <h1 className='h1'>Vaccine & Health Record</h1> 
+    <hr />
+        <form>
+        
+            <div style={{margin:'5%'}}>
+          
+            <TextField id="outlined-basic" label="Vaccine Name" variant="outlined" sx={{ width: '100%',height:'50px' }} />
+              
             </div>
+            
+                <div style={{margin:'5%'}}>
+                <TextField id="outlined-basic" label="Date Given" variant="outlined" sx={{ width: '100%',height:'50px' }} />
+              
+            </div>
+            
+           
+            <div style={{margin:'5%'}}>
+            <TextField id="outlined-basic" label="Other Information" variant="outlined" sx={{ width: '100%',height:'50px' }}/>
+              
+            </div>
+            <div style={{margin:'5%'}}>
+            <TextField id="outlined-basic" label="Next Vaccination Date" variant="outlined" sx={{ width: '100%',height:'50px' }} />
+              
+            </div>
+          
+             
 
-    </div>
+              
+                <Button type='submit' sx={{backgroundColor:'orange',width:'30%',':hover':{backgroundColor:'orange'},color:'black',marginLeft:'30%'}} >Submit</Button>
+                <Button  sx={{marginLeft:'2%',backgroundColor:'black',color:'white',':hover':{backgroundColor:'black'}}} type='cancel'>Cancel</Button>
+        </form>
+
+        </div>
+
+</div>
+
     
   )
 }

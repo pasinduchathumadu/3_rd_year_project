@@ -17,8 +17,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import profile from "../../assests/profile.jpg";
-import { Typography, Avatar, Stack, Button } from "@mui/material";
- 
+
+import { Typography, Avatar, Stack, Grid, Box, Tab, Tabs,Button } from "@mui/material";
 
 
 const Doctors = () => {
@@ -28,7 +28,12 @@ const Doctors = () => {
     const input = new Date();
     const date = input.toDateString();
   
-   
+    const [value, setvalue] = React.useState(0);
+    const handleChange = (event, newvalue) => {
+      setvalue(newvalue);
+    }
+  
+  
     
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -61,6 +66,9 @@ const rows = [
   createData('Cupcake', 305, 3.7, 67, 4.3),
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
+
+         
+      
     return (
    
       <div className="row1" style={{marginTop:'4%'}}>
@@ -94,26 +102,61 @@ const rows = [
                            
                         </div>
                     </div>
-      <div className="col-md-12">
-      
-          <div className="card1">
-       
-              <div className="card-header1">
-             
-              <Button sx={{backgroundColor:'orange',':hover':{backgroundColor:'orange'},marginLeft:'90%',marginTop:'2%',marginBottom:'1%'}} onClick={()=>setModelOpen(true)} > + Add Doctor</Button>
+     
+                    <Grid>
+        <Box
+          sx={{
+            width: "100%",
+            marginTop: "15px",
+            marginBottom: "2%",
+          }}
+        >
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            variant="fullWidth"
+            aria-label="Tab Component"
+            indicatorColor="transparent"
+            sx={{ borderRadius: "10px" }}
+          >
+            <Tab
+              sx={{
+                backgroundColor: value === 0 ? "orange" : "white",
+                color: value === 0 ? "white" : "black",
+              }}
+              label="Register Doctors"
+            />
+            <Tab
+              sx={{
+                backgroundColor: value === 1 ? "orange" : "white",
+                color: value === 1 ? "white" : "black",
+              }}
+              label="Doctors Availability"
+            />
+          </Tabs>
+        </Box>
+      </Grid>
+    
           
-              </div>
+    
+             
+              
+          
+             
+              {value === 0 && (
+        (
               <div id="customers6">
+                <Button sx={{backgroundColor:'orange',':hover':{backgroundColor:'orange'},marginLeft:'90%',marginTop:'2%',marginBottom:'1%'}} onClick={()=>setModelOpen(true)} > + Add Doctor</Button>
               <TableContainer component={Paper}>
       <Table sx={{ minWidth: 900 }} aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell>ID</StyledTableCell>
             <StyledTableCell align="right">Doctor Name</StyledTableCell>
-            <StyledTableCell align="right">Phone Number</StyledTableCell>
-            <StyledTableCell align="right">Email</StyledTableCell>
-            <StyledTableCell align="right">Available Date</StyledTableCell>
-            <StyledTableCell align="right">Time</StyledTableCell>
+            <StyledTableCell align="right">Phone No</StyledTableCell>
+            <StyledTableCell align="right" sx={{textAlign:'center'}}>Email</StyledTableCell>
+            <StyledTableCell align="right">Register Number</StyledTableCell>
+            <StyledTableCell align="right" sx={{textAlign:'center'}}>Category</StyledTableCell>
             <StyledTableCell align="right">Edit</StyledTableCell>
             <StyledTableCell align="right">Delete</StyledTableCell>
            
@@ -129,8 +172,8 @@ const rows = [
               <StyledTableCell align="right"> Maria Anders</StyledTableCell>
              <StyledTableCell align="right">0123456789</StyledTableCell>
               <StyledTableCell align="right">maria@gmail.com</StyledTableCell>
-              <StyledTableCell align="right">Monday-Friday</StyledTableCell>
-              <StyledTableCell align="right">8A.M -7P.M</StyledTableCell>
+              <StyledTableCell align="right" sx={{textAlign:'center'}}>01234</StyledTableCell>
+              <StyledTableCell align="right" sx={{textAlign:'center'}}>Veterinary specialists</StyledTableCell>
               <StyledTableCell align="right"><Button sx={{backgroundColor:'orange',':hover':{backgroundColor:'orange'},color:'white'}}>Edit</Button></StyledTableCell>
               <StyledTableCell align="right"><Button sx={{backgroundColor:'black',':hover':{backgroundColor:'black'},color:'white'}} onClick={()=>setShow(true)}>Delete</Button></StyledTableCell>
             </StyledTableRow>
@@ -138,13 +181,54 @@ const rows = [
         </TableBody>
       </Table>
     </TableContainer>
+    
     </div>
+       )
+       )}
+        {value === 1 && (
+          (
+            <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 900 }} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>ID</StyledTableCell>
+                  <StyledTableCell align="right">Doctor Name</StyledTableCell>
+                  <StyledTableCell align="right">Date Available</StyledTableCell>
+                  <StyledTableCell align="right" sx={{textAlign:'center'}}>Time</StyledTableCell>
+                 
+                  <StyledTableCell align="right" sx={{textAlign:'center'}}>Status</StyledTableCell>
+                 
+                  <StyledTableCell align="right">Edit</StyledTableCell>
+                  <StyledTableCell align="right">Delete</StyledTableCell>
+                 
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <StyledTableRow key={row.name}>
+                    <StyledTableCell component="th" scope="row">
+                      
+                    </StyledTableCell>
+                   
+                    <StyledTableCell align="right"> Maria Anders</StyledTableCell>
+              
+                    <StyledTableCell align="right">Monday-Friday</StyledTableCell>
+                    <StyledTableCell align="right" sx={{textAlign:'center'}}>8A.M-12P.M</StyledTableCell>
+                    <StyledTableCell align="right" sx={{textAlign:'center'}}>Available</StyledTableCell>
+                    <StyledTableCell align="right"><Button sx={{backgroundColor:'orange',':hover':{backgroundColor:'orange'},color:'white'}}>Edit</Button></StyledTableCell>
+                    <StyledTableCell align="right"><Button sx={{backgroundColor:'black',':hover':{backgroundColor:'black'},color:'white'}} onClick={()=>setShow(true)}>Delete</Button></StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          )
+
+          )}
 {modelOpen && <DoctorsAdd  />}
 {show &&<DeleteDoctor />}
                     </div>
-                </div>
-                
-            </div>
+             
            
   
     )

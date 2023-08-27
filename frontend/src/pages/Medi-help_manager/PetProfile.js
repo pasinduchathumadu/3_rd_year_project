@@ -88,7 +88,7 @@ const rows = [
             >
              <Typography
                sx={{ color: 'black', fontSize: '24px', fontFamily: 'fantasy', display: 'flex', alignItems: 'center' }}>
-                Doctor Details
+              Pet Details
               </Typography>
             </div>
             <div style={{ display: 'flex', marginLeft: 'auto',alignItems:'center',justifyContent:'center',marginRight:'4%' }}>
@@ -140,9 +140,9 @@ const rows = [
               <StyledTableCell align="right">0123456789</StyledTableCell>
               
               <StyledTableCell align="right"><Button sx={{backgroundColor:'orange',':hover':{backgroundColor:'orange'},color:'white'}} onClick={()=>setModel2Open(true)}>AddVaccines</Button></StyledTableCell>
-              <StyledTableCell align="right"><Button sx={{backgroundColor:'black',':hover':{backgroundColor:'black'},color:'white'}}  onClick={()=>setModel3Open(true)}>ViewVaccines</Button></StyledTableCell>
-              <StyledTableCell align="right"><Button sx={{backgroundColor:'black',':hover':{backgroundColor:'black'},color:'white'}}  onClick={()=>setModel4Open(true)}>ViewProfile</Button></StyledTableCell>
-              <StyledTableCell align="right"><Button sx={{backgroundColor:'black',':hover':{backgroundColor:'black'},color:'white'}} >Edit</Button></StyledTableCell>
+              <StyledTableCell align="right"><Button sx={{backgroundColor:'#313130',':hover':{backgroundColor:'#313130'},color:'white'}}  onClick={()=>setModel3Open(true)}>ViewVaccines</Button></StyledTableCell>
+              <StyledTableCell align="right"><Button sx={{backgroundColor:'#bbbbbb',':hover':{backgroundColor:'#bbbbbb'},color:'white'}}  onClick={()=>setModel4Open(true)}>ViewProfile</Button></StyledTableCell>
+              <StyledTableCell align="right"><Button sx={{backgroundColor:'orange',':hover':{backgroundColor:'orange'},color:'white'}} >Edit</Button></StyledTableCell>
               <StyledTableCell align="right"><Button sx={{backgroundColor:'black',':hover':{backgroundColor:'black'},color:'white'}} onClick={()=>setShow(true)}>Delete</Button></StyledTableCell>
 
             </StyledTableRow>

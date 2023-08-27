@@ -89,12 +89,12 @@ export const view_complain = async (req, res, next) => {
     }
 
     
-    const sqlQuery = 'SELECT *FROM complain WHERE status = ? && user_role = "online_store_manager"'
+    const sqlQuery = 'SELECT *FROM client_complain WHERE complain_status = ? && manager_role = "online_store_manager"'
     const records = [
         status
     ]
     db.query(sqlQuery, records, (err, data) => {
-        if (data.length == 0) {
+        if (data.length <1) {
             return res.json({ message: "No records" })
         }
         return res.json({ data })
@@ -148,7 +148,7 @@ export const add_response = async (req,res,next) => {
      
         id
     ] 
-    const sqlQuery = "Update complain set response_date = ? , response_txt = ?, status = 'replied'  where complain_id = ?"
+    const sqlQuery = "Update client_complain set response_date = ? , response_txt = ?, complain_status = 'replied'  where complain_id = ?"
     db.query(sqlQuery,values,(err,data)=>{
         if(err){
             return res.json({message:'There is an internal an error'})
@@ -189,7 +189,7 @@ export const get_view_response = async(req,res,next)=>{
     const values = [
         id
     ]
-    const sqlQuery = "SELECT *FROM complain WHERE complain_id = ? "
+    const sqlQuery = "SELECT *FROM client_complain WHERE complain_id = ? "
     db.query(sqlQuery,values,(err,data)=>{
         if(err){
             return res.json({message:"There is an internel error"})
@@ -201,7 +201,7 @@ export const get_view_response = async(req,res,next)=>{
 }
 
 export const get_count = async(req,res,next) => {
-    const sqlQuery ="SELECT COUNT(status) AS total FROM complain WHERE status = 'pending' ";
+    const sqlQuery ="SELECT COUNT(status) AS total FROM client_complain WHERE status = 'pending' ";
     db.query(sqlQuery,(err,data)=>{
         if(err){
             return res.json({message:'There is an internel error'})
@@ -214,7 +214,7 @@ export const get_count = async(req,res,next) => {
 }
 
 export const get_count1 = async(req,res,next) => {
-    const sqlQuery ="SELECT COUNT(status) AS total FROM complain WHERE status = 'replied' ";
+    const sqlQuery ="SELECT COUNT(status) AS total FROM client_complain WHERE status = 'replied' ";
     db.query(sqlQuery,(err,data)=>{
         if(err){
             return res.json({message:'There is an internel error'})
@@ -264,7 +264,8 @@ export const get_order = async(req,res,next) =>{
 }
 
 export const get_orders = async(req,res,next)=>{
-    const sqlQuery = 'SELECT *FROM purchase_order INNER JOIN client ON purchase_order.client_id = client.client_id'
+    const sqlQuery = 'SELECT * FROM purchase_order p INNER JOIN users u ON u.email = p.order_email'
+    
     db.query(sqlQuery,(err,data)=>{
         if(err){
             return res.json({message:'There is an internel error'})
@@ -273,4 +274,36 @@ export const get_orders = async(req,res,next)=>{
             return res.json({data})
         }
     })
+}
+
+export const accept = async(req,res,next)=>{
+    const id = req.params.id
+    const sqlQuery = "UPDATE purchase_order SET po_status = 'accept' WHERE po_id = ?"
+    const values = [
+        id
+    ]
+    db.query(sqlQuery,values,(err,data)=>{
+        if(err){
+            return res.json({message:'There is an internel error'})
+        }
+        return res.json({message:'Successfully Changed'})
+    })
+    
+}
+
+export const handover = async(req,res,next)=>{
+    const {id,date} = req.body
+    const sqlQuery = "UPDATE purchase_order SET po_status = 'handed',handover_date = ? WHERE po_id = ?"
+    const values = [
+        date,
+        id
+    ]
+    db.query(sqlQuery,values,(err,data)=>{
+        if(err){
+            return res.json({message:'There is an internel error'})
+        }
+        return res.json({message:'Successfully Changed'})
+    })
+    
+    
 }

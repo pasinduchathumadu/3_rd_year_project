@@ -31,7 +31,7 @@ function Caregiverlist() {
             width: "33.3%",
           }}
         >
-          <Typography>Online Store Manager</Typography>
+          <Typography>Care Center Manager</Typography>
           <Typography>Today</Typography>
           <Typography>{date}</Typography>
         </div>
@@ -63,13 +63,16 @@ function Caregiverlist() {
             marginTop: "20px",
           }}
         >
-          <Stack direction="row" spacing={2} width={300}>
-            <Avatar
-              alt="Travis Howard"
-              src={profile}
-              sx={{ width: 100, height: 100, marginLeft: "100%" }}
-            />
-          </Stack>
+         <div style={{ display: 'flex', marginLeft: 'auto', alignItems: 'center', justifyContent: 'center' }}>
+               <div style={{ marginLeft: '130%' }}><Stack direction="row" spacing={2} width={300}>
+                <Avatar
+                  alt="Travis Howard"
+                  src={profile}
+                  sx={{  width: 60, height: 60}}
+                />
+              </Stack>
+              </div>
+              </div>
         </div>
       </div>
       <div className="full-page">

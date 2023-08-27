@@ -9,6 +9,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import DialogForm from "./Dialog";
 
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ProfilePicture from "../../assests/profile-picture.png";
@@ -17,6 +18,7 @@ import { Button, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import Form_Details from "./Form";
 
 function Company_Clients() {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -45,16 +47,13 @@ function Company_Clients() {
     },
   }));
 
-  function createData(name, calories, fat, carbs, protein, price) {
-    return { name, calories, fat, carbs, protein, price };
+  function createData(id, name, payment, category, pcategory) {
+    return { id, name, payment, category, pcategory };
   }
 
   const rows = [
-    createData("Frozen yoghurt", 159, 6.0, 24, 4.0, 5),
-    createData("Ice cream sandwich", 237, 9.0, 37, 4.3, 10),
-    createData("Eclair", 262, 16.0, 24, 6.0, 15),
-    createData("Cupcake", 305, 3.7, 67, 4.3, 20),
-    createData("Gingerbread", 356, 16.0, 49, 3.9, 25),
+    createData("1", "Gayan Sandamal", "1000", "premium", "pending"),
+    createData("2", "Malik Dias", "2000", "gold", "pending"),
   ];
   //modal
   const [open, setOpen] = React.useState(false);
@@ -63,7 +62,12 @@ function Company_Clients() {
 
   return (
     <>
-      <Stack direction="row" justifyContent="space-between" padding={2} sx={{marginTop:'4%'}}>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        padding={2}
+        sx={{ marginTop: "4%" }}
+      >
         <Box>
           <Typography variant="inherit" color="textSecondary">
             Company Manager
@@ -125,28 +129,25 @@ function Company_Clients() {
                   <TableRow>
                     <StyledTableCell>Client ID </StyledTableCell>
                     <StyledTableCell>Client Name</StyledTableCell>
-                    <StyledTableCell>Address</StyledTableCell>
-                    <StyledTableCell>Contact Number</StyledTableCell>
-                    <StyledTableCell>Refund Payment&nbsp;(Rs)</StyledTableCell>
+                    <StyledTableCell>Payment</StyledTableCell>
                     <StyledTableCell>Category</StyledTableCell>
-                    <StyledTableCell>View Usability</StyledTableCell>
+                    <StyledTableCell>View </StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {rows.map((row) => (
-                    <StyledTableRow key={row.name}>
+                    <StyledTableRow key={row.id}>
                       <StyledTableCell component="th" scope="row">
-                        {row.name}
+                        {row.id}
                       </StyledTableCell>
-                      <StyledTableCell>{row.calories}</StyledTableCell>
-                      <StyledTableCell>{row.fat}</StyledTableCell>
-                      <StyledTableCell>{row.carbs}</StyledTableCell>
-                      <StyledTableCell>{row.protein}</StyledTableCell>
-                      <StyledTableCell>{row.price}</StyledTableCell>
+                      <StyledTableCell>{row.name}</StyledTableCell>
+                      <StyledTableCell>{row.payment}</StyledTableCell>
+                      <StyledTableCell>{row.pcategory}</StyledTableCell>
+
                       <StyledTableCell>
-                        <Button onClick={handleOpen} variant="contained">
-                          View Usability
-                        </Button>
+                        <DialogForm title="Client Details" btn_name="View">
+                          <Form_Details />
+                        </DialogForm>
                       </StyledTableCell>
                     </StyledTableRow>
                   ))}
@@ -157,35 +158,32 @@ function Company_Clients() {
         )}
         {selectedTab === 1 && (
           <Box padding={2}>
-            2
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
                   <TableRow>
                     <StyledTableCell>Client ID </StyledTableCell>
                     <StyledTableCell>Client Name</StyledTableCell>
-                    <StyledTableCell>Address</StyledTableCell>
-                    <StyledTableCell>Contact Number</StyledTableCell>
-                    <StyledTableCell>Refund Payment&nbsp;(Rs)</StyledTableCell>
+                    <StyledTableCell>Payment</StyledTableCell>
                     <StyledTableCell>Category</StyledTableCell>
-                    <StyledTableCell>View Usability</StyledTableCell>
+
+                    <StyledTableCell>View</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {rows.map((row) => (
-                    <StyledTableRow key={row.name}>
+                    <StyledTableRow key={row.id}>
                       <StyledTableCell component="th" scope="row">
-                        {row.name}
+                        {row.id}
                       </StyledTableCell>
-                      <StyledTableCell>{row.calories}</StyledTableCell>
-                      <StyledTableCell>{row.fat}</StyledTableCell>
-                      <StyledTableCell>{row.carbs}</StyledTableCell>
-                      <StyledTableCell>{row.protein}</StyledTableCell>
-                      <StyledTableCell>{row.price}</StyledTableCell>
+                      <StyledTableCell>{row.name}</StyledTableCell>
+                      <StyledTableCell>{row.payment}</StyledTableCell>
+                      <StyledTableCell>{row.category}</StyledTableCell>
+
                       <StyledTableCell>
-                        <Button onClick={handleOpen} variant="contained">
-                          View Usability
-                        </Button>
+                        <DialogForm title="Client Details" btn_name="View">
+                          <Form_Details />
+                        </DialogForm>
                       </StyledTableCell>
                     </StyledTableRow>
                   ))}
@@ -194,36 +192,6 @@ function Company_Clients() {
             </TableContainer>
           </Box>
         )}
-      </Box>
-
-      {/* modal */}
-      <Box>
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box
-            sx={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: 400,
-              bgcolor: "background.paper",
-              boxShadow: 24,
-              p: 4,
-            }}
-          >
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              Text in a modal
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
-          </Box>
-        </Modal>
       </Box>
     </>
   );

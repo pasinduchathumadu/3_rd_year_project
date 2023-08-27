@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
 import ProfilePicture from '../../assests/profile-picture.png';
 import Button from '@mui/material/Button';
@@ -21,6 +21,7 @@ import CircleIcon from '@mui/icons-material/Circle';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import VideoClip from '../../assests/video-1.jpg';
+import axios from "axios";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -41,39 +42,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
         border: 0,
     },
 }));
-
-function createCurrentData(id, category, p_ckage, aDate, rDate, payment) {
-    return { id, category, p_ckage, aDate, rDate, payment };
-}
-
-const currents = [
-    createCurrentData(1, 'cat', 'silver', '2023-07-26', '2023-07-30', '1200.00'),
-    createCurrentData(2, 'dog', 'gold', '2023-07-26', '2023-07-30', '1200.00'),
-    createCurrentData(3, 'dog', 'silver', '2023-07-26', '2023-07-30', '1200.00'),
-    createCurrentData(4, 'cat', 'platinum', '2023-07-26', '2023-07-30', '1200.00'),
-];
-
-function createRequestedData(id, category, p_ckage, aDate, rDate, payment, status) {
-    return { id, category, p_ckage, aDate, rDate, payment, status };
-}
-
-const requests = [
-    createRequestedData(1, 'cat', 'silver', '2023-07-26', '2023-07-30', '1200.00', 'pending'),
-    createRequestedData(2, 'dog', 'gold', '2023-07-26', '2023-07-30', '1200.00', 'pending'),
-    createRequestedData(3, 'dog', 'silver', '2023-07-26', '2023-07-30', '1200.00', 'accepted'),
-    createRequestedData(4, 'cat', 'platinum', '2023-07-26', '2023-07-30', '1200.00', 'accepted'),
-];
-
-function createCompletedData(id, category, p_ckage, aDate, rDate, payment) {
-    return { id, category, p_ckage, aDate, rDate, payment };
-}
-
-const completes = [
-    createCompletedData(1, 'cat', 'silver', '2023-07-26', '2023-07-30', '1200.00'),
-    createCompletedData(2, 'dog', 'gold', '2023-07-26', '2023-07-30', '1200.00'),
-    createCompletedData(3, 'dog', 'silver', '2023-07-26', '2023-07-30', '1200.00'),
-    createCompletedData(4, 'cat', 'platinum', '2023-07-26', '2023-07-30', '1200.00'),
-];
 
 const BoardPets = () => {
     const [present, setPresent] = useState(0);
@@ -111,13 +79,70 @@ const BoardPets = () => {
         setPresent(2);
     }
 
+    const input = new Date();
+    const date = input.toDateString();
+
+    // view current pets
+    const [currentpet, setcurrentpet] = useState("");
+    const viewCurrent = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/viewCurrent')
+            const data = await res.data
+            return data
+
+        }catch(err) {
+            console.log("There is an internal error");
+        }
+    }
+    useEffect(() => {
+        viewCurrent()
+        .then((data) => setcurrentpet(data.data))
+        .catch((err) => console.log(err))
+    })
+
+    // view requested pets (pending & accepted)
+    const [requested, setrequested] = useState("");
+    const viewRequested = async() => {
+        try{
+            const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/viewRequested')
+            const data = await res.data
+            return data
+
+        }catch(err) {
+            console.log("There is an internal error")
+        }
+    }
+    useEffect(() => {
+        viewRequested()
+        .then((data) => setrequested(data.data))
+        .catch((err) => console.log(err))
+    })
+
+    // view past boarded pets
+    const [boarded, setboarded] = useState("")
+    const viewBoarded = async() => {
+        try {
+            const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/viewBoarded')
+            const data = await res.data
+            return data
+
+        }catch (err) {
+            console.log("There is an internal error")
+        }
+    }
+    useEffect(() => {
+        viewBoarded()
+        .then((data) =>setboarded(data.data))
+        .catch((err) => console.log(err))
+    })
+
     return (
-        <div className="home-container" style={{ marginTop: '4%'}}>
+        <div className="home-container" style={{ marginTop: '5%'}}>
             <div className="top">
                 <div className="top-line">
                     <p>Boarding House Manager</p>
                     <p className="top-line-text">Today</p>
-                    <p class="top-line-text">18 June 2023</p>
+                    <p class="top-line-text">{date}</p>
                 </div>
 
                 <div className="top-line">
@@ -152,26 +177,23 @@ const BoardPets = () => {
                                         <StyledTableCell align="center">Pet ID</StyledTableCell>
                                         <StyledTableCell align="center">Category</StyledTableCell>
                                         <StyledTableCell align="center">Package</StyledTableCell>
-                                        <StyledTableCell align="center">Arrival Date</StyledTableCell>
-                                        <StyledTableCell align="center">Return Time</StyledTableCell>
-                                        <StyledTableCell align="center">Payment (Rs.)</StyledTableCell>
+                                        <StyledTableCell align="center">Boarded Date</StyledTableCell>
+                                        <StyledTableCell align="center">Carrying Date</StyledTableCell>
+                                        <StyledTableCell align="center">Boarded Time</StyledTableCell>
+                                        <StyledTableCell align="center">Client ID</StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {currents.map((current) => (
+                                    {currentpet && currentpet.map((current,next) => (
                                         <StyledTableRow key={current.id}>
-                                            <StyledTableCell align="center">{current.id}</StyledTableCell>
+                                            <StyledTableCell align="center">{current.pet_id}</StyledTableCell>
                                             <StyledTableCell align="center">{current.category}</StyledTableCell>
-                                            <StyledTableCell align="center">
-                                                {current.p_ckage === "gold" ? (<> <CircleIcon sx={{ color: '#FBBD08', marginRight: '5px' }} /> Gold </>)
-                                                    : current.p_ckage === "silver" ? (<>  <CircleIcon sx={{ color: '#A6A6A6', marginRight: '5px' }} />Silver </>)
-                                                        : (<><CircleIcon sx={{ color: '#55555C', marginRight: '5px' }} />Platinum</>)
-                                                }
-                                            </StyledTableCell>
-                                            <StyledTableCell align="center">{current.aDate}</StyledTableCell>
-                                            <StyledTableCell align="center">{current.rDate}</StyledTableCell>
-                                            <StyledTableCell align="center">{current.payment}</StyledTableCell>
+                                            <StyledTableCell align="center">{current.package_id}</StyledTableCell>
+                                            <StyledTableCell align="center">{current.board_arrival_date}</StyledTableCell>
+                                            <StyledTableCell align="center">{current.board_carry_date}</StyledTableCell>
+                                            <StyledTableCell align="center">{current.board_time}</StyledTableCell>
+                                            <StyledTableCell align="center">{current.client_id}</StyledTableCell>
                                             <StyledTableCell align="center"><Button onClick={()=> viewLive()} sx={{ backgroundColor: 'orange', color: 'white', ':hover': { backgroundColor: 'orange' } }}>Watch Live</Button></StyledTableCell>
                                         </StyledTableRow>
                                     ))}
@@ -182,7 +204,7 @@ const BoardPets = () => {
                 </div>
             )}
 
-            {/* requested pets */}
+            {/* requested pets (pending and accepted) */}
             {present === 1 && (
                 <div>
                     <div className="drop-down-box">
@@ -212,28 +234,33 @@ const BoardPets = () => {
                                     <TableRow>
                                         <StyledTableCell align="center">Pet ID</StyledTableCell>
                                         <StyledTableCell align="center">Category</StyledTableCell>
-                                        <StyledTableCell align="center">Package</StyledTableCell>
+                                        <StyledTableCell align="center">Client ID</StyledTableCell>
+                                        <StyledTableCell align="center">Package ID</StyledTableCell>
                                         <StyledTableCell align="center">Arrival Date</StyledTableCell>
-                                        <StyledTableCell align="center">Return Time</StyledTableCell>
-                                        <StyledTableCell align="center">Payment (Rs.)</StyledTableCell>
+                                        <StyledTableCell align="center">Carry Date</StyledTableCell>
+                                        <StyledTableCell align="center">Board Time</StyledTableCell>
+                                        {/* <StyledTableCell align="center">Payment (Rs.)</StyledTableCell> */}
                                         <StyledTableCell align="center">Status</StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {requests.map((request) => (
-                                        <StyledTableRow key={request.id}>
-                                            <StyledTableCell align="center">{request.id}</StyledTableCell>
+                                    {requested && requested.map((request,next) => (
+                                        <StyledTableRow key={request.pet_id}>
+                                            <StyledTableCell align="center">{request.pet_id}</StyledTableCell>
                                             <StyledTableCell align="center">{request.category}</StyledTableCell>
-                                            <StyledTableCell align="center">
+                                            <StyledTableCell align="center">{request.client_id}</StyledTableCell>
+                                            <StyledTableCell align="center">{request.package_id}</StyledTableCell>
+                                            {/* <StyledTableCell align="center">
                                                 {request.p_ckage === "gold" ? (<> <CircleIcon sx={{ color: '#FBBD08', marginRight: '5px' }} /> Gold </>)
                                                     : request.p_ckage === "silver" ? (<>  <CircleIcon sx={{ color: '#A6A6A6', marginRight: '5px' }} />Silver </>)
                                                         : (<><CircleIcon sx={{ color: '#55555C', marginRight: '5px' }} />Platinum</>)
                                                 }
-                                            </StyledTableCell>
-                                            <StyledTableCell align="center">{request.aDate}</StyledTableCell>
-                                            <StyledTableCell align="center">{request.rDate}</StyledTableCell>
-                                            <StyledTableCell align="center">{request.payment}</StyledTableCell>
-                                            <StyledTableCell align="center">{request.status}</StyledTableCell>
+                                            </StyledTableCell> */}
+                                            <StyledTableCell align="center">{request.board_arrival_date}</StyledTableCell>
+                                            <StyledTableCell align="center">{request.board_carry_date}</StyledTableCell>
+                                            <StyledTableCell align="center">{request.board_time}</StyledTableCell>
+                                            {/* <StyledTableCell align="center">{request.payment}</StyledTableCell> */}
+                                            <StyledTableCell align="center">{request.request_status}</StyledTableCell>
                                         </StyledTableRow>
                                     ))}
                                 </TableBody>
@@ -255,26 +282,29 @@ const BoardPets = () => {
                                         <StyledTableCell align="center">Category</StyledTableCell>
                                         <StyledTableCell align="center">Package</StyledTableCell>
                                         <StyledTableCell align="center">Arrival Date</StyledTableCell>
+                                        <StyledTableCell align="center">Carry Date</StyledTableCell>
                                         <StyledTableCell align="center">Return Time</StyledTableCell>
-                                        <StyledTableCell align="center">Payment (Rs.)</StyledTableCell>
+                                        {/* <StyledTableCell align="center">Payment (Rs.)</StyledTableCell> */}
                                         <StyledTableCell align="center"></StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {completes.map((complete) => (
-                                        <StyledTableRow key={complete.id}>
-                                            <StyledTableCell align="center">{complete.id}</StyledTableCell>
+                                    {boarded && boarded.map((complete, next) => (
+                                        <StyledTableRow key={complete.pet_id}>
+                                            <StyledTableCell align="center">{complete.pet_id}</StyledTableCell>
                                             <StyledTableCell align="center">{complete.category}</StyledTableCell>
-                                            <StyledTableCell align="center">
+                                            <StyledTableCell align="center">{complete.package_id}</StyledTableCell>
+                                            {/* <StyledTableCell align="center">
                                                 {complete.p_ckage === "gold" ? (<> <CircleIcon sx={{ color: '#FBBD08', marginRight: '5px' }} /> Gold </>)
                                                     : complete.p_ckage === "silver" ? (<>  <CircleIcon sx={{ color: '#A6A6A6', marginRight: '5px' }} />Silver </>)
                                                         : (<><CircleIcon sx={{ color: '#55555C', marginRight: '5px' }} />Platinum</>)
                                                 }
-                                            </StyledTableCell>
-                                            <StyledTableCell align="center">{complete.aDate}</StyledTableCell>
-                                            <StyledTableCell align="center">{complete.rDate}</StyledTableCell>
-                                            <StyledTableCell align="center">{complete.payment}</StyledTableCell>
+                                            </StyledTableCell> */}
+                                            <StyledTableCell align="center">{complete.board_arrival_date}</StyledTableCell>
+                                            <StyledTableCell align="center">{complete.board_carry_date}</StyledTableCell>
+                                            <StyledTableCell align="center">{complete.board_time}</StyledTableCell>
+                                            {/* <StyledTableCell align="center">{complete.payment}</StyledTableCell> */}
                                             <StyledTableCell align="center"><Button onClick={()=> viewPastVideo()} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' } }}>Video Clips</Button></StyledTableCell>
                                             <StyledTableCell align="center">
                                                 <Button sx={{ color: 'white', backgroundColor: '#fe9e0d', ':hover': { backgroundColor: '#fe9e0d' } }}>Generate Report</Button>
