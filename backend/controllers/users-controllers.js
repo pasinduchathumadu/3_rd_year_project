@@ -1033,7 +1033,7 @@ export const get_medi_user = async(req,res,next)=>{
 }
 
 export const pet_trainning = async(req,res,next)=>{
-  const sqlQuery = "SELECT *FROM pet_trainning_shedule"
+  const sqlQuery = "SELECT p.start,p.end,p.day,p.count,e.first_name,e.last_name,e.img,e.contact_number,e.email FROM pet_trainning_shedule p INNER JOIN employee e ON p.emp_id = e.emp_id"
   db.query(sqlQuery,(err,data)=>{
     if(err){
       return res.json({message:'There is an internel error'})

@@ -16,7 +16,7 @@ import { Reports } from "./pages/Client/Reports";
 
 import Menu from "./pages/Client/Menu";
 import Petcare from "./pages/Client/Petcare";
-
+import TrainingPets from "./pages/Client/Training_Pets";
 import MindRealx from "./pages/Client/MindRealx";
 import { Shop } from "./pages/Client/Shop";
 import { NonBredShop } from "./pages/Client/NonBredShop";
@@ -265,7 +265,7 @@ function App() {
 
           {isLoggedIn && user_role === "client" && (
             <><Route path="/reports" element={<><Header userRole={"client"} /><Reports /> </>}></Route>
-
+              <Route path="/trainning" element={<><Header userRole={"client"} /><TrainingPets /> </>}></Route>
               <Route path="/dashboard" element={<><Header userRole={"client"} /> <Dashboard /></>} ></Route>
               <Route path="/petcare" element={<><Header userRole={"client"} /><Petcare /></>}></Route>
               <Route path="/MindRealx" element={<><Header userRole={"client"} /><MindRealx /></>}></Route>
