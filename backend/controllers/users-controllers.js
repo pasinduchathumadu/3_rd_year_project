@@ -682,9 +682,11 @@ export const random_assistant = async (req, res, next) => {
       return res.json({ message: 'There is an internel error' })
     }
     const sqlQuery2 =
-      "SELECT CONCAT(first_name, ' ', last_name)AS full_name, email,contact_number, img FROM employee WHERE type = ?"
+      "SELECT CONCAT(first_name, ' ', last_name)AS full_name, email,contact_number, img FROM employee WHERE type = ? AND ? > unfree_date_start AND ? > unfree_date_end"
     const value2 = [
-      choose_package
+      choose_package,
+      selectedDateString,
+      selectedDateString
     ]
 
     db.query(sqlQuery2,value2,(err, data) => {
