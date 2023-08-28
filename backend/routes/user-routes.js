@@ -46,4 +46,5 @@ user_route.post('/medi_payment',medi_payment)
 user_route.get('/pet_trainning',pet_trainning)
 user_route.post('/pet_booking',pet_booking)
 user_route.get('/get_breed',get_breed)
+
 export default user_route;

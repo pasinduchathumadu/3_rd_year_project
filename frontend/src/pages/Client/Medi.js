@@ -17,7 +17,7 @@ import { Alert, Button, Checkbox, IconButton, Stack, TextField, Typography } fro
 import StripeCheckout from "react-stripe-checkout"
 import CloseIcon from "@mui/icons-material/Close"
 import "../../styles/Client/Medi.css"
-
+import LoadingIndicator from '../../components/LoadingIndicator';
 import StarIcon from '@mui/icons-material/Star';
 
 
@@ -36,6 +36,7 @@ function Medi() {
   const [payment,setpayment] = useState(false)
   const [scrollAnimation, setScrollAnimation] = useState(false);
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(true);
   const [payment_charge, setprice] = useState("");
   const email = localStorage.getItem('client_email')
 
@@ -54,6 +55,9 @@ function Medi() {
     };
 
     window.addEventListener('scroll', handleScroll);
+    setTimeout(() => {
+      setLoading(false);
+  }, 2000);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -61,6 +65,7 @@ function Medi() {
   }, []);
 
   useEffect(() => {
+    setLoading(false);
     AOS.init({ duration: 500 });
   }, []);
 
@@ -222,12 +227,18 @@ function Medi() {
   };
   useEffect(()=>{
     get_medi_user()
-    .then((data)=>setuser(data.data))
+    .then((data)=>{setuser(data.data);setLoading(false)})
     .catch((err)=>console.log(err))
   })
 
   return (
-    <>
+    <div>
+      {loading ?(
+        <LoadingIndicator/>
+      ):(
+
+    
+    <div>
       {first && (
         <div style={{ marginTop: '4%' }}>
           <div className='smooth-scroll' style={{ width: "100%", height: "60vh", marginTop: "auto", marginBottom: "auto", fontWeight: "1", display: "flex" }} data-aos="zoom-out">
@@ -483,7 +494,9 @@ function Medi() {
 
 
 
-    </>
+    </div>
+      )}
+    </div>
   )
 }
 

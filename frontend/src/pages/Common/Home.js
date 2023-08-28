@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-// import "../../styles/Common/MainHome.css";
+import LoadingIndicator from "../../components/LoadingIndicator";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useNavigate } from "react-router-dom";
 import dog1 from "../../assests/home_images/pet3.jpg";
@@ -7,6 +7,7 @@ import { Box, Button, Typography } from "@mui/material";
 
 const Home = () => {
   const navigate = useNavigate();
+  const [loading , setLoading ] = useState(true)
   const start = () => {
     navigate("/login");
   };
@@ -16,6 +17,7 @@ const Home = () => {
   useEffect(() => {
     // Set showAnimation to true after a short delay (e.g., 1 second)
     const timeout = setTimeout(() => {
+      setLoading(false)
       setShowAnimation(true);
     }, 500);
 
@@ -26,6 +28,9 @@ const Home = () => {
 
   return (
     <>
+    {loading ?(
+      <LoadingIndicator/>
+    ):(
       <Box
         sx={{
           width: "100%",
@@ -85,6 +90,7 @@ const Home = () => {
           </Button>
         </Box>
       </Box>
+    )}
     </>
   );
 };
