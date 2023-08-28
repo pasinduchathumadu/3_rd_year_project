@@ -10,7 +10,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import axios from 'axios';
-import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const AddPets = () => {
@@ -73,9 +72,9 @@ const AddPets = () => {
     })
 
     // get pet image from db
-    // const getImageSrc = (imageName) => {
-    //     return require(`../../../../backend/images/store/${imageName}`)
-    // }
+    const getImageSrc = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+    }
     
 
     return (
@@ -183,7 +182,7 @@ const AddPets = () => {
                                             <img
                                                 style={{ width: '140px', height: '100px', border: 'solid black 1px', borderRadius: '50%' }}
                                                 component={"img"}
-                                                // src={getImageSrc(menu.image)}
+                                                src={getImageSrc(menu.image)}
                                                 alt={menu.name} />
                                         </div>
                                         <div style={{ marginLeft: '10%' }}>
@@ -207,8 +206,7 @@ const AddPets = () => {
                                     </AccordionSummary>
 
                                     <AccordionDetails>
-                                        <div style={{ marginLeft: '90%' }}>
-                                            <EditIcon />
+                                        <div style={{ marginLeft: '95%' }}>
                                             <DeleteIcon sx={{ color: 'red' }} />
                                         </div>
 

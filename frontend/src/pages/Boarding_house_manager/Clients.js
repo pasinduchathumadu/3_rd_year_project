@@ -17,13 +17,14 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
-import { Avatar, Tab } from "@mui/material";
+import { Avatar, IconButton, Tab } from "@mui/material";
 import { Tabs } from "@mui/material";
 import { FormLabel, TextField } from "@mui/material";
 import StarIcon from '@mui/icons-material/Star';
 import Slip from '../../assests/bankslip1.png';
 import axios from "axios";
-import CircleIcon from '@mui/icons-material/Circle';
+// import CircleIcon from '@mui/icons-material/Circle';
+import CloseIcon from '@mui/icons-material/Close';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -146,16 +147,31 @@ const Clients = () => {
         setShowRequests(1);
     }
 
+    const [error, seterror] = useState(false)
+    const [message, setmessage] = useState("")
+    const [details, setdetails] = useState([])
+
     // click on view refund details
-    const ViewRefundDetails = () => {
-        setShowRequests(false);
-        setviewRefund(true);
+    const ViewRefundDetails = async (id) => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/view_refundDetails/${id}`)
+            if (res.data.message === "There is an internal error") {
+                seterror(true)
+                setmessage("There is an internal error")
+            } else {
+                setviewRefund(true);
+                setdetails(res.data.data)
+            }
+        } catch (err) {
+            console.log(err)
+        }
     }
     // after viewing the refund details
-    const FinishRefundViewing = () => {
+    const back = () => {
         setviewRefund(false);
-        setShowRequests(1);
+        setShowRequests(1)
     }
+
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
@@ -301,11 +317,11 @@ const Clients = () => {
                                             <StyledTableCell align="center">{requestrow.board_time}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.request_status}</StyledTableCell>
                                             <StyledTableCell align="center">
-                                                {requestrow.request_status === 'accepted' 
-                                                    ? (<Button sx={{ color: 'white', width:'150px', backgroundColor: '#000000', ':hover': { backgroundColor: '#000000' } }}>Arrived</Button>) :
-                                                requestrow.request_status === 'arrived' 
-                                                    ? (<Button sx={{ color: 'white', width:'150px', backgroundColor: '#000000', ':hover': { backgroundColor: '#000000' } }}>Completed</Button>)
-                                                    : "" }
+                                                {requestrow.request_status === 'accepted'
+                                                    ? (<Button sx={{ color: 'white', width: '150px', backgroundColor: '#000000', ':hover': { backgroundColor: '#000000' } }}>Arrived</Button>) :
+                                                    requestrow.request_status === 'arrived'
+                                                        ? (<Button sx={{ color: 'white', width: '150px', backgroundColor: '#000000', ':hover': { backgroundColor: '#000000' } }}>Completed</Button>)
+                                                        : ""}
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     ))}
@@ -354,7 +370,7 @@ const Clients = () => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {refund && refund.map((refundrow, next) => (
+                                    {refund && refund.map((refundrow, index) => (
                                         <StyledTableRow key={refundrow.refund_id}>
                                             <StyledTableCell align="center">{refundrow.refund_id}</StyledTableCell>
                                             <StyledTableCell align="center">{refundrow.request_id}</StyledTableCell>
@@ -365,7 +381,7 @@ const Clients = () => {
                                             <StyledTableCell align="center">{refundrow.price}.00</StyledTableCell>
                                             <StyledTableCell align="center">
                                                 {refundrow.refund_status === 'completed'
-                                                    ? <Button onClick={() => ViewRefundDetails()} sx={{ color: 'white', width: '80%', backgroundColor: '#000000', ':hover': { backgroundColor: '#555555' } }}>Refund Details</Button>
+                                                    ? <Button onClick={() => ViewRefundDetails(refundrow.refund_id)} sx={{ color: 'white', width: '80%', backgroundColor: '#000000', ':hover': { backgroundColor: '#555555' } }}>Refund Details</Button>
                                                     : <Button onClick={() => RefundAdding()} sx={{ color: 'white', width: '80%', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Refund </Button>}
                                             </StyledTableCell>
                                             <StyledTableCell align="center">
@@ -662,7 +678,7 @@ const Clients = () => {
                                 // onChange={handleFileChange}
                                 />
                             </div>
-                           
+
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <Button variant="contained" onClick={() => PlaceRefund()} sx={{ background: 'orange', width: '100%', marginRight: '10px', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Place Refund</Button>
                                 <Button variant="contained" onClick={() => cancelRefund()} sx={{ background: 'red', width: '100%', marginTop: '10px', marginLeft: '10px', ':hover': { backgroundColor: "red" } }}> Cancel</Button>
@@ -674,196 +690,222 @@ const Clients = () => {
 
             {/* view refund details */}
             {viewRefund && (
-                <div>
-                    <FormControl sx={{ marginLeft: '15%', borderRadius: '10px', width: '1000px', padding: '20px', backgroundColor: '#F0F0F5' }}>
-                        <div style={{ backgroundColor: 'white', paddingTop: '20px', paddingBottom: '20px', paddingRight: '60px', paddingLeft: '60px', borderRadius: '10px' }}>
-                            <div className="form-topic">
-                                View Refund Details
-                                <hr />
+                <div style={{
+                    backdropFilter: 'blur(4px)',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '50%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    // Adjust as needed
+                    marginRight: '300px', // Adjust as needed
+                    zIndex: 1001, // Ensure the content is above the overlay
+                }}>
+                    {details && details.map((drow, index) => (
+                        <FormControl sx={{
+                            marginLeft: '15%',
+                            marginTop: '700px',
+                            borderRadius: '10px',
+                            width: '1000px',
+                            padding: '20px',
+                            backgroundColor: '#F0F0F5',
+                            position: 'relative', // Add this to ensure content appears on top of the overlay
+                            zIndex: 1001, // Adjust the z-index to display content above the overlay
+                        }}>
+                            <div style={{ backgroundColor: 'white', paddingTop: '20px', paddingBottom: '20px', paddingRight: '60px', paddingLeft: '60px', borderRadius: '10px' }}>
+                                <div className="form-topic">
+                                    View Refund Details
+                                    <IconButton onClick={back} ><CloseIcon /></IconButton>
+                                    <hr />
+                                </div>
+
+                                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <div className="form-label">
+                                        <FormLabel> Refund ID :   </FormLabel>
+                                        <Box
+                                            component="form"
+                                            sx={{
+                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                            }}
+                                            noValidate
+                                            autoComplete="off"
+                                        >
+                                            <div>
+                                                <TextField
+                                                    disabled
+                                                    id="outlined-disabled"
+                                                    label=""
+                                                    defaultValue={drow.refund_id}
+                                                /></div>
+                                        </Box>
+
+                                    </div>
+
+                                    <div className="form-label">
+                                        <FormLabel>Request ID  </FormLabel>
+                                        <Box
+                                            component="form"
+                                            sx={{
+                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                            }}
+                                            noValidate
+                                            autoComplete="off"
+                                        >
+                                            <div>
+                                                <TextField
+                                                    disabled
+                                                    id="outlined-disabled"
+                                                    label=""
+                                                    defaultValue={drow.request_id}
+                                                /></div>
+
+                                        </Box>
+                                    </div>
+
+                                    <div className="form-label">
+                                        <FormLabel>Refunded Amount(Rs.) </FormLabel>
+                                        <Box
+                                            component="form"
+                                            sx={{
+                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                            }}
+                                            noValidate
+                                            autoComplete="off"
+                                        >
+                                            <div>
+                                                <TextField
+                                                    disabled
+                                                    id="outlined-disabled"
+                                                    label=""
+                                                    defaultValue={drow.refund_mny}
+                                                /></div>
+
+                                        </Box>
+                                    </div>
+                                </div>
+
+                                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <div className="form-label">
+                                        <FormLabel>  Account Number :   </FormLabel>
+                                        <Box
+                                            component="form"
+                                            sx={{
+                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                            }}
+                                            noValidate
+                                            autoComplete="off"
+                                        >
+                                            <div>
+                                                <TextField
+                                                    disabled
+                                                    id="outlined-disabled"
+                                                    label=""
+                                                    defaultValue={drow.acc_no}
+                                                /></div>
+                                        </Box>
+
+                                    </div>
+
+                                    <div className="form-label">
+                                        <FormLabel>Bank  </FormLabel>
+                                        <Box
+                                            component="form"
+                                            sx={{
+                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                            }}
+                                            noValidate
+                                            autoComplete="off"
+                                        >
+                                            <div>
+                                                <TextField
+                                                    disabled
+                                                    id="outlined-disabled"
+                                                    label=""
+                                                    defaultValue={drow.bank}
+                                                /></div>
+
+                                        </Box>
+                                    </div>
+
+                                    <div className="form-label">
+                                        <FormLabel>Branch  </FormLabel>
+                                        <Box
+                                            component="form"
+                                            sx={{
+                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                            }}
+                                            noValidate
+                                            autoComplete="off"
+                                        >
+                                            <div>
+                                                <TextField
+                                                    disabled
+                                                    id="outlined-disabled"
+                                                    label=""
+                                                    defaultValue={drow.branch}
+                                                /></div>
+
+                                        </Box>
+                                    </div>
+                                </div>
+
+                                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <div className="form-label">
+                                        <FormLabel>  Refund Date </FormLabel>
+                                        <Box
+                                            component="form"
+                                            sx={{
+                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                            }}
+                                            noValidate
+                                            autoComplete="off"
+                                        >
+                                            <div>
+                                                <TextField
+                                                    disabled
+                                                    id="outlined-disabled"
+                                                    label=""
+                                                    defaultValue={drow.date}
+                                                /></div>
+
+                                        </Box>
+                                    </div>
+
+                                    <div className="form-label" style={{ marginLeft: '290px' }}>
+                                        <FormLabel>Refund Time </FormLabel>
+                                        <Box
+                                            component="form"
+                                            sx={{
+                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                            }}
+                                            noValidate
+                                            autoComplete="off"
+                                        >
+                                            <div>
+                                                <TextField
+                                                    disabled
+                                                    id="outlined-disabled"
+                                                    label=""
+                                                    defaultValue={drow.time}
+                                                /></div>
+
+                                        </Box>
+                                    </div>
+                                </div>
+
+                                <div className="form-label">
+                                    <FormLabel>Uploaded Bank Slip : </FormLabel>
+                                    <img src={Slip} alt="bank slip" style={{ width: '50%', height: 'auto', borderRadius: '10px' }} />
+                                </div>
+                                {/* <Button variant="contained" onClick={() => afterAddingComplain()} sx={{ background: 'orange', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Complain</Button> */}
+                                {/* <iconButtonClasses variant="contained" onClick={FinishRefundViewing} sx={{ background: 'orange', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Finish Viewing</Button> */}
+                                {/* <IconButton><CloseIcon /></IconButton> */}
                             </div>
-
-                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <div className="form-label">
-                                    <FormLabel> Refund ID :   </FormLabel>
-                                    <Box
-                                        component="form"
-                                        sx={{
-                                            '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                        }}
-                                        noValidate
-                                        autoComplete="off"
-                                    >
-                                        <div>
-                                            <TextField
-                                                disabled
-                                                id="outlined-disabled"
-                                                label=""
-                                                defaultValue="03"
-                                            /></div>
-                                    </Box>
-
-                                </div>
-
-                                <div className="form-label">
-                                    <FormLabel>Request ID  </FormLabel>
-                                    <Box
-                                        component="form"
-                                        sx={{
-                                            '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                        }}
-                                        noValidate
-                                        autoComplete="off"
-                                    >
-                                        <div>
-                                            <TextField
-                                                disabled
-                                                id="outlined-disabled"
-                                                label=""
-                                                defaultValue="04"
-                                            /></div>
-
-                                    </Box>
-                                </div>
-
-                                <div className="form-label">
-                                    <FormLabel>Refunded Amount(Rs.) </FormLabel>
-                                    <Box
-                                        component="form"
-                                        sx={{
-                                            '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                        }}
-                                        noValidate
-                                        autoComplete="off"
-                                    >
-                                        <div>
-                                            <TextField
-                                                disabled
-                                                id="outlined-disabled"
-                                                label=""
-                                                defaultValue="7500.00 "
-                                            /></div>
-
-                                    </Box>
-                                </div>
-                            </div>
-
-                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <div className="form-label">
-                                    <FormLabel>  Account Number :   </FormLabel>
-                                    <Box
-                                        component="form"
-                                        sx={{
-                                            '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                        }}
-                                        noValidate
-                                        autoComplete="off"
-                                    >
-                                        <div>
-                                            <TextField
-                                                disabled
-                                                id="outlined-disabled"
-                                                label=""
-                                                defaultValue="345 7890 6658"
-                                            /></div>
-                                    </Box>
-
-                                </div>
-
-                                <div className="form-label">
-                                    <FormLabel>Bank  </FormLabel>
-                                    <Box
-                                        component="form"
-                                        sx={{
-                                            '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                        }}
-                                        noValidate
-                                        autoComplete="off"
-                                    >
-                                        <div>
-                                            <TextField
-                                                disabled
-                                                id="outlined-disabled"
-                                                label=""
-                                                defaultValue=" Peaples Bank "
-                                            /></div>
-
-                                    </Box>
-                                </div>
-
-                                <div className="form-label">
-                                    <FormLabel>Branch  </FormLabel>
-                                    <Box
-                                        component="form"
-                                        sx={{
-                                            '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                        }}
-                                        noValidate
-                                        autoComplete="off"
-                                    >
-                                        <div>
-                                            <TextField
-                                                disabled
-                                                id="outlined-disabled"
-                                                label=""
-                                                defaultValue=" Homagama "
-                                            /></div>
-
-                                    </Box>
-                                </div>
-                            </div>
-
-                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <div className="form-label">
-                                    <FormLabel>  Refund Date </FormLabel>
-                                    <Box
-                                        component="form"
-                                        sx={{
-                                            '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                        }}
-                                        noValidate
-                                        autoComplete="off"
-                                    >
-                                        <div>
-                                            <TextField
-                                                disabled
-                                                id="outlined-disabled"
-                                                label=""
-                                                defaultValue=" 2023/07/20 "
-                                            /></div>
-
-                                    </Box>
-                                </div>
-
-                                <div className="form-label" style={{ marginLeft: '290px' }}>
-                                    <FormLabel>Refund Time </FormLabel>
-                                    <Box
-                                        component="form"
-                                        sx={{
-                                            '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                        }}
-                                        noValidate
-                                        autoComplete="off"
-                                    >
-                                        <div>
-                                            <TextField
-                                                disabled
-                                                id="outlined-disabled"
-                                                label=""
-                                                defaultValue=" 10:00:00  "
-                                            /></div>
-
-                                    </Box>
-                                </div>
-                            </div>
-
-                            <div className="form-label">
-                                <FormLabel>Uploaded Bank Slip : </FormLabel>
-                                <img src={Slip} alt="bank slip" style={{ width: '100%', height: 'auto', borderRadius: '10px' }} />
-                            </div>
-                            {/* <Button variant="contained" onClick={() => afterAddingComplain()} sx={{ background: 'orange', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Complain</Button> */}
-                            <Button variant="contained" onClick={() => FinishRefundViewing()} sx={{ background: 'orange', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Finish Viewing</Button>
-                        </div>
-                    </FormControl>
+                        </FormControl>
+                    ))}
                 </div>
             )}
 

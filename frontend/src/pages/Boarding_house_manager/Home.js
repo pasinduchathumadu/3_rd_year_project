@@ -19,7 +19,7 @@ import { styled } from '@mui/material/styles';
 import { PieChart } from '@mui/x-charts/PieChart';
 import TableViewIcon from '@mui/icons-material/TableView';
 import axios from "axios";
-import { Navigate, useNavigate } from "react-router";
+import {  useNavigate } from "react-router";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -43,6 +43,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 
 const Home = () => {
+    const navigate = useNavigate("")
+
     // drop down
     const [time1, setTime1] = React.useState('1');
     // const [time2, setTime2] = React.useState('1');
@@ -127,6 +129,10 @@ const Home = () => {
             .then((data) => setpending(data.data))
             .catch((err) => console.log(err))
     })
+
+    const cages = () => {
+        navigate("/cages");
+    }
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
@@ -244,7 +250,7 @@ const Home = () => {
                             <h3 style={{ color: 'black' }}> Cages Current Usage</h3>
                         </div>
 
-                        <Link to= "/cages"><Button sx={{color:'white', backgroundColor:'orange', ':hover':{backgroundColor:'orange'}}}>View Cages Structure</Button></Link>
+                        <Button onClick={cages} sx={{color:'white', backgroundColor:'orange', ':hover':{backgroundColor:'orange'}}}>View Cages Structure</Button>
                        {/* <Button sx={{color:'white', backgroundColor:'orange', ':hover':{backgroundColor:'orange'}}}>View Cage Structure</Button>  */}
 
                         {/* <Box sx={{ minWidth: 120, marginLeft: '400px' }}>

@@ -149,7 +149,6 @@ const Users = () => {
             .catch((err) => console.log(err))
     })
 
-  
 
     // view clients details
     const get_client = async () => {
@@ -157,27 +156,80 @@ const Users = () => {
             const res = await axios.get('http://localhost:5000/pet_care/admin/get_client')
             const data = await res.data
             return data
-        }catch (err) {
+        } catch (err) {
             console.log("There is an internal error")
         }
     }
 
     useEffect(() => {
         get_client()
-        .then((data) => setclient(data.data))
-        .catch((err) => console.log(err))
+            .then((data) => setclient(data.data))
+            .catch((err) => console.log(err))
     })
 
+    const [error1, seterror1] = useState(false)
+    const [message, setmessage] = useState("")
+    const [managerdetails, setmanagerdetails] = useState([])
+
     // click on update icon
-    const updateManager = () => {
-        setUsers(false);
-        setupdate(true);
+    const ManagerDetails = async (id) => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/admin/ManagerDetails/${id}`)
+            if (res.data.message === 'There is an internal error') {
+                seterror1(true)
+                setmessage("There is an internal error")
+            } else {
+                setUsers(false)
+                setupdate(true)
+                setmanagerdetails(res.data.data)
+            }
+
+        } catch (err) {
+            console.log(err)
+        }
     }
+
     // after updating details
-    const FinishUpdate = () => {
+    const [newcontact, setnewcontact] = useState("")
+    const [newstreet, setnewstreet] = useState("")
+    const [newcity, setnewcity] = useState("")
+
+    const handleContact = (event) => {
+        setnewcontact(event.target.value)
+    }
+
+    const handleStreet = (event) => {
+        setnewstreet(event.target.value)
+    }
+
+    const handleCity = (event) => {
+        setnewcity(event.target.value)
+    }
+
+    const FinishUpdate = async(id) => {
         setupdate(false);
         setUsers(0);
+
+        try {
+            const res = await axios.post(`http://localhost:5000/pet_care/admin/FinishUpdate`,{
+                id,
+                newcontact,
+                newstreet,
+                newcity
+            })
+            
+
+
+        }catch (err){
+            console.log(err)
+        }
     }
+
+   
+
+
+
+
     // clients pet viewing
     const PetViewing = () => {
         setUsers(false);
@@ -244,7 +296,7 @@ const Users = () => {
                                     </StyledTableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {manager && manager.map((managerow,index) => (
+                                    {manager && manager.map((managerow, index) => (
                                         <StyledTableRow key={managerow.id}>
                                             <StyledTableCell align="center"><img src={Image} style={{ width: '80px', borderRadius: '50%' }} alt="image" /></StyledTableCell>
                                             <StyledTableCell align="center">{managerow.manager_id}</StyledTableCell>
@@ -253,7 +305,7 @@ const Users = () => {
                                             <StyledTableCell align="center">{managerow.contact_number}</StyledTableCell>
                                             <StyledTableCell align="center">{managerow.address}</StyledTableCell>
                                             <StyledTableCell align="center">{managerow.user_role}</StyledTableCell>
-                                            <StyledTableCell align="center"><EditIcon onClick={() => updateManager()} /><DeleteIcon sx={{ color: 'red' }} /></StyledTableCell>
+                                            <StyledTableCell align="center"><EditIcon onClick={() => ManagerDetails(managerow.manager_id)} /><DeleteIcon sx={{ color: 'red' }} /></StyledTableCell>
                                         </StyledTableRow>
                                     ))}
                                 </TableBody>
@@ -405,46 +457,149 @@ const Users = () => {
             {/* update manager details */}
             {update && (
                 <div>
+
                     <FormControl sx={{ marginLeft: '30%', borderRadius: '10px', width: '700px', padding: '20px', backgroundColor: '#F0F0F5' }}>
-                        <div style={{ backgroundColor: 'white', padding: '15px', borderRadius: '10px' }}>
-                            <div className="form-topic">
-                                Update Managers Details
-                            </div>
+                        {managerdetails && managerdetails.map((mgrow, index) => (
+                            <div style={{ backgroundColor: 'white', padding: '15px', borderRadius: '10px' }}>
+                                <div className="form-topic">
+                                    Update Managers Details
+                                </div>
 
-                            <div className="form-label">
-                                <img src={Image} alt="manager photo" style={{ borderRadius: '50%', width: '200px', height: 'auto', marginLeft: '35%' }} />
-                            </div>
-
-                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <div className="form-label">
-                                    <FormLabel>Manager ID : 02</FormLabel>
+                                    <img src={Image} alt="manager photo" style={{ borderRadius: '50%', width: '200px', height: 'auto', marginLeft: '35%' }} />
+                                </div>
+
+                                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <div className="form-label">
+                                        <FormLabel>Manager ID :</FormLabel>
+                                        <Box
+                                            component="form"
+                                            sx={{
+                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                            }}
+                                            noValidate
+                                            autoComplete="off"
+                                        >
+                                            <div>
+                                                <TextField
+                                                    id="outlined-disabled"
+                                                    label=""
+                                                    disabled
+                                                    defaultValue={mgrow.manager_id}
+                                                /></div>
+
+                                        </Box>
+                                    </div>
+                                    <div className="form-label">
+                                        <FormLabel>Name :</FormLabel>
+                                        <Box
+                                            component="form"
+                                            sx={{
+                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                            }}
+                                            noValidate
+                                            autoComplete="off"
+                                        >
+                                            <div>
+                                                <TextField
+                                                    id="outlined-disabled"
+                                                    label=""
+                                                    disabled
+                                                    defaultValue={mgrow.name}
+                                                /></div>
+                                        </Box>                                        
+                                    </div>
                                 </div>
                                 <div className="form-label">
-                                    <FormLabel>Name : Gerry Perera</FormLabel>
+                                    <FormLabel>Email Address :</FormLabel>
+                                    <Box
+                                            component="form"
+                                            sx={{
+                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                            }}
+                                            noValidate
+                                            autoComplete="off"
+                                        >
+                                            <div>
+                                                <TextField
+                                                    id="outlined-disabled"
+                                                    disabled
+                                                    label=""
+                                                    defaultValue={mgrow.email}
+                                                /></div>
+                                        </Box>
                                 </div>
-                            </div>
-                            <div className="form-label">
-                                <FormLabel>Email Address : manager1@gmail.com</FormLabel>
-                            </div>
 
-                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <div className="form-label">
-                                    <FormLabel> Contact Number</FormLabel>
-                                    <TextField id="outlined-basic" placeholder="Contact Number" type="text" variant="outlined" sx={{ width: '300px' }} />
+                                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <div className="form-label">
+                                        <FormLabel> Contact Number</FormLabel>
+                                        {/* <TextField id="outlined-basic" placeholder="Contact Number" type="text" variant="outlined" sx={{ width: '300px' }} /> */}
+                                        <Box
+                                            component="form"
+                                            sx={{
+                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                            }}
+                                            noValidate
+                                            autoComplete="off"
+                                        >
+                                            <div>
+                                                <TextField
+                                                    id="outlined-disabled"
+                                                    label=""
+                                                    defaultValue={mgrow.contact_number}
+                                                    onChange={handleContact}
+                                                /></div>
+                                        </Box>
+                                    </div>
+                                    <div className="form-label">
+                                        <FormLabel> Street</FormLabel>
+                                        <Box
+                                            component="form"
+                                            sx={{
+                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                            }}
+                                            noValidate
+                                            autoComplete="off"
+                                        >
+                                            <div>
+                                                <TextField
+                                                    id="outlined-disabled"
+                                                    label=""
+                                                    defaultValue={mgrow.street}
+                                                    onChange={handleStreet}
+                                                /></div>
+                                        </Box>
+                                    </div>
+                                    <div className="form-label">
+                                        <FormLabel> City</FormLabel>
+                                        <Box
+                                            component="form"
+                                            sx={{
+                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                            }}
+                                            noValidate
+                                            autoComplete="off"
+                                        >
+                                            <div>
+                                                <TextField
+                                                    id="outlined-disabled"
+                                                    label=""
+                                                    defaultValue={mgrow.city}
+                                                    onChange={handleCity}
+                                                /></div>
+                                        </Box>
+                                    </div>
                                 </div>
-                                <div className="form-label">
-                                    <FormLabel> Address</FormLabel>
-                                    <TextField id="outlined-basic" placeholder=" Address" type="text" variant="outlined" sx={{ width: '300px' }} />
-                                </div>
-                            </div>
 
-                            {/* <div className="form-label">
+                                {/* <div className="form-label">
                                 <FormLabel>Profile Picture</FormLabel>
                                 <input type="file" placeholder=" Choose a file" variant="outlined" />
                             </div> */}
-                            <Button variant="contained" onClick={() => FinishUpdate()} sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Update</Button>
-                        </div>
+                                <Button variant="contained" onClick={() => FinishUpdate(mgrow.manager_id)} sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Update</Button>
+                            </div>
+                        ))}
                     </FormControl>
+
                 </div>
             )}
 

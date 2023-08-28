@@ -11,7 +11,7 @@ boarding_house_manager.get('/getPackage',getPackage)
 boarding_house_manager.get('/view_requests',view_requests)
 boarding_house_manager.get('/view_allclients',view_allclients)
 boarding_house_manager.get('/refund_requests',refund_requests)
-boarding_house_manager.get('/view_refundDetails/:id',view_refundDetails)  //not completed
+boarding_house_manager.get('/view_refundDetails/:id',view_refundDetails) 
 
 // complains
 boarding_house_manager.post('/add_complain',add_complain)

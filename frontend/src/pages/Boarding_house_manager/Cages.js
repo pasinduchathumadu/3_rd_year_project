@@ -5,11 +5,18 @@ import BackgroundImage from '../../assests/boarding_cover.jpg';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ProfilePicture from '../../assests/profile-picture.png';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import { useNavigate } from 'react-router';
 
 
 const Cages = () => {
-    const input = new Date();
-    const date = input.toDateString();
+    const input = new Date()
+    const date = input.toDateString()
+
+    const navigate = useNavigate("")
+
+    const backto = () => {
+        navigate("/boarding_dashboard")
+    }
     
     return (
         <div className="home-container" style={{ marginTop: '4%' }}>
@@ -27,7 +34,7 @@ const Cages = () => {
 
             <div style={{ position: 'absolute' }}>
                 <Typography sx={{ color: 'white', fontSize: '40px', marginLeft: '500px', marginTop: '50px', fontWeight: 'bold' }}>Boarding House - Cage Structure</Typography>
-                <Link to="/boarding_dashboard"><Button sx={{ color: 'white', width: '150px', backgroundColor: 'orange', borderRadius: '10px', ':hover': { backgroundColor: 'orange' }, marginLeft: '1300px' }}><ArrowBackIcon sx={{ marginRight: '20px' }} />Back</Button></Link>
+                <Button onClick={backto} sx={{ color: 'white', width: '150px', backgroundColor: 'orange', borderRadius: '10px', ':hover': { backgroundColor: 'orange' }, marginLeft: '1300px' }}><ArrowBackIcon sx={{ marginRight: '20px' }} />Back</Button>
             </div>
             <div style={{
                 backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6)),url(${BackgroundImage})`,

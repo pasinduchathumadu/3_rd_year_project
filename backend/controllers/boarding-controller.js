@@ -115,9 +115,16 @@ export const view_allclients = async (req, res, next) => {
 
 // viewing refund details of refund
 export const view_refundDetails = async(req,res,next) => {
-    
+    const id = req.params.id
+    const sqlQuery = 'SELECT r.refund_id, r.request_id, r.client_id,  r.refund_slip, r.date, r.time, r.refund_mny, b.acc_no, b.bank, b.branch FROM boarding_refund r INNER JOIN client_bankdetails b ON r.client_id = b.client_id WHERE r.refund_id = ?'
+    const values =[id]
 
-
+    db.query(sqlQuery,values, (err, data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
 }
 
 // -------- COMPLAINS -----------------------
