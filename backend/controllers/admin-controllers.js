@@ -177,6 +177,40 @@ export const get_client = async (req, res, next) => {
 
 }
 
+export const ManagerDetails = async (req,res,next) => {
+    const id = req.params.id
+    const sqlQuery = 'SELECT CONCAT(u.first_name, " ", u.last_name) as name, u.email, m.manager_id, m.contact_number, m.street, m.city from users u INNER JOIN manager m ON u.email=m.email WHERE m.manager_id = ? '
+    const values = [id]
+
+    db.query(sqlQuery, values, (err, data) => {
+        if(err) {
+            return res.json({message: 'There is an internal error'})
+        }
+        return res.json({data})
+    })
+
+}
+
+export const FinishUpdate = async (req,res ,next) => {
+    const {
+        id,
+        newcontact,
+        newstreet,
+        newcity,
+    } = req.body;
+
+    const sqlQuery = 'UPDATE manager SET contact_number = ? , street = ?, city =? WHERE manager_id = ?'
+    const values = [newcontact, newstreet, newcity, id]
+
+    db.query(sqlQuery, values, (err, data) => {
+        if(err) {
+            return res.json({message: 'There is an internal error'})
+        }
+        return res.json({message:'updated'})
+    })   
+
+}
+
 // --- DASHBOARD ---
 // count managers
 export const countManagers = async(req,res, next) => {
