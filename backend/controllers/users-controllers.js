@@ -1056,9 +1056,10 @@ export const pet_booking = async(req,res,next)=>{
   if(value === "3"){
     day = "Sunday"
   }
-  const sqlQuery = "SELECT COUNT(b.id)AS count1,s.count,s.emp_id FROM pet_trainning_shedule s INNER JOIN pet_trainning_payment b ON b.day = s.day WHERE b.day = ?"
+  const sqlQuery = "SELECT COUNT(b.id)AS count1,s.count,s.emp_id FROM pet_trainning_shedule s INNER JOIN pet_trainning_payment b ON b.day = s.day WHERE b.day = ? AND b.placed_date = ? "
   const values1 = [
-    day
+    day,
+    selectedDate
   ]
   db.query(sqlQuery,values1,(err,data)=>{
     if(err){

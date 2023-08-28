@@ -46,6 +46,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const Training_Pets = () => {
+    const current = new Date()
     const [loading , setLoading ] = useState(true)
     const [value, setValue] = useState('1');
     const [shedule, setshedule] = useState([]);
@@ -123,7 +124,19 @@ const Training_Pets = () => {
             .catch((err) => console.log(err));
     }, []);
     const submit = async()=>{
-        console.log("dkkdk")
+       if(selectedDate === ''){
+        seterror(true)
+        setmessage("Please Select Date")
+        return;
+       }
+       const selectedDateObj = new Date(selectedDate);
+
+       if (selectedDateObj < current) {
+           seterror(true);
+           setmessage("Can't Pick Previous Days!!");
+           return;
+       }
+
         try{
             const res = await axios.post('http://localhost:5000/pet_care/user/pet_booking',{
                 selectedDate,
