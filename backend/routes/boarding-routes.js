@@ -1,5 +1,5 @@
 import express from "express";
-import {addPackage, getPackage, view_requests, view_allclients, add_complain, viewmyComplains, viewResponse, viewClientsComplains, packageUsage, viewCurrent, viewRequested, viewBoarded, refund_requests, countPets, pendingRequest, view_refundDetails} from '../controllers/boarding-controller';
+import {addPackage, getPackage, view_requests, view_allclients, add_complain, viewmyComplains, viewResponse, viewClientsComplains, packageUsage, viewCurrent, viewRequested, viewBoarded, refund_requests, countPets, pendingRequest, view_refundDetails,toRefund, viewPetDetails} from '../controllers/boarding-controller';
 
 const boarding_house_manager = express.Router()
 
@@ -12,6 +12,8 @@ boarding_house_manager.get('/view_requests',view_requests)
 boarding_house_manager.get('/view_allclients',view_allclients)
 boarding_house_manager.get('/refund_requests',refund_requests)
 boarding_house_manager.get('/view_refundDetails/:id',view_refundDetails) 
+boarding_house_manager.get('/toRefund/:id',toRefund) 
+boarding_house_manager.get('/viewPetDetails/:id',viewPetDetails) 
 
 // complains
 boarding_house_manager.post('/add_complain',add_complain)
