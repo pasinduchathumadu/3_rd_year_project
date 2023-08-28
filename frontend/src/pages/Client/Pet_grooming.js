@@ -23,7 +23,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
-
+import LoadingIndicator from '../../components/LoadingIndicator';
 import Bath from "../../assests/bath.jpg";
 import Haircut from "../../assests/haircut.png";
 import massage from "../../assests/massage.jpg";
@@ -91,6 +91,7 @@ function Pet_grooming() {
   const [fill, setfilled] = useState(false)
   const [paymentdo, setpaymentdo] = useState(false)
   const [employee_detail, setEmployeeDetail] = useState([]);
+  const [loading , setLoading ] = useState(true)
   const handleDateChange = (newDate) => {
     setSelectedDate(newDate);
   };
@@ -295,7 +296,7 @@ function Pet_grooming() {
 
   useEffect(() => {
     get_timeslot()
-      .then((data) => settimeslot(data.data))
+      .then((data) => {settimeslot(data.data);setLoading(false)})
       .catch((err) => console.log(err))
   })
   const getImageSrc = (imageName) => {
@@ -318,20 +319,27 @@ function Pet_grooming() {
 
   useEffect(() => {
     get_package()
-      .then((data) => setpackage(data.data))
+      .then((data) => {setpackage(data.data);setLoading(false)})
       .catch((err) => console.log(err))
   })
 
 
 
   useEffect(() => {
+    setLoading(false)
     AOS.init({ duration: 1000 });
   }, []);
 
 
 
   return (
-    <><>
+    <div>
+      {loading ?(
+        <LoadingIndicator/>
+      ):(
+
+     
+    <>
 
       {first && (
         <><div
@@ -1387,7 +1395,7 @@ function Pet_grooming() {
 
       )}
     </>
-
+      )}
       {paymentdo && (
         <div
           style={{
@@ -1458,7 +1466,8 @@ function Pet_grooming() {
 
           </div>
         </div>
-      )}</>
+        
+      )}</div>
   );
 }
 
