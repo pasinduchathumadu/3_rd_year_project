@@ -976,7 +976,7 @@ export const check_appointment = async(req,res,next)=>{
       return res.json({message:'Appoinments are over'})
     }
   })
-    const sqlQuery1 = "SELECT *FROM vet WHERE vet_id = ? AND  ? > unfree_date_start AND ? > unfree_date_end"
+    const sqlQuery1 = "SELECT *FROM vet WHERE vet_id = ? AND  ? >= unfree_date_start AND ? <=unfree_date_end"
     const value2 = [
       id,
       date_medi,
@@ -987,7 +987,7 @@ export const check_appointment = async(req,res,next)=>{
       if(err){
         return res.json({message:'There is an internel error'})
       }
-      if(data1.length === 0){
+      if(data1.length >0){
         return res.json({message:'doctors is not free'})
       }
       return res.json({message:'added'})

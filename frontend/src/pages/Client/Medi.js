@@ -135,11 +135,13 @@ function Medi() {
       setmessage("Please pick a valid date within the next two weeks.");
       return;
     }
-    if(selectedDate < currentDate  ){
-      seterror(true);
-      setmessage("You can't pick that day!!!");
-      return;
+    const currentDateMinusOneDay = new Date(currentDate);
+    currentDateMinusOneDay.setDate(currentDate.getDate() - 1);
 
+    if (selectedDate <= currentDateMinusOneDay) {
+        seterror(true);
+        setmessage("Can't Pick Previous Days!!");
+        return;
     }
   
     const res = await axios.post('http://localhost:5000/pet_care/user/check_appointment', {
