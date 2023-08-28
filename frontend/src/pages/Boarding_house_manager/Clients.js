@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
 import ProfilePicture from '../../assests/profile-picture.png';
-import PetImage from '../../assests/blog-1.png';
-import OwnerImage from '../../assests/profile-picture.png';
+// import PetImage from '../../assests/blog-1.png';
+// import OwnerImage from '../../assests/profile-picture.png';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
