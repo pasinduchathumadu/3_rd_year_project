@@ -25,9 +25,10 @@ import dog2 from '../../assests/pettoy3.jpg'
 import axios from "axios";
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
-
+import LoadingIndicator from "../../components/LoadingIndicator";
 const Menu = () => {
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(true);
   const [value, setValue] = useState(0);
   const [value_dog, setdog] = useState("")
   const [MenuList,setmenu] = useState([])
@@ -84,7 +85,7 @@ const Menu = () => {
   }
   useEffect(()=>{
     get_store()
-    .then((data)=>setmenu(data.data))
+    .then((data)=>{setmenu(data.data); setLoading(false)})
     .catch((err)=>console.log("There is an internel error"))
   })
 
@@ -108,6 +109,10 @@ const Menu = () => {
   }, []);
   
   return (
+    <div>
+       {loading ? (
+                <LoadingIndicator />
+            ):(
     <>
       <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
         <Box sx={{ width: '100%', height: '80vh', backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(${dogBackground})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center' , transition: 'background-image 0.5s ease-in-out'}}>
@@ -287,6 +292,8 @@ const Menu = () => {
 
 
     </>
+            )}
+    </div>
   );
 };
 

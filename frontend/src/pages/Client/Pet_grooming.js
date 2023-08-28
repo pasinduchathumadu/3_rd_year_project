@@ -22,27 +22,27 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActionArea} from "@mui/material";
-
+import { CardActionArea } from "@mui/material";
+import LoadingIndicator from '../../components/LoadingIndicator';
 import Bath from "../../assests/bath.jpg";
 import Haircut from "../../assests/haircut.png";
 import massage from "../../assests/massage.jpg";
 
-import { format, setSeconds} from 'date-fns'
-import { Link, useNavigate } from 'react-router-dom';
+import { format } from 'date-fns'
+import { useNavigate } from 'react-router-dom';
 
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import BathImage from '../../assests/bath2.jpg'; // Import the background image
-import { TextField, FormControlLabel} from "@mui/material";
+import { TextField, FormControlLabel } from "@mui/material";
 import Box from '@mui/material/Box';
 import logo from "../../assests/2.png";
 import star from "../../assests/star3.png";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
+import { faL, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
 
 
 import 'aos/dist/aos.css';
@@ -58,12 +58,12 @@ const MenuProps = {
 };
 
 function Pet_grooming() {
-  
+
   const [personName, setPersonName] = React.useState('');
   const [choose_package, setchoose] = React.useState('');
   const [timeslot, settimeslot] = useState([])
   const [Id, setSelectedId] = useState(null);
-  const [third , setthird ] = useState(false)
+  const [third, setthird] = useState(false)
   const navigate = useNavigate()
   const handleChange = (event) => {
     const selectedValue = event.target.value;
@@ -78,10 +78,10 @@ function Pet_grooming() {
     setchoose(selectedValue);
     setthird(true)
   };
-  const [hair,sethair] = useState(false)
-  const [mini,setmini] = useState(false)
-  const [payment_charge,setpaymentcharge] = useState(null)
-  const [selectpackage,setselectpackage] = useState([])
+  const [hair, sethair] = useState(false)
+  const [mini, setmini] = useState(false)
+  const [payment_charge, setpaymentcharge] = useState(null)
+  const [selectpackage, setselectpackage] = useState([])
   const [first, setfirst] = useState(true)
   const [selectedDate, setSelectedDate] = useState(null);
   const [bath, setbath] = useState(false)
@@ -89,8 +89,9 @@ function Pet_grooming() {
   const [message, setmessage] = useState("")
   const [package_care, setpackage] = useState([])
   const [fill, setfilled] = useState(false)
-  const [paymentdo,setpaymentdo] = useState(false)
+  const [paymentdo, setpaymentdo] = useState(false)
   const [employee_detail, setEmployeeDetail] = useState([]);
+  const [loading , setLoading ] = useState(true)
   const handleDateChange = (newDate) => {
     setSelectedDate(newDate);
   };
@@ -108,7 +109,7 @@ function Pet_grooming() {
   const handleFormOpen = async () => {
     seterror(false)
     if (selectedDate === null || Id === null) {
-    
+
       setfilled(true)
       seterror(true)
       setmessage("Kindly choose a date and a time slot.")
@@ -132,7 +133,8 @@ function Pet_grooming() {
     try {
       const res = await axios.post('http://localhost:5000/pet_care/user/date_client', {
         selectedDateString,
-        Id
+        Id,
+        choose_package
       })
       if (res.data.message === "already filled") {
         seterror(true)
@@ -151,6 +153,7 @@ function Pet_grooming() {
   };
 
   const random_assit = async (package_id) => {
+   
     if (fill) {
       navigate('/Pet_grooming')
     }
@@ -160,32 +163,40 @@ function Pet_grooming() {
           Id,
           selectedDateString,
           email,
-          package_id
+          package_id,
+          choose_package
         })
         const data = await res.data
         setEmployeeDetail(data.data)
 
         if (res.data.message === "There is an internel error") {
-         
+
           navigate('/Pet_grooming')
         }
         else {
-  
+
           const res = await axios.get(`http://localhost:5000/pet_care/user/get_package/${package_id}`)
           const data = await res.data
           setselectpackage(data.data)
-        
-          if(data.data[0].package_name === "BATH"){
+
+          if (data.data[0].package_name === "BATH") {
             setfirst(false)
             setbath(true)
+          
+
           }
-          if(data.data[0].package_name === "BATH AND HAIR CUTS"){
+          if (data.data[0].package_name === "BATH AND HAIR CUTS") {
             setfirst(false)
             sethair(true)
+
+         
+
           }
-          if(data.data[0].package_name === "MINI GROOMING"){
+          if (data.data[0].package_name === "MINI GROOMING") {
             setfirst(false)
             setmini(true)
+
+         
           }
         }
 
@@ -196,39 +207,39 @@ function Pet_grooming() {
     }
   }
 
-  const get_appointment_id = async()=>{
-    try{
+  const get_appointment_id = async () => {
+    try {
       const res = await axios.get(`http://localhost:5000/pet_care/user/get_appointment_id/${email}`)
-  
-      if(res.data.message === "success"){
+
+      if (res.data.message === "success") {
         confirm()
       }
 
     }
-    catch(err){
+    catch (err) {
       console.log("There is an internel error")
     }
   }
 
-  const payment1 = (price)=>{
+  const payment1 = (price) => {
     setpaymentdo(true)
     setbath(false)
     sethair(false)
     setmini(false)
     setpaymentcharge(price)
   }
-  
-  const confirm = async(id) =>{
-    try{
-    await axios.get(`http://localhost:5000/pet_care/user/payment/${id}`)
+
+  const confirm = async (id) => {
+    try {
+      await axios.get(`http://localhost:5000/pet_care/user/payment/${id}`)
     }
-    catch(err){
+    catch (err) {
       console.log(err)
     }
   }
   const [product] = useState({
     name: "React from FB",
-    price:payment_charge,
+    price: payment_charge,
     productBy: "facebook"
   });
 
@@ -250,7 +261,7 @@ function Pet_grooming() {
         navigate('/petcare')
       }
       else {
-       console.log("failed")
+        console.log("failed")
       }
     } catch (err) {
       navigate('/petcare')
@@ -260,14 +271,14 @@ function Pet_grooming() {
 
   }
 
-  const cancel_appointment = async()=>{
-    try{
+  const cancel_appointment = async () => {
+    try {
       const res = await axios.get(`http://localhost:5000/pet_care/user/cancel_appointment/${email}`)
-      if(res.data.message === "deleted"){
+      if (res.data.message === "deleted") {
         navigate('/petcare')
       }
 
-    }catch(err){
+    } catch (err) {
       console.log("There is an internel error")
     }
   }
@@ -285,7 +296,7 @@ function Pet_grooming() {
 
   useEffect(() => {
     get_timeslot()
-      .then((data) => settimeslot(data.data))
+      .then((data) => {settimeslot(data.data);setLoading(false)})
       .catch((err) => console.log(err))
   })
   const getImageSrc = (imageName) => {
@@ -302,26 +313,33 @@ function Pet_grooming() {
     }
   }
 
-  const cancel = ()=>{
+  const cancel = () => {
     navigate('/petcare')
   }
 
   useEffect(() => {
     get_package()
-      .then((data) => setpackage(data.data))
+      .then((data) => {setpackage(data.data);setLoading(false)})
       .catch((err) => console.log(err))
   })
 
 
 
   useEffect(() => {
+    setLoading(false)
     AOS.init({ duration: 1000 });
   }, []);
-  
-  
+
+
 
   return (
-    <><>
+    <div>
+      {loading ?(
+        <LoadingIndicator/>
+      ):(
+
+     
+    <>
 
       {first && (
         <><div
@@ -366,8 +384,8 @@ function Pet_grooming() {
                   ))}
                 </Select>
               </FormControl>
-              {third &&(
-                 <><FormControl sx={{ m: 1, width: 300 }}>
+              {third && (
+                <><FormControl sx={{ m: 1, width: 300 }}>
                   <InputLabel id="demo-single-checkbox-label">Time Slot</InputLabel>
                   <Select
                     labelId="demo-multiple-checkbox-label"
@@ -390,12 +408,12 @@ function Pet_grooming() {
                   </Button></>
 
               )}
-             
+
 
             </div>
 
 
-           
+
           </div>
           {error && (
             <div style={{ marginTop: '2%', width: "40%" }}>
@@ -416,20 +434,20 @@ function Pet_grooming() {
 
 
           <h1 style={{ marginTop: "-290px", fontSize: '60px', fontWeight: 'bold' }}> Let's <span style={{ color: "orange", fontSize: '60px', fontWeight: 'bold' }}>Groom</span> your pet.</h1>
-           <Typography sx={{color:'red'}}>Note : Pick a Date within two weeks today onwards</Typography>
+          <Typography sx={{ color: 'red' }}>Note : Pick a Date within two weeks today onwards</Typography>
 
         </div>
 
           <div style={{ backgroundColor: "black", height: "50vh" }} data-aos="zoom-out-down">
 
-            <h1 style={{ textAlign: "center", color: "white", fontSize: "10vh", fontWeight: "1" }}>choice your plan now!</h1>
-            <h3 style={{ textAlign: "center", color: "white", fontWeight: "1" }}>No Risk, 30-Day Money Back Return Policy,</h3><br></br>
+            <h1 style={{ textAlign: "center", color: "white", fontSize: "10vh", fontWeight: "1" }}>Check Your Package Details</h1>
+            <h3 style={{ textAlign: "center", color: "white", fontWeight: "1", marginTop: '1%' }}>No Risk, 30-Day Money Back Return Policy,</h3><br></br>
 
 
 
 
             <h1 style={{ fontSize: "60px", color: "white", textAlign: "center", fontWeight: "10000", marginTop: "60px", backgroundColor: "black", letterSpacing: "-2px", wordSpacing: "10px", height: "30vh" }}>
-              SELECT A PACKAGE
+              Make The Payment
             </h1>
 
             <div
@@ -475,7 +493,11 @@ function Pet_grooming() {
                       </ol><Typography variant="body2" color="text.secondary" sx={{ marginTop: "90px", textAlign: "center" }}>
                         Clean grooming service without parabens,phthalates, and chamical dyes
                       </Typography><div style={{ display: 'flex', justifyContent: 'center', marginTop: '25px' }}>
-                        <Button onClick={() => random_assit(menu.package_id)} sx={{ backgroundColor: "black", width: "90%", '&:hover': { backgroundColor: 'black' } }} variant="contained">SELECT</Button>
+                        <Button onClick={() => {
+                          if (choose_package === 'BATH') {
+                            random_assit(menu.package_id);
+                          }
+                        }} sx={{ backgroundColor: "black", width: "90%", '&:hover': { backgroundColor: 'black' } }} variant="contained">{choose_package === 'BATH' ? 'Pay' : 'SELECT'}</Button>
                       </div>
                     </CardContent>
                   ))}
@@ -484,31 +506,31 @@ function Pet_grooming() {
               </Card>
 
 
-             
 
-                <Card sx={{
-                  maxWidth: 345, marginLeft: "20px", marginTop: "20px", height: "100vh", transition: "transform 0.5s ",
-                  "&:hover": {
-                    transform: "scale(1.1)",
-                    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", // Add box shadow on hover
-                  },
-                }}>
-                  <CardActionArea>
-                    <CardMedia style={{ height: "35vh" }}
-                      component="img"
-                      height="140"
-                      image={Haircut}
-                      alt="Haircut" />
-                       {package_care.filter((menu, index) => menu.package_id === 2).map((menu) => (
+
+              <Card sx={{
+                maxWidth: 345, marginLeft: "20px", marginTop: "20px", height: "100vh", transition: "transform 0.5s ",
+                "&:hover": {
+                  transform: "scale(1.1)",
+                  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", // Add box shadow on hover
+                },
+              }}>
+                <CardActionArea>
+                  <CardMedia style={{ height: "35vh" }}
+                    component="img"
+                    height="140"
+                    image={Haircut}
+                    alt="Haircut" />
+                  {package_care.filter((menu, index) => menu.package_id === 2).map((menu) => (
                     <CardContent>
-                     
-                        <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: "", fontSize: "23px" }}>
-                          {menu.package_name}
 
-                        </Typography><Typography variant="body2" color="text.secondary">
-                            Rs.{menu.price}
-                          </Typography>
-                     
+                      <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: "", fontSize: "23px" }}>
+                        {menu.package_name}
+
+                      </Typography><Typography variant="body2" color="text.secondary">
+                        Rs.{menu.price}
+                      </Typography>
+
 
                       <ol style={{ listStyleType: 'none', padding: 0, textAlign: "", marginTop: "40px", color: "black", fontSize: "20px" }}>
                         <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Deep Cleaning Shampoo</li>
@@ -523,40 +545,44 @@ function Pet_grooming() {
                       </Typography>
 
                       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-                        <Button  onClick={() => random_assit(menu.package_id)} sx={{ backgroundColor: "black", width: "90%", '&:hover': { backgroundColor: 'black' } }} variant="contained">SELECT</Button>
+                        <Button onClick={() => {
+                          if (choose_package === 'BATH AND HAIR CUTS') {
+                            random_assit(menu.package_id);
+                          }
+                        }} sx={{ backgroundColor: "black", width: "90%", '&:hover': { backgroundColor: 'black' } }} variant="contained">{choose_package === 'BATH AND HAIR CUTS' ? 'Pay' : 'SELECT'}</Button>
                       </div>
                     </CardContent>
-                     ))}
-                  </CardActionArea>
-                </Card>
-             
+                  ))}
+                </CardActionArea>
+              </Card>
 
 
 
-             
 
-                <Card sx={{
-                  maxWidth: 345, marginLeft: "20px", marginTop: "20px", height: "100vh", transition: "transform 0.5s ",
-                  "&:hover": {
-                    transform: "scale(1.1)",
-                    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", // Add box shadow on hover
-                  },
-                }}>
-                  <CardActionArea>
-                    <CardMedia style={{ height: "35vh" }}
-                      component="img"
-                      height="140"
-                      image={massage}
-                      alt="Haircut" />
-                       {package_care.filter((menu, index) => menu.package_id === 3).map((menu) => (
+
+
+              <Card sx={{
+                maxWidth: 345, marginLeft: "20px", marginTop: "20px", height: "100vh", transition: "transform 0.5s ",
+                "&:hover": {
+                  transform: "scale(1.1)",
+                  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", // Add box shadow on hover
+                },
+              }}>
+                <CardActionArea>
+                  <CardMedia style={{ height: "35vh" }}
+                    component="img"
+                    height="140"
+                    image={massage}
+                    alt="Haircut" />
+                  {package_care.filter((menu, index) => menu.package_id === 3).map((menu) => (
                     <CardContent>
-                     
-                        <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: "", fontSize: "23px" }}>
-                          {menu.package_name}
-                        </Typography><Typography variant="body2" color="text.secondary">
-                            Rs.{menu.price}
-                          </Typography>
-                     
+
+                      <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: "", fontSize: "23px" }}>
+                        {menu.package_name}
+                      </Typography><Typography variant="body2" color="text.secondary">
+                        Rs.{menu.price}
+                      </Typography>
+
 
                       <ol style={{ listStyleType: 'none', padding: 0, textAlign: "", marginTop: "40px", color: "black", fontSize: "20px" }}>
                         <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Hair Styling</li>
@@ -571,13 +597,18 @@ function Pet_grooming() {
                       </Typography>
 
                       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-                        <Button  onClick={() => random_assit(menu.package_id)} sx={{ backgroundColor: "black", width: "90%", '&:hover': { backgroundColor: 'black' } }} variant="contained">SELECT</Button>
+
+                        <Button onClick={() => {
+                          if (choose_package === 'MINI GROOMING') {
+                            random_assit(menu.package_id);
+                          }
+                        }} sx={{ backgroundColor: "black", width: "90%", '&:hover': { backgroundColor: 'black' } }} variant="contained">{choose_package === 'MINI GROOMING' ? 'Pay' : 'SELECT'}</Button>
                       </div>
                     </CardContent>
-                     ))}
-                  </CardActionArea>
-                </Card>
-             
+                  ))}
+                </CardActionArea>
+              </Card>
+
             </div>
 
 
@@ -585,7 +616,7 @@ function Pet_grooming() {
 
 
       )}
-        {mini && (
+      {mini && (
         <div style={{ marginTop: "4%" }}>
           <div style={{ display: "f" }} data-aos="zoom-in">
             <div
@@ -620,7 +651,7 @@ function Pet_grooming() {
                     fontSize: "50px",
                   }}
                 >
-                 Mini Grooming
+                  Mini Grooming
                 </h2>
                 <h1
                   style={{
@@ -630,7 +661,7 @@ function Pet_grooming() {
                     fontWeight: "1",
                   }}
                 >
-               Our pet bathing service provides a relaxing and{" "}
+                  Our pet bathing service provides a relaxing and{" "}
                 </h1>
                 <h1
                   style={{
@@ -757,7 +788,7 @@ function Pet_grooming() {
                   </Card>
                 ))}
             </Stack>
-            
+
 
 
             <div
@@ -789,7 +820,7 @@ function Pet_grooming() {
                     value={"Appointment Date: " + selectedDateString}
                   ></TextField>
                   <TextField
-                    variant="outlined"
+                    variant="outlined" 
                     value={"Time Slot: " + personName}
                   ></TextField>
                   {selectpackage &&
@@ -811,22 +842,22 @@ function Pet_grooming() {
                     label="Agree terms & conditions"
                   ></FormControlLabel>
                   <Box display="flex" justifyContent="space-between">
-                   {selectpackage && selectpackage.map((menu,index)=>(
-                    <Button
-                    onClick={()=>payment1(menu.price)}
-                    sx={{
-                      backgroundColor: "black",
-                      width: "50%",
-                      ":hover": { backgroundColor: "black" },
-                    }}
-                    variant="contained"
-                  >
-                    Make The Payment
-                  </Button>
+                    {selectpackage && selectpackage.map((menu, index) => (
+                      <Button
+                        onClick={() => payment1(menu.price)}
+                        sx={{
+                          backgroundColor: "black",
+                          width: "50%",
+                          ":hover": { backgroundColor: "black" },
+                        }}
+                        variant="contained"
+                      >
+                        Make The Payment
+                      </Button>
 
-                   ))}
+                    ))}
                     <Button
-                    onClick={cancel}
+                      onClick={cancel}
                       sx={{
                         backgroundColor: "red",
                         width: "40%",
@@ -844,7 +875,7 @@ function Pet_grooming() {
         </div>
 
       )}
-       {hair && (
+      {hair && (
         <div style={{ marginTop: "4%" }}>
           <div style={{ display: "f" }} data-aos="zoom-in">
             <div
@@ -889,7 +920,7 @@ function Pet_grooming() {
                     fontWeight: "1",
                   }}
                 >
-                Our pet bathing service provides a relaxing and {" "}
+                  Our pet bathing service provides a relaxing and {" "}
                 </h1>
                 <h1
                   style={{
@@ -1016,7 +1047,7 @@ function Pet_grooming() {
                   </Card>
                 ))}
             </Stack>
-            
+
 
 
             <div
@@ -1070,22 +1101,22 @@ function Pet_grooming() {
                     label="Agree terms & conditions"
                   ></FormControlLabel>
                   <Box display="flex" justifyContent="space-between">
-                   {selectpackage && selectpackage.map((menu,index)=>(
-                    <Button
-                    onClick={()=>payment1(menu.price)}
-                    sx={{
-                      backgroundColor: "black",
-                      width: "50%",
-                      ":hover": { backgroundColor: "black" },
-                    }}
-                    variant="contained"
-                  >
-                    Make The Payment
-                  </Button>
+                    {selectpackage && selectpackage.map((menu, index) => (
+                      <Button
+                        onClick={() => payment1(menu.price)}
+                        sx={{
+                          backgroundColor: "black",
+                          width: "50%",
+                          ":hover": { backgroundColor: "black" },
+                        }}
+                        variant="contained"
+                      >
+                        Make The Payment
+                      </Button>
 
-                   ))}
+                    ))}
                     <Button
-                    onClick={cancel}
+                      onClick={cancel}
                       sx={{
                         backgroundColor: "red",
                         width: "40%",
@@ -1276,7 +1307,7 @@ function Pet_grooming() {
                   </Card>
                 ))}
             </Stack>
-            
+
 
 
             <div
@@ -1330,22 +1361,22 @@ function Pet_grooming() {
                     label="Agree terms & conditions"
                   ></FormControlLabel>
                   <Box display="flex" justifyContent="space-between">
-                   {selectpackage && selectpackage.map((menu,index)=>(
-                    <Button
-                    onClick={()=>payment1(menu.price)}
-                    sx={{
-                      backgroundColor: "black",
-                      width: "50%",
-                      ":hover": { backgroundColor: "black" },
-                    }}
-                    variant="contained"
-                  >
-                    Make The Payment
-                  </Button>
+                    {selectpackage && selectpackage.map((menu, index) => (
+                      <Button
+                        onClick={() => payment1(menu.price)}
+                        sx={{
+                          backgroundColor: "black",
+                          width: "50%",
+                          ":hover": { backgroundColor: "black" },
+                        }}
+                        variant="contained"
+                      >
+                        Make The Payment
+                      </Button>
 
-                   ))}
+                    ))}
                     <Button
-                    onClick={cancel}
+                      onClick={cancel}
                       sx={{
                         backgroundColor: "red",
                         width: "40%",
@@ -1364,9 +1395,9 @@ function Pet_grooming() {
 
       )}
     </>
-   
-    {paymentdo &&(
-          <div
+      )}
+      {paymentdo && (
+        <div
           style={{
             display: "flex",
             justifyContent: "center",
@@ -1397,45 +1428,46 @@ function Pet_grooming() {
               amount={product.price}
               shippingAddress
             >
-                <Stack justifyContent={"center"} alignItems={"center" } direction={"row"} spacing={2}>
-    
-              <Button
-                onClick={get_appointment_id}
-                variant="contained"
-                sx={{
-                  width: "300px",
-                  height: "50px",
-                  backgroundColor: "black",
-                  marginTop: "10px",
-                  paddingLeft: "15px",
-                  marginLeft:'1%',
-                  fontSize: "16px",
-                  "&:hover": { backgroundColor: "black" },
-                }}
-              >
-                Confirm (Rs.{payment_charge})
-              </Button>
-              <Button
-              onClick={cancel_appointment}
-              variant="contained"
-              sx={{
-                width: "300px",
-                height: "50px",
-                backgroundColor: "red",
-             
-                fontSize: "16px",
-                "&:hover": { backgroundColor: "red" },
-                marginTop: "10px",
-              }}
-            >
-              Cancel
-            </Button>
-            </Stack>
+              <Stack justifyContent={"center"} alignItems={"center"} direction={"row"} spacing={2}>
+
+                <Button
+                  onClick={get_appointment_id}
+                  variant="contained"
+                  sx={{
+                    width: "300px",
+                    height: "50px",
+                    backgroundColor: "black",
+                    marginTop: "10px",
+                    paddingLeft: "15px",
+                    marginLeft: '1%',
+                    fontSize: "16px",
+                    "&:hover": { backgroundColor: "black" },
+                  }}
+                >
+                  Confirm (Rs.{payment_charge})
+                </Button>
+                <Button
+                  onClick={cancel_appointment}
+                  variant="contained"
+                  sx={{
+                    width: "300px",
+                    height: "50px",
+                    backgroundColor: "red",
+
+                    fontSize: "16px",
+                    "&:hover": { backgroundColor: "red" },
+                    marginTop: "10px",
+                  }}
+                >
+                  Cancel
+                </Button>
+              </Stack>
             </StripeCheckout>
-            
+
           </div>
         </div>
-    )}</>
+        
+      )}</div>
   );
 }
 
