@@ -217,18 +217,10 @@ const Users = () => {
                 newstreet,
                 newcity
             })
-            
-
-
         }catch (err){
             console.log(err)
         }
     }
-
-   
-
-
-
 
     // clients pet viewing
     const PetViewing = () => {
@@ -244,7 +236,6 @@ const Users = () => {
 
     const input = new Date();
     const date = input.toDateString();
-
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
