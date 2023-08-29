@@ -282,6 +282,20 @@ export const addingResponse = async (req,res,next) => {
     })    
 }
 
+// delete my complain
+export const deleteMyComplain = async(req,res,next) => {
+    const id = req.params.id
+    const sqlQuery = 'DELETE FROM manager_complain WHERE complain_id = ? '
+    const values = [id]
+
+    db.query(sqlQuery, values, (err,data) => {
+        if(err) {
+            return res.json({message: 'There is an internal errrror'})
+        }
+        return res.json({message:'Deleted'})
+    })
+
+}
 
 // --- BOARIDNG PETS ---- 
 // view current boarding pets

@@ -4,7 +4,7 @@ import '../../styles/Boarding_house_manager/Home.css';
 import ProfilePicture from '../../assests/profile-picture.png';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { Alert, IconButton, Tab } from "@mui/material";
+import { Alert, IconButton, Tab, Typography } from "@mui/material";
 import { Tabs } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
@@ -149,7 +149,7 @@ const Complains = () => {
                 id,
                 newres
             })
-        }catch(err) {
+        } catch (err) {
             console.log(err)
         }
     }
@@ -160,6 +160,37 @@ const Complains = () => {
         setOwn(0)
     }
 
+    // warning box for deleting a my complain
+    const [warn, setwarn] = useState(false)
+    const [id, setdeletedid] = useState("")
+
+    // display warning box 
+    const displayWarn = (id) => {
+        setwarn(true)
+        setOwn(false)
+        setdeletedid(id)
+    }
+    // delete the complain
+    const deleteMyComplain = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/deleteMyComplain/${id}`)
+            if (res.data.message === 'There is an internal error') {
+                seterror(true)
+                setMessage('There is an internal error')
+            } else {
+                setOwn(1)
+                setwarn(false)
+            }
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    // cancel deleting
+    const cancelDelete = () => {
+        setOwn(1)
+        setwarn(false)
+    }
 
     // viewing my complains
     const [mycomplain, setmycomplain] = useState("");
@@ -196,6 +227,8 @@ const Complains = () => {
             .then((data) => setclientcomplain(data.data))
             .catch((err) => console.log(err))
     })
+
+
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
@@ -341,7 +374,7 @@ const Complains = () => {
                                             </StyledTableCell>
                                             <StyledTableCell align="center">
                                                 {myrow.complain_status === 'pending' ?
-                                                    <DeleteIcon sx={{ color: 'red' }} /> : ""}
+                                                    <IconButton onClick={() => displayWarn(myrow.complain_id)}><DeleteIcon sx={{ color: 'red' }} /></IconButton> : ""}
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     ))}
@@ -466,15 +499,59 @@ const Complains = () => {
 
                                 <div className="form-label">
                                     <FormLabel>Enter the Response  </FormLabel>
-                                    <TextField id="outlined-basic" placeholder=" response" variant="outlined" sx={{ marginRight: '20px', marginLeft: '10px' }} />
+                                    <TextField
+                                        id="outlined-basic"
+                                        placeholder=" response"
+                                        variant="outlined"
+                                        onChange={handleResponse}
+                                        sx={{ marginRight: '20px', marginLeft: '10px' }} />
                                 </div>
 
                                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <Button variant="contained" onClick={() => afterAddingResponse()} sx={{ background: "orange", width: '100%', marginRight: '10px', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Response</Button>
+                                    <Button variant="contained" onClick={() => addingResponse(resrow.complain_id)} sx={{ background: "orange", width: '100%', marginRight: '10px', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Response</Button>
                                 </div>
                             </div>
                         </FormControl>
                     ))}
+                </div>
+            )}
+
+            {/* warning box for delete*/}
+            {warn && (
+                <div style={{ 
+                    backdropFilter: 'blur(4px)',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    padding: '5px', 
+                    width: '100%', 
+                    borderRadius: '10px', 
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    // Adjust as needed
+                    marginRight: '300px', // Adjust as needed
+                    zIndex: 1001,
+                    marginTop:'10%'
+                }}>
+                    <div style={{backgroundColor: 'black', padding:'10px'}}>
+                    <div style={{ 
+                        padding: '10px', 
+                        borderRadius: '5px', 
+                        backgroundColor: '#f0f0f5', 
+                        width: '500px',
+                        position: 'relative', // Add this to ensure content appears on top of the overlay
+                        zIndex: 1001
+                    }}>
+                        <Typography sx={{ textAlign: 'center' }}>Confirm Remove? </Typography>
+                        <hr /><br />
+
+                        <div style={{ display: 'flex', flexDirection: 'row', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                            <Button onClick={deleteMyComplain} sx={{ backgroundColor: 'orange', color: 'white', margin: '10px',':hover':{backgroundColor:'orange'} }}>Confirm</Button>
+                            <Button onClick={cancelDelete} sx={{ backgroundColor: 'red', color: 'white', margin: '10px',':hover':{backgroundColor:'red'} }}>Cancel</Button>
+                        </div>
+                    </div>
+                </div>
                 </div>
             )}
 
