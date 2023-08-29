@@ -576,6 +576,7 @@ const Users = () => {
                                 </div>
                                 <div className="form-topic">
                                     Update Managers Details
+                                    <hr />
                                 </div>
 
                                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -838,6 +839,7 @@ const Users = () => {
                 </div>
             )}
 
+            {/* warnng box - delete  */}
             {warn && (
                 <div style={{
                     backdropFilter: 'blur(4px)',

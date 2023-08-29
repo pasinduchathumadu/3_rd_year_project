@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ProfilePicture from '../../assests/profile-picture.png';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Box from '@mui/material/Box';
-import { Tab } from "@mui/material";
+import { IconButton, Tab } from "@mui/material";
 import { Tabs } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
@@ -19,7 +19,9 @@ import { FormLabel, TextField } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import { tableCellClasses } from '@mui/material/TableCell';
 import axios from 'axios';
-
+import CloseIcon from '@mui/icons-material/Close';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -42,29 +44,18 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 // data for magaers complains
-function createData1(com_id, user_id, text, date, status) {
-    return { com_id, user_id, text, date, status };
-}
-
-const managerows = [
-    createData1(1, 1, "Complain text 1", '2023-07-12', 'pending'),
-    createData1(2, 1, "Complain text 2", '2023-07-13', 'pending'),
-    createData1(3, 3, "Complain text 3", '2023-07-14', 'pending'),
-    createData1(4, 4, "Complain text 4", '2023-07-15', 'completed'),
-    createData1(5, 6, "Complain text 5", '2023-07-16', 'completed'),
-];
-// data for clients complains
-// function createData2(com_id, user_id, text, date, status, response) {
-//     return { com_id, user_id, text, date, status, response };
+// function createData1(com_id, user_id, text, date, status) {
+//     return { com_id, user_id, text, date, status };
 // }
 
-// const clientrows = [
-//     createData2(1, 1, "Complain text 1", '2023-07-12', 'pending', 'PENDING'),
-//     createData2(2, 1, "Complain text 2", '2023-07-13', 'pending', 'PENDING'),
-//     createData2(3, 3, "Complain text 3", '2023-07-14', 'pending', 'PENDING'),
-//     createData2(4, 4, "Complain text 4", '2023-07-15', 'completed', 'Response'),
-//     createData2(5, 6, "Complain text 5", '2023-07-16', 'completed', 'Response'),
+// const managerows = [
+//     createData1(1, 1, "Complain text 1", '2023-07-12', 'pending'),
+//     createData1(2, 1, "Complain text 2", '2023-07-13', 'pending'),
+//     createData1(3, 3, "Complain text 3", '2023-07-14', 'pending'),
+//     createData1(4, 4, "Complain text 4", '2023-07-15', 'completed'),
+//     createData1(5, 6, "Complain text 5", '2023-07-16', 'completed'),
 // ];
+
 
 const Complains = () => {
     // drop down
@@ -81,30 +72,73 @@ const Complains = () => {
     const [addResponce, setaddResponce] = useState(false);
     const [viewResponce, setviewResponce] = useState(false);
 
-    // click on add response button
-    const addResponse = () => {
-        // check
-        setComplain(false);
-        setaddResponce(true);
+    // click on add response button - get details
+    const [comdetails, setcomdetails] = useState("")
+    const [error, seterror] = useState(false)
+    const [message, setmessage] = useState("")
 
+    const addResponse = async (id) => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/admin/addResponse/${id}`)
+            if (res.data.message === 'There is an internal error') {
+                seterror(true)
+                setmessage('There is an internal error')
+            } else {
+                setaddResponce(true)
+                setComplain(false)
+                setcomdetails(res.data.data)
+            }
+        } catch (err) {
+            console.log(err)
+        }
     }
-    // after click on submit button of add response 
-    const afterAddingResponse = () => {
-        setComplain(0);
-        setaddResponce(false);
+
+    // after click on submit button of add response form
+    const [addres, setaddres] = useState("")
+    const [error1, seterror1] = useState(false)
+    const [message1, setmessage1] = useState("")
+
+    const handleres = (event) => {
+        setaddres(event.target.value)
+    }
+    const submitResponse = async (id1) => {
+        if (addres === '') {
+            seterror1(true)
+            setmessage1("Please fill the field")
+            return;
+        }
+
+        try {
+            const res = await axios.post(`http://localhost:5000/pet_care/admin/submitResponse`, {
+                id1,
+                addres
+            })
+            if (res.data.message === 'Added response') {
+                setComplain(0);
+                setaddResponce(false);
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    // cancel without adding a response for manager complian
+    const backAddingRes = () => {
+        setaddResponce(false)
+        setComplain(0)
     }
 
     // cancel adding responce
-    const cancelResponse = () => {
-        setaddResponce(false);
-        setComplain(0);
-    }
+    // const cancelResponse = () => {
+    //     setaddResponce(false);
+    //     setComplain(0);
+    // }
 
     // after click on view response
-    const viewResponse = () => {
-        setComplain(false);
-        setviewResponce(true);
-    }
+    // const viewResponse = () => {
+    //     setComplain(false);
+    //     setviewResponce(true);
+    // }
 
     // after viewing the response
     const afterViewingResponse = () => {
@@ -150,6 +184,8 @@ const Complains = () => {
             .then((data) => setmanagercom(data.data))
             .catch((err) => console.log(err))
     })
+
+
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
@@ -266,10 +302,9 @@ const Complains = () => {
                                     <StyledTableRow>
                                         <StyledTableCell align="center">Complain ID</StyledTableCell>
                                         <StyledTableCell align="center">Manager Role</StyledTableCell>
-                                        <StyledTableCell align="left">Complain</StyledTableCell>
+                                        <StyledTableCell align="center">Complain</StyledTableCell>
                                         <StyledTableCell align="center">Placed Date</StyledTableCell>
                                         <StyledTableCell align="center">Placed Time</StyledTableCell>
-                                        {/* <StyledTableCell align="center">Status</StyledTableCell> */}
                                         <StyledTableCell align="center">Response</StyledTableCell>
                                     </StyledTableRow>
                                 </TableHead>
@@ -281,10 +316,9 @@ const Complains = () => {
                                             <StyledTableCell align="center">{mrow.complain_txt}</StyledTableCell>
                                             <StyledTableCell align="center">{mrow.com_date}</StyledTableCell>
                                             <StyledTableCell align="center">{mrow.com_time}</StyledTableCell>
-                                            {/* <StyledTableCell align="center">{mrow.complain_status}</StyledTableCell>                                            */}
                                             <StyledTableCell align="center">
                                                 {mrow.response_txt === null ? (
-                                                    <Button onClick={() => addResponse()} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }} > Add Response</Button>
+                                                    <Button onClick={() => addResponse(mrow.complain_id)} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }} > Add Response</Button>
                                                 ) : (
                                                     mrow.response_txt
                                                 )}
@@ -300,75 +334,100 @@ const Complains = () => {
 
             {/* add response */}
             {addResponce && (
-                <div>
-                    <FormControl sx={{ marginLeft: '35%', borderRadius: '10px', width: '600px', padding: '20px', backgroundColor: '#F0F0F5' }}>
-                        <div style={{ padding: '10px', borderRadius: '10px', backgroundColor: 'white' }}>
-                            <div className="form-topic">
-                                Adding Response
-                            </div>
-                            <div className="form-label">
-                                <FormLabel>Complain ID </FormLabel>
-                                <Box
-                                    component="form"
-                                    sx={{
-                                        '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                    }}
-                                    noValidate
-                                    autoComplete="off"
-                                >
-                                    <div>
-                                        <TextField
-                                            disabled
-                                            id="outlined-disabled"
-                                            label=""
-                                            defaultValue="05"
-                                        /></div>
+                <div style={{
+                    backdropFilter: 'blur(4px)',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '50%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    // Adjust as needed
+                    marginRight: '300px', // Adjust as needed
+                    zIndex: 1001, // Ensure the content is above the overlay
+                }}>
+                    {comdetails && comdetails.map((resrow, index) => (
+                        <FormControl sx={{
+                            marginLeft: '5%',
+                            marginTop: '25%',
+                            borderRadius: '10px',
+                            width: '600px',
+                            padding: '20px',
+                            backgroundColor: 'black',
+                            position: 'relative', // Add this to ensure content appears on top of the overlay
+                            zIndex: 1001
+                        }}>
+                            <div style={{ padding: '10px', borderRadius: '10px', backgroundColor: 'white' }}>
+                                <div>
+                                    <IconButton onClick={backAddingRes}><CloseIcon sx={{ color: 'white', backgroundColor: 'red', marginLeft: '500px' }} /></IconButton>
+                                </div>
+                                <div className="form-topic">
+                                    Adding Response
+                                    <hr />
+                                </div>
+                                <div className="form-label">
+                                    <FormLabel>Complain ID </FormLabel>
+                                    <Box
+                                        component="form"
+                                        sx={{
+                                            '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                        }}
+                                        noValidate
+                                        autoComplete="off"
+                                    >
+                                        <div>
+                                            <TextField
+                                                disabled
+                                                id="outlined-disabled"
+                                                label=""
+                                                defaultValue={resrow.complain_id}
+                                            /></div>
+                                    </Box>
+                                </div>
 
-                                </Box>
-                            </div>
+                                <div className="form-label">
+                                    <FormLabel>Complain  </FormLabel>
+                                    <Box
+                                        component="form"
+                                        sx={{
+                                            '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                        }}
+                                        noValidate
+                                        autoComplete="off"
+                                    >
+                                        <div>
+                                            <TextField
+                                                disabled
+                                                id="outlined-disabled"
+                                                label=""
+                                                defaultValue={resrow.complain_txt}
+                                            /></div>
+                                    </Box>
+                                </div>
 
-                            <div className="form-label">
-                                <FormLabel>Complain  </FormLabel>
-                                <Box
-                                    component="form"
-                                    sx={{
-                                        '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                    }}
-                                    noValidate
-                                    autoComplete="off"
-                                >
-                                    <div>
-                                        <TextField
-                                            disabled
-                                            id="outlined-disabled"
-                                            label=""
-                                            defaultValue="Card payment error"
-                                        /></div>
+                                <div className="form-label">
+                                    <FormLabel>Enter the Response  </FormLabel>
+                                    <TextField
+                                        id="outlined-basic"
+                                        placeholder=" response"
+                                        variant="outlined"
+                                        onChange={handleres}
+                                        sx={{ marginLeft: '10px', marginRight: '20px' }} />
+                                </div>
 
-                                </Box>
+                                <Button variant="contained" onClick={() => submitResponse(resrow.complain_id)} sx={{ background: "orange", marginRight: '10px', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Response</Button>
+                                <div style={{ marginTop: '1%' }}>
+                                    {error1 && (
+                                        <Stack sx={{ width: '100%' }} spacing={2}>
+                                            <Alert severity="warning">{message1}</Alert>
+                                        </Stack>
+                                    )}
+                                </div>
                             </div>
-
-                            <div className="form-label">
-                                <FormLabel>Enter the Response  </FormLabel>
-                                <TextField id="outlined-basic" placeholder=" response" variant="outlined" sx={{ marginLeft: '10px', marginRight: '20px' }} />
-                            </div>
-
-                            {/* <div className="form-label">
-                                <FormLabel>Upload an Image (if need): </FormLabel>
-                                <TextField
-                                    sx={{ marginRight: '20px', marginLeft: '10px' }}
-                                    type="file"
-                                    variant="outlined"
-                                    placeholder="Choose a file"
-                                    inputProps={{ accept: 'image/*' }}
-                                />
-                            </div> */}
-                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <Button variant="contained" onClick={() => afterAddingResponse()} sx={{ background: "orange", marginRight: '10px', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Response</Button>
-                                <Button variant="contained" onClick={() => cancelResponse()} sx={{ background: "red", width: '100%', marginLeft: '10px', marginTop: '10px', ':hover': { backgroundColor: "red" } }}>Cancel</Button>
-                            </div>
-                        </div>
-                    </FormControl>
+                        </FormControl>
+                    ))}
                 </div>
             )}
 

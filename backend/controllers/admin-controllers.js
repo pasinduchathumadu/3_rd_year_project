@@ -327,6 +327,44 @@ export const managerComplains = async (req, res, next) => {
     })
 }
 
+// add response for manager complain - view details
+export const addResponse = async (req,res,next) => {
+    const id = req.params.id
+    const sqlQuery = 'SELECT * FROM manager_complain WHERE complain_id = ?'
+    const values = [id]
+
+    db.query(sqlQuery, values,(err, data) => {
+        if(err) {
+            return res.json({message: 'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+// add response for manager complain - add response
+export const submitResponse = async (req,res,next) => {
+    const {
+        id1,
+        addres
+    } = req.body;
+
+    console.log(id1)
+
+    const current = new Date()
+    const currentdate = current.toDateString()
+    const status = 'completed'
+
+    const sqlQuery = 'UPDATE manager_complain SET response_txt = ? , response_date = ?, complain_status = ? WHERE complain_id = ?'
+    const values = [addres, currentdate, status, id1]
+
+    db.query(sqlQuery, values,(err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal errrrror'})
+        }
+        return res.json({message:'Added response'})
+    })
+}
+
 // --- REFUND VERIFICATIONS ---
 // boarding - refund viewing
 export const boardingRefund = async (req, res, next) => {
