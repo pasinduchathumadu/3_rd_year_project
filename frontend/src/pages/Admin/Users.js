@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import ProfilePicture from '../../assests/profile-picture.png';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Box from '@mui/material/Box';
-import { Tab,IconButton } from "@mui/material";
+import { Tab, IconButton, Typography } from "@mui/material";
 import { Tabs } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
@@ -106,9 +106,22 @@ const Users = () => {
         }
     }
 
+    const [message, setmessage] = useState("")
     // add a new manager
     const submitManager = async (e) => {
         e.preventDefault()
+        if (email === '' ||
+            first === '' ||
+            second === '' ||
+            id === '' ||
+            contact === '' ||
+            city === '' ||
+            Street === '' ||
+            role === '') {
+            seterror(true)
+            setmessage("Please fill all fields")
+            return;
+        }
 
         try {
             const res = await axios.post("http://localhost:5000/pet_care/admin/registration", {
@@ -144,6 +157,11 @@ const Users = () => {
             .then((data) => setmanager(data.data))
             .catch((err) => console.log(err))
     })
+    // cancel adding a new manager
+    const cancelAddManager = () => {
+        setUsers(0)
+        setadd(false)
+    }
 
     // view clients details
     const get_client = async () => {
@@ -163,7 +181,7 @@ const Users = () => {
     })
 
     const [error1, seterror1] = useState(false)
-    const [message, setmessage] = useState("")
+    const [message1, setmessage1] = useState("")
     const [managerdetails, setmanagerdetails] = useState([])
 
     // click on update icon
@@ -172,7 +190,7 @@ const Users = () => {
             const res = await axios.get(`http://localhost:5000/pet_care/admin/ManagerDetails/${id}`)
             if (res.data.message === 'There is an internal error') {
                 seterror1(true)
-                setmessage("There is an internal error")
+                setmessage1("There is an internal error")
             } else {
                 setUsers(false)
                 setupdate(true)
@@ -205,6 +223,14 @@ const Users = () => {
         setupdate(false);
         setUsers(0);
 
+        if (newcontact === '' ||
+            newstreet === '' ||
+            newcity === '') {
+            seterror(true)
+            setmessage("Please fill all fields")
+            return;
+        }
+
         try {
             const res = await axios.post(`http://localhost:5000/pet_care/admin/FinishUpdate`, {
                 id,
@@ -234,8 +260,43 @@ const Users = () => {
         setUsers(1);
     }
 
+    // warn box 
+    const [warn, setwarn] = useState(false)
+    const [deleteid, setdeleteid] = useState("")
+
+    // display warn box
+    const displayWarnManager = (deleteid) => {
+        setwarn(true)
+        setUsers(false)
+        setdeleteid(deleteid)
+    }
+
+    // delete a manager
+    const deleteManager = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/admin/deleteManager/${deleteid}`)
+            if (res.data.message === 'There is an internal error') {
+                seterror(true)
+                setmessage('There is an internal error')
+            } else {
+                setUsers(0)
+                setwarn(false)
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    // cancel without deleting a manager
+    const cancelManagerDelete = () => {
+        setUsers(0)
+        setwarn(false)
+    }
+
     const input = new Date();
     const date = input.toDateString();
+
+
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
@@ -284,6 +345,7 @@ const Users = () => {
                                         <StyledTableCell align="center">Address</StyledTableCell>
                                         <StyledTableCell align="center">Role</StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
+                                        <StyledTableCell align="center"></StyledTableCell>
                                     </StyledTableRow>
                                 </TableHead>
                                 <TableBody>
@@ -296,7 +358,8 @@ const Users = () => {
                                             <StyledTableCell align="center">{managerow.contact_number}</StyledTableCell>
                                             <StyledTableCell align="center">{managerow.address}</StyledTableCell>
                                             <StyledTableCell align="center">{managerow.user_role}</StyledTableCell>
-                                            <StyledTableCell align="center"><EditIcon onClick={() => ManagerDetails(managerow.manager_id)} /><DeleteIcon sx={{ color: 'red' }} /></StyledTableCell>
+                                            <StyledTableCell align="center"><EditIcon onClick={() => ManagerDetails(managerow.manager_id)} /></StyledTableCell>
+                                            <StyledTableCell align="center"><IconButton onClick={() => displayWarnManager(managerow.manager_id)}><DeleteIcon sx={{ color: 'red' }} /></IconButton></StyledTableCell>
                                         </StyledTableRow>
                                     ))}
                                 </TableBody>
@@ -368,11 +431,44 @@ const Users = () => {
 
             {/* managers adding */}
             {add && (
-                <div>
-                    <FormControl sx={{ marginLeft: '30%', borderRadius: '10px', width: '700px', padding: '20px', backgroundColor: '#F0F0F5' }}>
+                <div style={{
+                    backdropFilter: 'blur(4px)',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    padding: '5px',
+                    width: '100%',
+                    borderRadius: '10px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    // Adjust as needed
+                    marginRight: '300px', // Adjust as needed
+                    zIndex: 1001,
+                    marginTop: '10%'
+                }}
+                >
+                    <FormControl sx={{
+                        marginLeft: '10%',
+                        borderRadius: '10px',
+                        width: '700px',
+                        padding: '20px',
+                        backgroundColor: '#F0F0F5',
+                        position: 'relative', // Add this to ensure content appears on top of the overlay
+                        zIndex: 1001
+                    }}>
                         <div style={{ backgroundColor: 'white', padding: '15px', borderRadius: '10px' }}>
+                            <div>
+                                <IconButton onClick={cancelAddManager}><CloseIcon sx={{
+                                    backgroundColor: 'red',
+                                    color: 'white',
+                                    marginLeft: '600px'
+                                }} /></IconButton>
+                            </div>
+
                             <div className="form-topic">
                                 Add New Manager
+                                <hr />
                             </div>
 
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -432,7 +528,7 @@ const Users = () => {
                             {error && (
                                 <Stack sx={{ width: '100%' }} spacing={2}>
 
-                                    <Alert severity="info">{error}</Alert>
+                                    <Alert severity="warning">{message}</Alert>
 
                                 </Stack>
                             )}
@@ -443,11 +539,34 @@ const Users = () => {
 
             {/* update manager details */}
             {update && (
-                <div>
-                    <FormControl sx={{ marginLeft: '30%', borderRadius: '10px', width: '700px', padding: '20px', backgroundColor: '#F0F0F5' }}>
+                <div style={{
+                    backdropFilter: 'blur(4px)',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '50%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    // Adjust as needed
+                    marginRight: '300px', // Adjust as needed
+                    zIndex: 1001, // Ensure the content is above the overlay
+                }}>
+                    <FormControl sx={{
+                        marginLeft: '5%',
+                        marginTop: '30%',
+                        borderRadius: '10px',
+                        width: '700px',
+                        padding: '20px',
+                        backgroundColor: '#F0F0F5',
+                        position: 'relative', // Add this to ensure content appears on top of the overlay
+                        zIndex: 1001,
+                        backgroundColor: 'black'
+                    }}>
                         {managerdetails && managerdetails.map((mgrow, index) => (
                             <div style={{ backgroundColor: 'white', padding: '15px', borderRadius: '10px' }}>
-                                 <div>
+                                <div>
                                     <IconButton onClick={backfromupdate}  ><CloseIcon sx={{ color: 'white', backgroundColor: 'red', marginLeft: '600px' }} /></IconButton>
                                 </div>
                                 <div className="form-topic">
@@ -523,26 +642,6 @@ const Users = () => {
                                     </div>
                                 </div>
 
-                                {/* <div className="form-label">
-                                    <FormLabel>Email Address :</FormLabel>
-                                    <Box
-                                        component="form"
-                                        sx={{
-                                            '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                        }}
-                                        noValidate
-                                        autoComplete="off"
-                                    >
-                                        <div>
-                                            <TextField
-                                                id="outlined-disabled"
-                                                disabled
-                                                label=""
-                                                defaultValue={mgrow.email}
-                                            /></div>
-                                    </Box>
-                                </div> */}
-
                                 <div className="form-label">
                                     <FormLabel> Contact Number</FormLabel>
                                     <Box
@@ -564,25 +663,6 @@ const Users = () => {
                                 </div>
 
                                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    {/* <div className="form-label">
-                                        <FormLabel> Contact Number</FormLabel>
-                                        <Box
-                                            component="form"
-                                            sx={{
-                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                            }}
-                                            noValidate
-                                            autoComplete="off"
-                                        >
-                                            <div>
-                                                <TextField
-                                                    id="outlined-disabled"
-                                                    label=""
-                                                    defaultValue={mgrow.contact_number}
-                                                    onChange={handleContact}
-                                                /></div>
-                                        </Box>
-                                    </div> */}
                                     <div className="form-label">
                                         <FormLabel> Street</FormLabel>
                                         <Box
@@ -622,12 +702,16 @@ const Users = () => {
                                         </Box>
                                     </div>
                                 </div>
-
-                                {/* <div className="form-label">
-                                <FormLabel>Profile Picture</FormLabel>
-                                <input type="file" placeholder=" Choose a file" variant="outlined" />
-                            </div> */}
                                 <Button variant="contained" onClick={() => FinishUpdate(mgrow.manager_id)} sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Update</Button>
+                                <div style={{ marginTop: '1%' }}>
+                                    {error1 && (
+                                        <Stack sx={{ width: '100%' }} spacing={2}>
+
+                                            <Alert severity="warning">{message1}</Alert>
+
+                                        </Stack>
+                                    )}
+                                </div>
                             </div>
                         ))}
                     </FormControl>
@@ -750,6 +834,45 @@ const Users = () => {
                     </FormControl>
                 </div>
             )}
+
+            {warn && (
+                <div style={{
+                    backdropFilter: 'blur(4px)',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    padding: '5px',
+                    width: '100%',
+                    borderRadius: '10px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    // Adjust as needed
+                    marginRight: '300px', // Adjust as needed
+                    zIndex: 1001,
+                    marginTop: '10%'
+                }}>
+                    <div style={{ backgroundColor: 'black', padding: '10px' }}>
+                        <div style={{
+                            padding: '10px',
+                            borderRadius: '5px',
+                            backgroundColor: '#f0f0f5',
+                            width: '500px',
+                            position: 'relative', // Add this to ensure content appears on top of the overlay
+                            zIndex: 1001
+                        }}>
+                            <Typography sx={{ textAlign: 'center' }}>Confirm Remove? </Typography>
+                            <hr /><br />
+
+                            <div style={{ display: 'flex', flexDirection: 'row', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                                <Button onClick={deleteManager} sx={{ backgroundColor: 'orange', color: 'white', margin: '10px', ':hover': { backgroundColor: 'orange' } }}>Confirm</Button>
+                                <Button onClick={cancelManagerDelete} sx={{ backgroundColor: 'red', color: 'white', margin: '10px', ':hover': { backgroundColor: 'red' } }}>Cancel</Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
 
         </div>
     )

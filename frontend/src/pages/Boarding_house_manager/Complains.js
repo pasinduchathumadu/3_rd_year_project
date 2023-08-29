@@ -67,16 +67,16 @@ const Complains = () => {
     }
 
     // click on add response button
-    const addResponse = () => {
-        setOwn(false);
-        setaddResponce(true);
+    // const addResponse = () => {
+    //     setOwn(false);
+    //     setaddResponce(true);
 
-    }
-    // after click on submit button of add response 
-    const afterAddingResponse = () => {
-        setOwn(0);
-        setaddResponce(false);
-    }
+    // }
+    // // after click on submit button of add response 
+    // const afterAddingResponse = () => {
+    //     setOwn(0);
+    //     setaddResponce(false);
+    // }
 
     const input = new Date();
     const date = input.toDateString();
@@ -93,7 +93,6 @@ const Complains = () => {
             seterror(true)
             setMessage("Please fill the field")
             return;
-
         }
         try {
             const res = await axios.post('http://localhost:5000/pet_care/boarding_house_manager/add_complain', {
@@ -227,8 +226,6 @@ const Complains = () => {
             .then((data) => setclientcomplain(data.data))
             .catch((err) => console.log(err))
     })
-
-
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
@@ -518,40 +515,40 @@ const Complains = () => {
 
             {/* warning box for delete*/}
             {warn && (
-                <div style={{ 
+                <div style={{
                     backdropFilter: 'blur(4px)',
                     position: 'absolute',
                     top: 0,
                     left: 0,
-                    padding: '5px', 
-                    width: '100%', 
-                    borderRadius: '10px', 
+                    padding: '5px',
+                    width: '100%',
+                    borderRadius: '10px',
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
                     // Adjust as needed
                     marginRight: '300px', // Adjust as needed
                     zIndex: 1001,
-                    marginTop:'10%'
+                    marginTop: '10%'
                 }}>
-                    <div style={{backgroundColor: 'black', padding:'10px'}}>
-                    <div style={{ 
-                        padding: '10px', 
-                        borderRadius: '5px', 
-                        backgroundColor: '#f0f0f5', 
-                        width: '500px',
-                        position: 'relative', // Add this to ensure content appears on top of the overlay
-                        zIndex: 1001
-                    }}>
-                        <Typography sx={{ textAlign: 'center' }}>Confirm Remove? </Typography>
-                        <hr /><br />
+                    <div style={{ backgroundColor: 'black', padding: '10px' }}>
+                        <div style={{
+                            padding: '10px',
+                            borderRadius: '5px',
+                            backgroundColor: '#f0f0f5',
+                            width: '500px',
+                            position: 'relative', // Add this to ensure content appears on top of the overlay
+                            zIndex: 1001
+                        }}>
+                            <Typography sx={{ textAlign: 'center' }}>Confirm Remove? </Typography>
+                            <hr /><br />
 
-                        <div style={{ display: 'flex', flexDirection: 'row', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                            <Button onClick={deleteMyComplain} sx={{ backgroundColor: 'orange', color: 'white', margin: '10px',':hover':{backgroundColor:'orange'} }}>Confirm</Button>
-                            <Button onClick={cancelDelete} sx={{ backgroundColor: 'red', color: 'white', margin: '10px',':hover':{backgroundColor:'red'} }}>Cancel</Button>
+                            <div style={{ display: 'flex', flexDirection: 'row', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                                <Button onClick={deleteMyComplain} sx={{ backgroundColor: 'orange', color: 'white', margin: '10px', ':hover': { backgroundColor: 'orange' } }}>Confirm</Button>
+                                <Button onClick={cancelDelete} sx={{ backgroundColor: 'red', color: 'white', margin: '10px', ':hover': { backgroundColor: 'red' } }}>Cancel</Button>
+                            </div>
                         </div>
                     </div>
-                </div>
                 </div>
             )}
 
