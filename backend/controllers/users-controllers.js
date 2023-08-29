@@ -561,7 +561,7 @@ export const confirm = async (req, res, next) => {
   const re_status = "pending"
 
   const status2 = "waitting"
-  const sqlQuery2 = "UPDATE purchase_order SET po_status = ? WHERE order_email = ?"
+  const sqlQuery2 = "UPDATE purchase_order SET po_status = ? WHERE order_email = ? ORDER BY po_id DESC LIMIT 1"
   const values2 = [
     status2,
     id
@@ -600,15 +600,12 @@ export const generate = async (req, res, next) => {
   JOIN purchase_order po ON tc.po_id = po.po_id
   JOIN item i ON tc.item_id = i.item_id
   WHERE tc.email = ? AND tc.status = ? AND po.order_email = ? 
-  ORDER BY po.po_id DESC
-  
-
+  ORDER BY po.po_id DESC Limit 5
 `;
   const values = [
     id,
     status,
     id
- 
   ]
   db.query(sqlQuery, values, (err, data) => {
     if (err) {
@@ -976,7 +973,7 @@ export const check_appointment = async(req,res,next)=>{
       return res.json({message:'Appoinments are over'})
     }
   })
-    const sqlQuery1 = "SELECT *FROM vet WHERE vet_id = ? AND  ? > unfree_date_start AND ? > unfree_date_end"
+    const sqlQuery1 = "SELECT *FROM vet WHERE vet_id = ? AND  ? >= unfree_date_start AND ? <=unfree_date_end"
     const value2 = [
       id,
       date_medi,
@@ -987,7 +984,7 @@ export const check_appointment = async(req,res,next)=>{
       if(err){
         return res.json({message:'There is an internel error'})
       }
-      if(data1.length === 0){
+      if(data1.length >0){
         return res.json({message:'doctors is not free'})
       }
       return res.json({message:'added'})

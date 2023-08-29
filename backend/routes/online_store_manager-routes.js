@@ -1,5 +1,5 @@
 import express from "express"
-import {add_store,update_store,delete_store,handling_complain,view_complain,get_item,get_cart,add_response,add_complain,getclients,get_view_response, get_count,get_count1,get_count2, get_order, get_orders,accept,handover} from '../controllers/online_store_manager-controllers.js'
+import {add_store,update_store,delete_store,handling_complain,view_complain,get_item,get_cart,add_response,add_complain,getclients,get_view_response, get_count,get_count1,get_count2, get_order, get_orders,accept,handover, filter, filterreply} from '../controllers/online_store_manager-controllers.js'
 
 const online_store_manager = express.Router()
 online_store_manager.post('/add',add_store)
@@ -20,4 +20,6 @@ online_store_manager.get('/get_order',get_order)
 online_store_manager.get('/view_orders',get_orders)
 online_store_manager.get('/accept/:id',accept)
 online_store_manager.post('/handover',handover)
+online_store_manager.get('/filter/:id',filter)
+online_store_manager.get('/filterreply/:id',filterreply)
 export default online_store_manager
