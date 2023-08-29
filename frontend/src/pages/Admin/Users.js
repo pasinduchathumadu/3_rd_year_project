@@ -194,6 +194,8 @@ const Users = () => {
             } else {
                 setUsers(false)
                 setupdate(true)
+                seterror2(false)
+                setmessage2("")
                 setmanagerdetails(res.data.data)
             }
 
@@ -219,15 +221,14 @@ const Users = () => {
         setnewcity(event.target.value)
     }
 
+    const [error2, seterror2] = useState(false)
+    const [message2, setmessage2] = useState("")
     const FinishUpdate = async (id) => {
-        setupdate(false);
-        setUsers(0);
-
         if (newcontact === '' ||
             newstreet === '' ||
             newcity === '') {
-            seterror(true)
-            setmessage("Please fill all fields")
+            seterror2(true)
+            setmessage2("Please fill all fields")
             return;
         }
 
@@ -238,6 +239,10 @@ const Users = () => {
                 newstreet,
                 newcity
             })
+            if(res.data.message === "Updated") {
+                setupdate(false);
+                setUsers(0);
+           }
         } catch (err) {
             console.log(err)
         }
@@ -704,11 +709,9 @@ const Users = () => {
                                 </div>
                                 <Button variant="contained" onClick={() => FinishUpdate(mgrow.manager_id)} sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Update</Button>
                                 <div style={{ marginTop: '1%' }}>
-                                    {error1 && (
+                                    {error2 && (
                                         <Stack sx={{ width: '100%' }} spacing={2}>
-
-                                            <Alert severity="warning">{message1}</Alert>
-
+                                            <Alert severity="warning">{message2}</Alert>
                                         </Stack>
                                     )}
                                 </div>

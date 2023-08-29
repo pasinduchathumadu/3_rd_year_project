@@ -208,7 +208,7 @@ export const FinishUpdate = async (req, res, next) => {
         if (err) {
             return res.json({ message: 'There is an internal error' })
         }
-        return res.json({ message: 'updated' })
+        return res.json({ message: 'Updated' })
     })
 }
 
