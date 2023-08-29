@@ -145,7 +145,6 @@ const Clients = () => {
         setShowRequests(2);
     }
 
-
     // add refund mony for request
     // const RefundAdding = () => {
     //     setShowRequests(false);
@@ -165,6 +164,24 @@ const Clients = () => {
                 setdetails1(res.data.data)
             }
         } catch (err) {
+            console.log(err)
+        }
+    }
+    // get details from post method - add refund
+    const [amount, setamount] = useState("")
+    const handleAmount = (event) => {
+        setamount(event.target.value)
+    }
+    const refundAdding = async (id) => {
+        setaddRefund(false)
+        showRequests(1)
+
+        try {
+            const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/refundAdding`, {
+                id,
+                amount
+            })
+        }catch(err) {
             console.log(err)
         }
     }
@@ -466,11 +483,11 @@ const Clients = () => {
 
                                 <div className="form-label" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                                     <div>
-                                        <img 
-                                        style={{width: '200px', height: 'auto',borderRadius:'10px'}}
-                                        component={"img"} 
-                                        src={getPetImageSrc(petrow.image)}
-                                        alt={petrow.name}
+                                        <img
+                                            style={{ width: '200px', height: 'auto', borderRadius: '10px' }}
+                                            component={"img"}
+                                            src={getPetImageSrc(petrow.image)}
+                                            alt={petrow.name}
                                         />
                                     </div>
                                     <div>
@@ -581,8 +598,9 @@ const Clients = () => {
                                         </Box>
                                     </div>
                                 </div>
-                                {/* <Button variant="contained" onClick={() => FinishPetViewing()} sx={{ background: 'orange', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>OK</Button> */}
+
                             </div>
+
                         </FormControl>
                     ))}
                 </div>
@@ -746,7 +764,8 @@ const Clients = () => {
                                             <TextField
                                                 id="outlined-disabled"
                                                 label=""
-                                                // defaultValue={drow1.refund_mny}
+                                                onChange={handleAmount}
+                                            // defaultValue={drow1.refund_mny}
                                             /></div>
 
                                     </Box>
@@ -764,9 +783,8 @@ const Clients = () => {
                                     />
                                 </div>
 
-                                {/* <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}> */}
                                 <div>
-                                    <Button variant="contained" onClick={() => toRefund()} sx={{ background: 'orange', width: '100%', marginRight: '10px', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Place Refund</Button>
+                                    <Button variant="contained" onClick={() => refundAdding(drow1.request_id)} sx={{ background: 'orange', width: '100%', marginRight: '10px', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Place Refund</Button>
                                 </div>
                             </div>
                         </FormControl>

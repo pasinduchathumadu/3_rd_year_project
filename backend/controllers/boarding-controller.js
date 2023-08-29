@@ -113,7 +113,7 @@ export const view_allclients = async (req, res, next) => {
     })
 }
 
-// viewing refund details of refund
+// viewing refund details of completed refund
 export const view_refundDetails = async(req,res,next) => {
     const id = req.params.id
     const sqlQuery = 'SELECT r.refund_id, r.request_id, r.client_id,  r.refund_slip, r.date, r.time, r.refund_mny, b.acc_no, b.bank, b.branch FROM boarding_refund r INNER JOIN client_bankdetails b ON r.client_id = b.client_id WHERE r.refund_id = ?'
@@ -127,7 +127,7 @@ export const view_refundDetails = async(req,res,next) => {
     })
 }
 
-// view refund details before add refund
+// view refund details before add refund (pending refund)
 export const toRefund = async(req,res,next) => {
     const id = req.params.id
     const sqlQuery = 'SELECT r.refund_id, r.request_id, r.client_id,  r.refund_mny, b.acc_no, b.bank, b.branch FROM boarding_refund r INNER JOIN client_bankdetails b ON r.client_id = b.client_id WHERE r.refund_id = ?'
@@ -138,6 +138,28 @@ export const toRefund = async(req,res,next) => {
             return res.json({message:'There is an internal error'})
         }
         return res.json({data})
+    })
+}
+// get details from post - pending refund
+export const refundAdding = async(req,res,next) => {
+    const {
+        id,
+        amount,
+    } = req.body;
+
+    const status = 'completed'
+    const current = new Date() //get the current date and time
+    const currentDate = current.toDateString() //current date
+    const currentTime = current.toLocaleTimeString() //current time
+
+    const sqlQuery = 'UPDATE boarding_refund SET refund_mny = ?, refund_status = ?, date =?, time =?  WHERE refund_id = ?'
+    const values = [amount, status, currentDate, currentTime, id]
+
+    db.query(sqlQuery, values, (err, data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({message:'Refund Added'})
     })
 }
 
