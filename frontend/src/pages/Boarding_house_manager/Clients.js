@@ -217,8 +217,6 @@ const Clients = () => {
         setShowRequests(1)
     }
 
-
-
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
             <div className="top">

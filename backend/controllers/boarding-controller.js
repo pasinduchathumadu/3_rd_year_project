@@ -178,7 +178,6 @@ export const viewPetDetails = async(req,res,next) => {
 }
 
 // -------- COMPLAINS -----------------------
-
 // add new complain
 export const add_complain = async (req, res, next) => {
     const {
@@ -200,19 +199,19 @@ export const add_complain = async (req, res, next) => {
                 return res.json({ message: "There is an internal error" })
             }
 
-            const sqlQuery = 'INSERT INTO manager_complain (manager_id, complain_txt, com_date, com_time, complain_status, manager_role) VALUES (?,?,?,?,?,?,?)';
+            const sqlQuery = 'INSERT INTO manager_complain (manager_id, complain_txt, com_date, com_time, complain_status, manager_role) VALUES (?,?,?,?,?,?)';
             const values = [
                 data[0].manager_id,
                 complain,
                 placed_date,
                 placed_time,
-                "pending",
+                status,
                 data[0].user_role,
             ];
 
             db.query(sqlQuery, values, (err, data) => {
                 if (err) {
-                    return res.json({ message: 'There is an internal errorrrrrr' })
+                    return res.json({ message: 'There is an internal errorrrr' })
                 }
                 return res.json({ message: 'success' })
             })
@@ -235,11 +234,6 @@ export const viewmyComplains = async (req, res, next) => {
     })
 }
 
-// view responces for my complains
-export const viewResponse = async (req, res, next) => {
-
-
-}
 
 // view clients complains
 export const viewClientsComplains = async (req, res, next) => {
@@ -251,6 +245,43 @@ export const viewClientsComplains = async (req, res, next) => {
             return res.json({ data })
         })
 }
+
+// add response - view client response details
+export const complainDetails = async (req,res,next) => {
+    const id = req.params.id
+    const role = 'boarding_house_manager'
+    const sqlQuery = 'SELECT * FROM client_complain WHERE complain_id = ?  AND manager_role =? '
+    const values = [id, role]
+
+    db.query(sqlQuery, values, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+// add response - update table with response details
+export const addingResponse = async (req,res,next) => {
+    const {
+        id,
+        newres,
+    } = req.body;
+
+    const status = 'completed'
+    const current = new Date()
+    const currentDate = current.toDateString()
+
+    const sqlQuery = 'UPDATE client_complain SET response_txt = ? , response_date = ?, complain_status = ? WHERE complain_id = ?'
+    const values = [newres, currentDate, status, id ]
+
+    db.query(sqlQuery, values,(err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({message:'Added response'})
+    })    
+}
+
 
 // --- BOARIDNG PETS ---- 
 // view current boarding pets
