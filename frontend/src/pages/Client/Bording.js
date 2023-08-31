@@ -13,7 +13,7 @@ import platinum from "../../assests/platinum.png"
 import gold from "../../assests/gold.png"
 import silver from "../../assests/silver.png";
 import { Link } from 'react-router-dom';
-import StarIcon from '@mui/icons-material/Star';
+
 
 
 

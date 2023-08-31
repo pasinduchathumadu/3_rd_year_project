@@ -137,7 +137,7 @@ const Bill = () => {
 
             {error &&(
                  <Stack sx={{ width: '50%',marginLeft:'25%',marginTop:'2%' }} spacing={2}>
-                 <Alert severity="success">{error_message}</Alert>
+                 <Alert severity="warning">{error_message}</Alert>
                  </Stack>
 
             )}

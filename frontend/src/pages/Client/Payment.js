@@ -2,44 +2,49 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+
 import pay from "../../assests/pay1.jpg"
 import { Button,Stack,Typography } from "@mui/material";
 import StripeCheckout from "react-stripe-checkout"
 
+
 const Blogs = () => {
   const navigate = useNavigate();
-  const [payment,setpayment] = useState("")
-  const [payment_charge,setprice] = useState("")
-  const id = localStorage.getItem("store_email")
+  const [payment, setpayment] = useState("");
+  const [payment_charge, setprice] = useState("");
+  const id = localStorage.getItem("store_email");
 
-  const confirm = async() =>{
-    try{
-    await axios.get(`http://localhost:5000/pet_care/user/confirm/${id}`)
+  const confirm = async () => {
+    try {
+      await axios.get(`http://localhost:5000/pet_care/user/confirm/${id}`);
+    } catch (err) {
+      console.log(err);
     }
-    catch(err){
-      console.log(err)
-    }
-  }
+  };
   const [product] = useState({
     name: "React from FB",
-    price:payment_charge,
-    productBy: "facebook"
+    price: payment_charge,
+    productBy: "facebook",
   });
 
   const makePayment = async (token) => {
     const body = {
       token,
-      product
-    }
+      product,
+    };
     const headers = {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    };
     try {
-      const res = await axios.post("http://localhost:5000/pet_care/payment/card", {
-        body,
-        headers
-      })
+      const res = await axios.post(
+        "http://localhost:5000/pet_care/payment/card",
+        {
+          body,
+          headers,
+        }
+      );
       if (res.data.message === "success") {
+
         console.log("success")
         navigate('/menu')
       }
@@ -63,27 +68,29 @@ const Blogs = () => {
       }
       else{
         console.log("There is an internel error")
+
       }
-
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-   
-  }
-  const load_total = async() =>{
-    const res = await axios.get(`http://localhost:5000/pet_care/user/load_total/${id}`)
-    const data = await res.data
-    const total =(data.data.reduce((total, item) => total + item.new2, 0));
-    setprice(total)
-    return data
-}
+  };
+  const load_total = async () => {
+    const res = await axios.get(
+      `http://localhost:5000/pet_care/user/load_total/${id}`
+    );
+    const data = await res.data;
+    const total = data.data.reduce((total, item) => total + item.new2, 0);
+    setprice(total);
+    return data;
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     load_total()
-    .then((data)=>setpayment(data.data))
-    .catch((err)=>console.log("There is an internel error"))
-  })
+      .then((data) => setpayment(data.data))
+      .catch((err) => console.log("There is an internel error"));
+  });
   return (
+
     <div
       style={{
         display: "flex",
@@ -150,9 +157,9 @@ const Blogs = () => {
         </Button>            </Stack>
 
         </StripeCheckout>
-        
+
       </div>
     </div>
-  )
+  );
 };
 export default Blogs;

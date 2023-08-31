@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,14 +7,14 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import DialogForm from "./Dialog";
+import { Avatar, IconButton, TextField } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ProfilePicture from "../../assests/profile-picture.png";
-import { Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Competition_Form from "./Competition_Form";
-import Add_Competition_Form from "./Add_Competition_Form";
+import CloseIcon from '@mui/icons-material/Close';
+import axios from "axios";
 
 function Company_Competitions() {
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -31,105 +31,211 @@ function Company_Competitions() {
     "&:nth-of-type(odd)": {
       backgroundColor: theme.palette.action.hover,
     },
-    // hide last border
     "&:last-child td, &:last-child th": {
       border: 0,
     },
   }));
 
-  function createData(name, calories, fat, carbs, protein, price) {
-    return { name, calories, fat, carbs, protein, price };
-  }
+  const [com, setCom] = useState([]);
+  const [second, setSecond] = useState(false);
+  const [id ,setid] = useState("")
 
-  const rows = [
-    createData("Frozen yoghurt", 159, 6.0, 24, 4.0, 5),
-    createData("Ice cream sandwich", 237, 9.0, 37, 4.3, 10),
-    createData("Eclair", 262, 16.0, 24, 6.0, 15),
-    createData("Cupcake", 305, 3.7, 67, 4.3, 20),
-    createData("Gingerbread", 356, 16.0, 49, 3.9, 25),
-  ];
-  //modal
+
+  const getCompetitions = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/pet_care/company_manager/get_competitions"
+      );
+      const data = await res.data;
+      return data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+ const close = ()=>{
+  setSecond(false)
+ }
+  useEffect(() => {
+    getCompetitions()
+      .then((data) => setCom(data.data))
+      .catch((err) => console.log(err));
+  }, []);
+
+  const handleClick = (id) => {
+    setid(id)
+   
+    setSecond(true);
+  };
 
   return (
     <>
-      <Stack
-        direction="row"
-        justifyContent="space-between"
-        padding={2}
-        sx={{ marginTop: "4%" }}
-      >
-        <Box>
-          <Typography variant="inherit" color="textSecondary">
-            Company Manager
-          </Typography>
-          <Typography variant="inherit" color="textSecondary">
-            Today
-          </Typography>
-          <Typography variant="inherit" color="textSecondary">
-            08 August 2023
-          </Typography>
-        </Box>
-        <Stack justifyContent="center" alignItems="center">
-          <Typography color="textPrimary" fontWeight="bold" fontSize={"25px"}>
-            Company Competitions
-          </Typography>
-        </Stack>
-        <Stack direction="row" justifyContent="center" alignItems="center">
-          <NotificationsIcon className="bell-icon" />
-          <img
-            src={ProfilePicture}
-            alt="profilepicture"
-            className="boarding-profile-picture"
-          />
-        </Stack>
-      </Stack>
-
-      <Box padding={2}>
-        <Box padding={2}>
-          <Box display="flex" justifyContent="flex-end" mb={3}>
-            <DialogForm
-              title="Add Competition Details"
-              btn_name="Add Competitions"
-            >
-              <Add_Competition_Form />
-            </DialogForm>
+      
+        <div >
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            padding={2}
+            sx={{ marginTop: "4%" }}
+          >
+            <Box>
+              <Typography variant="inherit" color="textSecondary">
+                Company Manager
+              </Typography>
+              <Typography variant="inherit" color="textSecondary">
+                Today
+              </Typography>
+              <Typography variant="inherit" color="textSecondary">
+                08 August 2023
+              </Typography>
+            </Box>
+            <Stack justifyContent="center" alignItems="center">
+              <Typography color="textPrimary" fontWeight="bold" fontSize={"25px"}>
+                Company Competitions
+              </Typography>
+            </Stack>
+            <Stack direction="row" justifyContent="center" alignItems="center">
+              <NotificationsIcon className="bell-icon" />
+              <img
+                src={ProfilePicture}
+                alt="profilepicture"
+                className="boarding-profile-picture"
+              />
+            </Stack>
+          </Stack>
+          <Box padding={2}>
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell>Competition ID </StyledTableCell>
+                    <StyledTableCell>Competition Name</StyledTableCell>
+                    <StyledTableCell>Date</StyledTableCell>
+                    <StyledTableCell>View Competition</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {com.map((row) => (
+                    <StyledTableRow key={row.notice_id}>
+                      <StyledTableCell component="th" scope="row">
+                        {row.notice_id}
+                      </StyledTableCell>
+                      <StyledTableCell>{row.name}</StyledTableCell>
+                      <StyledTableCell>{row.date}</StyledTableCell>
+                      <StyledTableCell align="left">
+                        <Button onClick={()=>handleClick(row.notice_id)}>View</Button>
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </Box>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700 }} aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>Competition ID </StyledTableCell>
-                  <StyledTableCell>Competition Name</StyledTableCell>
-                  <StyledTableCell>Date</StyledTableCell>
-                  <StyledTableCell>Time</StyledTableCell>
-                  <StyledTableCell>Venue</StyledTableCell>
-                  <StyledTableCell>Notice Payment&nbsp;(Rs)</StyledTableCell>
-                  <StyledTableCell>View Competition</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map((row) => (
-                  <StyledTableRow key={row.name}>
-                    <StyledTableCell component="th" scope="row">
-                      {row.name}
-                    </StyledTableCell>
-                    <StyledTableCell>{row.calories}</StyledTableCell>
-                    <StyledTableCell>{row.fat}</StyledTableCell>
-                    <StyledTableCell>{row.carbs}</StyledTableCell>
-                    <StyledTableCell>{row.protein}</StyledTableCell>
-                    <StyledTableCell>{row.price}</StyledTableCell>
-                    <StyledTableCell>
-                      <DialogForm title="Competition Details" btn_name="View">
-                        <Competition_Form />
-                      </DialogForm>
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Box>
-      </Box>
+        </div>
+
+      {second && (
+         <div style={{ backdropFilter: 'blur(3px)', position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <form style={{marginTop:'6%'}}>
+        <Box sx={{backgroundColor:"white"}} p={5} >
+<IconButton onClick={close} sx={{float:'right'}}>
+  <CloseIcon/>
+</IconButton>
+        <Stack spacing={2} direction="row" sx={{ marginBottom: 4 }} mt={5}>
+          <Avatar
+            alt="Remy Sharp"
+            src="https://images.unsplash.com/photo-1581753418434-51c11169a3c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80"
+            sx={{ width: 220, height: 320, backgroundSize: "cover" }}
+            variant="rounded"
+          />
+
+          <Box>
+          {com.filter((menu,index)=>menu.notice_id === id).map((menu,index)=>(
+            <Stack>
+            <Stack spacing={2} direction="row" sx={{ marginBottom: 4 }} >
+             
+              <TextField
+                type="text"
+                variant="outlined"
+                color="secondary"
+                label="Competition ID"
+                value={menu.notice_id}
+                fullWidth
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+              <TextField
+                type="text"
+                variant="outlined"
+                color="secondary"
+                label="Competition Name"
+                value={menu.name}
+                fullWidth
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Stack>
+            <Stack spacing={2} direction="row" sx={{ marginBottom: 4 }}>
+              <TextField
+                type="text"
+                variant="outlined"
+                color="secondary"
+                label="Date"
+                value={menu.date}
+                fullWidth
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+              <TextField
+                type="text"
+                variant="outlined"
+                color="secondary"
+                label="Time"
+                value={menu.time}
+                fullWidth
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Stack>
+
+            <Stack sx={{ marginBottom: 4 }}>
+              <TextField
+                type="text"
+                variant="outlined"
+                color="secondary"
+                label="Organized by"
+                value={"VA Group"}
+                fullWidth
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Stack>
+            <Stack>
+              <TextField
+                type="text"
+                variant="outlined"
+                color="secondary"
+                label="Venue"
+                value={menu.venu}
+                fullWidth
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Stack>
+          </Stack>
+                  
+                  ))}
+            
+          </Box>
+        </Stack>
+          </Box>
+        </form>
+        </div>
+      )}
     </>
   );
 }

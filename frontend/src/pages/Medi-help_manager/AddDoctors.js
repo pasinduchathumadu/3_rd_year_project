@@ -1,6 +1,6 @@
 import React from 'react'
 import  '../../styles/Medi-help_manager/addDoctor.css';
-import { Button, TextField, Typography } from '@mui/material';
+import { Button, TextField, Typography,FormLabel } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -62,6 +62,17 @@ const AddDoctors = () => {
     </Box>
                  
 </div>
+<div>
+                                <FormLabel sx={{ color: 'black',marginRight:'10px',position:'relative',left:'-35px',top:'-10px' }}>Profile Picture</FormLabel>
+                                <TextField
+                                    sx={{ marginLeft: '10px', width: '50%',position:'relative',top:'-10px' }}
+                                    type="file"
+                                    variant="outlined"
+                                    placeholder="Choose a file"
+                                    inputProps={{ accept: 'image/*' }} // Add the accepted file types if needed
+                                // onChange={handleFileChange}
+                                />
+                            </div>
                   
                     <Button type='submit' sx={{backgroundColor:'orange',width:'30%',':hover':{backgroundColor:'orange'},color:'black',marginRight:'2%'}} >Submit</Button>
                     <Button  sx={{marginLeft:'2%',backgroundColor:'black',color:'white',':hover':{backgroundColor:'black'}}} type='cancel'>Cancel</Button>

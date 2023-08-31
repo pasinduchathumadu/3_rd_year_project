@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import ProfilePicture from '../../assests/profile-picture.png';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Box from '@mui/material/Box';
-import { Tab } from "@mui/material";
+import { Tab, IconButton, Typography } from "@mui/material";
 import { Tabs } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
@@ -28,6 +28,7 @@ import StarIcon from '@mui/icons-material/Star';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
+import CloseIcon from '@mui/icons-material/Close';
 
 // import { FormHelperText } from '@material-ui';
 
@@ -68,15 +69,12 @@ const Users = () => {
     const [client, setclient] = useState([]) //client array
 
     const handle = (event) => {
-
         setRole(event.target.value)
-
     };
 
     // drop down
     const [clients, setClients] = React.useState('1');
     const handleChange = (event) => {
-
         setClients(event.target.value);
     };
 
@@ -108,9 +106,22 @@ const Users = () => {
         }
     }
 
+    const [message, setmessage] = useState("")
     // add a new manager
     const submitManager = async (e) => {
         e.preventDefault()
+        if (email === '' ||
+            first === '' ||
+            second === '' ||
+            id === '' ||
+            contact === '' ||
+            city === '' ||
+            Street === '' ||
+            role === '') {
+            seterror(true)
+            setmessage("Please fill all fields")
+            return;
+        }
 
         try {
             const res = await axios.post("http://localhost:5000/pet_care/admin/registration", {
@@ -138,9 +149,7 @@ const Users = () => {
 
         } catch (err) {
             console.log("There is error")
-
         }
-
     }
 
     useEffect(() => {
@@ -148,8 +157,11 @@ const Users = () => {
             .then((data) => setmanager(data.data))
             .catch((err) => console.log(err))
     })
-
-  
+    // cancel adding a new manager
+    const cancelAddManager = () => {
+        setUsers(0)
+        setadd(false)
+    }
 
     // view clients details
     const get_client = async () => {
@@ -157,27 +169,90 @@ const Users = () => {
             const res = await axios.get('http://localhost:5000/pet_care/admin/get_client')
             const data = await res.data
             return data
-        }catch (err) {
+        } catch (err) {
             console.log("There is an internal error")
         }
     }
 
     useEffect(() => {
         get_client()
-        .then((data) => setclient(data.data))
-        .catch((err) => console.log(err))
+            .then((data) => setclient(data.data))
+            .catch((err) => console.log(err))
     })
 
+    const [error1, seterror1] = useState(false)
+    const [message1, setmessage1] = useState("")
+    const [managerdetails, setmanagerdetails] = useState([])
+
     // click on update icon
-    const updateManager = () => {
-        setUsers(false);
-        setupdate(true);
+    const ManagerDetails = async (id) => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/admin/ManagerDetails/${id}`)
+            if (res.data.message === 'There is an internal error') {
+                seterror1(true)
+                setmessage1("There is an internal error")
+            } else {
+                setUsers(false)
+                setupdate(true)
+                seterror2(false)
+                setmessage2("")
+                setmanagerdetails(res.data.data)
+            }
+
+        } catch (err) {
+            console.log(err)
+        }
     }
+
     // after updating details
-    const FinishUpdate = () => {
-        setupdate(false);
-        setUsers(0);
+    const [newcontact, setnewcontact] = useState("")
+    const [newstreet, setnewstreet] = useState("")
+    const [newcity, setnewcity] = useState("")
+
+    const handleContact = (event) => {
+        setnewcontact(event.target.value)
     }
+
+    const handleStreet = (event) => {
+        setnewstreet(event.target.value)
+    }
+
+    const handleCity = (event) => {
+        setnewcity(event.target.value)
+    }
+
+    const [error2, seterror2] = useState(false)
+    const [message2, setmessage2] = useState("")
+    const FinishUpdate = async (id) => {
+        if (newcontact === '' ||
+            newstreet === '' ||
+            newcity === '') {
+            seterror2(true)
+            setmessage2("Please fill all fields")
+            return;
+        }
+
+        try {
+            const res = await axios.post(`http://localhost:5000/pet_care/admin/FinishUpdate`, {
+                id,
+                newcontact,
+                newstreet,
+                newcity
+            })
+            if(res.data.message === "Updated") {
+                setupdate(false);
+                setUsers(0);
+           }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    // cancel without updating
+    const backfromupdate = () => {
+        setupdate(false)
+        setUsers(0)
+    }
+
     // clients pet viewing
     const PetViewing = () => {
         setUsers(false);
@@ -190,8 +265,42 @@ const Users = () => {
         setUsers(1);
     }
 
+    // warn box 
+    const [warn, setwarn] = useState(false)
+    const [deleteid, setdeleteid] = useState("")
+
+    // display warn box
+    const displayWarnManager = (deleteid) => {
+        setwarn(true)
+        setUsers(false)
+        setdeleteid(deleteid)
+    }
+
+    // delete a manager
+    const deleteManager = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/admin/deleteManager/${deleteid}`)
+            if (res.data.message === 'There is an internal error') {
+                seterror(true)
+                setmessage('There is an internal error')
+            } else {
+                setUsers(0)
+                setwarn(false)
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    // cancel without deleting a manager
+    const cancelManagerDelete = () => {
+        setUsers(0)
+        setwarn(false)
+    }
+
     const input = new Date();
     const date = input.toDateString();
+
 
 
     return (
@@ -241,10 +350,11 @@ const Users = () => {
                                         <StyledTableCell align="center">Address</StyledTableCell>
                                         <StyledTableCell align="center">Role</StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
+                                        <StyledTableCell align="center"></StyledTableCell>
                                     </StyledTableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {manager && manager.map((managerow,index) => (
+                                    {manager && manager.map((managerow, index) => (
                                         <StyledTableRow key={managerow.id}>
                                             <StyledTableCell align="center"><img src={Image} style={{ width: '80px', borderRadius: '50%' }} alt="image" /></StyledTableCell>
                                             <StyledTableCell align="center">{managerow.manager_id}</StyledTableCell>
@@ -253,7 +363,8 @@ const Users = () => {
                                             <StyledTableCell align="center">{managerow.contact_number}</StyledTableCell>
                                             <StyledTableCell align="center">{managerow.address}</StyledTableCell>
                                             <StyledTableCell align="center">{managerow.user_role}</StyledTableCell>
-                                            <StyledTableCell align="center"><EditIcon onClick={() => updateManager()} /><DeleteIcon sx={{ color: 'red' }} /></StyledTableCell>
+                                            <StyledTableCell align="center"><EditIcon onClick={() => ManagerDetails(managerow.manager_id)} /></StyledTableCell>
+                                            <StyledTableCell align="center"><IconButton onClick={() => displayWarnManager(managerow.manager_id)}><DeleteIcon sx={{ color: 'red' }} /></IconButton></StyledTableCell>
                                         </StyledTableRow>
                                     ))}
                                 </TableBody>
@@ -323,14 +434,46 @@ const Users = () => {
                 </div>
             )}
 
-
             {/* managers adding */}
             {add && (
-                <div>
-                    <FormControl sx={{ marginLeft: '30%', borderRadius: '10px', width: '700px', padding: '20px', backgroundColor: '#F0F0F5' }}>
+                <div style={{
+                    backdropFilter: 'blur(4px)',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    padding: '5px',
+                    width: '100%',
+                    borderRadius: '10px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    // Adjust as needed
+                    marginRight: '300px', // Adjust as needed
+                    zIndex: 1001,
+                    marginTop: '10%'
+                }}
+                >
+                    <FormControl sx={{
+                        marginLeft: '10%',
+                        borderRadius: '10px',
+                        width: '700px',
+                        padding: '20px',
+                        backgroundColor: '#F0F0F5',
+                        position: 'relative', // Add this to ensure content appears on top of the overlay
+                        zIndex: 1001
+                    }}>
                         <div style={{ backgroundColor: 'white', padding: '15px', borderRadius: '10px' }}>
+                            <div>
+                                <IconButton onClick={cancelAddManager}><CloseIcon sx={{
+                                    backgroundColor: 'red',
+                                    color: 'white',
+                                    marginLeft: '600px'
+                                }} /></IconButton>
+                            </div>
+
                             <div className="form-topic">
                                 Add New Manager
+                                <hr />
                             </div>
 
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -390,61 +533,192 @@ const Users = () => {
                             {error && (
                                 <Stack sx={{ width: '100%' }} spacing={2}>
 
-                                    <Alert severity="info">{error}</Alert>
+                                    <Alert severity="warning">{message}</Alert>
 
                                 </Stack>
-
                             )}
-
                         </div>
-
                     </FormControl>
                 </div>
             )}
 
             {/* update manager details */}
             {update && (
-                <div>
-                    <FormControl sx={{ marginLeft: '30%', borderRadius: '10px', width: '700px', padding: '20px', backgroundColor: '#F0F0F5' }}>
-                        <div style={{ backgroundColor: 'white', padding: '15px', borderRadius: '10px' }}>
-                            <div className="form-topic">
-                                Update Managers Details
-                            </div>
-
-                            <div className="form-label">
-                                <img src={Image} alt="manager photo" style={{ borderRadius: '50%', width: '200px', height: 'auto', marginLeft: '35%' }} />
-                            </div>
-
-                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <div className="form-label">
-                                    <FormLabel>Manager ID : 02</FormLabel>
+                <div style={{
+                    backdropFilter: 'blur(4px)',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '50%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    // Adjust as needed
+                    marginRight: '300px', // Adjust as needed
+                    zIndex: 1001, // Ensure the content is above the overlay
+                }}>
+                    <FormControl sx={{
+                        marginLeft: '5%',
+                        marginTop: '30%',
+                        borderRadius: '10px',
+                        width: '700px',
+                        padding: '20px',
+                        backgroundColor: '#F0F0F5',
+                        position: 'relative', // Add this to ensure content appears on top of the overlay
+                        zIndex: 1001,
+                        backgroundColor: 'black'
+                    }}>
+                        {managerdetails && managerdetails.map((mgrow, index) => (
+                            <div style={{ backgroundColor: 'white', padding: '15px', borderRadius: '10px' }}>
+                                <div>
+                                    <IconButton onClick={backfromupdate}  ><CloseIcon sx={{ color: 'white', backgroundColor: 'red', marginLeft: '600px' }} /></IconButton>
                                 </div>
-                                <div className="form-label">
-                                    <FormLabel>Name : Gerry Perera</FormLabel>
+                                <div className="form-topic">
+                                    Update Managers Details
                                 </div>
-                            </div>
-                            <div className="form-label">
-                                <FormLabel>Email Address : manager1@gmail.com</FormLabel>
-                            </div>
 
-                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <div className="form-label">
+                                        <img src={Image} alt="manager photo" style={{ borderRadius: '50%', width: '200px', height: 'auto' }} />
+                                    </div>
+
+                                    <div className="form-label">
+                                        <FormLabel>Manager ID :</FormLabel>
+                                        <Box
+                                            component="form"
+                                            sx={{
+                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                            }}
+                                            noValidate
+                                            autoComplete="off"
+                                        >
+                                            <div>
+                                                <TextField
+                                                    id="outlined-disabled"
+                                                    label=""
+                                                    disabled
+                                                    defaultValue={mgrow.manager_id}
+                                                /></div>
+                                        </Box>
+                                    </div>
+                                </div>
+
+                                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+
+                                    <div className="form-label">
+                                        <FormLabel>Name :</FormLabel>
+                                        <Box
+                                            component="form"
+                                            sx={{
+                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                            }}
+                                            noValidate
+                                            autoComplete="off"
+                                        >
+                                            <div>
+                                                <TextField
+                                                    id="outlined-disabled"
+                                                    label=""
+                                                    disabled
+                                                    defaultValue={mgrow.name}
+                                                /></div>
+                                        </Box>
+                                    </div>
+
+                                    <div className="form-label">
+                                        <FormLabel>Email Address :</FormLabel>
+                                        <Box
+                                            component="form"
+                                            sx={{
+                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                            }}
+                                            noValidate
+                                            autoComplete="off"
+                                        >
+                                            <div>
+                                                <TextField
+                                                    id="outlined-disabled"
+                                                    disabled
+                                                    label=""
+                                                    defaultValue={mgrow.email}
+                                                /></div>
+                                        </Box>
+                                    </div>
+                                </div>
+
                                 <div className="form-label">
                                     <FormLabel> Contact Number</FormLabel>
-                                    <TextField id="outlined-basic" placeholder="Contact Number" type="text" variant="outlined" sx={{ width: '300px' }} />
+                                    <Box
+                                        component="form"
+                                        sx={{
+                                            '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                        }}
+                                        noValidate
+                                        autoComplete="off"
+                                    >
+                                        <div>
+                                            <TextField
+                                                id="outlined-disabled"
+                                                label=""
+                                                defaultValue={mgrow.contact_number}
+                                                onChange={handleContact}
+                                            /></div>
+                                    </Box>
                                 </div>
-                                <div className="form-label">
-                                    <FormLabel> Address</FormLabel>
-                                    <TextField id="outlined-basic" placeholder=" Address" type="text" variant="outlined" sx={{ width: '300px' }} />
+
+                                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <div className="form-label">
+                                        <FormLabel> Street</FormLabel>
+                                        <Box
+                                            component="form"
+                                            sx={{
+                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                            }}
+                                            noValidate
+                                            autoComplete="off"
+                                        >
+                                            <div>
+                                                <TextField
+                                                    id="outlined-disabled"
+                                                    label=""
+                                                    defaultValue={mgrow.street}
+                                                    onChange={handleStreet}
+                                                /></div>
+                                        </Box>
+                                    </div>
+                                    <div className="form-label">
+                                        <FormLabel> City</FormLabel>
+                                        <Box
+                                            component="form"
+                                            sx={{
+                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                            }}
+                                            noValidate
+                                            autoComplete="off"
+                                        >
+                                            <div>
+                                                <TextField
+                                                    id="outlined-disabled"
+                                                    label=""
+                                                    defaultValue={mgrow.city}
+                                                    onChange={handleCity}
+                                                /></div>
+                                        </Box>
+                                    </div>
+                                </div>
+                                <Button variant="contained" onClick={() => FinishUpdate(mgrow.manager_id)} sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Update</Button>
+                                <div style={{ marginTop: '1%' }}>
+                                    {error2 && (
+                                        <Stack sx={{ width: '100%' }} spacing={2}>
+                                            <Alert severity="warning">{message2}</Alert>
+                                        </Stack>
+                                    )}
                                 </div>
                             </div>
-
-                            {/* <div className="form-label">
-                                <FormLabel>Profile Picture</FormLabel>
-                                <input type="file" placeholder=" Choose a file" variant="outlined" />
-                            </div> */}
-                            <Button variant="contained" onClick={() => FinishUpdate()} sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Update</Button>
-                        </div>
+                        ))}
                     </FormControl>
+
                 </div>
             )}
 
@@ -563,6 +837,45 @@ const Users = () => {
                     </FormControl>
                 </div>
             )}
+
+            {warn && (
+                <div style={{
+                    backdropFilter: 'blur(4px)',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    padding: '5px',
+                    width: '100%',
+                    borderRadius: '10px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    // Adjust as needed
+                    marginRight: '300px', // Adjust as needed
+                    zIndex: 1001,
+                    marginTop: '10%'
+                }}>
+                    <div style={{ backgroundColor: 'black', padding: '10px' }}>
+                        <div style={{
+                            padding: '10px',
+                            borderRadius: '5px',
+                            backgroundColor: '#f0f0f5',
+                            width: '500px',
+                            position: 'relative', // Add this to ensure content appears on top of the overlay
+                            zIndex: 1001
+                        }}>
+                            <Typography sx={{ textAlign: 'center' }}>Confirm Remove? </Typography>
+                            <hr /><br />
+
+                            <div style={{ display: 'flex', flexDirection: 'row', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                                <Button onClick={deleteManager} sx={{ backgroundColor: 'orange', color: 'white', margin: '10px', ':hover': { backgroundColor: 'orange' } }}>Confirm</Button>
+                                <Button onClick={cancelManagerDelete} sx={{ backgroundColor: 'red', color: 'white', margin: '10px', ':hover': { backgroundColor: 'red' } }}>Cancel</Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
 
         </div>
     )
