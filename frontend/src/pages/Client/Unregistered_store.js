@@ -59,47 +59,47 @@ const Menu = () => {
     .catch((err)=>console.log("There is an internel error"))
   })
 
+
   useEffect(() => {
-    // Change the background image every 2 minutes
     const interval = setInterval(() => {
-      setDogBackground((prevBackground) => {
-        if (prevBackground === dog) {
-          return dog1;
-        } else if (prevBackground === dog1) {
-          return dog2;
-        } else {
-          return dog;
-        }
-      });
-    }, 1200); 
-    // 2 minutes in milliseconds
+        setDogBackground((prevBackground) => {
+            if (prevBackground === dog) {
+                return dog1;
+            } else if (prevBackground === dog1) {
+                return dog2;
+            } else {
+                return dog;
+            }
+        });
+    }, 2000); 
 
     return () => {
-      clearInterval(interval); // Cleanup the interval on component unmount
+        clearInterval(interval); // Cleanup the interval on component unmount
     };
-  }, []);
+}, []);
+
   return (
     <>
       <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
-        <Box sx={{ width: '100%', height: '80vh', backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(${dogBackground})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center',transition: 'background-image 1s ease-in-out'}}>
+        <Box  sx={{ width: '100%', height: '80vh', backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(${dogBackground})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center',transition: 'background-image 0.5s ease-in-out'}}>
           <Grid sx={{ marginTop: '150px', marginLeft: '100px', fontStyle: 'bold' }}>
             <h1 style={{ fontSize: "55px", color: 'white' ,textAlign:"center"}}>10% discount for</h1>
             <Typography sx={{ fontSize: '24px', fontStyle: 'bold', marginTop: '10px', marginBottom: '10px', color: 'white',textAlign:"center" }}>FIRST ORDER</Typography>
 
                     <Button
-  variant="contained"
-  sx={{
-    backgroundColor: "black",
-    marginLeft: "650px",
-    border: "2px solid white", // Adding the border
-    ':hover': {
-      backgroundColor: 'black',
-      borderColor: 'gray',
-    },
-  }}
->
- show now
-</Button>
+                          variant="contained"
+                          sx={{
+                            backgroundColor: "black",
+                            marginLeft: "650px",
+                            border: "2px solid white", // Adding the border
+                            ':hover': {
+                              backgroundColor: 'black',
+                              borderColor: 'gray',
+                            },
+                          }}
+                        >
+                    show now
+                    </Button>
 
           </Grid>
         </Box>
