@@ -145,12 +145,6 @@ const Clients = () => {
         setShowRequests(2);
     }
 
-    // add refund mony for request
-    // const RefundAdding = () => {
-    //     setShowRequests(false);
-    //     setaddRefund(true);
-    // }
-
     // after click on place refund (for pending refunds)
     const [details1, setdetails1] = useState([])
     const toRefund = async (id) => {
@@ -455,9 +449,8 @@ const Clients = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    // Adjust as needed
-                    marginRight: '300px', // Adjust as needed
-                    zIndex: 1001, // Ensure the content is above the overlay
+                    marginRight: '300px', 
+                    zIndex: 1001, 
                 }}>
                     {petdetails && petdetails.map((petrow, index) => (
                         <FormControl sx={{
@@ -466,7 +459,7 @@ const Clients = () => {
                             borderRadius: '10px',
                             width: '700px',
                             padding: '20px',
-                            position: 'relative', // Add this to ensure content appears on top of the overlay
+                            position: 'relative',
                             zIndex: 1001,
                             backgroundColor: 'black'
                         }}>
@@ -765,7 +758,6 @@ const Clients = () => {
                                                 onChange={handleAmount}
                                             // defaultValue={drow1.refund_mny}
                                             /></div>
-
                                     </Box>
                                 </div>
 

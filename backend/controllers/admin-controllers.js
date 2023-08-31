@@ -235,9 +235,45 @@ export const deleteManager = async (req, res, next) => {
         })
 
     })
+}
 
+// delete client
+export const deleteClient = async(req,res,next) => {
+    const id = req.params.id
 
+    const checkQuery = 'SELECT email FROM client WHERE client_id = ?'
+    const checkValues = [id]
 
+    db.query(checkQuery, checkValues, (err, data) => {
+        if(err) {
+            return res.json({message:'There is an internal errrrrrror'})
+        }
+        const sqlQuery = 'DELETE FROM users where email = ?'
+        const values = [data[0].email]
+        // console.log(values[0])
+
+        db.query(sqlQuery, values,(err,data) => {
+            if(err) {
+                return res.json({message:'There is an internal error'})
+            }
+            return res.json({message:'Deleted Successfully'})
+        })
+    })
+}
+
+// clients pet viewing
+export const viewPetDetails = async(req,res, next) => {
+    const id = req.params.id
+    const sqlQuery = 'SELECT * FROM pet WHERE client_id = ? '
+    const values = [id]
+
+    db.query(sqlQuery, values, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+    
 }
 
 // --- DASHBOARD ---
@@ -376,4 +412,35 @@ export const boardingRefund = async (req, res, next) => {
         }
         return res.json({ data })
     })
+}
+
+// view refunded verification done details
+export const viewRefundDetails = async(req,res,next) => {
+    const id = req.params.id
+    const sqlQuery = 'SELECT r.refund_slip, r.admin_verification, b.acc_no, b.branch, b.bank FROM boarding_refund r INNER JOIN client_bankdetails b ON r.client_id = b.client_id WHERE r.refund_id = ?'
+    const values = [id]
+
+    db.query(sqlQuery, values, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+
+}
+
+// view bank slips for verifications
+export const viewSlipDetails = async(req,res,next) => {
+    const id = req.params.id
+    const sqlQuery = 'SELECT r.refund_slip,  b.acc_no, b.branch, b.bank FROM boarding_refund r INNER JOIN client_bankdetails b ON r.client_id = b.client_id WHERE r.refund_id = ?'
+    const values = [id]
+
+    db.query(sqlQuery, values, (err, data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+ 
+
 }

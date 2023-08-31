@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
 import ProfilePicture from '../../assests/profile-picture.png';
-import Slip from '../../assests/bankslip2.jpeg';
+// import Slip from '../../assests/bankslip2.jpeg';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -16,9 +16,11 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
-import { Tab } from "@mui/material";
+import { FormLabel, IconButton, Tab, TextField, Typography } from "@mui/material";
 import { Tabs } from "@mui/material";
 import axios from "axios";
+import CloseIcon from '@mui/icons-material/Close';
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -68,49 +70,130 @@ const Refund = () => {
     const [verify, setverify] = useState(false);
     const [viewVerify, setviewVerify] = useState(false);
 
-    // click on view bank slip
+    // click on view bank slip - cc
     const ViewBankSlip = () => {
         setrefund(false);
         setverify(true)
     }
-    //reject or verify
+    //reject or verify - 
     const AfterVerify = () => {
         setverify(false);
         setrefund(0);
     }
-    // click on view verified details
+    // click on view verified details - cc
     const ViewVerified = () => {
         setrefund(false);
         setviewVerify(true);
     }
-    // after viewing
-    const AfterViewing = () => {
-        setviewVerify(false);
-        setrefund(0);
-    }
+   
     const input = new Date();
     const date = input.toDateString();
 
     // view boaridng house refundd details
-    const [boardingrf, setboardingrf ] = useState("");
-    const boardingRefund = async() => {
+    const [boardingrf, setboardingrf] = useState("");
+    const boardingRefund = async () => {
         try {
             const res = await axios.get('http://localhost:5000/pet_care/admin/boardingRefund')
             const data = await res.data
             return data
 
-        }catch(err) {
+        } catch (err) {
             console.log("There is an internal error")
         }
     }
     useEffect(() => {
         boardingRefund()
-        .then((data) => setboardingrf(data.data))
-        .catch((err) => console.log(err))
+            .then((data) => setboardingrf(data.data))
+            .catch((err) => console.log(err))
     })
 
+    // view refunded verification done details
+    const [redetails, setredetails] = useState([])
+    const [error, seterror] = useState(false)
+    const [messsage, setmessage] = useState("")
+
+    const viewRefundDetails = async (id) => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/admin/viewRefundDetails/${id}`)
+            if (res.data.message === 'There is an internal error') {
+                seterror(true)
+                setmessage('There is an internal error')
+            } else {
+                setviewVerify(true)
+                setredetails(res.data.data)
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    // get the bank slip image
+    const getImageSrc1 = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+    }
+    // after viewing of refunded details- close
+    const AfterViewing = () => {
+        setviewVerify(false);
+        setrefund(0);
+    }
+
+    // view bank slip & details for verify
+    const [verifydetails, setverifydetails] = useState([])
+    const [error1, seterror1] = useState(false)
+    const [message1, setmessage1] = useState("")
+
+    const viewSlipDetails = async (id) => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/admin/viewSlipDetails/${id}`)
+            if (res.data.message === 'There is an internal error') {
+                seterror1(true)
+                setmessage1('There is an internal error')
+            } else {
+                setverify(true)
+                setverifydetails(res.data.data)
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    // get bank slip image from db
+    const getImageSrc2 = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+    }
+
+    // cancel without verifying  - close
+    const CancelVerify = () => {
+        setverify(false);
+        setrefund(0);
+    }
+
+    // get admin verification status => verified or rejected
+    const [verification, setverification ] = useState("")
+    const handleverify = (event) => {
+        setverification(event.target.value)
+    }
+    const [error2, seterror2] = useState(false)
+    const [message2, setmessage2] = useState("")
+
+    const getAdminStatus = async (id) => {
+        try {
+            const res = await axios.post(`http://localhost:5000/pet_care/admin/getAdminStatus`, {
+            id,    
+            verification,
+            })
+            if(res.data.message === 'There is an internal error'){
+                setmessage2('There is an internal error')
+                seterror2(true)
+            }else if(res.data.message === 'success') {
+                setrefund(0)
+                setverify(false)
+            }
+        }catch(err) {
+            console.log('There is an internal error')  
+        }
+    } 
+
     return (
-        <div className="home-container" style={{ marginTop: '5%'}}>
+        <div className="home-container" style={{ marginTop: '5%' }}>
             <div className="top">
                 <div className="top-line">
                     <p>Administrator</p>
@@ -169,7 +252,6 @@ const Refund = () => {
                                         <StyledTableCell align="center">Refund ID</StyledTableCell>
                                         <StyledTableCell align="center">Request ID</StyledTableCell>
                                         <StyledTableCell align="center">Refund Date</StyledTableCell>
-                                        {/* <StyledTableCell align="center">Refund Time</StyledTableCell> */}
                                         <StyledTableCell align="center">Refunded Amount (Rs.)</StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
                                     </TableRow>
@@ -180,13 +262,11 @@ const Refund = () => {
                                             <StyledTableCell align="center">{firstrow.refund_id}</StyledTableCell>
                                             <StyledTableCell align="center">{firstrow.request_id}</StyledTableCell>
                                             <StyledTableCell align="center">{firstrow.date}</StyledTableCell>
-                                            {/* <StyledTableCell align="center">{firstrow.time}</StyledTableCell> */}
                                             <StyledTableCell align="center">{firstrow.refund_mny}.00</StyledTableCell>
-                                            {/* <StyledTableCell align="center">{firstrow.status}</StyledTableCell> */}
                                             <StyledTableCell align="center">
                                                 {firstrow.admin_verification === 'pending' ?
-                                                    <Button onClick={() => ViewBankSlip()} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, width: '200px' }}> View Bank Slip</Button> :
-                                                    <Button onClick={() => ViewVerified()} sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' }, width: '200px' }}> View Verified Details</Button>
+                                                    <Button onClick={() => viewSlipDetails(firstrow.refund_id)} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, width: '200px' }}> View Bank Slip Details</Button> :
+                                                    <Button onClick={() => viewRefundDetails(firstrow.refund_id)} sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' }, width: '200px' }}> View Verified Details</Button>
                                                 }
                                             </StyledTableCell>
                                         </StyledTableRow>
@@ -199,7 +279,7 @@ const Refund = () => {
             )}
 
 
-            {/*  boarding house refund */}
+            {/*   care center refund */}
             {refund === 1 && (
                 <div>
                     <div className="drop-down-box">
@@ -257,63 +337,249 @@ const Refund = () => {
                 </div>
             )}
 
-            {/* view bank slip */}
+            {/* view to verify bank slip */}
             {verify && (
-                <div style={{ margin: '20px', width: '60%', marginLeft: '20%' }}>
-                    <div style={{ display: 'flex', flexDirection: 'row', padding: '20px', borderRadius: '10px', backgroundColor: '#F0F0F5' }}>
+                <div style={{
+                    backdropFilter: 'blur(4px)',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    margin: '20px',
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    zIndex: 1001
+                }}>
+                    {verifydetails && verifydetails.map((verimenu, index) => (
+                        <FormControl style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            padding: '20px',
+                            borderRadius: '10px',
+                            backgroundColor: '#F0F0F5',
+                            marginLeft: '5%',
+                            marginTop: '5%',
+                            width: '550px',
+                            padding: '20px',
+                            position: 'relative',
+                            zIndex: 1001,
+                        }}>
+                            <div>
+                                <IconButton onClick={CancelVerify}><CloseIcon sx={{ color: 'white', backgroundColor: 'red', marginLeft: '470px' }} /></IconButton>
+                            </div>
+                            <div>
+                                <div className="form-topic">
+                                    Bank Slip
+                                </div>
+                                <img 
+                                    src={getImageSrc2(verimenu.refund_slip)} 
+                                    alt="bank slip" 
+                                    style={{ width: '500px' }} />
 
-                        <div>
-                            <div className="form-topic">
-                                Bank Slip
-                            </div>
-                            <img src={Slip} alt="bank slip" style={{ width: '500px' }} />
-                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <Button onClick={() => AfterVerify()} sx={{ background: "orange", color:'white', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "orange" }, marginRight: '10px' }}>Verify</Button>
-                                <Button onClick={() => AfterVerify()} sx={{ background: "red", color:'white', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "red" }, marginLeft: '10px' }}>Reject</Button>
-                            </div>
-                        </div>
+                                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <Button onChange={handleverify} sx={{ background: "orange", color: 'white', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "orange" }, marginRight: '10px' }}>Verify</Button>
+                                    <Button onChange={handleverify} sx={{ background: "red", color: 'white', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "red" }, marginLeft: '10px' }}>Reject</Button>
+                                </div>
+                                <div style={{ backgroundColor: 'white', borderRadius: '10px', padding: '10px', marginTop: '10px', width: '500px' }}>
+                                    <div className="form-topic">
+                                        Bank Details
+                                    </div>
 
-                        <div style={{ backgroundColor: 'white', borderRadius: '10px', marginLeft: '70px', height: '300px', width: '300px', marginTop: '30px',  padding: '20px' }}>
-                            <div className="form-topic">
-                                Bank Details
-                            </div>
+                                    <div className="form-label" style={{ marginLeft: '100px' }}>
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <FormLabel>Account Number </FormLabel>
+                                            <Box
+                                                component="form"
+                                                sx={{
+                                                    '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                                }}
+                                                noValidate
+                                                autoComplete="off"
+                                            >
+                                                <div>
+                                                    <TextField
+                                                        disabled
+                                                        id="outlined-disabled"
+                                                        label=""
+                                                        defaultValue={verimenu.acc_no}
+                                                    /></div>
 
-                            <div className="form-label">
-                                <p>Account Number : <br /> 300-456-90-23</p><br />
-                                <p>Bank : <br /> Peoples Bank </p> <br />
-                                <p>Branch : <br /> Maharagama </p> <br />
+                                            </Box>
+                                        </div>
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <FormLabel>Bank </FormLabel>
+                                            <Box
+                                                component="form"
+                                                sx={{
+                                                    '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                                }}
+                                                noValidate
+                                                autoComplete="off"
+
+                                            >
+                                                <div>
+                                                    <TextField
+                                                        disabled
+                                                        id="outlined-disabled"
+                                                        label=""
+                                                        defaultValue={verimenu.bank}
+                                                    /></div>
+
+                                            </Box>
+                                        </div>
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <FormLabel>Branch </FormLabel>
+                                            <Box
+                                                component="form"
+                                                sx={{
+                                                    '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                                }}
+                                                noValidate
+                                                autoComplete="off"
+
+                                            >
+                                                <div>
+                                                    <TextField
+                                                        disabled
+                                                        id="outlined-disabled"
+                                                        label=""
+                                                        defaultValue={verimenu.branch}
+                                                    /></div>
+                                            </Box>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        </FormControl>
+                    ))}
                 </div>
             )}
 
             {/*view verified bank details  */}
             {viewVerify && (
-                <div style={{ margin: '20px', width: '60%', marginLeft: '20%' }}>
-                    <div style={{ display: 'flex', flexDirection: 'row', padding: '20px', borderRadius: '10px', backgroundColor: '#F0F0F5' }}>
-
-                        <div>
-                            <div className="form-topic">
-                                Bank Slip
+                <div style={{
+                    margin: '20px',
+                    width: '100%',
+                    backdropFilter: 'blur(4px)',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    zIndex: 1001,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}>
+                    {redetails && redetails.map((menuview, index) => (
+                        <FormControl sx={{
+                            backgroundColor: '#F0F0F5',
+                            borderRadius: '10px',
+                            marginLeft: '5%',
+                            marginTop: '5%',
+                            width: '700px',
+                            padding: '20px',
+                            position: 'relative',
+                            zIndex: 1001,
+                        }}>
+                            <div>
+                                <IconButton onClick={AfterViewing}><CloseIcon sx={{ color: 'white', backgroundColor: 'red', marginLeft: '600px' }} /></IconButton>
                             </div>
-                            <Button sx={{ background: "blue", width: '90%', marginTop: '10px', marginBottom: '20px', ':hover': { backgroundColor: "blue" }, marginRight: '10px', color: 'white' }}>Verified</Button>
-                            <img src={Slip} alt="bank slip" style={{ width: '500px' }} />
-                            <Button onClick={() => AfterViewing()} sx={{ background: "orange", color:'white', width: '90%', marginTop: '10px', ':hover': { backgroundColor: "orange" }, marginRight: '10px' }}>OK</Button>
-                        </div>
+                            <div style={{ display: 'flex', flexDirection: 'row', padding: '10px', borderRadius: '10px' }}>
+                                <div>
+                                    <div className="form-topic">
+                                        Bank Slip
+                                    </div>
 
-                        <div style={{ backgroundColor: 'white', borderRadius: '10px', marginLeft: '70px', height: '300px', width: '300px', marginTop: '40px', padding: '20px' }}>
-                            <div className="form-topic">
-                                Bank Details
-                            </div>
+                                    <Typography>
+                                        {menuview.admin_verification === 'verified' ?
+                                            <Button sx={{ background: "blue", width: '100%', marginTop: '10px', marginBottom: '20px', ':hover': { backgroundColor: "blue" }, marginRight: '10px', color: 'white' }}>Verified</Button> :
+                                            menuview.admin_verification === 'rejected' ?
+                                                <Button sx={{ background: "red", width: '100%', marginTop: '10px', marginBottom: '20px', ':hover': { backgroundColor: "blue" }, marginRight: '10px', color: 'white' }}>Rejected</Button> :
+                                                ""}
+                                    </Typography>
 
-                            <div className="form-label">
-                                <p>Account Number : <br /> 300-456-90-23</p><br />
-                                <p>Bank : <br /> Peoples Bank </p> <br />
-                                <p>Branch : <br /> Maharagama </p> <br />
+                                    <img
+                                        src={getImageSrc1(menuview.refund_slip)}
+                                        alt="bank slip"
+                                        style={{ width: '500px', marginLeft: '50px' }} />
+
+                                    <div style={{ backgroundColor: 'white', padding: '10px', borderRadius: '10px', marginTop: '10px' }}>
+                                        <div className="form-topic">
+                                            Bank Details
+                                        </div>
+
+                                        <div className="form-label">
+                                            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                                <FormLabel>Account Number</FormLabel>
+                                                <Box
+                                                    component="form"
+                                                    sx={{
+                                                        '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                                    }}
+                                                    noValidate
+                                                    autoComplete="off"
+                                                    sx={{ marginLeft: '30px' }}
+                                                >
+                                                    <div>
+                                                        <TextField
+                                                            disabled
+                                                            id="outlined-disabled"
+                                                            label=""
+                                                            defaultValue={menuview.acc_no}
+                                                            sx={{ width: '430px' }}
+                                                        /></div>
+                                                </Box>
+                                            </div>
+                                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '10px' }}>
+                                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                    <FormLabel>Bank </FormLabel>
+                                                    <Box
+                                                        component="form"
+                                                        sx={{
+                                                            '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                                        }}
+                                                        noValidate
+                                                        autoComplete="off"
+
+                                                    >
+                                                        <div>
+                                                            <TextField
+                                                                disabled
+                                                                id="outlined-disabled"
+                                                                label=""
+                                                                defaultValue={menuview.bank}
+                                                            /></div>
+
+                                                    </Box>
+                                                </div>
+                                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                    <FormLabel>Branch </FormLabel>
+                                                    <Box
+                                                        component="form"
+                                                        sx={{
+                                                            '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                                        }}
+                                                        noValidate
+                                                        autoComplete="off"
+
+                                                    >
+                                                        <div>
+                                                            <TextField
+                                                                disabled
+                                                                id="outlined-disabled"
+                                                                label=""
+                                                                defaultValue={menuview.branch}
+                                                            /></div>
+                                                    </Box>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        </FormControl>
+                    ))}
                 </div>
             )}
 

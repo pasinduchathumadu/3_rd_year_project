@@ -66,18 +66,6 @@ const Complains = () => {
         setForm(true);
     }
 
-    // click on add response button
-    // const addResponse = () => {
-    //     setOwn(false);
-    //     setaddResponce(true);
-
-    // }
-    // // after click on submit button of add response 
-    // const afterAddingResponse = () => {
-    //     setOwn(0);
-    //     setaddResponce(false);
-    // }
-
     const input = new Date();
     const date = input.toDateString();
 
