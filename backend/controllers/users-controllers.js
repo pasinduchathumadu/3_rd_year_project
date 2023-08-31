@@ -904,14 +904,16 @@ export const care_orders = async(req,res,next)=>{
   })
 }
 export const delete_appointment = async(req,res,next)=>{
-  const id = req.params.id
-  const sqlQuery ="DELETE FROM carecenter_appointment WHERE appointment_id = ?"
+  const {rowId , date } = req.body
+
+  const sqlQuery ="DELETE FROM carecenter_appointment WHERE appointment_id = ? AND cancel_date >= ?"
   const value = [
-    id
+    rowId,
+    date
   ]
   db.query(sqlQuery,value,(err,data)=>{
     if(err){
-      return res.json({message:'There is an internel error'})
+      return res.json({message:'cannot deleted'})
     }
     return res.json({message:'deleted'})
   })
