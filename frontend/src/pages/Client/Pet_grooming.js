@@ -99,12 +99,12 @@ function Pet_grooming() {
   const email = localStorage.getItem('store_email')
 
   const input = new Date()
-  const date = format(input, 'MM-dd-yyyy')
+  const date = format(input, 'yyy-MM-dd')
   const currentDate = new Date();
   const twoWeeksFromToday = new Date();
   twoWeeksFromToday.setDate(currentDate.getDate() + 14);
 
-  const selectedDateString = selectedDate ? selectedDate.format('MM-DD-YYYY') : '';
+  const selectedDateString = selectedDate ? selectedDate.format('YYYY-MM-DD') : '';
 
   const handleFormOpen = async () => {
     seterror(false)
@@ -153,6 +153,12 @@ function Pet_grooming() {
   };
 
   const random_assit = async (package_id) => {
+    const cancel_date = new Date(selectedDateString);
+    cancel_date.setDate(cancel_date.getDate() + 2);
+    const new_cancel_date = cancel_date.toISOString().substr(0, 10);
+    
+   
+  
    
     if (fill) {
       navigate('/Pet_grooming')
@@ -164,7 +170,8 @@ function Pet_grooming() {
           selectedDateString,
           email,
           package_id,
-          choose_package
+          choose_package,
+          new_cancel_date
         })
         const data = await res.data
         setEmployeeDetail(data.data)
@@ -230,6 +237,7 @@ function Pet_grooming() {
   }
 
   const confirm = async (id) => {
+
     try {
       await axios.get(`http://localhost:5000/pet_care/user/payment/${id}`)
     }

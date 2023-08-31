@@ -660,16 +660,17 @@ export const delete_order = async (req, res, next) => {
 
 export const random_assistant = async (req, res, next) => {
 
-  const { Id, selectedDateString, email, package_id,choose_package } = req.body
+  const { Id, selectedDateString, email, package_id,choose_package,new_cancel_date } = req.body
   if(selectedDateString === null || Id === null){
     return res.json({message:"There is an internel error"})
   }
-  const sqlQuery = "INSERT INTO carecenter_appointment (placed_date,client_email,package_id,time_slot)VALUES(?,?,?,?)"
+  const sqlQuery = "INSERT INTO carecenter_appointment (placed_date,client_email,package_id,time_slot,cancel_date)VALUES(?,?,?,?,?)"
   const values = [
     selectedDateString,
     email,
     package_id,
-    Id
+    Id,
+    new_cancel_date
   ]
 
 
@@ -997,14 +998,17 @@ export const check_appointment = async(req,res,next)=>{
 }
 
 export const medi_payment = async(req,res,next)=>{
-  const {id,date_medi,email} = req.body
+  const {id,date_medi,email,new_cancel_date} = req.body
+ 
+  
   const status = "confirm"
-  const sqlQuery = 'INSERT INTO medi_appointment (appointment_status , placed_date , client_email , vet_id) VALUES (?,?,?,?) '
+  const sqlQuery = 'INSERT INTO medi_appointment (appointment_status , placed_date , client_email , vet_id,cancel_date) VALUES (?,?,?,?,?) '
   const values = [
     status,
     date_medi,
     email,
-    id
+    id,
+    new_cancel_date
   ]
   db.query(sqlQuery,values,(err,data)=>{
     if(err){
@@ -1012,7 +1016,6 @@ export const medi_payment = async(req,res,next)=>{
     }
     return res.json({message:'success'})
   })
-
 }
 
 export const get_medi_user = async(req,res,next)=>{
@@ -1041,8 +1044,8 @@ export const pet_trainning = async(req,res,next)=>{
 }
 
 export const pet_booking = async(req,res,next)=>{
-  const {selectedDate,email,age,value} = req.body
-  console.log("dkdkdk")
+  const {selectedDate,email,age,value,new_cancel_date} = req.body
+
   var day = ""
   if(value === "1"){
     day = "Monday"
@@ -1079,12 +1082,13 @@ export const pet_booking = async(req,res,next)=>{
       if(data[0].count1 > data[0].count){
         return res.json({message:'No more appointments are available'})
       }
-      const sqlQuery2 = "INSERT INTO pet_trainning_payment (placed_date,day,breed,client_email) VALUES(?,?,?,?)"
+      const sqlQuery2 = "INSERT INTO pet_trainning_payment (placed_date,day,breed,client_email,cancel_date) VALUES(?,?,?,?,?)"
       const values2 = [
         selectedDate,
         day,
         age,
-        email
+        email,
+        new_cancel_date
       ]
       db.query(sqlQuery2,values2,(err,data)=>{
         if(err){
@@ -1106,6 +1110,27 @@ export const get_breed = async(req,res,next) =>{
     }
     return res.json({data})
   })
+}
+
+export const get_medi_orders = async(req,res,next)=>{
+  const sqlQuery = "SELECT v.first_name,v.last_name,v.fee,a.appointment_id,a.placed_date FROM vet v INNER JOIN medi_appointment a ON v.vet_id = a.vet_id"
+  db.query(sqlQuery,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an internel error'})
+    }
+    return res.json({data})
+  })
+}
+
+export const training_orders = async(req,res,next)=>{
+  const sqlQuery = "SELECT v.breed,a.price,a.start,a.end,v.day,v.id,v.placed_date FROM pet_trainning_payment v INNER JOIN pet_trainning_shedule a ON v.day = a.day"
+  db.query(sqlQuery,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an internel error'})
+    }
+    return res.json({data})
+  })
+
 }
 
 
