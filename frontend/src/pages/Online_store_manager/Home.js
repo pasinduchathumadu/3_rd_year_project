@@ -44,6 +44,7 @@ const Home = () => {
         filtercomplain()
         filtercomplainreply()
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const filtercomplain = async()=>{
         try{
             const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/filter/${age}`)
@@ -63,6 +64,7 @@ const Home = () => {
         { id: 1, value: 15, label: 'Discounts' },
         { id: 2, value: 20, label: 'Net Profit' },
     ];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const filtercomplainreply = async()=>{
         try{
             const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/filterreply/${age}`)
