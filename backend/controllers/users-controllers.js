@@ -1135,5 +1135,22 @@ export const training_orders = async(req,res,next)=>{
 
 }
 
+export const delete_appointment_training = async(req,res,next)=>{
+  const {rowId , date } = req.body
+
+  const sqlQuery ="DELETE FROM pet_trainning_payment WHERE id = ? AND cancel_date >= ?"
+  const value = [
+    rowId,
+    date
+  ]
+  db.query(sqlQuery,value,(err,data)=>{
+    if(err){
+      return res.json({message:'cannot deleted'})
+    }
+    return res.json({message:'deleted'})
+  })
+  
+}
+
 
 

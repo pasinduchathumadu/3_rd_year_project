@@ -90,6 +90,28 @@ export default function OrderTable() {
 
   };
 
+  const confirmDelete_training = async (rowId) => {
+    const res = await axios.post(`http://localhost:5000/pet_care/user/delete_appointment_training`, {
+      rowId,
+      date
+
+    })
+    if (res.data.message === "deleted") {
+      seterror(true)
+      setmessage("Successfully Deleted!!!")
+      setpopup(true)
+
+    }
+    else if (res.data.message === "cannot deleted") {
+      seterror(true)
+      setmessage("Can not be deleted!!!")
+      setpopup(true)
+
+    }
+
+  };
+
+
 
 
 
@@ -294,7 +316,9 @@ export default function OrderTable() {
                         </Dialog>
                       </StyledTableCell>
                       <StyledTableCell align="left">
-
+                      <IconButton onClick={() => confirmDelete_training(row.appointment_id)} sx={{ color: "red" }}>
+                          <DeleteIcon />
+                        </IconButton>
                       </StyledTableCell>
 
                     </StyledTableRow>
@@ -320,7 +344,7 @@ export default function OrderTable() {
               </Stack>
               )}
             </div>
-            <Button sx={{marginLeft:'80%' ,backgroundColor:'black' , color:'white',':hover':{backgroundColor:'black'}}}>Cancel</Button>
+            <Button sx={{marginLeft:'80%' ,backgroundColor:'black' , color:'white',':hover':{backgroundColor:'black'}}}>Ok</Button>
           </Box>
         </div>
 

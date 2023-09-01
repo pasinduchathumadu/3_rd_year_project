@@ -48,5 +48,5 @@ user_route.post('/pet_booking',pet_booking)
 user_route.get('/get_breed',get_breed)
 user_route.get('/get_medi_orders',get_medi_orders)
 user_route.get('/training_orders',training_orders)
-
+user_route.post('//delete_appointment_training',)
 export default user_route;
