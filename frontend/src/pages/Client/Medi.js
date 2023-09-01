@@ -123,7 +123,7 @@ function Medi() {
     }
   }
   const submit1 = async (id) => {
-    if (date_medi === " ") {
+    if (date_medi === "") {
       seterror(true);
       setmessage("Please provide a valid date.");
       return;
@@ -135,17 +135,22 @@ function Medi() {
       setmessage("Please pick a valid date within the next two weeks.");
       return;
     }
-    if(selectedDate < currentDate  ){
-      seterror(true);
-      setmessage("You can't pick that day!!!");
-      return;
+    const currentDateMinusOneDay = new Date(currentDate);
+    currentDateMinusOneDay.setDate(currentDate.getDate() - 1);
 
+  
+
+    if (selectedDate <= currentDateMinusOneDay) {
+        seterror(true);
+        setmessage("Can't Pick Previous Days!!");
+        return;
     }
   
     const res = await axios.post('http://localhost:5000/pet_care/user/check_appointment', {
       date_medi,
       email,
       id
+      
     })
     if (res.data.message === "Appoinments are over") {
       seterror(true)
@@ -170,11 +175,15 @@ function Medi() {
     setappoinment(false)
   }
   const confirm = async(id)=>{
+    const cancel_date = new Date(date_medi);
+    cancel_date.setDate(cancel_date.getDate() + 2);
+    const new_cancel_date = cancel_date.toISOString().substr(0, 10);
     try{
       const res = await axios.post('http://localhost:5000/pet_care/user/medi_payment',{
         id,
         date_medi,
-        email
+        email,
+        new_cancel_date
       })
       if(res.data.message==="There is an internel error"){
         console.log("There is an internel error")
@@ -209,13 +218,13 @@ function Medi() {
       if (res.data.message === "success") {
 
         console.log("success")
-        navigate('/medi')
+        navigate('/dashboard')
       }
       else {
        console.log("failed")
       }
     } catch (err) {
-      navigate('/medi')
+      navigate('/dashboard')
       console.log("failed")
 
     }

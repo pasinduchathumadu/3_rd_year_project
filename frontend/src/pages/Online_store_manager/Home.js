@@ -28,8 +28,8 @@ const Home = () => {
     const date = input.toDateString();
     const [age, setAge] = useState("")
 
-    const [count1, setcount] = useState("")
-    const [count2, setcount1] = useState("")
+    const [count1, setcount] = useState([])
+    const [count2, setcount1] = useState([])
     const [food, setfoods] = useState("")
     const [accessories, setaccessories] = useState("")
     const [toys, settoys] = useState("")
@@ -40,14 +40,47 @@ const Home = () => {
 
     const handleChange = (event) => {
         setAge(event.target.value);
+       
+        filtercomplain()
+        filtercomplainreply()
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const filtercomplain = async()=>{
+        try{
+            const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/filter/${age}`)
+            
+            setcount(res.data.data)
+            setAge('')
+
+           
+
+        }catch(err){
+            console.log(age)
+            console.log(err)
+        }
+    }
     const data = [
         { id: 0, value: 10, label: 'Income' },
         { id: 1, value: 15, label: 'Discounts' },
         { id: 2, value: 20, label: 'Net Profit' },
     ];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const filtercomplainreply = async()=>{
+        try{
+            const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/filterreply/${age}`)
+            setcount1(res.data.data)
+            setAge('')
+
+        }catch(err){
+            console.log(err)
+        }
+
+
+    }
+
 
     const get_order = async () => {
+     
         try {
             const res = await axios.get("http://localhost:5000/pet_care/online_store_manager/get_order")
             const data = await res.data
@@ -56,7 +89,7 @@ const Home = () => {
             setrefund(data.data[2].count_order)
 
         } catch (err) {
-            console.log("There is an internel error")
+            console.log("There is an internel errokkkr")
         }
     }
     const get_count2 = async (req, res, next) => {
@@ -113,6 +146,10 @@ const Home = () => {
             .then((data) => setcount1(data.data))
             .catch((err) => console.log(err));
     }, []);
+    useEffect(() => {
+        filtercomplain();
+        filtercomplainreply();
+    }, [age, filtercomplain, filtercomplainreply]);
 
 
 
@@ -160,21 +197,21 @@ const Home = () => {
                                     </div>
                                     <div style={{ display: 'inline', alignItems: 'center', marginLeft: 'auto' }}>
                                         <FormControl sx={{ minWidth: 120, backgroundColor: 'white' }} size="small">
-                                            <InputLabel disabled={true} displayPrint="none" htmlFor="demo-input" color="warning" variant="outlined" id="demo-select-small-label">Today</InputLabel>
+                                            <InputLabel disabled={true} displayPrint="none" htmlFor="demo-input" color="warning" variant="outlined" id="demo-select-small-label"></InputLabel>
                                             <Select
 
-                                                id="demo-select-small"
-                                                value={age}
+                                               
+                                               
                                                 variant='outlined'
-                                                placeholder='AGE'
+                                               
                                                 onChange={handleChange}
                                             >
-                                                <MenuItem value="">
+                                                   <MenuItem value="">
                                                     <em>None</em>
                                                 </MenuItem>
-                                                <MenuItem value={30}>Today</MenuItem>
-                                                <MenuItem value={10}>Last 7 Days</MenuItem>
-                                                <MenuItem value={20}>Last Month</MenuItem>
+                                                <MenuItem value={1}>Today</MenuItem>
+                                                <MenuItem value={2}>Last 7 Days</MenuItem>
+                                                <MenuItem value={3}>Last Month</MenuItem>
 
                                             </Select>
                                         </FormControl>
@@ -210,9 +247,6 @@ const Home = () => {
                                                 <Typography sx={{ marginTop: '5%', textAlign: 'center', fontSize: '68px' }}>{menu.total}</Typography>
 
                                             ))}
-
-
-
                                         </Box>
 
                                     </div>
@@ -232,7 +266,7 @@ const Home = () => {
                                     <div style={{ display: 'inline', alignItems: 'center', marginLeft: 'auto' }}>
                                         <FormControl sx={{ minWidth: 120, backgroundColor: 'white' }} size="small">
                                             <InputLabel disabled={true} displayPrint="none" htmlFor="demo-input" color="warning" variant="outlined" id="demo-select-small-label">Today</InputLabel>
-                                            <Select
+                                            {/* <Select
 
                                                 id="demo-select-small"
                                                 value={age}
@@ -247,7 +281,7 @@ const Home = () => {
                                                 <MenuItem value={10}>Last 7 Days</MenuItem>
                                                 <MenuItem value={20}>Last Month</MenuItem>
 
-                                            </Select>
+                                            </Select> */}
                                         </FormControl>
 
                                     </div>
@@ -289,7 +323,7 @@ const Home = () => {
                                     <div style={{ display: 'inline', alignItems: 'center', marginLeft: 'auto' }}>
                                         <FormControl sx={{ minWidth: 120, backgroundColor: 'white' }} size="small">
                                             <InputLabel disabled={true} displayPrint="none" htmlFor="demo-input" color="warning" variant="outlined" id="demo-select-small-label">Today</InputLabel>
-                                            <Select
+                                            {/* <Select
 
                                                 id="demo-select-small"
                                                 value={age}
@@ -304,7 +338,7 @@ const Home = () => {
                                                 <MenuItem value={10}>Last 7 Days</MenuItem>
                                                 <MenuItem value={20}>Last Month</MenuItem>
 
-                                            </Select>
+                                            </Select> */}
                                         </FormControl>
 
                                     </div>

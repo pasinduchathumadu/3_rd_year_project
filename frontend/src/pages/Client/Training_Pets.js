@@ -1,4 +1,3 @@
-
 import dog_training from "../../assests/dog-training.png";
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -44,7 +43,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
         border: 0,
     },
 }));
-
 const Training_Pets = () => {
     const current = new Date()
     const [loading , setLoading ] = useState(true)
@@ -131,18 +129,25 @@ const Training_Pets = () => {
        }
        const selectedDateObj = new Date(selectedDate);
 
-       if (selectedDateObj < current) {
-           seterror(true);
-           setmessage("Can't Pick Previous Days!!");
-           return;
-       }
+       const currentDateMinusOneDay = new Date(current);
+    currentDateMinusOneDay.setDate(current.getDate() - 1);
+
+    if (selectedDateObj <= currentDateMinusOneDay) {
+        seterror(true);
+        setmessage("Can't Pick Previous Days!!");
+        return;
+    }
+    const cancel_date = new Date(selectedDate);
+    cancel_date.setDate(cancel_date.getDate() + 2);
+    const new_cancel_date = cancel_date.toISOString().substr(0, 10);
 
         try{
             const res = await axios.post('http://localhost:5000/pet_care/user/pet_booking',{
                 selectedDate,
                 email,
                 age,
-                value
+                value,
+                new_cancel_date
             })
             if(res.data.message === 'added'){
                 seterror(true)
