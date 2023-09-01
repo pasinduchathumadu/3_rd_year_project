@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
-import { Table, TableHead, TableRow, TableBody, TableCell, Button, Link } from "@mui/material";
+import { Table, TableHead, TableRow, TableBody, TableCell, Button } from "@mui/material";
 import { tableCellClasses } from '@mui/material/TableCell';
 import { styled } from '@mui/material/styles';
 // import { BarChart } from '@mui/x-charts/BarChart';
@@ -134,6 +134,11 @@ const Home = () => {
         navigate("/cages");
     }
 
+    // connect profile 
+    const profile = () => {
+        navigate("/profile")
+    }
+
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
             <div className="top">
@@ -147,8 +152,8 @@ const Home = () => {
                 </div>
 
                 <div className="top-line">
-                    <NotificationsIcon className="bell-icon" />
-                    <img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" />
+                    <NotificationsIcon className="bell-icon"  />
+                    <Button onClick={profile}><img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" /></Button>
                 </div>
             </div>
 
@@ -249,27 +254,7 @@ const Home = () => {
                             <AssessmentIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
                             <h3 style={{ color: 'black' }}> Cages Current Usage</h3>
                         </div>
-
-                        <Button onClick={cages} sx={{color:'white', backgroundColor:'orange', ':hover':{backgroundColor:'orange'}}}>View Cages Structure</Button>
-                       {/* <Button sx={{color:'white', backgroundColor:'orange', ':hover':{backgroundColor:'orange'}}}>View Cage Structure</Button>  */}
-
-                        {/* <Box sx={{ minWidth: 120, marginLeft: '400px' }}>
-                            <FormControl fullWidth>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={time2}
-                                    variant='filled'
-                                    label="Time"
-                                    onChange={handleChange2}
-                                    l
-                                    sx={{ fontSize: '12px' }}>
-                                    <MenuItem value={1}>Today</MenuItem>
-                                    <MenuItem value={2}>Last 7 days</MenuItem>
-                                    <MenuItem value={3}>Last Month</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Box> */}
+                        <Button onClick={cages} sx={{color:'white', backgroundColor:'orange', ':hover':{backgroundColor:'orange'}}}>View Cages Structure</Button> 
                     </div>
                     <div>
                         <PieChart

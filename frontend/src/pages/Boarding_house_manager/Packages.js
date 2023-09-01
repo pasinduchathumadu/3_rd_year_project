@@ -20,6 +20,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Gold from '../../assests/gold.png';
 import Silver from '../../assests/silver.png';
 import Platinum from '../../assests/platinum.png';
+import {  useNavigate } from "react-router";
 
 const Packages = () => {
     const [new1, setNew] = useState(true);  //package cards
@@ -153,6 +154,12 @@ const Packages = () => {
             .catch((err) => console.log(err))
     })
 
+    const navigate = useNavigate("")
+    // connect profile
+    const profile = () => {
+        navigate("/profile")
+    }
+
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }} >
@@ -165,7 +172,7 @@ const Packages = () => {
 
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
-                    <img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" />
+                    <Button onClick={profile}><img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" /></Button>
                 </div>
             </div>
 
