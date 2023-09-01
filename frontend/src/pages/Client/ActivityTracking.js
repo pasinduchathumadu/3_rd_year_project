@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import BackgroundImage from '../../assests/activity.jpg';
+import BackgroundImage from '../../assests/act.png';
 import VideoImage from '../../assests/video-1.jpg';
 import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
@@ -21,6 +21,9 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Link } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -60,11 +63,12 @@ const ActivityTracking = () => {
     return (
         <div style={{ marginTop: '4%', display: 'flex', flexDirection: 'row' }}>
             <div style={{ width: '20%', marginRight: '5%' }}>
-                <Typography sx={{ position: 'absolute', fontSize: '50px', fontWeight: 'bold', marginLeft: '180px', marginTop: '20px' }}>Boarding Pets Activity Tracking</Typography>
-                <img src={BackgroundImage} alt="background image" style={{ height: '690px' }} />
+                <img src={BackgroundImage} alt="background image" style={{ height: '600px' }} />
             </div>
 
             <div style={{ width: '80%', marginLeft: '3%', marginTop: '7%', marginRight: '3%' }}>
+            <Typography sx={{  fontSize: '50px', fontWeight: '',textAlign:"center", marginBottom: '90px' }}>Boarding Pets Activity Tracking</Typography>
+
                 <div>
                     <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
                         <Typography sx={{ fontSize: '25px', marginLeft: '450px', fontWeight: 'bold' }}>Your Pets</Typography>
@@ -74,13 +78,15 @@ const ActivityTracking = () => {
                 </div>
 
                 {table && (
-                    <div>
+                    <div style={{width:"100vh",marginLeft:"170px",marginTop:"30px"}}>
                         <TableContainer component={Paper}>
-                            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                            <Table sx={{width:"100vh"}} aria-label="customized table">
                                 <TableHead>
-                                    <TableRow>
+                                    <TableRow sx={{height:"20px"}}>
                                         <StyledTableCell align="left">Pet ID</StyledTableCell>
+
                                         <StyledTableCell align="center">Boarded Time Period (From - To)</StyledTableCell>
+
                                         <StyledTableCell align="right"></StyledTableCell>
                                     </TableRow>
                                 </TableHead>
@@ -88,7 +94,9 @@ const ActivityTracking = () => {
                                     <StyledTableRow key="">
                                         <StyledTableCell align="left">14</StyledTableCell>
                                         <StyledTableCell align="center">2023/08/05 - 2023/08/08</StyledTableCell>
+
                                         <StyledTableCell align="center"><Button onClick={() => viewActivities()} sx={{ backgroundColor: 'black', width: '200px', color: 'white', ':hover': { backgroundColor: 'black' } }}>View Activities</Button></StyledTableCell>
+
                                     </StyledTableRow>
 
                                 </TableBody>
@@ -96,7 +104,9 @@ const ActivityTracking = () => {
                                     <StyledTableRow key="">
                                         <StyledTableCell align="left">16</StyledTableCell>
                                         <StyledTableCell align="center">2023/08/10 - 2023/08/13</StyledTableCell>
+
                                         <StyledTableCell align="center"><Button onClick={() => viewActivities()} sx={{ backgroundColor: 'black', width: '200px', color: 'white', ':hover': { backgroundColor: 'black' } }}>View Activities</Button></StyledTableCell>
+
                                     </StyledTableRow>
                                 </TableBody>
                             </Table>
@@ -107,7 +117,7 @@ const ActivityTracking = () => {
     
                 {/* view video clips */}
                 {video && (
-                    <div style={{ backgroundColor: '#f0f0f5', borderRadius: '10px', padding: '20px', marginTop: '10px' }}>
+                    <div style={{ backgroundColor: 'rgb(247 247 247)', borderRadius: '10px', padding: '20px', marginTop: '10px',marginLeft:"150px" }} >
                         <div>
                             <Typography sx={{fontWeight:'bold'}}>Video Clips : </Typography>
                         </div>

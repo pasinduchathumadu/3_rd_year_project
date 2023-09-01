@@ -128,7 +128,7 @@ const Blog = () => {
     return (
         <>
            
-            <Box sx={{ width: '100%', height: '80vh', backgroundImage: `url(${dogBackground})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center' ,  transition: 'background-image 1s ease-in-out'}} />
+            <Box sx={{ width: '100%', height: '80vh', backgroundImage: `url(${dogBackground})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center' ,  transition: 'background-image 0.7s ease-in-out'}} />
             <div style={{ display: 'flex', alignItems: 'center', paddingLeft: '35%', paddingTop: '4%' }}>
                 <img
                     style={{ width: '100px', height: '100px', display: 'inline', }}

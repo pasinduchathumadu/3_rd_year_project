@@ -61,13 +61,12 @@ function MindRealx() {
 
         <div  className='smooth-scroll' style={{lineHeight:"1.5"}}>
               <p style={{ fontSize: "20px", fontWeight: "10", marginTop: "20px", textAlign:"left",marginLeft:"20px",lineHeight:"1.15"}}>
-            if tou dont have any pet? dont worry we can give you our lovely pets for you,
+              you don't have a pet, don't worry! We can lend you our lovely pets.
            
               </p>
          
               <p style={{ fontSize: "20px", fontWeight: "10", marginTop: "20px", textAlign:"left",marginLeft:"20px",lineHeight:"1.15"}}>
-                So harryUp spend your valuble time with our cute pets
-
+              Hurry up and spend your valuable time with our cute pets
               </p>
 
           
