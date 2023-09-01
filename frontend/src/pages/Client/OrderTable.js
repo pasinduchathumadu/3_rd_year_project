@@ -7,8 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { useNavigate } from "react-router-dom";
 
 import Dialog from "./Dialog";
 import EditForm from "./FormPopUp";
@@ -65,15 +64,18 @@ export default function OrderTable() {
   const [open, setOpen] = React.useState(false);
   const [message, setmessage] = useState("")
   const [error, seterror] = useState(false)
-
+  const navigate = useNavigate()
   const input = new Date()
   const date = format(input, 'yyy-MM-dd')
 
-
   const handleClose = () => {
-    seterror(false)
-    setmessage("")
-    setOpen(false)
+    seterror(false); 
+    seterror1(false)
+    setmessage1("")// Set error to false when the dialog is closed
+    setmessage("");
+    navigate('/dashboard')
+    
+    
   }
 
   const confirmDelete = async (rowId) => {
@@ -90,7 +92,7 @@ export default function OrderTable() {
     }
     else if (res.data.message === "cannot deleted") {
       seterror(true)
-      setmessage("Can not be deleted!!!")
+      setmessage("Can't be deleted")
     }
 
   };
@@ -109,8 +111,9 @@ export default function OrderTable() {
     }
     else if (res.data.message === "cannot deleted") {
       seterror1(true)
-      setmessage1("Can not be deleted!!!")
+      setmessage1("Can't be deleted")
     }
+    
 
   };
 
@@ -119,6 +122,7 @@ export default function OrderTable() {
 
 
   const get_medi_orders = async () => {
+    
     const res = await axios.get('http://localhost:5000/pet_care/user/get_medi_orders')
     const data = await res.data
     return data;
@@ -140,7 +144,7 @@ export default function OrderTable() {
 
   }
 
-  const get_training = async (req, res, next) => {
+  const get_training = async () => {
     try {
       const res = await axios.get('http://localhost:5000/pet_care/user/training_orders')
       const data = await res.data
@@ -151,7 +155,7 @@ export default function OrderTable() {
 
     }
   }
-  const get_orders = async (req, res, next) => {
+  const get_orders = async () => {
     try {
       const res = await axios.get('http://localhost:5000/pet_care/user/care_orders')
       const data = await res.data
@@ -163,6 +167,7 @@ export default function OrderTable() {
   }
 
   useEffect(() => {
+    
     get_training()
       .then((data) => settrainingorders(data.data))
       .catch((err) => console.log(err))
@@ -230,11 +235,15 @@ export default function OrderTable() {
 
 
                           <Dialog
-                            btn_name="Delete"
-                            open={open}
-                            onClose={handleClose}
-                            aria-labelledby="alert-dialog-title"
-                            aria-describedby="alert-dialog-description"
+                           btn_name="Delete"
+                           open={open}
+                           onClose={() => {
+                            seterror(false);
+                            seterror1(false);
+                            setOpen(false); // Close the dialog when the "Back" button is clicked
+                          }}
+                           aria-labelledby="alert-dialog-title"
+                           aria-describedby="alert-dialog-description"
                           >
                             <DialogTitle id="alert-dialog-title">
                               Confirmation
@@ -246,12 +255,12 @@ export default function OrderTable() {
                             </DialogContent>
                             <DialogActions>
                               <DialogContent>
-                                <div style={{ marginLeft: '1%', marginTop: '1%' }}>
+                                <div style={{  marginTop: '1%' }}>
                                   {error && (
-                                    <Stack sx={{ width: '75%' }} spacing={3}>
+                                    <Stack sx={{ width: '85%' }} spacing={3}>
                                       <Alert
                                         sx={{ color: 'black', fontSize: '14px' }}
-                                        severity={message === 'Successfully Deleted!!!' ? 'success' : 'info'}
+                                        severity={message === 'Successfully Deleted!!!' ? 'success' : 'warning'}
                                       >
                                         {message}
                                       </Alert>
@@ -259,7 +268,10 @@ export default function OrderTable() {
                                   )}
                                 </div>
                               </DialogContent>
-                              <Button onClick={() => confirmDelete(row.appointment_id)} sx={{ backgroundColor: 'red', color: 'white', ':hover': { backgroundColor: 'red' } }} autoFocus>
+                              <Button onClick={() => handleClose()} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' } }} >
+                                Back
+                              </Button>
+                              <Button onClick={() => confirmDelete(row.appointment_id)} sx={{ backgroundColor: 'red', color: 'white', ':hover': { backgroundColor: 'red' } }}>
                                 Delete
                               </Button>
                             </DialogActions>
@@ -359,7 +371,11 @@ export default function OrderTable() {
                           <Dialog
                             btn_name="Delete"
                             open={open}
-                            onClose={handleClose}
+                            onClose={() => {
+                              seterror(false); // Set error to false when the dialog is closed for Pet Grooming
+                              seterror1(false); // Set error1 to false when the dialog is closed for Pet Training
+                              handleClose();
+                            }}
                             aria-labelledby="alert-dialog-title"
                             aria-describedby="alert-dialog-description"
                           >
@@ -375,10 +391,10 @@ export default function OrderTable() {
                               <DialogContent>
                                 <div style={{ marginLeft: '1%', marginTop: '1%' }}>
                                   {error1 && (
-                                    <Stack sx={{ width: '75%' }} spacing={3}>
+                                    <Stack sx={{ width: '85%' }} spacing={3}>
                                       <Alert
                                         sx={{ color: 'black', fontSize: '14px' }}
-                                        severity={message1 === 'Successfully Deleted!!!' ? 'success' : 'info'}
+                                        severity={message1 === 'Successfully Deleted!!!' ? 'success' : 'warning'}
                                       >
                                         {message1}
                                       </Alert>
@@ -386,6 +402,9 @@ export default function OrderTable() {
                                   )}
                                 </div>
                               </DialogContent>
+                              <Button onClick={() => handleClose()} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' } }} >
+                                Back
+                              </Button>
                               <Button onClick={() => confirmDelete_training(menu.id)} sx={{ backgroundColor: 'red', color: 'white', ':hover': { backgroundColor: 'red' } }} autoFocus>
                                 Delete
                               </Button>
