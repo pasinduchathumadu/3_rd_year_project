@@ -67,7 +67,14 @@ export default function OrderTable() {
 
   const input = new Date()
   const date = format(input, 'yyy-MM-dd')
-
+  
+  const cancel = () =>{
+    setpopup(false)
+    settraining(true)
+    setmedi(false)
+    setgrooming(false)
+    
+  }
 
   const confirmDelete = async (rowId) => {
     const res = await axios.post(`http://localhost:5000/pet_care/user/delete_appointment`, {
@@ -316,7 +323,7 @@ export default function OrderTable() {
                         </Dialog>
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                      <IconButton onClick={() => confirmDelete_training(row.appointment_id)} sx={{ color: "red" }}>
+                      <IconButton onClick={() => confirmDelete_training(menu.id)} sx={{ color: "red" }}>
                           <DeleteIcon />
                         </IconButton>
                       </StyledTableCell>
@@ -335,22 +342,19 @@ export default function OrderTable() {
       {popup && (
         <div style={{ backdropFilter: 'blur(4px)', position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 
-          <Box sx={{ backgroundColor: '#f0f0f5', width: '50%', height: '30vh', marginTop: '10%' }}>
+          <Box sx={{ backgroundColor: '#f0f0f5', width: '50%', height: '22vh', marginTop: '10%' }}>
           
-            <div style={{ marginLeft: '5%', marginTop: '5%', fontSize: "24px", marginBottom:'10%' }}>
+            <div style={{ marginLeft: '5%', marginTop: '5%'}}>
               {error &&(
-                <Stack sx={{ width: '75%' }} spacing={2}>
-                <Alert severity={message === "Successfully Deleted!!!" ? "success":"info"}>{message}</Alert>
+                <Stack sx={{ width: '75%'}} spacing={3}>
+                <Alert sx={{color:'black',fontSize:'24px' }} severity={message === "Successfully Deleted!!!" ? "success":"info"}>{message}</Alert>
               </Stack>
               )}
             </div>
-            <Button sx={{marginLeft:'80%' ,backgroundColor:'black' , color:'white',':hover':{backgroundColor:'black'}}}>Ok</Button>
+            <Button onClick={cancel} sx={{width:'20%',marginLeft:'70%' ,backgroundColor:'black' , color:'white',':hover':{backgroundColor:'black'},marginTop:'2%'}}>Ok</Button>
           </Box>
         </div>
-
       )}
-
-
     </div>
   );
 }
