@@ -19,7 +19,7 @@ import Button from '@mui/material/Button';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import axios from 'axios';
-import { Alert, Box, DialogContent, Stack, Typography } from '@mui/material';
+import { Alert, Box, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack, Typography } from '@mui/material';
 
 
 
@@ -53,30 +53,31 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function OrderTable() {
 
-  const [popup, setpopup] = useState(false)
 
+  const [error1 , seterror1 ] = useState(false)
+  const [message1 , setmessage1 ] = useState("")
   const [row, setorder] = useState([])
   const [medi_orders, setmediorder] = useState([])
   const [grooming, setgrooming] = useState(true)
   const [medi, setmedi] = useState(false)
   const [trainning_order, settraining] = useState(false)
   const [displaytrainning, settrainingorders] = useState([])
-
+  const [open, setOpen] = React.useState(false);
   const [message, setmessage] = useState("")
   const [error, seterror] = useState(false)
 
   const input = new Date()
   const date = format(input, 'yyy-MM-dd')
-  
-  const cancel = () =>{
-    setpopup(false)
-    settraining(true)
-    setmedi(false)
-    setgrooming(false)
-    
+
+
+  const handleClose = () => {
+    seterror(false)
+    setmessage("")
+    setOpen(false)
   }
 
   const confirmDelete = async (rowId) => {
+
     const res = await axios.post(`http://localhost:5000/pet_care/user/delete_appointment`, {
       rowId,
       date
@@ -85,35 +86,30 @@ export default function OrderTable() {
     if (res.data.message === "deleted") {
       seterror(true)
       setmessage("Successfully Deleted!!!")
-      setpopup(true)
 
     }
     else if (res.data.message === "cannot deleted") {
       seterror(true)
       setmessage("Can not be deleted!!!")
-      setpopup(true)
-
     }
 
   };
 
   const confirmDelete_training = async (rowId) => {
+   
     const res = await axios.post(`http://localhost:5000/pet_care/user/delete_appointment_training`, {
       rowId,
       date
 
     })
     if (res.data.message === "deleted") {
-      seterror(true)
-      setmessage("Successfully Deleted!!!")
-      setpopup(true)
+      seterror1(true)
+      setmessage1("Successfully Deleted!!!")
 
     }
     else if (res.data.message === "cannot deleted") {
-      seterror(true)
-      setmessage("Can not be deleted!!!")
-      setpopup(true)
-
+      seterror1(true)
+      setmessage1("Can not be deleted!!!")
     }
 
   };
@@ -230,11 +226,45 @@ export default function OrderTable() {
                         </Dialog>
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        {/* Delete icon */}
-                        <IconButton onClick={() => confirmDelete(row.appointment_id)} sx={{ color: "red" }}>
-                          <DeleteIcon />
-                        </IconButton>
+                        <div style={{ width: '60%', marginTop: '1px', backgroundColor: 'white' }}>
 
+
+                          <Dialog
+                            btn_name="Delete"
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                          >
+                            <DialogTitle id="alert-dialog-title">
+                              Confirmation
+                            </DialogTitle>
+                            <DialogContent>
+                              <DialogContentText id="alert-dialog-description">
+                                Are You Sure Do you want to Delete this Permenatly?
+                              </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                              <DialogContent>
+                                <div style={{ marginLeft: '1%', marginTop: '1%' }}>
+                                  {error && (
+                                    <Stack sx={{ width: '75%' }} spacing={3}>
+                                      <Alert
+                                        sx={{ color: 'black', fontSize: '14px' }}
+                                        severity={message === 'Successfully Deleted!!!' ? 'success' : 'info'}
+                                      >
+                                        {message}
+                                      </Alert>
+                                    </Stack>
+                                  )}
+                                </div>
+                              </DialogContent>
+                              <Button onClick={() => confirmDelete(row.appointment_id)} sx={{ backgroundColor: 'red', color: 'white', ':hover': { backgroundColor: 'red' } }} autoFocus>
+                                Delete
+                              </Button>
+                            </DialogActions>
+                          </Dialog>
+                        </div>
                       </StyledTableCell>
 
                     </StyledTableRow>
@@ -323,9 +353,45 @@ export default function OrderTable() {
                         </Dialog>
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                      <IconButton onClick={() => confirmDelete_training(menu.id)} sx={{ color: "red" }}>
-                          <DeleteIcon />
-                        </IconButton>
+                        <div style={{ width: '60%', marginTop: '1px', backgroundColor: 'white' }}>
+
+
+                          <Dialog
+                            btn_name="Delete"
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                          >
+                            <DialogTitle id="alert-dialog-title">
+                              Confirmation
+                            </DialogTitle>
+                            <DialogContent>
+                              <DialogContentText id="alert-dialog-description">
+                                Are You Sure Do you want to Delete this Permenatly?
+                              </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                              <DialogContent>
+                                <div style={{ marginLeft: '1%', marginTop: '1%' }}>
+                                  {error1 && (
+                                    <Stack sx={{ width: '75%' }} spacing={3}>
+                                      <Alert
+                                        sx={{ color: 'black', fontSize: '14px' }}
+                                        severity={message1 === 'Successfully Deleted!!!' ? 'success' : 'info'}
+                                      >
+                                        {message1}
+                                      </Alert>
+                                    </Stack>
+                                  )}
+                                </div>
+                              </DialogContent>
+                              <Button onClick={() => confirmDelete_training(menu.id)} sx={{ backgroundColor: 'red', color: 'white', ':hover': { backgroundColor: 'red' } }} autoFocus>
+                                Delete
+                              </Button>
+                            </DialogActions>
+                          </Dialog>
+                        </div>
                       </StyledTableCell>
 
                     </StyledTableRow>
@@ -338,23 +404,13 @@ export default function OrderTable() {
 
 
         </div>
-      </div>
-      {popup && (
-        <div style={{ backdropFilter: 'blur(4px)', position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 
-          <Box sx={{ backgroundColor: '#f0f0f5', width: '50%', height: '22vh', marginTop: '10%' }}>
-          
-            <div style={{ marginLeft: '5%', marginTop: '5%'}}>
-              {error &&(
-                <Stack sx={{ width: '75%'}} spacing={3}>
-                <Alert sx={{color:'black',fontSize:'24px' }} severity={message === "Successfully Deleted!!!" ? "success":"info"}>{message}</Alert>
-              </Stack>
-              )}
-            </div>
-            <Button onClick={cancel} sx={{width:'20%',marginLeft:'70%' ,backgroundColor:'black' , color:'white',':hover':{backgroundColor:'black'},marginTop:'2%'}}>Ok</Button>
-          </Box>
-        </div>
-      )}
+
+      </div>
+
+
+
+
     </div>
   );
 }

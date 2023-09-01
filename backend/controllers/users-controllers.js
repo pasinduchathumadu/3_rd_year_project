@@ -357,12 +357,6 @@ export const increase = async (req, res, next) => {
 
     }
   })
-
-
-
-
-
-
 }
 export const decrease = async (req, res, next) => {
   const { email, itemId, quantity, price } = req.body
@@ -376,9 +370,6 @@ export const decrease = async (req, res, next) => {
   }
 
   const new_price = price * new_quantity
-
-
-
   const sqlQuery = "UPDATE temporary_card SET quantity = ? , total = ?  WHERE email = ? AND item_id = ? AND status = ?"
   const values = [
     new_quantity,
@@ -519,7 +510,6 @@ export const back = async (req, res, next) => {
 export const date_client = async (req, res, next) => {
   const { selectedDateString, Id , choose_package } = req.body
   const status = 'completed'
-  //get the count of employee
   const sqlQuery1 = "SELECT COUNT(emp_id) AS count2 FROM employee WHERE type = ? AND  ? > unfree_date_start AND ? > unfree_date_end";
   const value = [
     choose_package,
@@ -585,8 +575,6 @@ export const confirm = async (req, res, next) => {
       return res.json({ message: "There is an internel error" })
     }
   })
-
-
 }
 
 export const generate = async (req, res, next) => {
@@ -890,7 +878,7 @@ export const care_orders = async(req,res,next)=>{
     if(data.length === 0){
       return res.json({data})
     }
-    const sqlQuery1 = "SELECT a.appointment_id,a.placed_date,p.package_name,p.price FROM carecenter_appointment a INNER JOIN carecenter_package p ON p.package_id = a.package_id WHERE a.appointment_id = ?"
+    const sqlQuery1 = "SELECT a.appointment_id,a.placed_date,p.package_name,p.price FROM carecenter_appointment a INNER JOIN carecenter_package p ON p.package_id = a.package_id "
     const values = [
       data[0].appointment_id
 
@@ -912,9 +900,10 @@ export const delete_appointment = async(req,res,next)=>{
     date
   ]
   db.query(sqlQuery,value,(err,data)=>{
-    if(err){
+    if(data.affectedRows  === 0){
       return res.json({message:'cannot deleted'})
     }
+   
     return res.json({message:'deleted'})
   })
 }
@@ -1144,9 +1133,10 @@ export const delete_appointment_training = async(req,res,next)=>{
     date
   ]
   db.query(sqlQuery,value,(err,data)=>{
-    if(err){
+    if(data.affectedRows  === 0){
       return res.json({message:'cannot deleted'})
     }
+   
     return res.json({message:'deleted'})
   })
   
