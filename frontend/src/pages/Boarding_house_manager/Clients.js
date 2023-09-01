@@ -146,7 +146,7 @@ const Clients = () => {
         setShowRequests(2);
     }
 
-    // after click on place refund (for pending refunds)
+    // after click on  refund (for pending refunds)
     const [details1, setdetails1] = useState([])
     const toRefund = async (id) => {
         try {
@@ -155,6 +155,7 @@ const Clients = () => {
                 seterror(true)
                 setmessage("There is an internal error")
             } else {
+                console.log(details1)
                 setaddRefund(true)
                 setdetails1(res.data.data)
             }
@@ -427,11 +428,13 @@ const Clients = () => {
                                                     : <Button onClick={() => toRefund(refundrow.refund_id)} sx={{ color: 'white', width: '80%', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Refund </Button>}
                                             </StyledTableCell>
                                             <StyledTableCell align="center">
-                                                {refundrow.admin_verification === 'rejected'
+                                                {refundrow.admin_verification === 'rejected' && refundrow.refund_status === 'completed'
                                                     ? (<Button sx={{ color: 'white', width: '60%', backgroundColor: 'red', ':hover': { backgroundColor: 'red' } }}>Rejected</Button>)
-                                                    : refundrow.admin_verification === 'verified'
-                                                        ? (<Button sx={{ color: 'white', width: '60%', backgroundColor: 'blue', ':hover': { backgroundColor: 'blue' } }}>Verified</Button>)
-                                                        : (<Button sx={{ color: 'white', width: '60%', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }}>Pending</Button>)
+                                                    : refundrow.admin_verification === 'verified' && refundrow.refund_status === 'completed'
+                                                    ? (<Button sx={{ color: 'white', width: '60%', backgroundColor: 'blue', ':hover': { backgroundColor: 'blue' } }}>Verified</Button>)
+                                                    : refundrow.admin_verification === 'pending' && refundrow.refund_status === 'completed'
+                                                    ? (<Button sx={{ color: 'white', width: '60%', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }}>Pending</Button>)
+                                                    : ""
                                                 }
                                             </StyledTableCell>
                                         </StyledTableRow>

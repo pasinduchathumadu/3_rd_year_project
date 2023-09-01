@@ -57,7 +57,7 @@ function Packages() {
                 alignItems: "center",
               }}
             >
-              Packages
+              Grooming Packages
             </Typography>
           </div>
           <div style={{ display: 'flex', marginLeft: 'auto', alignItems: 'center', justifyContent: 'center' }}>

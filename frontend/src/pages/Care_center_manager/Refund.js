@@ -128,8 +128,8 @@ const Refund = () => {
                                         sx={{ fontSize: '11px' }}
                                     >
                                         <MenuItem value={1}>All</MenuItem>
-                                        <MenuItem value={2}>Cancelled</MenuItem>
-                                        <MenuItem value={3}>Incompleted</MenuItem>
+                                        <MenuItem value={2}>Pending</MenuItem>
+                                        <MenuItem value={3}>Completed</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Box>
