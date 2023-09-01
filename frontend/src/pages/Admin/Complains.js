@@ -43,6 +43,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
+
+
 const Complains = () => {
     // drop down
     const [clients, setClients] = React.useState('1');
@@ -108,11 +110,13 @@ const Complains = () => {
         }
     }
 
+
     // cancel without adding a response for manager complian
     const backAddingRes = () => {
         setaddResponce(false)
         setComplain(0)
     }
+
 
     // after viewing the response
     const afterViewingResponse = () => {
