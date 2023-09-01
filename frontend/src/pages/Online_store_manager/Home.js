@@ -288,7 +288,7 @@ const Home = () => {
 
                                 </div>
                                 <PieChart
-                                    colors={['black', 'white', 'blue']}
+                                    colors={['#FBBD08', '#A6A6A6', '#55555C']}
                                     series={[
                                         {
                                             data,

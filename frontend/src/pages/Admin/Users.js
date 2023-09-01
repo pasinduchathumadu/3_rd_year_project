@@ -56,14 +56,14 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const Users = () => {
     // select manager role
 
-    const [role, setRole] = React.useState('');
-    const [email, setemail] = useState(" ")
+    const [role, setRole] = React.useState("");
+    const [email, setemail] = useState("")
     const [id, setId] = useState("")
-    const [first, setfirst] = useState(" ")
-    const [second, setsecond] = useState(" ")
-    const [contact, setcontact] = useState(" ")
-    const [city, setcity] = useState(" ")
-    const [Street, setstreet] = useState(" ")
+    const [first, setfirst] = useState("")
+    const [second, setsecond] = useState("")
+    const [contact, setcontact] = useState("")
+    const [city, setcity] = useState("")
+    const [Street, setstreet] = useState("")
     const [error, seterror] = useState(false)
     const [manager, setmanager] = useState([]) //managers array
     const [client, setclient] = useState([]) //client array
@@ -92,6 +92,8 @@ const Users = () => {
     const addManager = () => {
         setUsers(false);
         setadd(true);
+        seterror(false)
+        setmessage("")
     }
 
     // get and view managers' details 
@@ -108,20 +110,23 @@ const Users = () => {
 
     const [message, setmessage] = useState("")
     // add a new manager
-    const submitManager = async (e) => {
-        e.preventDefault()
-        if (email === '' ||
-            first === '' ||
-            second === '' ||
-            id === '' ||
-            contact === '' ||
-            city === '' ||
-            Street === '' ||
-            role === '') {
-            seterror(true)
-            setmessage("Please fill all fields")
+    const submitManager = async () => {
+        
+        if (
+            email === "" ||
+            first === "" ||
+            second === "" ||
+          
+            contact === "" ||
+            city === "" ||
+            Street === "" 
+          
+          ) {
+            seterror(true);
+            setmessage("Please fill all fields");
             return;
-        }
+          }
+          
 
         try {
             const res = await axios.post("http://localhost:5000/pet_care/admin/registration", {
