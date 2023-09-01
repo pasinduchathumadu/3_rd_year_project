@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/Care_center_manager/Complaints.css";
 import { Button } from "@mui/material";
 import ComplaintForm from "./ComplaintForm";
@@ -13,7 +13,8 @@ import Paper from "@mui/material/Paper";
 import { Typography, Avatar, Stack, Grid, Box, Tab, Tabs } from "@mui/material";
 import profile from "../../assests/profile.jpg";
 import AddIcon from '@mui/icons-material/Add';
-
+import DeleteIcon from '@mui/icons-material/Delete';
+import axios from "axios";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -55,8 +56,6 @@ const rows2 = [
   createData("001", "002", "Took too much time", "2023/08/02", "We will look into it", ""),
 ];
 
-
-
 function Complaints() {
 
 
@@ -71,6 +70,24 @@ function Complaints() {
   const Submit = () => {
     setPopoup(true)
   }
+
+  // view my complains
+  const [mycomplain, setmycomplain] = useState("")
+  const viewmycomplain = async() => {
+    try {
+      const res = await axios.get('http://localhost:5000/pet_care/care_center_manager/viewmycomplain')
+      const data = await res.data
+      return data
+
+    }catch(err){
+      console.log('There is an internal error')
+    }
+  }
+  useEffect(() => {
+    viewmycomplain()
+    .then((data) => setmycomplain(data.data))
+    .catch((err) => console.log(err))
+  })
 
   return (
     <>
@@ -213,30 +230,26 @@ function Complaints() {
           {/* my complains */}
           {value === 1 && (
             <div>
-              <div style={{marginBottom:'5px', marginLeft:'87%'}}>
-                <Button sx={{backgroundColor:'black', color:'white', width:'180px'}}><AddIcon />Add Complains</Button>
+              <div style={{ marginBottom: '5px', marginLeft: '87%' }}>
+                <Button sx={{ backgroundColor: 'black', color: 'white', width: '180px' }}><AddIcon />Add Complains</Button>
               </div>
               <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 800 }} aria-label="customized table">
                   <TableHead>
                     <TableRow>
-                      <StyledTableCell align="left" sx={{ width: "10%" }}>
-                        Client ID
-                      </StyledTableCell>
-                      <StyledTableCell align="left" sx={{ width: "15%" }}>
+                      <StyledTableCell align="center" sx={{ width: "15%" }}>
                         Complaint ID
                       </StyledTableCell>
-                      <StyledTableCell align="left" sx={{ width: "25%" }}>
+                      <StyledTableCell align="center" sx={{ width: "25%" }}>
                         Complaint
                       </StyledTableCell>
-                      <StyledTableCell align="left" sx={{ width: "10%" }}>
+                      <StyledTableCell align="center" sx={{ width: "10%" }}>
                         Placed Date
                       </StyledTableCell>
-                      <StyledTableCell align="left" sx={{ width: "20%" }}>
+                      <StyledTableCell align="center" sx={{ width: "20%" }}>
                         Response
                       </StyledTableCell>
-                      <StyledTableCell align="left" sx={{ width: "20%" }}>
-                        Generate Report
+                      <StyledTableCell align="center" sx={{ width: "20%" }}>
                       </StyledTableCell>
                     </TableRow>
                   </TableHead>
@@ -246,21 +259,16 @@ function Complaints() {
                         <StyledTableCell component="th" scope="row">
                           {row.name}
                         </StyledTableCell>
-                        <StyledTableCell align="left">
+                        <StyledTableCell align="center">
                           {row.calories}
                         </StyledTableCell>
-                        <StyledTableCell align="left">
+                        <StyledTableCell align="center">
                           {row.fat}
                         </StyledTableCell>
-                        <StyledTableCell align="left">
+                        <StyledTableCell align="center">
                           {row.carbs}
                         </StyledTableCell>
-                        <StyledTableCell align="left">
-                          {row.protein}
-                        </StyledTableCell>
-                        <StyledTableCell align="left">
-                          <Button sx={{ backgroundColor: "orange", color: "white", width: "95px", ":hover": { backgroundColor: "orange" } }}>Generate</Button>
-                        </StyledTableCell>
+                        <StyledTableCell align="center"><DeleteIcon sx={{ color: 'red' }} /></StyledTableCell>
                       </StyledTableRow>
                     ))}
                   </TableBody>
