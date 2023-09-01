@@ -176,11 +176,11 @@ const Training_Pets = () => {
             ):(
             <><div style={{ width: "100%", height: "60vh", backgroundColor: "#121334", marginTop: "8vh", color: "white" }}>
                         <div style={{ width: '50%', float: 'left', marginTop: "10vh" }}>
-                            <h2 style={{ fontSize: "50px", marginLeft: "50px", marginTop: "20px" }}>Dog Training</h2>
+                            <h2 style={{ fontSize: "50px", marginLeft: "50px", marginTop: "20px" }}>Dog Exercising & Training</h2>
                             <h2 style={{ fontSize: "20px", marginLeft: "50px" }}>We take care your dogs with experts</h2>
                         </div>
                         <div style={{ width: '50%', float: 'right', marginTop: "-5vh" }}>
-                            <img src={dog_training} alt="pic" style={{ width: "500px", height: "400px", float: 'right' }} />
+                            <img src={dog_training} alt="pic" style={{ width: "400px", height: "400px", float: 'right' }} />
                         </div>
                     </div><h2 style={{ fontSize: "40px", marginLeft: "500px", marginTop: "20px" }}>Choose Your Session</h2><Box sx={{ width: '100%', typography: 'body1', marginLeft: '40px', marginRight: '40px' }}>
                             <TabContext value={value}>
