@@ -68,6 +68,8 @@ import Packages from "./pages/Care_center_manager/Packages";
 import Complaints from "./pages/Care_center_manager/Complaints";
 import Caregiverlist from "./pages/Care_center_manager/caregiverlist";
 import Appointments from "./pages/Care_center_manager/Appointments";
+import Refund from "./pages/Care_center_manager/Refund";
+import MindRelaxingPets from "./pages/Care_center_manager/MindRelaxingPets";
 
 import Reset from "./pages/Common/Reset";
 
@@ -352,6 +354,8 @@ function App() {
               <Route path="/caregiverlist" element={<> <HomeHeader userRole={"care_center_manager"} /><Caregiverlist /></>} />
               <Route path="/packages" element={<>   <HomeHeader userRole={"care_center_manager"} /> <Packages /></>} />
               <Route path="/appointments" element={<>  <HomeHeader userRole={"care_center_manager"} />  <Appointments /></>} />
+              <Route path="/mindrelaxing" element={<>  <HomeHeader userRole={"care_center_manager"} />  <MindRelaxingPets /></>} />
+              <Route path="/refund" element={<>  <HomeHeader userRole={"care_center_manager"} />  <Refund /></>} />
               <Route path="/complaints" element={<>   <HomeHeader userRole={"care_center_manager"} /> <Complaints /></>} /></>
           )}
 
