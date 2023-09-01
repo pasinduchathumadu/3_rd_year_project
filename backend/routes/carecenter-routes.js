@@ -1,10 +1,11 @@
 import express from "express";
-import {viewmycomplain} from "../controllers/carecenter-controller.js";
-const carecenter_route = express.Router()
+import {viewmycomplain, viewClientcomplains} from "../controllers/carecenter-controller.js";
+const care_center_route = express.Router()
 
-carecenter_route.get('/viewmycomplain',viewmycomplain)
+care_center_route.get('/viewmycomplain',viewmycomplain)
+care_center_route.get('/viewClientcomplains',viewClientcomplains)
 
 
-export default carecenter_route;
+export default care_center_route;
 
 
