@@ -42,17 +42,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 // data for magaers complains
-function createData1(com_id, user_id, text, date, status) {
-    return { com_id, user_id, text, date, status };
-}
 
-const managerows = [
-    createData1(1, 1, "Complain text 1", '2023-07-12', 'pending'),
-    createData1(2, 1, "Complain text 2", '2023-07-13', 'pending'),
-    createData1(3, 3, "Complain text 3", '2023-07-14', 'pending'),
-    createData1(4, 4, "Complain text 4", '2023-07-15', 'completed'),
-    createData1(5, 6, "Complain text 5", '2023-07-16', 'completed'),
-];
+
+
 // data for clients complains
 // function createData2(com_id, user_id, text, date, status, response) {
 //     return { com_id, user_id, text, date, status, response };
@@ -100,11 +92,6 @@ const Complains = () => {
         setComplain(0);
     }
 
-    // after click on view response
-    const viewResponse = () => {
-        setComplain(false);
-        setviewResponce(true);
-    }
 
     // after viewing the response
     const afterViewingResponse = () => {
