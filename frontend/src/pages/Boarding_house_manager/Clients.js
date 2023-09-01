@@ -25,6 +25,7 @@ import Slip from '../../assests/bankslip1.png';
 import axios from "axios";
 // import CircleIcon from '@mui/icons-material/Circle';
 import CloseIcon from '@mui/icons-material/Close';
+import {  useNavigate } from "react-router";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -145,12 +146,6 @@ const Clients = () => {
         setShowRequests(2);
     }
 
-    // add refund mony for request
-    // const RefundAdding = () => {
-    //     setShowRequests(false);
-    //     setaddRefund(true);
-    // }
-
     // after click on place refund (for pending refunds)
     const [details1, setdetails1] = useState([])
     const toRefund = async (id) => {
@@ -217,6 +212,12 @@ const Clients = () => {
         setShowRequests(1)
     }
 
+    const navigate = useNavigate("")
+    // connect profile
+    const profile = () => {
+        navigate("/profile")
+    }
+
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
             <div className="top">
@@ -227,7 +228,7 @@ const Clients = () => {
                 </div>
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
-                    <img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" />
+                    <Button onClick={profile}><img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" /></Button>
                 </div>
             </div>
 
@@ -240,7 +241,6 @@ const Clients = () => {
                     indicatorColor="transparent"
                     sx={{ borderRadius: '10px' }}
                 >
-
                     <Tab sx={{ backgroundColor: showRequests === 0 ? 'orange' : '#F0F0F5', color: 'black' }} label="Clients' Boarding Request" ></Tab>
                     <Tab sx={{ backgroundColor: showRequests === 1 ? 'orange' : '#F0F0F5', color: 'black' }} label="Refund Requests"></Tab>
                     <Tab sx={{ backgroundColor: showRequests === 2 ? 'orange' : '#F0F0F5', color: 'black' }} label="Clients"></Tab>
@@ -455,9 +455,8 @@ const Clients = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    // Adjust as needed
-                    marginRight: '300px', // Adjust as needed
-                    zIndex: 1001, // Ensure the content is above the overlay
+                    marginRight: '300px', 
+                    zIndex: 1001, 
                 }}>
                     {petdetails && petdetails.map((petrow, index) => (
                         <FormControl sx={{
@@ -466,7 +465,7 @@ const Clients = () => {
                             borderRadius: '10px',
                             width: '700px',
                             padding: '20px',
-                            position: 'relative', // Add this to ensure content appears on top of the overlay
+                            position: 'relative',
                             zIndex: 1001,
                             backgroundColor: 'black'
                         }}>
@@ -765,7 +764,6 @@ const Clients = () => {
                                                 onChange={handleAmount}
                                             // defaultValue={drow1.refund_mny}
                                             /></div>
-
                                     </Box>
                                 </div>
 

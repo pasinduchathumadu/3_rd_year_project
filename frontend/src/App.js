@@ -312,6 +312,7 @@ function App() {
           {/* boarding house manager */}
           {isLoggedIn && user_role === "boarding_house_manager" && (
             <><Route path="/boarding_dashboard" element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingHome /></>} />
+              <Route path="/profile" element={<><HomeHeader userRole={"boarding_house_manager"} /><ManagerProfile /></>} />
               <Route path="/cages" element={<><HomeHeader userRole={"boarding_house_manager"} /><Cages /></>} />
               <Route path="/boarding_clients" element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingClients /></>} />
               <Route path="/boarding_pets" element={<><HomeHeader userRole={"boarding_house_manager"} /><BoardingPets /></>} />
@@ -340,7 +341,7 @@ function App() {
           )}
 
           <Route path="/clientprofile" element={<ClientProfile />} />
-          <Route path="/managerprofile" element={<ManagerProfile />} />
+          {/* <Route path="/managerprofile" element={<ManagerProfile />} /> */}
 
 
 

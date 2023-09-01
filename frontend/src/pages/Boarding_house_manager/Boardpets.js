@@ -22,6 +22,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import VideoClip from '../../assests/video-1.jpg';
 import axios from "axios";
+import {  useNavigate } from "react-router";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -136,6 +137,12 @@ const BoardPets = () => {
         .catch((err) => console.log(err))
     })
 
+    const navigate = useNavigate("")
+    // connect profile
+    const profile = () => {
+        navigate("/profile")
+    }
+
     return (
         <div className="home-container" style={{ marginTop: '5%'}}>
             <div className="top">
@@ -147,7 +154,7 @@ const BoardPets = () => {
 
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
-                    <img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" />
+                    <Button onClick={profile}><img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" /></Button>
                 </div>
             </div>
 
