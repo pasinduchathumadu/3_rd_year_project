@@ -137,13 +137,17 @@ const Training_Pets = () => {
         setmessage("Can't Pick Previous Days!!");
         return;
     }
+    const cancel_date = new Date(selectedDate);
+    cancel_date.setDate(cancel_date.getDate() + 2);
+    const new_cancel_date = cancel_date.toISOString().substr(0, 10);
 
         try{
             const res = await axios.post('http://localhost:5000/pet_care/user/pet_booking',{
                 selectedDate,
                 email,
                 age,
-                value
+                value,
+                new_cancel_date
             })
             if(res.data.message === 'added'){
                 seterror(true)
