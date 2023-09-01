@@ -6,6 +6,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ProfilePicture from '../../assests/profile-picture.png';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useNavigate } from 'react-router';
+// import {  useNavigate } from "react-router";
 
 
 const Cages = () => {
@@ -13,11 +14,17 @@ const Cages = () => {
     const date = input.toDateString()
 
     const navigate = useNavigate("")
-
+    
+    // back to dashboard
     const backto = () => {
         navigate("/boarding_dashboard")
     }
-    
+    // connect profile
+    const profile = () => {
+        navigate("/profile")
+    }
+    // back from profile
+
     return (
         <div className="home-container" style={{ marginTop: '4%' }}>
             <div className="top">
@@ -28,7 +35,7 @@ const Cages = () => {
                 </div>
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
-                    <img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" />
+                    <Button onClick={profile}><img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" /></Button>
                 </div>
             </div>
 
