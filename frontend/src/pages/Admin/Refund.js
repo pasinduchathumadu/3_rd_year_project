@@ -85,7 +85,7 @@ const Refund = () => {
         setrefund(false);
         setviewVerify(true);
     }
-   
+
     const input = new Date();
     const date = input.toDateString();
 
@@ -166,31 +166,46 @@ const Refund = () => {
         setrefund(0);
     }
 
-    // get admin verification status => verified or rejected
-    const [verification, setverification ] = useState("")
-    const handleverify = (event) => {
-        setverification(event.target.value)
-    }
+    // get admin verification status =>  rejected
     const [error2, seterror2] = useState(false)
     const [message2, setmessage2] = useState("")
 
-    const getAdminStatus = async (id) => {
+    const AdminVerify = async (id) => {
         try {
-            const res = await axios.post(`http://localhost:5000/pet_care/admin/getAdminStatus`, {
-            id,    
-            verification,
+            const res = await axios.post(`http://localhost:5000/pet_care/admin/AdminVerify`, {
+                id
             })
-            if(res.data.message === 'There is an internal error'){
+            if (res.data.message === 'There is an internal error') {
                 setmessage2('There is an internal error')
                 seterror2(true)
-            }else if(res.data.message === 'success') {
+            } else if (res.data.message === 'verified') {
                 setrefund(0)
                 setverify(false)
             }
-        }catch(err) {
-            console.log('There is an internal error')  
+        } catch (err) {
+            console.log('There is an internal error')
         }
-    } 
+    }
+    // get admin verification status => rejected
+    const [error3, seterror3] = useState(false)
+    const [message3, setmessage3] = useState("")
+
+    const AdminRejected = async (id) => {
+        try {
+            const res = await axios.post(`http://localhost:5000/pet_care/admin/AdminRejected`, {
+                id
+            })
+            if(res.data.message === 'There is an internal error') {
+                setmessage3('There is an internal error')
+                seterror3(true)
+            }else if(res.data.message === 'rejected') {
+                setrefund(0)
+                setverify(false)
+            }
+        } catch (err) {
+            console.log('There is an internal error')
+        }
+    }
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
@@ -372,15 +387,12 @@ const Refund = () => {
                                 <div className="form-topic">
                                     Bank Slip
                                 </div>
-                                <img 
-                                    src={getImageSrc2(verimenu.refund_slip)} 
-                                    alt="bank slip" 
+
+                                <img
+                                    src={getImageSrc2(verimenu.refund_slip)}
+                                    alt="bank slip"
                                     style={{ width: '500px' }} />
 
-                                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <Button onChange={handleverify} sx={{ background: "orange", color: 'white', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "orange" }, marginRight: '10px' }}>Verify</Button>
-                                    <Button onChange={handleverify} sx={{ background: "red", color: 'white', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "red" }, marginLeft: '10px' }}>Reject</Button>
-                                </div>
                                 <div style={{ backgroundColor: 'white', borderRadius: '10px', padding: '10px', marginTop: '10px', width: '500px' }}>
                                     <div className="form-topic">
                                         Bank Details
@@ -404,7 +416,6 @@ const Refund = () => {
                                                         label=""
                                                         defaultValue={verimenu.acc_no}
                                                     /></div>
-
                                             </Box>
                                         </div>
                                         <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -416,7 +427,6 @@ const Refund = () => {
                                                 }}
                                                 noValidate
                                                 autoComplete="off"
-
                                             >
                                                 <div>
                                                     <TextField
@@ -425,7 +435,6 @@ const Refund = () => {
                                                         label=""
                                                         defaultValue={verimenu.bank}
                                                     /></div>
-
                                             </Box>
                                         </div>
                                         <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -437,7 +446,6 @@ const Refund = () => {
                                                 }}
                                                 noValidate
                                                 autoComplete="off"
-
                                             >
                                                 <div>
                                                     <TextField
@@ -449,6 +457,11 @@ const Refund = () => {
                                             </Box>
                                         </div>
                                     </div>
+                                </div>
+
+                                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <Button onClick={() => AdminVerify(verimenu.refund_id)} sx={{ background: "orange", color: 'white', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "orange" }, marginRight: '10px' }}>Verify</Button>
+                                    <Button onClick={() => AdminRejected(verimenu.refund_id)} sx={{ background: "red", color: 'white', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "red" }, marginLeft: '10px' }}>Reject</Button>
                                 </div>
                             </div>
                         </FormControl>
@@ -494,7 +507,7 @@ const Refund = () => {
                                         {menuview.admin_verification === 'verified' ?
                                             <Button sx={{ background: "blue", width: '100%', marginTop: '10px', marginBottom: '20px', ':hover': { backgroundColor: "blue" }, marginRight: '10px', color: 'white' }}>Verified</Button> :
                                             menuview.admin_verification === 'rejected' ?
-                                                <Button sx={{ background: "red", width: '100%', marginTop: '10px', marginBottom: '20px', ':hover': { backgroundColor: "blue" }, marginRight: '10px', color: 'white' }}>Rejected</Button> :
+                                                <Button sx={{ background: "red", width: '100%', marginTop: '10px', marginBottom: '20px', ':hover': { backgroundColor: "red" }, marginRight: '10px', color: 'white' }}>Rejected</Button> :
                                                 ""}
                                     </Typography>
 

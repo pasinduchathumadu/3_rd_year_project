@@ -1,5 +1,5 @@
 import express from "express";
-import {get_client, get_manager, registration, countManagers, countClients, clientComplains, managerComplains, countComplains, boardingRefund, countRefund, countPendingrefund, ManagerDetails, FinishUpdate, deleteManager,addResponse, submitResponse,viewPetDetails, deleteClient, viewRefundDetails, viewSlipDetails} from "../controllers/admin-controllers.js"
+import {get_client, get_manager, registration, countManagers, countClients, clientComplains, managerComplains, countComplains, boardingRefund, countRefund, countPendingrefund, ManagerDetails, FinishUpdate, deleteManager,addResponse, submitResponse,viewPetDetails, deleteClient, viewRefundDetails, viewSlipDetails, AdminVerify, AdminRejected} from "../controllers/admin-controllers.js"
 const admin_route = express.Router()
 
 admin_route.post('/registration',registration)
@@ -22,6 +22,8 @@ admin_route.get('/viewPetDetails/:id',viewPetDetails)
 admin_route.get('/deleteClient/:id',deleteClient)
 admin_route.get('/viewRefundDetails/:id',viewRefundDetails)
 admin_route.get('/viewSlipDetails/:id',viewSlipDetails)
+admin_route.post('/AdminVerify',AdminVerify)
+admin_route.post('/AdminRejected',AdminRejected)
 
 
 
