@@ -119,6 +119,8 @@ const Clients = () => {
     const [pet, setPet] = useState(false);
     const [addRefund, setaddRefund] = useState(false);
     const [viewRefund, setviewRefund] = useState(false);
+    const [error1, seterror1] = useState(false)
+    const [message1, setmessage1] = useState("")
 
     // click on view pet details button
     const [petdetails, setpetdetails] = useState([])
@@ -126,8 +128,8 @@ const Clients = () => {
         try {
             const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/viewPetDetails/${id}`)
             if (res.data.message === 'There is an internal error') {
-                seterror(true)
-                setmessage("There is an internal error")
+                seterror1(true)
+                setmessage1("There is an internal error")
             } else {
                 setPet(true)
                 setpetdetails(res.data.data)
@@ -150,12 +152,15 @@ const Clients = () => {
 
     // after click on  refund (for pending refunds)
     const [details1, setdetails1] = useState([])
+    const [error2, seterror2] = useState(false)
+    const [message2, setmessage2] = useState("")
+
     const toRefund = async (id) => {
         try {
             const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/toRefund/${id}`)
             if (res.data.message === 'There is an internal error') {
-                seterror(true)
-                setmessage("There is an internal error")
+                seterror2(true)
+                setmessage2("There is an internal error")
             } else {
                 // console.log(details1)
                 setaddRefund(true)
@@ -220,6 +225,49 @@ const Clients = () => {
     const profile = () => {
         navigate("/profile")
     }
+
+    // clients' boarding requests - from accepted to arrived
+    const [error3, seterror3] = useState(false)
+    const [message3, setmessage3] = useState("")
+
+    const AcceptedtoArrived = async(id) => {
+        try {
+            const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/AcceptedtoArrived`, {
+                id
+            })
+            if(res.data.message === 'There is an internal error') {
+                setmessage3('There is an internal error')
+                seterror3(true)
+            }else if(res.data.message === 'arrived') {
+                setShowRequests(0)
+            }
+
+        }catch(err) {
+            console.log('There is an internal error')
+        }
+    }
+
+    // clients' boarding requests - from arrvied to completed
+    const [error4, seterror4] = useState(false)
+    const [message4, setmessage4] = useState("")
+
+    const ArrviedtoCompleted = async(id) => {
+        try {
+            const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/ArrviedtoCompleted`, {
+                id
+            })
+            if(res.data.message === 'There is an internal error') {
+                setmessage4('There is an internal error')
+                seterror4(true)
+            }else if(res.data.message === 'completed') {
+                setShowRequests(0)
+            }
+
+        }catch(err) {
+            console.log('There is an internal error')
+        }
+    }
+   
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
@@ -345,10 +393,8 @@ const Clients = () => {
                                         <StyledTableCell align="center">Package</StyledTableCell>
                                         <StyledTableCell align="center">Arrival Date</StyledTableCell>
                                         <StyledTableCell align="center">Carry Date</StyledTableCell>
-                                        {/* <StyledTableCell align="center">Arrival Time</StyledTableCell> */}
                                         <StyledTableCell align="center">Request Status</StyledTableCell>
-                                        {/* <StyledTableCell align="center"></StyledTableCell> */}
-                                        {/* <StyledTableCell align="center"></StyledTableCell> */}
+                                        <StyledTableCell align="center"></StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -360,13 +406,12 @@ const Clients = () => {
                                             <StyledTableCell align="center">{requestrow.package_name}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.board_arrival_date}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.board_carry_date}</StyledTableCell>
-                                            {/* <StyledTableCell align="center">{requestrow.board_time}</StyledTableCell> */}
-                                            {/* <StyledTableCell align="center">{requestrow.request_status}</StyledTableCell> */}
+                                            <StyledTableCell align="center">{requestrow.request_status}</StyledTableCell>
                                             <StyledTableCell align="center">
                                                 {requestrow.request_status === 'Accepted'
-                                                    ? (<Button sx={{ color: 'white', width: '150px', backgroundColor: '#000000', ':hover': { backgroundColor: '#000000' } }}>Arrived</Button>) :
+                                                    ? (<Button onClick={() => AcceptedtoArrived(requestrow.request_id)} sx={{ color: 'white', width: '150px', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Arrived</Button>) :
                                                     requestrow.request_status === 'Arrived'
-                                                        ? (<Button sx={{ color: 'white', width: '150px', backgroundColor: '#000000', ':hover': { backgroundColor: '#000000' } }}>Completed</Button>)
+                                                        ? (<Button onClick={() => ArrviedtoCompleted(requestrow.request_id)} sx={{ color: 'white', width: '150px', backgroundColor: '#000000', ':hover': { backgroundColor: '#000000' } }}>Completed</Button>)
                                                         : ""}
                                                         
                                             </StyledTableCell>

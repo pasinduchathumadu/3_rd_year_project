@@ -177,6 +177,42 @@ export const viewPetDetails = async(req,res,next) => {
     })
 }
 
+// clients request => from accepted to arrived
+export const AcceptedtoArrived = async(req,res,next) => {
+    const {
+        id
+    } = req.body;
+
+    const status = 'Arrived'
+    const sqlQuery = 'UPDATE boarding_request SET request_status = ? WHERE request_id = ?'
+    const values = [status, id]
+
+    db.query(sqlQuery, values, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({message: 'arrived'})
+    })
+}
+
+// clients request => from arrvied to completed
+export const ArrviedtoCompleted = async(req,res,next) => {
+    const {
+        id
+    } = req.body;
+
+    const status = 'Completed'
+    const sqlQuery = 'UPDATE boarding_request SET request_status = ? WHERE request_id = ?'
+    const values = [status, id]
+
+    db.query(sqlQuery, values, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({message: 'completed'})
+    })
+}
+
 // -------- COMPLAINS -----------------------
 // add new complain
 export const add_complain = async (req, res, next) => {
