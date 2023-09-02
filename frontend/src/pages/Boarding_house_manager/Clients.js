@@ -345,9 +345,10 @@ const Clients = () => {
                                         <StyledTableCell align="center">Package</StyledTableCell>
                                         <StyledTableCell align="center">Arrival Date</StyledTableCell>
                                         <StyledTableCell align="center">Carry Date</StyledTableCell>
-                                        <StyledTableCell align="center">Arrival Time</StyledTableCell>
+                                        {/* <StyledTableCell align="center">Arrival Time</StyledTableCell> */}
                                         <StyledTableCell align="center">Request Status</StyledTableCell>
-                                        <StyledTableCell align="center"></StyledTableCell>
+                                        {/* <StyledTableCell align="center"></StyledTableCell> */}
+                                        {/* <StyledTableCell align="center"></StyledTableCell> */}
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -359,14 +360,15 @@ const Clients = () => {
                                             <StyledTableCell align="center">{requestrow.package_name}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.board_arrival_date}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.board_carry_date}</StyledTableCell>
-                                            <StyledTableCell align="center">{requestrow.board_time}</StyledTableCell>
-                                            <StyledTableCell align="center">{requestrow.request_status}</StyledTableCell>
+                                            {/* <StyledTableCell align="center">{requestrow.board_time}</StyledTableCell> */}
+                                            {/* <StyledTableCell align="center">{requestrow.request_status}</StyledTableCell> */}
                                             <StyledTableCell align="center">
-                                                {requestrow.request_status === 'accepted'
+                                                {requestrow.request_status === 'Accepted'
                                                     ? (<Button sx={{ color: 'white', width: '150px', backgroundColor: '#000000', ':hover': { backgroundColor: '#000000' } }}>Arrived</Button>) :
-                                                    requestrow.request_status === 'arrived'
+                                                    requestrow.request_status === 'Arrived'
                                                         ? (<Button sx={{ color: 'white', width: '150px', backgroundColor: '#000000', ':hover': { backgroundColor: '#000000' } }}>Completed</Button>)
                                                         : ""}
+                                                        
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     ))}
