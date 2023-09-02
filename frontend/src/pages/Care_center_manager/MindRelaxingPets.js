@@ -10,6 +10,8 @@ import CategoryIcon from '@mui/icons-material/Category';
 import PetsIcon from '@mui/icons-material/Pets';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloseIcon from '@mui/icons-material/Close';
+import axios from 'axios';
+import BackgroundImage from './../../assests/mindrelax_bkgnd.png'
 
 
 const MindRelaxingPets = () => {
@@ -29,6 +31,41 @@ const MindRelaxingPets = () => {
     const backfromaddpet = () => {
         setviewpet(true)
         setaddpet(false)
+    }
+
+    // pet adding
+    const [error, seterror] = useState(false)
+    const [petcategory, setpetcategory] = useState("")
+    const [name, setname] = useState("")
+    const [breed, setbreed] = useState("")
+    const [petsex, setpetsex] = useState("")
+
+    const handleChangeCategory = (event) => {
+        setpetcategory(event.target.value)
+    };
+    const handleChangeSex = (event) => {
+        setpetsex(event.target.value)
+    };
+
+    const addingpet = async () => {
+        seterror(false);
+        try {
+            const res = await axios.post('http://localhost:5000/pet_care/care_center_manager/addingpet', {
+                petcategory,
+                name,
+                breed,
+                petsex,
+
+            })
+            if (res.data.message === 'success') {
+                seterror("Pet details added successfully!")
+                setaddpet(false)
+                setviewpet(true)
+            }
+
+        } catch {
+            console.log('There is an internal error')
+        }
     }
 
     return (
@@ -137,10 +174,19 @@ const MindRelaxingPets = () => {
 
             {/* add new pets for mind relaxing */}
             {addpet && (
-                <div>
-                    <div style={{ backgroundColor: '#F0F0F5', borderRadius: '10px', padding: '30px', width: '40%', marginLeft: '30%', marginTop: '6%' }}>
+                <div style={{
+                    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6)),url(${BackgroundImage})`,
+                    backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center',
+                    height: "100vh",
+                    width: "1700px",
+                    display: 'flex',
+                    flexDirection: "column",
+                }}>
+                    <div style={{ backgroundColor: '#F0F0F5', borderRadius: '10px', padding: '30px', width: '40%', marginLeft: '30%', marginTop: '5%', marginBottom: '5%' }}>
                         <div>
-                            <IconButton onClick={backfromaddpet}  ><CloseIcon sx={{ color: 'white', backgroundColor: 'red', marginLeft: '500px' }} /></IconButton>
+                            <IconButton onClick={backfromaddpet}  ><CloseIcon sx={{ color: 'white', backgroundColor: 'red', marginLeft: '590px' }} /></IconButton>
                         </div>
 
                         <div style={{ marginBottom: '20px' }}>
@@ -150,21 +196,21 @@ const MindRelaxingPets = () => {
                         <FormControl>
                             <div>
                                 <FormLabel sx={{ color: 'black', marginRight: '' }}>Pet Name</FormLabel>
-                                <TextField id="outlined-basic" placeholder="Pet Name" variant="outlined" required sx={{ width: '100%', width: '550px' }} />
+                                <TextField id="outlined-basic" placeholder="Pet Name" variant="outlined" required sx={{ width: '100%', width: '610px' }} onChange={(e) => setname(e.target.value)} />
                             </div>
 
                             <div style={{ display: 'flex', flexDirection: 'column' }}>
                                 <FormLabel sx={{ color: 'black' }}>Breed</FormLabel>
-                                <TextField id="outlined-basic" placeholder="Breed" variant="outlined" sx={{ width: '100%', width: '550px' }} />
+                                <TextField id="outlined-basic" placeholder="Breed" variant="outlined" required sx={{ width: '100%', width: '610px' }} onChange={(e) => setbreed(e.target.value)} />
                             </div>
 
                             <div style={{ display: 'flex', flexDirection: 'column' }}>
                                 <FormLabel sx={{ color: 'black' }}>Category</FormLabel>
                                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                                     <Select
-                                        value=""
+                                        value={petcategory}
+                                        onChange={handleChangeCategory}
                                         displayEmpty
-                                        sx={{ width: '550px' }}
                                     >
                                         <MenuItem value="">
                                             <em>None</em>
@@ -179,9 +225,9 @@ const MindRelaxingPets = () => {
                                 <FormLabel sx={{ color: 'black' }}>Sex</FormLabel>
                                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                                     <Select
-                                        value=""
+                                        value={petsex}
+                                        onChange={handleChangeSex}
                                         displayEmpty
-                                        sx={{ width: '550px' }}
                                     >
                                         <MenuItem value="">
                                             <em>None</em>
@@ -206,7 +252,7 @@ const MindRelaxingPets = () => {
                             </div>
 
                             <div style={{ marginTop: '15px', marginBottom: '20px', marginLeft: '220px' }}>
-                                <Button sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white', width: '150px' }}> Submit</Button>
+                                <Button onClick={() => addingpet()} sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white', width: '150px' }}> Submit</Button>
                             </div>
                         </FormControl>
                     </div>

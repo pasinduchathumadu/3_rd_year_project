@@ -1,5 +1,5 @@
 import express from "express";
-import {viewmycomplain, viewClientcomplains, complainDetails, addResponse, add_complain, deleteMyComplain,refund_appointments, refundAdding,toRefund,ViewRefundDetails} from "../controllers/carecenter-controller.js";
+import {viewmycomplain, viewClientcomplains, complainDetails, addResponse, add_complain, deleteMyComplain,refund_appointments, refundAdding,toRefund,ViewRefundDetails, addingpet} from "../controllers/carecenter-controller.js";
 const care_center_route = express.Router()
 
 // COMPLAINS routes
@@ -15,6 +15,10 @@ care_center_route.get('/refund_appointments',refund_appointments)
 care_center_route.get('/toRefund/:id',toRefund)
 care_center_route.post('/refundAdding',refundAdding)
 care_center_route.get('/ViewRefundDetails/:id',ViewRefundDetails) 
+
+// mind relaxing pets
+care_center_route.post('/addingpet', addingpet);
+
 
 
 

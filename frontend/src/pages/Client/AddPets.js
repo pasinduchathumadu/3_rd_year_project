@@ -77,7 +77,7 @@ const AddPets = () => {
     const getImageSrc = (imageName) => {
         return require(`../../../../backend/images/store/${imageName}`)
     }
-    
+
 
     return (
         <div>
@@ -172,8 +172,8 @@ const AddPets = () => {
                     <FormControl>
                         <Typography sx={{ fontSize: '40px', padding: '20px', borderRadius: '10px', marginLeft: '250px' }}>Your Pets</Typography>
                         <Skeleton />
-<Skeleton animation="wave"  sx={{width:"90vh"}}/>
-<Skeleton animation="wave"  sx={{width:"90vh"}}/>
+                        <Skeleton animation="wave" sx={{ width: "90vh" }} />
+                        <Skeleton animation="wave" sx={{ width: "90vh" }} />
 
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
 
@@ -303,7 +303,7 @@ const AddPets = () => {
             </div>
         </div>
     )
-// add a commnt
+    // add a commnt
 }
 
 export default AddPets;
