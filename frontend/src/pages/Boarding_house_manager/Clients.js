@@ -155,7 +155,7 @@ const Clients = () => {
                 seterror(true)
                 setmessage("There is an internal error")
             } else {
-                console.log(details1)
+                // console.log(details1)
                 setaddRefund(true)
                 setdetails1(res.data.data)
             }
@@ -617,10 +617,9 @@ const Clients = () => {
                     height: '50%',
                     display: 'flex',
                     justifyContent: 'center',
-                    alignItems: 'center',
-                    // Adjust as needed
-                    marginRight: '300px', // Adjust as needed
-                    zIndex: 1001, // Ensure the content is above the overlay
+                    alignItems: 'center', 
+                    marginRight: '300px', 
+                    zIndex: 1001, 
                 }}>
                     {details1 && details1.map((drow1, index) => (
                         <FormControl sx={{
@@ -803,9 +802,8 @@ const Clients = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    // Adjust as needed
-                    marginRight: '300px', // Adjust as needed
-                    zIndex: 1001, // Ensure the content is above the overlay
+                    marginRight: '300px',
+                    zIndex: 1001, 
                 }}>
                     {details && details.map((drow, index) => (
                         <FormControl sx={{
@@ -815,8 +813,8 @@ const Clients = () => {
                             width: '1000px',
                             padding: '20px',
                             backgroundColor: 'black',
-                            position: 'relative', // Add this to ensure content appears on top of the overlay
-                            zIndex: 1001, // Adjust the z-index to display content above the overlay
+                            position: 'relative', 
+                            zIndex: 1001, 
                         }}>
                             <div style={{ backgroundColor: 'white', paddingTop: '20px', paddingBottom: '20px', paddingRight: '60px', paddingLeft: '60px', borderRadius: '10px' }}>
                                 <div>
@@ -1005,9 +1003,6 @@ const Clients = () => {
                                     <FormLabel>Uploaded Bank Slip : </FormLabel>
                                     <img src={Slip} alt="bank slip" style={{ width: '50%', height: 'auto', borderRadius: '10px' }} />
                                 </div>
-                                {/* <Button variant="contained" onClick={() => afterAddingComplain()} sx={{ background: 'orange', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Complain</Button> */}
-                                {/* <iconButtonClasses variant="contained" onClick={FinishRefundViewing} sx={{ background: 'orange', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Finish Viewing</Button> */}
-                                {/* <IconButton><CloseIcon /></IconButton> */}
                             </div>
                         </FormControl>
                     ))}

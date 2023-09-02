@@ -1,7 +1,7 @@
 import pkg from 'object-hash'
 import { db } from '../database.js'
 
-// COMPLAINS
+// ***** COMPLAINS *****
 // view my complains
 export const viewmycomplain = async (req, res, next) => {
     const sqlQuery = 'SELECT complain_id, complain_txt, com_date, com_time, complain_status, response_txt FROM manager_complain WHERE manager_role = "care_center_manager" ';
@@ -117,4 +117,69 @@ export const deleteMyComplain = async (req,res,next) => {
         }
         return res.json({message:'Deleted'})
     })
+}
+
+// ***** REFUND *****
+export const refund_appointments = async(req,res, next) => {
+    const status1 = 'incompleted'
+    const status2 = 'cancelled'
+    const sqlQuery = 'SELECT r.refund_id, r.appointment_id, r.email, r.payment, r.refund_status, r.admin_verification, a.package_id, a.appointment_status FROM carecenter_appointment a INNER JOIN carecenter_refund r ON a.appointment_id = r.appointment_id WHERE a.appointment_status = ? OR a.appointment_status = ? '
+    const values = [status1, status2]
+
+    db.query(sqlQuery, values,(err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+// place refund - get details for form
+export const toRefund = async(req,res,next) => {
+    const id = req.params.id
+    const sqlQuery = 'SELECT r.refund_id, r.appointment_id, r.email, r.refund_mny, b.acc_no, b.bank, b.branch FROM carecenter_refund r INNER JOIN client_bankdetails b ON r.email = b.email WHERE r.refund_id = ?'
+    const values = [id]
+
+    db.query(sqlQuery, values, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+// place refund - adding
+export const refundAdding = async (req,res,next) => {
+    const {
+        id,
+        amount,
+    } = req.body;
+
+    const status = 'completed'
+    const current = new Date() //get the current date and time
+    const currentDate = current.toDateString() //current date
+    const currentTime = current.toLocaleTimeString() //current time
+
+    const sqlQuery = 'UPDATE carecenter_refund SET refund_mny = ?, refund_status = ?, date =?, time =?  WHERE refund_id = ?'
+    const values = [amount, status, currentDate, currentTime, id]
+
+    db.query(sqlQuery, values, (err, data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({message:'Refund Added'})
+    })
+}
+
+export const ViewRefundDetails = async (req,res,next) => {
+    const id = req.params.id
+    const sqlQuery = 'SELECT r.refund_id, r.appointment_id, r.email,  r.refund_slip, r.date, r.time, r.refund_mny, b.acc_no, b.bank, b.branch FROM carecenter_refund r INNER JOIN client_bankdetails b ON r.email = b.email WHERE r.refund_id = ?'
+    const values =[id]
+
+    db.query(sqlQuery,values, (err, data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+    
 }
