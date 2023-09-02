@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
 import ProfilePicture from '../../assests/profile-picture.png';
-// import Slip from '../../assests/bankslip2.jpeg';
+import Slip from '../../assests/bankslip2.jpeg';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -71,25 +71,28 @@ const Refund = () => {
     const [viewVerify, setviewVerify] = useState(false);
 
     // click on view bank slip - cc
-    const ViewBankSlip = () => {
-        setrefund(false);
-        setverify(true)
-    }
+    // const ViewBankSlip = () => {
+    //     setrefund(false);
+    //     setverify(true)
+    // }
     //reject or verify - 
-    const AfterVerify = () => {
-        setverify(false);
-        setrefund(0);
-    }
+    // const AfterVerify = () => {
+    //     setverify(false);
+    //     setrefund(0);
+    // }
+
     // click on view verified details - cc
-    const ViewVerified = () => {
-        setrefund(false);
-        setviewVerify(true);
-    }
+    // const ViewVerified = () => {
+    //     setrefund(false);
+    //     setviewVerify(true);
+    // }
 
     const input = new Date();
     const date = input.toDateString();
 
-    // view boaridng house refundd details
+    // BOARDING HOUSE
+
+    // view boarding house refundd details
     const [boardingrf, setboardingrf] = useState("");
     const boardingRefund = async () => {
         try {
@@ -195,10 +198,10 @@ const Refund = () => {
             const res = await axios.post(`http://localhost:5000/pet_care/admin/AdminRejected`, {
                 id
             })
-            if(res.data.message === 'There is an internal error') {
+            if (res.data.message === 'There is an internal error') {
                 setmessage3('There is an internal error')
                 seterror3(true)
-            }else if(res.data.message === 'rejected') {
+            } else if (res.data.message === 'rejected') {
                 setrefund(0)
                 setverify(false)
             }
@@ -206,6 +209,127 @@ const Refund = () => {
             console.log('There is an internal error')
         }
     }
+
+    // CARE CENTER
+    // view carecenter  refundd details
+    const [carerf, setcarerf] = useState("");
+    const carecenterRefund = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/pet_care/admin/carecenterRefund')
+            const data = await res.data
+            return data
+
+        } catch (err) {
+            console.log("There is an internal error")
+        }
+    }
+    useEffect(() => {
+        carecenterRefund()
+            .then((data) => setcarerf(data.data))
+            .catch((err) => console.log(err))
+    })
+
+    const [ccverify, setccverify] = useState() // form for verify
+    // view bank slip & details for verify
+    const [ccverifydetails, setccverifydetails] = useState([])
+    const [error4, seterror4] = useState(false)
+    const [message4, setmessage4] = useState("")
+
+    const viewSlipDetailscc = async (id) => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/admin/viewSlipDetailscc/${id}`)
+            if (res.data.message === 'There is an internal error') {
+                seterror4(true)
+                setmessage4('There is an internal error')
+            } else {
+                setccverify(true)
+                setccverifydetails(res.data.data)
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    // get bank slip image from db
+    // const getImageSrc3 = (imageName) => {
+    //     return require(`../../../../backend/images/store/${imageName}`)
+    // }
+
+    // cancel without verifying  - close
+    const CancelccVerify = () => {
+        setccverify(false);
+        setrefund(1);
+    }
+
+    // get admin verification status =>  rejected
+    const [error5, seterror5] = useState(false)
+    const [message5, setmessage5] = useState("")
+
+    const AdminVerifycc = async (id) => {
+        try {
+            const res = await axios.post(`http://localhost:5000/pet_care/admin/AdminVerifycc`, {
+                id
+            })
+            if (res.data.message === 'There is an internal error') {
+                setmessage5('There is an internal error')
+                seterror5(true)
+            } else if (res.data.message === 'verified') {
+                setrefund(1)
+                setccverify(false)
+            }
+        } catch (err) {
+            console.log('There is an internal error')
+        }
+    }
+    // get admin verification status => rejected
+    const [error6, seterror6] = useState(false)
+    const [message6, setmessage6] = useState("")
+
+    const AdminRejectedcc = async (id) => {
+        try {
+            const res = await axios.post(`http://localhost:5000/pet_care/admin/AdminRejectedcc`, {
+                id
+            })
+            if (res.data.message === 'There is an internal error') {
+                setmessage6('There is an internal error')
+                seterror6(true)
+            } else if (res.data.message === 'rejected') {
+                setrefund(1)
+                setccverify(false)
+            }
+        } catch (err) {
+            console.log('There is an internal error')
+        }
+    }
+
+     // view refunded verification done details
+     const [redetailscc, setredetailscc] = useState([])
+     const [error7, seterror7] = useState(false)
+     const [messsage7, setmessage7] = useState("")
+     const [viewccVerify, setviewccVerify] =useState(false)
+ 
+     const viewRefundccDetails = async (id) => {
+         try {
+             const res = await axios.get(`http://localhost:5000/pet_care/admin/viewRefundccDetails/${id}`)
+             if (res.data.message === 'There is an internal error') {
+                 seterror7(true)
+                 setmessage7('There is an internal error')
+             } else {
+                setviewccVerify(true)
+                setredetailscc(res.data.data)
+             }
+         } catch (err) {
+             console.log(err)
+         }
+     }
+     // get the bank slip image
+     const getImageSrc4 = (imageName) => {
+         return require(`../../../../backend/images/store/${imageName}`)
+     }
+     // after viewing of refunded details- close
+     const AfterccViewing = () => {
+        setviewccVerify(false);
+         setrefund(1);
+     }
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
@@ -236,7 +360,7 @@ const Refund = () => {
                 </Tabs>
             </Box>
 
-            {/* boarding house refund */}
+            {/* BOARDING HOUSE */}
             {refund === 0 && (
                 <div>
                     <div className="drop-down-box">
@@ -294,7 +418,7 @@ const Refund = () => {
             )}
 
 
-            {/*   care center refund */}
+            {/*   CARE CENTER */}
             {refund === 1 && (
                 <div>
                     <div className="drop-down-box">
@@ -325,23 +449,21 @@ const Refund = () => {
                                         <StyledTableCell align="center">Refund ID</StyledTableCell>
                                         <StyledTableCell align="center">Appointment ID</StyledTableCell>
                                         <StyledTableCell align="center">Refund Date</StyledTableCell>
-                                        <StyledTableCell align="center">Refund Time</StyledTableCell>
-                                        <StyledTableCell align="center">Status</StyledTableCell>
+                                        <StyledTableCell align="center">Refunded Amount (Rs)</StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {secondrows.map((secondrow) => (
-                                        <StyledTableRow key={secondrow.id}>
-                                            <StyledTableCell align="center">{secondrow.rf_id}</StyledTableCell>
-                                            <StyledTableCell align="center">{secondrow.o_id}</StyledTableCell>
-                                            <StyledTableCell align="center">{secondrow.date}</StyledTableCell>
-                                            <StyledTableCell align="center">{secondrow.time}</StyledTableCell>
-                                            <StyledTableCell align="center">{secondrow.status}</StyledTableCell>
+                                    {carerf && carerf.map((menurow, index) => (
+                                        <StyledTableRow key={menurow.refund_id}>
+                                            <StyledTableCell align="center">{menurow.refund_id}</StyledTableCell>
+                                            <StyledTableCell align="center">{menurow.appointment_id}</StyledTableCell>
+                                            <StyledTableCell align="center">{menurow.date}</StyledTableCell>
+                                            <StyledTableCell align="center">{menurow.refund_mny}.00</StyledTableCell>
                                             <StyledTableCell align="center">
-                                                {secondrow.status === 'pending' ?
-                                                    <Button onClick={() => ViewBankSlip()} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, width: '200px' }}> View Bank Slip</Button> :
-                                                    <Button onClick={() => ViewVerified()} sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' }, width: '200px' }}> View Verified Details</Button>}
+                                                {menurow.admin_verification === 'pending' ?
+                                                    <Button onClick={() => viewSlipDetailscc(menurow.refund_id)} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, width: '200px' }}> View Bank Slip Details</Button> :
+                                                    <Button onClick={() => viewRefundccDetails(menurow.refund_id)} sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' }, width: '200px' }}> View Verified Details</Button>}
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     ))}
@@ -352,7 +474,7 @@ const Refund = () => {
                 </div>
             )}
 
-            {/* view to verify bank slip */}
+            {/* view to verify bank slip - boarding house */}
             {verify && (
                 <div style={{
                     backdropFilter: 'blur(4px)',
@@ -469,7 +591,7 @@ const Refund = () => {
                 </div>
             )}
 
-            {/*view verified bank details  */}
+            {/*view verified bank details - boaridng house */}
             {viewVerify && (
                 <div style={{
                     margin: '20px',
@@ -513,6 +635,255 @@ const Refund = () => {
 
                                     <img
                                         src={getImageSrc1(menuview.refund_slip)}
+                                        alt="bank slip"
+                                        style={{ width: '500px', marginLeft: '50px' }} />
+
+                                    <div style={{ backgroundColor: 'white', padding: '10px', borderRadius: '10px', marginTop: '10px' }}>
+                                        <div className="form-topic">
+                                            Bank Details
+                                        </div>
+
+                                        <div className="form-label">
+                                            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                                <FormLabel>Account Number</FormLabel>
+                                                <Box
+                                                    component="form"
+                                                    sx={{
+                                                        '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                                    }}
+                                                    noValidate
+                                                    autoComplete="off"
+                                                    sx={{ marginLeft: '30px' }}
+                                                >
+                                                    <div>
+                                                        <TextField
+                                                            disabled
+                                                            id="outlined-disabled"
+                                                            label=""
+                                                            defaultValue={menuview.acc_no}
+                                                            sx={{ width: '430px' }}
+                                                        /></div>
+                                                </Box>
+                                            </div>
+                                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '10px' }}>
+                                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                    <FormLabel>Bank </FormLabel>
+                                                    <Box
+                                                        component="form"
+                                                        sx={{
+                                                            '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                                        }}
+                                                        noValidate
+                                                        autoComplete="off"
+
+                                                    >
+                                                        <div>
+                                                            <TextField
+                                                                disabled
+                                                                id="outlined-disabled"
+                                                                label=""
+                                                                defaultValue={menuview.bank}
+                                                            /></div>
+
+                                                    </Box>
+                                                </div>
+                                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                    <FormLabel>Branch </FormLabel>
+                                                    <Box
+                                                        component="form"
+                                                        sx={{
+                                                            '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                                        }}
+                                                        noValidate
+                                                        autoComplete="off"
+
+                                                    >
+                                                        <div>
+                                                            <TextField
+                                                                disabled
+                                                                id="outlined-disabled"
+                                                                label=""
+                                                                defaultValue={menuview.branch}
+                                                            /></div>
+                                                    </Box>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </FormControl>
+                    ))}
+                </div>
+            )}
+
+            {/* CARE CENTER - form with bank slip details */}
+            {ccverify && (
+                <div style={{
+                    backdropFilter: 'blur(4px)',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    margin: '20px',
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    zIndex: 1001
+                }}>
+                    {ccverifydetails && ccverifydetails.map((verimenu, index) => (
+                        <FormControl style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            padding: '20px',
+                            borderRadius: '10px',
+                            backgroundColor: '#F0F0F5',
+                            marginLeft: '5%',
+                            marginTop: '5%',
+                            width: '550px',
+                            padding: '20px',
+                            position: 'relative',
+                            zIndex: 1001,
+                        }}>
+                            <div>
+                                <IconButton onClick={CancelccVerify}><CloseIcon sx={{ color: 'white', backgroundColor: 'red', marginLeft: '470px' }} /></IconButton>
+                            </div>
+                            <div>
+                                <div className="form-topic">
+                                    Bank Slip
+                                </div>
+
+                                <img
+                                    src={Slip}
+                                    alt="bank slip"
+                                    style={{ width: '500px' }} />
+                                {/* <img
+                                    src={getImageSrc3(verimenu.refund_slip)}
+                                    alt="bank slip"
+                                    style={{ width: '500px' }} /> */}
+
+                                <div style={{ backgroundColor: 'white', borderRadius: '10px', padding: '10px', marginTop: '10px', width: '500px' }}>
+                                    <div className="form-topic">
+                                        Bank Details
+                                    </div>
+
+                                    <div className="form-label" style={{ marginLeft: '100px' }}>
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <FormLabel>Account Number </FormLabel>
+                                            <Box
+                                                component="form"
+                                                sx={{
+                                                    '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                                }}
+                                                noValidate
+                                                autoComplete="off"
+                                            >
+                                                <div>
+                                                    <TextField
+                                                        disabled
+                                                        id="outlined-disabled"
+                                                        label=""
+                                                        defaultValue={verimenu.acc_no}
+                                                    /></div>
+                                            </Box>
+                                        </div>
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <FormLabel>Bank </FormLabel>
+                                            <Box
+                                                component="form"
+                                                sx={{
+                                                    '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                                }}
+                                                noValidate
+                                                autoComplete="off"
+                                            >
+                                                <div>
+                                                    <TextField
+                                                        disabled
+                                                        id="outlined-disabled"
+                                                        label=""
+                                                        defaultValue={verimenu.bank}
+                                                    /></div>
+                                            </Box>
+                                        </div>
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <FormLabel>Branch </FormLabel>
+                                            <Box
+                                                component="form"
+                                                sx={{
+                                                    '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                                }}
+                                                noValidate
+                                                autoComplete="off"
+                                            >
+                                                <div>
+                                                    <TextField
+                                                        disabled
+                                                        id="outlined-disabled"
+                                                        label=""
+                                                        defaultValue={verimenu.branch}
+                                                    /></div>
+                                            </Box>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <Button onClick={() => AdminVerifycc(verimenu.refund_id)} sx={{ background: "orange", color: 'white', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "orange" }, marginRight: '10px' }}>Verify</Button>
+                                    <Button onClick={() => AdminRejectedcc(verimenu.refund_id)} sx={{ background: "red", color: 'white', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "red" }, marginLeft: '10px' }}>Reject</Button>
+                                </div>
+                            </div>
+                        </FormControl>
+                    ))}
+                </div>
+            )}
+
+            {/* CARE CENTER - verified bank details viewing */}
+            {viewccVerify && (
+                <div style={{
+                    margin: '20px',
+                    width: '100%',
+                    backdropFilter: 'blur(4px)',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    zIndex: 1001,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}>
+                    {redetailscc && redetailscc.map((menuview, index) => (
+                        <FormControl sx={{
+                            backgroundColor: '#F0F0F5',
+                            borderRadius: '10px',
+                            marginLeft: '5%',
+                            marginTop: '5%',
+                            width: '700px',
+                            padding: '20px',
+                            position: 'relative',
+                            zIndex: 1001,
+                        }}>
+                            <div>
+                                <IconButton onClick={AfterccViewing}><CloseIcon sx={{ color: 'white', backgroundColor: 'red', marginLeft: '600px' }} /></IconButton>
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'row', padding: '10px', borderRadius: '10px' }}>
+                                <div>
+                                    <div className="form-topic">
+                                        Bank Slip
+                                    </div>
+
+                                    <Typography>
+                                        {menuview.admin_verification === 'verified' ?
+                                            <Button sx={{ background: "blue", width: '100%', marginTop: '10px', marginBottom: '20px', ':hover': { backgroundColor: "blue" }, marginRight: '10px', color: 'white' }}>Verified</Button> :
+                                            menuview.admin_verification === 'rejected' ?
+                                                <Button sx={{ background: "red", width: '100%', marginTop: '10px', marginBottom: '20px', ':hover': { backgroundColor: "red" }, marginRight: '10px', color: 'white' }}>Rejected</Button> :
+                                                ""}
+                                    </Typography>
+
+                                    <img
+                                        // src={getImageSrc4(menuview.refund_slip)}
+                                        src={Slip}
                                         alt="bank slip"
                                         style={{ width: '500px', marginLeft: '50px' }} />
 
