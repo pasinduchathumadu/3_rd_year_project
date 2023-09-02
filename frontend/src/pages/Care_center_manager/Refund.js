@@ -140,9 +140,9 @@ const Refund = () => {
         setview(false)
     }
     // get bank slip src 
-    // const getBankSlipSrc = (imageName) => {
-    //     return require(`../../../../backend/images/store/${imageName}`)
-    // }
+    const getBankSlipSrc = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+    }
 
 
 
@@ -656,7 +656,10 @@ const Refund = () => {
 
                                 <div className="form-label">
                                     <FormLabel>Uploaded Bank Slip : </FormLabel>
-                                    <img src={Slip} alt="bank slip" style={{ width: '50%', height: 'auto', borderRadius: '10px' }} />
+                                    <img 
+                                        src={drow.refund_slip === "" ? getBankSlipSrc("noimage.png") : getBankSlipSrc(drow.refund_slip)} 
+                                        alt="bank slip" 
+                                        style={{ width: '50%', height: 'auto', borderRadius: '10px' }} />
                                 </div>
                             </div>
                         </FormControl>

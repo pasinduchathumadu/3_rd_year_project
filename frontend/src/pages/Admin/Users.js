@@ -258,18 +258,6 @@ const Users = () => {
         setUsers(0)
     }
 
-    // clients pet viewing
-    // const PetViewing = () => {
-    //     setUsers(false);
-    //     setpet(true);
-    // }
-
-    // finish clients pet viewing
-    // const FinishPetViewing = () => {
-    //     setpet(false);
-    //     setUsers(1);
-    // }
-
     // warn box - delete manager
     const [warn, setwarn] = useState(false)
     const [deleteid, setdeleteid] = useState("")
@@ -372,8 +360,6 @@ const Users = () => {
         setpet(false);
         setUsers(1);
     }
-
-
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
@@ -836,7 +822,7 @@ const Users = () => {
                                 <div style={{ backgroundColor: '#F0F0F5', borderRadius: '10px', padding: '10px' }}>
                                     <div className="form-label">
                                         <img
-                                            src={getPetImageSrc(petrow.image)}
+                                            src={petrow.image === "" ? getPetImageSrc("noimage.png") : getPetImageSrc(petrow.image) }
                                             alt="pet image"
                                             component="img"
                                             style={{ width: '200px', height: 'auto', marginLeft: '150px', borderRadius: '20px' }} />
@@ -884,6 +870,7 @@ const Users = () => {
                                         </div>
                                     </div>
                                 </div>
+                                
                             </div>
                         </FormControl>
                     ))}
