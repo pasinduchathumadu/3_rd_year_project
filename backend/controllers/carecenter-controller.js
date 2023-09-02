@@ -185,6 +185,7 @@ export const ViewRefundDetails = async (req, res, next) => {
 }
 
 // ***** MIND RELAXING PETS *****
+// pet adding
 export const addingpet = async (req, res, next) => {
     const {
         petcategory,
@@ -225,3 +226,32 @@ export const addingpet = async (req, res, next) => {
         console.log(err)
     }
 }
+
+// pet viewing
+export const petViewing = async(req,res,next) => {
+    // const id = req.params.id
+    const sqlQuery = 'SELECT * FROM mind_relaxing_pets'
+    // const values = [id]
+
+    db.query(sqlQuery,  (err, data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+// pet deleting
+export const petDeleteing = async(req,res,next) => {
+    const id = req.params.id
+    const sqlQuery = 'DELETE FROM mind_relaxing_pets WHERE pet_id = ?'
+    const values = [id]
+
+    db.query(sqlQuery, values, (err, data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({message:'Deleted Successfully'})
+    })
+}
+
