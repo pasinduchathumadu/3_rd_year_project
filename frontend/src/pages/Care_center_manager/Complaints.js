@@ -90,14 +90,41 @@ function Complaints() {
       .catch((err) => console.log(err))
   })
 
-  // add new complain
+  const email = localStorage.getItem("care_center_manager")
+  // add new complain form
   const [form, setform] = useState(false)
+
+  const [complain, setcomplain] = useState("")
   const [message, setMessage] = useState("");
   const [error, seterror] = useState("");
-  // click on add new complain button
-  const openFormAdd = () => {
+
+  // open ad new complain form
+  const OpenComplainForm = () => {
     setform(true)
     setvalue(false)
+  }
+  // click on add new complain button
+  const add_complain = async () => {
+    if (complain === '') {
+      seterror(true)
+      setMessage('Please fill the filed')
+      return;
+    }
+    try {
+      const res = await axios.post(`http://localhost:5000/pet_care/care_center_manager/add_complain`, {
+        email,
+        complain
+      })
+      if (res.data.message === 'There is an internal error') {
+        setMessage('Error')
+        seterror(true)
+      } else if (res.data.message === 'success') {
+        setform(false)
+        setvalue(1)
+      }
+    } catch (err) {
+      console.log('There is an internal error')
+    }
   }
 
   // cancel without adding complain
@@ -123,20 +150,87 @@ function Complaints() {
       .catch((err) => console.log(err))
 
   })
-  // add repsonse button click
+  // add repsonse button click 
   const [addResponce, setaddResponce] = useState("")
-  const ResponseForm = () => {
-    setaddResponce(true)
-    setvalue(false)
-  }
 
+  // add response for client complains - view details on form
+  const [error1, seterror1] = useState(false)
+  const [message1, setmessage1] = useState("")
+  const [resdetails, setresdetails] = useState("")
+
+  const complainDetails = async (id) => {
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/care_center_manager/complainDetails/${id}`)
+      if (res.data.message === 'There is an internal error') {
+        seterror1(true)
+        setmessage1('There is an internal error')
+      } else {
+        setaddResponce(true)
+        setresdetails(res.data.data)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  // add response - post
+  const [newres, setnewres] = useState("")
+  const handleResponse = (event) => {
+    setnewres(event.target.value)
+  }
+  const addResponse = async (id) => {
+    setvalue(0)
+    setaddResponce(false)
+
+    try {
+      const res = await axios.post(`http://localhost:5000/pet_care/care_center_manager/addResponse`, {
+        id,
+        newres
+      })
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
   // close withour responcing 
   const backAddingRes = () => {
     setaddResponce(false)
     setvalue(0)
   }
 
+  // delete my pending complain
+  const [warn, setwarn] = useState(false)
+  const [id, setid] = useState("") // id - going to be deleted
+  const [error2, seterror2] = useState(false)
+  const [message2, setmessage2] = useState("")
 
+  // display warning box (click on delete icon)
+  const displayWarn = (id) => {
+    setwarn(true)
+    setvalue(false)
+    setid(id)
+  }
+
+  // delete selected complain
+  const deleteMyComplain = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/care_center_manager/deleteMyComplain/${id}`)
+      if (res.data.message === 'There is an internal error') {
+        seterror2(true)
+        setmessage2('There is an internal error')
+      } else {
+        setvalue(1)
+        setwarn(false)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  // close watn box without deleting
+  const cancelDelete = () => {
+    setwarn(false)
+    setvalue(1)
+  }
 
   return (
     <>
@@ -229,10 +323,10 @@ function Complaints() {
                 <TableHead>
                   <TableRow>
                     <StyledTableCell align="center" sx={{ width: "10%" }}>
-                      Client ID
+                      Complaint ID
                     </StyledTableCell>
                     <StyledTableCell align="center" sx={{ width: "15%" }}>
-                      Complaint ID
+                      Client ID
                     </StyledTableCell>
                     <StyledTableCell align="center" sx={{ width: "30%" }}>
                       Complaint
@@ -251,7 +345,7 @@ function Complaints() {
                 <TableBody>
                   {clientcomplain && clientcomplain.map((clientrow, index) => (
                     <StyledTableRow key={clientrow.complain_id}>
-                      <StyledTableCell component="th" scope="row">
+                      <StyledTableCell aling="center" component="th" scope="row">
                         {clientrow.complain_id}
                       </StyledTableCell>
                       <StyledTableCell align="center">
@@ -269,7 +363,7 @@ function Complaints() {
                       <StyledTableCell align="center">
                         {clientrow.complain_status === 'pending'
                           ? (
-                            <Button sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}  onClick={ResponseForm}> Add Response</Button>
+                            <Button sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }} onClick={() => complainDetails(clientrow.complain_id)}> Add Response</Button>
                           ) : (
                             clientrow.response_txt
                           )}
@@ -287,7 +381,7 @@ function Complaints() {
               <div className="drop-down-box">
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                   <div className="top-button-header">
-                    <Button variant="contained" sx={{ background: "black", ':hover': { backgroundColor: "black" } }} onClick={openFormAdd}>Add New Complain <AddIcon sx={{ marginLeft: '10px' }} /></Button>
+                    <Button variant="contained" sx={{ background: "black", ':hover': { backgroundColor: "black" } }} onClick={OpenComplainForm}>Add New Complain <AddIcon sx={{ marginLeft: '10px' }} /></Button>
                   </div>
                   <div>
                     <Box sx={{ width: '150px', marginRight: '25px' }}>
@@ -338,7 +432,7 @@ function Complaints() {
                           </StyledTableCell>
                           <StyledTableCell align="center">
                             {myrow.complain_status === 'pending' ?
-                              <IconButton ><DeleteIcon sx={{ color: 'red' }} /></IconButton> : ""}
+                              <IconButton onClick={() => displayWarn(myrow.complain_id)} ><DeleteIcon sx={{ color: 'red' }} /></IconButton> : ""}
                           </StyledTableCell>
                         </StyledTableRow>
                       ))}
@@ -392,7 +486,7 @@ function Complaints() {
               </div>
               <div className="form-label">
                 <FormLabel>Enter your complain: </FormLabel>
-                <TextField id="outlined-basic" placeholder="Complain" variant="outlined" sx={{ marginRight: '20px', marginTop: '10px' }} required />
+                <TextField id="outlined-basic" placeholder="Complain" variant="outlined" sx={{ marginRight: '20px', marginTop: '10px' }} onChange={(e) => setcomplain(e.target.value)} required />
               </div>
               {
                 error && (
@@ -401,8 +495,7 @@ function Complaints() {
                   </Stack>
                 )
               }
-
-              <Button variant="contained" sx={{ background: 'orange', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Complain</Button>
+              <Button variant="contained" onClick={() => add_complain()} sx={{ background: 'orange', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Complain</Button>
             </div>
           </FormControl>
         </div>
@@ -421,16 +514,16 @@ function Complaints() {
           justifyContent: 'center',
           alignItems: 'center',
           marginRight: '300px',
-          zIndex: 1001, 
+          zIndex: 1001,
         }}>
-          {/* {resdetails && resdetails.map((resrow, index) => ( */}
+          {resdetails && resdetails.map((resrow, index) => (
             <FormControl sx={{
               marginLeft: '5%',
               marginTop: '30%',
               borderRadius: '10px',
               width: '600px',
               padding: '20px',
-              position: 'relative', 
+              position: 'relative',
               zIndex: 1001,
               backgroundColor: 'black'
             }}>
@@ -457,7 +550,7 @@ function Complaints() {
                         disabled
                         id="outlined-disabled"
                         label=""
-                        defaultValue="{resrow.complain_id}"
+                        defaultValue={resrow.complain_id}
                       /></div>
                   </Box>
                 </div>
@@ -476,7 +569,7 @@ function Complaints() {
                         disabled
                         id="outlined-disabled"
                         label=""
-                        defaultValue="{resrow.complain_id}"
+                        defaultValue={resrow.complain_txt}
                       /></div>
                   </Box>
                 </div>
@@ -487,16 +580,54 @@ function Complaints() {
                     id="outlined-basic"
                     placeholder=" response"
                     variant="outlined"
-                   
+                    onChange={handleResponse}
                     sx={{ marginRight: '20px', marginLeft: '10px' }} />
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                  <Button variant="contained"  sx={{ background: "orange", width: '100%', marginRight: '10px', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Response</Button>
+                  <Button variant="contained" onClick={() => addResponse(resrow.complain_id)} sx={{ background: "orange", width: '100%', marginRight: '10px', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Response</Button>
                 </div>
               </div>
             </FormControl>
-          {/* ))} */}
+          ))}
+        </div>
+      )}
+
+      {/* delete my complain (pending) - warn box */}
+      {warn && (
+        <div style={{
+          backdropFilter: 'blur(4px)',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          padding: '5px',
+          width: '100%',
+          borderRadius: '10px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginRight: '300px',
+          zIndex: 1001,
+          marginTop: '10%'
+        }}>
+          <div style={{ backgroundColor: 'black', padding: '10px' }}>
+            <div style={{
+              padding: '10px',
+              borderRadius: '5px',
+              backgroundColor: '#f0f0f5',
+              width: '500px',
+              position: 'relative',
+              zIndex: 1001
+            }}>
+              <Typography sx={{ textAlign: 'center' }}>Confirm Remove? </Typography>
+              <hr /><br />
+
+              <div style={{ display: 'flex', flexDirection: 'row', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                <Button onClick={deleteMyComplain} sx={{ backgroundColor: 'orange', color: 'white', margin: '10px', ':hover': { backgroundColor: 'orange' } }}>Confirm</Button>
+                <Button onClick={cancelDelete} sx={{ backgroundColor: 'red', color: 'white', margin: '10px', ':hover': { backgroundColor: 'red' } }}>Cancel</Button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </>

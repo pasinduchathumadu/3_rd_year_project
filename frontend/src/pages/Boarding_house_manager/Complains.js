@@ -446,9 +446,8 @@ const Complains = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    // Adjust as needed
-                    marginRight: '300px', // Adjust as needed
-                    zIndex: 1001, // Ensure the content is above the overlay
+                    marginRight: '300px',
+                    zIndex: 1001, 
                 }}>
                     {resdetails && resdetails.map((resrow, index) => (
                         <FormControl sx={{
@@ -457,7 +456,7 @@ const Complains = () => {
                             borderRadius: '10px',
                             width: '600px',
                             padding: '20px',
-                            position: 'relative', // Add this to ensure content appears on top of the overlay
+                            position: 'relative', 
                             zIndex: 1001,
                             backgroundColor: 'black'
                         }}>
