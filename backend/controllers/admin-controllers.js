@@ -302,7 +302,7 @@ export const countClients = async (req, res, next) => {
 
 }
 
-// count complains separetly
+// count managers complains separetly
 export const countComplains = async (req, res, next) => {
     const sqlQuery = 'SELECT (SELECT COUNT(manager_id) FROM manager_complain WHERE complain_status = "pending") AS pending_com, (SELECT COUNT(manager_id) FROM manager_complain WHERE complain_status = "completed") AS completed_com';
 
@@ -314,21 +314,22 @@ export const countComplains = async (req, res, next) => {
     })
 }
 
-// all refund verfication count ***(only boarding) ***
+// all refund verfication count 
 export const countRefund = async (req, res, next) => {
-    const sqlQuery = 'SELECT (SELECT COUNT(refund_id) FROM boarding_refund WHERE admin_verification = "pending" AND refund_status = "completed" ) AS pending, (SELECT COUNT(refund_id) FROM boarding_refund WHERE admin_verification != "pending" AND refund_status = "completed") AS completed';
+    const sqlQuery = 'SELECT (SELECT COUNT(refund_id) FROM boarding_refund WHERE admin_verification = "pending" AND refund_status = "completed") AS boarding_pending, (SELECT COUNT(refund_id) FROM boarding_refund WHERE admin_verification != "pending" AND refund_status = "completed") AS boarding_completed, (SELECT COUNT(refund_id) FROM carecenter_refund WHERE admin_verification = "pending" AND refund_status = "completed") AS carecenter_pending, (SELECT COUNT(refund_id) FROM carecenter_refund WHERE admin_verification != "pending" AND refund_status = "completed") AS carecenter_completed'
 
     db.query(sqlQuery, (err, data) => {
         if (err) {
             return res.json({ message: 'There is an internal error' })
         }
-        return res.json({ data })
+      
+        return res.json({ data})
     })
 }
 
-// pending count refund verfication count ***(only boarding) ***
+// pending count refund verfication count 
 export const countPendingrefund = async (req, res, next) => {
-    const sqlQuery = 'SELECT (SELECT COUNT(refund_id) FROM boarding_refund WHERE admin_verification = "pending" AND refund_status = "completed" ) AS pending';
+    const sqlQuery = 'SELECT (SELECT COUNT(refund_id) FROM boarding_refund WHERE admin_verification = "pending" AND refund_status = "completed" ) AS boarding, (SELECT COUNT(refund_id) FROM carecenter_refund WHERE admin_verification = "pending" AND refund_status = "completed" ) AS carecenter';
 
     db.query(sqlQuery, (err, data) => {
         if (err) {
