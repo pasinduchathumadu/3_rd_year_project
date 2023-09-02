@@ -214,6 +214,11 @@ const Clients = () => {
             console.log(err)
         }
     }
+    // get image 
+    const getSlipSrc = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+    }
+
     // after viewing the refund details
     const back = () => {
         setviewRefund(false);
@@ -230,19 +235,19 @@ const Clients = () => {
     const [error3, seterror3] = useState(false)
     const [message3, setmessage3] = useState("")
 
-    const AcceptedtoArrived = async(id) => {
+    const AcceptedtoArrived = async (id) => {
         try {
             const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/AcceptedtoArrived`, {
                 id
             })
-            if(res.data.message === 'There is an internal error') {
+            if (res.data.message === 'There is an internal error') {
                 setmessage3('There is an internal error')
                 seterror3(true)
-            }else if(res.data.message === 'arrived') {
+            } else if (res.data.message === 'arrived') {
                 setShowRequests(0)
             }
 
-        }catch(err) {
+        } catch (err) {
             console.log('There is an internal error')
         }
     }
@@ -251,23 +256,23 @@ const Clients = () => {
     const [error4, seterror4] = useState(false)
     const [message4, setmessage4] = useState("")
 
-    const ArrviedtoCompleted = async(id) => {
+    const ArrviedtoCompleted = async (id) => {
         try {
             const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/ArrviedtoCompleted`, {
                 id
             })
-            if(res.data.message === 'There is an internal error') {
+            if (res.data.message === 'There is an internal error') {
                 setmessage4('There is an internal error')
                 seterror4(true)
-            }else if(res.data.message === 'completed') {
+            } else if (res.data.message === 'completed') {
                 setShowRequests(0)
             }
 
-        }catch(err) {
+        } catch (err) {
             console.log('There is an internal error')
         }
     }
-   
+
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
@@ -413,7 +418,7 @@ const Clients = () => {
                                                     requestrow.request_status === 'Arrived'
                                                         ? (<Button onClick={() => ArrviedtoCompleted(requestrow.request_id)} sx={{ color: 'white', width: '150px', backgroundColor: '#000000', ':hover': { backgroundColor: '#000000' } }}>Completed</Button>)
                                                         : ""}
-                                                        
+
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     ))}
@@ -535,7 +540,7 @@ const Clients = () => {
                                         <img
                                             style={{ width: '200px', height: 'auto', borderRadius: '10px' }}
                                             component={"img"}
-                                            src={getPetImageSrc(petrow.image)}
+                                            src={petrow.image === "" ? getPetImageSrc("noimage.png") : getPetImageSrc(petrow.image) }
                                             alt={petrow.name}
                                         />
                                     </div>
@@ -1061,7 +1066,10 @@ const Clients = () => {
 
                                 <div className="form-label">
                                     <FormLabel>Uploaded Bank Slip : </FormLabel>
-                                    <img src={Slip} alt="bank slip" style={{ width: '50%', height: 'auto', borderRadius: '10px' }} />
+                                    <img
+                                        src={drow.refund_slip === "" ? getSlipSrc("noimage.png") : getSlipSrc(drow.refund_slip)}
+                                        alt="bank slip"
+                                        style={{ width: '50%', height: 'auto', borderRadius: '10px' }} />
                                 </div>
                             </div>
                         </FormControl>

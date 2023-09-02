@@ -44,16 +44,16 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 
 // data for care center  refunds
-function createData2(rf_id, o_id, date, time, status) {
-    return { rf_id, o_id, date, time, status };
-}
+// function createData2(rf_id, o_id, date, time, status) {
+//     return { rf_id, o_id, date, time, status };
+// }
 
-const secondrows = [
-    createData2(1, 4, '2023-06-20', '10:00:00', 'pending'),
-    createData2(2, 6, '2023-06-25', '12:00:00', 'pending'),
-    createData2(3, 9, '2023-07-12', '10:30:00', 'completed'),
-    createData2(4, 12, '2023-07-14', '14:10:00', 'completed'),
-];
+// const secondrows = [
+//     createData2(1, 4, '2023-06-20', '10:00:00', 'pending'),
+//     createData2(2, 6, '2023-06-25', '12:00:00', 'pending'),
+//     createData2(3, 9, '2023-07-12', '10:30:00', 'completed'),
+//     createData2(4, 12, '2023-07-14', '14:10:00', 'completed'),
+// ];
 
 const Refund = () => {
     // drop down
@@ -250,9 +250,9 @@ const Refund = () => {
         }
     }
     // get bank slip image from db
-    // const getImageSrc3 = (imageName) => {
-    //     return require(`../../../../backend/images/store/${imageName}`)
-    // }
+    const getImageSrc3 = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+    }
 
     // cancel without verifying  - close
     const CancelccVerify = () => {
@@ -301,35 +301,35 @@ const Refund = () => {
         }
     }
 
-     // view refunded verification done details
-     const [redetailscc, setredetailscc] = useState([])
-     const [error7, seterror7] = useState(false)
-     const [messsage7, setmessage7] = useState("")
-     const [viewccVerify, setviewccVerify] =useState(false)
- 
-     const viewRefundccDetails = async (id) => {
-         try {
-             const res = await axios.get(`http://localhost:5000/pet_care/admin/viewRefundccDetails/${id}`)
-             if (res.data.message === 'There is an internal error') {
-                 seterror7(true)
-                 setmessage7('There is an internal error')
-             } else {
+    // view refunded verification done details
+    const [redetailscc, setredetailscc] = useState([])
+    const [error7, seterror7] = useState(false)
+    const [messsage7, setmessage7] = useState("")
+    const [viewccVerify, setviewccVerify] = useState(false)
+
+    const viewRefundccDetails = async (id) => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/admin/viewRefundccDetails/${id}`)
+            if (res.data.message === 'There is an internal error') {
+                seterror7(true)
+                setmessage7('There is an internal error')
+            } else {
                 setviewccVerify(true)
                 setredetailscc(res.data.data)
-             }
-         } catch (err) {
-             console.log(err)
-         }
-     }
-     // get the bank slip image
-     const getImageSrc4 = (imageName) => {
-         return require(`../../../../backend/images/store/${imageName}`)
-     }
-     // after viewing of refunded details- close
-     const AfterccViewing = () => {
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    // get the bank slip image
+    const getImageSrc4 = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+    }
+    // after viewing of refunded details- close
+    const AfterccViewing = () => {
         setviewccVerify(false);
-         setrefund(1);
-     }
+        setrefund(1);
+    }
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
@@ -511,7 +511,7 @@ const Refund = () => {
                                 </div>
 
                                 <img
-                                    src={getImageSrc2(verimenu.refund_slip)}
+                                    src={verimenu.refund_slip === "" ? getImageSrc2("noimage.png") : getImageSrc2(verimenu.refund_slip)}
                                     alt="bank slip"
                                     style={{ width: '500px' }} />
 
@@ -634,7 +634,7 @@ const Refund = () => {
                                     </Typography>
 
                                     <img
-                                        src={getImageSrc1(menuview.refund_slip)}
+                                        src={menuview.refund_slip === "" ? getImageSrc1("noimage.png") : getImageSrc1(menuview.refund_slip)}
                                         alt="bank slip"
                                         style={{ width: '500px', marginLeft: '50px' }} />
 
@@ -755,13 +755,9 @@ const Refund = () => {
                                 </div>
 
                                 <img
-                                    src={Slip}
+                                    src={verimenu.refund_slip === "" ? getImageSrc3("noimage.png") : getImageSrc3(verimenu.refund_slip) }  
                                     alt="bank slip"
                                     style={{ width: '500px' }} />
-                                {/* <img
-                                    src={getImageSrc3(verimenu.refund_slip)}
-                                    alt="bank slip"
-                                    style={{ width: '500px' }} /> */}
 
                                 <div style={{ backgroundColor: 'white', borderRadius: '10px', padding: '10px', marginTop: '10px', width: '500px' }}>
                                     <div className="form-topic">
@@ -881,9 +877,8 @@ const Refund = () => {
                                                 ""}
                                     </Typography>
 
-                                    <img
-                                        // src={getImageSrc4(menuview.refund_slip)}
-                                        src={Slip}
+                                    <img                                      
+                                        src={menuview.refund_slip === "" ? getImageSrc4("noimage.png") : getImageSrc4(menuview.refund_slip) }
                                         alt="bank slip"
                                         style={{ width: '500px', marginLeft: '50px' }} />
 
