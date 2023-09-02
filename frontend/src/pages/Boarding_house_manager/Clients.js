@@ -25,7 +25,9 @@ import Slip from '../../assests/bankslip1.png';
 import axios from "axios";
 // import CircleIcon from '@mui/icons-material/Circle';
 import CloseIcon from '@mui/icons-material/Close';
-import {  useNavigate } from "react-router";
+import { useNavigate } from "react-router";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -177,7 +179,7 @@ const Clients = () => {
                 id,
                 amount
             })
-        }catch(err) {
+        } catch (err) {
             console.log(err)
         }
     }
@@ -431,10 +433,10 @@ const Clients = () => {
                                                 {refundrow.admin_verification === 'rejected' && refundrow.refund_status === 'completed'
                                                     ? (<Button sx={{ color: 'white', width: '60%', backgroundColor: 'red', ':hover': { backgroundColor: 'red' } }}>Rejected</Button>)
                                                     : refundrow.admin_verification === 'verified' && refundrow.refund_status === 'completed'
-                                                    ? (<Button sx={{ color: 'white', width: '60%', backgroundColor: 'blue', ':hover': { backgroundColor: 'blue' } }}>Verified</Button>)
-                                                    : refundrow.admin_verification === 'pending' && refundrow.refund_status === 'completed'
-                                                    ? (<Button sx={{ color: 'white', width: '60%', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }}>Pending</Button>)
-                                                    : ""
+                                                        ? (<Button sx={{ color: 'white', width: '60%', backgroundColor: 'blue', ':hover': { backgroundColor: 'blue' } }}>Verified</Button>)
+                                                        : refundrow.admin_verification === 'pending' && refundrow.refund_status === 'completed'
+                                                            ? (<Button sx={{ color: 'white', width: '60%', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }}>Pending</Button>)
+                                                            : ""
                                                 }
                                             </StyledTableCell>
                                         </StyledTableRow>
@@ -458,8 +460,8 @@ const Clients = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    marginRight: '300px', 
-                    zIndex: 1001, 
+                    marginRight: '300px',
+                    zIndex: 1001,
                 }}>
                     {petdetails && petdetails.map((petrow, index) => (
                         <FormControl sx={{
@@ -617,9 +619,9 @@ const Clients = () => {
                     height: '50%',
                     display: 'flex',
                     justifyContent: 'center',
-                    alignItems: 'center', 
-                    marginRight: '300px', 
-                    zIndex: 1001, 
+                    alignItems: 'center',
+                    marginRight: '300px',
+                    zIndex: 1001,
                 }}>
                     {details1 && details1.map((drow1, index) => (
                         <FormControl sx={{
@@ -771,14 +773,25 @@ const Clients = () => {
 
                                 <div className="form-label">
                                     <FormLabel>Upload Bank Slip : </FormLabel>
-                                    <TextField
+                                    {/* <TextField
                                         sx={{ marginRight: '20px', marginLeft: '10px' }}
                                         type="file"
                                         variant="outlined"
                                         placeholder="Choose a file"
-                                        inputProps={{ accept: 'image/*' }} // Add the accepted file types if needed
-                                    // onChange={handleFileChange}
-                                    />
+                                        inputProps={{ accept: 'image/*' }} 
+                                    /> */}
+                                    <div style={{ display: 'inline' }}>
+                                        <Button
+                                            variant="contained"
+                                            component="label"
+
+                                            startIcon={<CloudUploadIcon />}
+                                        >
+                                            Upload File
+                                            <input type="file" hidden required />
+
+                                        </Button>
+                                    </div>
                                 </div>
 
                                 <div>
@@ -803,7 +816,7 @@ const Clients = () => {
                     justifyContent: 'center',
                     alignItems: 'center',
                     marginRight: '300px',
-                    zIndex: 1001, 
+                    zIndex: 1001,
                 }}>
                     {details && details.map((drow, index) => (
                         <FormControl sx={{
@@ -813,8 +826,8 @@ const Clients = () => {
                             width: '1000px',
                             padding: '20px',
                             backgroundColor: 'black',
-                            position: 'relative', 
-                            zIndex: 1001, 
+                            position: 'relative',
+                            zIndex: 1001,
                         }}>
                             <div style={{ backgroundColor: 'white', paddingTop: '20px', paddingBottom: '20px', paddingRight: '60px', paddingLeft: '60px', borderRadius: '10px' }}>
                                 <div>

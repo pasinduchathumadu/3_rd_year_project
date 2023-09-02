@@ -19,6 +19,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { FormLabel, TextField } from "@mui/material";
 import axios from "axios";
 import Slip from '../../assests/bankslip1.png';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -107,13 +108,13 @@ const Refund = () => {
                 id,
                 amount
             })
-        }catch(err) {
+        } catch (err) {
             console.log(err)
         }
     }
 
     // click on view refuned details  button
-    const [view,setview] = useState(false)
+    const [view, setview] = useState(false)
     const [error1, seterror1] = useState(false)
     const [message1, setmessage1] = useState("")
     const [details, setdetails] = useState([])
@@ -309,7 +310,6 @@ const Refund = () => {
                                                     label=""
                                                     defaultValue={drow1.refund_id}
                                                 />
-
                                             </div>
                                         </Box>
 
@@ -416,16 +416,28 @@ const Refund = () => {
                                     </Box>
                                 </div><div className="form-label">
                                     <FormLabel>Upload Bank Slip: </FormLabel>
-                                    <TextField
+                                    {/* <TextField
                                         sx={{ marginRight: '20px', marginLeft: '10px' }}
                                         type="file"
                                         variant="outlined"
                                         placeholder="Choose a file"
                                         inputProps={{ accept: 'image/*' }}
-                                    />
+                                    /> */}
+                                    <div style={{ display: 'inline' }}>
+                                        <Button
+                                            variant="contained"
+                                            component="label"
+
+                                            startIcon={<CloudUploadIcon />}
+                                        >
+                                            Upload File
+                                            <input type="file" hidden  required />
+
+                                        </Button>
+                                    </div>
                                 </div>
                                 <div>
-                                    <Button variant="contained" onClick={() => refundAdding(drow1.request_id)} sx={{ background: 'orange', width: '100%', marginRight: '10px', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Place Refund</Button>
+                                    <Button variant="contained" onClick={() => refundAdding(drow1.refund_id)} sx={{ background: 'orange', width: '100%', marginRight: '10px', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Place Refund</Button>
                                 </div>
                             </div>
                         </FormControl>
@@ -446,7 +458,7 @@ const Refund = () => {
                     justifyContent: 'center',
                     alignItems: 'center',
                     marginRight: '300px',
-                    zIndex: 1001, 
+                    zIndex: 1001,
                 }}>
                     {details && details.map((drow, index) => (
                         <FormControl sx={{
@@ -456,8 +468,8 @@ const Refund = () => {
                             width: '1000px',
                             padding: '20px',
                             backgroundColor: 'black',
-                            position: 'relative', 
-                            zIndex: 1001, 
+                            position: 'relative',
+                            zIndex: 1001,
                         }}>
                             <div style={{ backgroundColor: 'white', paddingTop: '20px', paddingBottom: '20px', paddingRight: '60px', paddingLeft: '60px', borderRadius: '10px' }}>
                                 <div>
