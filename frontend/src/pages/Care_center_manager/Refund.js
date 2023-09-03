@@ -18,7 +18,7 @@ import Box from '@mui/material/Box';
 import CloseIcon from '@mui/icons-material/Close';
 import { FormLabel, TextField } from "@mui/material";
 import axios from "axios";
-import Slip from '../../assests/bankslip1.png';
+// import Slip from '../../assests/bankslip1.png';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 
@@ -414,15 +414,9 @@ const Refund = () => {
                                                 onChange={handleAmount} />
                                         </div>
                                     </Box>
-                                </div><div className="form-label">
+                                </div>
+                                <div className="form-label">
                                     <FormLabel>Upload Bank Slip: </FormLabel>
-                                    {/* <TextField
-                                        sx={{ marginRight: '20px', marginLeft: '10px' }}
-                                        type="file"
-                                        variant="outlined"
-                                        placeholder="Choose a file"
-                                        inputProps={{ accept: 'image/*' }}
-                                    /> */}
                                     <div style={{ display: 'inline' }}>
                                         <Button
                                             variant="contained"

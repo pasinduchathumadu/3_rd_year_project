@@ -62,7 +62,6 @@ export const addPackage = async (req, res, next) => {
 // get and view details of packages
 export const getPackage = async (req, res, next) => {
     const sqlQuery = 'SELECT package_name, price,symbol from boarding_package WHERE package_id = "1" ';
-  
 
     db.query(sqlQuery,  (err, data) => {
         if (err) {
@@ -70,7 +69,6 @@ export const getPackage = async (req, res, next) => {
         }
         return res.json({ data })
     })
-
 }
 
 // ---------BOARDING REQUESTS---------------------------------

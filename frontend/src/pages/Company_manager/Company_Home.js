@@ -14,6 +14,10 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
+import { PieChart } from '@mui/x-charts/PieChart';
+import AssessmentIcon from '@mui/icons-material/Assessment';
+
+
 
 const Company_Home = () => {
   // drop down
@@ -30,8 +34,7 @@ const Company_Home = () => {
         direction="row"
         justifyContent="space-between"
         padding={1}
-        sx={{ marginTop: "4%" }}
-      >
+        sx={{ marginTop: "4%" }}>
         <Box>
           <Typography variant="inherit" color="textSecondary">
             Company Manager
@@ -53,21 +56,19 @@ const Company_Home = () => {
           <img
             src={ProfilePicture}
             alt="profilepicture"
-            className="boarding-profile-picture"
-          />
+            className="boarding-profile-picture" />
         </Stack>
       </Stack>
 
-      <Box sx={{ backgroundColor: "orange" }}>
+      <Box sx={{ backgroundColor: "#f0f0f5", marginBottom: '20px' }}>
         <Stack
           direction="row"
           spacing={15}
           justifyContent="space-between"
-          alignItems="center"
-        >
+          alignItems="center">
           <Stack direction="row" justifyContent="center" alignItems="center">
             <AnalyticsIcon />
-            <Typography variant="h5" ml={2}>
+            <Typography variant="h6" ml={2} sx={{ fontWeight: 'bold' }}>
               Analytical Overview
             </Typography>
           </Stack>
@@ -81,8 +82,7 @@ const Company_Home = () => {
                 variant="filled"
                 label="Time"
                 l
-                sx={{ fontSize: "12px" }}
-              >
+                sx={{ fontSize: "12px", marginRight: "50px", width: "150px", marginTop: '20px' }}>
                 <MenuItem value={1}>Today</MenuItem>
                 <MenuItem value={2}>Last 7 days</MenuItem>
                 <MenuItem value={3}>Last Months</MenuItem>
@@ -95,19 +95,17 @@ const Company_Home = () => {
           direction="row"
           spacing={15}
           justifyContent="center"
-          alignItems="center"
-        >
-          <Box sx={{ width: "150px" }}>
-            <Card variant="outlined">
+          alignItems="center">
+          <Box sx={{ width: "200px", height: '150px' }}>
+            <Card variant="outlined" sx={{backgroundColor:"orange", borderRadius:'10px'}}>
               <CardContent>
                 <Stack
                   direction={"row"}
                   justifyContent="center"
-                  alignItems="center"
-                >
-                  <PetsIcon sx={{ color: "orange", marginRight: "5px" }} />
-                  <Typography sx={{ fontSize: 14 }} color="text.secondary">
-                    All Clients in company
+                  alignItems="center">
+                  <PetsIcon sx={{ color: "white", marginRight: "5px" }} />
+                  <Typography sx={{ fontSize: 14, fontWeight:'bold' }} color="text.secondary">
+                    Incoming Competitions
                   </Typography>
                 </Stack>
 
@@ -115,169 +113,113 @@ const Company_Home = () => {
                   fontWeight="bold"
                   variant="h3"
                   component="div"
-                  align="center"
-                >
+                  align="center">
                   10
                 </Typography>
               </CardContent>
             </Card>
           </Box>
-          <Box sx={{ width: "150px" }}>
-            <Card variant="outlined">
+
+          <Box sx={{ width: "200px", height: '150px' }}>
+            <Card variant="outlined" sx={{backgroundColor:"orange", borderRadius:'10px'}}>
               <CardContent>
                 <Stack
                   direction={"row"}
                   justifyContent="center"
-                  alignItems="center"
-                >
-                  <PetsIcon sx={{ color: "orange", marginRight: "5px" }} />
-                  <Typography sx={{ fontSize: 14 }} color="text.secondary">
-                    Incoming Competitions
+                  alignItems="center">
+                  <PetsIcon sx={{ color: "white", marginRight: "5px" }} />
+                  <Typography sx={{ fontSize: 14 , fontWeight:'bold'}} color="text.secondary">
+                    Pending Blogs Verifications
                   </Typography>
                 </Stack>
                 <Typography
                   fontWeight="bold"
                   variant="h3"
                   component="div"
-                  align="center"
-                >
-                  10
+                  align="center">
+                  4
                 </Typography>
               </CardContent>
             </Card>
           </Box>
-          <Box sx={{ width: "150px" }}>
-            <Card variant="outlined">
+
+          <Box sx={{ width: "200px", height: '150px' }}>
+            <Card variant="outlined" sx={{backgroundColor:"orange", borderRadius:'10px'}}>
               <CardContent>
                 <Stack
                   direction={"row"}
                   justifyContent="center"
-                  alignItems="center"
-                >
-                  <PetsIcon sx={{ color: "orange", marginRight: "5px" }} />
-                  <Typography sx={{ fontSize: 14 }} color="text.secondary">
-                    New Complaints
+                  alignItems="center">
+                  <PetsIcon sx={{ color: "white", marginRight: "5px" }} />
+                  <Typography sx={{ fontSize: 14, fontWeight:'bold' }} color="text.secondary">
+                    Pending Clients Complaints
                   </Typography>
                 </Stack>
                 <Typography
                   fontWeight="bold"
                   variant="h3"
                   component="div"
-                  align="center"
-                >
-                  10
+                  align="center">
+                  2
                 </Typography>
               </CardContent>
             </Card>
           </Box>
         </Stack>
 
-        <Box
-          sx={{
-            padding: "15px",
-            borderRadius: "20px",
-          }}
-        >
-          <Stack justifyContent="center" mb={2}>
-            <Typography variant="h5" ml={2}>
-              Recent Competitions
-            </Typography>
-          </Stack>
-          <Stack
-            justifyContent="center"
-            alignItems="center"
-            direction="row"
-            spacing={15}
-          >
-            <Box sx={{ minWidth: 275 }}>
-              <Card
-                sx={{
-                  maxWidth: 250,
-                }}
-              >
-                <CardActionArea onClick={handleCardClick}>
-                  <CardMedia
-                    sx={{ height: 150 }}
-                    image="https://images.unsplash.com/photo-1581753418434-51c11169a3c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80"
-                  />
-                  <CardContent>
-                    <Typography
-                      gutterBottom
-                      variant="h5"
-                      component="div"
-                      align="center"
-                    >
-                      Lizard
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Lizards are a widespread group of squamate reptiles, with
-                      over 6,000 species, ranging across all continents except
-                      Antarctica
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </Box>
-            <Box sx={{ minWidth: 275 }}>
-              <Card
-                sx={{
-                  maxWidth: 250,
-                }}
-              >
-                <CardActionArea onClick={handleCardClick}>
-                  <CardMedia
-                    sx={{ height: 150 }}
-                    image="https://images.unsplash.com/photo-1581753418434-51c11169a3c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80"
-                  />
-                  <CardContent>
-                    <Typography
-                      gutterBottom
-                      variant="h5"
-                      component="div"
-                      align="center"
-                    >
-                      Lizard
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Lizards are a widespread group of squamate reptiles, with
-                      over 6,000 species, ranging across all continents except
-                      Antarctica
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </Box>
-            <Box sx={{ minWidth: 275 }}>
-              <Card
-                sx={{
-                  maxWidth: 250,
-                }}
-              >
-                <CardActionArea onClick={handleCardClick}>
-                  <CardMedia
-                    sx={{ height: 150 }}
-                    image="https://images.unsplash.com/photo-1581753418434-51c11169a3c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80"
-                  />
-                  <CardContent>
-                    <Typography
-                      gutterBottom
-                      variant="h5"
-                      component="div"
-                      align="center"
-                    >
-                      Lizard
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Lizards are a widespread group of squamate reptiles, with
-                      over 6,000 species, ranging across all continents except
-                      Antarctica
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </Box>
-          </Stack>
-        </Box>
+        <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
+        <div className="boarding-wrapper" style={{ backgroundColor: 'white', height: '300px' }}>
+          <div className="boarding-box-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              <AssessmentIcon sx={{ marginRight: '10px', color: 'orange' }} />
+              <Typography style={{  fontSize: 14, color:"text.secondary"}}>Clients Blogs Verification</Typography>
+            </div>
+          </div>
+
+          <div>
+            <PieChart
+              colors={['#FBBD08', '#55555C']}
+              series={[
+                {
+                  data: [
+                    { id: 0, value: 15, label: 'Pending' },
+                    { id: 1, value: 25, label: 'Completed' },
+                  ],
+                },
+              ]}
+              width={600}
+              height={200}
+            />
+          </div>
+        </div>
+
+        <div className="boarding-wrapper" style={{ backgroundColor: 'white', height: '300px' }}>
+          <div className="boarding-box-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              <AssessmentIcon sx={{ marginRight: '10px', color: 'orange' }} />
+              <Typography style={{  fontSize: 14, color:"text.secondary"}}> Clients Categorize Analyse</Typography>
+            </div>
+          </div>
+
+          <div>
+            <PieChart
+              colors={['#FBBD08', '#55555C']}
+              series={[
+                {
+                  data: [
+                    { id: 0, value: 15, label: 'Premium' },
+                    { id: 1, value: 25, label: 'Regular' },
+                  ],
+                },
+              ]}
+              width={600}
+              height={200}
+            />
+          </div>
+        </div>
+        </div>
+
+
       </Box>
     </Box>
   );
