@@ -29,7 +29,13 @@ export default function TemporaryDrawer({
       "handling_complain",
     ];
   } else if (userType === "boarding_house_manager") {
-    data = ["Dashboard", "Packages", "Boarding Pets", "Boarding Requests", "Complains"];
+    data = [
+      "Dashboard",
+      "Packages",
+      "Boarding Pets",
+      "Boarding Requests",
+      "Complains",
+    ];
     data_link = [
       "boarding_dashboard",
       "boarding_packages",
@@ -39,28 +45,42 @@ export default function TemporaryDrawer({
     ];
   } else if (userType === "admin") {
     data = ["Dashboard", "Users", "Refund Verifications", "Complains"];
-    data_link = ["admin_dashboard", "admin_users", "admin_refund", "admin_complains"];
-  }
-  else if(userType === 'client'){
-    data = ["Dashboard","Add Pets"," Crossing Features ", "Shop","Non-Breadshop","Reports"];
-    data_link = ["dashboard","addpet","crossing","shop","NonBredShop","reports"]
-  }
-  else if(userType === 'care_center_manager'){
-    data = ["Appointments","Packages","Cargivers","Complains"];
-    data_link =["appointments","packages","caregiverlist","complaints"]
-  }
-
-   else if (userType === "company_manager") {
-    data = ["Dashboard", "Clients", "Competitions", "Complains"];
+    data_link = [
+      "admin_dashboard",
+      "admin_users",
+      "admin_refund",
+      "admin_complains",
+    ];
+  } else if (userType === "client") {
+    data = [
+      "Dashboard",
+      "Add Pets",
+      " Crossing Features ",
+      "Shop",
+      "Non-Breadshop",
+      "Reports",
+    ];
+    data_link = [
+      "dashboard",
+      "addpet",
+      "crossing",
+      "shop",
+      "NonBredShop",
+      "reports",
+    ];
+  } else if (userType === "care_center_manager") {
+    data = ["Appointments", "Packages", "Cargivers", "Complains"];
+    data_link = ["appointments", "packages", "caregiverlist", "complaints"];
+  } else if (userType === "company_manager") {
+    data = ["Dashboard", "Clients", "Competitions", "Complains", "Blog"];
     data_link = [
       "company_dashboard",
       "company_clients",
       "company_competitions",
       "company_complains",
+      "company_blog",
     ];
-  } 
-  
-  else {
+  } else {
     // Default values if userType doesn't match any of the conditions
     data = [];
     data_link = [];
