@@ -77,8 +77,7 @@ export const getPackage = async (req, res, next) => {
 
 // boarding requests viewing
 export const view_requests = async (req, res, next) => {
-    // const sqlQuery = 'SELECT * FROM boarding_request WHERE request_status = "completed" OR request_status = "pending" OR request_status = "accepted" OR request_status = "arrived"';
-    const sqlQuery = 'SELECT r.request_id, r.client_id, r.pet_id, r.package_id, r.board_arrival_date, r.board_carry_date, r.board_time, r.request_status, p.package_name, p.symbol FROM boarding_request r INNER JOIN boarding_package p ON p.package_id = r.package_id WHERE request_status = "completed" OR request_status = "pending" OR request_status = "accepted" OR request_status = "arrived"';
+    const sqlQuery = 'SELECT r.request_id, r.client_id, r.pet_id, r.package_id, r.board_arrival_date, r.board_carry_date, r.board_time, r.request_status, p.package_name FROM boarding_request r INNER JOIN boarding_package p ON p.package_id = r.package_id WHERE request_status = "completed" OR request_status = "pending" OR request_status = "accepted" OR request_status = "arrived"';
 
     db.query(sqlQuery, (err, data) => {
         if (err) {
@@ -132,6 +131,7 @@ export const toRefund = async(req,res,next) => {
     const id = req.params.id
     const sqlQuery = 'SELECT r.refund_id, r.request_id, r.client_id,  r.refund_mny, b.acc_no, b.bank, b.branch FROM boarding_refund r INNER JOIN client_bankdetails b ON r.client_id = b.client_id WHERE r.refund_id = ?'
     const values = [id]
+   
 
     db.query(sqlQuery, values, (err,data) => {
         if(err) {
@@ -174,6 +174,42 @@ export const viewPetDetails = async(req,res,next) => {
             return res.json({message: 'There is an internal error'})
         }
         return res.json({data})
+    })
+}
+
+// clients request => from accepted to arrived
+export const AcceptedtoArrived = async(req,res,next) => {
+    const {
+        id
+    } = req.body;
+
+    const status = 'Arrived'
+    const sqlQuery = 'UPDATE boarding_request SET request_status = ? WHERE request_id = ?'
+    const values = [status, id]
+
+    db.query(sqlQuery, values, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({message: 'arrived'})
+    })
+}
+
+// clients request => from arrvied to completed
+export const ArrviedtoCompleted = async(req,res,next) => {
+    const {
+        id
+    } = req.body;
+
+    const status = 'Completed'
+    const sqlQuery = 'UPDATE boarding_request SET request_status = ? WHERE request_id = ?'
+    const values = [status, id]
+
+    db.query(sqlQuery, values, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({message: 'completed'})
     })
 }
 

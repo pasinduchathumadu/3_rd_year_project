@@ -25,7 +25,9 @@ import Slip from '../../assests/bankslip1.png';
 import axios from "axios";
 // import CircleIcon from '@mui/icons-material/Circle';
 import CloseIcon from '@mui/icons-material/Close';
-import {  useNavigate } from "react-router";
+import { useNavigate } from "react-router";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -117,6 +119,8 @@ const Clients = () => {
     const [pet, setPet] = useState(false);
     const [addRefund, setaddRefund] = useState(false);
     const [viewRefund, setviewRefund] = useState(false);
+    const [error1, seterror1] = useState(false)
+    const [message1, setmessage1] = useState("")
 
     // click on view pet details button
     const [petdetails, setpetdetails] = useState([])
@@ -124,8 +128,8 @@ const Clients = () => {
         try {
             const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/viewPetDetails/${id}`)
             if (res.data.message === 'There is an internal error') {
-                seterror(true)
-                setmessage("There is an internal error")
+                seterror1(true)
+                setmessage1("There is an internal error")
             } else {
                 setPet(true)
                 setpetdetails(res.data.data)
@@ -146,15 +150,19 @@ const Clients = () => {
         setShowRequests(2);
     }
 
-    // after click on place refund (for pending refunds)
+    // after click on  refund (for pending refunds)
     const [details1, setdetails1] = useState([])
+    const [error2, seterror2] = useState(false)
+    const [message2, setmessage2] = useState("")
+
     const toRefund = async (id) => {
         try {
             const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/toRefund/${id}`)
             if (res.data.message === 'There is an internal error') {
-                seterror(true)
-                setmessage("There is an internal error")
+                seterror2(true)
+                setmessage2("There is an internal error")
             } else {
+                // console.log(details1)
                 setaddRefund(true)
                 setdetails1(res.data.data)
             }
@@ -176,7 +184,7 @@ const Clients = () => {
                 id,
                 amount
             })
-        }catch(err) {
+        } catch (err) {
             console.log(err)
         }
     }
@@ -206,6 +214,11 @@ const Clients = () => {
             console.log(err)
         }
     }
+    // get image 
+    const getSlipSrc = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+    }
+
     // after viewing the refund details
     const back = () => {
         setviewRefund(false);
@@ -217,6 +230,49 @@ const Clients = () => {
     const profile = () => {
         navigate("/profile")
     }
+
+    // clients' boarding requests - from accepted to arrived
+    const [error3, seterror3] = useState(false)
+    const [message3, setmessage3] = useState("")
+
+    const AcceptedtoArrived = async (id) => {
+        try {
+            const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/AcceptedtoArrived`, {
+                id
+            })
+            if (res.data.message === 'There is an internal error') {
+                setmessage3('There is an internal error')
+                seterror3(true)
+            } else if (res.data.message === 'arrived') {
+                setShowRequests(0)
+            }
+
+        } catch (err) {
+            console.log('There is an internal error')
+        }
+    }
+
+    // clients' boarding requests - from arrvied to completed
+    const [error4, seterror4] = useState(false)
+    const [message4, setmessage4] = useState("")
+
+    const ArrviedtoCompleted = async (id) => {
+        try {
+            const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/ArrviedtoCompleted`, {
+                id
+            })
+            if (res.data.message === 'There is an internal error') {
+                setmessage4('There is an internal error')
+                seterror4(true)
+            } else if (res.data.message === 'completed') {
+                setShowRequests(0)
+            }
+
+        } catch (err) {
+            console.log('There is an internal error')
+        }
+    }
+
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
@@ -342,7 +398,6 @@ const Clients = () => {
                                         <StyledTableCell align="center">Package</StyledTableCell>
                                         <StyledTableCell align="center">Arrival Date</StyledTableCell>
                                         <StyledTableCell align="center">Carry Date</StyledTableCell>
-                                        <StyledTableCell align="center">Arrival Time</StyledTableCell>
                                         <StyledTableCell align="center">Request Status</StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
                                     </TableRow>
@@ -356,14 +411,14 @@ const Clients = () => {
                                             <StyledTableCell align="center">{requestrow.package_name}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.board_arrival_date}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.board_carry_date}</StyledTableCell>
-                                            <StyledTableCell align="center">{requestrow.board_time}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.request_status}</StyledTableCell>
                                             <StyledTableCell align="center">
-                                                {requestrow.request_status === 'accepted'
-                                                    ? (<Button sx={{ color: 'white', width: '150px', backgroundColor: '#000000', ':hover': { backgroundColor: '#000000' } }}>Arrived</Button>) :
-                                                    requestrow.request_status === 'arrived'
-                                                        ? (<Button sx={{ color: 'white', width: '150px', backgroundColor: '#000000', ':hover': { backgroundColor: '#000000' } }}>Completed</Button>)
+                                                {requestrow.request_status === 'Accepted'
+                                                    ? (<Button onClick={() => AcceptedtoArrived(requestrow.request_id)} sx={{ color: 'white', width: '150px', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Arrived</Button>) :
+                                                    requestrow.request_status === 'Arrived'
+                                                        ? (<Button onClick={() => ArrviedtoCompleted(requestrow.request_id)} sx={{ color: 'white', width: '150px', backgroundColor: '#000000', ':hover': { backgroundColor: '#000000' } }}>Completed</Button>)
                                                         : ""}
+
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     ))}
@@ -427,11 +482,13 @@ const Clients = () => {
                                                     : <Button onClick={() => toRefund(refundrow.refund_id)} sx={{ color: 'white', width: '80%', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Refund </Button>}
                                             </StyledTableCell>
                                             <StyledTableCell align="center">
-                                                {refundrow.admin_verification === 'rejected'
+                                                {refundrow.admin_verification === 'rejected' && refundrow.refund_status === 'completed'
                                                     ? (<Button sx={{ color: 'white', width: '60%', backgroundColor: 'red', ':hover': { backgroundColor: 'red' } }}>Rejected</Button>)
-                                                    : refundrow.admin_verification === 'verified'
+                                                    : refundrow.admin_verification === 'verified' && refundrow.refund_status === 'completed'
                                                         ? (<Button sx={{ color: 'white', width: '60%', backgroundColor: 'blue', ':hover': { backgroundColor: 'blue' } }}>Verified</Button>)
-                                                        : (<Button sx={{ color: 'white', width: '60%', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }}>Pending</Button>)
+                                                        : refundrow.admin_verification === 'pending' && refundrow.refund_status === 'completed'
+                                                            ? (<Button sx={{ color: 'white', width: '60%', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }}>Pending</Button>)
+                                                            : ""
                                                 }
                                             </StyledTableCell>
                                         </StyledTableRow>
@@ -455,8 +512,8 @@ const Clients = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    marginRight: '300px', 
-                    zIndex: 1001, 
+                    marginRight: '300px',
+                    zIndex: 1001,
                 }}>
                     {petdetails && petdetails.map((petrow, index) => (
                         <FormControl sx={{
@@ -483,7 +540,7 @@ const Clients = () => {
                                         <img
                                             style={{ width: '200px', height: 'auto', borderRadius: '10px' }}
                                             component={"img"}
-                                            src={getPetImageSrc(petrow.image)}
+                                            src={petrow.image === "" ? getPetImageSrc("noimage.png") : getPetImageSrc(petrow.image) }
                                             alt={petrow.name}
                                         />
                                     </div>
@@ -615,9 +672,8 @@ const Clients = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    // Adjust as needed
-                    marginRight: '300px', // Adjust as needed
-                    zIndex: 1001, // Ensure the content is above the overlay
+                    marginRight: '300px',
+                    zIndex: 1001,
                 }}>
                     {details1 && details1.map((drow1, index) => (
                         <FormControl sx={{
@@ -769,14 +825,25 @@ const Clients = () => {
 
                                 <div className="form-label">
                                     <FormLabel>Upload Bank Slip : </FormLabel>
-                                    <TextField
+                                    {/* <TextField
                                         sx={{ marginRight: '20px', marginLeft: '10px' }}
                                         type="file"
                                         variant="outlined"
                                         placeholder="Choose a file"
-                                        inputProps={{ accept: 'image/*' }} // Add the accepted file types if needed
-                                    // onChange={handleFileChange}
-                                    />
+                                        inputProps={{ accept: 'image/*' }} 
+                                    /> */}
+                                    <div style={{ display: 'inline' }}>
+                                        <Button
+                                            variant="contained"
+                                            component="label"
+
+                                            startIcon={<CloudUploadIcon />}
+                                        >
+                                            Upload File
+                                            <input type="file" hidden required />
+
+                                        </Button>
+                                    </div>
                                 </div>
 
                                 <div>
@@ -800,9 +867,8 @@ const Clients = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    // Adjust as needed
-                    marginRight: '300px', // Adjust as needed
-                    zIndex: 1001, // Ensure the content is above the overlay
+                    marginRight: '300px',
+                    zIndex: 1001,
                 }}>
                     {details && details.map((drow, index) => (
                         <FormControl sx={{
@@ -812,8 +878,8 @@ const Clients = () => {
                             width: '1000px',
                             padding: '20px',
                             backgroundColor: 'black',
-                            position: 'relative', // Add this to ensure content appears on top of the overlay
-                            zIndex: 1001, // Adjust the z-index to display content above the overlay
+                            position: 'relative',
+                            zIndex: 1001,
                         }}>
                             <div style={{ backgroundColor: 'white', paddingTop: '20px', paddingBottom: '20px', paddingRight: '60px', paddingLeft: '60px', borderRadius: '10px' }}>
                                 <div>
@@ -1000,11 +1066,11 @@ const Clients = () => {
 
                                 <div className="form-label">
                                     <FormLabel>Uploaded Bank Slip : </FormLabel>
-                                    <img src={Slip} alt="bank slip" style={{ width: '50%', height: 'auto', borderRadius: '10px' }} />
+                                    <img
+                                        src={drow.refund_slip === "" ? getSlipSrc("noimage.png") : getSlipSrc(drow.refund_slip)}
+                                        alt="bank slip"
+                                        style={{ width: '50%', height: 'auto', borderRadius: '10px' }} />
                                 </div>
-                                {/* <Button variant="contained" onClick={() => afterAddingComplain()} sx={{ background: 'orange', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Complain</Button> */}
-                                {/* <iconButtonClasses variant="contained" onClick={FinishRefundViewing} sx={{ background: 'orange', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Finish Viewing</Button> */}
-                                {/* <IconButton><CloseIcon /></IconButton> */}
                             </div>
                         </FormControl>
                     ))}
