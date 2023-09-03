@@ -15,6 +15,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import CloseIcon from '@mui/icons-material/Close';
 import axios from "axios";
+import AddIcon from '@mui/icons-material/Add';
+
 
 function Company_Competitions() {
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -103,6 +105,10 @@ function Company_Competitions() {
             </Stack>
           </Stack>
           <Box padding={2}>
+            <Box>
+              <Button sx={{color:'white', backgroundColor:'black', marginBottom:'10px', ':hover':{backgroundColor:'black'}}}><AddIcon />Add New Competition</Button>
+            </Box>
+
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
@@ -110,16 +116,20 @@ function Company_Competitions() {
                     <StyledTableCell>Competition ID </StyledTableCell>
                     <StyledTableCell>Competition Name</StyledTableCell>
                     <StyledTableCell>Date</StyledTableCell>
-                    <StyledTableCell>View Competition</StyledTableCell>
+                    <StyledTableCell>Start Time</StyledTableCell>
+                    <StyledTableCell>Venue</StyledTableCell>
+                    <StyledTableCell> Competition Post</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {com.map((row) => (
+                  {com && com.map((row) => (
                     <StyledTableRow key={row.notice_id}>
                       <StyledTableCell component="th" scope="row">
                         {row.notice_id}
                       </StyledTableCell>
                       <StyledTableCell>{row.name}</StyledTableCell>
+                      <StyledTableCell>{row.date}</StyledTableCell>
+                      <StyledTableCell>{row.date}</StyledTableCell>
                       <StyledTableCell>{row.date}</StyledTableCell>
                       <StyledTableCell align="left">
                         <Button onClick={()=>handleClick(row.notice_id)}>View</Button>

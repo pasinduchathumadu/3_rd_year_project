@@ -172,7 +172,7 @@ const Company_Home = () => {
           <div className="boarding-box-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
             <div style={{ display: 'flex', flexDirection: 'row' }}>
               <AssessmentIcon sx={{ marginRight: '10px', color: 'orange' }} />
-              <Typography style={{  fontSize: 14, color:"text.secondary"}}>Clients Blogs Verification</Typography>
+              <Typography style={{  fontSize: 14, color:"text.secondary",  fontWeight:'bold'}}>Clients Blogs Verification</Typography>
             </div>
           </div>
 
@@ -197,7 +197,7 @@ const Company_Home = () => {
           <div className="boarding-box-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
             <div style={{ display: 'flex', flexDirection: 'row' }}>
               <AssessmentIcon sx={{ marginRight: '10px', color: 'orange' }} />
-              <Typography style={{  fontSize: 14, color:"text.secondary"}}> Clients Categorize Analyse</Typography>
+              <Typography style={{  fontSize: 14, color:"text.secondary", fontWeight:'bold'}}> Clients Categorize Analyse</Typography>
             </div>
           </div>
 
