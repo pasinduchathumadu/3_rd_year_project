@@ -19,7 +19,7 @@ import { styled } from '@mui/material/styles';
 import { PieChart } from '@mui/x-charts/PieChart';
 import TableViewIcon from '@mui/icons-material/TableView';
 import axios from "axios";
-import {  useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -152,49 +152,57 @@ const Home = () => {
                 </div>
 
                 <div className="top-line">
-                    <NotificationsIcon className="bell-icon"  />
+                    <NotificationsIcon className="bell-icon" />
                     <Button onClick={profile}><img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" /></Button>
                 </div>
             </div>
 
             <div className="boarding-wrapper-main">
-                {pets && pets.map((prow, index) => (
-                    <div className="boarding-wrapper" style={{ backgroundColor: 'orange', height: '250px' }}>
-                        <div className="boarding-box-header">
-                            <AnalyticsIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
-                            <h3>Analytical Overview</h3>
-                            <Box sx={{ minWidth: 120, marginLeft: '315px' }}>
-                                <FormControl fullWidth>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={time1}
-                                        variant='filled'
-                                        label="Time"
-                                        onChange={handleChange1}
-                                        l
-                                        sx={{ fontSize: '12px' }}>
-                                        <MenuItem value={1}>Today</MenuItem>
-                                        <MenuItem value={2}>Last 7 days</MenuItem>
-                                        <MenuItem value={3}>Last Month</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Box>
+                <div className="boarding-wrapper" style={{ backgroundColor: 'orange', height: '250px' }}>
+                    <div className="boarding-box-header">
+                        <AnalyticsIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
+                        <h3>Analytical Overview</h3>
+                        <Box sx={{ minWidth: 120, marginLeft: '315px' }}>
+                            <FormControl fullWidth>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={time1}
+                                    variant='filled'
+                                    label="Time"
+                                    onChange={handleChange1}
+                                    l
+                                    sx={{ fontSize: '12px' }}>
+                                    <MenuItem value={1}>Today</MenuItem>
+                                    <MenuItem value={2}>Last 7 days</MenuItem>
+                                    <MenuItem value={3}>Last Month</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Box>
+                    </div>
+
+                    <div className="boarding-wrapper-box-mian">
+                        <div className="boarding-wrapper-box" style={{ backgroundColor: 'white' }}>
+                            <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'orange', marginRight: '5px' }} />Current Boarding Pets</p>
+                            {pets && pets.length > 0 ? (pets.map((prow, index) => (
+                                <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>{prow.currentBoard}</h1>
+                            ))
+                            ) : (
+                                <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>0</h1>
+                            )}
                         </div>
 
-                        <div className="boarding-wrapper-box-mian">
-                            <div className="boarding-wrapper-box" style={{ backgroundColor: 'white' }}>
-                                <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'orange', marginRight: '5px' }} />Current Boarding Pets</p>
-                                <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>{prow.currentBoard}</h1>
-                            </div>
-
-                            <div className="boarding-wrapper-box" style={{ backgroundColor: 'white' }} >
-                                <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'orange', marginRight: '5px' }} />Completed Boarded Pets</p>
+                        <div className="boarding-wrapper-box" style={{ backgroundColor: 'white' }} >
+                            <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'orange', marginRight: '5px' }} />Completed Boarded Pets</p>
+                            {pets && pets.length > 0 ? (pets.map((prow, index) => (
                                 <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>{prow.completedBoard}</h1>
-                            </div>
+                            ))
+                            ) : (
+                                <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>0</h1>
+                            )}
                         </div>
                     </div>
-                ))}
+                </div>
 
 
                 <div className="boarding-wrapper" style={{ backgroundColor: 'orange', height: '250px' }}>
@@ -203,7 +211,7 @@ const Home = () => {
                         <AssignmentLateIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
                         <h3>Pending Boarding Requests</h3>
                     </div>
-                    {pending && pending.map((pend, next) => (
+                    {pending && pending.length > 0 ? (pending.map((pend, next) => (
                         <>
                             <div>
                                 {main && (
@@ -242,7 +250,13 @@ const Home = () => {
                                 )}
                             </div>
                         </>
-                    ))}
+                    ))
+                    ) : (
+                        <div style={{padding:'10px', borderRadius:'10px', backgroundColor:'#f0f0f5' }}>
+                        <Typography sx={{textAlign:'center'}}>No Pending Boarding Requests</Typography>
+                        </div>
+
+                    )}
                 </div>
             </div>
 
@@ -254,7 +268,7 @@ const Home = () => {
                             <AssessmentIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
                             <h3 style={{ color: 'black' }}> Cages Current Usage</h3>
                         </div>
-                        <Button onClick={cages} sx={{color:'white', backgroundColor:'orange', ':hover':{backgroundColor:'orange'}}}>View Cages Structure</Button> 
+                        <Button onClick={cages} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>View Cages Structure</Button>
                     </div>
                     <div>
                         <PieChart
