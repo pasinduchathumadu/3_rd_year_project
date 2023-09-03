@@ -1,12 +1,12 @@
-import { Avatar, Button, FormControl, FormLabel, IconButton, MenuItem, Select, TextField, Typography, Card,CardActionArea,CardContent,CardMedia, fabClasses} from "@mui/material";
+import { Avatar, Button, FormControl, FormLabel, IconButton, MenuItem, Select, TextField, Typography, Card,CardActionArea,CardContent,CardMedia} from "@mui/material";
 import { Stack } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import profile from "../../assests/profile.jpg";
-import care from "../../assests/caregiver.jpg";
-import care2 from "../../assests/caregiver2.jpg";
+// import care from "../../assests/caregiver.jpg";
+// import care2 from "../../assests/caregiver2.jpg";
 import AddIcon from "@mui/icons-material/Add";
 // import StarIcon from "@mui/icons-material/Star";
-import CategoryIcon from '@mui/icons-material/Category';
+// import CategoryIcon from '@mui/icons-material/Category';
 import PetsIcon from '@mui/icons-material/Pets';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloseIcon from '@mui/icons-material/Close';
