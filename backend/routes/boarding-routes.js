@@ -7,6 +7,7 @@ const boarding_house_manager = express.Router()
 boarding_house_manager.post('/addpackage',addPackage)
 boarding_house_manager.get('/getPackage',getPackage)
 
+
 // boaridng requets
 boarding_house_manager.get('/view_requests',view_requests)
 boarding_house_manager.get('/view_allclients',view_allclients)
