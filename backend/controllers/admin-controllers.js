@@ -327,15 +327,15 @@ export const countRefund = async (req, res, next) => {
     })
 }
 
-// pending count refund verfication count 
-export const countPendingrefund = async (req, res, next) => {
-    const sqlQuery = 'SELECT (SELECT COUNT(refund_id) FROM boarding_refund WHERE admin_verification = "pending" AND refund_status = "completed" ) AS boarding, (SELECT COUNT(refund_id) FROM carecenter_refund WHERE admin_verification = "pending" AND refund_status = "completed" ) AS carecenter';
+// count clients pets
+export const countClientPets = async(req,res,next) => {
+    const sqlQuery = 'SELECT COUNT(pet_id) AS count FROM pet';
 
     db.query(sqlQuery, (err, data) => {
-        if (err) {
-            return res.json({ message: 'There is an internal error' })
+        if(err) {
+            return res.json({message: 'There is an internal error'})
         }
-        return res.json({ data })
+        return res.json({data})
     })
 }
 

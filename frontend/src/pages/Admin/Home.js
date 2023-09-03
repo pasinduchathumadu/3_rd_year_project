@@ -14,6 +14,7 @@ import ListIcon from '@mui/icons-material/List';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import DangerousIcon from '@mui/icons-material/Dangerous';
 import axios from "axios";
+import PetsIcon from '@mui/icons-material/Pets';
 
 const Home = () => {
     // drop down
@@ -96,11 +97,11 @@ const Home = () => {
             .catch((err) => console.log(err))
     })
 
-    // get count of pending refund verifications
+    // get count of clients added pets
     const [pending, setpending] = useState("")
-    const countPendingrefund = async () => {
+    const countClientPets = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/pet_care/admin/countPendingrefund')
+            const res = await axios.get('http://localhost:5000/pet_care/admin/countClientPets')
             const data = await res.data
             return data
 
@@ -109,7 +110,7 @@ const Home = () => {
         }
     }
     useEffect(() => {
-        countPendingrefund()
+        countClientPets()
             .then((data) => setpending(data.data))
             .catch((err) => console.log(err))
     })
@@ -159,26 +160,36 @@ const Home = () => {
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                    {clientcount && clientcount.map((crow, next) => (
-                        <div style={{ backgroundColor: 'orange', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
-                            <p style={{ fontWeight: 'bold', marginLeft: '10px' }}><PeopleIcon sx={{ color: 'black', marginRight: '6px', marginLeft: '5px' }} /> Clients</p>
+                    <div style={{ backgroundColor: 'orange', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
+                        <p style={{ fontWeight: 'bold', marginLeft: '10px' }}><PeopleIcon sx={{ color: 'black', marginRight: '6px', marginLeft: '5px' }} /> Clients</p>
+                        {clientcount && clientcount.length > 0 ? (clientcount.map((crow, next) => (
                             <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color: 'white' }}>{crow.count}</p>
-                        </div>
-                    ))}
+                        ))
+                        ) : (
+                            <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color: 'white' }}>0</p>
+                        )}
+                    </div>
 
-                    {managercount && managercount.map((mrow, next) => (
-                        <div style={{ backgroundColor: 'orange', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
-                            <p style={{ fontWeight: 'bold' }}><AccountCircleIcon sx={{ color: 'black', marginRight: '6px', marginLeft: '5px' }} />Managers</p>
+                    <div style={{ backgroundColor: 'orange', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
+                        <p style={{ fontWeight: 'bold' }}><AccountCircleIcon sx={{ color: 'black', marginRight: '6px', marginLeft: '5px' }} />Managers</p>
+                        {managercount && managercount.length > 0 ? (managercount.map((mrow, next) => (
                             <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color: 'white' }}>{mrow.count}</p>
-                        </div>
-                    ))}
+                        ))
+                        ) : (
+                            <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color: 'white' }}>0</p>
+                        )}
+                    </div>
 
-                    {pending && pending.map((prow, next) => (
-                        <div style={{ backgroundColor: 'orange', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
-                            <p style={{ fontWeight: 'bold' }}><ListIcon sx={{ color: 'black', marginRight: '6px', marginLeft: '5px' }} /> Pending Refund Verifications</p>
-                            <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color: 'white' }}>{prow.boarding + prow.carecenter}</p>
-                        </div>
-                    ))}
+                    <div style={{ backgroundColor: 'orange', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
+                        <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'black', marginRight: '6px', marginLeft: '5px' }} /> Clients Added Pets</p>
+                        {pending && pending.length > 0 ? ( pending.map((prow, next) => (
+                            <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color: 'white' }}>{prow.count}</p>
+                        ))
+                        ) :(
+                            <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color: 'white' }}>0</p>
+                        )}
+                    </div>
+
                 </div>
 
                 {/* user 2 boxes */}
