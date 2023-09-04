@@ -16,6 +16,8 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from "axios";
 import CloseIcon from '@mui/icons-material/Close';
+import { useNavigate } from "react-router";
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -232,6 +234,16 @@ function Complaints() {
     setvalue(1)
   }
 
+  const navigate = useNavigate("")
+  // connect profile
+  const profile = () => {
+    navigate("/profile")
+  }
+  // get profile picture
+  const getProfilepicturepath = (imageName) => {
+    return require(`../../../../backend/images/store/${imageName}`)
+  }
+
   return (
     <>
       <div className="container1" style={{ marginTop: '4%' }}>
@@ -273,11 +285,14 @@ function Complaints() {
             </div>
             <div style={{ display: 'flex', marginLeft: 'auto', alignItems: 'center', justifyContent: 'center' }}>
               <div style={{ marginLeft: '150%' }}><Stack direction="row" spacing={2} width={300}>
-                <Avatar
-                  alt="Travis Howard"
-                  src={profile}
-                  sx={{ width: 60, height: 60 }}
-                />
+                <NotificationsIcon />
+                <Button onClick={profile}>
+                  <img
+                    alt="profilepicture"
+                    src={getProfilepicturepath("carecenter_profile.png")}
+                    style={{ width: 'auto', height: '60px' }}
+                  />
+                </Button>
               </Stack>
               </div>
             </div>

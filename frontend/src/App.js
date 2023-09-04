@@ -727,6 +727,7 @@ function App() {
 
           {isLoggedIn && user_role === "care_center_manager" && (
             <>
+
               <Route
                 path="/caregiverlist"
                 element={
@@ -743,6 +744,15 @@ function App() {
                   <>
                     {" "}
                     <HomeHeader userRole={"care_center_manager"} /> <Packages />
+                  </>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <>
+                    {" "}
+                    <HomeHeader userRole={"care_center_manager"} /> <ManagerProfile />
                   </>
                 }
               />
@@ -786,6 +796,7 @@ function App() {
                 }
               />
             </>
+
           )}
 
           {isLoggedIn && user_role === "online_store_manager" && (

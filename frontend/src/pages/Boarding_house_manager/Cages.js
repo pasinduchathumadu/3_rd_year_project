@@ -23,7 +23,12 @@ const Cages = () => {
     const profile = () => {
         navigate("/profile")
     }
-    // back from profile
+   
+     // get profile picture
+     const getProfilepicturepath = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+
+    }
 
     return (
         <div className="home-container" style={{ marginTop: '4%' }}>
@@ -35,7 +40,7 @@ const Cages = () => {
                 </div>
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
-                    <Button onClick={profile}><img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" /></Button>
+                    <Button onClick={profile}><img src={getProfilepicturepath("boarding_profile.jpeg")} alt="profilepicture" className="boarding-profile-picture" /></Button>
                 </div>
             </div>
 

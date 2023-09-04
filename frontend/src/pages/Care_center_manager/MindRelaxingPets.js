@@ -1,4 +1,4 @@
-import { Avatar, Button, FormControl, FormLabel, IconButton, MenuItem, Select, TextField, Typography, Card,CardActionArea,CardContent,CardMedia} from "@mui/material";
+import { Avatar, Button, FormControl, FormLabel, IconButton, MenuItem, Select, TextField, Typography, Card, CardActionArea, CardContent, CardMedia } from "@mui/material";
 import { Stack } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import profile from "../../assests/profile.jpg";
@@ -14,6 +14,8 @@ import axios from 'axios';
 import BackgroundImage from './../../assests/mindrelax_bkgnd.png'
 import DeleteIcon from '@mui/icons-material/Delete';
 // import PetsIcon from '@mui/icons-material/Pets';
+import { useNavigate } from "react-router";
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 
 const MindRelaxingPets = () => {
@@ -94,11 +96,11 @@ const MindRelaxingPets = () => {
 
     // display warn box before deleting
     const [warn, setwarn] = useState(false)
-    const [id,setid] = useState("")
+    const [id, setid] = useState("")
     const displayWarn = (id) => {
         setwarn(true)
         setviewpet(false)
-        setid(id)   
+        setid(id)
     }
     // cancel withour deleting
     const cancelDelete = () => {
@@ -109,20 +111,30 @@ const MindRelaxingPets = () => {
     // pet deleting
     const [error1, seterror1] = useState(false)
     const [message1, setmessage1] = useState("")
-    
-    const petDeleteing = async() => {
+
+    const petDeleteing = async () => {
         try {
             const res = await axios.get(`http://localhost:5000/pet_care/care_center_manager/petDeleteing/${id}`)
-            if(res.data.message === 'There is an internal error') {
+            if (res.data.message === 'There is an internal error') {
                 seterror1(true)
                 setmessage1('There is an internal error')
-            }else {
+            } else {
                 setviewpet(true)
                 setwarn(false)
             }
-        }catch(err){
+        } catch (err) {
             console.log(err)
         }
+    }
+
+    const navigate = useNavigate("")
+    // connect profile
+    const profile = () => {
+        navigate("/profile")
+    }
+    // get profile picture
+    const getProfilepicturepath = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
     }
 
 
@@ -156,12 +168,15 @@ const MindRelaxingPets = () => {
                             </Typography>
                         </div>
                         <div style={{ display: 'flex', marginLeft: 'auto', alignItems: 'center', justifyContent: 'center' }}>
-                            <div style={{ marginLeft: '150%' }}><Stack direction="row" spacing={2} width={300}>
-                                <Avatar
-                                    alt="Travis Howard"
-                                    src={profile}
-                                    sx={{ width: 60, height: 60 }}
-                                />
+                            <div style={{ marginLeft: '130%' }}><Stack direction="row" spacing={2} width={300}>
+                                <NotificationsIcon />
+                                <Button onClick={profile}>
+                                    <img
+                                        alt="profilepicture"
+                                        src={getProfilepicturepath("carecenter_profile.png")}
+                                        style={{ width: 'auto', height: '60px' }}
+                                    />
+                                </Button>
                             </Stack>
                             </div>
                         </div>
@@ -171,7 +186,7 @@ const MindRelaxingPets = () => {
                         <Button sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }} onClick={addnewpet}>Add New Pets<AddIcon /></Button>
                     </div>
 
-                    <div style={{marginLeft:'5%'}}>
+                    <div style={{ marginLeft: '5%' }}>
                         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                             {petdetails && petdetails.map((menu, index) => (
 
@@ -180,15 +195,15 @@ const MindRelaxingPets = () => {
                                         <CardMedia
                                             sx={{ minHeight: "300px" }}
                                             component={"img"}
-                                            src={menu.image === "" ? getImageSrc("noimage.png") : getImageSrc(menu.image) }
+                                            src={menu.image === "" ? getImageSrc("noimage.png") : getImageSrc(menu.image)}
                                             alt={menu.name} />
                                         <CardContent>
-                                            <IconButton sx={{marginLeft:'90%'}} onClick={() =>displayWarn(menu.pet_id)}><DeleteIcon sx={{color:'red'}} /></IconButton>
-                                            <Typography variant="h5" gutterBottom component={"div"} sx={{textAlign:'center'}}><PetsIcon sx={{color:'orange'}} />
+                                            <IconButton sx={{ marginLeft: '90%' }} onClick={() => displayWarn(menu.pet_id)}><DeleteIcon sx={{ color: 'red' }} /></IconButton>
+                                            <Typography variant="h5" gutterBottom component={"div"} sx={{ textAlign: 'center' }}><PetsIcon sx={{ color: 'orange' }} />
                                                 {menu.name}
                                             </Typography>
-                                            <Typography variant="body2" sx={{textAlign:'center'}}>{menu.sex}</Typography><br />
-                                            <Typography variant="body2" sx={{ color: "red", marginBottom: '9px',textAlign:'center' }}>{menu.breed}</Typography>
+                                            <Typography variant="body2" sx={{ textAlign: 'center' }}>{menu.sex}</Typography><br />
+                                            <Typography variant="body2" sx={{ color: "red", marginBottom: '9px', textAlign: 'center' }}>{menu.breed}</Typography>
 
                                         </CardContent>
                                     </CardActionArea>

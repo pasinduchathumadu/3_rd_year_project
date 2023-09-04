@@ -369,42 +369,8 @@ export const viewBoarded = async(req,res,next) => {
 }
 
 // --- DAHSBOARD ----
-// current & completed count of pets - boarding
-export const countPets = async(req,res,next) => {
-    const sqlQuery = 'SELECT (SELECT COUNT(pet_id) FROM boarding_request WHERE request_status = "completed") AS completed, (SELECT COUNT(pet_id) FROM boarding_request WHERE request_status = "cancelled") AS cancelled';
-    db.query(sqlQuery, (err, data) => {
-        if(err) {
-            return res.json({message: 'There is an internal error'})
-        }
-        return res.json({data})
-    })
+// current & completed count of pets - boarding - WITH FILTERING
 
-}
-
-// get package usage  [PACKAGES - view popularity]
-export const packageUsage = async(req,res, next) => {
-    const sqlQuery = 'SELECT (SELECT COUNT(package_id) FROM boarding_request WHERE package_id = "1") AS silver, (SELECT COUNT(package_id) FROM boarding_request WHERE package_id = "2") AS platinum, (SELECT COUNT(package_id) FROM boarding_request WHERE package_id = "3") AS gold ';
-    db.query(sqlQuery, (err, data) => {
-        if(err) {
-            return res.json({message:'There is an internal error'})
-        }
-        return res.json({data})
-    })
-}
-
-// get pending  boarding requests
-export const pendingRequest = async(req,res,next) => {
-    const sqlQuery = 'SELECT * FROM boarding_request WHERE request_status = "pending" ';
-    db.query(sqlQuery, (err,data) => {
-        if(err) {
-            return res.json({message: 'There is an internal error'})
-        }
-        return res.json({data})
-    })
-}
-
-// ----------- FILTERING ----------------
-// DASHBOARD
 // analytical overview - completed 
 export const filterbox1 = async (req, res, next) => {
     const id = req.params.id;
@@ -499,5 +465,28 @@ export const filterbox2 = async(req,res,next) => {
             return res.json({data})
         })
     }
-
 }
+
+
+// get package usage  [PACKAGES - view popularity]
+export const packageUsage = async(req,res, next) => {
+    const sqlQuery = 'SELECT (SELECT COUNT(package_id) FROM boarding_request WHERE package_id = "1") AS silver, (SELECT COUNT(package_id) FROM boarding_request WHERE package_id = "2") AS platinum, (SELECT COUNT(package_id) FROM boarding_request WHERE package_id = "3") AS gold ';
+    db.query(sqlQuery, (err, data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+// get pending  boarding requests
+export const pendingRequest = async(req,res,next) => {
+    const sqlQuery = 'SELECT * FROM boarding_request WHERE request_status = "pending" ';
+    db.query(sqlQuery, (err,data) => {
+        if(err) {
+            return res.json({message: 'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
