@@ -20,6 +20,8 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 
 
 const Company_Home = () => {
+  const date = new Date()
+  const currentdate = date.toDateString();
   // drop down
   const [time, setTime] = React.useState("1");
 
@@ -43,7 +45,7 @@ const Company_Home = () => {
             Today
           </Typography>
           <Typography variant="inherit" color="textSecondary">
-            08 August 2023
+            {currentdate}
           </Typography>
         </Box>
         <Stack justifyContent="center" alignItems="center">

@@ -21,6 +21,9 @@ import Modal from "@mui/material/Modal";
 import Form_Details from "./Form";
 
 function Company_Clients() {
+  const date = new Date()
+  const currentdate = date.toDateString();
+
   const [selectedTab, setSelectedTab] = useState(0);
 
   const handleTabChange = (event, newValue) => {
@@ -76,7 +79,7 @@ function Company_Clients() {
             Today
           </Typography>
           <Typography variant="inherit" color="textSecondary">
-            08 August 2023
+            {currentdate}
           </Typography>
         </Box>
         <Stack justifyContent="center" alignItems="center">
@@ -123,28 +126,28 @@ function Company_Clients() {
               <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell>Client ID </StyledTableCell>
-                    <StyledTableCell>Client Name</StyledTableCell>
-                    <StyledTableCell>Payment</StyledTableCell>
-                    <StyledTableCell>Category</StyledTableCell>
-                    <StyledTableCell>View </StyledTableCell>
+                    <StyledTableCell align="center">Client ID </StyledTableCell>
+                    <StyledTableCell  align="center">Client Name</StyledTableCell>
+                    <StyledTableCell  align="center">Completed Requests </StyledTableCell>
+                    <StyledTableCell  align="center">Cancelled or Incompleted Requests</StyledTableCell>
+                    <StyledTableCell  align="center">Category</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {rows.map((row) => (
                     <StyledTableRow key={row.id}>
-                      <StyledTableCell component="th" scope="row">
+                      <StyledTableCell component="th" scope="row"  align="center">
                         {row.id}
                       </StyledTableCell>
-                      <StyledTableCell>{row.name}</StyledTableCell>
-                      <StyledTableCell>{row.payment}</StyledTableCell>
-                      <StyledTableCell>{row.pcategory}</StyledTableCell>
-
-                      <StyledTableCell>
+                      <StyledTableCell  align="center">{row.name}</StyledTableCell>
+                      <StyledTableCell  align="center">3</StyledTableCell>
+                      <StyledTableCell  align="center">2</StyledTableCell>
+                      <StyledTableCell  align="center">***</StyledTableCell>
+                      {/* <StyledTableCell>
                         <DialogForm title="Client Details" btn_name="View">
                           <Form_Details />
                         </DialogForm>
-                      </StyledTableCell>
+                      </StyledTableCell> */}
                     </StyledTableRow>
                   ))}
                 </TableBody>
@@ -158,29 +161,29 @@ function Company_Clients() {
               <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell>Client ID </StyledTableCell>
-                    <StyledTableCell>Client Name</StyledTableCell>
-                    <StyledTableCell>Payment</StyledTableCell>
-                    <StyledTableCell>Category</StyledTableCell>
-
-                    <StyledTableCell>View</StyledTableCell>
+                    <StyledTableCell  align="center">Client ID </StyledTableCell>
+                    <StyledTableCell  align="center">Client Name</StyledTableCell>
+                    <StyledTableCell  align="center">Completed Appointments</StyledTableCell>
+                    <StyledTableCell  align="center">Cancelled or Incompleted Appointments</StyledTableCell>
+                    <StyledTableCell  align="center">Category</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {rows.map((row) => (
                     <StyledTableRow key={row.id}>
-                      <StyledTableCell component="th" scope="row">
+                      <StyledTableCell component="th" scope="row"  align="center">
                         {row.id}
                       </StyledTableCell>
-                      <StyledTableCell>{row.name}</StyledTableCell>
-                      <StyledTableCell>{row.payment}</StyledTableCell>
-                      <StyledTableCell>{row.category}</StyledTableCell>
+                      <StyledTableCell  align="center">{row.name}</StyledTableCell>
+                      <StyledTableCell  align="center">6</StyledTableCell>
+                      <StyledTableCell  align="center">3</StyledTableCell>
+                      <StyledTableCell  align="center">*****</StyledTableCell>
 
-                      <StyledTableCell>
+                      {/* <StyledTableCell>
                         <DialogForm title="Client Details" btn_name="View">
                           <Form_Details />
                         </DialogForm>
-                      </StyledTableCell>
+                      </StyledTableCell> */}
                     </StyledTableRow>
                   ))}
                 </TableBody>
@@ -194,29 +197,30 @@ function Company_Clients() {
               <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell>Client ID </StyledTableCell>
-                    <StyledTableCell>Client Name</StyledTableCell>
-                    <StyledTableCell>Payment</StyledTableCell>
-                    <StyledTableCell>Category</StyledTableCell>
+                    <StyledTableCell  align="center">Client ID </StyledTableCell>
+                    <StyledTableCell  align="center">Client Name</StyledTableCell>
+                    <StyledTableCell  align="center">Completed Orders</StyledTableCell>
+                    <StyledTableCell  align="center">Category</StyledTableCell>
 
-                    <StyledTableCell>View</StyledTableCell>
+                    {/* <StyledTableCell>View</StyledTableCell> */}
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {rows.map((row) => (
                     <StyledTableRow key={row.id}>
-                      <StyledTableCell component="th" scope="row">
+                      <StyledTableCell component="th" scope="row"  align="center">
                         {row.id}
                       </StyledTableCell>
-                      <StyledTableCell>{row.name}</StyledTableCell>
-                      <StyledTableCell>{row.payment}</StyledTableCell>
-                      <StyledTableCell>{row.category}</StyledTableCell>
+                      <StyledTableCell  align="center">{row.name}</StyledTableCell>
+                      <StyledTableCell  align="center">{row.payment}</StyledTableCell>
+                      {/* <StyledTableCell  align="center">{row.category}</StyledTableCell> */}
+                      <StyledTableCell  align="center">****</StyledTableCell>
 
-                      <StyledTableCell>
+                      {/* <StyledTableCell>
                         <DialogForm title="Client Details" btn_name="View">
                           <Form_Details />
                         </DialogForm>
-                      </StyledTableCell>
+                      </StyledTableCell> */}
                     </StyledTableRow>
                   ))}
                 </TableBody>
