@@ -22,6 +22,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import VideoClip from '../../assests/video-1.jpg';
 import axios from "axios";
+import {  useNavigate } from "react-router";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -42,39 +43,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
         border: 0,
     },
 }));
-
-function createCurrentData(id, category, p_ckage, aDate, rDate, payment) {
-    return { id, category, p_ckage, aDate, rDate, payment };
-}
-
-const currents = [
-    createCurrentData(1, 'cat', 'silver', '2023-07-26', '2023-07-30', '1200.00'),
-    createCurrentData(2, 'dog', 'gold', '2023-07-26', '2023-07-30', '1200.00'),
-    createCurrentData(3, 'dog', 'silver', '2023-07-26', '2023-07-30', '1200.00'),
-    createCurrentData(4, 'cat', 'platinum', '2023-07-26', '2023-07-30', '1200.00'),
-];
-
-function createRequestedData(id, category, p_ckage, aDate, rDate, payment, status) {
-    return { id, category, p_ckage, aDate, rDate, payment, status };
-}
-
-const requests = [
-    createRequestedData(1, 'cat', 'silver', '2023-07-26', '2023-07-30', '1200.00', 'pending'),
-    createRequestedData(2, 'dog', 'gold', '2023-07-26', '2023-07-30', '1200.00', 'pending'),
-    createRequestedData(3, 'dog', 'silver', '2023-07-26', '2023-07-30', '1200.00', 'accepted'),
-    createRequestedData(4, 'cat', 'platinum', '2023-07-26', '2023-07-30', '1200.00', 'accepted'),
-];
-
-function createCompletedData(id, category, p_ckage, aDate, rDate, payment) {
-    return { id, category, p_ckage, aDate, rDate, payment };
-}
-
-const completes = [
-    createCompletedData(1, 'cat', 'silver', '2023-07-26', '2023-07-30', '1200.00'),
-    createCompletedData(2, 'dog', 'gold', '2023-07-26', '2023-07-30', '1200.00'),
-    createCompletedData(3, 'dog', 'silver', '2023-07-26', '2023-07-30', '1200.00'),
-    createCompletedData(4, 'cat', 'platinum', '2023-07-26', '2023-07-30', '1200.00'),
-];
 
 const BoardPets = () => {
     const [present, setPresent] = useState(0);
@@ -151,7 +119,7 @@ const BoardPets = () => {
         .catch((err) => console.log(err))
     })
 
-    // view boarded pets
+    // view past boarded pets
     const [boarded, setboarded] = useState("")
     const viewBoarded = async() => {
         try {
@@ -169,6 +137,12 @@ const BoardPets = () => {
         .catch((err) => console.log(err))
     })
 
+    const navigate = useNavigate("")
+    // connect profile
+    const profile = () => {
+        navigate("/profile")
+    }
+
     return (
         <div className="home-container" style={{ marginTop: '5%'}}>
             <div className="top">
@@ -180,7 +154,7 @@ const BoardPets = () => {
 
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
-                    <img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" />
+                    <Button onClick={profile}><img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" /></Button>
                 </div>
             </div>
 
@@ -211,6 +185,7 @@ const BoardPets = () => {
                                         <StyledTableCell align="center">Category</StyledTableCell>
                                         <StyledTableCell align="center">Package</StyledTableCell>
                                         <StyledTableCell align="center">Boarded Date</StyledTableCell>
+                                        <StyledTableCell align="center">Carrying Date</StyledTableCell>
                                         <StyledTableCell align="center">Boarded Time</StyledTableCell>
                                         <StyledTableCell align="center">Client ID</StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
@@ -222,13 +197,8 @@ const BoardPets = () => {
                                             <StyledTableCell align="center">{current.pet_id}</StyledTableCell>
                                             <StyledTableCell align="center">{current.category}</StyledTableCell>
                                             <StyledTableCell align="center">{current.package_id}</StyledTableCell>
-                                            {/* <StyledTableCell align="center">
-                                                {current.p_ckage === "gold" ? (<> <CircleIcon sx={{ color: '#FBBD08', marginRight: '5px' }} /> Gold </>)
-                                                    : current.p_ckage === "silver" ? (<>  <CircleIcon sx={{ color: '#A6A6A6', marginRight: '5px' }} />Silver </>)
-                                                        : (<><CircleIcon sx={{ color: '#55555C', marginRight: '5px' }} />Platinum</>)
-                                                }
-                                            </StyledTableCell> */}
-                                            <StyledTableCell align="center">{current.board_date}</StyledTableCell>
+                                            <StyledTableCell align="center">{current.board_arrival_date}</StyledTableCell>
+                                            <StyledTableCell align="center">{current.board_carry_date}</StyledTableCell>
                                             <StyledTableCell align="center">{current.board_time}</StyledTableCell>
                                             <StyledTableCell align="center">{current.client_id}</StyledTableCell>
                                             <StyledTableCell align="center"><Button onClick={()=> viewLive()} sx={{ backgroundColor: 'orange', color: 'white', ':hover': { backgroundColor: 'orange' } }}>Watch Live</Button></StyledTableCell>
@@ -241,7 +211,7 @@ const BoardPets = () => {
                 </div>
             )}
 
-            {/* requested pets */}
+            {/* requested pets (pending and accepted) */}
             {present === 1 && (
                 <div>
                     <div className="drop-down-box">
@@ -274,7 +244,8 @@ const BoardPets = () => {
                                         <StyledTableCell align="center">Client ID</StyledTableCell>
                                         <StyledTableCell align="center">Package ID</StyledTableCell>
                                         <StyledTableCell align="center">Arrival Date</StyledTableCell>
-                                        <StyledTableCell align="center">Return Time</StyledTableCell>
+                                        <StyledTableCell align="center">Carry Date</StyledTableCell>
+                                        <StyledTableCell align="center">Board Time</StyledTableCell>
                                         {/* <StyledTableCell align="center">Payment (Rs.)</StyledTableCell> */}
                                         <StyledTableCell align="center">Status</StyledTableCell>
                                     </TableRow>
@@ -292,7 +263,8 @@ const BoardPets = () => {
                                                         : (<><CircleIcon sx={{ color: '#55555C', marginRight: '5px' }} />Platinum</>)
                                                 }
                                             </StyledTableCell> */}
-                                            <StyledTableCell align="center">{request.board_date}</StyledTableCell>
+                                            <StyledTableCell align="center">{request.board_arrival_date}</StyledTableCell>
+                                            <StyledTableCell align="center">{request.board_carry_date}</StyledTableCell>
                                             <StyledTableCell align="center">{request.board_time}</StyledTableCell>
                                             {/* <StyledTableCell align="center">{request.payment}</StyledTableCell> */}
                                             <StyledTableCell align="center">{request.request_status}</StyledTableCell>
@@ -317,6 +289,7 @@ const BoardPets = () => {
                                         <StyledTableCell align="center">Category</StyledTableCell>
                                         <StyledTableCell align="center">Package</StyledTableCell>
                                         <StyledTableCell align="center">Arrival Date</StyledTableCell>
+                                        <StyledTableCell align="center">Carry Date</StyledTableCell>
                                         <StyledTableCell align="center">Return Time</StyledTableCell>
                                         {/* <StyledTableCell align="center">Payment (Rs.)</StyledTableCell> */}
                                         <StyledTableCell align="center"></StyledTableCell>
@@ -335,7 +308,8 @@ const BoardPets = () => {
                                                         : (<><CircleIcon sx={{ color: '#55555C', marginRight: '5px' }} />Platinum</>)
                                                 }
                                             </StyledTableCell> */}
-                                            <StyledTableCell align="center">{complete.board_date}</StyledTableCell>
+                                            <StyledTableCell align="center">{complete.board_arrival_date}</StyledTableCell>
+                                            <StyledTableCell align="center">{complete.board_carry_date}</StyledTableCell>
                                             <StyledTableCell align="center">{complete.board_time}</StyledTableCell>
                                             {/* <StyledTableCell align="center">{complete.payment}</StyledTableCell> */}
                                             <StyledTableCell align="center"><Button onClick={()=> viewPastVideo()} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' } }}>Video Clips</Button></StyledTableCell>

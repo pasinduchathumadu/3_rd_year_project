@@ -12,13 +12,17 @@ import Paper from "@mui/material/Paper";
 import DialogForm from "./Dialog";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ProfilePicture from "../../assests/profile-picture.png";
-import { Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Form_Details from "./Form";
 import Add_Complaint_Form from "./Add_Complaint_Form";
+import AddIcon from '@mui/icons-material/Add';
 
 function Company_Complaints() {
+  const date = new Date()
+  const currentdate = date.toDateString();
+
   const [selectedTab, setSelectedTab] = useState(0);
 
   const handleTabChange = (event, newValue) => {
@@ -70,12 +74,12 @@ function Company_Complaints() {
             Today
           </Typography>
           <Typography variant="inherit" color="textSecondary">
-            08 August 2023
+            {currentdate}
           </Typography>
         </Box>
         <Stack justifyContent="center" alignItems="center">
           <Typography color="textPrimary" fontWeight="bold" fontSize={"25px"}>
-            Company Complaints
+             Complaints
           </Typography>
         </Stack>
         <Stack direction="row" justifyContent="center" alignItems="center">
@@ -130,8 +134,10 @@ function Company_Complaints() {
                 <TableHead>
                   <TableRow>
                     <StyledTableCell>Complaint ID </StyledTableCell>
+                    <StyledTableCell>Client ID </StyledTableCell>
                     <StyledTableCell>Complaint</StyledTableCell>
-                    <StyledTableCell>Date</StyledTableCell>
+                    <StyledTableCell>Placed Date</StyledTableCell>
+                    <StyledTableCell>Response</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -141,6 +147,8 @@ function Company_Complaints() {
                         {row.id}
                       </StyledTableCell>
                       <StyledTableCell>{row.name}</StyledTableCell>
+                      <StyledTableCell>{row.name}</StyledTableCell>
+                      <StyledTableCell>{row.date}</StyledTableCell>
                       <StyledTableCell>{row.date}</StyledTableCell>
                     </StyledTableRow>
                   ))}
@@ -151,6 +159,7 @@ function Company_Complaints() {
         )}
         {selectedTab === 1 && (
           <Box padding={2}>
+            <Button sx={{color:'white', backgroundColor:'black', marginBottom:'10px', ':hover':{backgroundColor:'black'}}}><AddIcon/>Add New Complaint</Button>
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>

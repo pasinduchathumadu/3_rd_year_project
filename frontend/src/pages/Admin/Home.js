@@ -14,6 +14,7 @@ import ListIcon from '@mui/icons-material/List';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import DangerousIcon from '@mui/icons-material/Dangerous';
 import axios from "axios";
+import PetsIcon from '@mui/icons-material/Pets';
 
 const Home = () => {
     // drop down
@@ -61,6 +62,59 @@ const Home = () => {
             .catch((err) => console.log(err))
     })
 
+    // get managers complains count separetly
+    const countComplains = async () => {
+        try {
+            const res = await axios.get("http://localhost:5000/pet_care/admin/countComplains")
+            const data = await res.data
+            return data
+        } catch (err) {
+            console.log("There is an internal error")
+        }
+    }
+    const [complaincount, setcomplaincount] = useState("")
+    useEffect(() => {
+        countComplains()
+            .then((data) => setcomplaincount(data.data))
+            .catch((err) => console.log(err))
+    })
+
+    // get count of refund verifications
+    const [countr, setcountr] = useState("")
+    const countRefund = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/pet_care/admin/countRefund')
+            const data = await res.data
+            return data
+
+        } catch (err) {
+            console.log('There is an internal error')
+        }
+    }
+    useEffect(() => {
+        countRefund()
+            .then((data) => setcountr(data.data))
+            .catch((err) => console.log(err))
+    })
+
+    // get count of clients added pets
+    const [pending, setpending] = useState("")
+    const countClientPets = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/pet_care/admin/countClientPets')
+            const data = await res.data
+            return data
+
+        } catch (err) {
+            console.log('There is an internal error')
+        }
+    }
+    useEffect(() => {
+        countClientPets()
+            .then((data) => setpending(data.data))
+            .catch((err) => console.log(err))
+    })
+
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
 
@@ -105,63 +159,77 @@ const Home = () => {
                     </Box>
                 </div>
 
-
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                    {clientcount && clientcount.map((crow, next) => (
-                        <div style={{ backgroundColor: 'orange', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
-                            <p style={{ fontWeight: 'bold', marginLeft: '10px' }}><PeopleIcon sx={{ color: 'black', marginRight: '6px', marginLeft: '5px' }} /> Clients</p>
+                    <div style={{ backgroundColor: 'orange', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
+                        <p style={{ fontWeight: 'bold', marginLeft: '10px' }}><PeopleIcon sx={{ color: 'black', marginRight: '6px', marginLeft: '5px' }} /> Clients</p>
+                        {clientcount && clientcount.length > 0 ? (clientcount.map((crow, next) => (
                             <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color: 'white' }}>{crow.count}</p>
-                        </div>
-                    ))}
-
-
-                    {managercount && managercount.map((mrow, next) => (
-                        <div style={{ backgroundColor: 'orange', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
-                            <p style={{ fontWeight: 'bold' }}><AccountCircleIcon sx={{ color: 'black', marginRight: '6px', marginLeft: '5px' }} />Managers</p>
-                            <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color: 'white' }}>{mrow.count}</p>
-                        </div>
-                    ))}
+                        ))
+                        ) : (
+                            <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color: 'white' }}>0</p>
+                        )}
+                    </div>
 
                     <div style={{ backgroundColor: 'orange', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
-                        <p style={{ fontWeight: 'bold' }}><ListIcon sx={{ color: 'black', marginRight: '6px', marginLeft: '5px' }} /> Pending Refund Verifications</p>
-                        <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color: 'white' }}>3</p>
+                        <p style={{ fontWeight: 'bold' }}><AccountCircleIcon sx={{ color: 'black', marginRight: '6px', marginLeft: '5px' }} />Managers</p>
+                        {managercount && managercount.length > 0 ? (managercount.map((mrow, next) => (
+                            <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color: 'white' }}>{mrow.count}</p>
+                        ))
+                        ) : (
+                            <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color: 'white' }}>0</p>
+                        )}
                     </div>
+
+                    <div style={{ backgroundColor: 'orange', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
+                        <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'black', marginRight: '6px', marginLeft: '5px' }} /> Clients Added Pets</p>
+                        {pending && pending.length > 0 ? ( pending.map((prow, next) => (
+                            <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color: 'white' }}>{prow.count}</p>
+                        ))
+                        ) :(
+                            <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color: 'white' }}>0</p>
+                        )}
+                    </div>
+
                 </div>
 
                 {/* user 2 boxes */}
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '20px' }}>
                     <div style={{ backgroundColor: 'white', padding: '10px', borderRadius: '20px', width: '600px', height: '280px' }}>
                         <p style={{ marginBottom: '30px', fontWeight: 'bold' }}><VerifiedIcon sx={{ color: 'orange', marginRight: '6px', marginLeft: '5px' }} /> Verified Refund Slips </p>
-                        <PieChart
-                            colors={['orange', 'black']}
-                            series={[
-                                {
-                                    data: [
-                                        { id: 0, value: 10, label: 'Pending' },
-                                        { id: 1, value: 15, label: 'Complete' },
-                                    ],
-                                },
-                            ]}
-                            width={500}
-                            height={200}
-                        />
+                        {countr && countr.map((refund, next) => (
+                            <PieChart
+                                colors={['orange', 'black']}
+                                series={[
+                                    {
+                                        data: [
+                                            { id: 0, value: refund.boarding_pending + refund.carecenter_pending, label: 'Pending' },
+                                            { id: 1, value: refund.boarding_completed + refund.carecenter_completed, label: 'Completed' },
+                                        ],
+                                    },
+                                ]}
+                                width={500}
+                                height={200}
+                            />
+                        ))}
                     </div>
 
                     <div style={{ backgroundColor: 'white', padding: '10px', borderRadius: '20px', width: '600px', height: '280px' }}>
-                        <p style={{ marginBottom: '30px', fontWeight: 'bold' }}><DangerousIcon sx={{ color: 'orange', marginRight: '6px', marginLeft: '5px' }} /> Complains </p>
-                        <PieChart
-                            colors={['orange', 'black']}
-                            series={[
-                                {
-                                    data: [
-                                        { id: 0, value: 20, label: ' Pending' },
-                                        { id: 1, value: 15, label: 'Complete' },
-                                    ],
-                                },
-                            ]}
-                            width={500}
-                            height={200}
-                        />
+                        <p style={{ marginBottom: '30px', fontWeight: 'bold' }}><DangerousIcon sx={{ color: 'orange', marginRight: '6px', marginLeft: '5px' }} />Managers' Complains Analyse </p>
+                        {complaincount && complaincount.map((comcount, next) => (
+                            <PieChart
+                                colors={['orange', 'black']}
+                                series={[
+                                    {
+                                        data: [
+                                            { id: 0, value: comcount.pending_com, label: 'Pending' },
+                                            { id: 1, value: comcount.completed_com, label: 'Responsed' },
+                                        ],
+                                    },
+                                ]}
+                                width={500}
+                                height={200}
+                            />
+                        ))}
                     </div>
                 </div>
             </div>

@@ -253,8 +253,8 @@ const Complain = () => {
                           <StyledTableCell component="th" scope="row">
                             COM  {row.complain_id}
                           </StyledTableCell>
-                          <StyledTableCell align="left">{row.email}</StyledTableCell>
-                          <StyledTableCell align="left">{row.date}</StyledTableCell>
+                          <StyledTableCell align="left">{row.client_id}</StyledTableCell>
+                          <StyledTableCell align="left">{row.com_date}</StyledTableCell>
                           <StyledTableCell align="left">
                             <textarea style={{ color: 'black', width: '100%', paddingLeft: '2%', paddingTop: '1%', paddingBottom: '5%' }}>
                               {row.complain_txt}
@@ -358,8 +358,8 @@ const Complain = () => {
                           <StyledTableCell component="th" scope="row">
                             COM  {row.complain_id}
                           </StyledTableCell>
-                          <StyledTableCell align="left">{row.email}</StyledTableCell>
-                          <StyledTableCell align="left">{row.date}</StyledTableCell>
+                          <StyledTableCell align="left">{row.client_id}</StyledTableCell>
+                          <StyledTableCell align="left">{row.com_date}</StyledTableCell>
                           <StyledTableCell align="left">
                             {row.response_date}
                           </StyledTableCell>
@@ -467,7 +467,6 @@ const Complain = () => {
                     fullWidth
                     sx={{ backgroundColor: '#ffffff' }}
                   /></>
-
 
               ))}
 

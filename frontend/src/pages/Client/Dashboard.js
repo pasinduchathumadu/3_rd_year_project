@@ -4,18 +4,17 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
-import logoImage from "../../assests/cover.png";
-import card2 from "../../assests/cover.png"
+import LoadingIndicator from '../../components/LoadingIndicator';
 
 import Image1 from '../../assests/cover.png'
 import Image2 from '../../assests/pic3.jpg'
 import Image3 from '../../assests/medi-help-image.png'
 import Image4 from '../../assests/pet-foods.png'
 import "../../styles/Client/Shop.css"
-import Button from '@mui/material/Button';
+
 import video from "../../assests/video2.mp4"
 import cage from "../../assests/png.png";
-import logo from "../../assests/2.png";
+
 import {useNavigate} from 'react-router-dom'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -30,7 +29,7 @@ const images = [
   },
   {
     url: Image2,
-    title: 'Bording-House',
+    title: 'Boarding-House',
     width: '30%',
     slag: '/bording'
   },
@@ -118,7 +117,9 @@ const ImageMarked = styled('span')(({ theme }) => ({
   transition: theme.transitions.create('opacity'),
 }));
 export const Dashboard = () => {
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
+    setLoading(false);
     AOS.init({ duration:450 });
   }, []);
 
@@ -127,8 +128,11 @@ export const Dashboard = () => {
   return (
 
       
-
-        <>
+       <div>
+        {loading ?(
+          <LoadingIndicator/>
+        ):(
+        <div>
         
         <div style={{width:"100%",height:"100vh",backgroundColor:"black"}}>
           <div className='overlap'></div>
@@ -218,7 +222,9 @@ export const Dashboard = () => {
 
       )}
       
-    </Box></>
+    </Box></div>
+        )}
+    </div>
 
      
   

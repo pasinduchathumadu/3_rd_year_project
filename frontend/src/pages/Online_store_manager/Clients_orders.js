@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState,useEffect } from "react";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import {
@@ -46,7 +47,7 @@ const Client_orders = () => {
     const [value, setvalue] = useState(0)
     const [Client , setclients] =useState("")
     const [refund, setrefund] = useState(false)
-    const [age, setAge] = useState("")
+    const [age, setAge] = useState(2)
     const [selectfile, setfile] = useState(null)
     const [image, setimage] = useState("")
     const [orders , setorders] = useState("")
@@ -57,11 +58,11 @@ const Client_orders = () => {
 
     const handlechange1 = (event) => {
         setAge(event.target.value)
+        get_clients()
     }
 
     const firstorder = async(id) => {
         const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/accept/${id}`)
-        const data = await res.data
         if(res.data.message === "Successfully Changed"){
             get_orders()
         }
@@ -82,37 +83,20 @@ const Client_orders = () => {
 
 
     const handover = async(id)=>{
-        const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/handover/${id}`)
-        const data = await res.data
+        const res = await axios.post(`http://localhost:5000/pet_care/online_store_manager/handover`,{
+            id,
+            date
+        })
+      
         if(res.data.message === "Successfully Changed"){
             get_orders()
-
         }
     }
-    const handleFileUpload = async () => {
 
-        try {
-            const formData = new FormData();
-            formData.append("image", selectfile);
-
-            const res = await axios.post("http://localhost:5000/pet_care/user/upload", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            });
-            if (res.data.message === "File uploaded successfully") {
-
-            }
-            console.log("File uploaded successfully!");
-            // Add any further handling of the response from the backend if needed.
-        } catch (err) {
-            console.log("There is an internal error", err);
-        }
-    }
 
     const get_orders = async()=>{
         try{
-            const res = await axios.get("http://localhost:5000/pet_care/online_store_manager/view_orders")
+            const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/view_orders/${age}`)
             const data = await res.data
             return data
         }
@@ -140,7 +124,7 @@ const Client_orders = () => {
         get_orders()
         .then((data)=>setorders(data.data))
         .catch((err)=>console.log(err))
-    })
+    },[age,get_orders])
 
     return (
         <>
@@ -245,10 +229,6 @@ const Client_orders = () => {
                                                          <Typography>Regular</Typography>
 
                                                     )}
-                                                   
-                                                   
-
-
                                                 </StyledTableCell>
                                             </StyledTableRow>
                                         ))}
@@ -267,27 +247,24 @@ const Client_orders = () => {
                                         <InputLabel disabled={true} displayPrint="none" htmlFor="demo-input" color="warning" variant="outlined" id="demo-select-small-label">Today</InputLabel>
                                         <Select
 
-                                            id="demo-select-small"
-                                            value={age}
+                                         
+                                           
                                             variant='outlined'
-                                            placeholder='AGE'
+                                          
                                             onChange={handlechange1}
                                         >
                                             <MenuItem value="">
                                                 <em>None</em>
                                             </MenuItem>
-                                            <MenuItem value={30}>Today</MenuItem>
-                                            <MenuItem value={10}>Last 7 Days</MenuItem>
-                                            <MenuItem value={20}>Last Month</MenuItem>
+                                            <MenuItem value={1}>Today</MenuItem>
+                                            <MenuItem value={2}>Last 7 Days</MenuItem>
+                                            <MenuItem value={3}>Last Month</MenuItem>
 
                                         </Select>
                                     </FormControl>
 
                                 </div>
-                                <div style={{ marginLeft: '71%' }}>
-                                    <Button width="50%" sx={{ backgroundColor: 'black', color: 'white', height: '60px', marginBottom: '2%', padding: '24px', ':hover': { backgroundColor: 'black' } }}>Refund Orders</Button>
 
-                                </div>
                             </div>
 
 

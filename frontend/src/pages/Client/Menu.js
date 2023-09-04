@@ -25,9 +25,10 @@ import dog2 from '../../assests/pettoy3.jpg'
 import axios from "axios";
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
-
+import LoadingIndicator from "../../components/LoadingIndicator";
 const Menu = () => {
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(true);
   const [value, setValue] = useState(0);
   const [value_dog, setdog] = useState("")
   const [MenuList,setmenu] = useState([])
@@ -84,7 +85,7 @@ const Menu = () => {
   }
   useEffect(()=>{
     get_store()
-    .then((data)=>setmenu(data.data))
+    .then((data)=>{setmenu(data.data); setLoading(false)})
     .catch((err)=>console.log("There is an internel error"))
   })
 
@@ -108,13 +109,31 @@ const Menu = () => {
   }, []);
   
   return (
+    <div>
+       {loading ? (
+                <LoadingIndicator />
+            ):(
     <>
       <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
         <Box sx={{ width: '100%', height: '80vh', backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(${dogBackground})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center' , transition: 'background-image 0.5s ease-in-out'}}>
           <Grid sx={{ marginTop: '150px', marginLeft: '100px', fontStyle: 'bold' }}>
-            <h1 style={{ fontSize: "55px", color: 'white' }}>10% discount for</h1>
-            <Typography sx={{ fontSize: '24px', fontStyle: 'bold', marginTop: '10px', marginBottom: '10px', color: 'white' }}>FIRST ORDER</Typography>
-            <Button variant="contained" sx={{ width: '15%', backgroundColor: 'orange' }}>SHOP NOW</Button>
+            <h1 style={{ fontSize: "55px", color: 'white',textAlign:"center" }}>10% discount for</h1>
+            <Typography sx={{ fontSize: '24px', fontStyle: 'bold', marginTop: '10px', marginBottom: '10px', color: 'white',textAlign:"center"  }}>FIRST ORDER</Typography>
+            <Button
+                          variant="contained"
+                          sx={{
+                            backgroundColor: "black",
+                            marginLeft: "650px",
+                            border: "2px solid white", // Adding the border
+                            ':hover': {
+                              backgroundColor: 'black',
+                              borderColor: 'gray',
+                            },
+                          }}
+                        >
+                    show now
+                    </Button>
+
           </Grid>
         </Box>
         <Box sx={{ width: "90%", marginTop: '30px' }}>
@@ -287,6 +306,8 @@ const Menu = () => {
 
 
     </>
+            )}
+    </div>
   );
 };
 

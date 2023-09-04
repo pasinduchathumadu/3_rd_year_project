@@ -13,7 +13,7 @@ import platinum from "../../assests/platinum.png"
 import gold from "../../assests/gold.png"
 import silver from "../../assests/silver.png";
 import { Link } from 'react-router-dom';
-import StarIcon from '@mui/icons-material/Star';
+
 
 
 
@@ -38,8 +38,7 @@ const Bording = () => {
   const movies = [
     { name: 'Dogs', price: 1000 },
     { name: 'Cats', price: 800 },
-    { name: 'Birds', price: 500 },
-    { name: 'The Lion King', price: 9 },
+   
   ];
 
   const handleSeatClick = (rowIndex, seatIndex) => {
@@ -147,7 +146,7 @@ const Bording = () => {
           <select id="movie" onChange={handleMovieChange} value={selectedMovieIndex}>
             {movies.map((movie, index) => (
               <option key={index} value={index}>
-                {movie.name} (Rs.{movie.price}-UP)
+                {movie.name} 
               </option>
             ))}
           </select>
@@ -156,7 +155,7 @@ const Bording = () => {
         <ul className="showcase">
           <li>
             <div className="seat"> </div>
-            <small>N/A</small>
+            <small>N/O</small>
           </li>
 
           <li>
@@ -195,7 +194,7 @@ const Bording = () => {
         </div>
 
         <p className="text">
-          You have selected <span id="count">{count}</span> seats for a price of ${' '}
+          You have selected <span id="count">{count}</span> seats for a price of Rs{' '}
           <span id="total">{total}</span>
         </p>
         <p style={{ color: "black", marginTop: "30px" }}>Select your time slot</p>

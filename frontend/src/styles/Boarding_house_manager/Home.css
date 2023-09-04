@@ -167,3 +167,22 @@ body {
 }
 
 
+.custom-chart-line path {
+    stroke: orange !important; /* Apply orange color */
+  }
+
+  .x-axis-labels {
+    display: flex;
+    justify-content: space-between;
+ position: relative;
+ left: 200px;
+ top:-30px;
+  }
+
+  .y-axis-labels {
+    display: flex;
+    justify-content: space-between;
+ position: relative;
+ left: 5px;
+ top:-290px;
+  }
