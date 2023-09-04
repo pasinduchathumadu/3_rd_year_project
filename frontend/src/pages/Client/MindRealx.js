@@ -50,23 +50,25 @@ function MindRealx() {
       >
      
    <div className='smooth-scroll' style={{marginLeft:'2%'}}>
-            <p style={{ fontSize: "80px", fontWeight: "10", marginTop: "-240px",textAlign:"left"}}>
-            You can spend time
+            <p style={{ fontSize: "60px", fontWeight: "10", marginTop: "-240px",textAlign:"left"}}>
+            Come and spend time with our
             </p>
-            <p style={{ fontSize: "40px", fontWeight: "100", marginTop: "-20px",textAlign:"left",marginLeft:"20px"}}>
-            Non bred pets
+            <p style={{ fontSize: "40px", fontWeight: "100", marginTop: "-10px",textAlign:"left",marginLeft:"20px"}}>
+            Happy Tail-wagging pets
             </p>
             
           
 
         <div  className='smooth-scroll' style={{lineHeight:"1.5"}}>
               <p style={{ fontSize: "20px", fontWeight: "10", marginTop: "20px", textAlign:"left",marginLeft:"20px",lineHeight:"1.15"}}>
+
               you don't have a pet, don't worry! We can lend you our lovely pets.
            
               </p>
          
               <p style={{ fontSize: "20px", fontWeight: "10", marginTop: "20px", textAlign:"left",marginLeft:"20px",lineHeight:"1.15"}}>
               Hurry up and spend your valuable time with our cute pets
+
               </p>
 
           

@@ -53,3 +53,44 @@ export const get_competitions = async (req, res, next) => {
     }
   });
 };
+
+export const update_blog = async (req, res, next) => {
+  const { id } = req.body;
+  console.log(id);
+  const status = "posted";
+  const sqlquery = "UPDATE client_post SET blog_status = ? WHERE post_id = ?";
+  const values = [status, id];
+  db.query(sqlquery, values, (err, data) => {
+    if (err) {
+      return res.json({ message: "There is an internel error" });
+    }
+    return res.json({ message: "Updated" });
+  });
+};
+
+export const update_blog_reject = async (req, res, next) => {
+  const { id1 } = req.body;
+  console.log(id1);
+  const status = "rejected";
+  const sqlquery = "UPDATE client_post SET blog_status = ? WHERE post_id = ?";
+  const values = [status, id1];
+  db.query(sqlquery, values, (err, data) => {
+    if (err) {
+      return res.json({ message: "There is an internel error" });
+    }
+    return res.json({ message: "Rejected" });
+  });
+};
+export const blog = async (req, res, next) => {
+  const status = "pending";
+
+  const sqlQuery = "select *from client_post WHERE blog_status = ?";
+  const values = [status];
+
+  db.query(sqlQuery, values, (err, data) => {
+    if (err) {
+      return res.json({ message: "there is internal error" });
+    }
+    return res.json({ data });
+  });
+};
