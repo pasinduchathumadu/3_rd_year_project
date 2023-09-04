@@ -255,3 +255,22 @@ export const petDeleteing = async(req,res,next) => {
     })
 }
 
+export const submit = async(req,res,next)=>{
+    const {first,last,email} = req.body
+    console.log(first)
+    const sqlQuery = "INSERT INTO employee(first_name,last_name,email)VALUES(?,?,?)"
+    const checkvalue = [
+        first,
+        last,
+        email
+    ]
+    db.query(sqlQuery,checkvalue,(err,data)=>{
+        if(err){
+            return res.json({message:"There is an internel error"})
+        }
+        return res.json({message:"insert"})
+    })
+
+
+}
+
