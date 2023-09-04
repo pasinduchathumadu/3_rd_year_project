@@ -47,6 +47,11 @@ const Home = () => {
         filtercomplain() //pending
         filtercomplainreply() //completed
     };
+    const data = [
+        { id: 0, value: 10, label: 'Income' },
+        { id: 1, value: 15, label: 'Discounts' },
+        { id: 2, value: 20, label: 'Net Profit' },
+    ];
 
     const handleChange1 = (event) =>{
         setage1(event.target.value)
@@ -89,11 +94,7 @@ const Home = () => {
             setwaiting(data.data[0].total)
             setage1(" ")
 
-    const data = [
-        { id: 0, value: 10, label: 'Income' },
-        { id: 1, value: 15, label: 'Discounts' },
-        { id: 2, value: 20, label: 'Net Profit' },
-    ];
+   
 
 
         }catch(err){
@@ -317,6 +318,7 @@ const Home = () => {
                                             data,
                                             highlightScope: { faded: 'global', highlighted: 'item' },
                                             faded: { innerRadius: 30, additionalRadius: -30 },
+                                            
                                         },
                                     ]}
                                     sx={{
@@ -470,11 +472,6 @@ const Home = () => {
                     </div>
 
                 </Grid>
-                
-               
-
-
-
             </div>
         </>
     );
