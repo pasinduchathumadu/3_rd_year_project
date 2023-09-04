@@ -61,11 +61,13 @@ function MindRealx() {
 
         <div  className='smooth-scroll' style={{lineHeight:"1.5"}}>
               <p style={{ fontSize: "20px", fontWeight: "10", marginTop: "20px", textAlign:"left",marginLeft:"20px",lineHeight:"1.15"}}>
-              Our aim is to give dogs more exercise and playtime and to allow people without a dog to spend quality time with one. We call it a win-win (or a woof-­woof) situation for everyone involved.           
+
+              you don't have a pet, don't worry! We can lend you our lovely pets.
+           
               </p>
          
               <p style={{ fontSize: "20px", fontWeight: "10", marginTop: "20px", textAlign:"left",marginLeft:"20px",lineHeight:"1.15"}}>
-              HURRY UP AND SHARE THE LOVE OF DOGS
+              Hurry up and spend your valuable time with our cute pets
 
               </p>
 

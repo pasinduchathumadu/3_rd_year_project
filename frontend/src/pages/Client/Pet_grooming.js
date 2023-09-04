@@ -23,7 +23,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
-
+import LoadingIndicator from '../../components/LoadingIndicator';
 import Bath from "../../assests/bath.jpg";
 import Haircut from "../../assests/haircut.png";
 import massage from "../../assests/massage.jpg";
@@ -91,6 +91,7 @@ function Pet_grooming() {
   const [fill, setfilled] = useState(false)
   const [paymentdo, setpaymentdo] = useState(false)
   const [employee_detail, setEmployeeDetail] = useState([]);
+  const [loading , setLoading ] = useState(true)
   const handleDateChange = (newDate) => {
     setSelectedDate(newDate);
   };
@@ -98,12 +99,12 @@ function Pet_grooming() {
   const email = localStorage.getItem('store_email')
 
   const input = new Date()
-  const date = format(input, 'MM-dd-yyyy')
+  const date = format(input, 'yyy-MM-dd')
   const currentDate = new Date();
   const twoWeeksFromToday = new Date();
   twoWeeksFromToday.setDate(currentDate.getDate() + 14);
 
-  const selectedDateString = selectedDate ? selectedDate.format('MM-DD-YYYY') : '';
+  const selectedDateString = selectedDate ? selectedDate.format('YYYY-MM-DD') : '';
 
   const handleFormOpen = async () => {
     seterror(false)
@@ -152,6 +153,12 @@ function Pet_grooming() {
   };
 
   const random_assit = async (package_id) => {
+    const cancel_date = new Date(selectedDateString);
+    cancel_date.setDate(cancel_date.getDate() + 2);
+    const new_cancel_date = cancel_date.toISOString().substr(0, 10);
+    
+   
+  
    
     if (fill) {
       navigate('/Pet_grooming')
@@ -163,7 +170,8 @@ function Pet_grooming() {
           selectedDateString,
           email,
           package_id,
-          choose_package
+          choose_package,
+          new_cancel_date
         })
         const data = await res.data
         setEmployeeDetail(data.data)
@@ -229,6 +237,7 @@ function Pet_grooming() {
   }
 
   const confirm = async (id) => {
+
     try {
       await axios.get(`http://localhost:5000/pet_care/user/payment/${id}`)
     }
@@ -295,7 +304,7 @@ function Pet_grooming() {
 
   useEffect(() => {
     get_timeslot()
-      .then((data) => settimeslot(data.data))
+      .then((data) => {settimeslot(data.data);setLoading(false)})
       .catch((err) => console.log(err))
   })
   const getImageSrc = (imageName) => {
@@ -318,20 +327,27 @@ function Pet_grooming() {
 
   useEffect(() => {
     get_package()
-      .then((data) => setpackage(data.data))
+      .then((data) => {setpackage(data.data);setLoading(false)})
       .catch((err) => console.log(err))
   })
 
 
 
   useEffect(() => {
+    setLoading(false)
     AOS.init({ duration: 1000 });
   }, []);
 
 
 
   return (
-    <><>
+    <div>
+      {loading ?(
+        <LoadingIndicator/>
+      ):(
+
+     
+    <>
 
       {first && (
         <><div
@@ -426,7 +442,9 @@ function Pet_grooming() {
 
 
           <h1 style={{ marginTop: "-290px", fontSize: '60px', fontWeight: 'bold' }}> Let's <span style={{ color: "orange", fontSize: '60px', fontWeight: 'bold' }}>Groom</span> your pet.</h1>
+
           <Typography sx={{ color: 'red' }}>Note : Pick a Date within two weeks today onwards</Typography>
+
 
         </div>
 
@@ -475,7 +493,9 @@ function Pet_grooming() {
                       <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: "", fontSize: "23px" }}>
                         {menu.package_name}
                       </Typography><Typography variant="body2" color="text.secondary">
+
                         Rs.{menu.price}
+
                       </Typography><ol style={{ listStyleType: 'none', padding: 0, textAlign: "", marginTop: "40px", color: "black", fontSize: "20px" }}>
                         <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Deep Cleaning Shampoo</li>
                         <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Blow Dry</li>
@@ -569,11 +589,13 @@ function Pet_grooming() {
                   {package_care.filter((menu, index) => menu.package_id === 3).map((menu) => (
                     <CardContent>
 
+
                       <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: "", fontSize: "23px" }}>
                         {menu.package_name}
                       </Typography><Typography variant="body2" color="text.secondary">
                         Rs.{menu.price}
                       </Typography>
+
 
 
                       <ol style={{ listStyleType: 'none', padding: 0, textAlign: "", marginTop: "40px", color: "black", fontSize: "20px" }}>
@@ -1011,7 +1033,7 @@ function Pet_grooming() {
                             <Typography variant="h6" data-aos="fade-left">
                               {menu.email}
                             </Typography>
-                            <Typography variant="h6" data-aos="fade-right">
+                            <Typography variant="h6" data-aos="fade-right" sx={{fontSize:"5px"}}>
                               {menu.contact_number}
                             </Typography>
                             <Stack alignItems={"center"} justifyContent={"center"} mt={2} p={1}>
@@ -1028,7 +1050,7 @@ function Pet_grooming() {
                                 }}
                               >
 
-                                10 <span style={{ color: "orange", fontSize: "20px" }}> Pet grooming</span>
+                                10 <span style={{ color: "red", fontSize: "20px"}}> Pet grooming</span>
                               </Typography>
                             </Stack>
                           </Stack>
@@ -1387,7 +1409,7 @@ function Pet_grooming() {
 
       )}
     </>
-
+      )}
       {paymentdo && (
         <div
           style={{
@@ -1458,7 +1480,8 @@ function Pet_grooming() {
 
           </div>
         </div>
-      )}</>
+        
+      )}</div>
   );
 }
 

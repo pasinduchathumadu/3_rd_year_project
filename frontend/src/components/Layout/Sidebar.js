@@ -46,16 +46,17 @@ export default function TemporaryDrawer({
     data_link = ["dashboard","addpet","crossing","shop","NonBredShop","reports"]
   }
   else if(userType === 'care_center_manager'){
-    data = ["Appointments","Packages","Cargivers","Complains"];
-    data_link =["appointments","packages","caregiverlist","complaints"]
+    data = ["Appointments","Packages","Cargivers","Mind Relaxing Pets","Refund","Complains"];
+    data_link =["appointments","packages","caregiverlist","mindrelaxing","refund","complaints"]
   }
 
    else if (userType === "company_manager") {
-    data = ["Dashboard", "Clients", "Competitions", "Complains"];
+    data = ["Dashboard", "Clients Categorization", "Competitions", "Blogs", "Complains"];
     data_link = [
       "company_dashboard",
       "company_clients",
       "company_competitions",
+      "company_blogs",
       "company_complains",
     ];
   } 

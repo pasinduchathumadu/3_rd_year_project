@@ -81,7 +81,7 @@ function Company_Clients() {
         </Box>
         <Stack justifyContent="center" alignItems="center">
           <Typography color="textPrimary" fontWeight="bold" fontSize={"25px"}>
-            Company Clients
+            Clients Categorization
           </Typography>
         </Stack>
         <Stack direction="row" justifyContent="center" alignItems="center">
@@ -95,12 +95,7 @@ function Company_Clients() {
       </Stack>
 
       <Box padding={2}>
-        <Tabs
-          value={selectedTab}
-          onChange={handleTabChange}
-          centered
-          variant="fullWidth"
-          sx={{
+        <Tabs value={selectedTab} onChange={handleTabChange} centered variant="fullWidth" sx={{
             "& .MuiTab-root": {
               fontSize: "16px",
               color: "black",
@@ -118,8 +113,9 @@ function Company_Clients() {
             },
           }}
         >
-          <Tab label="Clients" />
-          <Tab label="Categorized Customers" />
+          <Tab label="Boarding House" />
+          <Tab label="Care Center" />
+          <Tab label="Online Store" />
         </Tabs>
         {selectedTab === 0 && (
           <Box padding={2}>
@@ -157,6 +153,42 @@ function Company_Clients() {
           </Box>
         )}
         {selectedTab === 1 && (
+          <Box padding={2}>
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell>Client ID </StyledTableCell>
+                    <StyledTableCell>Client Name</StyledTableCell>
+                    <StyledTableCell>Payment</StyledTableCell>
+                    <StyledTableCell>Category</StyledTableCell>
+
+                    <StyledTableCell>View</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {rows.map((row) => (
+                    <StyledTableRow key={row.id}>
+                      <StyledTableCell component="th" scope="row">
+                        {row.id}
+                      </StyledTableCell>
+                      <StyledTableCell>{row.name}</StyledTableCell>
+                      <StyledTableCell>{row.payment}</StyledTableCell>
+                      <StyledTableCell>{row.category}</StyledTableCell>
+
+                      <StyledTableCell>
+                        <DialogForm title="Client Details" btn_name="View">
+                          <Form_Details />
+                        </DialogForm>
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Box>
+        )}
+        {selectedTab === 2 && (
           <Box padding={2}>
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 700 }} aria-label="customized table">
