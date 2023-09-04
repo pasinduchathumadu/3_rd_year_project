@@ -169,6 +169,12 @@ const Home = () => {
         navigate("/profile")
     }
 
+    // get profile picture
+    const getProfilepicturepath = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+
+    }
+
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
             <div className="top">
@@ -183,7 +189,11 @@ const Home = () => {
 
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
-                    <Button onClick={profile}><img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" /></Button>
+                    <Button onClick={profile}>
+                        <img src={getProfilepicturepath("boarding_profile.jpeg")} 
+                            alt="profilepicture" 
+                            className="boarding-profile-picture" />
+                    </Button>
                 </div>
             </div>
 
