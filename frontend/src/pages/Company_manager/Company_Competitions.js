@@ -7,7 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Avatar, IconButton, TextField } from "@mui/material";
+import { Avatar, FormControl, FormLabel, IconButton, TextField } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ProfilePicture from "../../assests/profile-picture.png";
 import { Button, Stack } from "@mui/material";
@@ -16,11 +16,20 @@ import Typography from "@mui/material/Typography";
 import CloseIcon from '@mui/icons-material/Close';
 import axios from "axios";
 import AddIcon from '@mui/icons-material/Add';
-
+// import { typography } from "@mui/system";
+import BackgroundImage from '../../assests/competitionbckgnd.jpeg';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 
 function Company_Competitions() {
   const date = new Date()
   const currentdate = date.toDateString();
+
+  const [mainbox, setmainbox] = useState(true)
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -43,7 +52,7 @@ function Company_Competitions() {
 
   const [com, setCom] = useState([]);
   const [second, setSecond] = useState(false);
-  const [id ,setid] = useState("")
+  const [id, setid] = useState("")
 
 
   const getCompetitions = async () => {
@@ -57,9 +66,9 @@ function Company_Competitions() {
       console.log(err);
     }
   };
- const close = ()=>{
-  setSecond(false)
- }
+  const close = () => {
+    setSecond(false)
+  }
   useEffect(() => {
     getCompetitions()
       .then((data) => setCom(data.data))
@@ -68,48 +77,54 @@ function Company_Competitions() {
 
   const handleClick = (id) => {
     setid(id)
-   
+
     setSecond(true);
   };
 
+  // get competition post path
+  const getPostFileSrc = (imageName) => {
+    return require(`../../../../backend/images/store/${imageName}`)
+  }
+
   return (
     <>
-      
-        <div >
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            padding={2}
-            sx={{ marginTop: "4%" }}
-          >
-            <Box>
-              <Typography variant="inherit" color="textSecondary">
-                Company Manager
-              </Typography>
-              <Typography variant="inherit" color="textSecondary">
-                Today
-              </Typography>
-              <Typography variant="inherit" color="textSecondary">
-               {currentdate}
-              </Typography>
-            </Box>
-            <Stack justifyContent="center" alignItems="center">
-              <Typography color="textPrimary" fontWeight="bold" fontSize={"25px"}>
-                Company Competitions
-              </Typography>
-            </Stack>
-            <Stack direction="row" justifyContent="center" alignItems="center">
-              <NotificationsIcon className="bell-icon" />
-              <img
-                src={ProfilePicture}
-                alt="profilepicture"
-                className="boarding-profile-picture"
-              />
-            </Stack>
+      <div >
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          padding={2}
+          sx={{ marginTop: "4%" }}
+        >
+          <Box>
+            <Typography variant="inherit" color="textSecondary">
+              Company Manager
+            </Typography>
+            <Typography variant="inherit" color="textSecondary">
+              Today
+            </Typography>
+            <Typography variant="inherit" color="textSecondary">
+              {currentdate}
+            </Typography>
+          </Box>
+          <Stack justifyContent="center" alignItems="center">
+            <Typography color="textPrimary" fontWeight="bold" fontSize={"25px"}>
+              Company Competitions
+            </Typography>
           </Stack>
+          <Stack direction="row" justifyContent="center" alignItems="center">
+            <NotificationsIcon className="bell-icon" />
+            <img
+              src={ProfilePicture}
+              alt="profilepicture"
+              className="boarding-profile-picture"
+            />
+          </Stack>
+        </Stack>
+
+        {mainbox && (
           <Box padding={2}>
             <Box>
-              <Button sx={{color:'white', backgroundColor:'black', marginBottom:'10px', ':hover':{backgroundColor:'black'}}}><AddIcon />Add New Competition</Button>
+              <Button sx={{ color: 'white', backgroundColor: 'black', marginBottom: '10px', ':hover': { backgroundColor: 'black' } }}><AddIcon />Add New Competition</Button>
             </Box>
 
             <TableContainer component={Paper}>
@@ -139,7 +154,7 @@ function Company_Competitions() {
                       <StyledTableCell>{row.venue}</StyledTableCell>
                       <StyledTableCell>{row.pay}.00</StyledTableCell>
                       <StyledTableCell align="left">
-                        <Button onClick={()=>handleClick(row.notice_id)}>View</Button>
+                        <Button onClick={() => handleClick(row.notice_id)} sx={{ backgroundColor: 'orange', color: 'white', ':hover': { backgroundColor: 'orange' } }}>View</Button>
                       </StyledTableCell>
                     </StyledTableRow>
                   ))}
@@ -147,112 +162,33 @@ function Company_Competitions() {
               </Table>
             </TableContainer>
           </Box>
-        </div>
+        )}
+      </div>
 
+      {/* view competition post */}
       {second && (
-         <div style={{ backdropFilter: 'blur(3px)', position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <form style={{marginTop:'6%'}}>
-        <Box sx={{backgroundColor:"white"}} p={5} >
-<IconButton onClick={close} sx={{float:'right'}}>
-  <CloseIcon/>
-</IconButton>
-        <Stack spacing={2} direction="row" sx={{ marginBottom: 4 }} mt={5}>
-          <Avatar
-            alt="Remy Sharp"
-            src="https://images.unsplash.com/photo-1581753418434-51c11169a3c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80"
-            sx={{ width: 220, height: 320, backgroundSize: "cover" }}
-            variant="rounded"
-          />
-
-          <Box>
-          {com.filter((menu,index)=>menu.notice_id === id).map((menu,index)=>(
-            <Stack>
-            <Stack spacing={2} direction="row" sx={{ marginBottom: 4 }} >
-             
-              <TextField
-                type="text"
-                variant="outlined"
-                color="secondary"
-                label="Competition ID"
-                value={menu.notice_id}
-                fullWidth
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-              <TextField
-                type="text"
-                variant="outlined"
-                color="secondary"
-                label="Competition Name"
-                value={menu.name}
-                fullWidth
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </Stack>
-            <Stack spacing={2} direction="row" sx={{ marginBottom: 4 }}>
-              <TextField
-                type="text"
-                variant="outlined"
-                color="secondary"
-                label="Date"
-                value={menu.date}
-                fullWidth
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-              <TextField
-                type="text"
-                variant="outlined"
-                color="secondary"
-                label="Time"
-                value={menu.time}
-                fullWidth
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </Stack>
-
-            <Stack sx={{ marginBottom: 4 }}>
-              <TextField
-                type="text"
-                variant="outlined"
-                color="secondary"
-                label="Organized by"
-                value={"VA Group"}
-                fullWidth
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </Stack>
-            <Stack>
-              <TextField
-                type="text"
-                variant="outlined"
-                color="secondary"
-                label="Venue"
-                value={menu.venu}
-                fullWidth
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </Stack>
-          </Stack>
-                  
-                  ))}
-            
-          </Box>
-        </Stack>
-          </Box>
-        </form>
+        <div style={{ backdropFilter: 'blur(3px)', position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <form style={{ marginTop: '6%' }}>
+            <Box sx={{ backgroundColor: "white" }} p={5} >
+              <IconButton onClick={close} sx={{ float: 'right' }}>
+                <CloseIcon sx={{ color: 'white', backgroundColor: 'red' }} />
+              </IconButton>
+              <Stack spacing={2} direction="column" sx={{ marginBottom: 4 }} mt={5}>
+                <Typography sx={{ fontWeight: 'bold' }}>Competition Notice :</Typography>
+                <hr />
+                {com.filter((menu, index) => menu.notice_id === id).map((menu, index) => (
+                  <img
+                    alt="Remy Sharp"
+                    src={menu.file === "" ? getPostFileSrc("noimage.png") : getPostFileSrc(menu.file)}
+                    sx={{ width: 220, height: 320, backgroundSize: "cover", borderRadius: '10px' }}
+                    variant="rounded"
+                  />
+                ))}
+              </Stack>
+            </Box>
+          </form>
         </div>
-      )}
+      )}   
     </>
   );
 }
