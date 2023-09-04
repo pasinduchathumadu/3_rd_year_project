@@ -20,6 +20,9 @@ import Add_Complaint_Form from "./Add_Complaint_Form";
 import AddIcon from '@mui/icons-material/Add';
 
 function Company_Complaints() {
+  const date = new Date()
+  const currentdate = date.toDateString();
+
   const [selectedTab, setSelectedTab] = useState(0);
 
   const handleTabChange = (event, newValue) => {
@@ -71,7 +74,7 @@ function Company_Complaints() {
             Today
           </Typography>
           <Typography variant="inherit" color="textSecondary">
-            08 August 2023
+            {currentdate}
           </Typography>
         </Box>
         <Stack justifyContent="center" alignItems="center">

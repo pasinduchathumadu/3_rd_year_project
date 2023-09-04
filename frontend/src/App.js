@@ -91,7 +91,6 @@ import CompanyHome from "./pages/Company_manager/Company_Home";
 import CompanyClients from "./pages/Company_manager/Company_Clients";
 import CompanyCompetitions from "./pages/Company_manager/Company_Competitions";
 import CompanyComplaints from "./pages/Company_manager/Company_Complaints";
-import CompanyBlogs from "./pages/Company_manager/Blogs";
 
 import { useNavigate } from "react-router-dom";
 import HomeHeader from "./components/Layout/Homeheader";
@@ -371,15 +370,7 @@ import BookOnlineIcon from '@mui/icons-material/BookOnline'; // appointments
                   </>
                 }
               />
-              <Route
-                path="/company_blogs"
-                element={
-                  <>
-                    <HomeHeader userRole={"company_manager"} />
-                    <CompanyBlogs />
-                  </>
-                }
-              />
+              
             </>
           )}
 

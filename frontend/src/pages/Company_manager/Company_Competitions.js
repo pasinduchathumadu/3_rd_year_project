@@ -19,6 +19,9 @@ import AddIcon from '@mui/icons-material/Add';
 
 
 function Company_Competitions() {
+  const date = new Date()
+  const currentdate = date.toDateString();
+
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.common.black,
@@ -87,7 +90,7 @@ function Company_Competitions() {
                 Today
               </Typography>
               <Typography variant="inherit" color="textSecondary">
-                08 August 2023
+               {currentdate}
               </Typography>
             </Box>
             <Stack justifyContent="center" alignItems="center">
@@ -115,9 +118,11 @@ function Company_Competitions() {
                   <TableRow>
                     <StyledTableCell>Competition ID </StyledTableCell>
                     <StyledTableCell>Competition Name</StyledTableCell>
+                    <StyledTableCell>Description </StyledTableCell>
                     <StyledTableCell>Date</StyledTableCell>
                     <StyledTableCell>Start Time</StyledTableCell>
                     <StyledTableCell>Venue</StyledTableCell>
+                    <StyledTableCell>Payment(Rs)</StyledTableCell>
                     <StyledTableCell> Competition Post</StyledTableCell>
                   </TableRow>
                 </TableHead>
@@ -128,9 +133,11 @@ function Company_Competitions() {
                         {row.notice_id}
                       </StyledTableCell>
                       <StyledTableCell>{row.name}</StyledTableCell>
+                      <StyledTableCell>{row.description}</StyledTableCell>
                       <StyledTableCell>{row.date}</StyledTableCell>
-                      <StyledTableCell>{row.date}</StyledTableCell>
-                      <StyledTableCell>{row.date}</StyledTableCell>
+                      <StyledTableCell>{row.time}</StyledTableCell>
+                      <StyledTableCell>{row.venue}</StyledTableCell>
+                      <StyledTableCell>{row.pay}.00</StyledTableCell>
                       <StyledTableCell align="left">
                         <Button onClick={()=>handleClick(row.notice_id)}>View</Button>
                       </StyledTableCell>
