@@ -17,6 +17,10 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import CPetProfile from "./CPetProfile";
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import { useNavigate } from "react-router";
+// import NotificationsIcon from '@mui/icons-material/Notifications';
+
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -67,8 +71,6 @@ function Appo() {
     setAge(event.target.value);
   };
 
-
-
   const input = new Date();
   const date = input.toDateString();
   const [value, setvalue] = React.useState(0);
@@ -80,6 +82,16 @@ function Appo() {
   const Submit = () => {
     setPopoup(true)
   }
+
+  const navigate = useNavigate("")
+  // connect profile
+  const profile = () => {
+    navigate("/profile")
+  }
+   // get profile picture
+   const getProfilepicturepath = (imageName) => {
+    return require(`../../../../backend/images/store/${imageName}`)
+}
 
   return (
     <>
@@ -121,12 +133,15 @@ function Appo() {
               </Typography>
             </div>
             <div style={{ display: 'flex', marginLeft: 'auto', alignItems: 'center', justifyContent: 'center' }}>
-              <div style={{ marginLeft: '150%' }}><Stack direction="row" spacing={2} width={300}>
-                <Avatar
-                  alt="Travis Howard"
-                  src={profile}
-                  sx={{ width: 60, height: 60 }}
-                />
+              <div style={{ marginLeft: '130%' }}><Stack direction="row" spacing={2} width={300}>
+                <NotificationsIcon />
+                <Button onClick={profile}>
+                  <img
+                    alt="profilepicture"
+                    src={getProfilepicturepath("carecenter_profile.png")}
+                    style={{ width: 'auto', height: '60px' }}
+                  />
+                </Button>
               </Stack>
               </div>
             </div>
@@ -147,13 +162,13 @@ function Appo() {
                 indicatorColor="transparent"
                 sx={{ borderRadius: "10px" }}
               >
-                <Tab sx={{backgroundColor: value === 0 ? "orange" : "white", color: value === 0 ? "white" : "black"}} label="Pet Grooming Appointments"/>
-                <Tab sx={{backgroundColor: value === 1 ? "orange" : "white",color: value === 1 ? "white" : "black",}}label="Dog Trainning & Exercising Appointments"/>
-                <Tab sx={{backgroundColor: value === 2 ? "orange" : "white",color: value === 2 ? "white" : "black",}}label="Mind Relaxing Appointments"/>
+                <Tab sx={{ backgroundColor: value === 0 ? "orange" : "white", color: value === 0 ? "white" : "black" }} label="Pet Grooming Appointments" />
+                <Tab sx={{ backgroundColor: value === 1 ? "orange" : "white", color: value === 1 ? "white" : "black", }} label="Dog Trainning & Exercising Appointments" />
+                <Tab sx={{ backgroundColor: value === 2 ? "orange" : "white", color: value === 2 ? "white" : "black", }} label="Mind Relaxing Appointments" />
               </Tabs>
             </Box>
           </Grid>
-          
+
           {value === 0 && (
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 800 }} aria-label="customized table">
@@ -230,7 +245,7 @@ function Appo() {
                       CareGiver ID
                     </StyledTableCell> */}
                     <StyledTableCell align="left" sx={{ width: "10%" }}>
-                       Selected Time Slot
+                      Selected Time Slot
                     </StyledTableCell>
                     <StyledTableCell align="left" sx={{ width: "10%" }}>
                       Payment(Rs)
@@ -298,7 +313,7 @@ function Appo() {
                       CareGiver ID
                     </StyledTableCell> */}
                     <StyledTableCell align="left" sx={{ width: "10%" }}>
-                    Selected Time Slot
+                      Selected Time Slot
                     </StyledTableCell>
                     <StyledTableCell align="left" sx={{ width: "10%" }}>
                       Payment(Rs)
@@ -322,7 +337,7 @@ function Appo() {
                       </StyledTableCell> */}
                       <StyledTableCell align="left">
                         {row.carbs}
-                      </StyledTableCell> 
+                      </StyledTableCell>
                       <StyledTableCell align="left">
                         {row.protein}
                       </StyledTableCell>
