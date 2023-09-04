@@ -429,8 +429,129 @@ export const filterreply = async (req, res, next) => {
         })
         // Last month
     }
+}
 
+export const filtercomplain1 = async(req,res,next)=>{
+    const id = req.params.id
+    const currentDate = new Date();
+    let startDate = new Date(currentDate);
+    
 
+    if (id === "1") {
+        startDate = new Date(currentDate)
+        const status = 'waitting'
+        const startDateOnly = startDate.toISOString().substr(0, 10);
 
+        const sqlQuery = "SELECT COUNT(po_id)AS total,po_status FROM purchase_order WHERE po_status = ? AND placed_date = ?"
+        const values = [
+            status,
+            startDateOnly
+        ]
+
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internel error' })
+            }
+            return res.json({ data })
+        })
+    } else if (id === "2") {
+        startDate.setDate(currentDate.getDate() - 7);
+        const status = 'waitting'
+        const startDateOnly = startDate.toISOString().substr(0, 10);
+
+        const sqlQuery = "SELECT COUNT(po_id)AS total,po_status FROM purchase_order WHERE po_status = ? AND placed_date >= ?"
+        const values = [
+            status,
+            startDateOnly
+        ]
+
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internel error' })
+            }
+            return res.json({ data })
+        })
+        // Last week
+    } else if (id === "3") {
+        startDate.setMonth(currentDate.getMonth() - 1);
+        const status = 'waitting'
+        const startDateOnly = startDate.toISOString().substr(0, 10);
+
+        const sqlQuery = "SELECT COUNT(po_id)AS total,po_status FROM purchase_order WHERE po_status = ? AND placed_date >= ?"
+        const values = [
+            status,
+            startDateOnly
+        ]
+
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internel error' })
+            }
+            return res.json({ data })
+        })
+        // Last month
+    }
+
+}
+export const filtercomplain2 = async(req,res,next)=>{
+    const id = req.params.id
+    const currentDate = new Date();
+    let startDate = new Date(currentDate);
+    
+
+    if (id === "1") {
+        startDate = new Date(currentDate)
+        const status = 'handed'
+        const startDateOnly = startDate.toISOString().substr(0, 10);
+
+        const sqlQuery = "SELECT COUNT(po_id)AS total,po_status FROM purchase_order WHERE po_status = ? AND handover_date = ?"
+        const values = [
+            status,
+            startDateOnly
+        ]
+
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internel error' })
+            }
+            return res.json({ data })
+        })
+    } else if (id === "2") {
+        startDate.setDate(currentDate.getDate() - 7);
+        const status = 'handed'
+        const startDateOnly = startDate.toISOString().substr(0, 10);
+
+        const sqlQuery = "SELECT COUNT(po_id)AS total,po_status FROM purchase_order WHERE po_status = ? AND handover_date  >= ?"
+        const values = [
+            status,
+            startDateOnly
+        ]
+
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internel error' })
+            }
+            return res.json({ data })
+        })
+        // Last week
+    } else if (id === "3") {
+        startDate.setMonth(currentDate.getMonth() - 1);
+        const status = 'handed'
+        const startDateOnly = startDate.toISOString().substr(0, 10);
+
+        const sqlQuery = "SELECT COUNT(po_id)AS total,po_status FROM purchase_order WHERE po_status = ? AND handover_date >= ?"
+        const values = [
+            status,
+            startDateOnly
+        ]
+
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internel error' })
+            }
+            return res.json({ data })
+        })
+        // Last month
+    }
 
 }
