@@ -51,7 +51,7 @@ export default function TemporaryDrawer({
   }
 
    else if (userType === "company_manager") {
-    data = ["Dashboard", "Clients", "Competitions", "Complains"];
+    data = ["Dashboard", "Clients Categorization", "Competitions", "Complains"];
     data_link = [
       "company_dashboard",
       "company_clients",

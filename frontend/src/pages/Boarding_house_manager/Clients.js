@@ -17,16 +17,19 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
-import { Avatar, IconButton, Tab } from "@mui/material";
+import { IconButton, Tab, Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/material";
 import { Tabs } from "@mui/material";
 import { FormLabel, TextField } from "@mui/material";
 import StarIcon from '@mui/icons-material/Star';
-import Slip from '../../assests/bankslip1.png';
+// import Slip from '../../assests/bankslip1.png';
 import axios from "axios";
 // import CircleIcon from '@mui/icons-material/Circle';
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from "react-router";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import PetsIcon from '@mui/icons-material/Pets';
+import { Stack } from "@mui/system";
+
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -508,155 +511,72 @@ const Clients = () => {
                     top: 0,
                     left: 0,
                     width: '100%',
-                    height: '50%',
+                    height: '100vh',
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
                     marginRight: '300px',
                     zIndex: 1001,
                 }}>
-                    {petdetails && petdetails.map((petrow, index) => (
-                        <FormControl sx={{
-                            marginLeft: '5%',
-                            marginTop: '30%',
-                            borderRadius: '10px',
-                            width: '700px',
-                            padding: '20px',
-                            position: 'relative',
-                            zIndex: 1001,
-                            backgroundColor: 'black'
-                        }}>
-                            <div style={{ backgroundColor: 'white', paddingTop: '20px', paddingBottom: '20px', paddingRight: '60px', paddingLeft: '60px', borderRadius: '10px' }}>
-                                <div>
-                                    <IconButton onClick={backpetview}  ><CloseIcon sx={{ color: 'white', backgroundColor: 'red', marginLeft: '500px' }} /></IconButton>
-                                </div>
-                                <div className="form-topic">
-                                    Pet Details
-                                    <hr />
-                                </div>
-
-                                <div className="form-label" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <div>
-                                        <img
-                                            style={{ width: '200px', height: 'auto', borderRadius: '10px' }}
-                                            component={"img"}
-                                            src={petrow.image === "" ? getPetImageSrc("noimage.png") : getPetImageSrc(petrow.image) }
-                                            alt={petrow.name}
-                                        />
-                                    </div>
-                                    <div>
-                                        <FormLabel>  Pet ID  </FormLabel>
-                                        <Box
-                                            component="form"
-                                            sx={{
-                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                            }}
-                                            noValidate
-                                            autoComplete="off"
-                                        >
-                                            <div>
-                                                <TextField
-                                                    disabled
-                                                    id="outlined-disabled"
-                                                    label=""
-                                                    defaultValue={petrow.pet_id}
-                                                /></div>
-
-                                        </Box>
-                                    </div>
-                                </div>
-
-                                <div className="form-label" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <div>
-                                        <FormLabel>  Pet Name  </FormLabel>
-                                        <Box
-                                            component="form"
-                                            sx={{
-                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                            }}
-                                            noValidate
-                                            autoComplete="off"
-                                        >
-                                            <div>
-                                                <TextField
-                                                    disabled
-                                                    id="outlined-disabled"
-                                                    label=""
-                                                    defaultValue={petrow.name}
-                                                /></div>
-
-                                        </Box>
-                                    </div>
-
-                                    <div>
-                                        <FormLabel>  Pet Breed  </FormLabel>
-                                        <Box
-                                            component="form"
-                                            sx={{
-                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                            }}
-                                            noValidate
-                                            autoComplete="off"
-                                        >
-                                            <div>
-                                                <TextField
-                                                    disabled
-                                                    id="outlined-disabled"
-                                                    label=""
-                                                    defaultValue={petrow.breed}
-                                                /></div>
-
-                                        </Box>
-                                    </div>
-                                </div>
-                                <div className="form-label" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <div>
-                                        <FormLabel>Category</FormLabel>
-                                        <Box
-                                            component="form"
-                                            sx={{
-                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                            }}
-                                            noValidate
-                                            autoComplete="off"
-                                        >
-                                            <div>
-                                                <TextField
-                                                    disabled
-                                                    id="outlined-disabled"
-                                                    label=""
-                                                    defaultValue={petrow.category}
-                                                /></div>
-
-                                        </Box>
-                                    </div>
-
-                                    <div>
-                                        <FormLabel>  Sex  </FormLabel>
-                                        <Box
-                                            component="form"
-                                            sx={{
-                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                            }}
-                                            noValidate
-                                            autoComplete="off"
-                                        >
-                                            <div>
-                                                <TextField
-                                                    disabled
-                                                    id="outlined-disabled"
-                                                    label=""
-                                                    defaultValue={petrow.sex}
-                                                /></div>
-
-                                        </Box>
-                                    </div>
-                                </div>
-
+                    <FormControl sx={{
+                        marginLeft: '5%',
+                        marginTop: '40%',
+                        borderRadius: '10px',
+                        width: '500px',
+                        padding: '20px',
+                        position: 'relative',
+                        zIndex: 1001,
+                        backgroundColor: 'black'
+                    }}>
+                        <div style={{ backgroundColor: 'white', paddingTop: '20px', paddingBottom: '20px', paddingRight: '60px', paddingLeft: '60px', borderRadius: '10px' }}>
+                            <div>
+                                <IconButton onClick={backpetview}  ><CloseIcon sx={{ color: 'white', backgroundColor: 'red', marginLeft: '300px' }} /></IconButton>
+                            </div>
+                            <div className="form-topic">
+                                Pet Details
+                                <hr />
                             </div>
 
-                        </FormControl>
-                    ))}
+                            {petdetails && petdetails.map((petrow, index) => (
+                                <Card sx={{ maxWidth: "300px", display: "flex", flexDirection: 'row', m: 2, border: "10px", borderRadius: '10px', marginTop: '35px' }}>
+                                    <CardActionArea>
+                                        <CardMedia
+                                            sx={{ minHeight: "100px" }}
+                                            component={"img"}
+                                            src={petrow.image === "" ? getPetImageSrc("noimage.png") : getPetImageSrc(petrow.image)}
+                                            alt={petrow.name} />
+
+                                        <CardContent>
+                                            <Stack sx={{display:'flex', flexDirection:'row'}}>
+                                                <Typography gutterBottom component={"div"} sx={{ textAlign: 'center' }}>Pet ID  </Typography>
+                                                <Typography sx={{marginLeft:'5%', fontWeight:'bold'}}>: {petrow.pet_id}</Typography>
+                                            </Stack>
+
+                                            <Stack sx={{display:'flex', flexDirection:'row'}}>
+                                                <Typography gutterBottom component={"div"} sx={{ textAlign: 'center' }}> Name  </Typography>
+                                                <Typography sx={{marginLeft:'5%', fontWeight:'bold'}}>: {petrow.name}</Typography>
+                                            </Stack>
+
+                                            <Stack sx={{display:'flex', flexDirection:'row'}}>
+                                                <Typography gutterBottom component={"div"} sx={{ textAlign: 'center' }}>Category  </Typography>
+                                                <Typography sx={{marginLeft:'5%'}}>: {petrow.category}</Typography>
+                                            </Stack>
+
+                                            <Stack sx={{display:'flex', flexDirection:'row'}}>
+                                                <Typography gutterBottom component={"div"} sx={{ textAlign: 'center' }}>Breed  </Typography>
+                                                <Typography sx={{marginLeft:'5%', color:'red'}}>: {petrow.breed}</Typography>
+                                            </Stack>
+
+                                            <Stack sx={{display:'flex', flexDirection:'row'}}>
+                                                <Typography gutterBottom component={"div"} sx={{ textAlign: 'center' }}> Sex  </Typography>
+                                                <Typography sx={{marginLeft:'5%'}}>: {petrow.sex}</Typography>
+                                            </Stack>
+                                        </CardContent>
+                                    </CardActionArea>
+                                </Card>
+                            ))}
+                        </div>
+                    </FormControl>
                 </div>
             )}
 

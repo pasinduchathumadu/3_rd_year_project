@@ -1,11 +1,12 @@
 import express from "express";
-import {addPackage, getPackage, view_requests, view_allclients, add_complain, viewmyComplains, viewClientsComplains, packageUsage, viewCurrent, viewRequested, viewBoarded, refund_requests, countPets, pendingRequest, view_refundDetails,toRefund, viewPetDetails,refundAdding, complainDetails, addingResponse, deleteMyComplain,AcceptedtoArrived, ArrviedtoCompleted} from '../controllers/boarding-controller';
+import {addPackage, getPackage, view_requests, view_allclients, add_complain, viewmyComplains, viewClientsComplains, packageUsage, viewCurrent, viewRequested, viewBoarded, refund_requests, countPets, pendingRequest, view_refundDetails,toRefund, viewPetDetails,refundAdding, complainDetails, addingResponse, deleteMyComplain,AcceptedtoArrived, ArrviedtoCompleted,filterbox1,filterbox2} from '../controllers/boarding-controller';
 
 const boarding_house_manager = express.Router()
 
 // packages
 boarding_house_manager.post('/addpackage',addPackage)
 boarding_house_manager.get('/getPackage',getPackage)
+
 
 // boaridng requets
 boarding_house_manager.get('/view_requests',view_requests)
@@ -36,6 +37,13 @@ boarding_house_manager.get('/viewBoarded',viewBoarded)
 boarding_house_manager.get('/countPets',countPets)
 boarding_house_manager.get('/packageUsage',packageUsage)
 boarding_house_manager.get('/pendingRequest',pendingRequest)
+
+// FILTERING
+// dashboard 
+boarding_house_manager.get('/filterbox1/:id',filterbox1)
+boarding_house_manager.get('/filterbox2/:id',filterbox2)
+
+
 
 
 

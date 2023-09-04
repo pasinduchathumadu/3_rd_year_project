@@ -44,33 +44,36 @@
 
 
 .col1-md-1{
+    display: flex;
     width: 100%;
     padding-left: 10px;
 }
 .col1-md-2{
+    display: flex;
     width: 100%;
     padding-right: 0px;
 }
 .col1{
     display: flex;
     width: 100%;
+    margin-bottom: 10px;
 }
 
-.form-label{
+.form1-label{
     width: 100%;
     padding: 2px;
-    margin: 5px 0px 5px 10px;
-    font-size: 15px;
+    margin: 5px 0px 5px 5px;
+    font-size: 12px;
     text-align: left;
 }
 
-.form-control{
-    width: 97%;
+.form1-control{
+    width: 150px;
     height: 30px;
     border-radius: 5px;
     border: none;
     padding: 10px;
-    margin: 2px 10px 2px 10px ;
+    margin: 2px 2px 2px 2px ;
 }
 
 .icon-close{

@@ -12,14 +12,14 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
-import { Table, TableHead, TableRow, TableBody, TableCell, Button } from "@mui/material";
+import { Table, TableHead, TableRow, TableBody, TableCell, Button, InputLabel } from "@mui/material";
 import { tableCellClasses } from '@mui/material/TableCell';
 import { styled } from '@mui/material/styles';
 // import { BarChart } from '@mui/x-charts/BarChart';
 import { PieChart } from '@mui/x-charts/PieChart';
 import TableViewIcon from '@mui/icons-material/TableView';
 import axios from "axios";
-import {  useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -45,20 +45,50 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const Home = () => {
     const navigate = useNavigate("")
 
-    // drop down
+      // analytical overview filtering
     const [time1, setTime1] = React.useState('1');
-    // const [time2, setTime2] = React.useState('1');
-    const [time3, setTime3] = React.useState('1');
+    const [count1, setcount1] = useState([])
+    const [count2, setcount2] = useState([])
 
     const handleChange1 = (event) => {
         setTime1(event.target.value);
+
+        filterbox1()
+        filterbox2()
     };
+    const filterbox1 = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/filterbox1/${time1}`)
+            setcount1(res.data.data)
+            setTime1('')
+        }catch(err) {
+            console.log(time1)
+            console.log(err)
+        }
+    }
+    const filterbox2 = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/filterbox2/${time1}`)
+            setcount2(res.data.data)
+            setTime1('')
+        }catch(err) {
+            console.log(time1)
+            console.log(err)
+        }
+    }
+    useEffect(() => {
+        filterbox1();
+        filterbox2();
+    }, [time1, filterbox1, filterbox2]);
+
+    // const [time3, setTime3] = React.useState('1');
+
     // const handleChange2 = (event) => {
     //     setTime2(event.target.value);
     // };
-    const handleChange3 = (event) => {
-        setTime3(event.target.value);
-    };
+    // const handleChange3 = (event) => {
+    //     setTime3(event.target.value);
+    // };
 
     const [main, setmain] = useState(true);
 
@@ -77,23 +107,23 @@ const Home = () => {
     const input = new Date();
     const date = input.toDateString();
 
-    // count of pending & current boaridng pets
-    const [pets, setpets] = useState("")
-    const countPets = async () => {
-        try {
-            const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/countPets')
-            const data = await res.data
-            return data
+    // count of completed & cancelled boaridng requuests
+    // const [pets, setpets] = useState("")
+    // const countPets = async () => {
+    //     try {
+    //         const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/countPets')
+    //         const data = await res.data
+    //         return data
 
-        } catch (err) {
-            console.log('There is an internal error')
-        }
-    }
-    useEffect(() => {
-        countPets()
-            .then((data) => setpets(data.data))
-            .catch((err) => console.log(err))
-    })
+    //     } catch (err) {
+    //         console.log('There is an internal error')
+    //     }
+    // }
+    // useEffect(() => {
+    //     countPets()
+    //         .then((data) => setpets(data.data))
+    //         .catch((err) => console.log(err))
+    // })
 
     // count of package usage
     const [pckg, setpckg] = useState("")
@@ -152,49 +182,53 @@ const Home = () => {
                 </div>
 
                 <div className="top-line">
-                    <NotificationsIcon className="bell-icon"  />
+                    <NotificationsIcon className="bell-icon" />
                     <Button onClick={profile}><img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" /></Button>
                 </div>
             </div>
 
             <div className="boarding-wrapper-main">
-                {pets && pets.map((prow, index) => (
-                    <div className="boarding-wrapper" style={{ backgroundColor: 'orange', height: '250px' }}>
-                        <div className="boarding-box-header">
-                            <AnalyticsIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
-                            <h3>Analytical Overview</h3>
-                            <Box sx={{ minWidth: 120, marginLeft: '315px' }}>
-                                <FormControl fullWidth>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={time1}
-                                        variant='filled'
-                                        label="Time"
-                                        onChange={handleChange1}
-                                        l
-                                        sx={{ fontSize: '12px' }}>
-                                        <MenuItem value={1}>Today</MenuItem>
-                                        <MenuItem value={2}>Last 7 days</MenuItem>
-                                        <MenuItem value={3}>Last Month</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Box>
+                <div className="boarding-wrapper" style={{ backgroundColor: 'orange', height: '250px' }}>
+                    <div className="boarding-box-header">
+                        <AnalyticsIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
+                        <h3>Analytical Overview</h3>
+                        <Box sx={{ minWidth: 120, marginLeft: '315px' }}>
+                            <FormControl fullWidth>
+                            <InputLabel disabled={true} displayPrint="none" htmlFor="demo-input" color="warning" variant="outlined" id="demo-select-small-label">Today</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                
+                                    variant='outlined'
+                                    label="Time"
+                                    onChange={handleChange1}
+                                    l
+                                    sx={{ fontSize: '12px' }}>
+                                    <MenuItem value={1}>Today</MenuItem>
+                                    <MenuItem value={2}>Last 7 days</MenuItem>
+                                    <MenuItem value={3}>Last Month</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Box>
+                    </div>
+
+                    <div className="boarding-wrapper-box-mian">
+                        <div className="boarding-wrapper-box" style={{ backgroundColor: 'white' }}>
+                            <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'orange', marginRight: '5px' }} />Completed Boarding Requests</p>
+                            {count1 &&  count1.map((prow, index) => (
+                                <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>{prow.totalcompleted}</h1>
+                            ))}
+                          
                         </div>
 
-                        <div className="boarding-wrapper-box-mian">
-                            <div className="boarding-wrapper-box" style={{ backgroundColor: 'white' }}>
-                                <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'orange', marginRight: '5px' }} />Current Boarding Pets</p>
-                                <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>{prow.currentBoard}</h1>
-                            </div>
-
-                            <div className="boarding-wrapper-box" style={{ backgroundColor: 'white' }} >
-                                <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'orange', marginRight: '5px' }} />Completed Boarded Pets</p>
-                                <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>{prow.completedBoard}</h1>
-                            </div>
+                        <div className="boarding-wrapper-box" style={{ backgroundColor: 'white' }} >
+                            <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'orange', marginRight: '5px' }} />Cancelled Boarded Requests</p>
+                            {count2 && count2.map((prow, index) => (
+                                <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>{prow.totalcancelled}</h1>
+                            ))}
                         </div>
                     </div>
-                ))}
+                </div>
 
 
                 <div className="boarding-wrapper" style={{ backgroundColor: 'orange', height: '250px' }}>
@@ -203,7 +237,7 @@ const Home = () => {
                         <AssignmentLateIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
                         <h3>Pending Boarding Requests</h3>
                     </div>
-                    {pending && pending.map((pend, next) => (
+                    {pending && pending.length > 0 ? (pending.map((pend, next) => (
                         <>
                             <div>
                                 {main && (
@@ -242,7 +276,13 @@ const Home = () => {
                                 )}
                             </div>
                         </>
-                    ))}
+                    ))
+                    ) : (
+                        <div style={{padding:'10px', borderRadius:'10px', backgroundColor:'#f0f0f5' }}>
+                        <Typography sx={{textAlign:'center'}}>No Pending Boarding Requests</Typography>
+                        </div>
+
+                    )}
                 </div>
             </div>
 
@@ -252,9 +292,9 @@ const Home = () => {
                     <div className="boarding-box-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
                             <AssessmentIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
-                            <h3 style={{ color: 'black' }}> Cages Current Usage</h3>
+                            <h3 style={{ color: 'black'}}> Cages Current Usage</h3>
                         </div>
-                        <Button onClick={cages} sx={{color:'white', backgroundColor:'orange', ':hover':{backgroundColor:'orange'}}}>View Cages Structure</Button> 
+                        <Button onClick={cages} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>View Cages Structure</Button>
                     </div>
                     <div>
                         <PieChart
@@ -278,26 +318,9 @@ const Home = () => {
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
                             <InventoryIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
                             <h3 style={{ color: 'black' }}>Packages Usage</h3>
-                        </div>
-
-                        <Box sx={{ minWidth: 120, marginLeft: '400px' }}>
-                            <FormControl fullWidth>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={time3}
-                                    variant='filled'
-                                    label="Time"
-                                    onChange={handleChange3}
-                                    l
-                                    sx={{ fontSize: '12px' }}>
-                                    <MenuItem value={1}>Today</MenuItem>
-                                    <MenuItem value={2}>Last 7 days</MenuItem>
-                                    <MenuItem value={3}>Last Month</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Box>
+                        </div>   
                     </div>
+
                     {pckg && pckg.map((pkrow, index) => (
                         <div>
                             <PieChart
@@ -316,7 +339,6 @@ const Home = () => {
                             />
                         </div>
                     ))}
-
 
                 </div>
             </div>

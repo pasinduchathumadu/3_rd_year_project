@@ -44,8 +44,8 @@ const Home = () => {
     const handleChange = (event) => {
         setAge(event.target.value);
        
-        filtercomplain()
-        filtercomplainreply()
+        filtercomplain() //pending
+        filtercomplainreply() //completed
     };
 
     const handleChange1 = (event) =>{
@@ -68,11 +68,7 @@ const Home = () => {
             console.log(err)
         }
     }
-    const data = [
-        { id: 0, value: 10, label: 'Income' },
-        { id: 1, value: 15, label: 'Discounts' },
-        { id: 2, value: 20, label: 'Net Profit' },
-    ];
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const filtercomplainreply = async()=>{
         try{
@@ -92,6 +88,12 @@ const Home = () => {
             const data = await res.data
             setwaiting(data.data[0].total)
             setage1(" ")
+
+    const data = [
+        { id: 0, value: 10, label: 'Income' },
+        { id: 1, value: 15, label: 'Discounts' },
+        { id: 2, value: 20, label: 'Net Profit' },
+    ];
 
 
         }catch(err){

@@ -44,3 +44,19 @@ export const get_comment = async(req,res,next)=>{
         return res.json({data})
     })
 }
+
+// managers profile viewing
+export const ManagerProfile = async(req,res,next) => {
+    const email = req.params.email;
+
+    const sqlQuery = 'SELECT m.email, m.contact_number, CONCAT(m.street, " ", m.city) AS address, m.user_role, m.manager_id, CONCAT(u.first_name, " ", u.last_name) AS name FROM manager m INNER JOIN users u  ON m.email = u.email WHERE m.email = ?'
+    const values = [email]
+
+    db.query(sqlQuery, values, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+
+}

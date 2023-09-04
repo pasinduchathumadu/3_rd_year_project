@@ -62,7 +62,6 @@ export const addPackage = async (req, res, next) => {
 // get and view details of packages
 export const getPackage = async (req, res, next) => {
     const sqlQuery = 'SELECT package_name, price,symbol from boarding_package WHERE package_id = "1" ';
-  
 
     db.query(sqlQuery,  (err, data) => {
         if (err) {
@@ -70,7 +69,6 @@ export const getPackage = async (req, res, next) => {
         }
         return res.json({ data })
     })
-
 }
 
 // ---------BOARDING REQUESTS---------------------------------
@@ -373,7 +371,7 @@ export const viewBoarded = async(req,res,next) => {
 // --- DAHSBOARD ----
 // current & completed count of pets - boarding
 export const countPets = async(req,res,next) => {
-    const sqlQuery = 'SELECT (SELECT COUNT(pet_id) FROM boarding_request WHERE request_status = "completed") AS completedBoard, (SELECT COUNT(pet_id) FROM boarding_request WHERE request_status = "accepted") AS currentBoard';
+    const sqlQuery = 'SELECT (SELECT COUNT(pet_id) FROM boarding_request WHERE request_status = "completed") AS completed, (SELECT COUNT(pet_id) FROM boarding_request WHERE request_status = "cancelled") AS cancelled';
     db.query(sqlQuery, (err, data) => {
         if(err) {
             return res.json({message: 'There is an internal error'})
@@ -403,4 +401,103 @@ export const pendingRequest = async(req,res,next) => {
         }
         return res.json({data})
     })
+}
+
+// ----------- FILTERING ----------------
+// DASHBOARD
+// analytical overview - completed 
+export const filterbox1 = async (req, res, next) => {
+    const id = req.params.id;
+    const currentDate = new Date();
+    let startDate = new Date(currentDate);
+
+    if (id === "1") { //today
+        startDate = new Date(currentDate);
+        const status = 'Completed';
+        const startDateOnly = startDate.toISOString().substr(0, 10);
+        const sqlQuery = 'SELECT COUNT(request_id) as totalcompleted,request_status FROM boarding_request WHERE request_status = ? AND board_carry_date = ?';
+        const values = [status, startDateOnly];
+
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' });
+            }
+            return res.json({ data });
+        });
+    } else if (id === "2") { //last 7 days
+        startDate.setDate(currentDate.getDate() - 7);
+        const status = 'Completed';
+        const startDateOnly = startDate.toISOString().substr(0, 10);
+        const sqlQuery = 'SELECT COUNT(request_id) as totalcompleted,request_status FROM boarding_request WHERE board_carry_date >= ? AND request_status = ?';
+        const values = [startDateOnly, status];
+
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' });
+            }
+            return res.json({ data });
+        });
+    } else if (id === "3") { //last month
+        startDate.setMonth(currentDate.getMonth() - 1);
+        const status = 'Completed';
+        const startDateOnly = startDate.toISOString().substr(0, 10);
+        const sqlQuery = 'SELECT COUNT(request_id) as totalcompleted,request_status  FROM boarding_request WHERE request_status = ? AND board_carry_date >= ?';
+        const values = [status, startDateOnly];
+
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' });
+            }
+            return res.json({ data });
+        });
+    }
+};
+
+// analytical overview - cancelled 
+export const filterbox2 = async(req,res,next) => {
+    const id = req.params.id
+    const currentDate = new Date()
+    let startDate = new Date(currentDate);
+
+    if(id === "1") { //today
+        startDate = new Date(currentDate)
+        const status = 'Cancelled'
+        const startDateOnly  = startDate.toISOString().substr(0,10)
+        const sqlQuery = 'SELECT COUNT(request_id) as totalcancelled FROM boarding_request WHERE request_status = ? AND board_carry_date = ?'
+        const values = [status, startDateOnly]
+
+        db.query(sqlQuery, values, (err,data) => {
+            if(err) {
+                return res.json({message:'There is an internal error'})
+            }
+            return res.json({data})
+        })
+    }else if(id === "2") { //last 7 days
+        startDate.setDate(currentDate.getDate() - 7);
+        const status = 'Cancelled'
+        const startDateOnly  = startDate.toISOString().substr(0,10)
+        const sqlQuery = 'SELECT COUNT(request_id) as totalcancelled FROM boarding_request WHERE request_status = ? AND board_carry_date >= ?'
+        const values = [status, startDateOnly]
+
+        db.query(sqlQuery, values, (err,data) => {
+            if(err) {
+                return res.json({message:'There is an internal error'})
+            }
+            return res.json({data})
+        })
+    }else if(id === "3") { //last month
+        startDate.setMonth(currentDate.getMonth() - 1); 
+        const status = 'Cancelled'
+        const startDateOnly  = startDate.toISOString().substr(0,10)
+        const sqlQuery = 'SELECT COUNT(request_id) as totalcancelled FROM boarding_request WHERE request_status = ? AND board_carry_date >= ?'
+        const values = [status, startDateOnly]
+
+        db.query(sqlQuery, values, (err,data) => {
+            if(err) {
+                return res.json({message:'There is an internal error'})
+            }
+            return res.json({data})
+        })
+    }
+
 }
