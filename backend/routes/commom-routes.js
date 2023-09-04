@@ -1,6 +1,6 @@
 import express from "express";
 
-import {blog,comment,get_comment,ManagerProfile,DisplayManagerDetails,UpdateManager,myblog}} from "../controllers/common-controllers.js"
+import {blog,comment,get_comment,ManagerProfile,DisplayManagerDetails,UpdateManager,myblog} from "../controllers/common-controllers.js"
 
 const common_route = express.Router()
 common_route.get('/blog',blog)

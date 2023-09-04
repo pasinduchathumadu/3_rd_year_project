@@ -1,4 +1,4 @@
-import { Alert, AlertTitle, Avatar, Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, IconButton, List, ListItem, MenuItem, Paper, Select, Stack, Tab, Tabs, TextField, Typography } from '@mui/material'
+import { Alert, AlertTitle, Avatar, Box, Button, Card, CardActionArea,  CardContent, CardMedia, Grid, List, ListItem, MenuItem, Paper, Select, Stack, Tab, Tabs, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -6,9 +6,9 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import profile from "../../assests/pic12.jfif";
 import TodayIcon from '@mui/icons-material/Today';
 import AlarmIcon from '@mui/icons-material/Alarm';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+
 import axios from 'axios';
-import SendIcon from '@mui/icons-material/Send';
+
 function AddBlog() {
   
    
@@ -120,7 +120,7 @@ function AddBlog() {
                 <div style={{ display: 'flex' }}>
                     <div style={{ display: 'inline', marginTop: '30px', marginLeft: '2%' }}>
                         <Typography>
-                            Online Store Manager
+                           Add Blog
                         </Typography>
                         <Typography>
                             Today
