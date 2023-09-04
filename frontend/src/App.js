@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Forgot from "./pages/Common/Forget";
@@ -123,25 +122,62 @@ import InventoryIcon from '@mui/icons-material/Inventory'; //package , care cent
 import BookOnlineIcon from '@mui/icons-material/BookOnline'; // appointments
 
 
-  const handleMovieChange = (event) => {
-    setSelectedMovieIndex(event.target.value);
-  };
+
+function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState("");
+  const [issignup, setIssignup] = useState(false);
+  const [user_role, setuserrole] = useState("");
 
   useEffect(() => {
-    const selectedMoviePrice = movies[selectedMovieIndex].price;
-    const selectedSeatsCount = selectedSeats.length;
-    setCount(selectedSeatsCount);
-    setTotal(selectedSeatsCount * selectedMoviePrice);
-  }, [selectedSeats, selectedMovieIndex, movies]);
+    // Check if the user is already logged in from previous sessions
+    const storedUserRole = localStorage.getItem("userRole");
+    const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
 
-
-  useEffect(() => {
-    AOS.init({ duration: 800 });
+    if (storedUserRole && storedIsLoggedIn) {
+      setuserrole(storedUserRole);
+      setIsLoggedIn(storedIsLoggedIn === "true");
+    }
   }, []);
 
 
-  return (
+  const navigate = useNavigate();
+  const handleLogin = (role, email) => {
+    setIsLoggedIn(true);
+    setuserrole(role);
+    localStorage.setItem("userRole", role);
+    localStorage.setItem("isLoggedIn", "true");
 
+    localStorage.setItem("store_email", email);
+
+    if (role === "online_store_manager") {
+      localStorage.setItem("online_store_manager_email", email);
+      navigate("/online_home");
+    } else if (role === "boarding_house_manager") {
+      localStorage.setItem('boarding_email', email)
+      navigate("/boarding_dashboard");
+    } else if (role === "admin") {
+      navigate("/admin_dashboard");
+    } else if (role === "client") {
+      navigate("/dashboard");
+      localStorage.setItem("client_email", email); //session
+    } else if (role === "care_center_manager") {
+      navigate("/appointments");
+      localStorage.setItem("care_center_manager", email);
+    } else if (role === "company_manager") {
+      navigate("/company_dashboard");
+      localStorage.setItem("company_manager", email);
+
+    }
+    else if (role === "medi_help_manager") {
+      navigate("/Doctors");
+      localStorage.setItem("medi_help_manager", email);
+
+    }
+  };
+  const handleSignup = () => {
+    setIssignup(true);
+  };
+  return (
     <React.Fragment>
       <main>
         <Routes>
@@ -377,8 +413,7 @@ import BookOnlineIcon from '@mui/icons-material/BookOnline'; // appointments
         </Routes>
       </main>
     </React.Fragment>
-
   );
-};
+}
 
-export default Bording;
+export default App;
