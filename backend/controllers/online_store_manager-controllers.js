@@ -264,16 +264,65 @@ export const get_order = async (req, res, next) => {
 }
 
 export const get_orders = async (req, res, next) => {
-    const sqlQuery = 'SELECT * FROM purchase_order p INNER JOIN users u ON u.email = p.order_email'
+    const id = req.params.age
+    const currentDate = new Date();
+    let startDate = new Date(currentDate);
 
-    db.query(sqlQuery, (err, data) => {
-        if (err) {
-            return res.json({ message: 'There is an internel error' })
-        }
-        else {
-            return res.json({ data })
-        }
-    })
+    if(id === "1"){
+        startDate = new Date(currentDate);
+        const startDateOnly = startDate.toISOString().substr(0, 10);
+        const sqlQuery = 'SELECT * FROM purchase_order p INNER JOIN users u ON u.email = p.order_email where placed_date = ?'
+        const values = [
+            startDateOnly
+        ]
+        db.query(sqlQuery,values,(err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internel error' })
+            }
+            else {
+                return res.json({ data })
+            }
+        })
+
+    }
+    if(id === "2"){
+        startDate.setDate(currentDate.getDate() - 7);
+        const startDateOnly = startDate.toISOString().substr(0, 10);
+        const sqlQuery = 'SELECT * FROM purchase_order p INNER JOIN users u ON u.email = p.order_email where placed_date >=?'
+        const values = [
+            startDateOnly
+        ]
+        db.query(sqlQuery,values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internel error' })
+            }
+            else {
+                return res.json({ data })
+            }
+        })
+
+    }
+    if(id === "3"){
+        startDate.setMonth(currentDate.getMonth() - 1); 
+        const startDateOnly = startDate.toISOString().substr(0, 10);
+        const sqlQuery = 'SELECT * FROM purchase_order p INNER JOIN users u ON u.email = p.order_email where placed_date >=?'
+        const values = [
+            startDateOnly
+        ]
+
+        db.query(sqlQuery,values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internel error' })
+            }
+            else {
+                return res.json({ data })
+            }
+        })
+
+    }
+ 
+
+ 
 }
 
 export const accept = async (req, res, next) => {
