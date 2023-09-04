@@ -36,9 +36,7 @@ const Home = () => {
     const [food, setfoods] = useState("")
     const [accessories, setaccessories] = useState("")
     const [toys, settoys] = useState("")
-    const [pending, setpending] = useState("")
-  
-    const [accept, setaccept] = useState("")
+   
 
 
     const handleChange = (event) => {

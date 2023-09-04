@@ -1142,5 +1142,44 @@ export const delete_appointment_training = async(req,res,next)=>{
   
 }
 
+export const blog_post = async(req,res,next)=>{
+  const{email,description,title, Categories,date,image} = req.body
+  function formatTime() {
+    const now = new Date();
+    const formattedTime = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
+  
+    return formattedTime;
+  }
+  var content = ""
+  
+  const time = formatTime();
+  if(Categories ==="10"){
+    content = "Health of Pets"
+  }
+  if(Categories === "20"){
+    content = "Harassment of Pets"
+  }
+  if(Categories === "30"){
+    content = "Charityable Posts"
+  }
+  const sqlQuery = "INSERT INTO client_post(client_email,image,name,description,content,posted_time,posted_date)VALUES(?,?,?,?,?,?,?)";
+  const value = [
+    email,
+    image,
+    title,
+    description,
+    content,
+    time,
+    date
+  ]
+  db.query(sqlQuery,value,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an internel error'})
+    }
+    return res.json({message:"Added"})
+  })
+
+}
+
 
 
