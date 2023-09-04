@@ -179,7 +179,7 @@ function Company_Competitions() {
                 {com.filter((menu, index) => menu.notice_id === id).map((menu, index) => (
                   <img
                     alt="Remy Sharp"
-                    src={menu.file === "" ? getPostFileSrc("noimage.png") : getPostFileSrc(menu.file)}
+                    src={menu.file === "" ? getPostFileSrc("noimage.png") : ""}
                     sx={{ width: 220, height: 320, backgroundSize: "cover", borderRadius: '10px' }}
                     variant="rounded"
                   />

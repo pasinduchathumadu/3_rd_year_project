@@ -114,6 +114,7 @@ import InventoryIcon from "@mui/icons-material/Inventory"; //package , care cent
 // care center
 import BookOnlineIcon from "@mui/icons-material/BookOnline"; // appointments
 import Company_Blog from "./pages/Company_manager/Company_Blog";
+import AddBlog from "./pages/Client/AddBlog";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState("");
@@ -531,6 +532,17 @@ function App() {
                   <>
                     <Header userRole={"client"} />
                     <Petgrooming />
+                  </>
+                }
+              >
+               
+              </Route>
+              <Route
+                path="/addblog"
+                element={
+                  <>
+                    <Header userRole={"client"} />
+                    <AddBlog />{" "}
                   </>
                 }
               ></Route>
