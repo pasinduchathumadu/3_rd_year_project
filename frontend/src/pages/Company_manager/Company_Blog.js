@@ -83,7 +83,7 @@ const Company_Blog = () => {
   };
 
   const update_blog_reject = async () => {
-    console.log(id1)
+   
     try {
       const res = await axios.post(
         "http://localhost:5000/pet_care/company_manager/update_blog_reject",
