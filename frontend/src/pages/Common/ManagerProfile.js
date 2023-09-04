@@ -5,6 +5,7 @@ import ProfilePhoto from "../../assests/profile-picture.png";
 import EditIcon from '@mui/icons-material/Edit';
 // import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
+import axios from 'axios';
 
 const Profile = () => {
     const email = localStorage.getItem("store_email")
@@ -23,6 +24,25 @@ const Profile = () => {
     const backFromProfile = () => {
         setupdate(false)
         setmain(true)
+    }
+
+    // manager profile viewing
+    const [error,seterror] = useState(false)
+    const [message, setmessage] = useState("")
+    const [profiledetails, setprofiledetails] = useState("")
+    const ManagerProfile = async(email) => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/common/ManagerProfile/${email}`)
+            if(res.data.message === 'There is an internal error') {
+                seterror(true)
+                setmessage('There is an internal error')
+            }else {
+                setmain(true)
+                setprofiledetails(res.data.data)
+            }
+        }catch(err) {
+            console.log(err)
+        }
     }
 
     return (
