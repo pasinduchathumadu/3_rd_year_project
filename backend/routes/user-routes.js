@@ -10,7 +10,7 @@ user_route.post('/forget',forget_password);
 user_route.post('/reset',reset_password);
 user_route.post('/verify',forget_confirmation);
 user_route.post('/upload',upload_file)
-user_route.get('/get_store/:id',get_store)
+user_route.post('/get_store/:id',get_store)
 user_route.post('/temp_cart',temp_cart)
 user_route.get('/load_cart/:id',load_cart)
 user_route.post('/increase',increase)
