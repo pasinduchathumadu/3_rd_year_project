@@ -16,6 +16,9 @@ import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 const Bill = () => {
     const navigate = useNavigate("")
+    const input = new Date()
+    const date = input.toDateString()
+    const time = input.toLocaleTimeString()
     const [delivery ,setdelivery ] = useState("")
     const [card,setcard] = useState("")
     const [shipping , setshipping] = useState("")
@@ -117,9 +120,7 @@ const Bill = () => {
             .then((data) => setpayment(data.data))
             .catch((err) => console.log(err))
     })
-    const input = new Date()
-    const date = input.toDateString()
-    const time = input.toLocaleTimeString()
+ 
     return (
         <div style={{ marginTop: '7%',marginBottom:'2%' }}>
             <Grid sx={{ marginLeft: '45%', fontSize: '24px', fontWeight: '600' }}>

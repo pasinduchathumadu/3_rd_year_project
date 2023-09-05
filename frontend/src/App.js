@@ -114,12 +114,18 @@ import InventoryIcon from "@mui/icons-material/Inventory"; //package , care cent
 // care center
 import BookOnlineIcon from "@mui/icons-material/BookOnline"; // appointments
 import Company_Blog from "./pages/Company_manager/Company_Blog";
+import AddBlog from "./pages/Client/AddBlog";
+import axios from "axios";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState("");
   const [issignup, setIssignup] = useState(false);
   const [user_role, setuserrole] = useState("");
-
+  const navigate = useNavigate();
+  const logout = async()=>{
+    const res = await axios.get('http://localhost:5000/logout')
+    navigate('/')
+  }
   useEffect(() => {
     // Check if the user is already logged in from previous sessions
     const storedUserRole = localStorage.getItem("userRole");
@@ -129,12 +135,31 @@ function App() {
       setuserrole(storedUserRole);
       setIsLoggedIn(storedIsLoggedIn === "true");
     }
+    localStorage.setItem('sessionStartTime', new Date().getTime());
+    const checkSessionExpiry = () => {
+      const sessionStartTime = localStorage.getItem('sessionStartTime');
+      if (sessionStartTime) {
+        const currentTime = new Date().getTime();
+        const sessionDuration = 24 * 60 * 60 * 1000;
+        if (currentTime - sessionStartTime > sessionDuration) {
+          
+          localStorage.removeItem('sessionStartTime');
+          logout()
+
+        }
+      }
+    };
+    
+  
+    setInterval(checkSessionExpiry, 60 * 1000);
   }, []);
 
-  const navigate = useNavigate();
+
+
   const handleLogin = (role, email) => {
     setIsLoggedIn(true);
     setuserrole(role);
+   
     localStorage.setItem("userRole", role);
     localStorage.setItem("isLoggedIn", "true");
 
@@ -531,6 +556,17 @@ function App() {
                   <>
                     <Header userRole={"client"} />
                     <Petgrooming />
+                  </>
+                }
+              >
+               
+              </Route>
+              <Route
+                path="/addblog"
+                element={
+                  <>
+                    <Header userRole={"client"} />
+                    <AddBlog />{" "}
                   </>
                 }
               ></Route>

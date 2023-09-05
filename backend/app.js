@@ -12,10 +12,26 @@ import care_center_manager from "./routes/carecenter-routes.js";
 // //calling database firstly
 import {db} from './database.js';
 import cors from "cors";
-
+import session from "express-session"
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(
+    session({
+      secret: 'your-secret-key',
+      resave: false,
+      saveUninitialized: true,
+      cookie: { maxAge: 24 * 60 * 60 * 1000 }, // 1 day
+    })
+  );
+app.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+      if (err) {
+        console.error('Error destroying session:', err);
+      }
+     res.json({message:"logout"}) // Redirect to the home page or login page
+    });
+});
 app.use("/pet_care/user",user_route);
 app.use("/pet_care/email",email_route);
 app.use("/pet_care/pdf",pdf_route);

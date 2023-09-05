@@ -12,9 +12,26 @@ export const blog = async (req, res, next) => {
     })
 
 }
+
+export const myblog = async(req,res,next)=>{
+    const email = req.params.email
+
+    const sqlQuery = "select *from client_post WHERE client_email = ?"
+    const value = [email]
+
+    db.query(sqlQuery,value,(err,data)=>{
+        if(err){
+            return res.json({message:'there is internal error'})
+        }
+        return res.json({data})
+    })
+    
+}
+
 export const comment = async (req, res, next) => {
     const { id, comments } = req.body
     const values = [
+
         id,
         comments
     ]
