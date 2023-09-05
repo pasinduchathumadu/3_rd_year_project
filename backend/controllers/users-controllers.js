@@ -934,9 +934,11 @@ export const cancel_appointment = async (req, res, next) => {
 
 export const care_orders = async (req, res, next) => {
   const status = "completed"
-  const sqlQuery = "SELECT *FROM carecenter_appointment WHERE appointment_status = ?"
+  const email = req.params.email
+  const sqlQuery = "SELECT *FROM carecenter_appointment WHERE appointment_status = ? AND client_email = ?"
   const value = [
-    status
+    status,
+    email
   ]
   db.query(sqlQuery, value, (err, data) => {
     if (err) {
@@ -945,9 +947,10 @@ export const care_orders = async (req, res, next) => {
     if (data.length === 0) {
       return res.json({ data })
     }
-    const sqlQuery1 = "SELECT a.appointment_id,a.placed_date,p.package_name,p.price FROM carecenter_appointment a INNER JOIN carecenter_package p ON p.package_id = a.package_id "
+    const sqlQuery1 = "SELECT a.appointment_id,a.placed_date,p.package_name,p.price FROM carecenter_appointment a INNER JOIN carecenter_package p ON p.package_id = a.package_id where a.appointment_id = ? "
     const values = [
-      data[0].appointment_id
+      data[0].appointment_id,
+ 
 
     ]
     db.query(sqlQuery1, values, (err, data) => {
@@ -1171,8 +1174,12 @@ export const get_breed = async (req, res, next) => {
 }
 
 export const get_medi_orders = async (req, res, next) => {
-  const sqlQuery = "SELECT v.first_name,v.last_name,v.fee,a.appointment_id,a.placed_date FROM vet v INNER JOIN medi_appointment a ON v.vet_id = a.vet_id"
-  db.query(sqlQuery, (err, data) => {
+  const email = req.params.email
+  const sqlQuery = "SELECT v.first_name,v.last_name,v.fee,a.appointment_id,a.placed_date FROM vet v INNER JOIN medi_appointment a ON v.vet_id = a.vet_id where a.client_email = ?"
+  const value = [
+    email
+  ]
+  db.query(sqlQuery,value,(err, data) => {
     if (err) {
       return res.json({ message: 'There is an internel error' })
     }
@@ -1181,8 +1188,12 @@ export const get_medi_orders = async (req, res, next) => {
 }
 
 export const training_orders = async (req, res, next) => {
-  const sqlQuery = "SELECT v.breed,a.price,a.start,a.end,v.day,v.id,v.placed_date FROM pet_trainning_payment v INNER JOIN pet_trainning_shedule a ON v.day = a.day"
-  db.query(sqlQuery, (err, data) => {
+  const email = req.params.email
+  const sqlQuery = "SELECT v.breed,a.price,a.start,a.end,v.day,v.id,v.placed_date FROM pet_trainning_payment v INNER JOIN pet_trainning_shedule a ON v.day = a.day WHERE client_email = ?"
+  const value = [
+    email
+  ]
+  db.query(sqlQuery,value,(err, data) => {
     if (err) {
       return res.json({ message: 'There is an internel error' })
     }
