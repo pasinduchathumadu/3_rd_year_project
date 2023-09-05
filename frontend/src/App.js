@@ -92,7 +92,7 @@ import PaymentClient from "./pages/Client/Payment";
 import ViewMedical from "./pages/Client/ViewMedical";
 
 import ActivityTracking from "./pages/Client/ActivityTracking";
-
+// ----------
 // sidebar icons
 import HomeIcon from "@mui/icons-material/Home"; //dashboard
 import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred"; //complains
@@ -113,6 +113,8 @@ import InventoryIcon from "@mui/icons-material/Inventory"; //package , care cent
 
 // care center
 import BookOnlineIcon from "@mui/icons-material/BookOnline"; // appointments
+// ---------
+
 import Company_Blog from "./pages/Company_manager/Company_Blog";
 import AddBlog from "./pages/Client/AddBlog";
 import axios from "axios";
