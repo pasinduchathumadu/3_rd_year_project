@@ -278,6 +278,7 @@ function Company_Competitions() {
                   Competition Notice :
                 </Typography>
                 <hr />
+
                 {com
                   .filter((menu, index) => menu.notice_id === id)
                   .map((menu, index) => (
@@ -297,6 +298,7 @@ function Company_Competitions() {
                       variant="rounded"
                     />
                   ))}
+
               </Stack>
             </Box>
           </form>
