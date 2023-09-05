@@ -31,20 +31,69 @@ export const add_competition = async (req, res, next) => {
 };
 
 export const add_complaint = async (req, res, next) => {
-  const { compDes, compFile } = req.body;
-  const sqlquery = "INSERT INTO company_complaints (des,file) VALUES (?,?) ";
-  const value = [compDes, compFile];
-  db.query(sqlquery, value, (err, data) => {
+  const role = "company_manager";
+  const { compDes, compDate, compTime, email } = req.body;
+
+  console.log(compDes, compDate, compTime, email);
+
+  try {
+    // Check if the email is provided
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+
+    // Query to fetch manager data by email
+    const sqlQuery = "SELECT * FROM manager WHERE email = ?";
+    const values = [email];
+
+    // Execute the query to get manager data
+    db.query(sqlQuery, values, (err, data) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Internal server error" });
+      }
+
+      // Check if a manager with the provided email exists
+      if (!data || data.length === 0) {
+        return res.status(404).json({ message: "Manager not found" });
+      }
+
+      // Get the manager_id from the retrieved data
+      const manager_id = data[0].manager_id;
+
+      // Insert the complaint into manager_complain table
+      const sqlquery1 =
+        "INSERT INTO manager_complain (manager_id, complain_txt, com_date, com_time, manager_role) VALUES (?, ?, ?, ?, ?)";
+      const value1 = [manager_id, compDes, compDate, compTime, role];
+
+      db.query(sqlquery1, value1, (err, result) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).json({ message: "Internal server error" });
+        }
+
+        return res.json({ message: "successfully added" });
+      });
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const get_competitions = async (req, res, next) => {
+  const sqlquery = "SELECT * FROM company_competitions order by notice_id desc";
+  db.query(sqlquery, (err, data) => {
     if (err) {
       return res.json({ message: "There is an internel error" });
     } else {
-      return res.json({ message: "successfully added" });
+      return res.json({ data });
     }
   });
 };
 
-export const get_competitions = async (req, res, next) => {
-  const sqlquery = "SELECT * FROM company_competitions";
+export const get_complaints = async (req, res, next) => {
+  const sqlquery = "SELECT * FROM manager_complain order by complain_id desc";
   db.query(sqlquery, (err, data) => {
     if (err) {
       return res.json({ message: "There is an internel error" });

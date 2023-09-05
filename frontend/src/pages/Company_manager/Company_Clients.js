@@ -9,7 +9,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import DialogForm from "./Dialog";
 
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ProfilePicture from "../../assests/profile-picture.png";
@@ -18,7 +17,6 @@ import { Button, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import Form_Details from "./Form";
 
 function Company_Clients() {
   const date = new Date()
@@ -143,11 +141,6 @@ function Company_Clients() {
                       <StyledTableCell  align="center">3</StyledTableCell>
                       <StyledTableCell  align="center">2</StyledTableCell>
                       <StyledTableCell  align="center">***</StyledTableCell>
-                      {/* <StyledTableCell>
-                        <DialogForm title="Client Details" btn_name="View">
-                          <Form_Details />
-                        </DialogForm>
-                      </StyledTableCell> */}
                     </StyledTableRow>
                   ))}
                 </TableBody>
@@ -178,12 +171,6 @@ function Company_Clients() {
                       <StyledTableCell  align="center">6</StyledTableCell>
                       <StyledTableCell  align="center">3</StyledTableCell>
                       <StyledTableCell  align="center">*****</StyledTableCell>
-
-                      {/* <StyledTableCell>
-                        <DialogForm title="Client Details" btn_name="View">
-                          <Form_Details />
-                        </DialogForm>
-                      </StyledTableCell> */}
                     </StyledTableRow>
                   ))}
                 </TableBody>
@@ -215,12 +202,6 @@ function Company_Clients() {
                       <StyledTableCell  align="center">{row.payment}</StyledTableCell>
                       {/* <StyledTableCell  align="center">{row.category}</StyledTableCell> */}
                       <StyledTableCell  align="center">****</StyledTableCell>
-
-                      {/* <StyledTableCell>
-                        <DialogForm title="Client Details" btn_name="View">
-                          <Form_Details />
-                        </DialogForm>
-                      </StyledTableCell> */}
                     </StyledTableRow>
                   ))}
                 </TableBody>
