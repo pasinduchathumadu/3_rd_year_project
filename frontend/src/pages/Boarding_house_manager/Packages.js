@@ -32,19 +32,15 @@ const Packages = () => {
     const [updateform, setUpdateform] = useState(false); //update form
     const [popularity, setPopularity] = useState(false); // popularity
 
-    const [error, seterror] = useState(false) //error handling
+    // const [error, seterror] = useState(false) //error handling
 
     // after click on add new package button
-    const Change = () => {
-        setNew(false);
-        setForm(true);
-    }
+    // const Change = () => {
+    //     setNew(false);
+    //     setForm(true);
+    // }
 
-    // cancel button of adding new package
-    const cancelAdding = () => {
-        setForm(false);
-        setNew(true);
-    }
+
     // after click on update icon
     const update = () => {
         setNew(false);
@@ -135,9 +131,53 @@ const Packages = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         // Do something with the text field values
+        const facilities = textFields.filter((facility) => facility.trim() !== "");
         console.log(textFields);
     };
     // ----
+
+    // add new pacakge
+    const AddPackageForm = () => {
+        setNew(false)
+        setForm(true)
+    }
+
+    // back without adding a package
+    const cancelAdding = () => {
+        setForm(false);
+        setNew(true);
+    }
+
+    const [name, setname] = useState("")
+    const [price, setprice] = useState("")
+    const [facilities, setfacilites] = useState([])
+    const [error, seterror] = useState(false)
+    const [message, setmessage] = useState("")
+
+    const AddNewPackage = async () => {
+        if (name === '' || price === ''  || facilities === '') {
+            seterror(true)
+            setmessage('Please fill the filed')
+            return;
+        }
+        try {
+            const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/AddNewPackage`, {
+                name,
+                price,
+                facilities  
+            })
+            if (res.data.message === 'There is an internal error') {
+                setmessage('You cannot add this package')
+                seterror(true)
+            } else if (res.data.message === 'success') {
+                setNew(true)
+                setForm(false)
+                seterror(false)
+            }
+        } catch (err) {
+            console.log('There is an internal error')
+        }
+    }
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }} >
@@ -166,7 +206,7 @@ const Packages = () => {
             </Box>
 
             <div className="top-button-header">
-                <Button variant="contained" onClick={() => Change()} sx={{ background: "black", ':hover': { backgroundColor: "black" } }}>Add New Package <AddIcon sx={{ marginLeft: '10px' }} /></Button>
+                <Button variant="contained" onClick={AddPackageForm} sx={{ background: "black", ':hover': { backgroundColor: "black" } }}>Add New Package <AddIcon sx={{ marginLeft: '10px' }} /></Button>
                 <Button variant="contained" onClick={() => clickPopularity()} sx={{ background: "black", ':hover': { backgroundColor: "black" } }}>View Popularity</Button>
             </div>
 
@@ -272,12 +312,12 @@ const Packages = () => {
                             <hr />
                             <div style={{ marginTop: '20px' }} className="form-label">
                                 <FormLabel>Package Name</FormLabel>
-                                <TextField id="outlined-basic" placeholder="Package Name" variant="outlined" required />
+                                <TextField id="outlined-basic" placeholder="Package Name" variant="outlined" onChange={(e) => setname(e.target.value)} required />
                             </div>
 
                             <div className="form-label">
                                 <FormLabel>Price(per day) Rs.</FormLabel>
-                                <TextField id="outlined-basic" placeholder="Package Price" variant="outlined" type="number" required />
+                                <TextField id="outlined-basic" placeholder="Package Price" variant="outlined" type="number" onChange={(e) => setprice(e.target.value)} required />
                             </div>
 
                             <div className="form-label">
@@ -313,26 +353,26 @@ const Packages = () => {
                                                 label={`Facility ${index + 1}`}
                                                 value={text}
                                                 onChange={(event) => handleTextFieldChange(index, event)}
-                                                sx={{ marginBottom: '5px', width: '100%' }}/>
+                                                sx={{ marginBottom: '5px', width: '100%' }} />
                                         </div>
                                     ))}
                                     <div style={{ display: 'flex', flexDirection: 'row', marginTop: '1%' }}>
-                                        <Button sx={{backgroundColor: 'black', color: 'white', borderRadius: '10px',':hover':{backgroundColor:'black'}}} onClick={addTextField}>
-                                           <AddCircleIcon sx={{color:'white', marginRight:'10px'}} />Add New Facility
+                                        <Button sx={{ backgroundColor: 'black', color: 'white', borderRadius: '10px', ':hover': { backgroundColor: 'black' } }} onClick={addTextField}>
+                                            <AddCircleIcon sx={{ color: 'white', marginRight: '10px' }} />Add New Facility
                                         </Button>
                                     </div>
                                     {/* <button type="submit">Submit</button> */}
                                 </form>
                             </div>
 
-                            <Button variant="contained" type="submit"  sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Add Package</Button>
+                            <Button variant="contained" type="submit" onClick={() => AddNewPackage()} sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Add Package</Button>
                         </div>
                         {/* display error or success message  */}
-                        {/* {error && (
+                        {error && (
                             <Stack sx={{ width: '100%' }} spacing={2}>
                                 <Alert severity="error">{message}</Alert>
                             </Stack>
-                        )} */}
+                        )}
                     </FormControl>
                 </div>
             )}
