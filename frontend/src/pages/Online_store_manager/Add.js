@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 
 import { Grid, Typography, Avatar, Tab, Tabs, Box, TextField, Button, Select, MenuItem, Alert, AlertTitle, IconButton, CardMedia, Card, CardActionArea } from "@mui/material";
+import { useNavigate } from "react-router";
 import Stack from '@mui/material/Stack';
 import profile from "../../assests/pic12.jfif";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -15,6 +16,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+
 const Add = () => {
   const input = new Date();
   const date = input.toDateString();
@@ -40,6 +42,18 @@ const Add = () => {
   const [updateprice, setupdateprice] = useState("")
   const [open, setOpen] = useState(false)
   const [deleteid, setdelete] = useState(false)
+
+  const navigate = useNavigate("")
+    // connect profile
+    const profile = () => {
+        navigate("/profile")
+    }
+
+      // get profile picture
+      const getProfilepicturepath = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+    }
+
 
   const handleClickOpen = (id) => {
 
@@ -236,7 +250,8 @@ const Add = () => {
             </div>
             <div style={{ marginLeft: '1%' }}>
               <Stack direction="row" spacing={2}>
-                <Avatar alt="Travis Howard" src={profile} sx={{ width: 60, height: 60 }} />
+                {/* <Avatar alt="Travis Howard" src={profile} sx={{ width: 60, height: 60 }} /> */}
+                <Button onClick={profile}><img src={getProfilepicturepath("onlinestore_profile.jpeg")} alt="profilepicture" className="boarding-profile-picture" /></Button>
               </Stack>
 
             </div>

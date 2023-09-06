@@ -4,6 +4,40 @@ import { db } from '../database.js'
 //  ----- PACKAGES -----
 
 // add new package 
+export const AddNewPackage = async(req,res,next) => {
+    const {
+        name, 
+        price,
+        facilities,
+    } = req.body;
+
+    // console.log(facilities); 
+
+    if(!Array.isArray(facilities)) {
+        return res.json({message:'Facilities should be an array'})
+    }
+
+    const sqlQuery = 'INSERT INTO boarding_package(package_name, price) VALUES(?,?)'
+    const values = [name, price]
+
+    db.query(sqlQuery, values, (err, packageData) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        // return res.json({message:'success'})/
+        const packageid = packageData.insertID;
+
+        const sqlQuery2 = 'INSERT INTO boarding_package_facility(package_id, facility) VALUES (?,?)';
+        const values2 = facilities.map((facility) => [packageid, facility])
+
+        db.query(sqlQuery2, values2, (facilityerr, facilitydata) => {
+            if(facilityerr) {
+                return res.json({message:'There is an internal errorrr'})
+            }
+            return res.json({message:'success'})
+        })
+    })
+}
 
 
 // ---------BOARDING REQUESTS---------------------------------

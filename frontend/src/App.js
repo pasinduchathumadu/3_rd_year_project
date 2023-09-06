@@ -838,6 +838,15 @@ function App() {
                 }
               />
               <Route
+                path="/profile"
+                element={
+                  <>
+                    <HomeHeader userRole={"online_store_manager"} />
+                    <ManagerProfile />
+                  </>
+                }
+              />
+              <Route
                 path="/online_add"
                 element={
                   <>
@@ -878,6 +887,15 @@ function App() {
                   <>
                     <HomeHeader userRole={"company_manager"} />
                     <CompanyHome />
+                  </>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <>
+                    <HomeHeader userRole={"company_manager"} />
+                    <ManagerProfile />
                   </>
                 }
               />

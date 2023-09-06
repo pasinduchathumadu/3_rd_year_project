@@ -122,9 +122,9 @@ const Profile = () => {
                     </div>
 
                     <FormControl sx={{ backgroundColor: 'white', width: '50%', paddingLeft: '10px', paddingRight: '10px', paddingBottom: '20px', borderRadius: '10px', marginTop: '2%', marginBottom: '2%' }}>
-                        <div style={{marginLeft:'90%'}}>
+                        {/* <div style={{marginLeft:'90%'}}>
                             <IconButton onClick={backtoDashboard}><CloseIcon sx={{ color: 'white', backgroundColor: 'red' }} /></IconButton>
-                        </div>
+                        </div> */}
                         <Typography sx={{ textAlign: 'center', backgroundColor: 'orange', color: 'white', fontWeight: 'bold', borderRadius: '10px', padding: '10px', marginTop: '1%', marginBottom: '10px', width: '50%', marginLeft: '25%' }}>Profile</Typography>
 
                         {profiledetails && profiledetails.map((menu, index) => (
