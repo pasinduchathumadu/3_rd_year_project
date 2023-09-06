@@ -40,10 +40,10 @@ const Profile = () => {
     })
 
     // close viewing
-    const navigate = useNavigate("")
-    const backtoDashboard = () => {
-        navigate("/boarding_dashboard")
-    }
+    // const navigate = useNavigate("")
+    // const backtoDashboard = () => {
+    //     navigate("/boarding_dashboard")
+    // }
 
     // get profile picture path
     const getImageSrc = (imageName) => {

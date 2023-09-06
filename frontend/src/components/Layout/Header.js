@@ -101,6 +101,24 @@ export default function PrimarySearchAppBar({ userRole }) {
     handleMobileMenuClose();
   };
 
+  // const handleMenuCloseProfile = () => {
+  //   // setAnchorEl(null);
+  //   // handleMobileMenuClose();
+
+  // };
+
+  // const navigate = useNavigate("")
+  // connect profile
+  const profile = () => {
+      navigate("/profile")
+  }
+
+   // get profile picture
+   const getProfilepicturepath = (imageName) => {
+      return require(`../../../../backend/images/store/${imageName}`)
+
+  }
+
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
@@ -128,7 +146,7 @@ export default function PrimarySearchAppBar({ userRole }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={profile}>Profile</MenuItem>
       <Link
         to="/OrderTable"
         style={{ textDecoration: "none", color: "inherit" }}
