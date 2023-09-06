@@ -17,8 +17,21 @@ import { Button, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import { useNavigate } from "react-router";
+
 
 function Company_Clients() {
+  const navigate = useNavigate("")
+  // connect profile
+  const profile = () => {
+    navigate("/profile")
+}
+
+  // get profile picture
+  const getProfilepicturepath = (imageName) => {
+    return require(`../../../../backend/images/store/${imageName}`)
+}
+
   const date = new Date()
   const currentdate = date.toDateString();
 
@@ -87,11 +100,12 @@ function Company_Clients() {
         </Stack>
         <Stack direction="row" justifyContent="center" alignItems="center">
           <NotificationsIcon className="bell-icon" />
-          <img
+          <Button onClick={profile}><img src={getProfilepicturepath("company_profile.jpeg")} alt="profilepicture" className="boarding-profile-picture" /></Button>
+          {/* <img
             src={ProfilePicture}
             alt="profilepicture"
             className="boarding-profile-picture"
-          />
+          /> */}
         </Stack>
       </Stack>
 

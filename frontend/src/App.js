@@ -891,6 +891,15 @@ function App() {
                 }
               />
               <Route
+                path="/profile"
+                element={
+                  <>
+                    <HomeHeader userRole={"company_manager"} />
+                    <ManagerProfile />
+                  </>
+                }
+              />
+              <Route
                 path="/company_clients"
                 element={
                   <>
