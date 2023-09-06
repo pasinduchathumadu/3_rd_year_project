@@ -44,15 +44,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-
-
-
-
-
-
-
 export default function OrderTable() {
-
 
   const [error1 , seterror1 ] = useState(false)
   const [message1 , setmessage1 ] = useState("")
@@ -74,7 +66,6 @@ export default function OrderTable() {
   }
 
   const email = localStorage.getItem('store_email')
-
   const confirmDelete = async (rowId) => {
 
     const res = await axios.post(`http://localhost:5000/pet_care/user/delete_appointment`, {
