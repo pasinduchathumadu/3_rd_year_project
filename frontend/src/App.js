@@ -124,7 +124,7 @@ function App() {
   const [issignup, setIssignup] = useState(false);
   const [user_role, setuserrole] = useState("");
   const navigate = useNavigate();
-  const logout = async()=>{
+  const logout = async () => {
     const res = await axios.get('http://localhost:5000/logout')
     navigate('/')
   }
@@ -144,15 +144,15 @@ function App() {
         const currentTime = new Date().getTime();
         const sessionDuration = 24 * 60 * 60 * 1000;
         if (currentTime - sessionStartTime > sessionDuration) {
-          
+
           localStorage.removeItem('sessionStartTime');
           logout()
 
         }
       }
     };
-    
-  
+
+
     setInterval(checkSessionExpiry, 60 * 1000);
   }, []);
 
@@ -161,7 +161,7 @@ function App() {
   const handleLogin = (role, email) => {
     setIsLoggedIn(true);
     setuserrole(role);
-   
+
     localStorage.setItem("userRole", role);
     localStorage.setItem("isLoggedIn", "true");
 
@@ -425,6 +425,15 @@ function App() {
                 }
               ></Route>
               <Route
+                path="/profile"
+                element={
+                  <>
+                    <Header userRole={"client"} />
+                    <ClientProfile />{" "}
+                  </>
+                }
+              ></Route>
+              <Route
                 path="/dashboard"
                 element={
                   <>
@@ -561,7 +570,7 @@ function App() {
                   </>
                 }
               >
-               
+
               </Route>
               <Route
                 path="/addblog"
