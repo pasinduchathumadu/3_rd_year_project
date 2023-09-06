@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import ProfilePicture from '../../assests/profile-picture.png';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Box from '@mui/material/Box';
-import { Tab, IconButton, Typography } from "@mui/material";
+import { Tab, IconButton, Typography, Card, CardActionArea, CardContent, CardMedia } from "@mui/material";
 import { Tabs } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
@@ -22,8 +22,8 @@ import { FormLabel, TextField } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import { tableCellClasses } from '@mui/material/TableCell';
 import Image from '../../assests/profile.jpg';
-import PetImage from '../../assests/dog1.jpg';
-import PetImage1 from '../../assests/dog.jpg';
+// import PetImage from '../../assests/dog1.jpg';
+// import PetImage1 from '../../assests/dog.jpg';
 import StarIcon from '@mui/icons-material/Star';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
@@ -56,14 +56,14 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const Users = () => {
     // select manager role
 
-    const [role, setRole] = React.useState('');
-    const [email, setemail] = useState(" ")
+    const [role, setRole] = React.useState("");
+    const [email, setemail] = useState("")
     const [id, setId] = useState("")
-    const [first, setfirst] = useState(" ")
-    const [second, setsecond] = useState(" ")
-    const [contact, setcontact] = useState(" ")
-    const [city, setcity] = useState(" ")
-    const [Street, setstreet] = useState(" ")
+    const [first, setfirst] = useState("")
+    const [second, setsecond] = useState("")
+    const [contact, setcontact] = useState("")
+    const [city, setcity] = useState("")
+    const [Street, setstreet] = useState("")
     const [error, seterror] = useState(false)
     const [manager, setmanager] = useState([]) //managers array
     const [client, setclient] = useState([]) //client array
@@ -92,6 +92,8 @@ const Users = () => {
     const addManager = () => {
         setUsers(false);
         setadd(true);
+        seterror(false)
+        setmessage("")
     }
 
     // get and view managers' details 
@@ -108,20 +110,23 @@ const Users = () => {
 
     const [message, setmessage] = useState("")
     // add a new manager
-    const submitManager = async (e) => {
-        e.preventDefault()
-        if (email === '' ||
-            first === '' ||
-            second === '' ||
-            id === '' ||
-            contact === '' ||
-            city === '' ||
-            Street === '' ||
-            role === '') {
-            seterror(true)
-            setmessage("Please fill all fields")
+    const submitManager = async () => {
+
+        if (
+            email === "" ||
+            first === "" ||
+            second === "" ||
+
+            contact === "" ||
+            city === "" ||
+            Street === ""
+
+        ) {
+            seterror(true);
+            setmessage("Please fill all fields");
             return;
         }
+
 
         try {
             const res = await axios.post("http://localhost:5000/pet_care/admin/registration", {
@@ -239,10 +244,10 @@ const Users = () => {
                 newstreet,
                 newcity
             })
-            if(res.data.message === "Updated") {
+            if (res.data.message === "Updated") {
                 setupdate(false);
                 setUsers(0);
-           }
+            }
         } catch (err) {
             console.log(err)
         }
@@ -253,19 +258,7 @@ const Users = () => {
         setUsers(0)
     }
 
-    // clients pet viewing
-    const PetViewing = () => {
-        setUsers(false);
-        setpet(true);
-    }
-
-    // finish clients pet viewing
-    const FinishPetViewing = () => {
-        setpet(false);
-        setUsers(1);
-    }
-
-    // warn box 
+    // warn box - delete manager
     const [warn, setwarn] = useState(false)
     const [deleteid, setdeleteid] = useState("")
 
@@ -298,10 +291,80 @@ const Users = () => {
         setwarn(false)
     }
 
+    // warn box - delete client
+    const [warn1, setwarn1] = useState(false)
+    const [cid, setcid] = useState("")
+    const [error4, seterror4] = useState(false)
+    const [messsage4, setmessage4] = useState("")
+
+    // display warning box
+    const displayWarnClient = (cid) => {
+        setwarn1(true)
+        setUsers(false)
+        setcid(cid)
+    }
+
+    // confirm deletion
+    const deleteClient = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/admin/deleteClient/${cid}`)
+            if (res.data.message === 'There is an internal error') {
+                seterror4(true)
+                setmessage4('There is an internal error')
+            } else {
+                setUsers(1)
+                setwarn1(false)
+            }
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    // cancel without deleting the manager
+    const cancelCLientDelete = () => {
+        setUsers(1)
+        setwarn1(false)
+    }
+
     const input = new Date();
     const date = input.toDateString();
 
+    // view client pet details
+    const [petdetails, setpetdetails] = useState([])
+    const [error3, seterror3] = useState(false)
+    const [message3, setmessage3] = useState("")
 
+    const viewPetDetails = async (id) => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/admin/viewPetDetails/${id}`)
+            if (res.data.message === 'There is an internal error') {
+                seterror3(true)
+                setmessage3('There is an internal error')
+            } else {
+                setpet(true)
+                setUsers(false)
+                setpetdetails(res.data.data)
+            }
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    // get image of pet
+    const getPetImageSrc = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+    }
+
+    // after viewing pet details - cross button
+    const FinishPetViewing = () => {
+        setpet(false);
+        setUsers(1);
+    }
+    // pet viewing - no pets added box close 
+    const NoPetsAdded = () => {
+        setUsers(1)
+        setpet(false)
+    }
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
@@ -423,8 +486,10 @@ const Users = () => {
                                             <StyledTableCell align="center">
                                                 {clientrow.category === "premium" ? <><StarIcon sx={{ color: 'orange' }} /> premium</> : "regular"}
                                             </StyledTableCell>
-                                            <StyledTableCell align="center"><Button onClick={() => PetViewing()} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Pet Details</Button></StyledTableCell>
-                                            <StyledTableCell align="center"><DeleteIcon sx={{ color: 'red' }} /></StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                <Button onClick={() => viewPetDetails(clientrow.id)} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Pet Details</Button>
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center"><IconButton onClick={() => displayWarnClient(clientrow.id)}><DeleteIcon sx={{ color: 'red' }} /></IconButton></StyledTableCell>
                                         </StyledTableRow>
                                     ))}
                                 </TableBody>
@@ -576,6 +641,7 @@ const Users = () => {
                                 </div>
                                 <div className="form-topic">
                                     Update Managers Details
+                                    <hr />
                                 </div>
 
                                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -724,120 +790,95 @@ const Users = () => {
 
             {/* clients' pet details */}
             {pet && (
-                <div>
-                    <FormControl sx={{ marginLeft: '30%', borderRadius: '10px', width: '700px', padding: '20px', backgroundColor: '#F0F0F5' }}>
+                <div style={{
+                    backdropFilter: 'blur(4px)',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '50%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginRight: '300px',
+                    zIndex: 1001,
+                }}>
+                    <FormControl sx={{
+                        marginLeft: '5%',
+                        marginTop: '50%',
+                        borderRadius: '10px',
+                        width: '700px',
+                        padding: '20px',
+                        position: 'relative',
+                        zIndex: 1001,
+                        backgroundColor: 'black'
+                    }}>
                         <div style={{ backgroundColor: 'white', paddingTop: '20px', paddingBottom: '20px', paddingRight: '60px', paddingLeft: '60px', borderRadius: '10px' }}>
+                            <div>
+                                <IconButton onClick={FinishPetViewing}  ><CloseIcon sx={{ color: 'white', backgroundColor: 'red', marginLeft: '500px' }} /></IconButton>
+                            </div>
                             <div className="form-topic">
                                 Pet Details
+                                <hr />
                             </div>
 
-                            <div className="form-label">
-                                <p>Number of Pets : 02</p>
-                            </div>
+                            {petdetails && petdetails.length > 0 ? (petdetails.map((petrow, index) => (
+                                <Card sx={{ maxWidth: "300px", display: "flex", flexDirection: 'row', m: 2, border: "10px", borderRadius: '10px', marginTop: '35px' }}>
+                                    <CardActionArea>
+                                        <CardMedia
+                                            sx={{ minHeight: "100px" }}
+                                            component={"img"}
+                                            src={petrow.image === "" ? getPetImageSrc("noimage.png") : getPetImageSrc(petrow.image)}
+                                            alt={petrow.name} />
 
-                            <div style={{ backgroundColor: '#F0F0F5', borderRadius: '10px', padding: '10px', marginBottom: '20px' }}>
-                                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <div className="form-label">
-                                        <FormLabel>  Pet ID </FormLabel>
-                                        <Box
-                                            component="form"
-                                            sx={{
-                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                            }}
-                                            noValidate
-                                            autoComplete="off"
-                                        >
-                                            <div>
-                                                <TextField
-                                                    disabled
-                                                    id="outlined-disabled"
-                                                    label=""
-                                                    defaultValue="02"
-                                                /></div>
+                                        <CardContent>
+                                            <Stack sx={{ display: 'flex', flexDirection: 'row' }}>
+                                                <Typography gutterBottom component={"div"} sx={{ textAlign: 'center' }}>Pet ID  </Typography>
+                                                <Typography sx={{ marginLeft: '5%', fontWeight: 'bold' }}>: {petrow.pet_id}</Typography>
+                                            </Stack>
 
-                                        </Box>
-                                    </div>
+                                            <Stack sx={{ display: 'flex', flexDirection: 'row' }}>
+                                                <Typography gutterBottom component={"div"} sx={{ textAlign: 'center' }}> Name  </Typography>
+                                                <Typography sx={{ marginLeft: '5%', fontWeight: 'bold' }}>: {petrow.name}</Typography>
+                                            </Stack>
 
-                                    <div className="form-label">
-                                        <FormLabel>  Pet Category </FormLabel>
-                                        <Box
-                                            component="form"
-                                            sx={{
-                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                            }}
-                                            noValidate
-                                            autoComplete="off"
-                                        >
-                                            <div>
-                                                <TextField
-                                                    disabled
-                                                    id="outlined-disabled"
-                                                    label=""
-                                                    defaultValue="Dog"
-                                                /></div>
+                                            <Stack sx={{ display: 'flex', flexDirection: 'row' }}>
+                                                <Typography gutterBottom component={"div"} sx={{ textAlign: 'center' }}>Category  </Typography>
+                                                <Typography sx={{ marginLeft: '5%' }}>: {petrow.category}</Typography>
+                                            </Stack>
 
-                                        </Box>
-                                    </div>
+                                            <Stack sx={{ display: 'flex', flexDirection: 'row' }}>
+                                                <Typography gutterBottom component={"div"} sx={{ textAlign: 'center' }}>Breed  </Typography>
+                                                <Typography sx={{ marginLeft: '5%', color: 'red' }}>: {petrow.breed}</Typography>
+                                            </Stack>
+
+                                            <Stack sx={{ display: 'flex', flexDirection: 'row' }}>
+                                                <Typography gutterBottom component={"div"} sx={{ textAlign: 'center' }}> Sex  </Typography>
+                                                <Typography sx={{ marginLeft: '5%' }}>: {petrow.sex}</Typography>
+                                            </Stack>
+                                        </CardContent>
+                                    </CardActionArea>
+                                </Card>
+                            ))
+                            ) : (
+                                <div style={{ backgroundColor: 'black', color: 'white', padding: '20px', borderRadius: '10px' }}>
+                                    {/* <IconButton onClick={NoPetsAdded}><CloseIcon sx={{ color: 'white', backgroundColor: 'red', marginLeft: '230px' }} /></IconButton> */}
+                                    <hr />
+                                    <Typography sx={{ textAlign: 'center', marginTop: '10px', marginBottom: '10px' }}>No Pets Added</Typography>
+                                    <hr />
                                 </div>
-                                <div className="form-label">
-                                    <img src={PetImage} alt="pet image" style={{ width: '200px', height: 'auto', marginLeft: '180px' }} />
-                                </div>
-                            </div>
-                            <div style={{ backgroundColor: '#F0F0F5', borderRadius: '10px', padding: '10px' }}>
-                                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <div className="form-label">
-                                        <FormLabel>  Pet ID </FormLabel>
-                                        <Box
-                                            component="form"
-                                            sx={{
-                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                            }}
-                                            noValidate
-                                            autoComplete="off"
-                                        >
-                                            <div>
-                                                <TextField
-                                                    disabled
-                                                    id="outlined-disabled"
-                                                    label=""
-                                                    defaultValue="03"
-                                                /></div>
 
-                                        </Box>
-                                    </div>
+                            )}
 
-                                    <div className="form-label">
-                                        <FormLabel>  Pet Category </FormLabel>
-                                        <Box
-                                            component="form"
-                                            sx={{
-                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                            }}
-                                            noValidate
-                                            autoComplete="off"
-                                        >
-                                            <div>
-                                                <TextField
-                                                    disabled
-                                                    id="outlined-disabled"
-                                                    label=""
-                                                    defaultValue="Dog"
-                                                /></div>
 
-                                        </Box>
-                                    </div>
-                                </div>
-                                <div className="form-label">
-                                    <img src={PetImage1} alt="pet image" style={{ width: '200px', height: 'auto', marginLeft: '180px' }} />
-                                </div>
-                            </div>
-
-                            <Button variant="contained" onClick={() => FinishPetViewing()} sx={{ background: 'orange', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>OK</Button>
                         </div>
+
+
                     </FormControl>
                 </div>
             )}
 
+            {/* warnng box - delete manager */}
             {warn && (
                 <div style={{
                     backdropFilter: 'blur(4px)',
@@ -876,6 +917,43 @@ const Users = () => {
                 </div>
             )}
 
+            {/* warning box for delete client */}
+            {warn1 && (
+                <div style={{
+                    backdropFilter: 'blur(4px)',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    padding: '5px',
+                    width: '100%',
+                    borderRadius: '10px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginRight: '300px',
+                    zIndex: 1001,
+                    marginTop: '10%'
+                }}>
+                    <div style={{ backgroundColor: 'black', padding: '10px' }}>
+                        <div style={{
+                            padding: '10px',
+                            borderRadius: '5px',
+                            backgroundColor: '#f0f0f5',
+                            width: '500px',
+                            position: 'relative',
+                            zIndex: 1001
+                        }}>
+                            <Typography sx={{ textAlign: 'center' }}>Confirm Remove? </Typography>
+                            <hr /><br />
+
+                            <div style={{ display: 'flex', flexDirection: 'row', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                                <Button onClick={deleteClient} sx={{ backgroundColor: 'orange', color: 'white', margin: '10px', ':hover': { backgroundColor: 'orange' } }}>Confirm</Button>
+                                <Button onClick={cancelCLientDelete} sx={{ backgroundColor: 'red', color: 'white', margin: '10px', ':hover': { backgroundColor: 'red' } }}>Cancel</Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
         </div>
     )

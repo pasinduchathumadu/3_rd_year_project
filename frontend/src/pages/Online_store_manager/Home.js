@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
 import { Grid, Avatar, Typography, Box, Button } from '@mui/material';
@@ -27,23 +28,34 @@ const Home = () => {
     const input = new Date();
     const date = input.toDateString();
     const [age, setAge] = useState("")
-
+    const [age1 ,setage1 ] = useState("")
+    const [waiting , setwaiting] = useState("")
+    const [handed , sethanded ] = useState("")
     const [count1, setcount] = useState([])
     const [count2, setcount1] = useState([])
     const [food, setfoods] = useState("")
     const [accessories, setaccessories] = useState("")
     const [toys, settoys] = useState("")
-    const [pending, setpending] = useState("")
-    const [refund, setrefund] = useState("")
-    const [accept, setaccept] = useState("")
+   
 
 
     const handleChange = (event) => {
         setAge(event.target.value);
        
-        filtercomplain()
-        filtercomplainreply()
+        filtercomplain() //pending
+        filtercomplainreply() //completed
     };
+    const data = [
+        { id: 0, value: 10, label: 'Income' },
+        { id: 1, value: 15, label: 'Discounts' },
+        { id: 2, value: 20, label: 'Net Profit' },
+    ];
+
+    const handleChange1 = (event) =>{
+        setage1(event.target.value)
+        filtercomplain1()
+        filtercomplain2()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const filtercomplain = async()=>{
         try{
@@ -59,11 +71,7 @@ const Home = () => {
             console.log(err)
         }
     }
-    const data = [
-        { id: 0, value: 10, label: 'Income' },
-        { id: 1, value: 15, label: 'Discounts' },
-        { id: 2, value: 20, label: 'Net Profit' },
-    ];
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const filtercomplainreply = async()=>{
         try{
@@ -77,22 +85,35 @@ const Home = () => {
 
 
     }
-
-
-    const get_order = async () => {
-     
-        try {
-            const res = await axios.get("http://localhost:5000/pet_care/online_store_manager/get_order")
+    const filtercomplain1 = async() =>{
+        try{
+            const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/filtercomplain1/${age1}`)
             const data = await res.data
-            setpending(data.data[0].count_order)
-            setaccept(data.data[1].count_order)
-            setrefund(data.data[2].count_order)
+            setwaiting(data.data[0].total)
+            setage1(" ")
 
-        } catch (err) {
-            console.log("There is an internel errokkkr")
+   
+
+
+        }catch(err){
+            console.log(err)
         }
     }
-    const get_count2 = async (req, res, next) => {
+  
+    const filtercomplain2 = async() =>{
+        try{
+            const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/filtercomplain2/${age1}`)
+            const data = await res.data
+            sethanded(data.data[0].total)
+            setage1(" ")
+        }catch(err){
+            console.log(err)
+        }
+    }
+
+
+
+    const get_count2 = async () => {
         try {
             const res = await axios.get('http://localhost:5000/pet_care/online_store_manager/get_count2')
             const data = await res.data
@@ -126,10 +147,7 @@ const Home = () => {
             console.log("There is an email")
         }
     }
-    useEffect(() => {
-        get_order()
-
-    })
+  
     useEffect(() => {
         get_count()
             .then((data) => setcount(data.data))
@@ -138,7 +156,6 @@ const Home = () => {
 
     useEffect(() => {
         get_count2()
-
     }, []);
 
     useEffect(() => {
@@ -150,6 +167,11 @@ const Home = () => {
         filtercomplain();
         filtercomplainreply();
     }, [age, filtercomplain, filtercomplainreply]);
+    useEffect(() => {
+        filtercomplain1();
+        filtercomplain2();
+    }, [age1, filtercomplain1, filtercomplain2]);
+
 
 
 
@@ -269,7 +291,7 @@ const Home = () => {
                                             {/* <Select
 
                                                 id="demo-select-small"
-                                                value={age}
+                                                value={age1}
                                                 variant='outlined'
                                                 placeholder='AGE'
                                                 onChange={handleChange}
@@ -277,9 +299,9 @@ const Home = () => {
                                                 <MenuItem value="">
                                                     <em>None</em>
                                                 </MenuItem>
-                                                <MenuItem value={30}>Today</MenuItem>
-                                                <MenuItem value={10}>Last 7 Days</MenuItem>
-                                                <MenuItem value={20}>Last Month</MenuItem>
+                                                <MenuItem value={1}>Today</MenuItem>
+                                                <MenuItem value={2}>Last 7 Days</MenuItem>
+                                                <MenuItem value={3}>Last Month</MenuItem>
 
                                             </Select> */}
                                         </FormControl>
@@ -288,12 +310,13 @@ const Home = () => {
 
                                 </div>
                                 <PieChart
-                                    colors={['black', 'white', 'blue']}
+                                    colors={['#FBBD08', '#A6A6A6', '#55555C']}
                                     series={[
                                         {
                                             data,
                                             highlightScope: { faded: 'global', highlighted: 'item' },
                                             faded: { innerRadius: 30, additionalRadius: -30 },
+                                            
                                         },
                                     ]}
                                     sx={{
@@ -321,24 +344,21 @@ const Home = () => {
 
                                     </div>
                                     <div style={{ display: 'inline', alignItems: 'center', marginLeft: 'auto' }}>
-                                        <FormControl sx={{ minWidth: 120, backgroundColor: 'white' }} size="small">
-                                            <InputLabel disabled={true} displayPrint="none" htmlFor="demo-input" color="warning" variant="outlined" id="demo-select-small-label">Today</InputLabel>
-                                            {/* <Select
-
-                                                id="demo-select-small"
-                                                value={age}
+                                    <FormControl sx={{ minWidth: 120, backgroundColor: 'white' }} size="small">
+                                    <InputLabel disabled={true} displayPrint="none" htmlFor="demo-input" color="warning" variant="outlined" id="demo-select-small-label"></InputLabel>
+                                            <Select
                                                 variant='outlined'
-                                                placeholder='AGE'
-                                                onChange={handleChange}
+                                                onChange={handleChange1}
                                             >
-                                                <MenuItem value="">
+                                                  <MenuItem value="">
                                                     <em>None</em>
                                                 </MenuItem>
-                                                <MenuItem value={30}>Today</MenuItem>
-                                                <MenuItem value={10}>Last 7 Days</MenuItem>
-                                                <MenuItem value={20}>Last Month</MenuItem>
+                                                
+                                                <MenuItem value={1}>Today</MenuItem>
+                                                <MenuItem value={2}>Last 7 Days</MenuItem>
+                                                <MenuItem value={3}>Last Month</MenuItem>
 
-                                            </Select> */}
+                                            </Select>
                                         </FormControl>
 
                                     </div>
@@ -390,14 +410,14 @@ const Home = () => {
                                             xAxis={[
                                                 {
                                                     id: 'barCategories',
-                                                    data: ['Pending', 'Completed', 'Refund'],
+                                                    data: ['Pending', 'Completed'],
 
                                                     scaleType: 'band',
                                                 },
                                             ]}
                                             series={[
                                                 {
-                                                    data: [`${pending}`, `${accept}`, `${refund}`],
+                                                    data: [`${waiting}`, `${handed}`],
 
 
                                                 },
@@ -450,11 +470,6 @@ const Home = () => {
                     </div>
 
                 </Grid>
-                
-               
-
-
-
             </div>
         </>
     );

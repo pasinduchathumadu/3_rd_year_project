@@ -1,6 +1,4 @@
-
 import React, { Component, useState } from "react";
-
 import "../../styles/Care_center_manager/caregiverlist.css";
 import care from "../../assests/caregiver.jpg";
 import care2 from "../../assests/caregiver2.jpg";
@@ -10,6 +8,10 @@ import Regicaregiver from "./Regicaregiver";
 import CaregiverProfile from "./CaregiverProfile"
 import { Typography, Avatar, Stack } from "@mui/material";
 import profile from "../../assests/profile.jpg";
+import { Grid, Box, Tab, Tabs, Button } from "@mui/material";
+import { useNavigate } from "react-router";
+import NotificationsIcon from '@mui/icons-material/Notifications';
+
 
 function Caregiverlist() {
   const [modelOpen, setModelOpen] = useState(false);
@@ -19,10 +21,24 @@ function Caregiverlist() {
   const input = new Date();
   const date = input.toDateString();
 
+  const [value, setvalue] = React.useState(0);
+  const handleChange = (event, newvalue) => {
+    setvalue(newvalue);
+  };
+
+  const navigate = useNavigate("")
+  // connect profile
+  const profile = () => {
+    navigate("/profile")
+  }
+  // get profile picture
+  const getProfilepicturepath = (imageName) => {
+    return require(`../../../../backend/images/store/${imageName}`)
+  }
+
   return (
     <>
-     
-      <div style={{ display: "flex",marginTop:'4%' }}>
+      <div style={{ display: "flex", marginTop: '4%' }}>
         <div
           style={{
             display: "inline",
@@ -63,133 +79,274 @@ function Caregiverlist() {
             marginTop: "20px",
           }}
         >
-         <div style={{ display: 'flex', marginLeft: 'auto', alignItems: 'center', justifyContent: 'center' }}>
-               <div style={{ marginLeft: '130%' }}><Stack direction="row" spacing={2} width={300}>
-                <Avatar
-                  alt="Travis Howard"
-                  src={profile}
-                  sx={{  width: 60, height: 60}}
+          <div style={{ display: 'flex', marginLeft: 'auto', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ marginLeft: '130%' }}><Stack direction="row" spacing={2} width={300}>
+              <NotificationsIcon />
+              <Button onClick={profile}>
+                <img
+                  alt="profilepicture"
+                  src={getProfilepicturepath("carecenter_profile.png")}
+                  style={{ width: 'auto', height: '60px' }}
                 />
-              </Stack>
-              </div>
-              </div>
+              </Button>
+            </Stack>
+            </div>
+          </div>
         </div>
       </div>
-      <div className="full-page">
-        <div className="maintopic">
-          <span className="topicfont">AVAILABLE CARE-GIVERS</span>
-          <button className="mainbutton" onClick={() => setModelOpen(true)}>
-            ADD NEW CAREGIVER
-            <AddIcon className="icon-plus" />
-          </button>
+      <Grid sx={{ marginLeft: '100px' }}>
+        <Box
+          sx={{
+            width: "100%",
+            marginTop: "15px",
+            marginBottom: "2%",
+          }}
+        >
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            variant="fullWidth"
+            aria-label="Tab Component"
+            indicatorColor="transparent"
+            sx={{ borderRadius: "10px" }}
+          >
+            <Tab sx={{ backgroundColor: value === 0 ? "orange" : "white", color: value === 0 ? "white" : "black" }} label="Pet Grooming Care Givers" />
+            <Tab sx={{ backgroundColor: value === 1 ? "orange" : "white", color: value === 1 ? "white" : "black", }} label=" Trainning & Exercising Employees" />
+          </Tabs>
+        </Box>
+      </Grid>
+
+      {/* pet grooming  */}
+      {value === 0 && (
+        <div className="full-page">
+          <div className="maintopic">
+            <button className="mainbutton" onClick={() => setModelOpen(true)}>
+              ADD NEW CAREGIVER
+              <AddIcon className="icon-plus" />
+            </button>
+          </div>
+          <div className="row">
+            <div className="column">
+
+              <div class="card">
+                <img src={care} alt="John" className="top-img" />
+                <span className="top-name">John Doe</span>
+                <p className="title1">Professional</p>
+                <p className="reviews">
+                  <StarIcon className="icon-star" />
+                  5.0(20 Reviews)
+                </p>
+                <p>
+                  <button
+                    className="assignbtn"
+                    onClick={() => setModelOpen2(true)}
+                  >
+                    VIEW
+                  </button>
+                </p>
+              </div>
+            </div>
+
+            <div className="column">
+              <div class="card">
+                <img src={care2} alt="John" className="top-img" />
+                <span className="top-name">John Doe</span>
+                <p class="title1">Trainee</p>
+                <p className="reviews">
+                  <StarIcon className="icon-star" />
+                  5.0(20 Reviews)
+                </p>
+                <p>
+                  <button
+                    className="assignbtn"
+                    onClick={() => setModelOpen2(true)}
+                  >
+                    VIEW
+                  </button>
+                </p>
+              </div>
+            </div>
+
+            <div className="column">
+              <div class="card">
+                <img src={care} alt="John" className="top-img" />
+                <span className="top-name">John Doe</span>
+                <p class="title1">Professional</p>
+                <p className="reviews">
+                  <StarIcon className="icon-star" />
+                  5.0(20 Reviews)
+                </p>
+                <p>
+                  <button className="assignbtn">VIEW</button>
+                </p>
+              </div>
+            </div>
+
+            <div className="column">
+              <div class="card">
+                <img src={care2} alt="John" className="top-img" />
+                <span className="top-name">John Doe</span>
+                <p class="title1">Trainee</p>
+                <p className="reviews">
+                  <StarIcon className="icon-star" />
+                  5.0(20 Reviews)
+                </p>
+                <p>
+                  <button className="assignbtn">VIEW</button>
+                </p>
+              </div>
+            </div>
+
+            <div className="column">
+              <div class="card">
+                <img src={care} alt="John" className="top-img" />
+                <span className="top-name">John Doe</span>
+                <p class="title1">Professional</p>
+                <p className="reviews">
+                  <StarIcon className="icon-star" />
+                  5.0(20 Reviews)
+                </p>
+                <p>
+                  <button className="assignbtn">VIEW</button>
+                </p>
+              </div>
+            </div>
+
+            <div className="column">
+              <div class="card">
+                <img src={care2} alt="John" className="top-img" />
+                <span className="top-name">John Doe</span>
+                <p class="title1">Professional</p>
+                <p className="reviews">
+                  <StarIcon className="icon-star" />
+                  5.0(20 Reviews)
+                </p>
+                <p>
+                  <button className="assignbtn">VIEW</button>
+                </p>
+              </div>
+            </div>
+          </div>
+          {modelOpen && <Regicaregiver />}
+          {modelOpen2 && <CaregiverProfile />}
         </div>
+      )}
 
+      {value === 1 && (
+        // trianing employees
+        <div className="full-page">
+          <div className="maintopic">
+            <button className="mainbutton" onClick={() => setModelOpen(true)}>
+              ADD NEW EMPLOYEE
+              <AddIcon className="icon-plus" />
+            </button>
+          </div>
+          <div className="row">
+            <div className="column">
 
-        <div className="row">
-          <div className="column">
+              <div class="card">
+                <img src={care} alt="John" className="top-img" />
+                <span className="top-name">John Doe</span>
+                <p className="title1">Professional</p>
+                <p className="reviews">
+                  <StarIcon className="icon-star" />
+                  5.0(20 Reviews)
+                </p>
+                <p>
+                  <button
+                    className="assignbtn"
+                    onClick={() => setModelOpen2(true)}
+                  >
+                    VIEW
+                  </button>
+                </p>
+              </div>
+            </div>
 
-            <div class="card">
-              <img src={care} alt="John" className="top-img" />
-              <span className="top-name">John Doe</span>
-              <p className="title1">Professional</p>
-              <p className="reviews">
-                <StarIcon className="icon-star" />
-                5.0(20 Reviews)
-              </p>
-              <p>
-                <button
-                  className="assignbtn"
-                  onClick={() => setModelOpen2(true)}
-                >
-                  VIEW
-                </button>
-              </p>
+            <div className="column">
+              <div class="card">
+                <img src={care2} alt="John" className="top-img" />
+                <span className="top-name">John Doe</span>
+                <p class="title1">Trainee</p>
+                <p className="reviews">
+                  <StarIcon className="icon-star" />
+                  5.0(20 Reviews)
+                </p>
+                <p>
+                  <button
+                    className="assignbtn"
+                    onClick={() => setModelOpen2(true)}
+                  >
+                    VIEW
+                  </button>
+                </p>
+              </div>
+            </div>
+
+            <div className="column">
+              <div class="card">
+                <img src={care} alt="John" className="top-img" />
+                <span className="top-name">John Doe</span>
+                <p class="title1">Professional</p>
+                <p className="reviews">
+                  <StarIcon className="icon-star" />
+                  5.0(20 Reviews)
+                </p>
+                <p>
+                  <button className="assignbtn">VIEW</button>
+                </p>
+              </div>
+            </div>
+
+            <div className="column">
+              <div class="card">
+                <img src={care2} alt="John" className="top-img" />
+                <span className="top-name">John Doe</span>
+                <p class="title1">Trainee</p>
+                <p className="reviews">
+                  <StarIcon className="icon-star" />
+                  5.0(20 Reviews)
+                </p>
+                <p>
+                  <button className="assignbtn">VIEW</button>
+                </p>
+              </div>
+            </div>
+
+            <div className="column">
+              <div class="card">
+                <img src={care} alt="John" className="top-img" />
+                <span className="top-name">John Doe</span>
+                <p class="title1">Professional</p>
+                <p className="reviews">
+                  <StarIcon className="icon-star" />
+                  5.0(20 Reviews)
+                </p>
+                <p>
+                  <button className="assignbtn">VIEW</button>
+                </p>
+              </div>
+            </div>
+
+            <div className="column">
+              <div class="card">
+                <img src={care2} alt="John" className="top-img" />
+                <span className="top-name">John Doe</span>
+                <p class="title1">Professional</p>
+                <p className="reviews">
+                  <StarIcon className="icon-star" />
+                  5.0(20 Reviews)
+                </p>
+                <p>
+                  <button className="assignbtn">VIEW</button>
+                </p>
+              </div>
             </div>
           </div>
-
-          <div className="column">
-            <div class="card">
-              <img src={care2} alt="John" className="top-img" />
-              <span className="top-name">John Doe</span>
-              <p class="title1">Trainee</p>
-              <p className="reviews">
-                <StarIcon className="icon-star" />
-                5.0(20 Reviews)
-              </p>
-              <p>
-                <button
-                  className="assignbtn"
-                  onClick={() => setModelOpen2(true)}
-                >
-                  VIEW
-                </button>
-              </p>
-            </div>
-          </div>
-
-          <div className="column">
-            <div class="card">
-              <img src={care} alt="John" className="top-img" />
-              <span className="top-name">John Doe</span>
-              <p class="title1">Professional</p>
-              <p className="reviews">
-                <StarIcon className="icon-star" />
-                5.0(20 Reviews)
-              </p>
-              <p>
-                <button className="assignbtn">VIEW</button>
-              </p>
-            </div>
-          </div>
-
-          <div className="column">
-            <div class="card">
-              <img src={care2} alt="John" className="top-img" />
-              <span className="top-name">John Doe</span>
-              <p class="title1">Trainee</p>
-              <p className="reviews">
-                <StarIcon className="icon-star" />
-                5.0(20 Reviews)
-              </p>
-              <p>
-                <button className="assignbtn">VIEW</button>
-              </p>
-            </div>
-          </div>
-
-          <div className="column">
-            <div class="card">
-              <img src={care} alt="John" className="top-img" />
-              <span className="top-name">John Doe</span>
-              <p class="title1">Professional</p>
-              <p className="reviews">
-                <StarIcon className="icon-star" />
-                5.0(20 Reviews)
-              </p>
-              <p>
-                <button className="assignbtn">VIEW</button>
-              </p>
-            </div>
-          </div>
-
-          <div className="column">
-            <div class="card">
-              <img src={care2} alt="John" className="top-img" />
-              <span className="top-name">John Doe</span>
-              <p class="title1">Professional</p>
-              <p className="reviews">
-                <StarIcon className="icon-star" />
-                5.0(20 Reviews)
-              </p>
-              <p>
-                <button className="assignbtn">VIEW</button>
-              </p>
-            </div>
-          </div>
+          {modelOpen && <Regicaregiver />}
+          {modelOpen2 && <CaregiverProfile />}
         </div>
-        {modelOpen && <Regicaregiver />}
-        {modelOpen2 && <CaregiverProfile />}
-      </div>
+      )}
     </>
   );
 }

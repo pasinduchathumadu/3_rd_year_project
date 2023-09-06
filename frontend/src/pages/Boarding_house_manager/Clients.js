@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
-import ProfilePicture from '../../assests/profile-picture.png';
+// import ProfilePicture from '../../assests/profile-picture.png';
 // import PetImage from '../../assests/blog-1.png';
 // import OwnerImage from '../../assests/profile-picture.png';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -17,14 +17,20 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
-import { Avatar, IconButton, Tab } from "@mui/material";
+import { IconButton, Tab, Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/material";
 import { Tabs } from "@mui/material";
 import { FormLabel, TextField } from "@mui/material";
 import StarIcon from '@mui/icons-material/Star';
-import Slip from '../../assests/bankslip1.png';
+// import Slip from '../../assests/bankslip1.png';
 import axios from "axios";
 // import CircleIcon from '@mui/icons-material/Circle';
 import CloseIcon from '@mui/icons-material/Close';
+import { useNavigate } from "react-router";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import PetsIcon from '@mui/icons-material/Pets';
+import { Stack } from "@mui/system";
+
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -116,6 +122,8 @@ const Clients = () => {
     const [pet, setPet] = useState(false);
     const [addRefund, setaddRefund] = useState(false);
     const [viewRefund, setviewRefund] = useState(false);
+    const [error1, seterror1] = useState(false)
+    const [message1, setmessage1] = useState("")
 
     // click on view pet details button
     const [petdetails, setpetdetails] = useState([])
@@ -123,8 +131,8 @@ const Clients = () => {
         try {
             const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/viewPetDetails/${id}`)
             if (res.data.message === 'There is an internal error') {
-                seterror(true)
-                setmessage("There is an internal error")
+                seterror1(true)
+                setmessage1("There is an internal error")
             } else {
                 setPet(true)
                 setpetdetails(res.data.data)
@@ -145,21 +153,19 @@ const Clients = () => {
         setShowRequests(2);
     }
 
-    // add refund mony for request
-    // const RefundAdding = () => {
-    //     setShowRequests(false);
-    //     setaddRefund(true);
-    // }
-
-    // after click on place refund (for pending refunds)
+    // after click on  refund (for pending refunds)
     const [details1, setdetails1] = useState([])
+    const [error2, seterror2] = useState(false)
+    const [message2, setmessage2] = useState("")
+
     const toRefund = async (id) => {
         try {
             const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/toRefund/${id}`)
             if (res.data.message === 'There is an internal error') {
-                seterror(true)
-                setmessage("There is an internal error")
+                seterror2(true)
+                setmessage2("There is an internal error")
             } else {
+                // console.log(details1)
                 setaddRefund(true)
                 setdetails1(res.data.data)
             }
@@ -181,7 +187,7 @@ const Clients = () => {
                 id,
                 amount
             })
-        }catch(err) {
+        } catch (err) {
             console.log(err)
         }
     }
@@ -211,11 +217,71 @@ const Clients = () => {
             console.log(err)
         }
     }
+    // get image 
+    const getSlipSrc = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+    }
+
     // after viewing the refund details
     const back = () => {
         setviewRefund(false);
         setShowRequests(1)
     }
+
+    const navigate = useNavigate("")
+    // connect profile
+    const profile = () => {
+        navigate("/profile")
+    }
+
+    // clients' boarding requests - from accepted to arrived
+    const [error3, seterror3] = useState(false)
+    const [message3, setmessage3] = useState("")
+
+     // get profile picture
+     const getProfilepicturepath = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+
+    }
+
+    const AcceptedtoArrived = async (id) => {
+        try {
+            const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/AcceptedtoArrived`, {
+                id
+            })
+            if (res.data.message === 'There is an internal error') {
+                setmessage3('There is an internal error')
+                seterror3(true)
+            } else if (res.data.message === 'arrived') {
+                setShowRequests(0)
+            }
+
+        } catch (err) {
+            console.log('There is an internal error')
+        }
+    }
+
+    // clients' boarding requests - from arrvied to completed
+    const [error4, seterror4] = useState(false)
+    const [message4, setmessage4] = useState("")
+
+    const ArrviedtoCompleted = async (id) => {
+        try {
+            const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/ArrviedtoCompleted`, {
+                id
+            })
+            if (res.data.message === 'There is an internal error') {
+                setmessage4('There is an internal error')
+                seterror4(true)
+            } else if (res.data.message === 'completed') {
+                setShowRequests(0)
+            }
+
+        } catch (err) {
+            console.log('There is an internal error')
+        }
+    }
+
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
@@ -227,7 +293,7 @@ const Clients = () => {
                 </div>
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
-                    <img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" />
+                    <Button onClick={profile}><img src={getProfilepicturepath("boarding_profile.jpeg")} alt="profilepicture" className="boarding-profile-picture" /></Button>
                 </div>
             </div>
 
@@ -240,7 +306,6 @@ const Clients = () => {
                     indicatorColor="transparent"
                     sx={{ borderRadius: '10px' }}
                 >
-
                     <Tab sx={{ backgroundColor: showRequests === 0 ? 'orange' : '#F0F0F5', color: 'black' }} label="Clients' Boarding Request" ></Tab>
                     <Tab sx={{ backgroundColor: showRequests === 1 ? 'orange' : '#F0F0F5', color: 'black' }} label="Refund Requests"></Tab>
                     <Tab sx={{ backgroundColor: showRequests === 2 ? 'orange' : '#F0F0F5', color: 'black' }} label="Clients"></Tab>
@@ -342,7 +407,6 @@ const Clients = () => {
                                         <StyledTableCell align="center">Package</StyledTableCell>
                                         <StyledTableCell align="center">Arrival Date</StyledTableCell>
                                         <StyledTableCell align="center">Carry Date</StyledTableCell>
-                                        <StyledTableCell align="center">Arrival Time</StyledTableCell>
                                         <StyledTableCell align="center">Request Status</StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
                                     </TableRow>
@@ -356,14 +420,14 @@ const Clients = () => {
                                             <StyledTableCell align="center">{requestrow.package_name}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.board_arrival_date}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.board_carry_date}</StyledTableCell>
-                                            <StyledTableCell align="center">{requestrow.board_time}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.request_status}</StyledTableCell>
                                             <StyledTableCell align="center">
-                                                {requestrow.request_status === 'accepted'
-                                                    ? (<Button sx={{ color: 'white', width: '150px', backgroundColor: '#000000', ':hover': { backgroundColor: '#000000' } }}>Arrived</Button>) :
-                                                    requestrow.request_status === 'arrived'
-                                                        ? (<Button sx={{ color: 'white', width: '150px', backgroundColor: '#000000', ':hover': { backgroundColor: '#000000' } }}>Completed</Button>)
+                                                {requestrow.request_status === 'Accepted'
+                                                    ? (<Button onClick={() => AcceptedtoArrived(requestrow.request_id)} sx={{ color: 'white', width: '150px', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Arrived</Button>) :
+                                                    requestrow.request_status === 'Arrived'
+                                                        ? (<Button onClick={() => ArrviedtoCompleted(requestrow.request_id)} sx={{ color: 'white', width: '150px', backgroundColor: '#000000', ':hover': { backgroundColor: '#000000' } }}>Completed</Button>)
                                                         : ""}
+
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     ))}
@@ -427,11 +491,13 @@ const Clients = () => {
                                                     : <Button onClick={() => toRefund(refundrow.refund_id)} sx={{ color: 'white', width: '80%', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Refund </Button>}
                                             </StyledTableCell>
                                             <StyledTableCell align="center">
-                                                {refundrow.admin_verification === 'rejected'
+                                                {refundrow.admin_verification === 'rejected' && refundrow.refund_status === 'completed'
                                                     ? (<Button sx={{ color: 'white', width: '60%', backgroundColor: 'red', ':hover': { backgroundColor: 'red' } }}>Rejected</Button>)
-                                                    : refundrow.admin_verification === 'verified'
+                                                    : refundrow.admin_verification === 'verified' && refundrow.refund_status === 'completed'
                                                         ? (<Button sx={{ color: 'white', width: '60%', backgroundColor: 'blue', ':hover': { backgroundColor: 'blue' } }}>Verified</Button>)
-                                                        : (<Button sx={{ color: 'white', width: '60%', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }}>Pending</Button>)
+                                                        : refundrow.admin_verification === 'pending' && refundrow.refund_status === 'completed'
+                                                            ? (<Button sx={{ color: 'white', width: '60%', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }}>Pending</Button>)
+                                                            : ""
                                                 }
                                             </StyledTableCell>
                                         </StyledTableRow>
@@ -451,156 +517,72 @@ const Clients = () => {
                     top: 0,
                     left: 0,
                     width: '100%',
-                    height: '50%',
+                    height: '100vh',
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    // Adjust as needed
-                    marginRight: '300px', // Adjust as needed
-                    zIndex: 1001, // Ensure the content is above the overlay
+                    marginRight: '300px',
+                    zIndex: 1001,
                 }}>
-                    {petdetails && petdetails.map((petrow, index) => (
-                        <FormControl sx={{
-                            marginLeft: '5%',
-                            marginTop: '30%',
-                            borderRadius: '10px',
-                            width: '700px',
-                            padding: '20px',
-                            position: 'relative', // Add this to ensure content appears on top of the overlay
-                            zIndex: 1001,
-                            backgroundColor: 'black'
-                        }}>
-                            <div style={{ backgroundColor: 'white', paddingTop: '20px', paddingBottom: '20px', paddingRight: '60px', paddingLeft: '60px', borderRadius: '10px' }}>
-                                <div>
-                                    <IconButton onClick={backpetview}  ><CloseIcon sx={{ color: 'white', backgroundColor: 'red', marginLeft: '500px' }} /></IconButton>
-                                </div>
-                                <div className="form-topic">
-                                    Pet Details
-                                    <hr />
-                                </div>
-
-                                <div className="form-label" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <div>
-                                        <img
-                                            style={{ width: '200px', height: 'auto', borderRadius: '10px' }}
-                                            component={"img"}
-                                            src={getPetImageSrc(petrow.image)}
-                                            alt={petrow.name}
-                                        />
-                                    </div>
-                                    <div>
-                                        <FormLabel>  Pet ID  </FormLabel>
-                                        <Box
-                                            component="form"
-                                            sx={{
-                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                            }}
-                                            noValidate
-                                            autoComplete="off"
-                                        >
-                                            <div>
-                                                <TextField
-                                                    disabled
-                                                    id="outlined-disabled"
-                                                    label=""
-                                                    defaultValue={petrow.pet_id}
-                                                /></div>
-
-                                        </Box>
-                                    </div>
-                                </div>
-
-                                <div className="form-label" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <div>
-                                        <FormLabel>  Pet Name  </FormLabel>
-                                        <Box
-                                            component="form"
-                                            sx={{
-                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                            }}
-                                            noValidate
-                                            autoComplete="off"
-                                        >
-                                            <div>
-                                                <TextField
-                                                    disabled
-                                                    id="outlined-disabled"
-                                                    label=""
-                                                    defaultValue={petrow.name}
-                                                /></div>
-
-                                        </Box>
-                                    </div>
-
-                                    <div>
-                                        <FormLabel>  Pet Breed  </FormLabel>
-                                        <Box
-                                            component="form"
-                                            sx={{
-                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                            }}
-                                            noValidate
-                                            autoComplete="off"
-                                        >
-                                            <div>
-                                                <TextField
-                                                    disabled
-                                                    id="outlined-disabled"
-                                                    label=""
-                                                    defaultValue={petrow.breed}
-                                                /></div>
-
-                                        </Box>
-                                    </div>
-                                </div>
-                                <div className="form-label" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <div>
-                                        <FormLabel>Category</FormLabel>
-                                        <Box
-                                            component="form"
-                                            sx={{
-                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                            }}
-                                            noValidate
-                                            autoComplete="off"
-                                        >
-                                            <div>
-                                                <TextField
-                                                    disabled
-                                                    id="outlined-disabled"
-                                                    label=""
-                                                    defaultValue={petrow.category}
-                                                /></div>
-
-                                        </Box>
-                                    </div>
-
-                                    <div>
-                                        <FormLabel>  Sex  </FormLabel>
-                                        <Box
-                                            component="form"
-                                            sx={{
-                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                            }}
-                                            noValidate
-                                            autoComplete="off"
-                                        >
-                                            <div>
-                                                <TextField
-                                                    disabled
-                                                    id="outlined-disabled"
-                                                    label=""
-                                                    defaultValue={petrow.sex}
-                                                /></div>
-
-                                        </Box>
-                                    </div>
-                                </div>
-
+                    <FormControl sx={{
+                        marginLeft: '5%',
+                        marginTop: '40%',
+                        borderRadius: '10px',
+                        width: '500px',
+                        padding: '20px',
+                        position: 'relative',
+                        zIndex: 1001,
+                        backgroundColor: 'black'
+                    }}>
+                        <div style={{ backgroundColor: 'white', paddingTop: '20px', paddingBottom: '20px', paddingRight: '60px', paddingLeft: '60px', borderRadius: '10px' }}>
+                            <div>
+                                <IconButton onClick={backpetview}  ><CloseIcon sx={{ color: 'white', backgroundColor: 'red', marginLeft: '300px' }} /></IconButton>
+                            </div>
+                            <div className="form-topic">
+                                Pet Details
+                                <hr />
                             </div>
 
-                        </FormControl>
-                    ))}
+                            {petdetails && petdetails.map((petrow, index) => (
+                                <Card sx={{ maxWidth: "300px", display: "flex", flexDirection: 'row', m: 2, border: "10px", borderRadius: '10px', marginTop: '35px' }}>
+                                    <CardActionArea>
+                                        <CardMedia
+                                            sx={{ minHeight: "100px" }}
+                                            component={"img"}
+                                            src={petrow.image === "" ? getPetImageSrc("noimage.png") : getPetImageSrc(petrow.image)}
+                                            alt={petrow.name} />
+
+                                        <CardContent>
+                                            <Stack sx={{display:'flex', flexDirection:'row'}}>
+                                                <Typography gutterBottom component={"div"} sx={{ textAlign: 'center' }}>Pet ID  </Typography>
+                                                <Typography sx={{marginLeft:'5%', fontWeight:'bold'}}>: {petrow.pet_id}</Typography>
+                                            </Stack>
+
+                                            <Stack sx={{display:'flex', flexDirection:'row'}}>
+                                                <Typography gutterBottom component={"div"} sx={{ textAlign: 'center' }}> Name  </Typography>
+                                                <Typography sx={{marginLeft:'5%', fontWeight:'bold'}}>: {petrow.name}</Typography>
+                                            </Stack>
+
+                                            <Stack sx={{display:'flex', flexDirection:'row'}}>
+                                                <Typography gutterBottom component={"div"} sx={{ textAlign: 'center' }}>Category  </Typography>
+                                                <Typography sx={{marginLeft:'5%'}}>: {petrow.category}</Typography>
+                                            </Stack>
+
+                                            <Stack sx={{display:'flex', flexDirection:'row'}}>
+                                                <Typography gutterBottom component={"div"} sx={{ textAlign: 'center' }}>Breed  </Typography>
+                                                <Typography sx={{marginLeft:'5%', color:'red'}}>: {petrow.breed}</Typography>
+                                            </Stack>
+
+                                            <Stack sx={{display:'flex', flexDirection:'row'}}>
+                                                <Typography gutterBottom component={"div"} sx={{ textAlign: 'center' }}> Sex  </Typography>
+                                                <Typography sx={{marginLeft:'5%'}}>: {petrow.sex}</Typography>
+                                            </Stack>
+                                        </CardContent>
+                                    </CardActionArea>
+                                </Card>
+                            ))}
+                        </div>
+                    </FormControl>
                 </div>
             )}
 
@@ -616,9 +598,8 @@ const Clients = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    // Adjust as needed
-                    marginRight: '300px', // Adjust as needed
-                    zIndex: 1001, // Ensure the content is above the overlay
+                    marginRight: '300px',
+                    zIndex: 1001,
                 }}>
                     {details1 && details1.map((drow1, index) => (
                         <FormControl sx={{
@@ -765,20 +746,30 @@ const Clients = () => {
                                                 onChange={handleAmount}
                                             // defaultValue={drow1.refund_mny}
                                             /></div>
-
                                     </Box>
                                 </div>
 
                                 <div className="form-label">
                                     <FormLabel>Upload Bank Slip : </FormLabel>
-                                    <TextField
+                                    {/* <TextField
                                         sx={{ marginRight: '20px', marginLeft: '10px' }}
                                         type="file"
                                         variant="outlined"
                                         placeholder="Choose a file"
-                                        inputProps={{ accept: 'image/*' }} // Add the accepted file types if needed
-                                    // onChange={handleFileChange}
-                                    />
+                                        inputProps={{ accept: 'image/*' }} 
+                                    /> */}
+                                    <div style={{ display: 'inline' }}>
+                                        <Button
+                                            variant="contained"
+                                            component="label"
+
+                                            startIcon={<CloudUploadIcon />}
+                                        >
+                                            Upload File
+                                            <input type="file" hidden required />
+
+                                        </Button>
+                                    </div>
                                 </div>
 
                                 <div>
@@ -802,9 +793,8 @@ const Clients = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    // Adjust as needed
-                    marginRight: '300px', // Adjust as needed
-                    zIndex: 1001, // Ensure the content is above the overlay
+                    marginRight: '300px',
+                    zIndex: 1001,
                 }}>
                     {details && details.map((drow, index) => (
                         <FormControl sx={{
@@ -814,8 +804,8 @@ const Clients = () => {
                             width: '1000px',
                             padding: '20px',
                             backgroundColor: 'black',
-                            position: 'relative', // Add this to ensure content appears on top of the overlay
-                            zIndex: 1001, // Adjust the z-index to display content above the overlay
+                            position: 'relative',
+                            zIndex: 1001,
                         }}>
                             <div style={{ backgroundColor: 'white', paddingTop: '20px', paddingBottom: '20px', paddingRight: '60px', paddingLeft: '60px', borderRadius: '10px' }}>
                                 <div>
@@ -1002,11 +992,11 @@ const Clients = () => {
 
                                 <div className="form-label">
                                     <FormLabel>Uploaded Bank Slip : </FormLabel>
-                                    <img src={Slip} alt="bank slip" style={{ width: '50%', height: 'auto', borderRadius: '10px' }} />
+                                    <img
+                                        src={drow.refund_slip === "" ? getSlipSrc("noimage.png") : getSlipSrc(drow.refund_slip)}
+                                        alt="bank slip"
+                                        style={{ width: '50%', height: 'auto', borderRadius: '10px' }} />
                                 </div>
-                                {/* <Button variant="contained" onClick={() => afterAddingComplain()} sx={{ background: 'orange', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Complain</Button> */}
-                                {/* <iconButtonClasses variant="contained" onClick={FinishRefundViewing} sx={{ background: 'orange', width: '100%', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Finish Viewing</Button> */}
-                                {/* <IconButton><CloseIcon /></IconButton> */}
                             </div>
                         </FormControl>
                     ))}

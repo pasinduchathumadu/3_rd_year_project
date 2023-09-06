@@ -24,6 +24,7 @@ import axios from "axios";
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import { Stack } from "@mui/system";
+import {  useNavigate } from "react-router";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -65,18 +66,6 @@ const Complains = () => {
         setOwn(false);
         setForm(true);
     }
-
-    // click on add response button
-    // const addResponse = () => {
-    //     setOwn(false);
-    //     setaddResponce(true);
-
-    // }
-    // // after click on submit button of add response 
-    // const afterAddingResponse = () => {
-    //     setOwn(0);
-    //     setaddResponce(false);
-    // }
 
     const input = new Date();
     const date = input.toDateString();
@@ -227,6 +216,18 @@ const Complains = () => {
             .catch((err) => console.log(err))
     })
 
+    const navigate = useNavigate("")
+    // connect profile
+    const profile = () => {
+        navigate("/profile")
+    }
+
+     // get profile picture
+     const getProfilepicturepath = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+
+    }
+
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
             <div className="top">
@@ -237,7 +238,7 @@ const Complains = () => {
                 </div>
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
-                    <img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" />
+                    <Button onClick={profile}><img src={getProfilepicturepath("boarding_profile.jpeg")} alt="profilepicture" className="boarding-profile-picture" /></Button>
                 </div>
             </div>
 
@@ -451,9 +452,8 @@ const Complains = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    // Adjust as needed
-                    marginRight: '300px', // Adjust as needed
-                    zIndex: 1001, // Ensure the content is above the overlay
+                    marginRight: '300px',
+                    zIndex: 1001, 
                 }}>
                     {resdetails && resdetails.map((resrow, index) => (
                         <FormControl sx={{
@@ -462,7 +462,7 @@ const Complains = () => {
                             borderRadius: '10px',
                             width: '600px',
                             padding: '20px',
-                            position: 'relative', // Add this to ensure content appears on top of the overlay
+                            position: 'relative', 
                             zIndex: 1001,
                             backgroundColor: 'black'
                         }}>

@@ -7,14 +7,31 @@ import common_route from "./routes/commom-routes.js";
 import payment_route from "./routes/payment-routes.js";
 import online_store_manager from "./routes/online_store_manager-routes.js";
 import boarding_house_manager from "./routes/boarding-routes.js";
-import company_manager from "./routes/company-routes.js"
+import company_manager from "./routes/company-routes.js";
+import care_center_manager from "./routes/carecenter-routes.js";
 // //calling database firstly
 import {db} from './database.js';
 import cors from "cors";
-
+import session from "express-session"
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(
+    session({
+      secret: 'your-secret-key',
+      resave: false,
+      saveUninitialized: true,
+      cookie: { maxAge: 24 * 60 * 60 * 1000 }, // 1 day
+    })
+  );
+app.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+      if (err) {
+        console.error('Error destroying session:', err);
+      }
+     res.json({message:"logout"}) // Redirect to the home page or login page
+    });
+});
 app.use("/pet_care/user",user_route);
 app.use("/pet_care/email",email_route);
 app.use("/pet_care/pdf",pdf_route);
@@ -24,6 +41,7 @@ app.use("/pet_care/common",common_route);
 app.use("/pet_care/online_store_manager",online_store_manager);
 app.use("/pet_care/boarding_house_manager", boarding_house_manager);
 app.use("/pet_care/company_manager",company_manager)
+app.use("/pet_care/care_center_manager",care_center_manager)
 
 
 app.listen(5000,()=>{
