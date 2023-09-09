@@ -188,7 +188,7 @@ const AddPets = () => {
                                             <img
                                                 style={{ width: '140px', height: '100px', border: 'solid black 1px', borderRadius: '50%' }}
                                                 component={"img"}
-                                                src={getImageSrc(menu.image)}
+                                                src={menu.profile_image === "" ? getImageSrc("noimage.png") : getImageSrc(menu.profile_image)}
                                                 alt={menu.name} />
                                         </div>
                                         <div style={{ marginLeft: '10%' }}>

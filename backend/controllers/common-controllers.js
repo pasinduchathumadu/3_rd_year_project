@@ -1,3 +1,4 @@
+import { da } from 'date-fns/locale';
 import { db } from '../database.js';
 
 export const blog = async (req, res, next) => {
@@ -13,19 +14,19 @@ export const blog = async (req, res, next) => {
 
 }
 
-export const myblog = async(req,res,next)=>{
+export const myblog = async (req, res, next) => {
     const email = req.params.email
 
     const sqlQuery = "select *from client_post WHERE client_email = ?"
     const value = [email]
 
-    db.query(sqlQuery,value,(err,data)=>{
-        if(err){
-            return res.json({message:'there is internal error'})
+    db.query(sqlQuery, value, (err, data) => {
+        if (err) {
+            return res.json({ message: 'there is internal error' })
         }
-        return res.json({data})
+        return res.json({ data })
     })
-    
+
 }
 
 export const comment = async (req, res, next) => {
@@ -105,10 +106,10 @@ export const UpdateManager = async (req, res, next) => {
     const values = [contact, street, city, email]
 
     db.query(sqlQuery, values, (err, data) => {
-        if(err) {
-            return res.json({message:'There is an internal error'})
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
         }
-        return res.json({message:'success'})
+        return res.json({ message: 'success' })
     })
 }
 
@@ -128,53 +129,74 @@ export const ClientProfile = async (req, res, next) => {
 }
 
 // update profile - view client details on update form
-export const DisplayClientDetails = async(req,res,next) => {
+export const DisplayClientDetails = async (req, res, next) => {
     const email = req.params.email;
 
     const sqlQuery = 'SELECT u.profile_image, CONCAT(u.first_name, " ", u.last_name) as name, c.client_id, c.street, c.city, c.contact_number, c.email FROM users u INNER JOIN client c ON c.email = u.email WHERE c.email = ? '
     const values = [email]
 
-    db.query(sqlQuery, values, (err,data) => {
-        if(err) {
-            return res.json({message:'There is an internal error'})
+    db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
         }
-        return res.json({data})
+        return res.json({ data })
     })
 
 }
 
 // updating profile of CLIENT
-export const updateClient = async(req,res,next) => {
+export const updateClient = async (req, res, next) => {
     const {
         email,
         contact,
         street,
         city
-    }= req.body;
+    } = req.body;
 
     const sqlQuery = 'UPDATE client SET contact_number = ?, street = ?, city = ? WHERE email = ? '
-    const values = [contact, street, city,email]
+    const values = [contact, street, city, email]
 
-    db.query(sqlQuery, values, (err,data) => {
-        if(err){
-            return res.json({message:'There is an internal error'})
+    db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
         }
-        return res.json({message:'success'})
+        return res.json({ message: 'success' })
     })
 
 }
 
 // delete client profile
-export const deleteProfile = async(req,res,next) => {
+export const deleteProfile = async (req, res, next) => {
     const email = req.params.email
-    const sqlQuery = 'DELETE FROM users WHERE email = ?'
-    const values = [email]
+    const getQuery = 'SELECT client_id FROM client WHERE email = ?'
+    const getValues = [email]
 
-    db.query(sqlQuery, values, (err,data) => {
-        if(err){
-            return res.json({message:'There is an internal error'})
+    db.query(getQuery, getValues, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
+        } else {
+           
+            const clientid = data[0].client_id
+            const sqlQuery = 'DELETE FROM pet WHERE client_id = ?'
+            const values = [clientid]
+
+            db.query(sqlQuery, values, (err, data) => {
+                if (err) {
+                    return res.json({ message: 'There is an internal error' })
+                }
+                else {
+                    const sqlQuery2 = 'DELETE FROM users WHERE email = ?  '
+                    const values2 = [email]
+
+                    db.query(sqlQuery2, values2, (err, data) => {
+                        if (err) {
+                            return res.json({ message: 'There is an internal error' })
+                        }
+                        return res.json({ message: 'Deleted' })
+                    })
+                }
+            })
         }
-        return res.json({message:'Deleted'})
     })
 }
 
