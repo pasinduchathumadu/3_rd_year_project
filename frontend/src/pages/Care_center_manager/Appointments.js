@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/Care_center_manager/Appointments.css";
 import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -9,13 +9,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Typography, Avatar, Stack, Grid, Box, Tab, Tabs } from "@mui/material";
-import profile from "../../assests/profile.jpg";
-
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import { Typography, Stack, Grid, Box, Tab, Tabs } from "@mui/material";
+import axios from 'axios'
 import CPetProfile from "./CPetProfile";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useNavigate } from "react-router";
@@ -43,33 +38,51 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein, respond, btn1, btn2, status) {
-  return { name, calories, fat, carbs, protein, respond, btn1, btn2, status };
-}
 
-const rows = [
-  createData("001", "Dog", "Bath", "002", "5.00PM", "3000", "", "", "pending"),
-  createData("001", "Dog", "Bath", "002", "5.00PM", "3000", "", "", "pending"),
-  createData("001", "Dog", "Bath", "002", "5.00PM", "3000", "", "", "pending"),
-  createData("001", "Dog", "Bath", "002", "5.00PM", "3000", "", "", "pending"),
-  createData("001", "Dog", "Bath", "002", "5.00PM", "3000", "", "", "pending"),
-];
 
-const rows2 = [
-  createData("001", "Dog", "Bath", "002", "5.00PM", "3000", "", ""),
-  createData("001", "Dog", "Bath", "002", "5.00PM", "3000", "", ""),
-  createData("001", "Dog", "Bath", "002", "5.00PM", "3000", "", ""),
-  createData("001", "Dog", "Bath", "002", "5.00PM", "3000", "", ""),
-  createData("001", "Dog", "Bath", "002", "5.00PM", "3000", "", ""),
-];
+
+
+
+
+
 
 function Appo() {
 
-  const [age, setAge] = React.useState('');
+ 
+  const [rows , setgrooming ] = useState([])
+  const [ rows2 , settraining ] = useState([])
 
-  const handleChange2 = (event) => {
-    setAge(event.target.value);
-  };
+  
+  const get_groom_apo = async()=>{
+    try{
+      const res = await axios.get('http://localhost:5000/pet_care/care_center_manager/get_groom_apo')
+      const data = await res.data
+      return data
+    }catch(err){
+      console.log(err)
+    }
+  }
+  const pet_training = async()=>{
+    try{
+      const res = await axios.get('http://localhost:5000/pet_care/care_center_manager/get_training')
+      const data = await res.data
+      return data
+  
+    }catch(err){
+      console.log(err)
+    }
+  }
+
+  useEffect(()=>{
+    get_groom_apo()
+    .then((data)=>setgrooming(data.data))
+    .catch((err)=>console.log(err))
+  })
+  useEffect(()=>{
+    pet_training()
+    .then((data)=>settraining(data.data))
+    .catch((err)=>console.log(err))
+  })
 
   const input = new Date();
   const date = input.toDateString();
@@ -174,53 +187,48 @@ function Appo() {
               <Table sx={{ minWidth: 800 }} aria-label="customized table">
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell align="left" sx={{ width: "10%" }}>
-                      Pet ID
+                    <StyledTableCell align="left" >
+                     Appointment ID
                     </StyledTableCell>
-                    <StyledTableCell align="left" sx={{ width: "10%" }}>
-                      Category
+                    <StyledTableCell align="left">
+                      Client Email
                     </StyledTableCell>
-                    <StyledTableCell align="left" sx={{ width: "10%" }}>
-                      Package
-                    </StyledTableCell>
-                    <StyledTableCell align="left" sx={{ width: "10%" }}>
-                      Selected Time Slot
-                    </StyledTableCell>
-                    <StyledTableCell align="left" sx={{ width: "10%" }}>
-                      Payment(Rs)
-                    </StyledTableCell>
-                    <StyledTableCell align="left" sx={{ width: "10%" }}>
+                    <StyledTableCell align="left" >
                       Appointment Status
                     </StyledTableCell>
-                    <StyledTableCell align="left" sx={{ width: "10%" }}>
-                      Pet Profile
+                    <StyledTableCell align="left" >
+                     Placed Date
+                    </StyledTableCell>
+                    <StyledTableCell align="left" >
+                      Payment(Rs)
+                    </StyledTableCell>
+                    <StyledTableCell align="left">
+                      Cancel Date
                     </StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {rows.map((row) => (
-                    <StyledTableRow key={row.name}>
+                    <StyledTableRow key={row.appointment_id}>
                       <StyledTableCell component="th" scope="row">
-                        {row.name}
+                        {row.appointment_id}
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        {row.calories}
+                        {row.client_email}
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        {row.fat}
+                        {row.appointment_status}
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        {row.protein}
+                        {row.placed_date}
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        {row.respond}
+                        {row.price}
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        {row.respond}
+                        {row.cancel_date}
                       </StyledTableCell>
-                      <StyledTableCell align="left">
-                        <Button onClick={Submit} sx={{ backgroundColor: "orange", color: "white", width: "75px", ":hover": { backgroundColor: "orange" } }}>View</Button>
-                      </StyledTableCell>
+                      
                     </StyledTableRow>
                   ))}
                 </TableBody>
@@ -236,6 +244,9 @@ function Appo() {
                       Pet ID
                     </StyledTableCell>
                     <StyledTableCell align="left" sx={{ width: "10%" }}>
+                      Client Email
+                    </StyledTableCell>
+                    <StyledTableCell align="left" sx={{ width: "10%" }}>
                       Category
                     </StyledTableCell>
                     {/* <StyledTableCell align="left" sx={{ width: "10%" }}>
@@ -248,10 +259,10 @@ function Appo() {
                       Selected Time Slot
                     </StyledTableCell>
                     <StyledTableCell align="left" sx={{ width: "10%" }}>
-                      Payment(Rs)
+                     Trainning Day
                     </StyledTableCell>
                     <StyledTableCell align="left" sx={{ width: "10%" }}>
-                      Appointment Status
+                      Payment
                     </StyledTableCell>
                     <StyledTableCell align="left" sx={{ width: "10%" }}>
                       Pet Profile
@@ -261,27 +272,25 @@ function Appo() {
                 <TableBody>
                   {rows2.map((row) => (
                     <StyledTableRow key={row.name}>
+                       <StyledTableCell align="left">
+                        {row.id}
+                      </StyledTableCell>
                       <StyledTableCell component="th" scope="row">
-                        {row.name}
+                        {row.client_email}
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        {row.calories}
-                      </StyledTableCell>
-                      {/* <StyledTableCell align="left">
-                        {row.fat}
+                        {row.breed}
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        {row.carbs}
-                      </StyledTableCell> */}
-                      <StyledTableCell align="left">
-                        {row.protein}
+                        {row.start+" - "+row.end}
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        {row.respond}.00
+                        {row.day}
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        {row.respond}
+                        {row.price}.00
                       </StyledTableCell>
+                     
                       <StyledTableCell align="left">
                         <Button onClick={Submit} sx={{ backgroundColor: "orange", color: "white", width: "75px", ":hover": { backgroundColor: "orange" } }}>View</Button>
                       </StyledTableCell>
@@ -328,24 +337,24 @@ function Appo() {
                 </TableHead>
                 <TableBody>
                   {rows2.map((row) => (
-                    <StyledTableRow key={row.name}>
+                    <StyledTableRow key={row.id}>
                       <StyledTableCell component="th" scope="row">
-                        {row.name}
+                        {row.client_email}
                       </StyledTableCell>
                       {/* <StyledTableCell align="left">
                         {row.calories}
                       </StyledTableCell> */}
                       <StyledTableCell align="left">
-                        {row.carbs}
+                        {row.breed}
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        {row.protein}
+                        {row.day}
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        {row.respond}
+                        {row.price}
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        {row.respond}
+                        {row.start + row.end}
                       </StyledTableCell>
                       {/* <StyledTableCell align="left">
                         <Button onClick={Submit} sx={{ backgroundColor: "orange", color: "white", width: "75px", ":hover": { backgroundColor: "orange" } }}>View</Button>

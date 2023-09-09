@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import '../../styles/Care_center_manager/Regicaregiver.css';
 import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
 import axios from "axios";
-import { Alert, Button, IconButton, Stack } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Alert, Button, Stack } from "@mui/material";
+
 function Regicaregiver(){
    const [first ,setfirst] = useState("")
    const [last , setlast] = useState("")
    const [email , setemail] = useState("")
 
    const [sucess , setsuccess] = useState(false)
-   const navigate = useNavigate()
+  
    const submit = async()=>{
   
     try{
