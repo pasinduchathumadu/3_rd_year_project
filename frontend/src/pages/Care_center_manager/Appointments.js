@@ -264,9 +264,7 @@ function Appo() {
                     <StyledTableCell align="left" sx={{ width: "10%" }}>
                       Payment
                     </StyledTableCell>
-                    <StyledTableCell align="left" sx={{ width: "10%" }}>
-                      Pet Profile
-                    </StyledTableCell>
+                  
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -291,9 +289,7 @@ function Appo() {
                         {row.price}.00
                       </StyledTableCell>
                      
-                      <StyledTableCell align="left">
-                        <Button onClick={Submit} sx={{ backgroundColor: "orange", color: "white", width: "75px", ":hover": { backgroundColor: "orange" } }}>View</Button>
-                      </StyledTableCell>
+                     
                     </StyledTableRow>
                   ))}
                 </TableBody>
