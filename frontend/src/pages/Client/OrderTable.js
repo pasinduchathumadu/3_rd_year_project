@@ -44,15 +44,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-
-
-
-
-
-
-
 export default function OrderTable() {
-
 
   const [error1 , seterror1 ] = useState(false)
   const [message1 , setmessage1 ] = useState("")
@@ -73,6 +65,7 @@ export default function OrderTable() {
    window.location.reload()
   }
 
+  const email = localStorage.getItem('store_email')
   const confirmDelete = async (rowId) => {
 
     const res = await axios.post(`http://localhost:5000/pet_care/user/delete_appointment`, {
@@ -93,11 +86,9 @@ export default function OrderTable() {
   };
 
   const confirmDelete_training = async (rowId) => {
-   
     const res = await axios.post(`http://localhost:5000/pet_care/user/delete_appointment_training`, {
       rowId,
       date
-
     })
     if (res.data.message === "deleted") {
       seterror1(true)
@@ -108,8 +99,6 @@ export default function OrderTable() {
       seterror1(true)
       setmessage1("Can't be deleted")
     }
-    
-
   };
 
 
@@ -118,7 +107,7 @@ export default function OrderTable() {
 
   const get_medi_orders = async () => {
     
-    const res = await axios.get('http://localhost:5000/pet_care/user/get_medi_orders')
+    const res = await axios.get(`http://localhost:5000/pet_care/user/get_medi_orders/${email}`)
     const data = await res.data
     return data;
   }
@@ -141,7 +130,7 @@ export default function OrderTable() {
 
   const get_training = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/pet_care/user/training_orders')
+      const res = await axios.get(`http://localhost:5000/pet_care/user/training_orders/${email}`)
       const data = await res.data
       return data
 
@@ -152,7 +141,7 @@ export default function OrderTable() {
   }
   const get_orders = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/pet_care/user/care_orders')
+      const res = await axios.get(`http://localhost:5000/pet_care/user/care_orders/${email}`)
       const data = await res.data
       return data
 

@@ -12,8 +12,11 @@ import AddIcon from "@mui/icons-material/Add";
 import SpaIcon from "@mui/icons-material/Spa";
 import AddPackage from "./AddPackage";
 import EditPackage from "./EditPackage";
-import { Typography, Avatar, Stack, Grid, Box, Tab, Tabs } from "@mui/material";
+import { Typography, Avatar, Stack, Grid, Box, Tab, Tabs, Button } from "@mui/material";
 import profile from "../../assests/profile.jpg";
+import { useNavigate } from "react-router";
+import NotificationsIcon from '@mui/icons-material/Notifications';
+
 
 
 function Packages() {
@@ -26,6 +29,16 @@ function Packages() {
   const [value, setvalue] = React.useState(0);
   const handleChange = (event, newvalue) => {
     setvalue(newvalue);
+  }
+
+  const navigate = useNavigate("")
+  // connect profile
+  const profile = () => {
+    navigate("/profile")
+  }
+  // get profile picture
+  const getProfilepicturepath = (imageName) => {
+    return require(`../../../../backend/images/store/${imageName}`)
   }
 
   return (
@@ -62,11 +75,14 @@ function Packages() {
           </div>
           <div style={{ display: 'flex', marginLeft: 'auto', alignItems: 'center', justifyContent: 'center' }}>
             <div style={{ marginLeft: '150%' }}><Stack direction="row" spacing={2} width={300}>
-              <Avatar
-                alt="Travis Howard"
-                src={profile}
-                sx={{ width: 60, height: 60 }}
-              />
+              <NotificationsIcon />
+              <Button onClick={profile}>
+                <img
+                  alt="profilepicture"
+                  src={getProfilepicturepath("carecenter_profile.png")}
+                  style={{ width: 'auto', height: '60px' }}
+                />
+              </Button>
             </Stack>
             </div>
           </div>

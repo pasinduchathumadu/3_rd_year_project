@@ -6,7 +6,7 @@ import PetsIcon from "@mui/icons-material/Pets";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -16,10 +16,22 @@ import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
 import { PieChart } from '@mui/x-charts/PieChart';
 import AssessmentIcon from '@mui/icons-material/Assessment';
-
-
+import { useNavigate } from "react-router";
 
 const Company_Home = () => {
+  const navigate = useNavigate("")
+  // connect profile
+  const profile = () => {
+    navigate("/profile")
+}
+
+  // get profile picture
+  const getProfilepicturepath = (imageName) => {
+    return require(`../../../../backend/images/store/${imageName}`)
+}
+
+  const date = new Date()
+  const currentdate = date.toDateString();
   // drop down
   const [time, setTime] = React.useState("1");
 
@@ -43,7 +55,7 @@ const Company_Home = () => {
             Today
           </Typography>
           <Typography variant="inherit" color="textSecondary">
-            08 August 2023
+            {currentdate}
           </Typography>
         </Box>
         <Stack justifyContent="center" alignItems="center">
@@ -53,10 +65,11 @@ const Company_Home = () => {
         </Stack>
         <Stack direction="row" justifyContent="center" alignItems="center">
           <NotificationsIcon className="bell-icon" />
-          <img
+          <Button onClick={profile}><img src={getProfilepicturepath("company_profile.jpeg")} alt="profilepicture" className="boarding-profile-picture" /></Button>
+          {/* <img
             src={ProfilePicture}
             alt="profilepicture"
-            className="boarding-profile-picture" />
+            className="boarding-profile-picture" /> */}
         </Stack>
       </Stack>
 

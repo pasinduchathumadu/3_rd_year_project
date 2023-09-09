@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import "../../styles/Client/Bording.css";
-
+/* eslint-disable jsx-a11y/alt-text */
+import axios from 'axios'
 import cage from "../../assests/2.png";
+import pet_doctor from "../../assests/doctor.png";
 import "../../styles/Client/Shop.css"
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion'
+import petcare1 from "../../assests/vaccine.png";
+import petcare2 from "../../assests/tooth-cleaning.png";
+import petcare3 from "../../assests/pet-care.png";
 import AOS from 'aos';
-
 import 'aos/dist/aos.css';
 import doctor2 from "../../assests/doctor2.png"
 import pay from "../../assests/pay1.jpg"
@@ -14,9 +18,7 @@ import StripeCheckout from "react-stripe-checkout"
 import CloseIcon from "@mui/icons-material/Close"
 import "../../styles/Client/Medi.css"
 import LoadingIndicator from '../../components/LoadingIndicator';
-
 import StarIcon from '@mui/icons-material/Star';
-
 
 
 
@@ -89,41 +91,36 @@ function Medi() {
 
   }
 
+  const close_form = () => {
+    setappoinment(false)
+  }
+  const get_medi_user = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/user/get_medi_user/${email}`)
+      const data = await res.data
+      return data
 
-
-
-const Bording = () => {
-  const [selectedSeats, setSelectedSeats] = useState([]);
-  const [selectedMovieIndex, setSelectedMovieIndex] = useState(0);
-  const [count, setCount] = useState(0);
-  const [total, setTotal] = useState(0);
-
-  const seats = [
-    [false, false, false, false, false, false, false, false],
-    [false, false, false, true, true, false, false, false],
-    [false, false, false, false, false, true, true, false],
-    [false, false, false, false, false, false, false, false],
-    [false, false, false, true, true, false, false, false],
-    [false, false, false, true, true, true, true, false],
-  ];
-
-  const movies = [
-    { name: 'Dogs', price: 1000 },
-    { name: 'Cats', price: 800 },
-    { name: 'Birds', price: 500 },
-    { name: 'The Lion King', price: 9 },
-  ];
-
-  const handleSeatClick = (rowIndex, seatIndex) => {
-    const seatKey = `${rowIndex}-${seatIndex}`;
-    if (!seats[rowIndex][seatIndex]) {
-      const updatedSeats = [...selectedSeats, seatKey];
-      setSelectedSeats(updatedSeats);
-    } else {
-      const updatedSeats = selectedSeats.filter((seat) => seat !== seatKey);
-      setSelectedSeats(updatedSeats);
+    } catch (err) {
+      console.log(err)
     }
+  }
+  const submit = async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/pet_care/user/get_doctors')
+      if (res.message === 'There is an internel error') {
 
+      }
+      else {
+        setdata(res.data.data)
+        setfirst(false)
+        setsecond(true)
+
+      }
+
+
+    } catch (err) {
+      console.log("There is an internel error")
+    }
   }
   const submit1 = async (id) => {
     if (date_medi === "") {
@@ -159,11 +156,11 @@ const Bording = () => {
       seterror(true)
       setmessage("No more Appointments are placed!!")
 
-
-  const handleMovieChange = (event) => {
-    setSelectedMovieIndex(event.target.value);
-  };
-
+    }
+    if (res.data.message === "doctors is not free") {
+  
+      seterror(true)
+      setmessage("Unavialable pick another day")
 
     }
     else{
@@ -230,12 +227,9 @@ const Bording = () => {
       navigate('/dashboard')
       console.log("failed")
 
+    }
 
-
-  useEffect(() => {
-    AOS.init({ duration: 800 });
-  }, []);
-
+  }
 
   const getImageSrc = (imageName) => {
     return require(`../../../../backend/images/store/${imageName}`)
@@ -276,140 +270,236 @@ const Bording = () => {
 
           </div>
 
+          <div style={{ width: "100%", height: "60vh", backgroundColor: "#121334", marginTop: "auto", color: "white" }}  >
+            <h2 style={{ fontSize: "50px", marginLeft: "50px" }}>View your Pets Previous Medical Reports</h2>
+            <h2 style={{ fontSize: "20px", marginLeft: "50px" }}>< StarIcon sx={{ color: 'red' }} />We always protect your pet details</h2>
 
-      <div className='smooth-scroll' style={{ textAlign: "center", width: "100%", height: "75vh", marginTop: "auto", marginBottom: "auto", fontWeight: "1" }}><h2 style={{ fontSize: "80px", marginTop: "90px" }}>Book your <span style={{ color: "orange" }}>pets</span> Cage Now</h2>
-        <h1 style={{ marginTop: "20px", fontFamily: "sans-serif" }}>We protect and care your pet</h1>
-        <h1 style={{ fontSize: "20px", fontWeight: "1" }}>24 x 7 Service</h1>
+            <Link to="/viewMedicalReports" style={{ textDecoration: 'none' }}>
+              {/* <Button variant="contained" sx={{ width:"500px",height:"50px",backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px',marginLeft:"45px",marginTop:"20px", fontSize: '16px', fontWeight:'bold', '&:hover': { backgroundColor: 'orange' } }} >View Previous Medical Reports</Button></Link> */}
+              <Button variant="contained" sx={{ width: "500px", height: "50px", backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px', marginLeft: "45px", marginTop: "20px", fontSize: '16px', fontWeight: 'bold', '&:hover': { backgroundColor: 'orange' } }} >Click Here </Button></Link>
 
-        <img className="smooth-scroll" src={cage} alt="Cage" style={{ fontSize: "20px", width: "80px", height: "80px" }} />
-        <div>
-          <Link to="/activityTracking"><Button sx={{ backgroundColor: 'orange', width: '500px', color: 'white', ':hover': { backgroundColor: 'orange' }, fontWeight: 'bold', fontSize: '18px' }}>View Your Past Pets Records</Button></Link>
-          <h1 style={{ marginTop: "20px", fontFamily: "sans-serif" }}>Boarding Packages</h1>
-        </div>
-      </div>
+          </div>
 
-      <div style={{ width: "100%", height: "80vh", backgroundColor: "", display: "flex", padding: "100px" }} >
 
-        <div style={{
-          width: "33%", height: "70vh", backgroundImage: "linear-gradient(to left, #5d5d5d, #797979, #959595, #b3b3b3, #d2d2d2, #d2d2d2, #d1d1d1, #d1d1d1, #b1b1b1, #939292, #757475, #595858)",
-          marginRight: "auto", marginLeft: "auto", borderRadius: "8px"
-        }} data-aos="flip-left">
-          <img className="smooth-scroll" src={silver} alt="Cage" style={{ fontSize: "20px", width: "150px", height: "150px", marginLeft: "34%", marginTop: "-50px" }} />
-          <h1 style={{ color: "black", textAlign: "center", fontWeight: "1" }}>Rs.1000</h1>
-          <p style={{ color: "black", textAlign: "center", fontWeight: "2" }}>/ per day</p>
-          <ol style={{ listStyleType: 'none', padding: 0, textAlign: "center", marginTop: "20px", color: "black", fontSize: "20px" }}>
-            <li className="tick-icon">Foods with <b>normal brands</b></li>
-            <li className="tick-icon">Washing only</li>
-            <li className="tick-icon"><b>No</b> air condition apply </li>
-          </ol>
-        </div>
-
-        <div
-          style={{
-            width: "33%", height: "85vh", marginTop: "-80px",
-            backgroundImage: "linear-gradient(to left, #000000, #1b1b1b, #2e2e2e, #444444, #5a5a5a, #5a5a5a, #5a5a5a, #5a5a5a, #444444, #2e2e2e, #1b1b1b, #000000)"
-            , marginRight: "auto", marginLeft: "auto",
-            borderRadius: "8px",
-            transition: "transform 0.5s ",
-            "&:hover": {
-              transform: "scale(1.1)", // Apply scale transform on hover
-              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
-            },
-
-          }} data-aos="fade-up">
-          <img className="smooth-scroll" src={platinum} alt="Cage" style={{ fontSize: "20px", width: "150px", height: "150px", marginLeft: "34%", marginTop: "-50px" }} />
-          <h1 style={{ color: "white", textAlign: "center", fontWeight: "1" }}>Rs.1500</h1>
-          <p style={{ color: "black", textAlign: "center", fontWeight: "2", color: 'white' }}>/ per day</p>
-          <ol style={{ listStyleType: 'none', padding: 0, textAlign: "center", marginTop: "20px", color: "white", fontSize: "20px" }}>
-            <li className="tick-icon">Foods with <b>high brands</b></li>
-            <li className="tick-icon"><b>Free</b> washing with <b>high brands</b> ingrediants</li>
-            <li className="tick-icon"><b>Air conditional</b> apply</li>
-            <li className="tick-icon"><b>Free</b> spa</li>
-            <li className="tick-icon"><b>Comforting</b> medicine </li>
-          </ol>
-        </div>
-
-        <div style={{
-          width: "33%", height: "70vh", backgroundImage: "linear-gradient(to left, #cb8700, #d5941f, #dea133, #e8ae45, #f1bb56, #f1bb56, #f1bb56, #f1bb56, #e8ae45, #dea133, #d5941f, #cb8700)",
-          marginRight: "auto", marginLeft: "auto", borderRadius: "8px"
-        }} data-aos="flip-right">
-          <img className="smooth-scroll" src={gold} alt="Cage" style={{ fontSize: "20px", width: "150px", height: "150px", marginLeft: "34%", marginTop: "-50px" }} />
-          <h1 style={{ color: "black", textAlign: "center", fontWeight: "1" }}>Rs.1200</h1>
-          <p style={{ color: "black", textAlign: "center", fontWeight: "2" }}>/ per day</p>
-          <ol style={{ listStyleType: 'none', padding: 0, textAlign: "center", marginTop: "20px", color: "black", fontSize: "20px" }}>
-            <li className="tick-icon">Foods  with <b>normal brands</b></li>
-            <li className="tick-icon"><b>Free </b> washing with <b>normal brand</b> ingrediants</li>
-            <li className="tick-icon"><b>Air conditional</b> apply</li>
-            <li className="tick-icon"><b>Free</b> spa</li>
-          </ol>
-        </div>
-      </div>
-
-      <div className='main' style={{ marginTop: "20px" }}>
-        <div className="movie-con">
-          <label>Pick a Cage:</label>
-          <select id="movie" onChange={handleMovieChange} value={selectedMovieIndex}>
-            {movies.map((movie, index) => (
-              <option key={index} value={index}>
-                {movie.name} (Rs.{movie.price}-UP)
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <ul className="showcase">
-          <li>
-            <div className="seat"> </div>
-            <small>N/A</small>
-          </li>
-
-          <li>
-            <div className="seat selected"> </div>
-            <small>Selected</small>
-          </li>
-
-          <li>
-            <div className="seat occupied"></div>
-            <small>Occupied</small>
-          </li>
-        </ul>
-
-        <div className="con">
-          <div className="screen"></div>
-          {seats.map((row, rowIndex) => (
-            <div className="ro" key={rowIndex}>
-              {row.map((seat, seatIndex) => {
-                const seatKey = `${rowIndex}-${seatIndex}`;
-                return (
-                  <div
-
-                    key={seatKey}
-                    className={`seat ${seat
-                      ? "occupied"
-                      : selectedSeats.includes(seatKey)
-                        ? "selected"
-                        : ""}`}
-                    onClick={() => handleSeatClick(rowIndex, seatIndex)}
-                  >
-                  </div>
-                );
-              })}
+          <div style={{ width: "100%", height: "60vh", backgroundColor: "white", marginTop: "auto" }}>
+            <h1 style={{ textAlign: "center", marginTop: "20px" }}>Our Services</h1>
+            <h1 style={{ textAlign: "center", fontSize: "80px", marginTop: "-20px", fontWeight: "1000", color: "rgb(163 169 168)" }}>Services we provide</h1>
+          </div>
+          <div style={{ display: "flex", marginTop: "-200px", textAlign: "ceneter" }} >
+            <div style={{ width: "30%", height: "40vh", backgroundColor: "white", marginLeft: "auto", marginRight: "auto" }} data-aos="zoom-in">
+              <img className="smooth-scroll" src={petcare1} alt="Cage" style={{ fontSize: "20px", width: "80px", height: "80px", marginLeft: "190px" }} />
+              <h1 style={{ textAlign: "center" }}>Pet Vaccine </h1>
+              <h3 style={{ textAlign: "center", fontWeight: "1" }}>Protect your furry friend's health with our expert pet vaccines!</h3>
             </div>
-          ))}
+            <div style={{ width: "30%", height: "40vh", backgroundColor: "white", marginLeft: "auto", marginRight: "auto" }} data-aos="zoom-in">
+              <img className="smooth-scroll" src={petcare2} alt="Cage" style={{ fontSize: "20px", width: "80px", height: "80px", marginLeft: "auto", marginRight: "auto", marginLeft: "190px" }} />
+              <h1 style={{ textAlign: "center" }}>Pet Dentel </h1>
+              <h3 style={{ textAlign: "center", fontWeight: "1" }}>Keep your furry friend's smile shinning with our expert pet dental care services!</h3>
+            </div>
+            <div style={{ width: "30%", height: "40vh", backgroundColor: "white", marginLeft: "auto", marginRight: "auto" }} data-aos="zoom-in">
+              <img className="smooth-scroll" src={petcare3} alt="Cage" style={{ fontSize: "20px", width: "80px", height: "80px", marginLeft: "auto", marginRight: "auto", marginLeft: "190px" }} />
+              <h1 style={{ textAlign: "center" }}>Pet Sergury </h1>
+              <h3 style={{ textAlign: "center", fontWeight: "1" }}> Expert surgical care for your furry members, ensuring their healthy life!</h3>
+            </div>
+          </div>
+          <div style={{ width: "100%", height: "73vh", backgroundColor: "#121334", marginTop: "auto", display: "flex" }} data-aos="fade-right">
+            <img className="smooth-scroll" src={doctor2} alt="Cage" style={{ fontSize: "700px", width: "400px", height: "600px", marginTop: "-80px" }} />
+            <h1 style={{ color: "white", textAlign: "center", marginTop: "90px", marginLeft: "300px" }}> Make your appoinment here</h1>
+            <div style={{ textAlign: 'center' }}>
+              <Button onClick={submit} variant="contained" sx={{ width: "500px", height: "50px", backgroundColor: 'orange', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '80px', minHeight: '20px', marginLeft: "-450px", marginTop: "260px", fontSize: '12px', '&:hover': { backgroundColor: 'orange' } }} >Enter details</Button>
+            </div>
+          </div>
         </div>
 
-        <p className="text">
-          You have selected <span id="count">{count}</span> seats for a price of ${' '}
-          <span id="total">{total}</span>
-        </p>
-        <p style={{ color: "black", marginTop: "30px" }}>Select your time slot</p>
-        <LocalizationProvider dateAdapter={AdapterDayjs} sx={{ color: "white" }}>
-          <DemoContainer components={['DateTimePicker']} sx={{ width: "500px", marginLeft: "45px", marginTop: "10px" }}>
-            <DateTimePicker label="Book your time" sx={{ color: "black", backgroundColor: "white", borderRadius: "10px" }} />
-          </DemoContainer>
-        </LocalizationProvider>
+      )}
 
-        <Button sx={{ backgroundColor: "black", width: "500px", marginLeft: "45px", marginTop: "10px", '&:hover': { backgroundColor: 'black' } }} variant="contained">Submit</Button>
+      {second && (
+        <><div className='smooth-scroll' style={{ filter: appointment ? 'blur(5px)' : 'none', marginTop: '4%' }}>
+          <div style={{ width: "100%", height: "73vh", backgroundColor: "rgb(18, 19, 52)", marginTop: "auto" }} data-aos="fade-right">
+            <h1 style={{ color: "blue", fontSize: "80px", marginLeft: "15px" }}>Meet Your Doctor Now</h1>
+            <h1 style={{ color: "white", fontSize: "20px", fontWeight: "1", marginLeft: "20px" }}>Expert vet doctors dedicated to your pet's well-being </h1>
+            <h1 style={{ color: "white", fontSize: "20px", fontWeight: "1", marginLeft: "20px" }}> Trust us with their care</h1>
+            <h1 style={{ color: "#a5a5ac", fontSize: "40px", fontWeight: "1000", marginLeft: "50px", marginTop: "30px" }}>24x7 service </h1>
+          </div>
+          <div className='shop'>
+            <div className='shopTitle'>
+              <h2>Happy Tails Veterinarians</h2>
+            </div>
+            <Typography sx={{ textAlign: 'center', marginTop: '2%', fontSize: '30px' }}>Week Days For Chanelling</Typography>
+            <div className='products' style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+              {vetdata && vetdata.filter((menu) => menu.working === 'week').map((product, index) => (
+                <div className='product' key={index}>
+                  <img src={getImageSrc(product.img)} style={{ width: "40vh", height: "40vh" }} />
+                  <div className='description'>
+                    <Typography sx={{ fontSize: '24px', color: 'black' }}>{product.first_name + " " + product.last_name}</Typography>
+                    <Typography sx={{ fontSize: '20px', color: 'red' }}>Start at:{product.start_time}</Typography>
+                    <Typography sx={{ fontSize: '15px', color: 'black' }}>{product.contact_number}</Typography>
+                    <StarIcon sx={{ color: "orange", marginBottom: "-5px" }} />
+                    <Button onClick={() => openappointment(product.vet_id)} sx={{ backgroundColor: 'black', color: 'white', marginTop: '2%', ':hover': { backgroundColor: 'black' } }}>Add Appoinment</Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <Typography sx={{ textAlign: 'center', marginTop: '2%', fontSize: '30px' }}>Week-End Days For Chanelling</Typography>
+            <div className='products'style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+              {vetdata && vetdata.filter((menu) => menu.working === 'weekend').map((product, index) => (
+                <div className='product' key={index}>
+                  <img src={getImageSrc(product.img)} style={{ width: "40vh", height: "40vh" }} />
+                  <div className='description'>
+                    <Typography sx={{ fontSize: '24px', color: 'black' }}>{product.first_name + " " + product.last_name}</Typography>
+                    <Typography sx={{ fontSize: '20px', color: 'red' }}>Start at:{product.start_time}</Typography>
+                    <Typography sx={{ fontSize: '15px', color: 'black' }}>{product.contact_number}</Typography>
+
+                    <StarIcon sx={{ color: "orange", marginBottom: "-5px", marginLeft: '2px' }} />
+
+                    <Button onClick={() => openappointment(product.vet_id)} sx={{ backgroundColor: 'black', color: 'white', marginTop: '2%', ':hover': { backgroundColor: 'black' } }}>Add Appoinment</Button>
+
+                  </div>
+
+
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+          {appointment && (
+            <div
+              style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                background: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <div
+                style={{
+                  background: 'white',
+                  paddingTop: '3%',
+                  paddingLeft: '3%',
+                  width: '50%',
+                  borderRadius: '8px',
+                  boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Typography sx={{ marginLeft: '30%', fontSize: '30px' }}>Doctor Appointment</Typography>
+                  <IconButton onClick={close_form} sx={{ marginRight: '18px' }}>
+                    <CloseIcon color="primary" />
+                  </IconButton>
+                </div>
+                <Typography sx={{ marginLeft: '2%', fontSize: '20px', marginTop: '2%' }}>Do you want to book this doctor?</Typography>
+                {book_doctor.map((menu, index) =>
+                  <Stack spacing={2} margin={2}>
+                    <TextField variant="outlined" label="Client Name" defaultValue={user.map((product1, index) => product1.first_name + " " + product1.last_name)} InputProps={{
+                      readOnly: true,
+                    }} />
+                    <TextField variant="outlined" label="Vet Name" defaultValue={menu.first_name + " " + menu.last_name} InputProps={{
+                      readOnly: true,
+                    }} />
+                    <TextField variant="outlined" label="Channeling Fee" defaultValue={"RS." + menu.fee} InputProps={{
+                      readOnly: true,
+                    }} />
+                    <Typography>Appointment Date: </Typography>
+                    <TextField onChange={(e) => setdate(e.target.value)} type="date" variant="outlined"></TextField>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <Checkbox defaultChecked color="primary" label="d" />
+                      <Typography>Agree Terms & Condition</Typography>
+                    </div>
+                    {error && (
+                  <Stack sx={{ width: '100%' }} spacing={2}>
+                    <Alert severity="warning">{message}</Alert>
+                  </Stack>
+                )}
+                    <Button
+                      onClick={() => submit1(menu.vet_id)}
+                      style={{ backgroundColor: "black" }}
+                      variant="contained"
+                    >
+                      PAY
+                    </Button>
+                  </Stack>
+                )}
+              </div>
+            </div>
+          )}
+        </>
+      )}
+      {payment &&(
+       <div
+       style={{
+         display: "flex",
+         justifyContent: "center",
+         alignItems: "center",
+         backgroundImage: `url(${pay})`,
+         backgroundRepeat: "no-repeat",
+         backgroundSize: "cover",
+         backgroundPosition: "center",
+         width: "100%",
+         height: "100vh",
+       }}
+     >
+       <div
+         style={{
+           backgroundColor: "rgba(0, 0, 0, 0.7)",
+           padding: "20px",
+           borderRadius: "10px",
+           textAlign: "center",
+         }}
+       >
+         <Typography variant="h6" sx={{ color: "white", marginBottom: "20px" }}>
+           Are you sure?
+         </Typography>
+         <StripeCheckout
+           stripeKey="pk_test_51NGJbtSDLfwYkCbGu6RR8Pf0Pj8KoKTEdIogc7wKKhMBsoEzaoLuwmukYs8Tc6GF8YqvdXJ7AYzk5ktxfByXN1Wk00elCyMdCm"
+           token={makePayment}
+           name="Buy React"
+           shippingAddress
+         >
+           <div style={{ display: "flex", justifyContent: "center" }}>
+             <Button
+             onClick={()=>confirm(book_doctor.map((menu,index)=>menu.vet_id))}
+               variant="contained"
+               sx={{
+                 width: "300px",
+                 height: "50px",
+                 backgroundColor: "black",
+                 marginTop: "10px",
+                 paddingLeft: "15px",
+                 marginLeft: "1%",
+                 fontSize: "16px",
+                 "&:hover": { backgroundColor: "black" },
+               }}
+             >
+               Confirm {" RS."+payment_charge}
+             </Button>
+           </div>
+         </StripeCheckout>
+         <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
+           <Button
+             onClick={cancel}
+             variant="contained"
+             sx={{
+               width: "300px",
+               height: "50px",
+               backgroundColor: "red",
+               fontSize: "16px",
+               "&:hover": { backgroundColor: "red" },
+             }}
+           >
+             Cancel
+           </Button>
+         </div>
+       </div>
+     </div>
+     
+
+      )}
+       
 
 
 
@@ -419,5 +509,4 @@ const Bording = () => {
   )
 }
 
-
-export default Bording;
+export default Medi

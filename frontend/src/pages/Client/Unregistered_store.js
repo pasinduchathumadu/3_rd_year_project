@@ -28,35 +28,59 @@ import axios from "axios";
 const Menu = () => {
 
   const [value, setValue] = useState(0);
-  const [value_dog, setdog] = useState("")
+  const [value_dog, setdog] = useState(0)
   const [MenuList,setmenu] = useState([])
+  const [value_dog1, setdog1] = useState(0)
   const [dogBackground, setDogBackground] = useState(dog)
  
   const handleselection = (event) => {
     setdog(event.target.value);
+    get_store()
   };
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+  const handleselection1 = (event) => {
+    setdog1(event.target.value);
+    get_store()
   };
 
 
   const getImageSrc = (imageName) => {
     return require(`../../../../backend/images/store/${imageName}`)
   };
-  const get_store = async(req,res,next)=>{
-    try{
-      const res = await axios.get(`http://localhost:5000/pet_care/user/get_store/${value}`)
-      const data = await res.data
-      return data
+  const get_store = async () => {
+    var new_value_dog1 = ""
+    if(value_dog1 === 0){
+      new_value_dog1 = "no"
     }
-    catch(err){
+    if(value_dog1 === 10){
+      new_value_dog1 = "foods"
+    }
+    if(value_dog1 === 20){
+      new_value_dog1 = "toys"
+    }
+    if(value_dog1 === 30){
+      new_value_dog1 = "accessories"
+    }
+  
+    try {
+      const res = await axios.post(`http://localhost:5000/pet_care/user/get_store/${value}`,{
+        value_dog,
+        new_value_dog1
+      })
+    
+      const data = await res.data
+      setmenu(data.data); 
+    
+
+    }
+    catch (err) {
       console.log("There is an internel error")
     }
   }
   useEffect(()=>{
     get_store()
-    .then((data)=>setmenu(data.data))
-    .catch((err)=>console.log("There is an internel error"))
   })
 
 
@@ -130,7 +154,7 @@ const Menu = () => {
           label="Age"
           onChange={handleselection}
         >
-          <MenuItem value="">
+          <MenuItem value={0}>
             <em>None</em>
           </MenuItem>
           <MenuItem value={10}>100    -    1000</MenuItem>
@@ -146,18 +170,18 @@ const Menu = () => {
         <Select
           labelId="demo-select-small-label"
           id="demo-select-small"
-          value={value_dog}
+          value={value_dog1}
           label="Age"
-          onChange={handleselection}
+          onChange={handleselection1}
 
 
         >
-          <MenuItem value="">
+          <MenuItem value={0}>
             <em>None</em>
           </MenuItem>
           <MenuItem value={10}>Food Item</MenuItem>
           <MenuItem value={20}>Toys Item</MenuItem>
-          <MenuItem value={30}>Others</MenuItem>
+          <MenuItem value={30}>Accessories Item</MenuItem>
         </Select>
       </FormControl>
      
