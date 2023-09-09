@@ -24,7 +24,7 @@ import axios from "axios";
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import { Stack } from "@mui/system";
-import {  useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -106,14 +106,16 @@ const Complains = () => {
         setOwn(1);
     }
 
-    // clients complains - add responses - get id 
+    // clients complains - add responses - get id
+    const [error1, seterror1] = useState(false)
+    const [message1, setmessage1] = useState("")
     const [resdetails, setresdetails] = useState("")
     const complainDetails = async (id) => {
         try {
             const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/complainDetails/${id}`)
             if (res.data.message === 'There is an internal error') {
-                seterror(true)
-                setMessage('There is an internal error')
+                seterror1(true)
+                setmessage1('There is an internal error')
             } else {
                 setaddResponce(true)
                 setresdetails(res.data.data)
@@ -124,11 +126,19 @@ const Complains = () => {
     }
 
     // clients complains - add responses
+    const [error2, seterror2] = useState(false)
+    const [message2, setmessage2] = useState("")
     const [newres, setnewres] = useState("")
+
     const handleResponse = (event) => {
         setnewres(event.target.value)
     }
     const addingResponse = async (id) => {
+        if (newres === '') {
+            seterror2(true)
+            setmessage2("Please fill the field")
+            return;
+        }
         setOwn(0)
         setaddResponce(false)
 
@@ -222,8 +232,8 @@ const Complains = () => {
         navigate("/profile")
     }
 
-     // get profile picture
-     const getProfilepicturepath = (imageName) => {
+    // get profile picture
+    const getProfilepicturepath = (imageName) => {
         return require(`../../../../backend/images/store/${imageName}`)
 
     }
@@ -395,9 +405,8 @@ const Complains = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    // Adjust as needed
-                    marginRight: '300px', // Adjust as needed
-                    zIndex: 1001, // Ensure the content is above the overlay
+                    marginRight: '300px',
+                    zIndex: 1001,
                 }}>
                     <FormControl sx={{
                         marginLeft: '5%',
@@ -405,7 +414,7 @@ const Complains = () => {
                         borderRadius: '10px',
                         width: '700px',
                         padding: '20px',
-                        position: 'relative', // Add this to ensure content appears on top of the overlay
+                        position: 'relative',
                         zIndex: 1001,
                         backgroundColor: 'black'
                     }}>
@@ -453,7 +462,7 @@ const Complains = () => {
                     justifyContent: 'center',
                     alignItems: 'center',
                     marginRight: '300px',
-                    zIndex: 1001, 
+                    zIndex: 1001,
                 }}>
                     {resdetails && resdetails.map((resrow, index) => (
                         <FormControl sx={{
@@ -462,7 +471,7 @@ const Complains = () => {
                             borderRadius: '10px',
                             width: '600px',
                             padding: '20px',
-                            position: 'relative', 
+                            position: 'relative',
                             zIndex: 1001,
                             backgroundColor: 'black'
                         }}>
@@ -503,6 +512,14 @@ const Complains = () => {
                                         onChange={handleResponse}
                                         sx={{ marginRight: '20px', marginLeft: '10px' }} />
                                 </div>
+
+                                {
+                                    error2 && (
+                                        <Stack sx={{ width: '100%' }} spacing={2}>
+                                            <Alert severity="warning">{message2}</Alert>
+                                        </Stack>
+                                    )
+                                }
 
                                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                                     <Button variant="contained" onClick={() => addingResponse(resrow.complain_id)} sx={{ background: "orange", width: '100%', marginRight: '10px', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Response</Button>
