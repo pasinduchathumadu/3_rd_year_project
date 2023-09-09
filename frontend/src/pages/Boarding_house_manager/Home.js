@@ -5,7 +5,7 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import AssignmentLateIcon from '@mui/icons-material/AssignmentLate';
-import ProfilePicture from '../../assests/profile-picture.png';
+// import ProfilePicture from '../../assests/profile-picture.png';
 import Box from '@mui/material/Box';
 import PetsIcon from '@mui/icons-material/Pets';
 import MenuItem from '@mui/material/MenuItem';

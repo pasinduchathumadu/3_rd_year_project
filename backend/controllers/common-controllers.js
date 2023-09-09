@@ -164,4 +164,18 @@ export const updateClient = async(req,res,next) => {
 
 }
 
+// delete client profile
+export const deleteProfile = async(req,res,next) => {
+    const email = req.params.email
+    const sqlQuery = 'DELETE FROM users WHERE email = ?'
+    const values = [email]
+
+    db.query(sqlQuery, values, (err,data) => {
+        if(err){
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({message:'Deleted'})
+    })
+}
+
 

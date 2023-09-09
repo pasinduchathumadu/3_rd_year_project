@@ -1,28 +1,19 @@
-import {Button, FormLabel, Typography, IconButton,Stack,Alert } from '@mui/material';
+import { Button, FormLabel, Typography, IconButton, Stack, Alert } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { TextField, FormControl } from "@mui/material";
-// import ProfilePhoto from "../../assests/profile-picture.png";
-// import PetImage1 from '../../assests/blog-1.png';
-// import PetImage2 from '../../assests/blog-2.png';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios';
-// import Stack from '@mui/material/Stack';
-// import Alert from '@mui/material/Alert';
-
-
-
-// import StarIcon from '@mui/icons-material/Star';
-// import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate } from "react-router";
 
 
 const Profile = () => {
+    const navigate = useNavigate("")
     const email = localStorage.getItem("store_email")
 
     //VIEW PROFILE
     const [main, setmain] = useState(true)
-
     // client profile viewing
     const [profiledetails, setprofiledetails] = useState([])
     const ClientProfile = async () => {
@@ -44,7 +35,6 @@ const Profile = () => {
     const getImageSrc = (imageName) => {
         return require(`../../../../backend/images/store/${imageName}`)
     }
-
 
     // click on UPDATE icon
     const [update, setupdate] = useState(false)
@@ -108,6 +98,40 @@ const Profile = () => {
         setmain(true)
     }
 
+    // DELETE client profile
+    const [warn, setwarn] = useState(false)
+    const [id, setid] = useState("")
+    const [error2, seterror2] = useState(false)
+    const [message2, setmessage2] = useState("")
+    //display warning box
+    const displayWarn = (email) => {
+        setwarn(true)
+        setmain(false)
+        setid(email)
+    }
+    // deleting
+    const deleteProfile = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/common/deleteProfile/${email}`)
+            if (res.data.message === 'There is an internal error') {
+                seterror2(true)
+                setmessage2('There is an internal error')
+            } else {
+                setwarn(false)
+                navigate('/')
+
+            }
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    // cancel without deleting
+    const cancelDelete = () => {
+        setmain(true)
+        setwarn(false)
+    }
 
     return (
         <div style={{ padding: '3%', marginTop: '2%' }}>
@@ -123,7 +147,7 @@ const Profile = () => {
 
                                     <div style={{ marginLeft: '90%', display: 'flex', flexDirection: 'row' }}>
                                         <IconButton onClick={() => DisplayClientDetails(drow.email)}><EditIcon /></IconButton>
-                                        <IconButton><DeleteIcon sx={{ marginLeft: '5px', color: 'red' }} /></IconButton>
+                                        <IconButton onClick={() => displayWarn(drow.email)}><DeleteIcon sx={{ marginLeft: '5px', color: 'red' }} /></IconButton>
                                     </div>
 
                                     <div style={{ marginTop: '10px', marginBottom: '20px' }}>
@@ -195,7 +219,7 @@ const Profile = () => {
                     <div style={{ width: '80%', backgroundColor: '#f0f0f5', padding: '10px', borderRadius: '10px', marginLeft: '10%' }}>
 
                         {viewclient && viewclient.map((menu, index) => (
-                            <FormControl sx={{ width: '70%', backgroundColor: 'white', paddingLeft: '5%', paddingRight: '5%', paddingTop: '3%', paddingBottom: '2%', borderRadius: '10px', marginLeft: '15%', marginBottom:'1%' }}>
+                            <FormControl sx={{ width: '70%', backgroundColor: 'white', paddingLeft: '5%', paddingRight: '5%', paddingTop: '3%', paddingBottom: '2%', borderRadius: '10px', marginLeft: '15%', marginBottom: '1%' }}>
                                 <div style={{ marginLeft: '97%' }}>
                                     <IconButton onClick={backFromProfile} ><CloseIcon sx={{ color: 'white', backgroundColor: 'red' }} /></IconButton>
                                 </div>
@@ -271,7 +295,7 @@ const Profile = () => {
                                     </div>
                                 </div>
                                 <div style={{ marginLeft: '1%' }}>
-                                    <Button onClick={() => updateClient()} sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white', width: '30%', marginLeft: '35%', marginBottom:'1%'}}>Update</Button>
+                                    <Button onClick={() => updateClient()} sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white', width: '30%', marginLeft: '35%', marginBottom: '1%' }}>Update</Button>
                                 </div>
                                 {error1 && (
                                     <Stack sx={{ width: '100%' }} spacing={2}>
@@ -282,6 +306,43 @@ const Profile = () => {
                         ))}
                     </div>
                 </>
+            )}
+
+            {warn && (
+                <div style={{
+                    backdropFilter: 'blur(4px)',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    padding: '5px',
+                    width: '100%',
+                    borderRadius: '10px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginRight: '300px',
+                    zIndex: 1001,
+                    marginTop: '10%'
+                }}>
+                    <div style={{ backgroundColor: 'black', padding: '10px' }}>
+                        <div style={{
+                            padding: '10px',
+                            borderRadius: '5px',
+                            backgroundColor: '#f0f0f5',
+                            width: '500px',
+                            position: 'relative',
+                            zIndex: 1001
+                        }}>
+                            <Typography sx={{ textAlign: 'center' }}>Confirm Remove? </Typography>
+                            <hr /><br />
+
+                            <div style={{ display: 'flex', flexDirection: 'row', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                                <Button onClick={deleteProfile} sx={{ backgroundColor: 'orange', color: 'white', margin: '10px', ':hover': { backgroundColor: 'orange' } }}>Confirm</Button>
+                                <Button onClick={cancelDelete} sx={{ backgroundColor: 'red', color: 'white', margin: '10px', ':hover': { backgroundColor: 'red' } }}>Cancel</Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             )}
 
         </div >
