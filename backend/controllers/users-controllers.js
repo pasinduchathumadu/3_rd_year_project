@@ -243,7 +243,7 @@ export const upload_file = async (req, res, next) => {
 
 export const get_store = async (req, res, next) => {
   const id = req.params.id;
-  const { value_dog,new_value_dog1 } = req.body
+  const { value_dog, new_value_dog1 } = req.body
 
   var item_catogery = ""
   if (id === '0') {
@@ -373,8 +373,8 @@ export const get_store = async (req, res, next) => {
 
   }
   if (value_dog === 0 && new_value_dog1 !== "no") {
-  
-    const sqlQuery = "SELECT * FROM item WHERE item = ? AND catogories = ?" 
+
+    const sqlQuery = "SELECT * FROM item WHERE item = ? AND catogories = ?"
     const values = [
       item_catogery,
       new_value_dog1
@@ -387,8 +387,8 @@ export const get_store = async (req, res, next) => {
         return res.json({ data })
       }
     })
-  
-  
+
+
   }
   if (value_dog === 0 && new_value_dog1 === "no") {
 
@@ -957,6 +957,22 @@ export const view_pets = async (req, res, next) => {
       return res.json({ data })
     })
   })
+}
+
+// delete pets
+export const deletePet = async(req,res,next) => {
+  // const email = req.params.email
+  const id = req.params.id
+
+  const sqlQuery = 'DELETE from pet WHERE pet_id = ?'
+  const values = [id]
+
+  db.query(sqlQuery, values, (err,data) => {
+    if(err){
+      return res.json({message:'There is an internal error'})
+    }
+    return res.json({message:'Deleted'})
+  } )
 }
 
 
