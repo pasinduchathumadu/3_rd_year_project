@@ -89,7 +89,7 @@ const Complains = () => {
                 complain,
             })
             if (res.data.message === 'There is an internal error') {
-                setMessage('You cannot add this package')
+                setMessage('You cannot add this complain')
                 seterror(true)
             } else if (res.data.message === 'success') {
                 setOwn(1);
@@ -222,6 +222,12 @@ const Complains = () => {
         navigate("/profile")
     }
 
+     // get profile picture
+     const getProfilepicturepath = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+
+    }
+
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
             <div className="top">
@@ -232,7 +238,7 @@ const Complains = () => {
                 </div>
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
-                    <Button onClick={profile}><img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" /></Button>
+                    <Button onClick={profile}><img src={getProfilepicturepath("boarding_profile.jpeg")} alt="profilepicture" className="boarding-profile-picture" /></Button>
                 </div>
             </div>
 

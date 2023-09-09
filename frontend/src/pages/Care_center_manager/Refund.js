@@ -20,6 +20,8 @@ import { FormLabel, TextField } from "@mui/material";
 import axios from "axios";
 // import Slip from '../../assests/bankslip1.png';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import { useNavigate } from "react-router";
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -144,7 +146,15 @@ const Refund = () => {
         return require(`../../../../backend/images/store/${imageName}`)
     }
 
-
+    const navigate = useNavigate("")
+    // connect profile
+    const profile = () => {
+        navigate("/profile")
+    }
+    // get profile picture
+    const getProfilepicturepath = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+    }
 
     return (
         <div>
@@ -174,12 +184,15 @@ const Refund = () => {
                     </Typography>
                 </div>
                 <div style={{ display: 'flex', marginLeft: 'auto', alignItems: 'center', justifyContent: 'center' }}>
-                    <div style={{ marginLeft: '150%' }}><Stack direction="row" spacing={2} width={300}>
-                        <Avatar
-                            alt="Travis Howard"
-                            src={profile}
-                            sx={{ width: 60, height: 60 }}
-                        />
+                    <div style={{ marginLeft: '130%' }}><Stack direction="row" spacing={2} width={300}>
+                        <NotificationsIcon />
+                        <Button onClick={profile}>
+                            <img
+                                alt="profilepicture"
+                                src={getProfilepicturepath("carecenter_profile.png")}
+                                style={{ width: 'auto', height: '60px' }}
+                            />
+                        </Button>
                     </Stack>
                     </div>
                 </div>
@@ -425,7 +438,7 @@ const Refund = () => {
                                             startIcon={<CloudUploadIcon />}
                                         >
                                             Upload File
-                                            <input type="file" hidden  required />
+                                            <input type="file" hidden required />
 
                                         </Button>
                                     </div>
@@ -650,9 +663,9 @@ const Refund = () => {
 
                                 <div className="form-label">
                                     <FormLabel>Uploaded Bank Slip : </FormLabel>
-                                    <img 
-                                        src={drow.refund_slip === "" ? getBankSlipSrc("noimage.png") : getBankSlipSrc(drow.refund_slip)} 
-                                        alt="bank slip" 
+                                    <img
+                                        src={drow.refund_slip === "" ? getBankSlipSrc("noimage.png") : getBankSlipSrc(drow.refund_slip)}
+                                        alt="bank slip"
                                         style={{ width: '50%', height: 'auto', borderRadius: '10px' }} />
                                 </div>
                             </div>

@@ -255,3 +255,75 @@ export const petDeleteing = async(req,res,next) => {
     })
 }
 
+export const submit = async(req,res,next)=>{
+    const {first,last,email} = req.body
+    console.log(first)
+    const sqlQuery = "INSERT INTO employee(first_name,last_name,email)VALUES(?,?,?)"
+    const checkvalue = [
+        first,
+        last,
+        email
+    ]
+    db.query(sqlQuery,checkvalue,(err,data)=>{
+        if(err){
+            return res.json({message:"There is an internel error"})
+        }
+        return res.json({message:"insert"})
+    })
+}
+
+export const get_groom_apo = async(req,res,next)=>{
+    const status = "completed"
+    const sqlQuery = "SELECT a.appointment_id,a.appointment_status,a.placed_date,a.client_email,a.cancel_date,p.price FROM carecenter_appointment a INNER JOIN carecenter_package p on a.package_id = p.package_id WHERE a.appointment_status = ?"
+    const value = [
+        status
+    ]
+    db.query(sqlQuery,value,(err,data)=>{
+        if(err){
+            return res.json({message:'There is an internel error'})
+        }
+        return res.json({data})
+    })
+}
+export const get_training = async(req,res,next)=>{
+  
+    const sqlQuery = "SELECT t.id,t.placed_date,t.day,t.breed,t.client_email,t.cancel_date,p.price,p.start,p.end FROM pet_trainning_payment t INNER JOIN pet_trainning_shedule p ON p.day = t.day"
+   
+    db.query(sqlQuery,(err,data)=>{
+        if(err){
+            return res.json({message:'There is an internel error'})
+        }
+        return res.json({data})
+    })
+}
+
+export const get_employee = async(req,res,next)=>{
+    const id = req.params.id
+   
+    const sqlQuery = "SELECT *FROM employee"
+  
+    db.query(sqlQuery,(err,data)=>{
+        if(err){
+            return res.json({message:"There is an internel error"})
+        }
+
+        return res.json({data})
+    })
+}
+
+export const leave = async(req,res,next)=>{
+    const {id , dateStart,dateEnd} = req.body
+    const sqlQuery = "UPDATE employee SET unfree_date_start = ? , unfree_date_end = ? WHERE emp_id = ?"
+    const value = [
+        dateStart,
+        dateEnd,
+        id
+    ]
+    db.query(sqlQuery,value,(err,data)=>{
+        if(err){
+            return res.json({message:'There is an internel error'})
+        }
+        return res.json({message:'updated'})
+    })
+}
+

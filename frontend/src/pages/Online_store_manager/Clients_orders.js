@@ -1,4 +1,5 @@
-import React, { useState,useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from "react";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import {
     Tabs, Typography, Grid, Stack, Avatar, Box, Tab, Table, TableBody, TableContainer, TableHead, TableRow, Paper, Button
@@ -11,6 +12,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import { styled } from '@mui/material/styles';
 import GradeIcon from '@mui/icons-material/Grade';
+import { useNavigate } from "react-router";
+
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: theme.palette.common.black,
@@ -31,25 +35,29 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 
-
-
-
-
-
-
 const Client_orders = () => {
+    const navigate = useNavigate("")
+    // connect profile
+    const profile = () => {
+        navigate("/profile")
+    }
+
+    // get profile picture
+    const getProfilepicturepath = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+    }
 
     const input = new Date()
 
     const date = input.toDateString();
 
     const [value, setvalue] = useState(0)
-    const [Client , setclients] =useState("")
+    const [Client, setclients] = useState("")
     const [refund, setrefund] = useState(false)
-    const [age, setAge] = useState("")
+    const [age, setAge] = useState(2)
     const [selectfile, setfile] = useState(null)
     const [image, setimage] = useState("")
-    const [orders , setorders] = useState("")
+    const [orders, setorders] = useState("")
 
     const handleChange = (event, newValue) => {
         setvalue(newValue)
@@ -57,11 +65,12 @@ const Client_orders = () => {
 
     const handlechange1 = (event) => {
         setAge(event.target.value)
+        get_clients()
     }
 
-    const firstorder = async(id) => {
+    const firstorder = async (id) => {
         const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/accept/${id}`)
-        if(res.data.message === "Successfully Changed"){
+        if (res.data.message === "Successfully Changed") {
             get_orders()
         }
     }
@@ -80,49 +89,49 @@ const Client_orders = () => {
     }
 
 
-    const handover = async(id)=>{
-        const res = await axios.post(`http://localhost:5000/pet_care/online_store_manager/handover`,{
+    const handover = async (id) => {
+        const res = await axios.post(`http://localhost:5000/pet_care/online_store_manager/handover`, {
             id,
             date
         })
-      
-        if(res.data.message === "Successfully Changed"){
+
+        if (res.data.message === "Successfully Changed") {
             get_orders()
         }
     }
 
 
-    const get_orders = async()=>{
-        try{
-            const res = await axios.get("http://localhost:5000/pet_care/online_store_manager/view_orders")
+    const get_orders = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/view_orders/${age}`)
             const data = await res.data
             return data
         }
-        catch(err){
+        catch (err) {
             console.log('There is an error')
         }
-    } 
+    }
 
-    const get_clients = async() =>{
-        try{
+    const get_clients = async () => {
+        try {
             const res = await axios.get("http://localhost:5000/pet_care/online_store_manager/get_clients")
             const data = await res.data
             return data
-        }catch(err){
+        } catch (err) {
             console.log('There is an error')
         }
     }
     useEffect(() => {
         get_clients()
-          .then((data) => setclients(data.data))
-          .catch((err) => console.log(err));
-      }, []);
+            .then((data) => setclients(data.data))
+            .catch((err) => console.log(err));
+    }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         get_orders()
-        .then((data)=>setorders(data.data))
-        .catch((err)=>console.log(err))
-    })
+            .then((data) => setorders(data.data))
+            .catch((err) => console.log(err))
+    }, [age, get_orders])
 
     return (
         <>
@@ -149,17 +158,18 @@ const Client_orders = () => {
                             </Typography>
                         </div>
 
-                        <div style={{ display: 'flex', marginLeft: 'auto',alignItems:'center',justifyContent:'center' }}>
+                        <div style={{ display: 'flex', marginLeft: 'auto', alignItems: 'center', justifyContent: 'center' }}>
                             <div>
-                            <NotificationsIcon sx={{marginTop:'1%'}}/> 
+                                <NotificationsIcon sx={{ marginTop: '1%' }} />
                             </div>
-                            <div style={{marginLeft:'1%'}}>
-                            <Stack direction="row" spacing={2}>
-                             <Avatar alt="Travis Howard" src={profile} sx={{ width: 60, height: 60 }} />
-                            </Stack>
+                            <div style={{ marginLeft: '1%' }}>
+                                <Stack direction="row" spacing={2}>
+                                    {/* <Avatar alt="Travis Howard" src={profile} sx={{ width: 60, height: 60 }} /> */}
+                                    <Button onClick={profile}><img src={getProfilepicturepath("onlinestore_profile.jpeg")} alt="profilepicture" className="boarding-profile-picture" /></Button>
+                                </Stack>
 
                             </div>
-                           
+
                         </div>
                     </div>
 
@@ -213,24 +223,20 @@ const Client_orders = () => {
                                                 </StyledTableCell>
                                                 <StyledTableCell align="left">
                                                     {row.status === 'premium' && (
-                                                         <div style={{ alignItems: 'center', justifyContent: 'start', display: 'flex' }}>
-                                                         <div>
-                                                             <GradeIcon sx={{ color: 'orange' }} />  <GradeIcon sx={{ color: 'orange' }} />
-                                                         </div>
-                                                         <div>
-                                                             <Typography>Premium</Typography>
-                                                         </div>
-                                                     </div>
+                                                        <div style={{ alignItems: 'center', justifyContent: 'start', display: 'flex' }}>
+                                                            <div>
+                                                                <GradeIcon sx={{ color: 'orange' }} />  <GradeIcon sx={{ color: 'orange' }} />
+                                                            </div>
+                                                            <div>
+                                                                <Typography>Premium</Typography>
+                                                            </div>
+                                                        </div>
 
                                                     )}
                                                     {row.status === 'regular' && (
-                                                         <Typography>Regular</Typography>
+                                                        <Typography>Regular</Typography>
 
                                                     )}
-                                                   
-                                                   
-
-
                                                 </StyledTableCell>
                                             </StyledTableRow>
                                         ))}
@@ -249,27 +255,24 @@ const Client_orders = () => {
                                         <InputLabel disabled={true} displayPrint="none" htmlFor="demo-input" color="warning" variant="outlined" id="demo-select-small-label">Today</InputLabel>
                                         <Select
 
-                                            id="demo-select-small"
-                                            value={age}
+
+
                                             variant='outlined'
-                                            placeholder='AGE'
+
                                             onChange={handlechange1}
                                         >
                                             <MenuItem value="">
                                                 <em>None</em>
                                             </MenuItem>
-                                            <MenuItem value={30}>Today</MenuItem>
-                                            <MenuItem value={10}>Last 7 Days</MenuItem>
-                                            <MenuItem value={20}>Last Month</MenuItem>
+                                            <MenuItem value={1}>Today</MenuItem>
+                                            <MenuItem value={2}>Last 7 Days</MenuItem>
+                                            <MenuItem value={3}>Last Month</MenuItem>
 
                                         </Select>
                                     </FormControl>
 
                                 </div>
-                                <div style={{ marginLeft: '71%' }}>
-                                    <Button width="50%" sx={{ backgroundColor: 'black', color: 'white', height: '60px', marginBottom: '2%', padding: '24px', ':hover': { backgroundColor: 'black' } }}>Refund Orders</Button>
 
-                                </div>
                             </div>
 
 
@@ -284,14 +287,14 @@ const Client_orders = () => {
                                             <StyledTableCell align="left" sx={{ width: '15%' }}>Placed Time</StyledTableCell>
                                             <StyledTableCell align="left" sx={{ width: '15%' }}>Payment (Rs.)</StyledTableCell>
                                             <StyledTableCell align="left" sx={{ width: '15%' }}>Order Status</StyledTableCell>
-                                          
+
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {orders && orders.map((row, index) => (
                                             <StyledTableRow key={index}>
                                                 <StyledTableCell component="th" scope="row">
-                                                    {row.first_name+" "+row.last_name}
+                                                    {row.first_name + " " + row.last_name}
                                                 </StyledTableCell>
                                                 <StyledTableCell align="left">{row.email}</StyledTableCell>
                                                 <StyledTableCell align="left">{row.placed_date}</StyledTableCell>
@@ -303,20 +306,20 @@ const Client_orders = () => {
                                                 <StyledTableCell align="left">
                                                     <Typography>{row.payment}</Typography>
                                                 </StyledTableCell>
-                                              
-                                                {row.po_status === 'waitting' &&(
-                                                     <StyledTableCell align="left"><Button onClick={() => firstorder(row.po_id)} sx={{ backgroundColor: 'red', color: 'white', ':hover': { backgroundColor: 'red' } }}>Accept</Button></StyledTableCell>
+
+                                                {row.po_status === 'waitting' && (
+                                                    <StyledTableCell align="left"><Button onClick={() => firstorder(row.po_id)} sx={{ backgroundColor: 'red', color: 'white', ':hover': { backgroundColor: 'red' } }}>Accept</Button></StyledTableCell>
                                                 )}
-                                                {row.po_status === 'cancelled' &&(
+                                                {row.po_status === 'cancelled' && (
                                                     <StyledTableCell align="left"><Button onClick={() => firstorder()} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' } }}>refund</Button></StyledTableCell>
                                                 )}
-                                                  {row.po_status === 'accept' &&(
+                                                {row.po_status === 'accept' && (
                                                     <StyledTableCell align="left"><Button onClick={() => handover(row.po_id)} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' } }}>Ready To Hand Over</Button></StyledTableCell>
                                                 )}
-                                                 {row.po_status === 'handed' &&(
-                                                    <StyledTableCell align="left"><Typography sx={{color:'black',fontSize:'20px'}}>Completed</Typography></StyledTableCell>
+                                                {row.po_status === 'handed' && (
+                                                    <StyledTableCell align="left"><Typography sx={{ color: 'black', fontSize: '20px' }}>Completed</Typography></StyledTableCell>
                                                 )}
-                                                
+
                                             </StyledTableRow>
                                         ))}
                                     </TableBody>
@@ -384,7 +387,7 @@ const Client_orders = () => {
                                     </div>
                                     <Grid item sx={{ paddingTop: '20px' }}>
                                         <div style={{ display: 'flex' }}>
-                                            <div style={{ display: 'inline',marginLeft:'2%' }}>
+                                            <div style={{ display: 'inline', marginLeft: '2%' }}>
                                                 <Button
                                                     variant="contained"
                                                     component="label"
@@ -405,7 +408,7 @@ const Client_orders = () => {
                                         </div>
 
                                     </Grid>
-                                    <Button  sx={{marginTop:'2%',marginLeft:'2%',backgroundColor:'orange',':hover':{backgroundColor:'orange'},color:'white',width:'80%'}}>Proceed</Button>
+                                    <Button sx={{ marginTop: '2%', marginLeft: '2%', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white', width: '80%' }}>Proceed</Button>
                                 </>
 
 
