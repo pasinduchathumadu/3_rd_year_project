@@ -243,7 +243,8 @@ export const upload_file = async (req, res, next) => {
 
 export const get_store = async (req, res, next) => {
   const id = req.params.id;
-  const { value_dog,value_dog1 } = req.body
+  const { value_dog,new_value_dog1 } = req.body
+
   var item_catogery = ""
   if (id === '0') {
     item_catogery = "Dogs"
@@ -252,10 +253,10 @@ export const get_store = async (req, res, next) => {
     item_catogery = "Cats"
   }
 
-  if (value_dog === 10) {
+  if (value_dog === 10 && new_value_dog1 === "no") {
     const start = 100
     const end = 500
-    const sqlQuery = "SELECT * FROM item WHERE item = ? AND unit_price >=? AND unit_price <?"
+    const sqlQuery = "SELECT * FROM item WHERE item = ? AND unit_price >=? AND unit_price <?  "
     const values = [
       item_catogery,
       start,
@@ -272,10 +273,31 @@ export const get_store = async (req, res, next) => {
 
 
   }
-  if (value_dog === 20) {
+  if (value_dog === 10 && new_value_dog1 !== "no") {
+    const start = 100
+    const end = 500
+    const sqlQuery = "SELECT * FROM item WHERE item = ? AND unit_price >=? AND unit_price <? AND catogories = ?  "
+    const values = [
+      item_catogery,
+      start,
+      end,
+      new_value_dog1
+    ]
+    db.query(sqlQuery, values, (err, data) => {
+      if (err) {
+        return res.json({ message: 'There is an internel error' })
+      }
+      else {
+        return res.json({ data })
+      }
+    })
+
+
+  }
+  if (value_dog === 20 && new_value_dog1 === "no") {
     const start = 500
     const end = 1000
-    const sqlQuery = "SELECT * FROM item WHERE item = ? AND unit_price >=? AND unit_price <?"
+    const sqlQuery = "SELECT * FROM item WHERE item = ? AND unit_price >=? AND unit_price <? "
     const values = [
       item_catogery,
       start,
@@ -291,10 +313,30 @@ export const get_store = async (req, res, next) => {
     })
 
   }
-  if (value_dog === 30) {
+  if (value_dog === 20 && new_value_dog1 !== "no") {
+    const start = 500
+    const end = 1000
+    const sqlQuery = "SELECT * FROM item WHERE item = ? AND unit_price >=? AND unit_price <? AND catogories = ?"
+    const values = [
+      item_catogery,
+      start,
+      end,
+      new_value_dog1
+    ]
+    db.query(sqlQuery, values, (err, data) => {
+      if (err) {
+        return res.json({ message: 'There is an internel error' })
+      }
+      else {
+        return res.json({ data })
+      }
+    })
+
+  }
+  if (value_dog === 30 && new_value_dog1 === "no") {
     const start = 1000
     const end = 5000
-    const sqlQuery = "SELECT * FROM item WHERE item = ? AND unit_price >=? AND unit_price <?"
+    const sqlQuery = "SELECT * FROM item WHERE item = ? AND unit_price >=? AND unit_price <? "
     const values = [
       item_catogery,
       start,
@@ -310,9 +352,46 @@ export const get_store = async (req, res, next) => {
     })
 
   }
+  if (value_dog === 30 && new_value_dog1 !== "no") {
+    const start = 1000
+    const end = 5000
+    const sqlQuery = "SELECT * FROM item WHERE item = ? AND unit_price >=? AND unit_price <? AND catogories = ? "
+    const values = [
+      item_catogery,
+      start,
+      end,
+      new_value_dog1
+    ]
+    db.query(sqlQuery, values, (err, data) => {
+      if (err) {
+        return res.json({ message: 'There is an internel error' })
+      }
+      else {
+        return res.json({ data })
+      }
+    })
+
+  }
+  if (value_dog === 0 && new_value_dog1 !== "no") {
   
-  if (value_dog === "") {
+    const sqlQuery = "SELECT * FROM item WHERE item = ? AND catogories = ?" 
+    const values = [
+      item_catogery,
+      new_value_dog1
+    ]
+    db.query(sqlQuery, values, (err, data) => {
+      if (err) {
+        return res.json({ message: 'There is an internel error' })
+      }
+      else {
+        return res.json({ data })
+      }
+    })
   
+  
+  }
+  if (value_dog === 0 && new_value_dog1 === "no") {
+
     const sqlQuery = "SELECT * FROM item WHERE item = ?"
     const values = [
       item_catogery
@@ -325,11 +404,9 @@ export const get_store = async (req, res, next) => {
         return res.json({ data })
       }
     })
-
   }
-
-  
 }
+
 
 export const temp_cart = async (req, res, next) => {
   const { id, email, price } = req.body
@@ -606,10 +683,6 @@ export const date_client = async (req, res, next) => {
       }
     })
   })
-
-
-
-
 }
 
 export const confirm = async (req, res, next) => {
@@ -935,30 +1008,16 @@ export const cancel_appointment = async (req, res, next) => {
 export const care_orders = async (req, res, next) => {
   const status = "completed"
   const email = req.params.email
-  const sqlQuery = "SELECT *FROM carecenter_appointment WHERE appointment_status = ? AND client_email = ?"
-  const value = [
+  const sqlQuery1 = "SELECT a.appointment_id,a.placed_date,p.package_name,p.price FROM carecenter_appointment a INNER JOIN carecenter_package p ON p.package_id = a.package_id where a.appointment_status = ? AND a.client_email = ?"
+  const values = [
     status,
     email
   ]
-  db.query(sqlQuery, value, (err, data) => {
+  db.query(sqlQuery1, values, (err, data) => {
     if (err) {
       return res.json({ message: 'There is an internel error' })
     }
-    if (data.length === 0) {
-      return res.json({ data })
-    }
-    const sqlQuery1 = "SELECT a.appointment_id,a.placed_date,p.package_name,p.price FROM carecenter_appointment a INNER JOIN carecenter_package p ON p.package_id = a.package_id where a.appointment_id = ? "
-    const values = [
-      data[0].appointment_id,
- 
-
-    ]
-    db.query(sqlQuery1, values, (err, data) => {
-      if (err) {
-        return res.json({ message: 'There is an internel error' })
-      }
-      return res.json({ data })
-    })
+    return res.json({ data })
   })
 }
 export const delete_appointment = async (req, res, next) => {
@@ -1179,7 +1238,7 @@ export const get_medi_orders = async (req, res, next) => {
   const value = [
     email
   ]
-  db.query(sqlQuery,value,(err, data) => {
+  db.query(sqlQuery, value, (err, data) => {
     if (err) {
       return res.json({ message: 'There is an internel error' })
     }
@@ -1193,7 +1252,7 @@ export const training_orders = async (req, res, next) => {
   const value = [
     email
   ]
-  db.query(sqlQuery,value,(err, data) => {
+  db.query(sqlQuery, value, (err, data) => {
     if (err) {
       return res.json({ message: 'There is an internel error' })
     }

@@ -30,8 +30,8 @@ const Menu = () => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useState(0);
-  const [value_dog, setdog] = useState("")
-  const [value_dog1, setdog1] = useState("")
+  const [value_dog, setdog] = useState(0)
+  const [value_dog1, setdog1] = useState(0)
   const [MenuList, setmenu] = useState([])
   const [dogBackground, setDogBackground] = useState(dog)
   const [error, seterror] = useState([])
@@ -79,11 +79,25 @@ const Menu = () => {
   const getImageSrc = (imageName) => {
     return require(`../../../../backend/images/store/${imageName}`)
   };
-  const get_store = async (req, res, next) => {
+  const get_store = async () => {
+    var new_value_dog1 = ""
+    if(value_dog1 === 0){
+      new_value_dog1 = "no"
+    }
+    if(value_dog1 === 10){
+      new_value_dog1 = "foods"
+    }
+    if(value_dog1 === 20){
+      new_value_dog1 = "toys"
+    }
+    if(value_dog1 === 30){
+      new_value_dog1 = "accessories"
+    }
+  
     try {
       const res = await axios.post(`http://localhost:5000/pet_care/user/get_store/${value}`,{
         value_dog,
-        value_dog1
+        new_value_dog1
       })
     
       const data = await res.data
@@ -97,7 +111,6 @@ const Menu = () => {
   }
   useEffect(() => {
     get_store()
-    
   })
 
   useEffect(() => {
@@ -174,7 +187,7 @@ const Menu = () => {
               label="Age"
               onChange={handleselection}
             >
-              <MenuItem value="">
+              <MenuItem value={0}>
                 <em>None</em>
               </MenuItem>
               <MenuItem value={10}>100    -    500</MenuItem>
@@ -196,12 +209,12 @@ const Menu = () => {
 
 
             >
-              <MenuItem value="">
+              <MenuItem value={0}>
                 <em>None</em>
               </MenuItem>
               <MenuItem value={10}>Food Item</MenuItem>
               <MenuItem value={20}>Toys Item</MenuItem>
-              <MenuItem value={30}>Others</MenuItem>
+              <MenuItem value={30}>Accessories Item</MenuItem>
             </Select>
           </FormControl>
 
