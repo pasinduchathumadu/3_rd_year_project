@@ -18,6 +18,7 @@ import AddIcon from "@mui/icons-material/Add";
 import PetsIcon from '@mui/icons-material/Pets';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloseIcon from '@mui/icons-material/Close';
+import AnnouncementIcon from '@mui/icons-material/Announcement';
 
 
 const AddPets = () => {
@@ -116,22 +117,22 @@ const AddPets = () => {
     const displayWarn = (id) => {
         setwarn(true)
         setmain(false)
-        setid(id)   
+        setid(id)
     }
 
     // deleting
-    const deletePet = async() => {
+    const deletePet = async () => {
         try {
             const res = await axios.get(`http://localhost:5000/pet_care/user/deletePet/${id}`)
-            if(res.data.message === 'There is an internal error') {
+            if (res.data.message === 'There is an internal error') {
                 seterror1(true)
                 setmessage1('There is an internal error')
-            }else {
+            } else {
                 setwarn(false)
                 setmain(true)
             }
 
-        }catch(err) {
+        } catch (err) {
             console.log(err)
         }
     }
@@ -140,8 +141,6 @@ const AddPets = () => {
         setmain(true)
         setwarn(false)
     }
-
-
 
     return (
         <div>
@@ -168,29 +167,40 @@ const AddPets = () => {
 
                         <div style={{ marginLeft: '3%', marginRight: '3%', backgroundColor: '#f0f0f5', borderRadius: '10px', padding: '1%' }}>
                             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                                {viewpet && viewpet.map((menu, index) => (
+                                {viewpet && viewpet.length > 0 ? (
+                                    viewpet.map((menu, index) => (
 
-                                    <Card sx={{ maxWidth: "300px", display: "flex", flexDirection: 'row', m: 2, border: "10px", borderRadius: '10px', marginTop: '35px' }}>
-                                        <CardActionArea>
-                                            <CardMedia
-                                                sx={{ minHeight: "300px" }}
-                                                component={"img"}
-                                                src={menu.image === "" ? getImageSrc("noimage.png") : getImageSrc(menu.image)}
-                                                alt={menu.name} />
-                                            <CardContent>
-                                                <IconButton onClick={() => displayWarn(menu.pet_id)} sx={{ marginLeft: '90%' }}><DeleteIcon sx={{ color: 'red' }} /></IconButton>
-                                                <Typography variant="h6" gutterBottom component={"div"} sx={{ textAlign: 'center' }}>
-                                                    Pet ID : {menu.pet_id}
-                                                </Typography>
-                                                <Typography variant="h5" gutterBottom component={"div"} sx={{ textAlign: 'center' }}><PetsIcon sx={{ color: 'orange' }} />
-                                                    {menu.name}
-                                                </Typography>
-                                                <Typography variant="body2" sx={{ textAlign: 'center' }}>{menu.sex}</Typography><br />
-                                                <Typography variant="body2" sx={{ color: "red", marginBottom: '9px', textAlign: 'center' }}>{menu.breed}</Typography>
-                                            </CardContent>
-                                        </CardActionArea>
-                                    </Card>
-                                ))}
+                                        <Card sx={{ maxWidth: "300px", display: "flex", flexDirection: 'row', m: 2, border: "10px", borderRadius: '10px', marginTop: '35px' }}>
+                                            <CardActionArea>
+                                                <CardMedia
+                                                    sx={{ minHeight: "300px" }}
+                                                    component={"img"}
+                                                    src={menu.image === "" ? getImageSrc("noimage.png") : getImageSrc(menu.image)}
+                                                    alt={menu.name} />
+                                                <CardContent>
+                                                    <IconButton onClick={() => displayWarn(menu.pet_id)} sx={{ marginLeft: '90%' }}><DeleteIcon sx={{ color: 'red' }} /></IconButton>
+                                                    <Typography variant="h6" gutterBottom component={"div"} sx={{ textAlign: 'center' }}>
+                                                        Pet ID : {menu.pet_id}
+                                                    </Typography>
+                                                    <Typography variant="h5" gutterBottom component={"div"} sx={{ textAlign: 'center' }}><PetsIcon sx={{ color: 'orange' }} />
+                                                        {menu.name}
+                                                    </Typography>
+                                                    <Typography variant="body2" sx={{ textAlign: 'center' }}>{menu.sex}</Typography><br />
+                                                    <Typography variant="body2" sx={{ color: "red", marginBottom: '9px', textAlign: 'center' }}>{menu.breed}</Typography>
+                                                </CardContent>
+                                            </CardActionArea>
+                                        </Card>
+                                    ))
+                                ) : (
+                                <div style={{ margin: '3%', backgroundColor: 'white', padding: '2%', borderRadius: '10px', width:'100%' }}>
+                                    <Typography sx={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold', color: 'black' }}><AnnouncementIcon sx={{ marginRight: '1%', color: 'orange' }} />No Added Pets</Typography>
+                                    <hr />
+                                    <img 
+                                        src={getImageSrc("nodata.png")}
+                                        style={{width:'15%', height:'auto', marginLeft:'42%'}}
+                                    />
+                                </div>
+                                )}
                             </div>
                         </div>
                     </>
