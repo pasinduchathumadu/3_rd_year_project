@@ -50,4 +50,8 @@ user_route.get('/get_medi_orders/:email',get_medi_orders)
 user_route.get('/training_orders/:email',training_orders)
 user_route.post('/delete_appointment_training',delete_appointment_training)
 user_route.post('/blog_post',blog_post)
+
+
+
+
 export default user_route;

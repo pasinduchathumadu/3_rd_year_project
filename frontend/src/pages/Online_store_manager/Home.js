@@ -22,26 +22,35 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 
 
 import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
-
+import { useNavigate } from "react-router";
 
 const Home = () => {
     const input = new Date();
     const date = input.toDateString();
     const [age, setAge] = useState("")
-    const [age1 ,setage1 ] = useState("")
-    const [waiting , setwaiting] = useState("")
-    const [handed , sethanded ] = useState("")
+    const [age1, setage1] = useState("")
+    const [waiting, setwaiting] = useState("")
+    const [handed, sethanded] = useState("")
     const [count1, setcount] = useState([])
     const [count2, setcount1] = useState([])
     const [food, setfoods] = useState("")
     const [accessories, setaccessories] = useState("")
     const [toys, settoys] = useState("")
-   
 
+    const navigate = useNavigate("")
+    // connect profile
+    const profile = () => {
+        navigate("/profile")
+    }
+
+     // get profile picture
+     const getProfilepicturepath = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+    }
 
     const handleChange = (event) => {
         setAge(event.target.value);
-       
+
         filtercomplain() //pending
         filtercomplainreply() //completed
     };
@@ -51,62 +60,62 @@ const Home = () => {
         { id: 2, value: 20, label: 'Net Profit' },
     ];
 
-    const handleChange1 = (event) =>{
+    const handleChange1 = (event) => {
         setage1(event.target.value)
         filtercomplain1()
         filtercomplain2()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const filtercomplain = async()=>{
-        try{
+    const filtercomplain = async () => {
+        try {
             const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/filter/${age}`)
-            
+
             setcount(res.data.data)
             setAge('')
 
-           
 
-        }catch(err){
+
+        } catch (err) {
             console.log(age)
             console.log(err)
         }
     }
-    
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const filtercomplainreply = async()=>{
-        try{
+    const filtercomplainreply = async () => {
+        try {
             const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/filterreply/${age}`)
             setcount1(res.data.data)
             setAge('')
 
-        }catch(err){
+        } catch (err) {
             console.log(err)
         }
 
 
     }
-    const filtercomplain1 = async() =>{
-        try{
+    const filtercomplain1 = async () => {
+        try {
             const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/filtercomplain1/${age1}`)
             const data = await res.data
             setwaiting(data.data[0].total)
             setage1(" ")
 
-   
 
 
-        }catch(err){
+
+        } catch (err) {
             console.log(err)
         }
     }
-  
-    const filtercomplain2 = async() =>{
-        try{
+
+    const filtercomplain2 = async () => {
+        try {
             const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/filtercomplain2/${age1}`)
             const data = await res.data
             sethanded(data.data[0].total)
             setage1(" ")
-        }catch(err){
+        } catch (err) {
             console.log(err)
         }
     }
@@ -147,7 +156,7 @@ const Home = () => {
             console.log("There is an email")
         }
     }
-  
+
     useEffect(() => {
         get_count()
             .then((data) => setcount(data.data))
@@ -183,7 +192,7 @@ const Home = () => {
                 <Grid sx={{ marginTop: '4%', marginRight: '1%', marginLeft: '1%', marginBottom: '1%' }}>
                     {/* Header */}
                     <div style={{ display: 'flex' }}>
-                        <div style={{ display: 'inline', marginTop: '30px', marginLeft: '2%',color:'rgb(139, 139, 139)' }}>
+                        <div style={{ display: 'inline', marginTop: '30px', marginLeft: '2%', color: 'rgb(139, 139, 139)' }}>
                             <Typography>
                                 Online Store Manager
                             </Typography>
@@ -194,24 +203,26 @@ const Home = () => {
                                 {date}
                             </Typography>
                         </div>
-                        <div style={{ display: 'flex', marginLeft: 'auto',alignItems:'center',justifyContent:'center' }}>
+                        <div style={{ display: 'flex', marginLeft: 'auto', alignItems: 'center', justifyContent: 'center' }}>
                             <div>
-                            <NotificationsIcon sx={{marginTop:'1%'}}/> 
+                                <NotificationsIcon sx={{ marginTop: '1%' }} />
                             </div>
-                            <div style={{marginLeft:'1%'}}>
-                            <Stack direction="row" spacing={2}>
-                             <Avatar alt="Travis Howard" src={profile} sx={{ width: 60, height: 60 }} />
-                            </Stack>
+                            <div style={{ marginLeft: '1%' }}>
+                                <Stack direction="row" spacing={2}>
+                                    {/* <Avatar alt="Travis Howard" src={profile} sx={{ width: 60, height: 60 }} /> */}
+                                    <Button onClick={profile}><img src={getProfilepicturepath("onlinestore_profile.jpeg")} alt="profilepicture" className="boarding-profile-picture" /></Button>
+
+                                </Stack>
 
                             </div>
-                           
+
                         </div>
                     </div>
 
                     {/* First Row */}
                     <div style={{ display: 'flex', marginTop: '2%' }}>
                         <div style={{ flex: 1, backgroundColor: 'white', height: '40vh', marginLeft: '2%', display: 'inline' }}>
-                            <Box sx={{ backgroundColor: 'orange', height: '100%', padding: '16px', borderRadius:'10px' }}>
+                            <Box sx={{ backgroundColor: 'orange', height: '100%', padding: '16px', borderRadius: '10px' }}>
                                 <div style={{ padding: '2%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
                                     <div style={{ display: 'inline' }}>
                                         <Typography sx={{ fontSize: '17px' }}><AnalyticsIcon />Analytical Overview</Typography>
@@ -222,13 +233,13 @@ const Home = () => {
                                             <InputLabel disabled={true} displayPrint="none" htmlFor="demo-input" color="warning" variant="outlined" id="demo-select-small-label"></InputLabel>
                                             <Select
 
-                                               
-                                               
+
+
                                                 variant='outlined'
-                                               
+
                                                 onChange={handleChange}
                                             >
-                                                   <MenuItem value="">
+                                                <MenuItem value="">
                                                     <em>None</em>
                                                 </MenuItem>
                                                 <MenuItem value={1}>Today</MenuItem>
@@ -277,7 +288,7 @@ const Home = () => {
                             </Box>
                         </div>
                         <div style={{ flex: 1, backgroundColor: 'white', height: '40vh', marginLeft: '1%', display: 'inline' }}>
-                            <Box sx={{ backgroundColor: 'orange', height: '100%', padding: '16px', paddingTop: '1%', borderRadius:'10px' }}>
+                            <Box sx={{ backgroundColor: 'orange', height: '100%', padding: '16px', paddingTop: '1%', borderRadius: '10px' }}>
 
                                 <div style={{ margin: '2%' }}></div>
                                 <div style={{ padding: '2%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
@@ -316,7 +327,7 @@ const Home = () => {
                                             data,
                                             highlightScope: { faded: 'global', highlighted: 'item' },
                                             faded: { innerRadius: 30, additionalRadius: -30 },
-                                            
+
                                         },
                                     ]}
                                     sx={{
@@ -337,23 +348,23 @@ const Home = () => {
                     <div style={{ display: 'flex', marginTop: '2%' }}>
                         <div style={{ flex: 1, backgroundColor: 'white', height: '70vh', marginLeft: '2%' }}>
 
-                            <Box sx={{ backgroundColor: '#f0f0f5', height: '100%', padding: '1px', borderRadius:'10px'}}>
+                            <Box sx={{ backgroundColor: '#f0f0f5', height: '100%', padding: '1px', borderRadius: '10px' }}>
                                 <div style={{ padding: '5%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
                                     <div style={{ display: 'inline' }}>
                                         <Typography sx={{ fontSize: '24px', color: 'black' }}>Analyze The Product & Client Order</Typography>
 
                                     </div>
                                     <div style={{ display: 'inline', alignItems: 'center', marginLeft: 'auto' }}>
-                                    <FormControl sx={{ minWidth: 120, backgroundColor: 'white' }} size="small">
-                                    <InputLabel disabled={true} displayPrint="none" htmlFor="demo-input" color="warning" variant="outlined" id="demo-select-small-label"></InputLabel>
+                                        <FormControl sx={{ minWidth: 120, backgroundColor: 'white' }} size="small">
+                                            <InputLabel disabled={true} displayPrint="none" htmlFor="demo-input" color="warning" variant="outlined" id="demo-select-small-label"></InputLabel>
                                             <Select
                                                 variant='outlined'
                                                 onChange={handleChange1}
                                             >
-                                                  <MenuItem value="">
+                                                <MenuItem value="">
                                                     <em>None</em>
                                                 </MenuItem>
-                                                
+
                                                 <MenuItem value={1}>Today</MenuItem>
                                                 <MenuItem value={2}>Last 7 Days</MenuItem>
                                                 <MenuItem value={3}>Last Month</MenuItem>
@@ -434,7 +445,7 @@ const Home = () => {
 
                         <div style={{ flex: 1, backgroundColor: 'white', height: '70vh', marginLeft: '1%' }}>
 
-                            <Box sx={{ backgroundColor: '#f0f0f5', height: '100%', padding: '16px', borderRadius:'10px' }}>
+                            <Box sx={{ backgroundColor: '#f0f0f5', height: '100%', padding: '16px', borderRadius: '10px' }}>
 
                                 <div style={{ marginTop: '10%', display: 'flex' }}>
                                     <div style={{ backgroundColor: 'white', flex: 1, marginRight: '5%', height: '25vh' }}>

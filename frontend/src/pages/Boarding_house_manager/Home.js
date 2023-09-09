@@ -15,7 +15,6 @@ import Typography from '@mui/material/Typography';
 import { Table, TableHead, TableRow, TableBody, TableCell, Button, InputLabel } from "@mui/material";
 import { tableCellClasses } from '@mui/material/TableCell';
 import { styled } from '@mui/material/styles';
-// import { BarChart } from '@mui/x-charts/BarChart';
 import { PieChart } from '@mui/x-charts/PieChart';
 import TableViewIcon from '@mui/icons-material/TableView';
 import axios from "axios";
@@ -81,15 +80,6 @@ const Home = () => {
         filterbox2();
     }, [time1, filterbox1, filterbox2]);
 
-    // const [time3, setTime3] = React.useState('1');
-
-    // const handleChange2 = (event) => {
-    //     setTime2(event.target.value);
-    // };
-    // const handleChange3 = (event) => {
-    //     setTime3(event.target.value);
-    // };
-
     const [main, setmain] = useState(true);
 
     // click on particualar request box
@@ -106,24 +96,6 @@ const Home = () => {
 
     const input = new Date();
     const date = input.toDateString();
-
-    // count of completed & cancelled boaridng requuests
-    // const [pets, setpets] = useState("")
-    // const countPets = async () => {
-    //     try {
-    //         const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/countPets')
-    //         const data = await res.data
-    //         return data
-
-    //     } catch (err) {
-    //         console.log('There is an internal error')
-    //     }
-    // }
-    // useEffect(() => {
-    //     countPets()
-    //         .then((data) => setpets(data.data))
-    //         .catch((err) => console.log(err))
-    // })
 
     // count of package usage
     const [pckg, setpckg] = useState("")

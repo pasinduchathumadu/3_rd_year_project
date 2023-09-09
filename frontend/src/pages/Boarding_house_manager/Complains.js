@@ -89,7 +89,7 @@ const Complains = () => {
                 complain,
             })
             if (res.data.message === 'There is an internal error') {
-                setMessage('You cannot add this package')
+                setMessage('You cannot add this complain')
                 seterror(true)
             } else if (res.data.message === 'success') {
                 setOwn(1);

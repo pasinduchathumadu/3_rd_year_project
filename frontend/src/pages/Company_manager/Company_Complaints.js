@@ -24,8 +24,21 @@ import Typography from "@mui/material/Typography";
 import AddIcon from "@mui/icons-material/Add";
 import { TextField } from "@mui/material";
 import axios from "axios";
+import { useNavigate } from "react-router";
+
 
 function Company_Complaints() {
+  const navigate = useNavigate("")
+  // connect profile
+  const profile = () => {
+    navigate("/profile")
+}
+
+  // get profile picture
+  const getProfilepicturepath = (imageName) => {
+    return require(`../../../../backend/images/store/${imageName}`)
+}
+
   const [compDes, setDescription] = useState("");
   const [compDate, setDate] = useState("");
   const [compTime, setTime] = useState("");
@@ -145,11 +158,13 @@ function Company_Complaints() {
         </Stack>
         <Stack direction="row" justifyContent="center" alignItems="center">
           <NotificationsIcon className="bell-icon" />
-          <img
+          <Button onClick={profile}><img src={getProfilepicturepath("company_profile.jpeg")} alt="profilepicture" className="boarding-profile-picture" /></Button>
+
+          {/* <img
             src={ProfilePicture}
             alt="profilepicture"
             className="boarding-profile-picture"
-          />
+          /> */}
         </Stack>
       </Stack>
 

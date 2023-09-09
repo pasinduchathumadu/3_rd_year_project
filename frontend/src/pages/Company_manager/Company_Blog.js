@@ -38,7 +38,20 @@ import dog2 from "../../assests/blog3.jpg";
 import logo from "../../assests/logo.png";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import axios from "axios";
+import { useNavigate } from "react-router";
+
+
 const Company_Blog = () => {
+  const navigate = useNavigate("")
+  // connect profile
+  const profile = () => {
+    navigate("/profile")
+}
+
+  // get profile picture
+  const getProfilepicturepath = (imageName) => {
+    return require(`../../../../backend/images/store/${imageName}`)
+}
   const [blog, setblog] = useState("");
   const [id1 , setid1] = useState("");
   const [id ,setid] = useState("");
@@ -147,11 +160,12 @@ const Company_Blog = () => {
         </Stack>
         <Stack direction="row" justifyContent="center" alignItems="center">
           <NotificationsIcon className="bell-icon" />
-          <img
+          <Button onClick={profile}><img src={getProfilepicturepath("company_profile.jpeg")} alt="profilepicture" className="boarding-profile-picture" /></Button>
+          {/* <img
             src={ProfilePicture}
             alt="profilepicture"
             className="boarding-profile-picture"
-          />
+          /> */}
         </Stack>
       </Stack>
       <Grid>

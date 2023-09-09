@@ -178,6 +178,7 @@ const Training_Pets = () => {
 
     return (
         <div className="fullPage">
+
             {loading ? (
                 <LoadingIndicator />
             ) : (
@@ -227,6 +228,7 @@ const Training_Pets = () => {
                                                     <StyledTableCell align="left"> <Button
                                                         sx={{ backgroundColor: "orange", color: "black", ":hover": { backgroundColor: "orange" } }}
                                                         onClick={handleOpen}
+
                                                     >
                                                         Pick Your Date
                                                     </Button></StyledTableCell>
