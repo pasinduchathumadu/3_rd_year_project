@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
-import ProfilePicture from '../../assests/profile-picture.png';
 import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -10,7 +9,6 @@ import Select from '@mui/material/Select';
 import { PieChart } from '@mui/x-charts/PieChart';
 import PeopleIcon from '@mui/icons-material/People';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import ListIcon from '@mui/icons-material/List';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import DangerousIcon from '@mui/icons-material/Dangerous';
 import axios from "axios";
@@ -115,6 +113,11 @@ const Home = () => {
             .catch((err) => console.log(err))
     })
 
+    // get admin profile photo
+    const getProfileImageSrc = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+    }
+
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
 
@@ -130,7 +133,10 @@ const Home = () => {
 
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
-                    <img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" />
+                    <img
+                        src={getProfileImageSrc("admin.jpg")}
+                        alt="profilepicture"
+                        className="boarding-profile-picture" />
                 </div>
             </div>
 
@@ -182,10 +188,10 @@ const Home = () => {
 
                     <div style={{ backgroundColor: 'orange', padding: '10px', borderRadius: '20px', width: '300px', height: '180px' }}>
                         <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'black', marginRight: '6px', marginLeft: '5px' }} /> Clients Added Pets</p>
-                        {pending && pending.length > 0 ? ( pending.map((prow, next) => (
+                        {pending && pending.length > 0 ? (pending.map((prow, next) => (
                             <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color: 'white' }}>{prow.count}</p>
                         ))
-                        ) :(
+                        ) : (
                             <p style={{ fontWeight: 'bolder', fontSize: '60px', textAlign: 'center', color: 'white' }}>0</p>
                         )}
                     </div>

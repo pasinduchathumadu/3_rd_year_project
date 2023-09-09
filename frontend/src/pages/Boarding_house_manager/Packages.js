@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
-import ProfilePicture from '../../assests/profile-picture.png';
+// import ProfilePicture from '../../assests/profile-picture.png';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
 import ProfilePicture from '../../assests/profile-picture.png';
-import Slip from '../../assests/bankslip2.jpeg';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -42,19 +41,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-
-// data for care center  refunds
-// function createData2(rf_id, o_id, date, time, status) {
-//     return { rf_id, o_id, date, time, status };
-// }
-
-// const secondrows = [
-//     createData2(1, 4, '2023-06-20', '10:00:00', 'pending'),
-//     createData2(2, 6, '2023-06-25', '12:00:00', 'pending'),
-//     createData2(3, 9, '2023-07-12', '10:30:00', 'completed'),
-//     createData2(4, 12, '2023-07-14', '14:10:00', 'completed'),
-// ];
-
 const Refund = () => {
     // drop down
     const [clients, setClients] = React.useState('1');
@@ -70,28 +56,10 @@ const Refund = () => {
     const [verify, setverify] = useState(false);
     const [viewVerify, setviewVerify] = useState(false);
 
-    // click on view bank slip - cc
-    // const ViewBankSlip = () => {
-    //     setrefund(false);
-    //     setverify(true)
-    // }
-    //reject or verify - 
-    // const AfterVerify = () => {
-    //     setverify(false);
-    //     setrefund(0);
-    // }
-
-    // click on view verified details - cc
-    // const ViewVerified = () => {
-    //     setrefund(false);
-    //     setviewVerify(true);
-    // }
-
     const input = new Date();
     const date = input.toDateString();
 
     // BOARDING HOUSE
-
     // view boarding house refundd details
     const [boardingrf, setboardingrf] = useState("");
     const boardingRefund = async () => {
@@ -331,6 +299,11 @@ const Refund = () => {
         setrefund(1);
     }
 
+    // get admin profile photo
+    const getProfileImageSrc = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+    }
+
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
             <div className="top">
@@ -341,7 +314,10 @@ const Refund = () => {
                 </div>
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
-                    <img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" />
+                    <img
+                        src={getProfileImageSrc("admin.jpg")}
+                        alt="profilepicture"
+                        className="boarding-profile-picture" />
                 </div>
             </div>
 
@@ -755,7 +731,7 @@ const Refund = () => {
                                 </div>
 
                                 <img
-                                    src={verimenu.refund_slip === "" ? getImageSrc3("noimage.png") : getImageSrc3(verimenu.refund_slip) }  
+                                    src={verimenu.refund_slip === "" ? getImageSrc3("noimage.png") : getImageSrc3(verimenu.refund_slip)}
                                     alt="bank slip"
                                     style={{ width: '500px' }} />
 
@@ -877,8 +853,8 @@ const Refund = () => {
                                                 ""}
                                     </Typography>
 
-                                    <img                                      
-                                        src={menuview.refund_slip === "" ? getImageSrc4("noimage.png") : getImageSrc4(menuview.refund_slip) }
+                                    <img
+                                        src={menuview.refund_slip === "" ? getImageSrc4("noimage.png") : getImageSrc4(menuview.refund_slip)}
                                         alt="bank slip"
                                         style={{ width: '500px', marginLeft: '50px' }} />
 

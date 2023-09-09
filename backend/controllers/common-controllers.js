@@ -126,3 +126,56 @@ export const ClientProfile = async (req, res, next) => {
         return res.json({ data })
     })
 }
+
+// update profile - view client details on update form
+export const DisplayClientDetails = async(req,res,next) => {
+    const email = req.params.email;
+
+    const sqlQuery = 'SELECT u.profile_image, CONCAT(u.first_name, " ", u.last_name) as name, c.client_id, c.street, c.city, c.contact_number, c.email FROM users u INNER JOIN client c ON c.email = u.email WHERE c.email = ? '
+    const values = [email]
+
+    db.query(sqlQuery, values, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+
+}
+
+// updating profile of CLIENT
+export const updateClient = async(req,res,next) => {
+    const {
+        email,
+        contact,
+        street,
+        city
+    }= req.body;
+
+    const sqlQuery = 'UPDATE client SET contact_number = ?, street = ?, city = ? WHERE email = ? '
+    const values = [contact, street, city,email]
+
+    db.query(sqlQuery, values, (err,data) => {
+        if(err){
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({message:'success'})
+    })
+
+}
+
+// delete client profile
+export const deleteProfile = async(req,res,next) => {
+    const email = req.params.email
+    const sqlQuery = 'DELETE FROM users WHERE email = ?'
+    const values = [email]
+
+    db.query(sqlQuery, values, (err,data) => {
+        if(err){
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({message:'Deleted'})
+    })
+}
+
+
