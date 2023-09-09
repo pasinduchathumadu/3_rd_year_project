@@ -8,6 +8,7 @@ import payment_route from "./routes/payment-routes.js";
 import online_store_manager from "./routes/online_store_manager-routes.js";
 import boarding_house_manager from "./routes/boarding-routes.js";
 import company_manager from "./routes/company-routes.js";
+import medi_help_manager from "./routes/medi-routes.js";
 import care_center_manager from "./routes/carecenter-routes.js";
 // //calling database firstly
 import {db} from './database.js';
@@ -42,6 +43,7 @@ app.use("/pet_care/online_store_manager",online_store_manager);
 app.use("/pet_care/boarding_house_manager", boarding_house_manager);
 app.use("/pet_care/company_manager",company_manager)
 app.use("/pet_care/care_center_manager",care_center_manager)
+app.use("/pet_care/medi_help_manager",medi_help_manager)
 
 
 app.listen(5000,()=>{

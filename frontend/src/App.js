@@ -88,7 +88,7 @@ import { useNavigate } from "react-router-dom";
 import HomeHeader from "./components/Layout/Homeheader";
 
 import PaymentClient from "./pages/Client/Payment";
-
+import Viewvet from "./pages/Medi-help_manager/View_vet";
 import ViewMedical from "./pages/Client/ViewMedical";
 
 import ActivityTracking from "./pages/Client/ActivityTracking";
@@ -606,6 +606,15 @@ function App() {
                 <>
                   <HomeHeader userRole={"medi_help_manager"} />
                   <ViewAppointments />
+                </>
+              }
+            />
+             <Route
+              path="/view_vet"
+              element={
+                <>
+                  <HomeHeader userRole={"medi_help_manager"} />
+                  <Viewvet />
                 </>
               }
             />
