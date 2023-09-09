@@ -1,13 +1,17 @@
-import { Avatar, Button, FormLabel, Typography, IconButton } from '@mui/material';
+import {Button, FormLabel, Typography, IconButton,Stack,Alert } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { TextField, FormControl } from "@mui/material";
-import ProfilePhoto from "../../assests/profile-picture.png";
-import PetImage1 from '../../assests/blog-1.png';
+// import ProfilePhoto from "../../assests/profile-picture.png";
+// import PetImage1 from '../../assests/blog-1.png';
 // import PetImage2 from '../../assests/blog-2.png';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios';
+// import Stack from '@mui/material/Stack';
+// import Alert from '@mui/material/Alert';
+
+
 
 // import StarIcon from '@mui/icons-material/Star';
 // import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -36,14 +40,68 @@ const Profile = () => {
             .catch((err) => console.log(err))
     })
 
-    // click on UPDATE icon
-    const updateButton = () => {
-        setmain(false)
-        setupdate(true)
+    // get profile image path
+    const getImageSrc = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
     }
 
-    // UPDATE PROFILE
+
+    // click on UPDATE icon
     const [update, setupdate] = useState(false)
+    const [error, seterror] = useState(false)
+    const [viewclient, setviewclient] = useState("")
+    const [message, setmessage] = useState("")
+    const DisplayClientDetails = async (email) => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/common/DisplayClientDetails/${email}`)
+            if (res.data.message === 'There is an internal error') {
+                seterror(true)
+                setmessage("There is an internal error")
+            } else {
+                setupdate(true)
+                setmain(false)
+                setviewclient(res.data.data)
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const [city, setcity] = useState("")
+    const [street, setstreet] = useState("")
+    const [contact, setcontact] = useState("")
+
+    const [error1, seterror1] = useState(false)
+    const [message1, setmessage1] = useState("")
+
+    // updating profile
+    const updateClient = async () => {
+        if (contact === "" || street === "" || city === "") {
+            seterror1(true)
+            setmessage1('Please fill all fields')
+            return;
+        }
+        try {
+            const res = await axios.post(`http://localhost:5000/pet_care/common/updateClient`, {
+                email,
+                contact,
+                street,
+                city
+            });
+            if (res.data.message === 'There is an internal error') {
+                setmessage1('Internal error')
+                seterror1(true)
+            } else if (res.data.message === 'success') {
+                // setviewclient(false)
+                setmain(true)
+                setupdate(false)
+            }
+
+        } catch (err) {
+            console.log('There is an internal error')
+        }
+    }
+
     // back without updating manager details
     const backFromProfile = () => {
         setupdate(false)
@@ -52,252 +110,178 @@ const Profile = () => {
 
 
     return (
-        <div style={{ padding: '2%', marginTop: '3%' }}>
+        <div style={{ padding: '3%', marginTop: '2%' }}>
             {/* client profile */}
             <div>
                 {main && (
                     <>
-                        <Typography sx={{ textAlign: 'center', backgroundColor: 'orange', color: 'white', fontWeight: 'bold', borderRadius: '10px', padding: '10px', width: '98%', marginLeft: '1%' }}> Profile</Typography>
-                        <div>
+                        <div style={{ width: '80%', backgroundColor: '#f0f0f5', padding: '10px', borderRadius: '10px', marginLeft: '10%' }}>
 
-                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', height: '100%', width: '100%', backgroundColor: 'white', borderRadius: '10px' }}>
-                                <div style={{ width: '45%', backgroundColor: '#f0f0f5', padding: '10px', borderRadius: '10px', margin: '10px' }}>
-                                    <div style={{ marginLeft: '85%', display: 'flex', flexDirection: 'row' }}>
-                                        <IconButton onClick={updateButton}><EditIcon /></IconButton>
+                            {profiledetails && profiledetails.map((drow, index) => (
+                                <FormControl sx={{ width: '70%', backgroundColor: 'white', paddingLeft: '5%', paddingRight: '5%', paddingTop: '3%', paddingBottom: '2%', borderRadius: '10px', marginLeft: '15%' }}>
+                                    <Typography sx={{ textAlign: 'center', backgroundColor: 'orange', color: 'white', fontWeight: 'bold', borderRadius: '10px', padding: '10px', width: '60%', marginLeft: '20%' }}> Profile</Typography>
+
+                                    <div style={{ marginLeft: '90%', display: 'flex', flexDirection: 'row' }}>
+                                        <IconButton onClick={() => DisplayClientDetails(drow.email)}><EditIcon /></IconButton>
                                         <IconButton><DeleteIcon sx={{ marginLeft: '5px', color: 'red' }} /></IconButton>
                                     </div>
 
-                                    {profiledetails && profiledetails.map((drow, index) => (
-                                        <FormControl sx={{ marginLeft: '1%', marginRight: '1%', backgroundColor: 'white', padding: '5%', borderRadius: '10px', marginBottom: '3%' }}>
-                                            <div style={{ marginTop: '10px', marginBottom: '20px' }}>
-                                                <img src={ProfilePhoto} alt="profile photo" style={{ height: '30%', width: '30%', marginLeft: '35%', borderRadius: '50%' }} />
-                                            </div>
+                                    <div style={{ marginTop: '10px', marginBottom: '20px' }}>
+                                        <img
+                                            src={drow.profile_image === "" ? getImageSrc("noimage.png") : getImageSrc(drow.profile_image)}
+                                            alt="profile photo"
+                                            style={{ height: '30%', width: '30%', marginLeft: '35%', borderRadius: '50%' }} />
+                                    </div>
 
-                                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '10px' }}>
-                                                <FormLabel sx={{ color: 'black', textAlign: 'center' }}>Client ID  </FormLabel>
-                                                <TextField
-                                                    disabled
-                                                    id="outlined-disabled"
-                                                    defaultValue={drow.client_id}
-                                                    sx={{ textAlign: 'center', width: '300px', marginLeft: '10px' }}
-                                                />
-                                            </div>
+                                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '10px' }}>
+                                        <FormLabel sx={{ color: 'black', textAlign: 'center' }}>Client ID  </FormLabel>
+                                        <TextField
+                                            disabled
+                                            id="outlined-disabled"
+                                            defaultValue={drow.client_id}
+                                            sx={{ textAlign: 'center', width: '300px', marginLeft: '10px' }}
+                                        />
+                                    </div>
 
-                                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '10px' }}>
-                                                <FormLabel sx={{ color: 'black' }}>Name  </FormLabel>
-                                                <TextField
-                                                    disabled
-                                                    id="outlined-disabled"
-                                                    defaultValue={drow.name}
-                                                    sx={{ textAlign: 'center', width: '300px', marginLeft: '10px' }}
-                                                />
-                                            </div>
+                                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '10px' }}>
+                                        <FormLabel sx={{ color: 'black' }}>Name  </FormLabel>
+                                        <TextField
+                                            disabled
+                                            id="outlined-disabled"
+                                            defaultValue={drow.name}
+                                            sx={{ textAlign: 'center', width: '300px', marginLeft: '10px' }}
+                                        />
+                                    </div>
 
-                                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '10px' }}>
-                                                <FormLabel sx={{ color: 'black' }}>Email Address  </FormLabel>
-                                                <TextField
-                                                    disabled
-                                                    id="outlined-disabled"
-                                                    defaultValue={drow.email}
-                                                    sx={{ textAlign: 'center', width: '300px', marginLeft: '10px' }}
-                                                />
-                                            </div>
+                                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '10px' }}>
+                                        <FormLabel sx={{ color: 'black' }}>Email Address  </FormLabel>
+                                        <TextField
+                                            disabled
+                                            id="outlined-disabled"
+                                            defaultValue={drow.email}
+                                            sx={{ textAlign: 'center', width: '300px', marginLeft: '10px' }}
+                                        />
+                                    </div>
 
-                                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '10px' }}>
-                                                <FormLabel sx={{ color: 'black' }}>Contact Number  </FormLabel>
-                                                <TextField
-                                                    disabled
-                                                    id="outlined-disabled"
-                                                    defaultValue={drow.contact_number}
-                                                    sx={{ textAlign: 'center', width: '300px', marginLeft: '10px' }}
-                                                />
-                                            </div>
+                                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '10px' }}>
+                                        <FormLabel sx={{ color: 'black' }}>Contact Number  </FormLabel>
+                                        <TextField
+                                            disabled
+                                            id="outlined-disabled"
+                                            defaultValue={drow.contact_number}
+                                            sx={{ textAlign: 'center', width: '300px', marginLeft: '10px' }}
+                                        />
+                                    </div>
 
-                                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '10px' }}>
-                                                <FormLabel sx={{ color: 'black' }}>Address  </FormLabel>
-                                                <TextField
-                                                    disabled
-                                                    id="outlined-disabled"
-                                                    defaultValue={drow.address}
-                                                    sx={{ textAlign: 'center', width: '300px', marginLeft: '10px' }}
-                                                />
-                                            </div>
-                                        </FormControl>
-                                    ))}
-                                </div>
-
-                                <div style={{ width: '50%', backgroundColor: '#f0f0f5', padding: '10px', borderRadius: '10px', height: 'auto', margin: '10px' }}>
-                                    <Typography sx={{ textAlign: 'center', backgroundColor: 'white', borderRadius: '10px', padding: '10px', marginTop: '5px', width: '99%', marginLeft: '1%' }}>Pets Details</Typography>
-                                    <FormControl sx={{ backgroundColor: 'white', borderRadius: '10px', padding: '20px', marginTop: '10px', marginLeft: '10px' }}>
-                                        <div style={{ marginTop: '10px', marginBottom: '20px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                            <Avatar src={PetImage1} alt="profile photo" sx={{ height: '150px', width: '150px', marginLeft: '20px', marginRight: '200px' }} />
-                                            <div sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '10px' }}>
-                                                <FormLabel sx={{ color: 'black', marginLeft: '10px' }}>Pet ID   </FormLabel>
-                                                <TextField
-                                                    disabled
-                                                    id="outlined-disabled"
-                                                    defaultValue=" 03"
-                                                    sx={{ textAlign: 'center', marginLeft: '10px' }} />
-                                            </div>
-                                        </div>
-
-                                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                            <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
-                                                <div>
-                                                    <FormLabel sx={{ color: 'black' }}>Pet Name  </FormLabel><br />
-                                                    <TextField
-                                                        disabled
-                                                        id="outlined-disabled"
-                                                        defaultValue="Jimmy Boy"
-                                                        sx={{ textAlign: 'center', width: '250px' }}
-                                                    />
-                                                </div>
-
-                                                <div>
-                                                    <FormLabel sx={{ color: 'black' }}>Breed  </FormLabel><br />
-                                                    <TextField
-                                                        disabled
-                                                        id="outlined-disabled"
-                                                        defaultValue="xxx"
-                                                        sx={{ textAlign: 'center', width: '250px' }}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
-                                                <div>
-                                                    <FormLabel sx={{ color: 'black' }}>Category  </FormLabel><br />
-                                                    <TextField
-                                                        disabled
-                                                        id="outlined-disabled"
-                                                        defaultValue="Dog"
-                                                        sx={{ textAlign: 'center', width: '250px' }}
-                                                    />
-                                                </div>
-
-                                                <div>
-                                                    <FormLabel sx={{ color: 'black' }}>Sex  </FormLabel><br />
-                                                    <TextField
-                                                        disabled
-                                                        id="outlined-disabled"
-                                                        defaultValue="Male"
-                                                        sx={{ textAlign: 'center', width: '250px' }}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </FormControl>
-                                </div>
-                            </div >
-                        </div > </>
+                                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '10px' }}>
+                                        <FormLabel sx={{ color: 'black' }}>Address  </FormLabel>
+                                        <TextField
+                                            disabled
+                                            id="outlined-disabled"
+                                            defaultValue={drow.address}
+                                            sx={{ textAlign: 'center', width: '300px', marginLeft: '10px' }}
+                                        />
+                                    </div>
+                                </FormControl>
+                            ))}
+                        </div>
+                    </>
                 )}
             </div>
 
             {/* client update profile */}
             {update && (
-                <div style={{ backgroundColor: '#f0f0f5', borderRadius: '10px', padding: '2%' }}>
-                    <FormControl sx={{ backgroundColor: 'white', width: '50%', paddingLeft: '10px', paddingRight: '10px', paddingTop: '10px', paddingBottom: '20px', borderRadius: '10px', marginTop: '2%', marginBottom: '2%' }}>
-                        <div style={{ marginLeft: '90%' }}>
-                            <IconButton onClick={backFromProfile} ><CloseIcon sx={{ color: 'white', backgroundColor: 'red' }} /></IconButton>
-                        </div>
-                        <Typography sx={{ textAlign: 'center', backgroundColor: 'orange', color: 'white', fontWeight: 'bold', borderRadius: '10px', padding: '10px', marginTop: '5px', marginBottom: '10px', width: '50%', marginLeft: '25%' }}>Update Profile</Typography>
+                <>
+                    <div style={{ width: '80%', backgroundColor: '#f0f0f5', padding: '10px', borderRadius: '10px', marginLeft: '10%' }}>
 
-                        {/* {viewmanager && viewmanager.map((mrow, index) => ( */}
-                        <>
-                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '10px' }}>
-                                <Typography sx={{ fontWeight: 'bold', marginLeft: '35%' }}>
-                                    {/* {(() => {
-                                        switch (mrow.user_role) {
-                                            case "boarding_house_manager": return "Boarding House Manager";
-                                            case "care_center_manager": return "Care Center Manager";
-                                            case "online_store_manager": return "Online Store Manager";
-                                            case "company_manager": return "Company Manager";
-                                            case "medi_help_manager": return "Medi Help Center Manager";
-                                            default: return "";
-                                        }
-                                    })()} */}
-                                </Typography>
-                            </div>
+                        {viewclient && viewclient.map((menu, index) => (
+                            <FormControl sx={{ width: '70%', backgroundColor: 'white', paddingLeft: '5%', paddingRight: '5%', paddingTop: '3%', paddingBottom: '2%', borderRadius: '10px', marginLeft: '15%', marginBottom:'1%' }}>
+                                <div style={{ marginLeft: '97%' }}>
+                                    <IconButton onClick={backFromProfile} ><CloseIcon sx={{ color: 'white', backgroundColor: 'red' }} /></IconButton>
+                                </div>
+                                <Typography sx={{ textAlign: 'center', backgroundColor: 'orange', color: 'white', fontWeight: 'bold', borderRadius: '10px', padding: '10px', width: '60%', marginLeft: '20%' }}> Update Profile</Typography>
 
-                            <div style={{ marginTop: '10px', marginBottom: '20px' }}>
-                                <img
-                                    // src={getProfilePath(mrow.profile_image)}
-                                    alt="profile photo"
-                                    style={{ height: '150px', width: 'auto', borderRadius: '50px' }} />
-                            </div>
-
-                            <div style={{ marginLeft: '10%', marginRight: '10%' }}>
-                                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '10px' }}>
-                                    <div>
-                                        <TextField
-                                            disabled
-                                            id="outlined-disabled"
-                                            label="Manager ID"
-                                            defaultValue="{mrow.manager_id}"
-                                        />
-                                    </div>
-                                    <div>
-                                        <TextField
-                                            disabled
-                                            id="outlined-disabled"
-                                            label="Name"
-                                            defaultValue="{mrow.name}"
-                                        />
-                                    </div>
+                                <div style={{ marginTop: '10px', marginBottom: '20px' }}>
+                                    <img
+                                        src={menu.profile_image === "" ? getImageSrc("noimage.png") : getImageSrc(menu.profile_image)}
+                                        // src={getImageSrc("noimage.png")}
+                                        alt="profile photo"
+                                        style={{ height: '30%', width: '30%', marginLeft: '35%', borderRadius: '50%' }} />
                                 </div>
 
-                                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '10px' }}>
-                                    <div>
-                                        <TextField
-                                            disabled
-                                            id="outlined-disabled"
-                                            label="Email Address"
-                                            defaultValue="{mrow.email}"
-                                        />
+                                <div style={{ marginLeft: '10%', marginRight: '10%' }}>
+                                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '10px' }}>
+                                        <div>
+                                            <TextField
+                                                disabled
+                                                id="outlined-disabled"
+                                                label="Client ID"
+                                                defaultValue={menu.client_id}
+                                            />
+                                        </div>
+                                        <div>
+                                            <TextField
+                                                disabled
+                                                id="outlined-disabled"
+                                                label="Name"
+                                                defaultValue={menu.name}
+                                            />
+                                        </div>
                                     </div>
-                                    <div>
-                                        <TextField
-                                            id="outlined-helperText"
-                                            label="Contact Number"
-                                            defaultValue="{mrow.contact_number}"
 
-                                            required
-                                        />
+                                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '10px' }}>
+                                        <div>
+                                            <TextField
+                                                disabled
+                                                id="outlined-disabled"
+                                                label="Email Address"
+                                                defaultValue={menu.email}
+                                            />
+                                        </div>
+                                        <div>
+                                            <TextField
+                                                id="outlined-helperText"
+                                                label="Contact Number"
+                                                defaultValue={menu.contact_number}
+                                                onChange={(e) => setcontact(e.target.value)}
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '10px' }}>
+                                        <div>
+                                            <TextField
+                                                id="outlined-helperText"
+                                                label="Street"
+                                                defaultValue={menu.street}
+                                                onChange={(e) => setstreet(e.target.value)}
+                                                required
+                                            />
+                                        </div>
+                                        <div >
+                                            <TextField
+                                                id="outlined-helperText"
+                                                label="City"
+                                                defaultValue={menu.city}
+                                                onChange={(e) => setcity(e.target.value)}
+                                                required
+                                            />
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '10px' }}>
-                                    <div>
-                                        <TextField
-                                            id="outlined-helperText"
-                                            label="Street"
-                                            defaultValue="{mrow.street}"
-
-                                            required
-                                        />
-                                    </div>
-                                    <div >
-                                        <TextField
-                                            id="outlined-helperText"
-                                            label="City"
-                                            defaultValue="{mrow.city}"
-
-                                            required
-                                        />
-                                    </div>
+                                <div style={{ marginLeft: '1%' }}>
+                                    <Button onClick={() => updateClient()} sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white', width: '30%', marginLeft: '35%', marginBottom:'1%'}}>Update</Button>
                                 </div>
-                            </div>
-                        </>
-                        {/* ))} */}
-
-                        <div style={{ marginLeft: '1%' }}>
-                            <Button sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white', width: '35%' }}>Update</Button>
-                        </div>
-                    </FormControl>
-
-
-
-
-                </div>
+                                {error1 && (
+                                    <Stack sx={{ width: '100%' }} spacing={2}>
+                                        <Alert severity="error">{message1}</Alert>
+                                    </Stack>
+                                )}
+                            </FormControl>
+                        ))}
+                    </div>
+                </>
             )}
 
         </div >
