@@ -53,7 +53,7 @@ const AddPets = () => {
 
     // pet adding
     const addpet = async () => {
-        if (petcategory === '' || name === '' || petsex === '' || breed === '') {
+        if (petcategory === '' || name === '' || breed === '' || petsex === '') {
             seterror(true)
             setmessage("Please fill all the field")
             return;
@@ -65,7 +65,6 @@ const AddPets = () => {
                 name,
                 breed,
                 petsex,
-                // picture,
             })
 
             if (res.data.message === 'There is an internal error') {
