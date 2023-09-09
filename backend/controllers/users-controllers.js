@@ -372,6 +372,24 @@ export const get_store = async (req, res, next) => {
     })
 
   }
+  if (value_dog === 0 && new_value_dog1 !== "no") {
+  
+    const sqlQuery = "SELECT * FROM item WHERE item = ? AND catogories = ?" 
+    const values = [
+      item_catogery,
+      new_value_dog1
+    ]
+    db.query(sqlQuery, values, (err, data) => {
+      if (err) {
+        return res.json({ message: 'There is an internel error' })
+      }
+      else {
+        return res.json({ data })
+      }
+    })
+  
+  
+  }
   if (value_dog === 0 && new_value_dog1 === "no") {
 
     const sqlQuery = "SELECT * FROM item WHERE item = ?"
@@ -388,6 +406,7 @@ export const get_store = async (req, res, next) => {
     })
   }
 }
+
 
 export const temp_cart = async (req, res, next) => {
   const { id, email, price } = req.body

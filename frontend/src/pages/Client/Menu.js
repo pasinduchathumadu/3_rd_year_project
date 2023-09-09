@@ -111,7 +111,6 @@ const Menu = () => {
   }
   useEffect(() => {
     get_store()
-    
   })
 
   useEffect(() => {
