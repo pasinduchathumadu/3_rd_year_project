@@ -110,7 +110,6 @@ const Complains = () => {
         }
     }
 
-
     // cancel without adding a response for manager complian
     const backAddingRes = () => {
         setaddResponce(false)
@@ -163,7 +162,10 @@ const Complains = () => {
             .catch((err) => console.log(err))
     })
 
-
+    // get admin profile photo
+    const getProfileImageSrc = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+    }
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
@@ -176,7 +178,10 @@ const Complains = () => {
                 </div>
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
-                    <img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" />
+                    <img 
+                        src={getProfileImageSrc("admin.jpg")} 
+                        alt="profilepicture" 
+                        className="boarding-profile-picture" />
                 </div>
             </div>
 

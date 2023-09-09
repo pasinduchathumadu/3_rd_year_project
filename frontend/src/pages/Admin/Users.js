@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useEffect, useState } from 'react';
 import ProfilePicture from '../../assests/profile-picture.png';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -22,15 +21,11 @@ import { FormLabel, TextField } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import { tableCellClasses } from '@mui/material/TableCell';
 import Image from '../../assests/profile.jpg';
-// import PetImage from '../../assests/dog1.jpg';
-// import PetImage1 from '../../assests/dog.jpg';
 import StarIcon from '@mui/icons-material/Star';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import CloseIcon from '@mui/icons-material/Close';
-
-// import { FormHelperText } from '@material-ui';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -55,7 +50,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const Users = () => {
     // select manager role
-
     const [role, setRole] = React.useState("");
     const [email, setemail] = useState("")
     const [id, setId] = useState("")
@@ -366,6 +360,11 @@ const Users = () => {
         setpet(false)
     }
 
+    // get admin profile photo
+    const getProfileImageSrc = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+    }
+
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
             <div className="top">
@@ -376,7 +375,10 @@ const Users = () => {
                 </div>
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
-                    <img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" />
+                    <img 
+                        src={getProfileImageSrc("admin.jpg")} 
+                        alt="profilepicture" 
+                        className="boarding-profile-picture" />
                 </div>
             </div>
 
