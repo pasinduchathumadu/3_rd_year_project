@@ -48,10 +48,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const Complains = () => {
     // drop down
-    const [clients, setClients] = React.useState('1');
-    const handleChange = (event) => {
-        setClients(event.target.value);
-    };
+    // const [clients, setClients] = React.useState('1');
+    // const handleChange = (event) => {
+    //     setClients(event.target.value);
+    // };
 
     const [own, setOwn] = useState(0);
     const handleForm = (event, existing_value) => {
@@ -191,40 +191,50 @@ const Complains = () => {
     }
 
     // viewing my complains
-    const [mycomplain, setmycomplain] = useState("");
+    const [clients1, setClients1] = React.useState('1');
+    const [mycomplain, setmycomplain] = useState([]);
+
+    const handleChange1 = (event) => {
+        setClients1(event.target.value);
+
+        viewmyComplains()
+    };
+
     const viewmyComplains = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/viewmyComplains')
-            const data = await res.data
-            return data
-
+            const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/viewmyComplains/${clients1}`)
+            setmycomplain(res.data.data)
+            setClients1('')
         } catch (err) {
-            console.log("There is an internal error")
+            console.log(clients1)
+            console.log(err)
         }
     }
     useEffect(() => {
-        viewmyComplains()
-            .then((data) => setmycomplain(data.data))
-            .catch((err) => console.log(err))
-    })
+        viewmyComplains()       
+    },[clients1,viewmyComplains])
 
-    // viewing clients all complains
+    // viewing clients all complains - with filter
+    const [clients, setClients] = React.useState('1');
+    const handleChange = (event) => {
+        setClients(event.target.value);
+
+        viewClientsComplains()
+    };
     const [clientcomplain, setclientcomplain] = useState("");
     const viewClientsComplains = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/viewClientsComplains')
-            const data = await res.data
-            return data
-
+            const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/viewClientsComplains/${clients}`)
+            setclientcomplain(res.data.data)
+            setClients('')
         } catch (err) {
-            console.log("There is an internal error")
+            console.log(clients)
+            console.log(err)
         }
     }
     useEffect(() => {
         viewClientsComplains()
-            .then((data) => setclientcomplain(data.data))
-            .catch((err) => console.log(err))
-    })
+    }, [clients,viewClientsComplains ])
 
     const navigate = useNavigate("")
     // connect profile
@@ -275,12 +285,12 @@ const Complains = () => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={clients}
+                                    
                                     variant='filled'
-                                    label="clients"
+                                   
                                     onChange={handleChange}
                                     l
-                                    sx={{ fontSize: '11px' }}>
+                                    sx={{ fontSize: '12px' }}>
                                     <MenuItem value={1}>All</MenuItem>
                                     <MenuItem value={2}>Pending</MenuItem>
                                     <MenuItem value={3}>Completed</MenuItem>
@@ -339,16 +349,16 @@ const Complains = () => {
                                         <Select
                                             labelId="demo-simple-select-label"
                                             id="demo-simple-select"
-                                            value={own}
+                                           
                                             variant='filled'
-                                            label="clients"
-                                            onChange={handleChange}
+                                            label="Clients"
+                                            onChange={handleChange1}
                                             l
-                                            sx={{ fontSize: '11px' }}
+                                            sx={{ fontSize: '12px' }}
                                         >
                                             <MenuItem value={1}>All</MenuItem>
                                             <MenuItem value={2}>Pending</MenuItem>
-                                            <MenuItem value={2}>Completed</MenuItem>
+                                            <MenuItem value={3}>Completed</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </Box>

@@ -42,41 +42,151 @@ export const AddNewPackage = async (req, res, next) => {
 
 // ---------BOARDING REQUESTS---------------------------------
 
-// boarding requests viewing
+// boarding requests viewing - filter applied
 export const view_requests = async (req, res, next) => {
-    const sqlQuery = 'SELECT r.request_id, r.client_id, r.pet_id, r.package_id, r.board_arrival_date, r.board_carry_date, r.board_time, r.request_status, p.package_name FROM boarding_request r INNER JOIN boarding_package p ON p.package_id = r.package_id WHERE request_status = "completed" OR request_status = "pending" OR request_status = "accepted" OR request_status = "arrived"';
+    const id = req.params.id
+    if (id === '1') {
+        const status1 = 'completed'
+        const status2 = 'pending'
+        const status3 = 'accepted'
+        const status4 = 'arrived'
+        const sqlQuery = 'SELECT r.request_id, r.client_id, r.pet_id, r.package_id, r.board_arrival_date, r.board_carry_date, r.board_time, r.request_status, p.package_name FROM boarding_request r INNER JOIN boarding_package p ON p.package_id = r.package_id WHERE request_status = ? OR request_status = ? OR request_status = ? OR request_status = ?';
+        const values = [status1, status2, status3, status4]
 
-    db.query(sqlQuery, (err, data) => {
-        if (err) {
-            return res.json({ message: 'There is an internal error' })
-        }
-        return res.json({ data })
-    })
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        });
+    } else if (id === '2') {
+        const status = 'pending'
+        const sqlQuery = 'SELECT r.request_id, r.client_id, r.pet_id, r.package_id, r.board_arrival_date, r.board_carry_date, r.board_time, r.request_status, p.package_name FROM boarding_request r INNER JOIN boarding_package p ON p.package_id = r.package_id WHERE request_status = ? ';
+        const values = [status]
 
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        });
+    } else if (id === '3') {
+        const status = 'accepted'
+        const sqlQuery = 'SELECT r.request_id, r.client_id, r.pet_id, r.package_id, r.board_arrival_date, r.board_carry_date, r.board_time, r.request_status, p.package_name FROM boarding_request r INNER JOIN boarding_package p ON p.package_id = r.package_id WHERE request_status = ? ';
+        const values = [status]
+
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        });
+
+    } else if (id === '4') {
+        const status = 'arrived'
+        const sqlQuery = 'SELECT r.request_id, r.client_id, r.pet_id, r.package_id, r.board_arrival_date, r.board_carry_date, r.board_time, r.request_status, p.package_name FROM boarding_request r INNER JOIN boarding_package p ON p.package_id = r.package_id WHERE request_status = ? ';
+        const values = [status]
+
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        });
+
+    } else if (id === '5') {
+        const status = 'completed'
+        const sqlQuery = 'SELECT r.request_id, r.client_id, r.pet_id, r.package_id, r.board_arrival_date, r.board_carry_date, r.board_time, r.request_status, p.package_name FROM boarding_request r INNER JOIN boarding_package p ON p.package_id = r.package_id WHERE request_status = ? ';
+        const values = [status]
+
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        });
+    }
 }
 
 // view incompleted & cancelled requests (for refund)
 export const refund_requests = async (req, res, next) => {
-    const sqlQuery = 'SELECT f.refund_id, f.client_id, f.request_id, f.admin_verification, f.refund_status, q.cancelled_date, q.price, q.request_status FROM boarding_refund f INNER JOIN boarding_request q ON f.request_id = q.request_id WHERE q.request_status = "incompleted" OR q.request_status = "cancelled" ';
+    const id = req.params.id
 
-    db.query(sqlQuery, (err, data) => {
-        if (err) {
-            return res.json({ message: 'There is an internal error' })
-        }
-        return res.json({ data })
-    })
+    if (id === '1') {
+        const status1 = 'pending'
+        const status2 = 'completed'
+        const sqlQuery = 'SELECT f.refund_id, f.client_id, f.request_id, f.admin_verification, f.refund_status, q.cancelled_date, q.price, q.request_status FROM boarding_refund f INNER JOIN boarding_request q ON f.request_id = q.request_id WHERE f.refund_status  = ? OR f.refund_status  = ? ';
+        const values = [status1, status2]
+
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        });
+    } else if (id === '2') {
+        const status = 'pending'
+        const sqlQuery = 'SELECT f.refund_id, f.client_id, f.request_id, f.admin_verification, f.refund_status, q.cancelled_date, q.price, q.request_status FROM boarding_refund f INNER JOIN boarding_request q ON f.request_id = q.request_id WHERE f.refund_status  = ? ';
+        const values = [status]
+
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        });
+
+    } else if (id === '3') {
+        const status = 'completed'
+        const sqlQuery = 'SELECT f.refund_id, f.client_id, f.request_id, f.admin_verification, f.refund_status, q.cancelled_date, q.price, q.request_status FROM boarding_refund f INNER JOIN boarding_request q ON f.request_id = q.request_id WHERE f.refund_status = ? ';
+        const values = [status]
+
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        });
+    }
 }
 
-// view all clients get services from  boarding house
+// view all clients get services from  boarding house - filter applied
 export const view_allclients = async (req, res, next) => {
-    const sqlQuery = 'SELECT c.client_id, CONCAT(c.street, " ", c.city) as address, c.contact_number, c.status, CONCAT(u.first_name, " ", u.last_name) as name FROM client c INNER JOIN users u ON c.email = u.email WHERE c.client_id IN (SELECT client_id FROM boarding_request)';
+    const id = req.params.id
 
-    db.query(sqlQuery, (err, data) => {
-        if (err) {
-            return res.json({ message: 'There is an internal error' })
-        }
-        return res.json({ data })
-    })
+    if (id === '1') {
+        const sqlQuery = 'SELECT c.client_id, CONCAT(c.street, " ", c.city) as address, c.contact_number, c.status, CONCAT(u.first_name, " ", u.last_name) as name FROM client c INNER JOIN users u ON c.email = u.email WHERE c.client_id IN (SELECT client_id FROM boarding_request)';
+
+        db.query(sqlQuery, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        });
+    } else if (id === '2') {
+        const status = 'premium'
+        const sqlQuery = 'SELECT c.client_id, CONCAT(c.street, " ", c.city) as address, c.contact_number, c.status, CONCAT(u.first_name, " ", u.last_name) as name FROM client c INNER JOIN users u ON c.email = u.email WHERE c.client_id IN (SELECT client_id FROM boarding_request) AND c.status = ?';
+        const values = [status]
+
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        });
+
+    } else if (id === '3') {
+        const status = 'regular'
+        const sqlQuery = 'SELECT c.client_id, CONCAT(c.street, " ", c.city) as address, c.contact_number, c.status, CONCAT(u.first_name, " ", u.last_name) as name FROM client c INNER JOIN users u ON c.email = u.email WHERE c.client_id IN (SELECT client_id FROM boarding_request) AND c.status = ?';
+        const values = [status]
+
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        });
+    }
 }
 
 // viewing refund details of completed refund
@@ -227,26 +337,103 @@ export const add_complain = async (req, res, next) => {
 
 // view my complains
 export const viewmyComplains = async (req, res, next) => {
-    const sqlQuery = 'SELECT complain_id, complain_txt, com_date, com_time, complain_status, response_txt FROM manager_complain WHERE manager_role = "boarding_house_manager" ';
+    const id = req.params.id
 
-    db.query(sqlQuery, (err, data) => {
-        if (err) {
-            return res.json({ message: 'There is an internal error' })
-        }
-        return res.json({ data })
-    })
+    if (id === '1') {
+        const role = 'boarding_house_manager'
+        const sqlQuery = 'SELECT complain_id, complain_txt, com_date, com_time, complain_status, response_txt FROM manager_complain WHERE manager_role = ? ';
+        const values = [role]
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        });
+    } else if (id === '2') {
+        const status = 'pending'
+        const role = 'boarding_house_manager'
+        const sqlQuery = 'SELECT complain_id, complain_txt, com_date, com_time, complain_status, response_txt FROM manager_complain WHERE manager_role = ? AND complain_status = ?';
+        const values = [role,status]
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        });
+
+    } else if (id === '3') {
+        const status = 'completed'
+        const role = 'boarding_house_manager'
+        const sqlQuery = 'SELECT complain_id, complain_txt, com_date, com_time, complain_status, response_txt FROM manager_complain WHERE manager_role = ? AND complain_status = ?';
+        const values = [role,status]
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        });
+    }
+
+    // const sqlQuery = 'SELECT complain_id, complain_txt, com_date, com_time, complain_status, response_txt FROM manager_complain WHERE manager_role = "boarding_house_manager" ';
+
+    // db.query(sqlQuery, (err, data) => {
+    //     if (err) {
+    //         return res.json({ message: 'There is an internal error' })
+    //     }
+    //     return res.json({ data })
+    // })
 }
 
 
 // view clients complains
 export const viewClientsComplains = async (req, res, next) => {
-    const sqlQuery = 'SELECT client_id, complain_id, complain_txt, com_date, com_time, complain_status, response_txt FROM client_complain WHERE manager_role = "boarding_house_manager" ';
-    db.query(sqlQuery, (err, data) => {
-        if (err) {
-            return res.json({ message: 'There is an internal error' })
-        }
-        return res.json({ data })
-    })
+    const id = req.params.id
+
+    if (id === '1') {
+        const role = "boarding_house_manager"
+        const sqlQuery = 'SELECT client_id, complain_id, complain_txt, com_date, com_time, complain_status, response_txt FROM client_complain WHERE manager_role = ? ';
+        const values = [role]
+
+        db.query(sqlQuery, values, (err,data) => {
+            if(err){
+                return res.json({message:'There is an internal error'})
+            }
+            return res.json({data})
+        })
+    }else if(id === '2') {
+        const role = "boarding_house_manager"
+        const status = 'pending'
+        const sqlQuery = 'SELECT client_id, complain_id, complain_txt, com_date, com_time, complain_status, response_txt FROM client_complain WHERE manager_role = ? AND complain_status = ? ';
+        const values = [role, status]
+
+        db.query(sqlQuery, values, (err,data) => {
+            if(err){
+                return res.json({message:'There is an internal error'})
+            }
+            return res.json({data})
+        })
+    }else if(id === '3') {
+        const role = "boarding_house_manager"
+        const status = 'completed'
+        const sqlQuery = 'SELECT client_id, complain_id, complain_txt, com_date, com_time, complain_status, response_txt FROM client_complain WHERE manager_role = ? AND complain_status = ? ';
+        const values = [role, status]
+
+        db.query(sqlQuery, values, (err,data) => {
+            if(err){
+                return res.json({message:'There is an internal error'})
+            }
+            return res.json({data})
+        })
+
+    }
+
+    // const sqlQuery = 'SELECT client_id, complain_id, complain_txt, com_date, com_time, complain_status, response_txt FROM client_complain WHERE manager_role = "boarding_house_manager" ';
+    // db.query(sqlQuery, (err, data) => {
+    //     if (err) {
+    //         return res.json({ message: 'There is an internal error' })
+    //     }
+    //     return res.json({ data })
+    // })
 }
 
 // add response - view client response details
@@ -323,44 +510,36 @@ export const viewRequested = async (req, res, next) => {
         const sqlQuery = 'SELECT r.pet_id, r.package_id, r.board_arrival_date, r.board_carry_date, r.board_time, r.client_id, r.request_status, p.category FROM boarding_request r INNER JOIN pet p ON r.pet_id = p.pet_id WHERE r.request_status = ? OR r.request_status = ? ';
         const values = [status1, status2]
 
-        db.query(sqlQuery, values,(err,data) => {
-            if(err){
-                return res.json({message:'There is an internal error'})
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
             }
-            return res.json({data})
+            return res.json({ data })
         });
-    }else if(id === '2') { //pending
+    } else if (id === '2') { //pending
         const status = 'Pending'
         const sqlQuery = 'SELECT r.pet_id, r.package_id, r.board_arrival_date, r.board_carry_date, r.board_time, r.client_id, r.request_status, p.category FROM boarding_request r INNER JOIN pet p ON r.pet_id = p.pet_id WHERE r.request_status = ? ';
         const values = [status]
 
-        db.query(sqlQuery, values,(err,data) => {
-            if(err){
-                return res.json({message:'There is an internal error'})
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
             }
-            return res.json({data})
+            return res.json({ data })
         });
 
-    }else if(id === '3') {
+    } else if (id === '3') {
         const status = 'Accepted'
         const sqlQuery = 'SELECT r.pet_id, r.package_id, r.board_arrival_date, r.board_carry_date, r.board_time, r.client_id, r.request_status, p.category FROM boarding_request r INNER JOIN pet p ON r.pet_id = p.pet_id WHERE r.request_status = ? ';
         const values = [status]
 
-        db.query(sqlQuery, values,(err,data) => {
-            if(err){
-                return res.json({message:'There is an internal error'})
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
             }
-            return res.json({data})
+            return res.json({ data })
         });
     }
-    // const sqlQuery = 'SELECT r.pet_id, r.package_id, r.board_arrival_date, r.board_carry_date, r.board_time, r.client_id, r.request_status, p.category FROM boarding_request r INNER JOIN pet p ON r.pet_id = p.pet_id WHERE r.request_status = "pending" OR r.request_status = "accepted" ';
-    // db.query(sqlQuery, (err, data) => {
-    //     if(err) {
-    //         return res.json({message:'There is an internal error'})
-    //     }
-    //     return res.json({data})
-    // })
-
 }
 
 // view past boarded pets

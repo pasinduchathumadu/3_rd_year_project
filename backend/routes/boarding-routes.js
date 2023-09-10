@@ -8,9 +8,9 @@ boarding_house_manager.post('/AddNewPackage',AddNewPackage)
 
 
 // boaridng requets
-boarding_house_manager.get('/view_requests',view_requests)
-boarding_house_manager.get('/view_allclients',view_allclients)
-boarding_house_manager.get('/refund_requests',refund_requests)
+boarding_house_manager.get('/view_requests/:id',view_requests)
+boarding_house_manager.get('/view_allclients/:id',view_allclients)
+boarding_house_manager.get('/refund_requests/:id',refund_requests)
 boarding_house_manager.get('/view_refundDetails/:id',view_refundDetails) 
 boarding_house_manager.get('/toRefund/:id',toRefund) 
 boarding_house_manager.get('/viewPetDetails/:id',viewPetDetails) 
@@ -21,8 +21,8 @@ boarding_house_manager.post('/ArrviedtoCompleted',ArrviedtoCompleted)
 
 // complains
 boarding_house_manager.post('/add_complain',add_complain)
-boarding_house_manager.get('/viewmyComplains',viewmyComplains)
-boarding_house_manager.get('/viewClientsComplains',viewClientsComplains)
+boarding_house_manager.get('/viewmyComplains/:id',viewmyComplains)
+boarding_house_manager.get('/viewClientsComplains/:id',viewClientsComplains)
 boarding_house_manager.get('/complainDetails/:id',complainDetails)
 boarding_house_manager.post('/addingResponse/',addingResponse)
 boarding_house_manager.get('/deleteMyComplain/:id',deleteMyComplain)
