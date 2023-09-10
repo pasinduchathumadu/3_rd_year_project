@@ -55,8 +55,8 @@ const Cages = () => {
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center',
-                height: "200px",
-                width: "1700px",
+                height: "180px",
+                width: "100%",
                 display: 'flex',
                 flexDirection: "column",
                 justifyContent: 'center',
@@ -75,96 +75,139 @@ const Cages = () => {
                 </div>
             </div>
             <div style={{ padding: '10px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                <div style={{ marginLeft: '40px' }}>
-                    <Typography sx={{ marginLeft: '180px', fontWeight: 'bold' }}>Air Conditional</Typography>
+                <div style={{ }}>
+                    <Typography sx={{ marginLeft: '20%', fontWeight: 'bold' }}>Silver Package Cages (Non Air Conditional)</Typography>
                     <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px' }}>
-                        <Typography>A</Typography>
-                        <Box sx={{ backgroundColor: 'brown', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
+                        {/* <Typography>A</Typography> */}
+                        <Box sx={{ backgroundColor: 'brown', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px' }}>
-                        <Typography>B</Typography>
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'brown', height: '80px', width: '80px', marginLeft: '10px' }} />
+                        {/* <Typography>B</Typography> */}
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'brown', height: '65px', width: '65px', marginLeft: '10px' }} />
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px' }}>
-                        <Typography>C</Typography>
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
+                        {/* <Typography>C</Typography> */}
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px' }}>
-                        <Typography>D</Typography>
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
+                        {/* <Typography>D</Typography> */}
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px' }}>
-                        <Typography>E</Typography>
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
+                        {/* <Typography>E</Typography> */}
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
                     </div>
+                   
                 </div>
-                <div style={{ marginRight: '20px' }}>
-                    <Typography sx={{ marginLeft: '220px', fontWeight: 'bold' }}>Non - Air Conditional</Typography>
+                <div style={{ }}>
+                    <Typography sx={{ marginLeft: '10%', fontWeight: 'bold' }}>Platinum Package Cages (Air Conditional)</Typography>
                     <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px' }}>
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'brown', height: '80px', width: '80px', marginLeft: '10px', marginRight: '10px' }} />
-                        <Typography>A</Typography>
+                        {/* <Typography>A</Typography> */}
+                        <Box sx={{ backgroundColor: 'brown', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px' }}>
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px', marginRight: '10px' }} />
-                        <Typography>B</Typography>
+                        {/* <Typography>B</Typography> */}
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'brown', height: '65px', width: '65px', marginLeft: '10px' }} />
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px' }}>
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px', marginRight: '10px' }} />
-                        <Typography>C</Typography>
+                        {/* <Typography>C</Typography> */}
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px' }}>
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'brown', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'brown', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px', marginRight: '10px' }} />
-                        <Typography>D</Typography>
+                        {/* <Typography>C</Typography> */}
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                    </div>
+                   
+                </div>
+                <div style={{  }}>
+                    <Typography sx={{ marginLeft: '20%', fontWeight: 'bold' }}>Gold Package Cages (Air Conditional)</Typography>
+                    <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px' }}>
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'brown', height: '65px', width: '65px', marginLeft: '10px', marginRight: '10px' }} />
+                        {/* <Typography>A</Typography> */}
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px' }}>
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px' }} />
-                        <Box sx={{ backgroundColor: 'gray', height: '80px', width: '80px', marginLeft: '10px', marginRight: '10px' }} />
-                        <Typography>E</Typography>
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px', marginRight: '10px' }} />
+                        {/* <Typography>B</Typography> */}
                     </div>
+                    <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px' }}>
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px', marginRight: '10px' }} />
+                        {/* <Typography>C</Typography> */}
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px' }}>
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'brown', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'brown', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px', marginRight: '10px' }} />
+                        {/* <Typography>D</Typography> */}
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '10px' }}>
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px' }} />
+                        <Box sx={{ backgroundColor: 'gray', height: '65px', width: '65px', marginLeft: '10px', marginRight: '10px' }} />
+                        {/* <Typography>E</Typography> */}
+                    </div>
+                   
                 </div>
             </div>
         </div>

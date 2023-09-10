@@ -39,6 +39,59 @@ export const AddNewPackage = async (req, res, next) => {
     })
 }
 
+export const BasicPackageDetails = async(req,res,next) => {
+    const sqlQuery = 'SELECT * FROM boarding_package'
+
+    db.query(sqlQuery, (err,data) => {
+        if(err){
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+
+}
+
+// get package  facility details
+// export const PackageFacilities = async (req,res,next) => {
+//     const id = req.params.id
+//     const sqlQuery = 'SELECT p.package_name, p.color, p.package_id, f.facility FROM boarding_package p INNER JOIN boarding_package_facility f ON p.package_id = f.package_id WHERE p.package_id = ? '
+//     const values = [id]
+
+//     db.query(sqlQuery, values, (err, data) => {
+//         if(err){
+//             return res.json({message:'There is an internal error'})
+//         }
+//         return res.json({data})
+//     })
+   
+// }
+export const PackageFacilities = async (req, res, next) => {
+    const id = req.params.id;
+    const sqlQuery =
+        'SELECT p.package_name, p.color, p.package_id, GROUP_CONCAT(f.facility) AS facilities ' +
+        'FROM boarding_package p ' +
+        'INNER JOIN boarding_package_facility f ON p.package_id = f.package_id ' +
+        'WHERE p.package_id = ? ' +
+        'GROUP BY p.package_name, p.color, p.package_id';
+    const values = [id];
+
+    db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internal error' });
+        }
+
+        // Transform the result to have facilities as an array
+        const transformedData = data.map((item) => ({
+            package_name: item.package_name,
+            color: item.color,
+            package_id: item.package_id,
+            facilities: item.facilities.split(', ').map((facility) => facility.trim()), // Split facilities into an array
+        }));
+
+        return res.json({ data: transformedData });
+    });
+};
+
 
 // ---------BOARDING REQUESTS---------------------------------
 
@@ -373,15 +426,6 @@ export const viewmyComplains = async (req, res, next) => {
             return res.json({ data })
         });
     }
-
-    // const sqlQuery = 'SELECT complain_id, complain_txt, com_date, com_time, complain_status, response_txt FROM manager_complain WHERE manager_role = "boarding_house_manager" ';
-
-    // db.query(sqlQuery, (err, data) => {
-    //     if (err) {
-    //         return res.json({ message: 'There is an internal error' })
-    //     }
-    //     return res.json({ data })
-    // })
 }
 
 
@@ -427,13 +471,6 @@ export const viewClientsComplains = async (req, res, next) => {
 
     }
 
-    // const sqlQuery = 'SELECT client_id, complain_id, complain_txt, com_date, com_time, complain_status, response_txt FROM client_complain WHERE manager_role = "boarding_house_manager" ';
-    // db.query(sqlQuery, (err, data) => {
-    //     if (err) {
-    //         return res.json({ message: 'There is an internal error' })
-    //     }
-    //     return res.json({ data })
-    // })
 }
 
 // add response - view client response details
