@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
-import ProfilePicture from '../../assests/profile-picture.png';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -42,12 +41,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const Refund = () => {
-    // drop down
-    const [clients, setClients] = React.useState('1');
-    const handleChange = (event) => {
-        setClients(event.target.value);
-    };
-
     const [refund, setrefund] = useState(0);
     const handleForm = (event, existing_value) => {
         setrefund(existing_value)
@@ -61,22 +54,25 @@ const Refund = () => {
 
     // BOARDING HOUSE
     // view boarding house refundd details
+    const [clients, setClients] = React.useState('1'); //drop down
+    const handleChange = (event) => {
+        setClients(event.target.value);
+        boardingRefund()
+    };
     const [boardingrf, setboardingrf] = useState("");
     const boardingRefund = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/pet_care/admin/boardingRefund')
-            const data = await res.data
-            return data
+            const res = await axios.get(`http://localhost:5000/pet_care/admin/boardingRefund/${clients}`)
+            setboardingrf(res.data.data)
 
         } catch (err) {
-            console.log("There is an internal error")
+            console.log(clients)
+            console.log(err)
         }
     }
     useEffect(() => {
         boardingRefund()
-            .then((data) => setboardingrf(data.data))
-            .catch((err) => console.log(err))
-    })
+    }, [clients, boardingRefund])
 
     // view refunded verification done details
     const [redetails, setredetails] = useState([])
@@ -180,22 +176,26 @@ const Refund = () => {
 
     // CARE CENTER
     // view carecenter  refundd details
+    const [clients1, setClients1] = React.useState('1'); //drop down
+    const handleChange1 = (event) => {
+        setClients1(event.target.value);
+        carecenterRefund()
+    };
     const [carerf, setcarerf] = useState("");
     const carecenterRefund = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/pet_care/admin/carecenterRefund')
-            const data = await res.data
-            return data
+            const res = await axios.get(`http://localhost:5000/pet_care/admin/carecenterRefund/${clients1}`)
+            setcarerf(res.data.data)
 
         } catch (err) {
-            console.log("There is an internal error")
+            console.log(clients1)
+            console.log(err)
         }
     }
     useEffect(() => {
         carecenterRefund()
-            .then((data) => setcarerf(data.data))
-            .catch((err) => console.log(err))
-    })
+    },[clients1, carecenterRefund])
+
 
     const [ccverify, setccverify] = useState() // form for verify
     // view bank slip & details for verify
@@ -313,6 +313,9 @@ const Refund = () => {
                     <p class="top-line-text">{date}</p>
                 </div>
                 <div className="top-line">
+                    <p style={{ fontSize: '20px', fontWeight: 1000, color: 'black' }}>Refund Verifications</p>
+                </div>
+                <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
                     <img
                         src={getProfileImageSrc("admin.jpg")}
@@ -345,7 +348,7 @@ const Refund = () => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={clients}
+                                    
                                     variant='filled'
                                     label="clients"
                                     onChange={handleChange}
@@ -403,10 +406,10 @@ const Refund = () => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={clients}
+                                    
                                     variant='filled'
                                     label="clients"
-                                    onChange={handleChange}
+                                    onChange={handleChange1}
                                     l
                                     sx={{ fontSize: '11px' }}
                                 >

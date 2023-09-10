@@ -1,13 +1,10 @@
-import { Typography, Button, Link } from '@mui/material';
+import { Typography, Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import React from 'react';
 import BackgroundImage from '../../assests/boarding_cover.jpg';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ProfilePicture from '../../assests/profile-picture.png';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useNavigate } from 'react-router';
-// import {  useNavigate } from "react-router";
-
 
 const Cages = () => {
     const input = new Date()
@@ -38,6 +35,11 @@ const Cages = () => {
                     <p className="top-line-text">Today</p>
                     <p class="top-line-text">{date}</p>
                 </div>
+
+                <div className="top-line">
+                    <p style={{ fontSize: '20px', fontWeight: 1000, color: 'black' }}>Boarding Cage Structure</p>
+                </div>
+
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
                     <Button onClick={profile}><img src={getProfilepicturepath("boarding_profile.jpeg")} alt="profilepicture" className="boarding-profile-picture" /></Button>

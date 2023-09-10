@@ -1,7 +1,5 @@
-
 import React, { useEffect, useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
-import ProfilePicture from '../../assests/profile-picture.png';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { Alert, IconButton, Tab, Typography } from "@mui/material";
@@ -47,11 +45,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const Complains = () => {
-    // drop down
-    // const [clients, setClients] = React.useState('1');
-    // const handleChange = (event) => {
-    //     setClients(event.target.value);
-    // };
 
     const [own, setOwn] = useState(0);
     const handleForm = (event, existing_value) => {
@@ -59,7 +52,6 @@ const Complains = () => {
     };
     const [form, setForm] = useState(false);
     const [addResponce, setaddResponce] = useState(false);
-    // const [viewResponce, setviewResponce] = useState(false);
 
     // after click on add new complain button
     const addForm = () => {
@@ -255,6 +247,9 @@ const Complains = () => {
                     <p>Boarding House Manager</p>
                     <p className="top-line-text">Today</p>
                     <p class="top-line-text">{date} </p>
+                </div>
+                <div className="top-line">
+                    <p style={{ fontSize: '20px', fontWeight: 1000, color: 'black' }}>Complains Section</p>
                 </div>
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
@@ -553,8 +548,7 @@ const Complains = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    // Adjust as needed
-                    marginRight: '300px', // Adjust as needed
+                    marginRight: '300px',
                     zIndex: 1001,
                     marginTop: '10%'
                 }}>
@@ -564,7 +558,7 @@ const Complains = () => {
                             borderRadius: '5px',
                             backgroundColor: '#f0f0f5',
                             width: '500px',
-                            position: 'relative', // Add this to ensure content appears on top of the overlay
+                            position: 'relative',
                             zIndex: 1001
                         }}>
                             <Typography sx={{ textAlign: 'center' }}>Confirm Remove? </Typography>

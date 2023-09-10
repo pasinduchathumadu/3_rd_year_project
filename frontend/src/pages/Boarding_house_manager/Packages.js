@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
-// import ProfilePicture from '../../assests/profile-picture.png';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
-// import CheckIcon from '@mui/icons-material/Check';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { FormLabel, TextField, Typography, IconButton } from "@mui/material";
@@ -31,15 +29,6 @@ const Packages = () => {
     const [form, setForm] = useState(false); //add new package form
     const [updateform, setUpdateform] = useState(false); //update form
     const [popularity, setPopularity] = useState(false); // popularity
-
-    // const [error, seterror] = useState(false) //error handling
-
-    // after click on add new package button
-    // const Change = () => {
-    //     setNew(false);
-    //     setForm(true);
-    // }
-
 
     // after click on update icon
     const update = () => {
@@ -71,17 +60,6 @@ const Packages = () => {
     }
     const input = new Date();
     const date = input.toDateString();
-
-    // after entering details of a new package
-    // const [packageName, setPackage] = useState(" ")
-    // const [price, setPrice] = useState(" ")
-    // const [first, setFirst] = useState(" ")
-    // const [second, setSecond] = useState(" ")
-    // const [third, setThird] = useState(" ")
-    // const [fourth, setFourth] = useState(" ")
-    // const [fifth, setFifth] = useState(" ")
-
-    // const [message, setMessage] = useState(' ')
 
     // view packages popularity
     const [pckg, setpckg] = useState("")
@@ -186,6 +164,10 @@ const Packages = () => {
                     <p>Boarding House Manager</p>
                     <p className="top-line-text">Today</p>
                     <p class="top-line-text">{date}</p>
+                </div>
+
+                <div className="top-line">
+                    <p style={{ fontSize: '20px', fontWeight: 1000, color: 'black' }}>Boarding Packages</p>
                 </div>
 
                 <div className="top-line">
