@@ -254,15 +254,18 @@ export const petDeleteing = async(req,res,next) => {
         return res.json({message:'Deleted Successfully'})
     })
 }
-
-export const submit = async(req,res,next)=>{
-    const {first,last,email} = req.body
-    console.log(first)
-    const sqlQuery = "INSERT INTO employee(first_name,last_name,email)VALUES(?,?,?)"
+// register caregivers
+export const caregiver_reg = async(req,res,next)=>{
+    const {first,last,email,number,address,grooming,image} = req.body
+    const sqlQuery = "INSERT INTO employee(first_name,last_name,email,contact_number,address,type,image)VALUES(?,?,?,?,?,?,?)"
     const checkvalue = [
         first,
         last,
-        email
+        email,
+        number,
+        address,
+        grooming,
+        image
     ]
     db.query(sqlQuery,checkvalue,(err,data)=>{
         if(err){

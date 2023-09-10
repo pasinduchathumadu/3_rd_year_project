@@ -1,5 +1,6 @@
 import express from "express";
-import {viewmycomplain, viewClientcomplains, complainDetails, addResponse, add_complain, deleteMyComplain,refund_appointments, refundAdding,toRefund,ViewRefundDetails, addingpet,petViewing,petDeleteing,submit, get_training, get_groom_apo, get_employee, leave} from "../controllers/carecenter-controller.js";
+import {viewmycomplain, viewClientcomplains, complainDetails, addResponse, add_complain, 
+    deleteMyComplain,refund_appointments, refundAdding,toRefund,ViewRefundDetails, addingpet,petViewing,petDeleteing, get_training, get_groom_apo, get_employee,caregiver_reg, leave} from "../controllers/carecenter-controller.js";
 const care_center_route = express.Router()
 
 // COMPLAINS 
@@ -21,9 +22,12 @@ care_center_route.post('/addingpet', addingpet);
 care_center_route.get('/petViewing', petViewing);
 care_center_route.get('/petDeleteing/:id', petDeleteing);
 care_center_route.get('/get_employee',get_employee)
-care_center_route.post('/submit',submit)
+care_center_route.post('/caregiver_reg',caregiver_reg);
 care_center_route.get('/get_groom_apo',get_groom_apo)
 care_center_route.get('/get_training',get_training)
+
+// GROOMING CENTER
+
 
 care_center_route.post('/leave',leave)
 

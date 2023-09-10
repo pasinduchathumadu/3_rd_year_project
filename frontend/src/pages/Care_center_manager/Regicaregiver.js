@@ -8,16 +8,26 @@ function Regicaregiver(){
    const [first ,setfirst] = useState("")
    const [last , setlast] = useState("")
    const [email , setemail] = useState("")
+   const [number , setnumber] = useState("")
+   const [address , setaddress] = useState("")
+   const [grooming , setgrooming] = useState("")
+   const [image , setimage] = useState("")
+
+
 
    const [sucess , setsuccess] = useState(false)
   
-   const submit = async()=>{
+   const caregiver_reg = async()=>{
   
     try{
-        const res = await axios.post('http://localhost:5000/pet_care/care_center_manager/submit',{
+        const res = await axios.post('http://localhost:5000/pet_care/care_center_manager/caregiver_reg',{
             first,
             last,
-            email
+            email,
+            number,
+            address,
+            grooming,
+            image
     })
         if(res.data.message === "insert"){
             setsuccess(true)
@@ -57,33 +67,31 @@ function Regicaregiver(){
                 <input type="email" className="form-control1" onChange={(e)=>setemail(e.target.value)}  id="inputEmail4"></input>
             </div>
             <div className="col1-mid-2">
-                <label for="inputPassword4" className="form-label1">Password</label>
-                <input type="password" className="form-control1"   id="inputPassword4"></input>
+            <label for="inputEmail4" className="form-label1">Contact Number</label>
+                <input type="text" className="form-control1"onChange={(e)=>setnumber(e.target.value)}  placeholder="" aria-label="Last name"></input>
             </div>
             </div>
 
             <div  className="col1">
             <div className="col1-mid-1">
                 <label for="inputAddress" className="form-label1">Address</label>
-                <input type="text" className="form-control1"  id="inputAddress" placeholder=""></input>
+                <input type="text" className="form-control1"  id="inputAddress" placeholder="" onChange={(e)=>setaddress(e.target.value)}></input>
             </div>
             <div className="col1-mid-2">
-                <label for="inputAddress2" className="form-label1">Address 2</label>
-                <input type="text" className="form-control1" id="inputAddress2" placeholder=""></input>
-            </div>
+                <label for="grooming" className="form-label1">Grooming Type</label>
+                <select id="grooming" className="form-select"  onChange={(e)=>setgrooming(e.target.value)}>
+                <option selected>Bath</option>
+                <option>Bath and Haircut</option>
+                </select>
+                </div>
             </div>
 
             <div  className="col1">
             <div className="col1-mid-1">
-                <label for="inputCity" className="form-label1">City</label>
-                <input type="text" className="form-control1" id="inputCity"></input>
+                <label for="inputCity" className="form-label1">Image</label>
+                <input type="text" className="form-control1" id="inputCity" onChange={(e)=>setimage(e.target.value)}></input>
             </div>
             <div className="col1-mid-2">
-                <label for="inputState" className="form-label1">Province</label>
-                <select id="inputState" className="form-select">
-                <option selected>Western Province</option>
-                <option>...</option>
-                </select>
                 </div>
                 </div>
                 {sucess &&(
@@ -94,7 +102,7 @@ function Regicaregiver(){
 
                 )}
             <div className="submitbtn">
-            <Button  onClick={submit} className="registerbtn">REGISTER</Button>
+            <Button  onClick={caregiver_reg} className="registerbtn">REGISTER</Button>
             </div>
 
         </form>

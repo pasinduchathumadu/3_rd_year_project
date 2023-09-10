@@ -951,6 +951,6 @@ function App() {
       </main>
     </React.Fragment>
   );
-};
+}
 
-export default Bording;
+export default App;
