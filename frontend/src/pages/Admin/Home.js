@@ -2,10 +2,6 @@ import React, { useEffect, useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
-import Box from '@mui/material/Box';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import { PieChart } from '@mui/x-charts/PieChart';
 import PeopleIcon from '@mui/icons-material/People';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -15,12 +11,7 @@ import axios from "axios";
 import PetsIcon from '@mui/icons-material/Pets';
 
 const Home = () => {
-    // drop down
-    const [time, setTime] = React.useState('1');
-
-    const handleChange = (event) => {
-        setTime(event.target.value);
-    };
+    
     const input = new Date();
     const date = input.toDateString();
 
@@ -146,23 +137,6 @@ const Home = () => {
                         <AnalyticsIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'orange' }} />
                         <h3>Analytical Overview</h3>
                     </div>
-                    <Box sx={{ width: '120px', marginLeft: '70%' }}>
-                        <FormControl fullWidth>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={time}
-                                variant='filled'
-                                label="Time"
-                                onChange={handleChange}
-                                l
-                                sx={{ fontSize: '12px' }}>
-                                <MenuItem value={1}>Today</MenuItem>
-                                <MenuItem value={2}>Last 7 days</MenuItem>
-                                <MenuItem value={3}>Last Month</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Box>
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>

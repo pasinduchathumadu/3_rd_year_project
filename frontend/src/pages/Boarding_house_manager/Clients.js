@@ -298,6 +298,9 @@ const Clients = () => {
                     <p class="top-line-text">{date}</p>
                 </div>
                 <div className="top-line">
+                    <p style={{ fontSize: '20px', fontWeight: 1000, color: 'black' }}>Boarding Requests</p>
+                </div>
+                <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
                     <Button onClick={profile}><img src={getProfilepicturepath("boarding_profile.jpeg")} alt="profilepicture" className="boarding-profile-picture" /></Button>
                 </div>
@@ -614,7 +617,7 @@ const Clients = () => {
                             borderRadius: '10px',
                             width: '1000px',
                             padding: '20px',
-                            position: 'relative', // Add this to ensure content appears on top of the overlay
+                            position: 'relative', 
                             zIndex: 1001,
                             backgroundColor: 'black'
                         }}>
@@ -750,20 +753,12 @@ const Clients = () => {
                                                 id="outlined-disabled"
                                                 label=""
                                                 onChange={handleAmount}
-                                            // defaultValue={drow1.refund_mny}
                                             /></div>
                                     </Box>
                                 </div>
 
                                 <div className="form-label">
                                     <FormLabel>Upload Bank Slip : </FormLabel>
-                                    {/* <TextField
-                                        sx={{ marginRight: '20px', marginLeft: '10px' }}
-                                        type="file"
-                                        variant="outlined"
-                                        placeholder="Choose a file"
-                                        inputProps={{ accept: 'image/*' }} 
-                                    /> */}
                                     <div style={{ display: 'inline' }}>
                                         <Button
                                             variant="contained"
