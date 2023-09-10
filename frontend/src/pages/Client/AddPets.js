@@ -25,10 +25,10 @@ const AddPets = () => {
     const [error, seterror] = useState(false);
     // const [success, setsuccess] = useState(false);
     const [message, setmessage] = useState("")
-    const [name, setname] = useState(" ");
-    const [breed, setbreed] = useState(" ");
-    const [petcategory, setpetcategory] = useState(" ");
-    const [petsex, setpetsex] = useState(" ");
+    const [name, setname] = useState("");
+    const [breed, setbreed] = useState("");
+    const [petcategory, setpetcategory] = useState("");
+    const [petsex, setpetsex] = useState("");
     const [viewpet, setviewpet] = useState([]);
 
     const handleChangeCategory = (event) => {
@@ -53,7 +53,7 @@ const AddPets = () => {
 
     // pet adding
     const addpet = async () => {
-        if (petcategory === '' || name === '' || breed === '' || petsex === '') {
+        if (petcategory === "" || name === "" || breed === "" || petsex === "") {
             seterror(true)
             setmessage("Please fill all the field")
             return;

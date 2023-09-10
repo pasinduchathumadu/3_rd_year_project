@@ -50,10 +50,11 @@ const BoardPets = () => {
         setPresent(existing_value);
     };
     // drop down
-    const [clients, setClients] = React.useState('1');
-    const handleChange = (event) => {
-        setClients(event.target.value);
-    };
+    // const [clients, setClients] = React.useState('1');
+    // const handleChange = (event) => {
+    //     setClients(event.target.value);
+
+    // };
 
     const [currentvideo, setcurrentvideo] = useState(false);
     const [pastvideo, setpastvideo] = useState(false);
@@ -102,22 +103,29 @@ const BoardPets = () => {
     })
 
     // view requested pets (pending & accepted)
-    const [requested, setrequested] = useState("");
+    const [clients, setClients] = React.useState('1');
+    const [count1, setcount1] = useState([])
+
+    const handleChange = (event) => {
+        setClients(event.target.value);
+
+        viewRequested()  
+    };
+    //  FILTERING 
     const viewRequested = async() => {
         try{
-            const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/viewRequested')
-            const data = await res.data
-            return data
-
+            const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/viewRequested/${clients}`)
+            setcount1(res.data.data)
+            setClients('')
         }catch(err) {
-            console.log("There is an internal error")
+            console.log(clients)
+            console.log(err)
         }
     }
+
     useEffect(() => {
         viewRequested()
-        .then((data) => setrequested(data.data))
-        .catch((err) => console.log(err))
-    })
+    },[clients, viewRequested]);
 
     // view past boarded pets
     const [boarded, setboarded] = useState("")
@@ -226,12 +234,13 @@ const BoardPets = () => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={clients}
+                                   
                                     variant='filled'
-                                    label="clients"
+                                    label="Clients"
+                                    
                                     onChange={handleChange}
                                     l
-                                    sx={{ fontSize: '11px' }}>
+                                    sx={{ fontSize: '12px' }}>
                                     <MenuItem value={1}>All</MenuItem>
                                     <MenuItem value={2}>Pending</MenuItem>
                                     <MenuItem value={3}>Accepted</MenuItem>
@@ -257,7 +266,7 @@ const BoardPets = () => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {requested && requested.map((request,next) => (
+                                    {count1 && count1.map((request,next) => (
                                         <StyledTableRow key={request.pet_id}>
                                             <StyledTableCell align="center">{request.pet_id}</StyledTableCell>
                                             <StyledTableCell align="center">{request.category}</StyledTableCell>

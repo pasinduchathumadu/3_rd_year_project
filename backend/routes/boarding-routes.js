@@ -29,7 +29,7 @@ boarding_house_manager.get('/deleteMyComplain/:id',deleteMyComplain)
 
 // boarding pets
 boarding_house_manager.get('/viewCurrent',viewCurrent)
-boarding_house_manager.get('/viewRequested',viewRequested)
+boarding_house_manager.get('/viewRequested/:id',viewRequested)
 boarding_house_manager.get('/viewBoarded',viewBoarded)
 
 // dashboard
