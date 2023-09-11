@@ -314,7 +314,7 @@ function Viw_vet() {
                         <Tab sx={{ backgroundColor: value === 1 ? "orange" : "white", color: value === 1 ? "white" : "black", }} label="Week Days" />
                     </Tabs>
                 </Box>
-                <Button onClick={() => switchtoadd()} sx={{ backgroundColor: 'black', color: 'white', width: '10%', borderRadius: '5%', marginLeft: '0%' }}>Add Vet</Button>
+                <Button onClick={() => switchtoadd()} sx={{ backgroundColor: 'black', color: 'white', width: '10%', borderRadius: '5%', marginLeft: '0%' ,':hover':{backgroundColor:'black'}}}>Add Vet</Button>
             </Grid>
 
             {/* pet grooming  */}
