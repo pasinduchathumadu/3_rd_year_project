@@ -67,6 +67,22 @@ export default function TemporaryDrawer({
       "company_complains",
       "company_blog",
     ];
+  }
+  else if (userType === "medi_help_manager") {
+    data = [
+      "Dashbord",
+      "Appointments",
+      "Doctors",
+      "Pet Profiles",
+      "Complaints"
+    ];
+    data_link = [
+      "medi_dashboard",
+      "viewAppointments",
+      "view_vet",
+      "PetProfiles",
+      "medi_complaint",
+    ];
   } else {
     // Default values if userType doesn't match any of the conditions
     data = [];
