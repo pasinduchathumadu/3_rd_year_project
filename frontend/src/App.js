@@ -186,7 +186,7 @@ function App() {
       navigate("/company_dashboard");
       localStorage.setItem("company_manager", email);
     } else if (role === "medi_help_manager") {
-      navigate("/Doctors");
+      navigate("/medi_dashboard");
       localStorage.setItem("medi_help_manager", email);
     }
   };
