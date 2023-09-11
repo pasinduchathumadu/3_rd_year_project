@@ -24,6 +24,8 @@ import { BarChart } from '@mui/x-charts/BarChart';
 import { PieChart } from '@mui/x-charts/PieChart';
 import TableViewIcon from '@mui/icons-material/TableView';
 import { ResponsiveChartContainer, LinePlot, useDrawingArea} from '@mui/x-charts';
+import { useNavigate } from "react-router";
+
 
 const StyledPath = styled('path')(({ theme }) => ({
     fill: 'none',
@@ -88,6 +90,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 
 const Dashboard = () => {
+    const navigate = useNavigate("")
+
+    const input = new Date();
+    const date = input.toDateString();
     // drop down
     const [time, setTime] = React.useState('1');
 
@@ -109,14 +115,25 @@ const Dashboard = () => {
         setmain(true);
     }
 
+     // connect profile 
+     const profile = () => {
+        navigate("/profile")
+    }
+
+    // get profile picture
+    const getProfilepicturepath = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+
+    }
+
     return (
 
         <div className="home-container" style={{ marginTop: '4%'}}>
             <div className="top">
                 <div className="top-line">
-                    <p>Medi Care Manager</p>
+                    <p>Medi Help Center Manager</p>
                     <p className="top-line-text">Today</p>
-                    <p class="top-line-text">18 June 2023</p>
+                    <p class="top-line-text">{date}</p>
                 </div>
                 <div className="top-line">
                     <p style={{ fontSize: '20px', fontWeight: 1000, color: 'black' }}>DashBoard</p>
@@ -124,10 +141,13 @@ const Dashboard = () => {
 
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
-                    <img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" />
+                    <Button onClick={profile}>
+                        <img src={getProfilepicturepath("medi_profile.jpg")} 
+                            alt="profilepicture" 
+                            className="boarding-profile-picture" />
+                    </Button>
                 </div>
             </div>
-
 
             <div className="boarding-wrapper-main" style={{ width:'1500px'}}>
                 <div className="boarding-wrapper" style={{ backgroundColor: '#3d3b3b', height: '250px' ,width:'1000px'}}>

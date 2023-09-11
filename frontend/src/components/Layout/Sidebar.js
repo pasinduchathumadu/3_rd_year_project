@@ -81,7 +81,7 @@ export default function TemporaryDrawer({
       "viewAppointments",
       "view_vet",
       "PetProfiles",
-      "medi_complaint",
+      "medi_complaints",
     ];
   } else {
     // Default values if userType doesn't match any of the conditions
