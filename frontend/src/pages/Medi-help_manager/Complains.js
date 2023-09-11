@@ -9,6 +9,8 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import CloseIcon from '@mui/icons-material/Close';
 import { styled } from '@mui/material/styles';
+import { useNavigate } from "react-router";
+
 
 import axios from "axios";
 
@@ -32,8 +34,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const Complain = () => {
+  const navigate = useNavigate("")
+
   const input = new Date();
   const date = input.toDateString();
+
   const [id, setid] = useState("")
   const [value, setvalue] = useState(0);
   const [Complain, setcomplain] = useState("");
@@ -179,7 +184,16 @@ const Complain = () => {
     setvalue(new_value);
   };
 
+  // connect profile 
+  const profile = () => {
+    navigate("/profile")
+  }
 
+  // get profile picture
+  const getProfilepicturepath = (imageName) => {
+    return require(`../../../../backend/images/store/${imageName}`)
+
+  }
 
 
   return (
@@ -187,36 +201,26 @@ const Complain = () => {
 
       <div>
         <Grid sx={{ marginTop: '4%', marginRight: '2%', marginLeft: '2%', marginBottom: '2%' }}>
-          <div style={{ display: 'flex' }}>
-            <div style={{ display: 'inline', marginTop: '30px', marginLeft: '2%' }}>
-              <Typography>
-               Medi Care Manager
-              </Typography>
-              <Typography>
-                Today
-              </Typography>
-              <Typography>
-                {date}
-              </Typography>
+          <div className="top">
+            <div className="top-line">
+              <p>Medi Help Center Manager</p>
+              <p className="top-line-text">Today</p>
+              <p class="top-line-text">{date}</p>
             </div>
-            <div style={{ display: 'inline', marginTop: '30px', paddingLeft: '450px' }}>
-              <Typography sx={{ color: 'black', fontSize: '24px', fontFamily: 'fantasy', display: 'flex', alignItems: 'center' }}>
-                Complain Section
-              </Typography>
+            <div className="top-line">
+              <p style={{ fontSize: '20px', fontWeight: 1000, color: 'black' }}>Appointments</p>
             </div>
-            <div style={{ display: 'flex', marginLeft: 'auto', alignItems: 'center', justifyContent: 'center' }}>
-              <div>
-                <NotificationsIcon sx={{ marginTop: '1%' }} />
-              </div>
-              <div style={{ marginLeft: '1%' }}>
-                <Stack direction="row" spacing={2}>
-                  <Avatar alt="Travis Howard" src={profile} sx={{ width: 60, height: 60 }} />
-                </Stack>
 
-              </div>
-
+            <div className="top-line">
+              <NotificationsIcon className="bell-icon" />
+              <Button onClick={profile}>
+                <img src={getProfilepicturepath("medi_profile.jpg")}
+                  alt="profilepicture"
+                  className="boarding-profile-picture" />
+              </Button>
             </div>
           </div>
+
           <Grid>
             <Box sx={{ width: "90%", marginTop: '15px', marginLeft: '3%' }}>
               <Tabs

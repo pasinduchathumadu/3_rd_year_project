@@ -17,10 +17,7 @@ import { useNavigate } from "react-router";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import axios from "axios";
 
-
-
 function Viw_vet() {
-
     const [menu, setemp] = useState([])
     const [id, setid] = useState("")
     const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -28,10 +25,10 @@ function Viw_vet() {
     const [isPopupOpen2, setIsPopupOpen2] = useState(false);
     const [dateStart, setDateStart] = useState("");
     const [dateEnd, setDateEnd] = useState("");
-    const [count , setcount ] = useState("")
+    const [count, setcount] = useState("")
     const [error, seterror] = useState(false)
     const [message, setmessage] = useState("")
-    const[ price ,setprice1] = useState("")
+    const [price, setprice1] = useState("")
 
 
     const openPopup = (id) => {
@@ -53,11 +50,6 @@ function Viw_vet() {
         setIsPopupOpen1(false)
         setIsPopupOpen2(false)
     };
-
-
-
-
-
 
     const input = new Date();
     const date = input.toDateString();
@@ -97,44 +89,37 @@ function Viw_vet() {
         }
     }
 
-    const set_count = async()=>{
-        if(count <1){
+    const set_count = async () => {
+        if (count < 1) {
             seterror(true)
             setmessage("Please Fill the Positive Number")
             return
         }
-        const res = await axios.post('http://localhost:5000/pet_care/medi_help_manager/setcount',{
+        const res = await axios.post('http://localhost:5000/pet_care/medi_help_manager/setcount', {
             count,
             id
         })
-        if(res.data.message === "updated"){
+        if (res.data.message === "updated") {
             closePopup()
         }
     }
-    const price_change = async()=>{
-        if(price <0){
+    const price_change = async () => {
+        if (price < 0) {
             seterror(true)
             setmessage("Please Fill the Positive Number")
             return
         }
-        const res = await axios.post('http://localhost:5000/pet_care/medi_help_manager/setprice',{
+        const res = await axios.post('http://localhost:5000/pet_care/medi_help_manager/setprice', {
             price,
             id
         })
-        if(res.data.message === "updated"){
+        if (res.data.message === "updated") {
             closePopup()
         }
     }
 
     const navigate = useNavigate("")
 
-    const profile = () => {
-        navigate("/profile")
-    }
-
-    const getProfilepicturepath = (imageName) => {
-        return require(`../../../../backend/images/store/${imageName}`)
-    }
     const getImageSrc = (imageName) => {
         return require(`../../../../backend/images/store/${imageName}`)
     };
@@ -156,63 +141,42 @@ function Viw_vet() {
             .catch((err) => console.log(err))
     })
 
+    // connect profile 
+    const profile = () => {
+        navigate("/profile")
+    }
+
+    // get profile picture
+    const getProfilepicturepath = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+
+    }
+
     return (
         <>
-            <div style={{ display: "flex", marginTop: '4%' }}>
-                <div
-                    style={{
-                        display: "inline",
-                        marginTop: "30px",
-                        marginLeft: "2%",
-                        width: "33.3%",
-                    }}
-                >
-                    <Typography>Medi Center Manager</Typography>
-                    <Typography>Today</Typography>
-                    <Typography>{date}</Typography>
+            <div className="home-container" style={{ marginTop: '4%'}}>
+            <div className="top">
+                <div className="top-line">
+                    <p>Medi Help Center Manager</p>
+                    <p className="top-line-text">Today</p>
+                    <p class="top-line-text">{date}</p>
                 </div>
-                <div
-                    style={{
-                        display: "flex",
-                        marginTop: "30px",
-                        width: "33.3%",
-                        justifyContent: "center",
-                    }}
-                >
-                    <Typography
-                        sx={{
-                            color: "black",
-                            fontSize: "24px",
-                            fontFamily: "fantasy",
-                            display: "flex",
-                            alignItems: "center",
-                        }}
-                    >
-                        Medi Care Center
-                    </Typography>
+                <div className="top-line">
+                    <p style={{ fontSize: '20px', fontWeight: 1000, color: 'black' }}>Doctors</p>
                 </div>
-                <div
-                    style={{
-                        display: "flex",
-                        width: "33.3%",
-                        alignItems: "center",
-                        marginTop: "20px",
-                    }}
-                >
-                    <div style={{ display: 'flex', marginLeft: 'auto', alignItems: 'center', justifyContent: 'center' }}>
-                        <div style={{ marginLeft: '130%' }}><Stack direction="row" spacing={2} width={300}>
-                            <NotificationsIcon />
-                            <Button onClick={profile}>
-                                <img
-                                    alt="profilepicture"
-                                    src={getProfilepicturepath("carecenter_profile.png")}
-                                    style={{ width: 'auto', height: '60px' }}
-                                />
-                            </Button>
-                        </Stack>
-                        </div>
-                    </div>
+
+                <div className="top-line">
+                    <NotificationsIcon className="bell-icon" />
+                    <Button onClick={profile}>
+                        <img src={getProfilepicturepath("medi_profile.jpg")} 
+                            alt="profilepicture" 
+                            className="boarding-profile-picture" />
+                    </Button>
                 </div>
+            </div>
+
+
+
             </div>
             <Grid sx={{ marginLeft: '100px' }}>
                 <Box
@@ -267,7 +231,7 @@ function Viw_vet() {
 
 
                                         <Typography variant="body2" sx={{ color: "black", marginBottom: '9px', fontSize: '14px' }}>Working - {menu.working}</Typography>
-                                        <Typography variant="body2" sx={{ color: 'red', fontSize: '20px',marginBottom:'2%' }}>Chanelling Fee - RS.{menu.fee}</Typography>
+                                        <Typography variant="body2" sx={{ color: 'red', fontSize: '20px', marginBottom: '2%' }}>Chanelling Fee - RS.{menu.fee}</Typography>
                                         <Button
                                             sx={{ backgroundColor: 'black', marginRight: '1%', color: 'white', ':hover': { backgroundColor: "black" } }}
                                             onClick={() => {
@@ -329,7 +293,7 @@ function Viw_vet() {
 
 
                                         <Typography variant="body2" sx={{ color: "black", marginBottom: '9px', fontSize: '14px' }}>Working - {menu.working}</Typography>
-                                        <Typography variant="body2" sx={{ color: 'red', fontSize: '20px',marginBottom:'2%' }}>Chanelling Fee - RS.{menu.fee}</Typography>
+                                        <Typography variant="body2" sx={{ color: 'red', fontSize: '20px', marginBottom: '2%' }}>Chanelling Fee - RS.{menu.fee}</Typography>
                                         <Button
                                             sx={{ backgroundColor: 'black', marginRight: '1%', color: 'white', ':hover': { backgroundColor: "black" } }}
                                             onClick={() => {
@@ -403,7 +367,7 @@ function Viw_vet() {
                 <DialogTitle>Update The Numeber of Appointments Per Day</DialogTitle>
                 <DialogContent >
                     <DialogContentText sx={{ paddingBottom: '1%' }}>Enter New Appointments count:</DialogContentText>
-                   
+
                     <TextField
                         placeholder="Appointment Count"
                         type="number"
@@ -412,8 +376,8 @@ function Viw_vet() {
                         onChange={(e) => setcount(e.target.value)}
                         sx={{ marginBottom: 2 }}
                     />
-                   
-                  
+
+
                 </DialogContent>
                 {error && (
                     <Stack sx={{ width: '75%', marginLeft: '3%' }} spacing={2}>
@@ -438,7 +402,7 @@ function Viw_vet() {
                 <DialogTitle>Update The Chanelling Fee</DialogTitle>
                 <DialogContent >
                     <DialogContentText sx={{ paddingBottom: '1%' }}>Enter New Appointments count:</DialogContentText>
-                   
+
                     <TextField
                         placeholder="Appointment Fee"
                         type="number"
@@ -447,8 +411,8 @@ function Viw_vet() {
                         onChange={(e) => setprice1(e.target.value)}
                         sx={{ marginBottom: 2 }}
                     />
-                   
-                  
+
+
                 </DialogContent>
                 {error && (
                     <Stack sx={{ width: '75%', marginLeft: '3%' }} spacing={2}>
