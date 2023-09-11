@@ -17,7 +17,7 @@ function AddBlog() {
     const date = input.toDateString();
     const [old_comments, get_comment] = useState("")
     const [value, setValue] = useState(0);
-    const [id, setid] = useState(null)
+   
     const [blog, setblog] = useState("")
     const [Categories, setcategories] = useState("")
     const [success, setsuccess] = useState(false)
@@ -25,10 +25,12 @@ function AddBlog() {
     const [selectfile, setfile] = useState(null)
     const [update_message, setupdate_message] = useState(false)
     const [update_error, setupdate_error] = useState(false)
+
     const [description, setdescription] = useState("")
     const [title, settitle] = useState("")
     const [comments, setcomment] = useState(null)
     const [author, setpublisher] = useState("")
+
     const [image, setimage] = useState("")
     const [show, setShow] = useState(false)
     const [formIndex, setFormIndex] = useState(null);
