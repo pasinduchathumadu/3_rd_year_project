@@ -960,19 +960,19 @@ export const view_pets = async (req, res, next) => {
 }
 
 // delete pets
-export const deletePet = async(req,res,next) => {
+export const deletePet = async (req, res, next) => {
   // const email = req.params.email
   const id = req.params.id
 
   const sqlQuery = 'DELETE from pet WHERE pet_id = ?'
   const values = [id]
 
-  db.query(sqlQuery, values, (err,data) => {
-    if(err){
-      return res.json({message:'There is an internal error'})
+  db.query(sqlQuery, values, (err, data) => {
+    if (err) {
+      return res.json({ message: 'There is an internal error' })
     }
-    return res.json({message:'Deleted'})
-  } )
+    return res.json({ message: 'Deleted' })
+  })
 }
 
 
@@ -1332,6 +1332,149 @@ export const blog_post = async (req, res, next) => {
     return res.json({ message: "Added" })
   })
 
+}
+
+// CLIENTS COMPLAINS
+// view complains
+export const viewmyComplains = async (req, res, next) => {
+  const {
+    email,
+    clients
+  } = req.body;
+
+  if (clients === 1) {
+    const checkQuery = 'SELECT client_id FROM client WHERE email = ?'
+    const checkValues = [email]
+
+    db.query(checkQuery, checkValues, (err, data) => {
+      if (err) {
+        return res.json({ message: 'There is an internal error' })
+      }
+
+      const sqlQuery = 'SELECT * FROM client_complain WHERE client_id = ?'
+      const values = [data[0].client_id]
+
+      db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+          return res.json({ message: 'There is an internal error' })
+        }
+        return res.json({ data })
+      })
+    })
+  }else if(clients === 2) {
+    const status = 'pending'
+    const checkQuery = 'SELECT client_id FROM client WHERE email = ?'
+    const checkValues = [email]
+  
+    db.query(checkQuery, checkValues, (err, data) => {
+      if (err) {
+        return res.json({ message: 'There is an internal error' })
+      }
+  
+      const sqlQuery = 'SELECT * FROM client_complain WHERE client_id = ? AND complain_status = ?'
+      const values = [data[0].client_id, status]
+  
+      db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+          return res.json({ message: 'There is an internal error' })
+        }
+        return res.json({ data })
+      })
+    })
+  }else if(clients === 3) {
+    const status = 'completed'
+    const checkQuery = 'SELECT client_id FROM client WHERE email = ?'
+    const checkValues = [email]
+  
+    db.query(checkQuery, checkValues, (err, data) => {
+      if (err) {
+        return res.json({ message: 'There is an internal error' })
+      }
+  
+      const sqlQuery = 'SELECT * FROM client_complain WHERE client_id = ? AND complain_status = ?'
+      const values = [data[0].client_id, status]
+  
+      db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+          return res.json({ message: 'There is an internal error' })
+        }
+        return res.json({ data })
+      })
+    })
+
+  }
+
+}
+
+// adding new complain
+export const addNewComplain = async (req, res, next) => {
+  const current = new Date()
+  const currentDate = current.toDateString()
+  const status = 'pending'
+
+  const {
+    email,
+    role,
+    text,
+  } = req.body;
+
+  try {
+    var originalRole = ""
+    if (role === 10) {
+      originalRole = "boarding_house_manager"
+    } else if (role === 20) {
+      originalRole = "medi_help_manager"
+    } else if (role === 30) {
+      originalRole = "online_store_manager"
+    } else if (role === 40) {
+      originalRole = "care_center_manager"
+    } else if (role === 50) {
+      originalRole = "company_manager"
+    }
+    const checkQuery = 'SELECT client_id FROM client WHERE email = ?'
+    const checkValues = [email]
+
+    db.query(checkQuery, checkValues, (err, data) => {
+      if (err) {
+        return res.json({ message: 'There is an internal error' })
+      }
+
+      const sqlQuery = 'INSERT INTO client_complain (client_id, complain_txt, com_date, complain_status, manager_role) VALUES (?,?,?,?,?)'
+      const values = [
+        data[0].client_id,
+        text,
+        currentDate,
+        status,
+        originalRole
+      ]
+
+      db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+          return res.json({ message: 'There is an internal error' })
+        }
+        return res.json({ message: 'success' })
+      })
+    })
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// delete clients pending complain
+export const deleteMyComplain = async (req, res, next) => {
+  const id = req.params.id
+
+  const sqlQuery = 'DELETE FROM client_complain WHERE complain_id = ?'
+  const values = [id]
+
+  console.log(id)
+
+  db.query(sqlQuery, values, (err, data) => {
+    if (err) {
+      return res.json({ message: 'There is an internal error' })
+    }
+    return res.json({ message: 'Deleted' })
+  })
 }
 
 
