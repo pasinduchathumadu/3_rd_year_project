@@ -49,6 +49,7 @@ import Petgrooming from "../src/pages/Client/Pet_grooming";
 import Medi from "../src/pages/Client/Medi";
 import { DoctorList } from "./pages/Client/DoctorList";
 import OrderTable from "./pages/Client/OrderTable";
+import Complains from "./pages/Client/Complains";
 
 import Doctor from "./pages/Medi-help_manager/doctors";
 import ViewAppointments from "./pages/Medi-help_manager/ViewAppointments";
@@ -492,6 +493,15 @@ function App() {
                   <>
                     <Header userRole={"client"} />
                     <ActivityTracking />
+                  </>
+                }
+              ></Route>
+              <Route
+                path="/complains"
+                element={
+                  <>
+                    <Header userRole={"client"} />
+                    <Complains />
                   </>
                 }
               ></Route>
