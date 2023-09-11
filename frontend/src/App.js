@@ -610,6 +610,15 @@ function App() {
                 </div>
               }
             />
+             <Route
+                path="/profile"
+                element={
+                  <>
+                    <HomeHeader userRole={"medi_help_manager"} />
+                    <ManagerProfile />
+                  </>
+                }
+              />
             <Route
               path="/viewAppointments"
               element={
