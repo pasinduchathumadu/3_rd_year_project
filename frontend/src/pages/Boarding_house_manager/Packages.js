@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
-import ProfilePicture from '../../assests/profile-picture.png';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
-// import CheckIcon from '@mui/icons-material/Check';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { FormLabel, TextField, Typography, IconButton } from "@mui/material";
@@ -17,13 +15,15 @@ import axios from "axios";
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import Gold from '../../assests/gold.png';
-import Silver from '../../assests/silver.png';
-import Platinum from '../../assests/platinum.png';
+// import Gold from '../../assests/gold.png';
+// import Silver from '../../assests/silver.png';
+// import Platinum from '../../assests/platinum.png';
 import { useNavigate } from "react-router";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloseIcon from '@mui/icons-material/Close';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+// import CloseIcon from '@mui/icons-material/Close';
+
 
 
 const Packages = () => {
@@ -31,14 +31,67 @@ const Packages = () => {
     const [form, setForm] = useState(false); //add new package form
     const [updateform, setUpdateform] = useState(false); //update form
     const [popularity, setPopularity] = useState(false); // popularity
+    const [detailsbox, setdetailsbox] = useState(false) //details box of packages
 
-    // const [error, seterror] = useState(false) //error handling
+    // view package basic details
+    const [details, setdetails] = useState("")
+    const BasicPackageDetails = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/BasicPackageDetails`)
+            const data = await res.data
+            return data
 
-    // after click on add new package button
-    // const Change = () => {
-    //     setNew(false);
-    //     setForm(true);
+        } catch (err) {
+            console.log('There is an internal error')
+        }
+    }
+    useEffect(() => {
+        BasicPackageDetails()
+            .then((data) => setdetails(data.data))
+            .catch((err) => console.log(err))
+    })
+
+    // get package image 
+    const getImageSrc = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+    }
+
+    // view package details box
+    // const viewDetails = () => {
+    //     setdetailsbox(true)
+    //     setNew(false)
     // }
+    // back from viewing facilities
+    const backFromViewing = () => {
+        setdetailsbox(false)
+        setNew(true)
+    }
+
+    // get facilities of packages
+    const [facility, setfacility] = useState("")
+    const [error1, seterror1] = useState(false)
+    const [messsage1, setmessage1] = useState("")
+
+    const PackageFacilities = async (id) => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/PackageFacilities/${id}`)
+            if (res.data.message === 'There is an internal error') {
+                seterror1(true)
+                setmessage1('There is an internal error')
+            } else {
+                setdetailsbox(true)
+                setfacility(res.data.data)
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    // useEffect(() => {
+    //     PackageFacilities()
+    //     .then((data) => setfacility(data.data))
+    //     .catch((err) => console.log(err))
+    // })
+
 
 
     // after click on update icon
@@ -71,17 +124,6 @@ const Packages = () => {
     }
     const input = new Date();
     const date = input.toDateString();
-
-    // after entering details of a new package
-    // const [packageName, setPackage] = useState(" ")
-    // const [price, setPrice] = useState(" ")
-    // const [first, setFirst] = useState(" ")
-    // const [second, setSecond] = useState(" ")
-    // const [third, setThird] = useState(" ")
-    // const [fourth, setFourth] = useState(" ")
-    // const [fifth, setFifth] = useState(" ")
-
-    // const [message, setMessage] = useState(' ')
 
     // view packages popularity
     const [pckg, setpckg] = useState("")
@@ -155,7 +197,7 @@ const Packages = () => {
     const [message, setmessage] = useState("")
 
     const AddNewPackage = async () => {
-        if (name === '' || price === ''  || facilities === '') {
+        if (name === '' || price === '' || facilities === '') {
             seterror(true)
             setmessage('Please fill the filed')
             return;
@@ -164,7 +206,7 @@ const Packages = () => {
             const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/AddNewPackage`, {
                 name,
                 price,
-                facilities  
+                facilities
             })
             if (res.data.message === 'There is an internal error') {
                 setmessage('You cannot add this package')
@@ -186,6 +228,10 @@ const Packages = () => {
                     <p>Boarding House Manager</p>
                     <p className="top-line-text">Today</p>
                     <p class="top-line-text">{date}</p>
+                </div>
+
+                <div className="top-line">
+                    <p style={{ fontSize: '20px', fontWeight: 1000, color: 'black' }}>Boarding Packages</p>
                 </div>
 
                 <div className="top-line">
@@ -211,69 +257,61 @@ const Packages = () => {
             </div>
 
             {new1 && (
-                <div className="boarding-card-line">
-                    <div className="boarding-card" style={{ backgroundColor: '#A6A6A6' }}>
-                        <div className="boarding-two-icon">
-                            <EditIcon onClick={() => update()} />
-                            <DeleteIcon color="error" sx={{ marginLeft: '15px' }} />
-                        </div>
-                        <div>
-                            <Typography sx={{ color: 'white', fontSize: '35px', fontWeight: 'bold', position: 'absolute' }}>Silver</Typography>
-                            <img src={Silver} alt="silver" style={{ height: '200px', width: 'auto' }} />
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'row', marginLeft: '60px' }}>
-                            <Typography sx={{ color: 'black', fontSize: '55px', fontWeight: 'bold' }}>Rs.1000 </Typography>
-                            <Typography sx={{ color: 'white', fontSize: '25px', fontWeight: 'bold', marginTop: '30px' }}>/ day</Typography>
-                        </div>
-                        <div className="boarding-card-facility">
-                            <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /> Foods with <b>normal brands</b> </p>
-                            <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /> Washing only</p>
-                            <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /> <b>No</b> air condition apply  </p>
-                        </div>
+                <div className="boarding-card-line" style={{ display: 'flex', flexDirection: 'column', marginLeft: '2%', marginRight: '2%', marginBottom: '2%' }}>
+                    <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+                        {details && details.map((menu, index) => (
+                            <div className="boarding-card" style={{ backgroundColor: menu.color, marginBottom: '1%', marginRight: '1%' }}>
+                                <div className="boarding-two-icon">
+                                    <EditIcon onClick={() => update()} />
+                                    <DeleteIcon color="error" sx={{ marginLeft: '15px' }} />
+                                </div>
+                                <div>
+                                    <Typography sx={{ color: 'white', fontSize: '35px', fontWeight: 'bold', position: 'absolute' }}>{menu.package_name}</Typography>
+                                    <img
+                                        src={menu.symbol === "" ? getImageSrc("noimage.png") : getImageSrc(menu.symbol)}
+                                        alt={menu.package_name}
+                                        style={{ height: '200px', width: 'auto' }} />
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'row', marginLeft: '60px' }}>
+                                    <Typography sx={{ color: 'black', fontSize: '55px', fontWeight: 'bold' }}>Rs. {menu.price} </Typography>
+                                    <Typography sx={{ color: 'white', fontSize: '25px', fontWeight: 'bold', marginTop: '30px' }}>/ day</Typography>
+                                </div>
+                                <div>
+                                    <Button onClick={() => PackageFacilities(menu.package_id)} sx={{ color: 'black', backgroundColor: 'white', ':hover': { backgroundColor: 'white' } }}>View Facilities</Button>
+                                </div>
+                            </div>
+                        ))}
                     </div>
 
-                    <div className="boarding-card" style={{ backgroundColor: '#55555C' }}>
-                        <div className="boarding-two-icon">
-                            <EditIcon onClick={() => update()} sx={{ color: 'white' }} />
-                            <DeleteIcon color="error" sx={{ marginLeft: '15px' }} />
+                    {/* <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <div className="boarding-card" style={{ backgroundColor: '#A6A6A6' }}>
+                            <div className="boarding-card-facility">
+                                <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /> Foods with <b>normal brands</b> </p>
+                                <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /> Washing only</p>
+                                <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /> <b>No</b> air condition apply  </p>
+                            </div>
                         </div>
-                        <div>
-                            <Typography sx={{ color: 'white', fontSize: '35px', fontWeight: 'bold', position: 'absolute' }}>Platinum</Typography>
-                            <img src={Platinum} alt="platinum" style={{ height: '200px', width: 'auto', marginLeft: '50px' }} />
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'row', marginLeft: '60px' }}>
-                            <Typography sx={{ color: 'black', fontSize: '55px', fontWeight: 'bold' }}>Rs. 1500</Typography>
-                            <Typography sx={{ color: 'white', fontSize: '25px', fontWeight: 'bold', marginTop: '30px' }}>/ day</Typography>
-                        </div>
-                        <div className="boarding-card-facility">
-                            <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} />Foods with <b>high brands</b></p>
-                            <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b>Free</b> washing with <b>high brands</b> ingrediants</p>
-                            <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b>Air conditional</b> apply</p>
-                            <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b>Free</b> spa</p>
-                            <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b>Comforting</b> medicine</p>
-                        </div>
-                    </div>
 
-                    <div className="boarding-card" style={{ backgroundColor: '#FBBD08' }}>
-                        <div className="boarding-two-icon">
-                            <EditIcon onClick={() => update()} />
-                            <DeleteIcon color="error" sx={{ marginLeft: '15px' }} />
+                        <div className="boarding-card" style={{ backgroundColor: '#55555C' }}>
+                            <div className="boarding-card-facility">
+                                <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} />Foods with <b>high brands</b></p>
+                                <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b>Free</b> washing with <b>high brands</b> ingrediants</p>
+                                <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b>Air conditional</b> apply</p>
+                                <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b>Free</b> spa</p>
+                                <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b>Comforting</b> medicine</p>
+                            </div>
                         </div>
-                        <div>
-                            <Typography sx={{ color: 'white', fontSize: '35px', fontWeight: 'bold', position: 'absolute' }}>Gold</Typography>
-                            <img src={Gold} alt="gold" style={{ height: '200px', width: 'auto' }} />
+
+                        <div className="boarding-card" style={{ backgroundColor: '#FBBD08' }}>
+                            <div className="boarding-card-facility">
+                                <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} />Foods  with <b>normal brands</b></p>
+                                <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b>Free </b> washing with <b>normal brand</b> ingrediants </p>
+                                <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b> Half Air conditional</b> apply</p>
+                                <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /> <b>Free</b> spa</p>
+                            </div>
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'row', marginLeft: '60px' }}>
-                            <Typography sx={{ color: 'black', fontSize: '55px', fontWeight: 'bold' }}>Rs. 1200</Typography>
-                            <Typography sx={{ color: 'white', fontSize: '25px', fontWeight: 'bold', marginTop: '30px' }}>/ day</Typography>
-                        </div>
-                        <div className="boarding-card-facility">
-                            <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} />Foods  with <b>normal brands</b></p>
-                            <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b>Free </b> washing with <b>normal brand</b> ingrediants </p>
-                            <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b> Half Air conditional</b> apply</p>
-                            <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /> <b>Free</b> spa</p>
-                        </div>
-                    </div>
+
+                    </div> */}
                 </div>
             )}
 
@@ -592,7 +630,52 @@ const Packages = () => {
                     </FormControl>
                 </div>
             )}
-        </div>
+
+            {/*  package details box  */}
+            {detailsbox && (
+                <div style={{
+                    backdropFilter: 'blur(4px)',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100vh',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginRight: '300px',
+                    zIndex: 1001,
+
+                }}>
+                    {facility && facility.map((menu, index) => (
+
+                        <FormControl sx={{
+                            marginLeft: '10%',
+                            borderRadius: '10px',
+                            marginTop: '3%',
+                            width: '700px',
+                            padding: '20px',
+                            backgroundColor: menu.color,
+                            position: 'relative',
+                            zIndex: 1001
+                        }}>
+                            <div style={{ backgroundColor: 'white', borderRadius: '10px', padding: '2%' }}>
+
+                                <div>
+                                    <IconButton onClick={backFromViewing}><CloseIcon sx={{ color: 'white', backgroundColor: "red", marginLeft: '590px' }} /></IconButton>
+                                </div>
+                                <Typography sx={{ marginLeft: '40%', fontWeight: 'bold' }}>{menu.package_name} Package Facilities</Typography>
+                                <hr style={{ marginBottom: '1%' }} />
+                                {menu.facilities.map((facility, findex) => (
+                                    <p key={findex}><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} />{facility}</p>
+                                ))}
+                            </div>
+                        </FormControl>
+                    ))}
+                </div>
+            )
+            }
+        </div >
     )
 }
 

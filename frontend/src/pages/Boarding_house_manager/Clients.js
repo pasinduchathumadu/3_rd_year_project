@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
-// import ProfilePicture from '../../assests/profile-picture.png';
-// import PetImage from '../../assests/blog-1.png';
-// import OwnerImage from '../../assests/profile-picture.png';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -21,16 +18,11 @@ import { IconButton, Tab, Card, CardActionArea, CardContent, CardMedia, Typograp
 import { Tabs } from "@mui/material";
 import { FormLabel, TextField } from "@mui/material";
 import StarIcon from '@mui/icons-material/Star';
-// import Slip from '../../assests/bankslip1.png';
 import axios from "axios";
-// import CircleIcon from '@mui/icons-material/Circle';
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from "react-router";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import PetsIcon from '@mui/icons-material/Pets';
 import { Stack } from "@mui/system";
-
-
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -53,67 +45,81 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const Clients = () => {
-    // drop down
-    const [clients, setClients] = React.useState('1');
-    const handleChange = (event) => {
-        setClients(event.target.value);
-    };
 
     const [showRequests, setShowRequests] = useState(0);
     const handleForm = (event, existing_value) => {
         setShowRequests(existing_value)
     };
 
-    // boarding requests viewing
+    // boarding requests viewing - with filter
     const [request, setrequest] = useState([]) //boarding request array
+
+    const [clients1, setclients1] = React.useState('1')
+    const handleChange1 = (event) => {
+        setclients1(event.target.value)
+        
+        view_requests()
+    };
     const view_requests = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/view_requests')
-            const data = await res.data
-            return data
+            const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/view_requests/${clients1}`)
+            setrequest(res.data.data)
+            setclients1('')
         } catch (err) {
-            console.log("There is an internal error")
+            console.log(clients1)
+            console.log(err)
         }
     }
     useEffect(() => {
         view_requests()
-            .then((data) => setrequest(data.data))
-            .catch((err) => console.log(err))
-    })
+    }, [clients1, view_requests])
 
-    //all clients - get services from boarding house
+    //all clients - get services from boarding house - WITH FILTERING
+    const [clients, setClients] = React.useState('1');
+    const handleChange = (event) => {
+        setClients(event.target.value);
+        view_allclients()
+    };
+
     const [allclient, setallclient] = useState([])
     const view_allclients = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/view_allclients')
-            const data = await res.data
-            return data
+            const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/view_allclients/${clients}`)
+            setallclient(res.data.data)
+            setClients('')
         } catch (err) {
-            console.log("There is an internal error")
+            console.log(clients)
+            console.log(err)
         }
     }
     useEffect(() => {
         view_allclients()
-            .then((data) => setallclient(data.data))
-            .catch((err) => console.log(err))
-    })
+    }, [clients,view_allclients]);
 
     // view requests for refund
     const [refund, setrefund] = useState([])
+
+    const [clients2, setclients2] = React.useState('1')
+    const handleChange2 = (event) => {
+        setclients2(event.target.value)
+        
+        refund_requests()
+    };
     const refund_requests = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/refund_requests')
-            const data = await res.data
-            return data
+            const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/refund_requests/${clients2}`)
+            setrefund(res.data.data)
+            setclients2('')
+            
         } catch (err) {
-            console.log('There is an internal error')
+            console.log(clients2)
+            console.log(err)
         }
     }
     useEffect(() => {
         refund_requests()
-            .then((data) => setrefund(data.data))
-            .catch((err) => console.log(err))
-    })
+           
+    }, [clients2,refund_requests])
 
 
     const input = new Date();
@@ -292,6 +298,9 @@ const Clients = () => {
                     <p class="top-line-text">{date}</p>
                 </div>
                 <div className="top-line">
+                    <p style={{ fontSize: '20px', fontWeight: 1000, color: 'black' }}>Boarding Requests</p>
+                </div>
+                <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
                     <Button onClick={profile}><img src={getProfilepicturepath("boarding_profile.jpeg")} alt="profilepicture" className="boarding-profile-picture" /></Button>
                 </div>
@@ -322,7 +331,7 @@ const Clients = () => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={clients}
+                                    
                                     variant='filled'
                                     label="clients"
                                     onChange={handleChange}
@@ -380,10 +389,10 @@ const Clients = () => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={clients}
+                                   
                                     variant='filled'
                                     label="clients"
-                                    onChange={handleChange}
+                                    onChange={handleChange1}
                                     l
                                     sx={{ fontSize: '11px' }}
                                 >
@@ -447,16 +456,16 @@ const Clients = () => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={clients}
+                                    
                                     variant='filled'
                                     label="clients"
-                                    onChange={handleChange}
+                                    onChange={handleChange2}
                                     l
                                     sx={{ fontSize: '11px' }}
                                 >
                                     <MenuItem value={1}>All</MenuItem>
-                                    <MenuItem value={2}>Cancelled</MenuItem>
-                                    <MenuItem value={3}>Incompleted</MenuItem>
+                                    <MenuItem value={2}>Pending</MenuItem>
+                                    <MenuItem value={3}>Completed</MenuItem>
                                 </Select>
                             </FormControl>
                         </Box>
@@ -608,7 +617,7 @@ const Clients = () => {
                             borderRadius: '10px',
                             width: '1000px',
                             padding: '20px',
-                            position: 'relative', // Add this to ensure content appears on top of the overlay
+                            position: 'relative', 
                             zIndex: 1001,
                             backgroundColor: 'black'
                         }}>
@@ -744,20 +753,12 @@ const Clients = () => {
                                                 id="outlined-disabled"
                                                 label=""
                                                 onChange={handleAmount}
-                                            // defaultValue={drow1.refund_mny}
                                             /></div>
                                     </Box>
                                 </div>
 
                                 <div className="form-label">
                                     <FormLabel>Upload Bank Slip : </FormLabel>
-                                    {/* <TextField
-                                        sx={{ marginRight: '20px', marginLeft: '10px' }}
-                                        type="file"
-                                        variant="outlined"
-                                        placeholder="Choose a file"
-                                        inputProps={{ accept: 'image/*' }} 
-                                    /> */}
                                     <div style={{ display: 'inline' }}>
                                         <Button
                                             variant="contained"

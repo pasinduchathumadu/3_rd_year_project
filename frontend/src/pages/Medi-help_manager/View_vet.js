@@ -20,11 +20,12 @@ import { Grid, Box, Tab, Tabs, Button } from "@mui/material";
 import { useNavigate } from "react-router";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import axios from "axios";
+
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 
-function Viw_vet() {
 
+function Viw_vet() {
     const [menu, setemp] = useState([])
     const [id, setid] = useState("")
     const [success, setsuccess] = useState("")
@@ -38,6 +39,7 @@ function Viw_vet() {
     const [error, seterror] = useState(false)
     const [message, setmessage] = useState("")
     const [price, setprice1] = useState("")
+
     const [image, setimage] = useState("")
     const [first, setfirst] = useState("")
     const [second, setsecond] = useState("")
@@ -56,6 +58,7 @@ function Viw_vet() {
         setimage(file.name)
     }
    
+
 
     const openPopup = (id) => {
         setid(id)
@@ -116,9 +119,11 @@ function Viw_vet() {
         }
     }
 
+
     const switchtoadd = () => {
         setIsPopupOpen3(true)
     }
+
 
     const set_count = async () => {
         if (count < 1) {
@@ -134,6 +139,7 @@ function Viw_vet() {
             closePopup()
         }
     }
+
 
     const addvet = async()=>{
         if(first === "" || second ==="" || starttime ==="" || fee === "" || contact === "" ||countnew ==="" || image ==="" || working === ""){
@@ -191,6 +197,7 @@ function Viw_vet() {
             console.log("There is an internal error", err);
         }
     }
+
     const price_change = async () => {
         if (price < 0) {
             seterror(true)
@@ -208,13 +215,6 @@ function Viw_vet() {
 
     const navigate = useNavigate("")
 
-    const profile = () => {
-        navigate("/profile")
-    }
-
-    const getProfilepicturepath = (imageName) => {
-        return require(`../../../../backend/images/store/${imageName}`)
-    }
     const getImageSrc = (imageName) => {
         return require(`../../../../backend/images/store/${imageName}`)
     };
@@ -236,63 +236,42 @@ function Viw_vet() {
             .catch((err) => console.log(err))
     })
 
+    // connect profile 
+    const profile = () => {
+        navigate("/profile")
+    }
+
+    // get profile picture
+    const getProfilepicturepath = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+
+    }
+
     return (
         <>
-            <div style={{ display: "flex", marginTop: '4%' }}>
-                <div
-                    style={{
-                        display: "inline",
-                        marginTop: "30px",
-                        marginLeft: "2%",
-                        width: "33.3%",
-                    }}
-                >
-                    <Typography>Medi Center Manager</Typography>
-                    <Typography>Today</Typography>
-                    <Typography>{date}</Typography>
+            <div className="home-container" style={{ marginTop: '4%'}}>
+            <div className="top">
+                <div className="top-line">
+                    <p>Medi Help Center Manager</p>
+                    <p className="top-line-text">Today</p>
+                    <p class="top-line-text">{date}</p>
                 </div>
-                <div
-                    style={{
-                        display: "flex",
-                        marginTop: "30px",
-                        width: "33.3%",
-                        justifyContent: "center",
-                    }}
-                >
-                    <Typography
-                        sx={{
-                            color: "black",
-                            fontSize: "24px",
-                            fontFamily: "fantasy",
-                            display: "flex",
-                            alignItems: "center",
-                        }}
-                    >
-                        Medi Care Center
-                    </Typography>
+                <div className="top-line">
+                    <p style={{ fontSize: '20px', fontWeight: 1000, color: 'black' }}>Doctors</p>
                 </div>
-                <div
-                    style={{
-                        display: "flex",
-                        width: "33.3%",
-                        alignItems: "center",
-                        marginTop: "20px",
-                    }}
-                >
-                    <div style={{ display: 'flex', marginLeft: 'auto', alignItems: 'center', justifyContent: 'center' }}>
-                        <div style={{ marginLeft: '130%' }}><Stack direction="row" spacing={2} width={300}>
-                            <NotificationsIcon />
-                            <Button onClick={profile}>
-                                <img
-                                    alt="profilepicture"
-                                    src={getProfilepicturepath("carecenter_profile.png")}
-                                    style={{ width: 'auto', height: '60px' }}
-                                />
-                            </Button>
-                        </Stack>
-                        </div>
-                    </div>
+
+                <div className="top-line">
+                    <NotificationsIcon className="bell-icon" />
+                    <Button onClick={profile}>
+                        <img src={getProfilepicturepath("medi_profile.jpg")} 
+                            alt="profilepicture" 
+                            className="boarding-profile-picture" />
+                    </Button>
                 </div>
+            </div>
+
+
+
             </div>
             <Grid sx={{ marginLeft: '100px' }}>
                 <Box

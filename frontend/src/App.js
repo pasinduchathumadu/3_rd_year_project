@@ -49,6 +49,7 @@ import Petgrooming from "../src/pages/Client/Pet_grooming";
 import Medi from "../src/pages/Client/Medi";
 import { DoctorList } from "./pages/Client/DoctorList";
 import OrderTable from "./pages/Client/OrderTable";
+import Complains from "./pages/Client/Complains";
 
 import Doctor from "./pages/Medi-help_manager/doctors";
 import ViewAppointments from "./pages/Medi-help_manager/ViewAppointments";
@@ -185,7 +186,7 @@ function App() {
       navigate("/company_dashboard");
       localStorage.setItem("company_manager", email);
     } else if (role === "medi_help_manager") {
-      navigate("/Doctors");
+      navigate("/medi_dashboard");
       localStorage.setItem("medi_help_manager", email);
     }
   };
@@ -496,6 +497,15 @@ function App() {
                 }
               ></Route>
               <Route
+                path="/complains"
+                element={
+                  <>
+                    <Header userRole={"client"} />
+                    <Complains />
+                  </>
+                }
+              ></Route>
+              <Route
                 path="/medi"
                 element={
                   <>
@@ -600,6 +610,15 @@ function App() {
                 </div>
               }
             />
+             <Route
+                path="/profile"
+                element={
+                  <>
+                    <HomeHeader userRole={"medi_help_manager"} />
+                    <ManagerProfile />
+                  </>
+                }
+              />
             <Route
               path="/viewAppointments"
               element={
