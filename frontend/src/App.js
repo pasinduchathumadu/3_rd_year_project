@@ -576,7 +576,7 @@ function App() {
           {/* <Route path="/Pet_grooming" element={<Pet_grooming/>}></Route> */}
 
           {/* medi care manager */}
-
+          {isLoggedIn && user_role === "medi_help_manager" && (
           <>
             <Route
               path="/Doctors"
@@ -617,6 +617,15 @@ function App() {
                 </>
               }
             />
+             <Route
+                path="/profile"
+                element={
+                  <>
+                    <HomeHeader userRole={"medi_help_manager"} />
+                    <ManagerProfile />
+                  </>
+                }
+              />
 
             <Route
               path="/medi_complaints"
@@ -637,6 +646,7 @@ function App() {
               }
             />
           </>
+          )}
 
           {/* boarding house manager */}
           {isLoggedIn && user_role === "boarding_house_manager" && (
