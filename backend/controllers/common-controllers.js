@@ -1,4 +1,3 @@
-import { da } from 'date-fns/locale';
 import { db } from '../database.js';
 
 export const blog = async (req, res, next) => {
