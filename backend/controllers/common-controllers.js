@@ -65,7 +65,7 @@ export const get_comment = async (req, res, next) => {
     })
 }
 
-// managers profile viewing
+//  profile viewing -MANAGER
 export const ManagerProfile = async (req, res, next) => {
     const email = req.params.email;
 
@@ -80,7 +80,7 @@ export const ManagerProfile = async (req, res, next) => {
     })
 }
 
-// update profile - view detaisl
+// update profile - view detaILS - MANAGER
 export const DisplayManagerDetails = async (req, res, next) => {
     const email = req.params.email;
 
@@ -95,7 +95,7 @@ export const DisplayManagerDetails = async (req, res, next) => {
     })
 }
 
-// update profile
+// update profile - MANAGER
 export const UpdateManager = async (req, res, next) => {
     const {
         email,
@@ -113,6 +113,19 @@ export const UpdateManager = async (req, res, next) => {
         }
         return res.json({message:'success'})
     })
+}
 
+// view profile - CLIENT
+export const ClientProfile = async (req, res, next) => {
+    const email = req.params.email;
 
+    const sqlQuery = 'SELECT c.email, c.contact_number, CONCAT(c.street, " ", c.city) AS address, c.client_id, CONCAT(u.first_name, " ", u.last_name) AS name, u.profile_image FROM client c INNER JOIN users u  ON c.email = u.email WHERE c.email = ?'
+    const values = [email]
+
+    db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
+        }
+        return res.json({ data })
+    })
 }

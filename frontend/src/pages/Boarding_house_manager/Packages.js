@@ -23,6 +23,7 @@ import Platinum from '../../assests/platinum.png';
 import { useNavigate } from "react-router";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloseIcon from '@mui/icons-material/Close';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 
 const Packages = () => {
@@ -31,26 +32,15 @@ const Packages = () => {
     const [updateform, setUpdateform] = useState(false); //update form
     const [popularity, setPopularity] = useState(false); // popularity
 
-    const [error, seterror] = useState(false) //error handling
+    // const [error, seterror] = useState(false) //error handling
 
     // after click on add new package button
-    const Change = () => {
-        setNew(false);
-        setForm(true);
-    }
-
-    // after click on submit button on the add new package form
-    // const afterSubmit = () => {
-
-    //     setNew(true);
-    //     setForm(false);
+    // const Change = () => {
+    //     setNew(false);
+    //     setForm(true);
     // }
 
-    // cancel button of adding new package
-    const cancelAdding = () => {
-        setForm(false);
-        setNew(true);
-    }
+
     // after click on update icon
     const update = () => {
         setNew(false);
@@ -83,61 +73,15 @@ const Packages = () => {
     const date = input.toDateString();
 
     // after entering details of a new package
-    const [packageName, setPackage] = useState(" ")
-    const [price, setPrice] = useState(" ")
-    const [first, setFirst] = useState(" ")
-    const [second, setSecond] = useState(" ")
-    const [third, setThird] = useState(" ")
-    const [fourth, setFourth] = useState(" ")
-    const [fifth, setFifth] = useState(" ")
+    // const [packageName, setPackage] = useState(" ")
+    // const [price, setPrice] = useState(" ")
+    // const [first, setFirst] = useState(" ")
+    // const [second, setSecond] = useState(" ")
+    // const [third, setThird] = useState(" ")
+    // const [fourth, setFourth] = useState(" ")
+    // const [fifth, setFifth] = useState(" ")
 
-    const [message, setMessage] = useState(' ')
-
-    const submitPackage = async () => {
-        // e.preventDefault()
-        seterror(false);
-        try {
-            const res = await axios.post('http://localhost:5000/pet_care/boarding_house_manager/addpackage', {
-                packageName,
-                price,
-                first,
-                second,
-                third,
-                fourth,
-                fifth,
-            })
-            if (res.data.message === 'There is an internal error') {
-                setMessage('You cannot add this package')
-                seterror(true)
-            } else if (res.data.message === 'success') {
-                setNew(true);
-                setForm(false);
-            } else if (res.data.message === 'Package Name already exists') {
-                setMessage("Package Name already exists")
-                seterror(true);
-            }
-        } catch (err) {
-            console.log("There is an internal error")
-        }
-    }
-
-    // get packages details and view
-    const getPackage = async () => {
-        try {
-            const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/getPackage')
-            const data = await res.data
-            return data
-
-        } catch (err) {
-            console.log("There is an internal error")
-        }
-    }
-    const [boardingpackage, setboardingpackage] = useState([]);
-    useEffect(() => {
-        getPackage()
-            .then((data) => setboardingpackage(data.data))
-            .catch((err) => console.log(err))
-    })
+    // const [message, setMessage] = useState(' ')
 
     // view packages popularity
     const [pckg, setpckg] = useState("")
@@ -163,12 +107,77 @@ const Packages = () => {
         navigate("/profile")
     }
 
-     // get profile picture
-     const getProfilepicturepath = (imageName) => {
+    // get profile picture
+    const getProfilepicturepath = (imageName) => {
         return require(`../../../../backend/images/store/${imageName}`)
-
     }
 
+    // ----- ADD NEW PACKAGES - ADD TEXT FIELDS ONE BY ONE
+    const [textFields, setTextFields] = useState(['']); // Initialize with one empty text field
+
+    // Function to add a new text field
+    const addTextField = () => {
+        setTextFields([...textFields, '']);
+    };
+
+    // Function to handle text field value changes
+    const handleTextFieldChange = (index, event) => {
+        const updatedTextFields = [...textFields];
+        updatedTextFields[index] = event.target.value;
+        setTextFields(updatedTextFields);
+    };
+
+    // Function to submit the form (you can implement your logic here)
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // Do something with the text field values
+        const facilities = textFields.filter((facility) => facility.trim() !== "");
+        console.log(textFields);
+    };
+    // ----
+
+    // add new pacakge
+    const AddPackageForm = () => {
+        setNew(false)
+        setForm(true)
+    }
+
+    // back without adding a package
+    const cancelAdding = () => {
+        setForm(false);
+        setNew(true);
+    }
+
+    const [name, setname] = useState("")
+    const [price, setprice] = useState("")
+    const [facilities, setfacilites] = useState([])
+    const [error, seterror] = useState(false)
+    const [message, setmessage] = useState("")
+
+    const AddNewPackage = async () => {
+        if (name === '' || price === ''  || facilities === '') {
+            seterror(true)
+            setmessage('Please fill the filed')
+            return;
+        }
+        try {
+            const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/AddNewPackage`, {
+                name,
+                price,
+                facilities  
+            })
+            if (res.data.message === 'There is an internal error') {
+                setmessage('You cannot add this package')
+                seterror(true)
+            } else if (res.data.message === 'success') {
+                setNew(true)
+                setForm(false)
+                seterror(false)
+            }
+        } catch (err) {
+            console.log('There is an internal error')
+        }
+    }
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }} >
@@ -192,13 +201,12 @@ const Packages = () => {
                     indicatorColor="transparent"
                     sx={{ borderRadius: '10px' }}
                 >
-
                     <Tab sx={{ backgroundColor: 'orange', color: 'white' }} label="Boarding House Packages" ></Tab>
                 </Tabs>
             </Box>
 
             <div className="top-button-header">
-                <Button variant="contained" onClick={() => Change()} sx={{ background: "black", ':hover': { backgroundColor: "black" } }}>Add New Package <AddIcon sx={{ marginLeft: '10px' }} /></Button>
+                <Button variant="contained" onClick={AddPackageForm} sx={{ background: "black", ':hover': { backgroundColor: "black" } }}>Add New Package <AddIcon sx={{ marginLeft: '10px' }} /></Button>
                 <Button variant="contained" onClick={() => clickPopularity()} sx={{ background: "black", ':hover': { backgroundColor: "black" } }}>View Popularity</Button>
             </div>
 
@@ -287,7 +295,7 @@ const Packages = () => {
                     <FormControl sx={{
                         marginLeft: '10%',
                         borderRadius: '10px',
-                        marginTop: '40%',
+                        marginTop: '30%',
                         width: '700px',
                         padding: '20px',
                         backgroundColor: '#F0F0F5',
@@ -304,12 +312,12 @@ const Packages = () => {
                             <hr />
                             <div style={{ marginTop: '20px' }} className="form-label">
                                 <FormLabel>Package Name</FormLabel>
-                                <TextField id="outlined-basic" placeholder="Package Name" variant="outlined" onChange={(e) => setPackage(e.target.value)} required />
+                                <TextField id="outlined-basic" placeholder="Package Name" variant="outlined" onChange={(e) => setname(e.target.value)} required />
                             </div>
 
                             <div className="form-label">
                                 <FormLabel>Price(per day) Rs.</FormLabel>
-                                <TextField id="outlined-basic" placeholder="Package Price" variant="outlined" type="number" onChange={(e) => setPrice(e.target.value)} required />
+                                <TextField id="outlined-basic" placeholder="Package Price" variant="outlined" type="number" onChange={(e) => setprice(e.target.value)} required />
                             </div>
 
                             <div className="form-label">
@@ -328,17 +336,38 @@ const Packages = () => {
                                 </div>
                             </div>
 
-                            <div className="form-label">
+                            {/* <div className="form-label">
                                 <FormLabel>Facilities</FormLabel>
                                 <TextField id="outlined-basic" placeholder="Facility 01" variant="outlined" sx={{ marginBottom: '5px' }} onChange={(e) => setFirst(e.target.value)} required />
                                 <TextField id="outlined-basic" placeholder="Facility 02" variant="outlined" sx={{ marginBottom: '5px' }} onChange={(e) => setSecond(e.target.value)} required />
                                 <TextField id="outlined-basic" placeholder="Facility 03" variant="outlined" sx={{ marginBottom: '5px' }} onChange={(e) => setThird(e.target.value)} required />
                                 <TextField id="outlined-basic" placeholder="Facility 03" variant="outlined" sx={{ marginBottom: '5px' }} onChange={(e) => setFourth(e.target.value)} />
                                 <TextField id="outlined-basic" placeholder="Facility 03" variant="outlined" sx={{ marginBottom: '5px' }} onChange={(e) => setFifth(e.target.value)} />
+                            </div> */}
+                            <div className="form-label">
+                                <FormLabel>Facilities</FormLabel>
+                                <form onSubmit={handleSubmit}>
+                                    {textFields.map((text, index) => (
+                                        <div key={index}>
+                                            <TextField
+                                                label={`Facility ${index + 1}`}
+                                                value={text}
+                                                onChange={(event) => handleTextFieldChange(index, event)}
+                                                sx={{ marginBottom: '5px', width: '100%' }} />
+                                        </div>
+                                    ))}
+                                    <div style={{ display: 'flex', flexDirection: 'row', marginTop: '1%' }}>
+                                        <Button sx={{ backgroundColor: 'black', color: 'white', borderRadius: '10px', ':hover': { backgroundColor: 'black' } }} onClick={addTextField}>
+                                            <AddCircleIcon sx={{ color: 'white', marginRight: '10px' }} />Add New Facility
+                                        </Button>
+                                    </div>
+                                    {/* <button type="submit">Submit</button> */}
+                                </form>
                             </div>
 
-                            <Button variant="contained" onClick={() => submitPackage()} sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Add Package</Button>
+                            <Button variant="contained" type="submit" onClick={() => AddNewPackage()} sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Add Package</Button>
                         </div>
+                        {/* display error or success message  */}
                         {error && (
                             <Stack sx={{ width: '100%' }} spacing={2}>
                                 <Alert severity="error">{message}</Alert>
@@ -506,8 +535,6 @@ const Packages = () => {
                 </div>
             )}
 
-            {/* remove a package */}
-
 
             {/* view popularity */}
             {popularity && (
@@ -539,8 +566,8 @@ const Packages = () => {
                                 <div>
                                     <IconButton onClick={afterview} ><CloseIcon sx={{ color: 'white', backgroundColor: 'red', marginLeft: '600px' }} /></IconButton>
                                 </div>
-                                <div style={{marginBottom:'10px'}}>
-                                    <Typography variant ="h6" sx={{textAlign:'center', fontWeight:'bold'}}>Popularity</Typography>
+                                <div style={{ marginBottom: '10px' }}>
+                                    <Typography variant="h6" sx={{ textAlign: 'center', fontWeight: 'bold' }}>Packages Popularity</Typography>
                                     <hr />
                                 </div>
 

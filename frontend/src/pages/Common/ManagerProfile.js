@@ -1,4 +1,4 @@
-import { Avatar, Button, FormLabel, IconButton, Typography } from '@mui/material';
+import { Avatar, bottomNavigationClasses, Button, FormLabel, IconButton, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { TextField, FormControl } from "@mui/material";
 import ProfilePhoto from "../../assests/profile-picture.png";
@@ -6,6 +6,8 @@ import EditIcon from '@mui/icons-material/Edit';
 // import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios';
+import { useNavigate } from 'react-router';
+
 
 const Profile = () => {
     const email = localStorage.getItem("store_email")
@@ -13,12 +15,6 @@ const Profile = () => {
     const [main, setmain] = useState(true)
     // update manager profile
     const [update, setupdate] = useState(false)
-
-    // click on update icon
-    // const updateManagerDetails = () => {
-    //     setupdate(true)
-    //     setmain(false)
-    // }
 
     // back without updating manager details
     const backFromProfile = () => {
@@ -42,6 +38,13 @@ const Profile = () => {
             .then((data) => setprofiledetails(data.data))
             .catch((err) => console.log(err))
     })
+
+    // close viewing
+    // const navigate = useNavigate("")
+    // const backtoDashboard = () => {
+    //     navigate("/boarding_dashboard")
+    // }
+
     // get profile picture path
     const getImageSrc = (imageName) => {
         return require(`../../../../backend/images/store/${imageName}`)
@@ -69,7 +72,7 @@ const Profile = () => {
     // update profile - get profile picture
     const getProfilePath = (imageName) => {
         return require(`../../../../backend/images/store/${imageName}`)
-    } 
+    }
 
     // update
     const [contact, setcontact] = useState("")
@@ -80,7 +83,7 @@ const Profile = () => {
     const [message1, setmessage1] = useState("")
 
     const UpdateManager = async () => {
-        if(contact === '' || street === '' || city === '') {
+        if (contact === '' || street === '' || city === '') {
             seterror1(true)
             setmessage1('Please fill all fields')
             return;
@@ -92,20 +95,18 @@ const Profile = () => {
                 street,
                 city,
             });
-            if(res.data.message === 'There is an internal error') {
+            if (res.data.message === 'There is an internal error') {
                 setmessage1('Internal error')
                 seterror1(true)
-            }else if(res.data.message === 'success') {
+            } else if (res.data.message === 'success') {
                 setviewmanager(false)
                 setmain(true)
                 setupdate(false)
             }
-        }catch(err) {
+        } catch (err) {
             console.log('There is an internal error')
-            
         }
     }
-
 
 
     return (
@@ -114,20 +115,32 @@ const Profile = () => {
             {main && (
                 <div style={{ width: '100%', backgroundColor: '#f0f0f5', padding: '10px', borderRadius: '10px', margin: '10px', textAlign: 'center', marginTop: '4%' }}>
 
-                    <div style={{ display: 'flex', flexDirection: 'row', marginLeft: '86%', paddingLeft: '10px', paddingRight: '10px', marginTop: '1%' }}>
+                    <div style={{ display: 'flex', flexDirection: 'row', marginLeft: '63%', paddingLeft: '10px', paddingRight: '10px', marginTop: '1%' }}>
                         {profiledetails && profiledetails.map((menu, index) => (
                             <Button onClick={() => DisplayManagerDetails(menu.email)} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' } }}><EditIcon sx={{ marginRight: '10px' }} />Update Profile</Button>
                         ))}
                     </div>
 
-                    <FormControl sx={{ backgroundColor: 'white', width: '50%', paddingLeft: '10px', paddingRight: '10px', paddingTop: '10px', paddingBottom: '20px', borderRadius: '10px', marginTop: '2%', marginBottom: '2%' }}>
+                    <FormControl sx={{ backgroundColor: 'white', width: '50%', paddingLeft: '10px', paddingRight: '10px', paddingBottom: '20px', borderRadius: '10px', marginTop: '2%', marginBottom: '2%' }}>
+                        {/* <div style={{marginLeft:'90%'}}>
+                            <IconButton onClick={backtoDashboard}><CloseIcon sx={{ color: 'white', backgroundColor: 'red' }} /></IconButton>
+                        </div> */}
                         <Typography sx={{ textAlign: 'center', backgroundColor: 'orange', color: 'white', fontWeight: 'bold', borderRadius: '10px', padding: '10px', marginTop: '1%', marginBottom: '10px', width: '50%', marginLeft: '25%' }}>Profile</Typography>
 
                         {profiledetails && profiledetails.map((menu, index) => (
                             <>
                                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '10px' }}>
-                                    <Typography sx={{ fontWeight: 'bold', marginLeft: '40%' }}>
-                                        {menu.user_role}
+                                    <Typography sx={{ fontWeight: 'bold', marginLeft: '35%' }}>
+                                        {(() => {
+                                            switch (menu.user_role) {
+                                                case "boarding_house_manager": return "Boarding House Manager";
+                                                case "care_center_manager": return "Care Center Manager";
+                                                case "online_store_manager": return "Online Store Manager";
+                                                case "company_manager": return "Company Manager";
+                                                case "medi_help_manager": return "Medi Help Center Manager";
+                                                default: return "";
+                                            }
+                                        })()}
                                     </Typography>
                                 </div>
 
@@ -136,7 +149,7 @@ const Profile = () => {
                                         src={menu.profile_image === "" ? getImageSrc("noimage.png") : getImageSrc(menu.profile_image)}
                                         alt="profile photo"
                                         component="img"
-                                        style={{ height: '150px', width: '100px', borderRadius: '10px' }} />
+                                        style={{ height: '150px', width: '100px', borderRadius: '50px' }} />
                                 </div>
 
                                 <div style={{ marginLeft: "5%" }}>
@@ -205,13 +218,25 @@ const Profile = () => {
                         {viewmanager && viewmanager.map((mrow, index) => (
                             <>
                                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '10px' }}>
-                                    <Typography sx={{ fontWeight: 'bold', marginLeft: '40%' }}>{mrow.manager_role} </Typography>
+                                    <Typography sx={{ fontWeight: 'bold', marginLeft: '35%' }}>
+                                        {(() => {
+                                            switch (mrow.user_role) {
+                                                case "boarding_house_manager": return "Boarding House Manager";
+                                                case "care_center_manager": return "Care Center Manager";
+                                                case "online_store_manager": return "Online Store Manager";
+                                                case "company_manager": return "Company Manager";
+                                                case "medi_help_manager": return "Medi Help Center Manager";
+                                                default: return "";
+                                            }
+                                        })()}
+                                    </Typography>
                                 </div>
-                                <div style={{ marginTop: '10px', marginBottom: '20px'}}>
-                                    <img 
-                                        src={getProfilePath(mrow.profile_image)} 
-                                        alt="profile photo" 
-                                        style={{ height: '150px', width: 'auto' }} />
+
+                                <div style={{ marginTop: '10px', marginBottom: '20px' }}>
+                                    <img
+                                        src={getProfilePath(mrow.profile_image)}
+                                        alt="profile photo"
+                                        style={{ height: '150px', width: 'auto', borderRadius: '50px' }} />
                                 </div>
 
                                 <div style={{ marginLeft: '10%', marginRight: '10%' }}>

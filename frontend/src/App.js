@@ -92,7 +92,7 @@ import Viewvet from "./pages/Medi-help_manager/View_vet";
 import ViewMedical from "./pages/Client/ViewMedical";
 
 import ActivityTracking from "./pages/Client/ActivityTracking";
-
+// ----------
 // sidebar icons
 import HomeIcon from "@mui/icons-material/Home"; //dashboard
 import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred"; //complains
@@ -113,6 +113,8 @@ import InventoryIcon from "@mui/icons-material/Inventory"; //package , care cent
 
 // care center
 import BookOnlineIcon from "@mui/icons-material/BookOnline"; // appointments
+// ---------
+
 import Company_Blog from "./pages/Company_manager/Company_Blog";
 import AddBlog from "./pages/Client/AddBlog";
 import axios from "axios";
@@ -122,7 +124,7 @@ function App() {
   const [issignup, setIssignup] = useState(false);
   const [user_role, setuserrole] = useState("");
   const navigate = useNavigate();
-  const logout = async()=>{
+  const logout = async () => {
     const res = await axios.get('http://localhost:5000/logout')
     navigate('/')
   }
@@ -142,15 +144,15 @@ function App() {
         const currentTime = new Date().getTime();
         const sessionDuration = 24 * 60 * 60 * 1000;
         if (currentTime - sessionStartTime > sessionDuration) {
-          
+
           localStorage.removeItem('sessionStartTime');
           logout()
 
         }
       }
     };
-    
-  
+
+
     setInterval(checkSessionExpiry, 60 * 1000);
   }, []);
 
@@ -159,7 +161,7 @@ function App() {
   const handleLogin = (role, email) => {
     setIsLoggedIn(true);
     setuserrole(role);
-   
+
     localStorage.setItem("userRole", role);
     localStorage.setItem("isLoggedIn", "true");
 
@@ -423,6 +425,15 @@ function App() {
                 }
               ></Route>
               <Route
+                path="/profile"
+                element={
+                  <>
+                    <Header userRole={"client"} />
+                    <ClientProfile />{" "}
+                  </>
+                }
+              ></Route>
+              <Route
                 path="/dashboard"
                 element={
                   <>
@@ -559,7 +570,7 @@ function App() {
                   </>
                 }
               >
-               
+
               </Route>
               <Route
                 path="/addblog"
@@ -855,6 +866,15 @@ function App() {
                 }
               />
               <Route
+                path="/profile"
+                element={
+                  <>
+                    <HomeHeader userRole={"online_store_manager"} />
+                    <ManagerProfile />
+                  </>
+                }
+              />
+              <Route
                 path="/online_add"
                 element={
                   <>
@@ -895,6 +915,15 @@ function App() {
                   <>
                     <HomeHeader userRole={"company_manager"} />
                     <CompanyHome />
+                  </>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <>
+                    <HomeHeader userRole={"company_manager"} />
+                    <ManagerProfile />
                   </>
                 }
               />

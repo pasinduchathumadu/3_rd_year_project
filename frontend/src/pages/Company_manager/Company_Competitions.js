@@ -35,8 +35,21 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { Alert } from "@mui/material";
+import { useNavigate } from "react-router";
+
 
 function Company_Competitions() {
+  const navigate = useNavigate("")
+  // connect profile
+  const profile = () => {
+    navigate("/profile")
+  }
+
+  // get profile picture
+  const getProfilepicturepath = (imageName) => {
+    return require(`../../../../backend/images/store/${imageName}`)
+  }
+
   const [compName, setName] = useState("");
   const [compDes, setDescription] = useState("");
   const [compDate, setDate] = useState("");
@@ -175,11 +188,7 @@ function Company_Competitions() {
           </Stack>
           <Stack direction="row" justifyContent="center" alignItems="center">
             <NotificationsIcon className="bell-icon" />
-            <img
-              src={ProfilePicture}
-              alt="profilepicture"
-              className="boarding-profile-picture"
-            />
+            <Button onClick={profile}><img src={getProfilepicturepath("company_profile.jpeg")} alt="profilepicture" className="boarding-profile-picture" /></Button>
           </Stack>
         </Stack>
 
