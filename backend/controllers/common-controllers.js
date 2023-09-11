@@ -2,10 +2,13 @@ import { da } from 'date-fns/locale';
 import { db } from '../database.js';
 
 export const blog = async (req, res, next) => {
+    const status = "posted"
 
-    const sqlQuery = "select *from client_post"
-
-    db.query(sqlQuery, (err, data) => {
+    const sqlQuery = "select *from client_post WHERE blog_status = ?"
+    const value = [
+        status
+    ]
+    db.query(sqlQuery,value,(err, data) => {
         if (err) {
             return res.json({ message: 'there is internal error' })
         }
