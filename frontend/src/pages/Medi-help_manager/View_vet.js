@@ -293,10 +293,10 @@ function Viw_vet() {
                         <Tab sx={{ backgroundColor: value === 1 ? "orange" : "white", color: value === 1 ? "white" : "black", }} label="Week Days" />
                     </Tabs>
                 </Box>
-                <Button onClick={() => switchtoadd()} sx={{ backgroundColor: 'black', color: 'white', width: '10%', borderRadius: '5%', marginLeft: '0%' }}>Add Vet</Button>
+                <Button onClick={() => switchtoadd()} sx={{ backgroundColor: 'black', color: 'white', width: '10%', borderRadius: '5%', marginLeft: '0%', ':hover':{backgroundColor:'black'} }}>Add Vet</Button>
             </Grid>
 
-            {/* pet grooming  */}
+           
             {value === 0 && (
                 <div className="full-page">
 
@@ -416,6 +416,7 @@ function Viw_vet() {
 
                 </div>
             )}
+
             <Dialog open={isPopupOpen} onClose={closePopup} fullWidth>
                 <DialogTitle>Add Leave</DialogTitle>
                 <DialogContent >
@@ -528,7 +529,8 @@ function Viw_vet() {
                 </Button>
             </Dialog>
             <Dialog open={isPopupOpen3} onClose={closePopup} fullWidth>
-                <DialogTitle>Add Vet</DialogTitle>
+                <DialogTitle sx={{marginLeft:'40%', fontWeight:'bold'}}>Add Vet</DialogTitle>
+                <hr />
                 <DialogContent >
                     <DialogContentText sx={{ paddingBottom: '1%' }}>Enter  Details:</DialogContentText>
                     <Stack sx={{ display: 'flex', flexDirection: 'row', marginTop: '2%' }}>

@@ -66,8 +66,6 @@ export const add_vet = async (req, res, next) => {
         status="weekend"
     }
    
-    
-    
     const sqlquery = "INSERT INTO vet (first_name,last_name,contact_number,working,start_time,img,fee,daily_count) VALUES(?,?,?,?,?,?,?,?)"
     const values = [
         first,
@@ -90,9 +88,9 @@ export const add_vet = async (req, res, next) => {
     })
 }
 
-    return res.json({message:'updated'})
-   })
-}
+//     return res.json({message:'updated'})
+//    })
+// }
 
 // --- COMPLAINS ---
 // add new complain
