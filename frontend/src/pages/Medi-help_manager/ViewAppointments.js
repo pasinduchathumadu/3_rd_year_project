@@ -10,10 +10,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import profile from "../../assests/profile.jpg";
+// import profile from "../../assests/profile.jpg";
 import { Typography, Avatar, Stack, Grid, Box, Tab, Tabs, Button } from "@mui/material";
 import ViewForm from "./ViewForm";
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 
 const ViewAppointments = () => {
@@ -111,7 +114,7 @@ const ViewAppointments = () => {
               sx={{
                 width: "100%",
                 marginTop: "25px",
-                marginBottom: "5%",
+                marginBottom: "1%",
               }}
             >
               <Tabs
@@ -127,14 +130,14 @@ const ViewAppointments = () => {
                     backgroundColor: value === 0 ? "orange" : "white",
                     color: value === 0 ? "white" : "black",
                   }}
-                  label="All Appointments"
+                  label="Pending Appointments"
                 />
                 <Tab
                   sx={{
                     backgroundColor: value === 1 ? "orange" : "white",
                     color: value === 1 ? "white" : "black",
                   }}
-                  label="Completed Appointments"
+                  label="Completed/ Uncompleted Appointments"
                 />
               </Tabs>
             </Box>
@@ -144,31 +147,31 @@ const ViewAppointments = () => {
               <Table sx={{ minWidth: 800 }} aria-label="customized table">
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell>AppID</StyledTableCell>
-                    <StyledTableCell align="right">Doctor Name</StyledTableCell>
-                    <StyledTableCell align="right">Date</StyledTableCell>
-                    <StyledTableCell align="right">Time</StyledTableCell>
-                    <StyledTableCell align="right">Client Name</StyledTableCell>
-                    <StyledTableCell align="right">Client PhoneNo</StyledTableCell>
-                    <StyledTableCell align="right">Status</StyledTableCell>
-                    <StyledTableCell align="right">View</StyledTableCell>
-                    <StyledTableCell align="right">Delete</StyledTableCell>
+                    <StyledTableCell align="center">Appintment ID</StyledTableCell>
+                    <StyledTableCell align="center">Pet ID</StyledTableCell>
+                    <StyledTableCell align="center">Client </StyledTableCell>
+                    <StyledTableCell align="center">Contact Number</StyledTableCell>
+                    <StyledTableCell align="center">Doctor Name</StyledTableCell>
+                    <StyledTableCell align="center">Date</StyledTableCell>
+                    <StyledTableCell align="center">Time</StyledTableCell>
+                    <StyledTableCell align="center">Payment (Rs)</StyledTableCell>
+                    <StyledTableCell align="center"></StyledTableCell>
+                    <StyledTableCell align="center"></StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {rows.map((row) => (
                     <StyledTableRow key={row.name}>
-                      <StyledTableCell component="th" scope="row">
-                      </StyledTableCell>
-                      <StyledTableCell align="right"> Maria Anders</StyledTableCell>
-                      <StyledTableCell align="right">2023.08.23</StyledTableCell>
-                      <StyledTableCell align="right">12P.M</StyledTableCell>
-                      <StyledTableCell align="right">John Deo</StyledTableCell>
-                      <StyledTableCell align="right">0123456789</StyledTableCell>
-                      <StyledTableCell align="right"><Button sx={{ backgroundColor: '#7a7979', ':hover': { backgroundColor: '#7a7979' }, color: 'white' }} onClick={() => setShow2(true)}>Update</Button></StyledTableCell>
-                      <StyledTableCell align="right"><Button sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white' }}>Edit</Button></StyledTableCell>
-                      <StyledTableCell align="right"><Button sx={{ backgroundColor: 'black', ':hover': { backgroundColor: 'black' }, color: 'white' }} onClick={() => setShow(true)}>Delete</Button></StyledTableCell>
-
+                      <StyledTableCell component="th" scope="row" align='center'>1</StyledTableCell>
+                      <StyledTableCell align="center">  1</StyledTableCell>
+                      <StyledTableCell align="center"> Maria Anders</StyledTableCell>
+                      <StyledTableCell align="center">0123456789</StyledTableCell>
+                      <StyledTableCell align="center">John Deo</StyledTableCell>
+                      <StyledTableCell align="center">2023.08.23</StyledTableCell>
+                      <StyledTableCell align="center">12PM</StyledTableCell>
+                      <StyledTableCell align="center">1200.00</StyledTableCell>
+                      <StyledTableCell align="right"><Button sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white' }}>Completed</Button></StyledTableCell>
+                      <StyledTableCell align="right"><Button sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white' }}>Uncompleted</Button></StyledTableCell>
                     </StyledTableRow>
                   ))}
                 </TableBody>
@@ -176,41 +179,68 @@ const ViewAppointments = () => {
             </TableContainer>
           )}
           {value === 1 && (
+            <>
+              <div style={{marginLeft:'89%', marginBottom:'1%'}}>
+                <Box sx={{ width: '150px' }}>
+                  <FormControl fullWidth>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
 
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 800 }} aria-label="customized table">
-                <TableHead>
-                  <TableRow>
-                    <StyledTableCell>AppID</StyledTableCell>
-                    <StyledTableCell align="right">Doctor Name</StyledTableCell>
-                    <StyledTableCell align="right">Date</StyledTableCell>
-                    <StyledTableCell align="right">Time</StyledTableCell>
-                    <StyledTableCell align="right">Client Name</StyledTableCell>
-                    <StyledTableCell align="right">Client PhoneNo</StyledTableCell>
+                      variant='filled'
+                      label="clients"
+                      // onChange={handleChange}
+                      l
+                      sx={{ fontSize: '11px' }}
+                    >
+                      <MenuItem value={1}>All</MenuItem>
+                      <MenuItem value={2}>Completed</MenuItem>
+                      <MenuItem value={3}>Uncompleted</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
+              </div>
 
-                    <StyledTableCell align="right">View</StyledTableCell>
-                    <StyledTableCell align="right">Delete</StyledTableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map((row) => (
-                    <StyledTableRow key={row.name}>
-                      <StyledTableCell component="th" scope="row">
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 800 }} aria-label="customized table">
+                  <TableHead>
+                    <TableRow>
+                      <StyledTableCell align="center">Appintment ID</StyledTableCell>
+                      <StyledTableCell align="center">Pet ID</StyledTableCell>
+                      <StyledTableCell align="center">Client</StyledTableCell>
+                      <StyledTableCell align="center">Contact Number</StyledTableCell>
+                      <StyledTableCell align="center">Doctor Name</StyledTableCell>
+                      <StyledTableCell align="center">Date</StyledTableCell>
+                      <StyledTableCell align="center">Time</StyledTableCell>
+                      <StyledTableCell align="center">Payment (Rs)</StyledTableCell>
+                      <StyledTableCell align="center"></StyledTableCell>
+                      {/* <StyledTableCell align="center">Client PhoneNo</StyledTableCell> */}
 
-                      </StyledTableCell>
-                      <StyledTableCell align="right"> Maria Anders</StyledTableCell>
-                      <StyledTableCell align="right">2023.08.23</StyledTableCell>
-                      <StyledTableCell align="right">12P.M</StyledTableCell>
-                      <StyledTableCell align="right">John Deo</StyledTableCell>
-                      <StyledTableCell align="right">0123456789</StyledTableCell>
+                      {/* <StyledTableCell align="center">Generate Report</StyledTableCell> */}
+                      {/* <StyledTableCell align="center">Delete</StyledTableCell> */}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {rows.map((row) => (
+                      <StyledTableRow key={row.name}>
+                        <StyledTableCell component="th" scope="row" align="center">1</StyledTableCell>
+                        <StyledTableCell align="center">  2</StyledTableCell>
+                        <StyledTableCell align="center"> Maria Anders</StyledTableCell>
+                        <StyledTableCell align="center">0123456789</StyledTableCell>
+                        <StyledTableCell align="center">John Deo</StyledTableCell>
+                        <StyledTableCell align="center">2023.08.23</StyledTableCell>
+                        <StyledTableCell align="center">12PM</StyledTableCell>
+                        <StyledTableCell align="center">1200.00</StyledTableCell>
 
-                      <StyledTableCell align="right"><Button sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white' }}>Edit</Button></StyledTableCell>
-                      <StyledTableCell align="right"><Button sx={{ backgroundColor: 'black', ':hover': { backgroundColor: 'black' }, color: 'white' }} onClick={() => setShow(true)}>Delete</Button></StyledTableCell>
-                    </StyledTableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+
+                        <StyledTableCell align="center"><Button sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white' }}>Generate Report</Button></StyledTableCell>
+                        {/* <StyledTableCell align="center"><Button sx={{ backgroundColor: 'black', ':hover': { backgroundColor: 'black' }, color: 'white' }} onClick={() => setShow(true)}>Delete</Button></StyledTableCell> */}
+                      </StyledTableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </>
           )}
         </Grid>
 

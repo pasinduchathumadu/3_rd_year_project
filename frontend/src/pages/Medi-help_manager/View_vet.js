@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/Care_center_manager/caregiverlist.css";
-
-
 import StarRateIcon from '@mui/icons-material/StarRate';
+import AddIcon from '@mui/icons-material/Add';
 import {
     Typography, Stack, Card, CardActionArea, CardMedia, CardContent, Dialog,
     DialogTitle,
@@ -15,15 +14,11 @@ import {
     Select,
     MenuItem
 } from "@mui/material";
-
 import { Grid, Box, Tab, Tabs, Button } from "@mui/material";
 import { useNavigate } from "react-router";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import axios from "axios";
-
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-
-
 
 function Viw_vet() {
     const [menu, setemp] = useState([])
@@ -289,15 +284,16 @@ function Viw_vet() {
                         indicatorColor="transparent"
                         sx={{ borderRadius: "10px" }}
                     >
-                        <Tab sx={{ backgroundColor: value === 0 ? "orange" : "white", color: value === 0 ? "white" : "black" }} label="Weekend Days" />
-                        <Tab sx={{ backgroundColor: value === 1 ? "orange" : "white", color: value === 1 ? "white" : "black", }} label="Week Days" />
+                        <Tab sx={{ backgroundColor: value === 0 ? "orange" : "white", color: value === 0 ? "white" : "black", }} label="Week Days" />
+                        <Tab sx={{ backgroundColor: value === 1 ? "orange" : "white", color: value === 1 ? "white" : "black" }} label="Weekend Days" />
+
                     </Tabs>
                 </Box>
-                <Button onClick={() => switchtoadd()} sx={{ backgroundColor: 'black', color: 'white', width: '10%', borderRadius: '5%', marginLeft: '0%', ':hover':{backgroundColor:'black'} }}>Add Vet</Button>
+                <Button onClick={() => switchtoadd()} sx={{ backgroundColor: 'black', color: 'white', width: '10%', borderRadius: '5%', marginLeft: '0%', ':hover':{backgroundColor:'black'} }}><AddIcon />Add Vet</Button>
             </Grid>
 
            
-            {value === 0 && (
+            {value === 1 && (
                 <div className="full-page">
 
 
@@ -325,7 +321,7 @@ function Viw_vet() {
 
 
                                         <Typography variant="body2" sx={{ color: "black", marginBottom: '9px', fontSize: '14px' }}>Working - {menu.working}</Typography>
-                                        <Typography variant="body2" sx={{ color: 'red', fontSize: '20px', marginBottom: '2%' }}>Chanelling Fee - RS.{menu.fee}</Typography>
+                                        <Typography variant="body2" sx={{ color: 'red', fontSize: '20px', marginBottom: '2%' }}>Doctor Fee - RS.{menu.fee}</Typography>
                                         <Button
                                             sx={{ backgroundColor: 'black', marginRight: '1%', color: 'white', ':hover': { backgroundColor: "black" } }}
                                             onClick={() => {
@@ -356,7 +352,7 @@ function Viw_vet() {
                 </div>
             )}
 
-            {value === 1 && (
+            {value === 0 && (
                 // trianing employees
                 <div className="full-page">
                     <div className="maintopic">
@@ -387,7 +383,7 @@ function Viw_vet() {
 
 
                                         <Typography variant="body2" sx={{ color: "black", marginBottom: '9px', fontSize: '14px' }}>Working - {menu.working}</Typography>
-                                        <Typography variant="body2" sx={{ color: 'red', fontSize: '20px', marginBottom: '2%' }}>Chanelling Fee - RS.{menu.fee}</Typography>
+                                        <Typography variant="body2" sx={{ color: 'red', fontSize: '20px', marginBottom: '2%' }}>Doctor Fee - RS.{menu.fee}</Typography>
                                         <Button
                                             sx={{ backgroundColor: 'black', marginRight: '1%', color: 'white', ':hover': { backgroundColor: "black" } }}
                                             onClick={() => {
