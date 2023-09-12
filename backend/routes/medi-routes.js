@@ -1,6 +1,8 @@
 import express from "express";
 
-import { get_medi, leave, set_count, setprice,add_complain,viewmyComplains,viewClientsComplains,complainDetails,addingResponse,deleteMyComplain,add_vet, get_pets } from "../controllers/doctor-controllers";
+
+import { get_medi, leave, set_count, setprice,add_complain,viewmyComplains,viewClientsComplains,complainDetails,addingResponse,deleteMyComplain,add_vet,systemDoctors ,pendingRequest,completedBox,pendingBox,PendingAppointments,get_pets } from "../controllers/doctor-controllers";
+
 
 
 
@@ -19,6 +21,13 @@ medi_help_manager.get('/viewClientsComplains/:id',viewClientsComplains)
 medi_help_manager.get('/complainDetails/:id',complainDetails)
 medi_help_manager.post('/addingResponse/',addingResponse)
 medi_help_manager.get('/deleteMyComplain/:id',deleteMyComplain)
+
+// dashboard
+medi_help_manager.get('/systemDoctors',systemDoctors )
+medi_help_manager.get('/pendingRequest',pendingRequest )
+medi_help_manager.get('/pendingBox',pendingBox) 
+medi_help_manager.get('/completedBox',completedBox)
+medi_help_manager.get('/PendingAppointments',PendingAppointments)
 
 
 export default medi_help_manager

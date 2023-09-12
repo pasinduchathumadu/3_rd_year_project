@@ -82,24 +82,22 @@ export const setprice = async (req, res, next) => {
 }
 
 export const add_vet = async (req, res, next) => {
-    const { first,second,starttime,fee,contact,countnew,image,working } = req.body
+    const { first, second, starttime, fee, contact, countnew, image, working } = req.body
     var status = ""
-    if(working === 10){
+    if (working === 10) {
         status = "week"
     }
 
-    if(working === 20){
-        status="weekend"
+    if (working === 20) {
+        status = "weekend"
     }
-   
-    
-    
+
     const sqlquery = "INSERT INTO vet (first_name,last_name,contact_number,working,start_time,img,fee,daily_count) VALUES(?,?,?,?,?,?,?,?)"
     const values = [
         first,
         second,
         contact,
-      
+
         status,
         starttime,
         image,
@@ -107,16 +105,19 @@ export const add_vet = async (req, res, next) => {
         countnew
     ]
 
-    db.query(sqlquery,values,(err,data)=>{
-        if(err){
+    db.query(sqlquery, values, (err, data) => {
+        if (err) {
             console.log("ksksk")
-            return res.json({message:'There is an internel error'})
+            return res.json({ message: 'There is an internel error' })
         }
-        return res.json({message:'Added'})
+        return res.json({ message: 'Added' })
     })
 }
 
-  
+
+//     return res.json({message:'updated'})
+//    })
+// }
 
 
 // --- COMPLAINS ---
@@ -182,7 +183,7 @@ export const viewmyComplains = async (req, res, next) => {
         const status = 'pending'
         const role = 'medi_help_manager'
         const sqlQuery = 'SELECT complain_id, complain_txt, com_date, com_time, complain_status, response_txt FROM manager_complain WHERE manager_role = ? AND complain_status = ?';
-        const values = [role,status]
+        const values = [role, status]
         db.query(sqlQuery, values, (err, data) => {
             if (err) {
                 return res.json({ message: 'There is an internal error' })
@@ -194,7 +195,7 @@ export const viewmyComplains = async (req, res, next) => {
         const status = 'completed'
         const role = 'medi_help_manager'
         const sqlQuery = 'SELECT complain_id, complain_txt, com_date, com_time, complain_status, response_txt FROM manager_complain WHERE manager_role = ? AND complain_status = ?';
-        const values = [role,status]
+        const values = [role, status]
         db.query(sqlQuery, values, (err, data) => {
             if (err) {
                 return res.json({ message: 'There is an internal error' })
@@ -213,35 +214,35 @@ export const viewClientsComplains = async (req, res, next) => {
         const sqlQuery = 'SELECT client_id, complain_id, complain_txt, com_date, com_time, complain_status, response_txt FROM client_complain WHERE manager_role = ? ';
         const values = [role]
 
-        db.query(sqlQuery, values, (err,data) => {
-            if(err){
-                return res.json({message:'There is an internal error'})
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
             }
-            return res.json({data})
+            return res.json({ data })
         })
-    }else if(id === '2') {
+    } else if (id === '2') {
         const role = "medi_help_manager"
         const status = 'pending'
         const sqlQuery = 'SELECT client_id, complain_id, complain_txt, com_date, com_time, complain_status, response_txt FROM client_complain WHERE manager_role = ? AND complain_status = ? ';
         const values = [role, status]
 
-        db.query(sqlQuery, values, (err,data) => {
-            if(err){
-                return res.json({message:'There is an internal error'})
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
             }
-            return res.json({data})
+            return res.json({ data })
         })
-    }else if(id === '3') {
+    } else if (id === '3') {
         const role = "medi_help_manager"
         const status = 'completed'
         const sqlQuery = 'SELECT client_id, complain_id, complain_txt, com_date, com_time, complain_status, response_txt FROM client_complain WHERE manager_role = ? AND complain_status = ? ';
         const values = [role, status]
 
-        db.query(sqlQuery, values, (err,data) => {
-            if(err){
-                return res.json({message:'There is an internal error'})
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
             }
-            return res.json({data})
+            return res.json({ data })
         })
 
     }
@@ -300,4 +301,79 @@ export const deleteMyComplain = async (req, res, next) => {
     })
 
 }
+
+// DASHBOARD
+// doctors analyse
+export const systemDoctors = async (req, res, next) => {
+    const status1 = 'week'
+    const status2 = 'weekend'
+    const sqlQuery = 'SELECT(SELECT COUNT(vet_id) FROM vet WHERE working = ?) AS week, (SELECT COUNT(vet_id) FROM vet WHERE working = ?) AS weekend ';
+    const values = [status1, status2]
+
+    db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
+        }
+        return res.json({ data })
+    })
+}
+
+// view pending appointment list
+export const pendingRequest = async (req, res, next) => {
+    const status = 'pending'
+    const sqlQuery = 'SELECT * FROM medi_appointment WHERE appointment_status = ? ';
+    const values = [status]
+    db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
+        }
+        return res.json({ data })
+    })
+}
+
+// pending appointment count
+export const pendingBox = async (req, res, next) => {
+    const status = 'pending'
+    const sqlQuery = 'SELECT COUNT(appointment_id) as totalpending FROM medi_appointment WHERE appointment_status = ? '
+    const values = [status]
+
+    db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
+        }
+        return res.json({ data })
+    })
+}
+
+// completed appointment count
+export const completedBox = async (req, res, next) => {
+    const status = 'completed'
+    const sqlQuery = 'SELECT COUNT(appointment_id) as totalcompleted FROM medi_appointment WHERE appointment_status = ? '
+    const values = [status]
+
+    db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
+        }
+        return res.json({ data })
+    })
+}
+
+// AAPOINTMENTS
+// pending appointments
+export const PendingAppointments = async(req,res,next) => {
+    const status = 'pending'
+    // const sqlQuery = 'SELECT * FROM medi_appointment WHERE appointment_status = ?'
+    const sqlQuery ='SELECT m.appointment_id, m.vet_id, m.appointment_status, m.placed_date, c.client_id, m.client_email,  c.contact_number FROM medi_appointment m INNER JOIN client c  ON c.email = m.client_email WHERE m.appointment_status = ?'
+    const values = [status]
+
+    db.query(sqlQuery, values,(err, data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+// completed & uncompleted appointments
 
