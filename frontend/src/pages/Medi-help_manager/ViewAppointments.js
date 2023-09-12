@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import DeleteAppointment from "./DeleteAppointment";
+// import DeleteAppointment from "./DeleteAppointment";
 import { useLocation } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -53,18 +53,6 @@ const ViewAppointments = () => {
     },
   }));
 
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
-
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-  ];
-
   // connect profile 
   const profile = () => {
     navigate("/profile")
@@ -78,23 +66,82 @@ const ViewAppointments = () => {
 
   // view pending appointments
   const [pending, setpending] = useState('')
-  const PendingAppointments = async() => {
+  const PendingAppointments = async () => {
     try {
       const res = await axios.get(`http://localhost:5000/pet_care/medi_help_manager/PendingAppointments`)
       const data = await res.data
       return data
-    }catch(err){
+    } catch (err) {
       console.log('There is an internal error')
     }
   }
   useEffect(() => {
     PendingAppointments()
-    .then((data) =>setpending(data.data))
-    .catch((err) => console.log(err))
+      .then((data) => setpending(data.data))
+      .catch((err) => console.log(err))
 
   })
+  // view completed and uncompleted appointments
+  const [app, setapp] = React.useState('1')
+  const handleChange1 = (event) => {
+    setapp(event.target.value)
 
+    completedAppointments()
+  };
 
+  const [details, setdetails] = useState('')
+  const completedAppointments = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/medi_help_manager/completedAppointments/${app}`)
+      setdetails(res.data.data)
+
+    } catch (err) {
+      console.log(err)
+      console.log(app)
+    }
+  }
+  useEffect(() => {
+    completedAppointments()
+  }, [app, completedAppointments])
+
+  // pending => completed
+  const [error1, seterror1] = useState(false)
+  const [message1, setmessage1] = useState('')
+  const PendingtoCompeleted = async (id) => {
+    try {
+      const res = await axios.post(`http://localhost:5000/pet_care/medi_help_manager/PendingtoCompeleted`, {
+        id
+      })
+      
+      if (res.data.message === 'There is an internal error') {
+        setmessage1('There is an internal error')
+        seterror1(true)
+      } else if (res.data.message === 'completed') {
+        setvalue(0)
+      }
+    } catch (err) {
+      console.log('There is an internal error')
+    }
+  }
+
+  // pending => uncompleted
+  const [error2, seterror2] = useState(false)
+  const [message2, setmessage2] = useState('')
+  const PendingtoUncompeleted = async (id) => {
+    try {
+      const res = await axios.post(`http://localhost:5000/pet_care/medi_help_manager/PendingtoUncompelted`, {
+        id
+      })
+      if (res.data.message === 'There is an internal error') {
+        setmessage2('There is an internal error')
+        seterror2(true)
+      } else if (res.data.message === 'uncompleted') {
+        setvalue(0)
+      }
+    } catch (err) {
+      console.log('There is an internal error')
+    }
+  }
 
   return (
     <div style={{ marginTop: '4%' }}>
@@ -171,9 +218,7 @@ const ViewAppointments = () => {
                     <StyledTableCell align="center">Vet ID</StyledTableCell>
                     <StyledTableCell align="center">Client Email</StyledTableCell>
                     <StyledTableCell align="center">Contact Number</StyledTableCell>
-                    {/* <StyledTableCell align="center">Doctor Name</StyledTableCell> */}
                     <StyledTableCell align="center">Date</StyledTableCell>
-                    {/* <StyledTableCell align="center">Time</StyledTableCell> */}
                     <StyledTableCell align="center">Payment (Rs)</StyledTableCell>
                     <StyledTableCell align="center"></StyledTableCell>
                     <StyledTableCell align="center"></StyledTableCell>
@@ -183,16 +228,14 @@ const ViewAppointments = () => {
                   {pending && pending.map((row, index) => (
                     <StyledTableRow key={row.appointment_id}>
                       <StyledTableCell component="th" scope="row" align='center'>{row.appointment_id}</StyledTableCell>
-                      <StyledTableCell align="center"> pet id</StyledTableCell>
+                      <StyledTableCell align="center">{row.pet_id}</StyledTableCell>
                       <StyledTableCell align="center">{row.vet_id}</StyledTableCell>
                       <StyledTableCell align="center">{row.client_email}</StyledTableCell>
                       <StyledTableCell align="center">{row.contact_number}</StyledTableCell>
-                      {/* <StyledTableCell align="center"></StyledTableCell> */}
                       <StyledTableCell align="center">{row.placed_date}</StyledTableCell>
-                      {/* <StyledTableCell align="center">12PM</StyledTableCell> */}
                       <StyledTableCell align="center">payment</StyledTableCell>
-                      <StyledTableCell align="right"><Button sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white' }}>Completed</Button></StyledTableCell>
-                      <StyledTableCell align="right"><Button sx={{ backgroundColor: 'black', ':hover': { backgroundColor: 'black' }, color: 'white' }}>Uncompleted</Button></StyledTableCell>
+                      <StyledTableCell align="right"><Button onClick={() => PendingtoCompeleted(row.appointment_id)} sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white' }}>Completed</Button></StyledTableCell>
+                      <StyledTableCell align="right"><Button onClick={() => PendingtoUncompeleted(row.appointment_id)} sx={{ backgroundColor: 'black', ':hover': { backgroundColor: 'black' }, color: 'white' }}>Uncompleted</Button></StyledTableCell>
                     </StyledTableRow>
                   ))}
                 </TableBody>
@@ -201,7 +244,7 @@ const ViewAppointments = () => {
           )}
           {value === 1 && (
             <>
-              <div style={{marginLeft:'89%', marginBottom:'1%'}}>
+              <div style={{ marginLeft: '89%', marginBottom: '1%' }}>
                 <Box sx={{ width: '150px' }}>
                   <FormControl fullWidth>
                     <Select
@@ -209,10 +252,10 @@ const ViewAppointments = () => {
                       id="demo-simple-select"
 
                       variant='filled'
-                      label="clients"
-                      // onChange={handleChange}
+                      label="appointments"
+                      onChange={handleChange1}
                       l
-                      sx={{ fontSize: '11px' }}
+                      sx={{ fontSize: '12px' }}
                     >
                       <MenuItem value={1}>All</MenuItem>
                       <MenuItem value={2}>Completed</MenuItem>
@@ -228,34 +271,30 @@ const ViewAppointments = () => {
                     <TableRow>
                       <StyledTableCell align="center">Appintment ID</StyledTableCell>
                       <StyledTableCell align="center">Pet ID</StyledTableCell>
-                      <StyledTableCell align="center">Client</StyledTableCell>
+                      <StyledTableCell align="center"> Vet ID</StyledTableCell>
+                      <StyledTableCell align="center">Client Email</StyledTableCell>
                       <StyledTableCell align="center">Contact Number</StyledTableCell>
-                      <StyledTableCell align="center">Doctor Name</StyledTableCell>
                       <StyledTableCell align="center">Date</StyledTableCell>
-                      <StyledTableCell align="center">Time</StyledTableCell>
                       <StyledTableCell align="center">Payment (Rs)</StyledTableCell>
                       <StyledTableCell align="center"></StyledTableCell>
-                      {/* <StyledTableCell align="center">Client PhoneNo</StyledTableCell> */}
-
-                      {/* <StyledTableCell align="center">Generate Report</StyledTableCell> */}
-                      {/* <StyledTableCell align="center">Delete</StyledTableCell> */}
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {rows.map((row) => (
-                      <StyledTableRow key={row.name}>
-                        <StyledTableCell component="th" scope="row" align="center">1</StyledTableCell>
-                        <StyledTableCell align="center">  2</StyledTableCell>
-                        <StyledTableCell align="center"> Maria Anders</StyledTableCell>
-                        <StyledTableCell align="center">0123456789</StyledTableCell>
-                        <StyledTableCell align="center">John Deo</StyledTableCell>
-                        <StyledTableCell align="center">2023.08.23</StyledTableCell>
-                        <StyledTableCell align="center">12PM</StyledTableCell>
-                        <StyledTableCell align="center">1200.00</StyledTableCell>
-
-
-                        <StyledTableCell align="center"><Button sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white' }}>Generate Report</Button></StyledTableCell>
-                        {/* <StyledTableCell align="center"><Button sx={{ backgroundColor: 'black', ':hover': { backgroundColor: 'black' }, color: 'white' }} onClick={() => setShow(true)}>Delete</Button></StyledTableCell> */}
+                    {details && details.map((row1, index) => (
+                      <StyledTableRow key={row1.appointment_id}>
+                        <StyledTableCell component="th" scope="row" align="center">{row1.appointment_id}</StyledTableCell>
+                        <StyledTableCell align="center">{row1.pet_id}</StyledTableCell>
+                        <StyledTableCell align="center">{row1.vet_id}</StyledTableCell>
+                        <StyledTableCell align="center">{row1.client_email}</StyledTableCell>
+                        <StyledTableCell align="center">{row1.contact_number}</StyledTableCell>
+                        <StyledTableCell align="center">{row1.placed_date}</StyledTableCell>
+                        <StyledTableCell align="center">payment</StyledTableCell>
+                        {row1.appointment_status === 'completed' ? (
+                          <StyledTableCell align="center"><Button sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white' }}>Generate Report</Button></StyledTableCell>
+                        ) : (
+                          <StyledTableCell align="center">Uncompleted Appointment</StyledTableCell>
+                        )
+                        }
                       </StyledTableRow>
                     ))}
                   </TableBody>
@@ -266,8 +305,8 @@ const ViewAppointments = () => {
         </Grid>
 
 
-        {show2 && <ViewForm />}
-        {show && <DeleteAppointment />}
+        {/* {show2 && <ViewForm />} */}
+        {/* {show && <DeleteAppointment />} */}
       </div>
     </div>
   );
