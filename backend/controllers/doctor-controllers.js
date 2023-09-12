@@ -331,3 +331,21 @@ export const completedBox = async (req, res, next) => {
     })
 }
 
+// AAPOINTMENTS
+// pending appointments
+export const PendingAppointments = async(req,res,next) => {
+    const status = 'pending'
+    // const sqlQuery = 'SELECT * FROM medi_appointment WHERE appointment_status = ?'
+    const sqlQuery ='SELECT m.appointment_id, m.vet_id, m.appointment_status, m.placed_date, c.client_id, m.client_email,  c.contact_number FROM medi_appointment m INNER JOIN client c  ON c.email = m.client_email WHERE m.appointment_status = ?'
+    const values = [status]
+
+    db.query(sqlQuery, values,(err, data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+// completed & uncompleted appointments
+
