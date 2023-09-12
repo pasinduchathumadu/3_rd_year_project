@@ -13,7 +13,7 @@ import 'aos/dist/aos.css';
 import doctor2 from "../../assests/doctor2.png"
 import pay from "../../assests/pay1.jpg"
 import { Link,useNavigate } from 'react-router-dom';
-import { Alert, Button, Checkbox, IconButton, Stack, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Checkbox, FormControl, IconButton, InputLabel, MenuItem, Select, Stack, TextField, Typography } from "@mui/material";
 import StripeCheckout from "react-stripe-checkout"
 import CloseIcon from "@mui/icons-material/Close"
 import "../../styles/Client/Medi.css"
@@ -29,6 +29,7 @@ function Medi() {
   const [second, setsecond] = useState(false)
   const [book_doctor, setbookdoctor] = useState([])
   const [user, setuser] = useState([])
+  const [pet,setpet] = useState([])
   const [appointment, setappoinment] = useState(false)
   const [date_medi, setdate] = useState("")
   const [error, seterror] = useState(false)
@@ -38,12 +39,21 @@ function Medi() {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true);
   const [payment_charge, setprice] = useState("");
+  const [selectpet,setpetselect] = useState("")
   const email = localStorage.getItem('client_email')
 
   const currentDate = new Date();
   const twoWeeksFromToday = new Date();
   twoWeeksFromToday.setDate(currentDate.getDate() + 14);
- 
+  const handlechangeselect = (event)=>{
+    setpetselect(event.target.value)
+  }
+
+  const get_pet = async()=>{
+    const res = await axios.get(`http://localhost:5000/pet_care/medi_help_manager/get_pets/${email}`)
+    const data = await res.data;
+    return data
+  }
   useEffect(() => {
     const handleScroll = () => {
       const offset = 500; // Adjust this value as needed
@@ -74,6 +84,12 @@ function Medi() {
     price: payment_charge,
     productBy: "facebook",
   });
+
+  useEffect(()=>{
+    get_pet()
+    .then((data)=>setpet(data.data))
+    .catch((err)=>console.log(err))
+  })
   const openappointment = async (id) => {
    
     try {
@@ -92,6 +108,7 @@ function Medi() {
   }
 
   const close_form = () => {
+    setpetselect("")
     setappoinment(false)
   }
   const get_medi_user = async () => {
@@ -123,12 +140,18 @@ function Medi() {
     }
   }
   const submit1 = async (id) => {
-    if (date_medi === "") {
+    if (date_medi === "" ) {
       seterror(true);
       setmessage("Please provide a valid date.");
       return;
     }
-  
+
+    if (selectpet === "" ) {
+      seterror(true);
+      setmessage("Please Select a Pet");
+      return;
+    }
+   
     const selectedDate = new Date(date_medi);
     if (selectedDate > twoWeeksFromToday) {
       seterror(true);
@@ -149,7 +172,8 @@ function Medi() {
     const res = await axios.post('http://localhost:5000/pet_care/user/check_appointment', {
       date_medi,
       email,
-      id
+      id,
+    
       
     })
     if (res.data.message === "Appoinments are over") {
@@ -172,6 +196,7 @@ function Medi() {
   const cancel = ()=>{
     setpayment(false)
     setfirst(true)
+    
     setappoinment(false)
   }
   const confirm = async(id)=>{
@@ -183,7 +208,8 @@ function Medi() {
         id,
         date_medi,
         email,
-        new_cancel_date
+        new_cancel_date,
+        selectpet
       })
       if(res.data.message==="There is an internel error"){
         console.log("There is an internel error")
@@ -404,6 +430,25 @@ function Medi() {
                     <TextField variant="outlined" label="Channeling Fee" defaultValue={"RS." + menu.fee} InputProps={{
                       readOnly: true,
                     }} />
+                     <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Select Your Pet</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={selectpet}
+          label="Age"
+          onChange={handlechangeselect}
+        >
+          {pet.map((menu,index)=>
+             <MenuItem value={menu.pet_id}>{menu.name}</MenuItem>
+           
+
+          )}
+         
+        </Select>
+      </FormControl>
+    </Box>
                     <Typography>Appointment Date: </Typography>
                     <TextField onChange={(e) => setdate(e.target.value)} type="date" variant="outlined"></TextField>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
