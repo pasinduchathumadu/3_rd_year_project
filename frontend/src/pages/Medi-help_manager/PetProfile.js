@@ -106,7 +106,7 @@ const PetProfile = () => {
 
           <div className="card-header">
 
-            <Button sx={{ width: '10%', color: 'black', marginLeft: '78%', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }} onClick={() => setModelOpen(true)} > + Add Pet</Button>
+            {/* <Button sx={{ width: '10%', color: 'black', marginLeft: '78%', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }} onClick={() => setModelOpen(true)} > + Add Pet</Button> */}
 
           </div>
           <div >
