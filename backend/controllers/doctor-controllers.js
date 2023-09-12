@@ -1,5 +1,31 @@
 import { db } from '../database.js'
 
+
+export const get_pets = async(req,res,next)=>{
+    const id = req.params.email;
+    const sqlQuery = "SELECT *FROM client WHERE email = ?"
+    const value = [
+        id
+    ]
+    db.query(sqlQuery,value,(err,data1)=>{
+        if(err){
+            return res.json({message:'There is an error'})
+        }
+
+        const sqlQuery1 = "SELECT *FROM pet WHERE client_id = ?"
+        const value1 = [
+            data1[0].client_id
+        ]
+        db.query(sqlQuery1,value1,(err,data)=>{
+            if(err){
+                return res.json({message:'There is an internel error'})
+            }
+            return res.json({data})
+
+        })
+    })
+}
+
 export const get_medi = async (req, res, next) => {
     const sqlquery = "SELECT *FROM vet"
     db.query(sqlquery, (err, data) => {
@@ -88,9 +114,11 @@ export const add_vet = async (req, res, next) => {
     })
 }
 
+
 //     return res.json({message:'updated'})
 //    })
 // }
+
 
 // --- COMPLAINS ---
 // add new complain

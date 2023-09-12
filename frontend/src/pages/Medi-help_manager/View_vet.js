@@ -289,7 +289,9 @@ function Viw_vet() {
 
                     </Tabs>
                 </Box>
+
                 <Button onClick={() => switchtoadd()} sx={{ backgroundColor: 'black', color: 'white', width: '10%', borderRadius: '5%', marginLeft: '0%', ':hover':{backgroundColor:'black'} }}><AddIcon />Add Vet</Button>
+
             </Grid>
 
            

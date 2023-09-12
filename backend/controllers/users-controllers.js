@@ -1134,20 +1134,22 @@ export const check_appointment = async (req, res, next) => {
 }
 
 export const medi_payment = async (req, res, next) => {
-  const { id, date_medi, email, new_cancel_date } = req.body
-
+  const { id, date_medi, email, new_cancel_date,selectpet } = req.body
+ 
 
   const status = "confirm"
-  const sqlQuery = 'INSERT INTO medi_appointment (appointment_status , placed_date , client_email , vet_id,cancel_date) VALUES (?,?,?,?,?) '
+  const sqlQuery = 'INSERT INTO medi_appointment (appointment_status , placed_date , client_email ,pet_id, vet_id,cancel_date) VALUES (?,?,?,?,?,?) '
   const values = [
     status,
     date_medi,
     email,
+    selectpet,
     id,
     new_cancel_date
   ]
-  db.query(sqlQuery, values, (err, data) => {
+  db.query(sqlQuery, values, (err,data) => {
     if (err) {
+     
       return res.json({ message: 'There is an internel error' })
     }
     return res.json({ message: 'success' })
