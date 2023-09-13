@@ -31,6 +31,8 @@ const ViewAppointments = () => {
   const [value, setvalue] = React.useState(0);
   const handleChange = (event, newvalue) => {
     setvalue(newvalue);
+    PendingAppointments()
+    
   };
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -63,24 +65,52 @@ const ViewAppointments = () => {
     return require(`../../../../backend/images/store/${imageName}`)
 
   }
+  const pendingtoCompeleted = async(id) => {
+
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/medi_help_manager/pending/${id}`)
+
+
+      if (res.data.message === 'There is an internal error') {
+        setmessage1('There is an internal error')
+        seterror1(true)
+      } else if (res.data.message === 'completed') {
+        setvalue(1)
+      }
+    } catch (err) {
+      console.log('There is an internal error')
+    }
+  }
+   const pendingtoUncompeleted = async(id) => {
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/medi_help_manager/pending1/${id}`)
+
+      if (res.data.message === 'There is an internal error') {
+        setmessage2('There is an internal error')
+        seterror2(true)
+      } else if (res.data.message === 'uncompleted') {
+        setvalue(1)
+      }
+    } catch (err) {
+      console.log('There is an internal error')
+    }
+  }
 
   // view pending appointments
   const [pending, setpending] = useState('')
   const PendingAppointments = async () => {
     try {
       const res = await axios.get(`http://localhost:5000/pet_care/medi_help_manager/PendingAppointments`)
-      const data = await res.data
-      return data
+      setpending(res.data.data)
+ 
     } catch (err) {
       console.log('There is an internal error')
     }
   }
   useEffect(() => {
     PendingAppointments()
-      .then((data) => setpending(data.data))
-      .catch((err) => console.log(err))
 
-  })
+  },[])
   // view completed and uncompleted appointments
   const [app, setapp] = React.useState('1')
   const handleChange1 = (event) => {
@@ -102,46 +132,17 @@ const ViewAppointments = () => {
   }
   useEffect(() => {
     completedAppointments()
-  }, [app, completedAppointments])
+  }, [app])
 
   // pending => completed
   const [error1, seterror1] = useState(false)
   const [message1, setmessage1] = useState('')
-  const PendingtoCompeleted = async (id) => {
-    try {
-      const res = await axios.post(`http://localhost:5000/pet_care/medi_help_manager/PendingtoCompeleted`, {
-        id
-      })
-      
-      if (res.data.message === 'There is an internal error') {
-        setmessage1('There is an internal error')
-        seterror1(true)
-      } else if (res.data.message === 'completed') {
-        setvalue(0)
-      }
-    } catch (err) {
-      console.log('There is an internal error')
-    }
-  }
+
 
   // pending => uncompleted
   const [error2, seterror2] = useState(false)
   const [message2, setmessage2] = useState('')
-  const PendingtoUncompeleted = async (id) => {
-    try {
-      const res = await axios.post(`http://localhost:5000/pet_care/medi_help_manager/PendingtoUncompelted`, {
-        id
-      })
-      if (res.data.message === 'There is an internal error') {
-        setmessage2('There is an internal error')
-        seterror2(true)
-      } else if (res.data.message === 'uncompleted') {
-        setvalue(0)
-      }
-    } catch (err) {
-      console.log('There is an internal error')
-    }
-  }
+ 
 
   return (
     <div style={{ marginTop: '4%' }}>
@@ -225,8 +226,8 @@ const ViewAppointments = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {pending && pending.map((row, index) => (
-                    <StyledTableRow key={row.appointment_id}>
+                  {pending && pending.map((row, index) => 
+                    <StyledTableRow>
                       <StyledTableCell component="th" scope="row" align='center'>{row.appointment_id}</StyledTableCell>
                       <StyledTableCell align="center">{row.pet_id}</StyledTableCell>
                       <StyledTableCell align="center">{row.vet_id}</StyledTableCell>
@@ -234,10 +235,19 @@ const ViewAppointments = () => {
                       <StyledTableCell align="center">{row.contact_number}</StyledTableCell>
                       <StyledTableCell align="center">{row.placed_date}</StyledTableCell>
                       <StyledTableCell align="center">payment</StyledTableCell>
-                      <StyledTableCell align="right"><Button onClick={() => PendingtoCompeleted(row.appointment_id)} sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white' }}>Completed</Button></StyledTableCell>
-                      <StyledTableCell align="right"><Button onClick={() => PendingtoUncompeleted(row.appointment_id)} sx={{ backgroundColor: 'black', ':hover': { backgroundColor: 'black' }, color: 'white' }}>Uncompleted</Button></StyledTableCell>
+                      <StyledTableCell align="center">
+                        <Button onClick={() => pendingtoCompeleted(row.appointment_id)} sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white' }}>
+                          Completed
+                        </Button>
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        <Button onClick={() => pendingtoUncompeleted(row.appointment_id)} sx={{ backgroundColor: 'black', ':hover': { backgroundColor: 'black' }, color: 'white' }}>
+                          Uncompleted
+                        </Button>
+                      </StyledTableCell>
+
                     </StyledTableRow>
-                  ))}
+                  )}
                 </TableBody>
               </Table>
             </TableContainer>

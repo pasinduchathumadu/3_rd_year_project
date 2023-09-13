@@ -713,3 +713,16 @@ export const pendingRequest = async (req, res, next) => {
     })
 }
 
+// CAGES
+export const getCages = async(req,res,next) => {
+    const sqlQuery = 'SELECT * FROM boarding_cages';
+    db.query(sqlQuery, (err, data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    } )
+
+
+}
+

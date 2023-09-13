@@ -15,15 +15,10 @@ import axios from "axios";
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-// import Gold from '../../assests/gold.png';
-// import Silver from '../../assests/silver.png';
-// import Platinum from '../../assests/platinum.png';
 import { useNavigate } from "react-router";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloseIcon from '@mui/icons-material/Close';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-// import CloseIcon from '@mui/icons-material/Close';
-
 
 
 const Packages = () => {

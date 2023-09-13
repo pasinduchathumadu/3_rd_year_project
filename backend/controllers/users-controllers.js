@@ -4,8 +4,7 @@ import { db } from "../database.js";
 import { sendmailer } from '../controllers/email-controllers.js';
 import { confirmation } from "../controllers/email-controllers.js";
 import multer from 'multer'
-
-
+import { format } from 'date-fns'
 
 
 const localStorage = new LocalStorage('./scratch');
@@ -1134,8 +1133,8 @@ export const check_appointment = async (req, res, next) => {
 }
 
 export const medi_payment = async (req, res, next) => {
-  const { id, date_medi, email, new_cancel_date,selectpet } = req.body
- 
+  const { id, date_medi, email, new_cancel_date, selectpet } = req.body
+
 
   const status = "confirm"
   const sqlQuery = 'INSERT INTO medi_appointment (appointment_status , placed_date , client_email ,pet_id, vet_id,cancel_date) VALUES (?,?,?,?,?,?) '
@@ -1147,9 +1146,9 @@ export const medi_payment = async (req, res, next) => {
     id,
     new_cancel_date
   ]
-  db.query(sqlQuery, values, (err,data) => {
+  db.query(sqlQuery, values, (err, data) => {
     if (err) {
-     
+
       return res.json({ message: 'There is an internel error' })
     }
     return res.json({ message: 'success' })
@@ -1363,19 +1362,19 @@ export const viewmyComplains = async (req, res, next) => {
         return res.json({ data })
       })
     })
-  }else if(clients === 2) {
+  } else if (clients === 2) {
     const status = 'pending'
     const checkQuery = 'SELECT client_id FROM client WHERE email = ?'
     const checkValues = [email]
-  
+
     db.query(checkQuery, checkValues, (err, data) => {
       if (err) {
         return res.json({ message: 'There is an internal error' })
       }
-  
+
       const sqlQuery = 'SELECT * FROM client_complain WHERE client_id = ? AND complain_status = ?'
       const values = [data[0].client_id, status]
-  
+
       db.query(sqlQuery, values, (err, data) => {
         if (err) {
           return res.json({ message: 'There is an internal error' })
@@ -1383,19 +1382,19 @@ export const viewmyComplains = async (req, res, next) => {
         return res.json({ data })
       })
     })
-  }else if(clients === 3) {
+  } else if (clients === 3) {
     const status = 'completed'
     const checkQuery = 'SELECT client_id FROM client WHERE email = ?'
     const checkValues = [email]
-  
+
     db.query(checkQuery, checkValues, (err, data) => {
       if (err) {
         return res.json({ message: 'There is an internal error' })
       }
-  
+
       const sqlQuery = 'SELECT * FROM client_complain WHERE client_id = ? AND complain_status = ?'
       const values = [data[0].client_id, status]
-  
+
       db.query(sqlQuery, values, (err, data) => {
         if (err) {
           return res.json({ message: 'There is an internal error' })
@@ -1479,6 +1478,106 @@ export const deleteMyComplain = async (req, res, next) => {
   })
 }
 
+// BOARDING - 
+// assign a random cage
+export const AssignCage = async (req, res, next) => {
+  const {
+    email,
+    startdate,
+    enddate,
+    selectpet,
+    selectpackage
+  } = req.body;
+
+  const status = 'free'
+
+  const sqlQuery = 'SELECT * FROM boarding_cages WHERE status = ? ORDER BY RAND() LIMIT 1';
+  const values = [status]
+
+  db.query(sqlQuery, values, (err, data1) => {
+    if (err) {
+      return res.json({ message: 'There is an internal error' })
+    }
+
+    const checkSql = 'SELECT * FROM client WHERE email = ?'
+    const checkValues = [email]
+
+    db.query(checkSql, checkValues, (err, data2) => {
+      if (err) {
+        return res.json({ message: 'There is an internal error' })
+      }
+
+      const check1 = 'SELECT * FROM boarding_package WHERE package_id = ?'
+      const checkValues1 = [selectpackage]
+
+      db.query(check1, checkValues1, (err, data3) => {
+        if (err) {
+          console.log("Hi")
+
+          return res.json({ message: 'There is an internal error' })
+        }
+
+        const input = new Date()
+        const date = format(input, 'yyy-MM-dd')
+       
+        // const newprice = (enddate - startdate)*data3[0].price
+        const cancel_date = new Date(startdate);
+        cancel_date.setDate(cancel_date.getDate() + 2);
+        const new_cancel_date = cancel_date.toISOString().substr(0, 10)
+
+        const millisecperday = 24 * 60 * 60 * 1000
+        const sDate = new Date(startdate)
+        const eDate = new Date(enddate)
+        const diff = (eDate - sDate) / millisecperday;
+        const newprice = diff * data3[0].price
+
+        const sqlQuery1 = 'INSERT INTO boarding_request (placed_date, verify_cancel_date,  package_id, client_id, board_arrival_date, board_carry_date, pet_id, price, cage_id ) VALUES (?,?,?,?,?,?,?,?,?)'
+        const values1 = [date, new_cancel_date, selectpackage, data2[0].client_id, startdate, enddate, selectpet, newprice, data1[0].cage_id]
+
+        db.query(sqlQuery1, values1, (err, data) => {
+          if (err) {
+            return res.json({ message: 'There is an internal error' })
+          }
+          return res.json({ message: 'Successfully Done!' })
+        })
+
+      })
+    })
+  })
+}
+
+// get package details
+export const getPackageid = async (req, res, next) => {
+  const sqlQuery = 'SELECT * FROM boarding_package'
+
+  db.query(sqlQuery, (err, data) => {
+    if (err) {
+      return res.json({ message: 'There is an internal error' })
+    }
+    return res.json({ data })
+  })
+}
+export const getallpets = async (req, res, next) => {
+  const email = req.params.email
+
+  const checkSql = 'SELECT * FROM client WHERE email = ?'
+  const checkValues = [email]
+
+  db.query(checkSql, checkValues, (err, data1) => {
+    if (err) {
+      return res.json({ message: 'There is an internal error' })
+    }
+    const sqlQuery = 'SELECT * FROM pet WHERE client_id = ?'
+    const values = [data1[0].client_id]
+
+    db.query(sqlQuery, values, (err, data) => {
+      if (err) {
+        return res.json({ message: 'There is an internal error' })
+      }
+      return res.json({ data })
+    })
+  })
+}
 
 
 
