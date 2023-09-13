@@ -1,73 +1,105 @@
 import React, { useState, useEffect } from 'react';
 import "../../styles/Client/Bording.css";
-
 import cage from "../../assests/2.png";
 import "../../styles/Client/Shop.css"
 import AOS from 'aos';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import Button from '@mui/material/Button';
 import platinum from "../../assests/platinum.png"
 import gold from "../../assests/gold.png"
 import silver from "../../assests/silver.png";
 import { Link } from 'react-router-dom';
-
-
-
-
-
-
+import { FormControl, TextField, Typography } from '@mui/material';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import axios from 'axios';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 const Bording = () => {
-  const [selectedSeats, setSelectedSeats] = useState([]);
-  const [selectedMovieIndex, setSelectedMovieIndex] = useState(0);
-  const [count, setCount] = useState(0);
-  const [total, setTotal] = useState(0);
+  const email = localStorage.getItem('store_email')
+  const [startdate, setstartdate] = useState("")
+  const [enddate, setenddate] = useState("")
+  const [selectpackage, setselectpackage] = useState("")
+  const [selectpet, setselectpet] = useState("")
+  const currentDate = new Date();
 
-  const seats = [
-    [false, false, false, false, false, false, false, false],
-    [false, false, false, true, true, false, false, false],
-    [false, false, false, false, false, true, true, false],
-    [false, false, false, false, false, false, false, false],
-    [false, false, false, true, true, false, false, false],
-    [false, false, false, true, true, true, true, false],
-  ];
+  const handleStartDate = (event) => {
+    setstartdate(event.target.value)
+  }
 
-  const movies = [
-    { name: 'Dogs', price: 1000 },
-    { name: 'Cats', price: 800 },
-   
-  ];
-
-  const handleSeatClick = (rowIndex, seatIndex) => {
-    const seatKey = `${rowIndex}-${seatIndex}`;
-    if (!seats[rowIndex][seatIndex]) {
-      const updatedSeats = [...selectedSeats, seatKey];
-      setSelectedSeats(updatedSeats);
-    } else {
-      const updatedSeats = selectedSeats.filter((seat) => seat !== seatKey);
-      setSelectedSeats(updatedSeats);
+  const handleEndDate = (event) => {
+    setenddate(event.target.value)
+  }
+  const [error, seterror] = useState(false)
+  const [success, setsuccess] = useState(false)
+  const [message, setmessage] = useState('')
+  // submit the form
+  const SubmitForm = async () => {
+    try {
+      const res = await axios.post(`http://localhost:5000/pet_care/user/AssignCage`, {
+        email,
+        startdate,
+        enddate,
+        selectpet,
+        selectpackage
+      })
+      if (res.data.message === 'There is an internal error') {
+        setmessage('Cannot place the boarding request')
+        seterror(true)
+      } else if (res.data.message === 'Successfully Done!') {
+        setsuccess(true)
+        seterror(false)
+        setmessage('Successfully Done!')
+      }
+    } catch (err) {
+      console.log('There is an internal error')
     }
-  };
+  }
 
-  const handleMovieChange = (event) => {
-    setSelectedMovieIndex(event.target.value);
-  };
+
+  // get packages id
+  const [package1, setpackage] = useState([])
+  const getPackageid = async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/pet_care/user/getPackageid')
+      const data = await res.data
+      return data
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   useEffect(() => {
-    const selectedMoviePrice = movies[selectedMovieIndex].price;
-    const selectedSeatsCount = selectedSeats.length;
-    setCount(selectedSeatsCount);
-    setTotal(selectedSeatsCount * selectedMoviePrice);
-  }, [selectedSeats, selectedMovieIndex, movies]);
+    getPackageid()
+      .then((data) => setpackage(data.data))
+      .catch((err) => console.log(err));
+  })
 
-
+  // animation
   useEffect(() => {
     AOS.init({ duration: 800 });
   }, []);
 
+  // get pet details
+  const [pet, setpet] = useState([])
+  const getallpets = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/user/getallpets/${email}`)
+      const data = await res.data
+      return data
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  useEffect(() => {
+    getallpets()
+      .then((data) => setpet(data.data))
+      .catch((err) => console.log(err));
+  })
 
   return (
     <>
@@ -140,73 +172,91 @@ const Bording = () => {
         </div>
       </div>
 
-      <div className='main' style={{ marginTop: "20px" }}>
-        <div className="movie-con">
-          <label>Pick a Cage:</label>
-          <select id="movie" onChange={handleMovieChange} value={selectedMovieIndex}>
-            {movies.map((movie, index) => (
-              <option key={index} value={index}>
-                {movie.name} 
-              </option>
-            ))}
-          </select>
+      <div style={{
+        marginRight: '2%',
+        marginLeft: '2%',
+        marginTop: '6%',
+        marginBottom: '2%',
+        backgroundColor: 'white',
+        borderRadius: '10px',
+        padding: '2%',
+        width: '60%',
+        marginLeft: '20%',
+        justifyContent: 'center',
+        border: 'solid black'
+      }}>
+        <div style={{ marginTop: '2%', marginBottom: '2%' }}>
+          <Typography sx={{ color: 'black', fontSize: '25px', fontWeight: 'bold', textAlign: 'center' }}>Place Your Boarding Request</Typography>
+          <hr />
         </div>
 
-        <ul className="showcase">
-          <li>
-            <div className="seat"> </div>
-            <small>N/O</small>
-          </li>
+        <div style={{ display: 'flex', flexDirection: 'row', gap: '40%', marginTop: '1%' }}>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <InputLabel>Board Date :</InputLabel>
+            <TextField type="date" onChange={handleStartDate} sx={{ width: '200%' }}></TextField>
+          </div>
 
-          <li>
-            <div className="seat selected"> </div>
-            <small>Selected</small>
-          </li>
-
-          <li>
-            <div className="seat occupied"></div>
-            <small>Occupied</small>
-          </li>
-        </ul>
-
-        <div className="con">
-          <div className="screen"></div>
-          {seats.map((row, rowIndex) => (
-            <div className="ro" key={rowIndex}>
-              {row.map((seat, seatIndex) => {
-                const seatKey = `${rowIndex}-${seatIndex}`;
-                return (
-                  <div
-
-                    key={seatKey}
-                    className={`seat ${seat
-                      ? "occupied"
-                      : selectedSeats.includes(seatKey)
-                        ? "selected"
-                        : ""}`}
-                    onClick={() => handleSeatClick(rowIndex, seatIndex)}
-                  >
-                  </div>
-                );
-              })}
-            </div>
-          ))}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <InputLabel>Arrived Date :</InputLabel>
+            <TextField type="date" onChange={handleEndDate} sx={{ width: '200%' }}></TextField>
+          </div>
         </div>
 
-        <p className="text">
-          You have selected <span id="count">{count}</span> seats for a price of Rs{' '}
-          <span id="total">{total}</span>
-        </p>
-        <p style={{ color: "black", marginTop: "30px" }}>Select your time slot</p>
-        <LocalizationProvider dateAdapter={AdapterDayjs} sx={{ color: "white" }}>
-          <DemoContainer components={['DateTimePicker']} sx={{ width: "500px", marginLeft: "45px", marginTop: "10px" }}>
-            <DateTimePicker label="Book your time" sx={{ color: "black", backgroundColor: "white", borderRadius: "10px" }} />
-          </DemoContainer>
-        </LocalizationProvider>
+        <div style={{ marginTop: '1%' }}>
+          <InputLabel>Package</InputLabel>
+          <FormControl sx={{ minWidth: 120 }}>
+            <Select
+              displayEmpty
+              inputProps={{ 'aria-label': 'Without label' }}
+              sx={{ width: '250%' }}
+              onChange={(e) => setselectpackage(e.target.value)}
+            >
+              {package1 &&
+                package1.map((menu, index) => (
+                  <MenuItem key={index} value={menu.package_id}>
+                    {menu.package_name} {/* Display package name */}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+        </div>
 
-        <Button sx={{ backgroundColor: "black", width: "500px", marginLeft: "45px", marginTop: "10px", '&:hover': { backgroundColor: 'black' } }} variant="contained">Submit</Button>
+
+        <div style={{ marginTop: '1%' }}>
+          <InputLabel>Pet ID</InputLabel>
+          <FormControl sx={{ minWidth: 120 }}>
+            <Select
+              displayEmpty
+              inputProps={{ 'aria-label': 'Without label' }}
+              sx={{ width: '250%' }}
+              onChange={(e) => setselectpet(e.target.value)}
+            >
+              {pet &&
+                pet.map((menu, index) => (
+                  <MenuItem key={index} value={menu.pet_id}>
+                    {menu.name} {/* Display pet name */}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+        </div>
+
+        {/* error / success messages displaying */}
+        {error && (
+          <Stack sx={{ width: '100%', marginTop:'1%', marginBottom:'1%'}} spacing={2}>
+            <Alert severity="error">{message}</Alert>
+          </Stack>
+        )}
+        {success && (
+          <Stack sx={{ width: '100%',  marginTop:'1%', marginBottom:'1%' }} spacing={2}>
+            <Alert severity="success">{message}</Alert>
+          </Stack>
+        )}
 
 
+        <div style={{ marginLeft: '40%', marginTop: '2%', marginBottom: '1%' }}>
+          <Button type="submit" onClick={SubmitForm} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, width: '40%', padding: '2%' }}>Submit</Button>
+        </div>
       </div>
     </>
   );

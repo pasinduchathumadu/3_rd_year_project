@@ -212,7 +212,7 @@ const Home = () => {
                 </div>
 
 
-                <div className="boarding-wrapper" style={{ backgroundColor: 'orange', height: '250px' }}>
+                <div className="boarding-wrapper" style={{ backgroundColor: 'orange', height: '250px', overflowY:'scroll' }}>
 
                     <div className="boarding-box-header">
                         <AssignmentLateIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />

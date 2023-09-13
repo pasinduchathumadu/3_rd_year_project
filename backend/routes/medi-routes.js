@@ -28,8 +28,8 @@ medi_help_manager.get('/completedBox',completedBox)
 // appointments
 medi_help_manager.get('/PendingAppointments',PendingAppointments)
 medi_help_manager.get('/completedAppointments/:id',completedAppointments)
-medi_help_manager.post('/PendingtoCompeleted',PendingtoCompeleted) 
-medi_help_manager.post('/PendingtoUncompeleted',PendingtoUncompeleted) 
+medi_help_manager.get('/pending/:id',PendingtoCompeleted) 
+medi_help_manager.get('/pending1/:id',PendingtoUncompeleted) 
 
 
 

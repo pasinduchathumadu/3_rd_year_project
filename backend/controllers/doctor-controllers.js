@@ -420,10 +420,8 @@ export const completedAppointments = async(req,res,next) => {
 
 //  pending to completed
 export const PendingtoCompeleted = async(req,res,next) => {
-    const {
-        id
-    } = req.body;
-
+    const id = req.params.id
+    console.log(id)
     const status = 'completed'
     const sqlQuery = 'UPDATE medi_appointment SET appointment_status = ? WHERE appointment_id = ?'
     const values = [status, id]
@@ -438,9 +436,7 @@ export const PendingtoCompeleted = async(req,res,next) => {
 
 //  pending to uncompleted
 export const PendingtoUncompeleted = async(req,res,next) => {
-    const {
-        id
-    } = req.body;
+   const id = req.params.id
 
     const status = 'uncompleted'
     const sqlQuery = 'UPDATE medi_appointment SET appointment_status = ? WHERE appointment_id = ?'

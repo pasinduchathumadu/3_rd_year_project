@@ -274,6 +274,7 @@ const Profile = () => {
                                                 label="Contact Number"
                                                 defaultValue={mrow.contact_number}
                                                 onChange={(e) => setcontact(e.target.value)}
+                                             
                                                 required
                                             />
                                         </div>
@@ -295,6 +296,7 @@ const Profile = () => {
                                                 label="City"
                                                 defaultValue={mrow.city}
                                                 onChange={(e) => setcity(e.target.value)}
+                                             
                                                 required
                                             />
                                         </div>
