@@ -1519,8 +1519,7 @@ export const AssignCage = async (req, res, next) => {
 
         const input = new Date()
         const date = format(input, 'yyy-MM-dd')
-       
-        // const newprice = (enddate - startdate)*data3[0].price
+
         const cancel_date = new Date(startdate);
         cancel_date.setDate(cancel_date.getDate() + 2);
         const new_cancel_date = cancel_date.toISOString().substr(0, 10)
@@ -1538,9 +1537,18 @@ export const AssignCage = async (req, res, next) => {
           if (err) {
             return res.json({ message: 'There is an internal error' })
           }
-          return res.json({ message: 'Successfully Done!' })
-        })
 
+          const cageStatus = 'reserved'
+          const newSql = 'UPDATE boarding_cages SET status = ? where cage_id = ?'
+          const newValues = [cageStatus, data1[0].cage_id]
+
+          db.query(newSql, newValues, (err, data) => {
+            if (err) {
+              return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ message: 'Successfully Done!' })
+          })
+        })
       })
     })
   })
