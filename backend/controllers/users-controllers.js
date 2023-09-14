@@ -1512,8 +1512,6 @@ export const AssignCage = async (req, res, next) => {
 
       db.query(check1, checkValues1, (err, data3) => {
         if (err) {
-          console.log("Hi")
-
           return res.json({ message: 'There is an internal error' })
         }
 
@@ -1554,6 +1552,7 @@ export const AssignCage = async (req, res, next) => {
   })
 }
 
+
 // get package details
 export const getPackageid = async (req, res, next) => {
   const sqlQuery = 'SELECT * FROM boarding_package'
@@ -1586,6 +1585,22 @@ export const getallpets = async (req, res, next) => {
     })
   })
 }
+
+
+// MIND RELAXING
+// get pets from db
+export const getMindRealxingPets = async(req,res,next) => {
+  const sqlQuery = 'SELECT * FROM mind_relaxing_pets'
+
+  db.query(sqlQuery, (err,data) => {
+    if(err) {
+      return res.json({message:'There is an internal error'})
+    }
+    return res.json({data})
+  })
+
+
+} 
 
 
 
