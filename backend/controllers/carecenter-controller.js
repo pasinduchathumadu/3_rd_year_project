@@ -272,9 +272,10 @@ export const submit = async (req, res, next) => {
     })
 }
 
+  //grooming appointments viewing
 export const get_groom_apo = async (req, res, next) => {
     // const status = "completed"
-    const sqlQuery = "SELECT a.appointment_id,a.appointment_status,a.placed_date,a.client_email,a.cancel_date,p.price FROM carecenter_appointment a INNER JOIN carecenter_package p on a.package_id = p.package_id "
+    const sqlQuery = "SELECT a.appointment_id,a.appointment_status,a.placed_date,a.client_email,a.verify_cancel_date ,a.early_cancel_date, p.price FROM carecenter_appointment a INNER JOIN carecenter_package p on a.package_id = p.package_id "
     // const value = [
     //     status
     // ]
@@ -285,9 +286,11 @@ export const get_groom_apo = async (req, res, next) => {
         return res.json({ data })
     })
 }
+
+  // exercising appointments viewing
 export const get_training = async (req, res, next) => {
 
-    const sqlQuery = "SELECT t.id,t.placed_date,t.day,t.breed,t.client_email,t.cancel_date,p.price,p.start,p.end FROM pet_trainning_payment t INNER JOIN pet_trainning_shedule p ON p.day = t.day"
+    const sqlQuery = "SELECT t.id,t.placed_date,t.day,t.breed,t.client_email,t.early_cancel_date, t.verify_cancel_date, p.price,p.start,p.end FROM pet_trainning_payment t INNER JOIN pet_trainning_shedule p ON p.day = t.day"
 
     db.query(sqlQuery, (err, data) => {
         if (err) {
