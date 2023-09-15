@@ -1,7 +1,11 @@
+
 import React, { useState, useEffect } from 'react';
 // import PrimarySearchAppBar from "../../components/Layout/Header";
+
 import { Typography, Button, Card, CardActionArea, CardContent, CardMedia, TextField, IconButton } from "@mui/material";
 import CoverImage from '../../assests/mindrelaxcover.jpg';
+import petImage from '../../assests/black2.jpg'; 
+
 // import Button from '@mui/material/Button';
 import petImage2 from '../../assests/top.png';
 import "../../styles/Client/Mindrelax.css";
