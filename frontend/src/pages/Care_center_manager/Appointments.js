@@ -44,6 +44,7 @@ function Appo() {
   const [rows, setgrooming] = useState([])
   const [rows2, settraining] = useState([])
 
+  // grooming appointments viewing
   const get_groom_apo = async () => {
     try {
       const res = await axios.get('http://localhost:5000/pet_care/care_center_manager/get_groom_apo')
@@ -54,6 +55,7 @@ function Appo() {
     }
   }
 
+  // exercising appointments viewing
   const pet_training = async () => {
     try {
       const res = await axios.get('http://localhost:5000/pet_care/care_center_manager/get_training')
@@ -261,7 +263,7 @@ function Appo() {
                         {row.price}
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        {row.cancel_date}
+                        {row.early_cancel_date}
                       </StyledTableCell>
 
                     </StyledTableRow>
