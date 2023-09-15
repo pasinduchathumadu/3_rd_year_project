@@ -7,6 +7,7 @@ import multer from 'multer'
 import { format } from 'date-fns'
 
 
+
 const localStorage = new LocalStorage('./scratch');
 export const login = async (req, res, next) => {
 
@@ -786,26 +787,12 @@ export const delete_order = async (req, res, next) => {
 }
 
 export const random_assistant = async (req, res, next) => {
+ 
 
-  const { Id, selectedDateString, email, package_id, choose_package, new_cancel_date } = req.body
+  const { Id, selectedDateString,choose_package } = req.body
   if (selectedDateString === null || Id === null) {
     return res.json({ message: "There is an internel error" })
   }
-  const sqlQuery = "INSERT INTO carecenter_appointment (placed_date,client_email,package_id,time_slot,cancel_date)VALUES(?,?,?,?,?)"
-  const values = [
-    selectedDateString,
-    email,
-    package_id,
-    Id,
-    new_cancel_date
-  ]
-
-
-  db.query(sqlQuery, values, (err, data) => {
-    if (err) {
-
-      return res.json({ message: 'There is an internel error' })
-    }
     const sqlQuery2 =
       "SELECT CONCAT(first_name, ' ', last_name)AS full_name, email,contact_number, img FROM employee WHERE type = ? AND ? > unfree_date_start AND ? > unfree_date_end"
     const value2 = [
@@ -820,9 +807,6 @@ export const random_assistant = async (req, res, next) => {
       }
       return res.json({ data })
     })
-
-
-  })
 }
 
 export const get_allpackage = async (req, res, next) => {
@@ -978,29 +962,25 @@ export const deletePet = async (req, res, next) => {
 
 
 export const get_appointment_id = async (req, res, next) => {
-  const id = req.params.id
-  const sqlQuery = "SELECT *FROM carecenter_appointment WHERE client_email = ? ORDER BY appointment_id DESC LIMIT 1"
-  const value = [
-    id
-  ]
-  db.query(sqlQuery, value, (err, data) => {
-    if (err) {
-      return res.json({ message: 'There is an internel error' })
-    }
-    const status = "completed"
-    const sqlQuery = "UPDATE carecenter_appointment SET appointment_status = ? WHERE appointment_id = ?"
+  const {selectedDateString,email, packageID,Id,new_cancel_date} = req.body
+ 
+  
+    const sqlQuery = "INSERT INTO carecenter_appointment (placed_date,client_email,package_id,time_slot,verify_cancel_date)VALUES(?,?,?,?,?)"
     const values = [
-      status,
-      data[0].appointment_id
+      selectedDateString,
+      email,
+      packageID,
+      Id,
+      new_cancel_date
     ]
+ 
     db.query(sqlQuery, values, (err, data) => {
       if (err) {
+        console.log(new_cancel_date)
         return res.json({ message: 'There is an internel error' })
       }
       return res.json({ message: 'success' })
     })
-
-  })
 }
 
 export const cancel_appointment = async (req, res, next) => {
@@ -1021,7 +1001,7 @@ export const cancel_appointment = async (req, res, next) => {
 }
 
 export const care_orders = async (req, res, next) => {
-  const status = "completed"
+  const status = "pending"
   const email = req.params.email
   const sqlQuery1 = "SELECT a.appointment_id,a.placed_date,p.package_name,p.price FROM carecenter_appointment a INNER JOIN carecenter_package p ON p.package_id = a.package_id where a.appointment_status = ? AND a.client_email = ?"
   const values = [
@@ -1037,9 +1017,11 @@ export const care_orders = async (req, res, next) => {
 }
 export const delete_appointment = async (req, res, next) => {
   const { rowId, date } = req.body
-
-  const sqlQuery = "DELETE FROM carecenter_appointment WHERE appointment_id = ? AND cancel_date >= ?"
+  const status = "cancelled"
+  const sqlQuery = "UPDATE  carecenter_appointment SET early_cancel_date = ?,appointment_status = ? WHERE appointment_id = ? AND verify_cancel_date >= ?"
   const value = [
+    date,
+    status,
     rowId,
     date
   ]
@@ -1479,77 +1461,55 @@ export const deleteMyComplain = async (req, res, next) => {
 }
 
 // BOARDING - 
-// assign a random cage
-export const AssignCage = async (req, res, next) => {
+// assign a random 
+
+export const AssignCage = async(req,res,next)=>{
   const {
-    email,
-    startdate,
-    enddate,
-    selectpet,
     selectpackage
   } = req.body;
 
   const status = 'free'
 
-  const sqlQuery = 'SELECT * FROM boarding_cages WHERE status = ? ORDER BY RAND() LIMIT 1';
-  const values = [status]
+  const sqlQuery = 'SELECT * FROM boarding_cages WHERE  status = ? AND package_id = ? ORDER BY RAND() LIMIT 1';
+  const values = [status,selectpackage]
 
-  db.query(sqlQuery, values, (err, data1) => {
-    if (err) {
+  db.query(sqlQuery, values, (err, data) => {
+    if (data.length === 0) {
       return res.json({ message: 'There is an internal error' })
     }
+    return res.json({data})}
+  )
+}
+export const getprice = async(req,res,next)=>{
+  const {
+    startdate,
+    enddate,
+    selectpackage
+  }=req.body
 
-    const checkSql = 'SELECT * FROM client WHERE email = ?'
-    const checkValues = [email]
 
-    db.query(checkSql, checkValues, (err, data2) => {
-      if (err) {
-        return res.json({ message: 'There is an internal error' })
-      }
-
-      const check1 = 'SELECT * FROM boarding_package WHERE package_id = ?'
-      const checkValues1 = [selectpackage]
-
-      db.query(check1, checkValues1, (err, data3) => {
-        if (err) {
-          return res.json({ message: 'There is an internal error' })
-        }
-
-        const input = new Date()
-        const date = format(input, 'yyy-MM-dd')
-
-        const cancel_date = new Date(startdate);
-        cancel_date.setDate(cancel_date.getDate() + 2);
-        const new_cancel_date = cancel_date.toISOString().substr(0, 10)
-
-        const millisecperday = 24 * 60 * 60 * 1000
-        const sDate = new Date(startdate)
-        const eDate = new Date(enddate)
-        const diff = (eDate - sDate) / millisecperday;
-        const newprice = diff * data3[0].price
-
-        const sqlQuery1 = 'INSERT INTO boarding_request (placed_date, verify_cancel_date,  package_id, client_id, board_arrival_date, board_carry_date, pet_id, price, cage_id ) VALUES (?,?,?,?,?,?,?,?,?)'
-        const values1 = [date, new_cancel_date, selectpackage, data2[0].client_id, startdate, enddate, selectpet, newprice, data1[0].cage_id]
-
-        db.query(sqlQuery1, values1, (err, data) => {
-          if (err) {
-            return res.json({ message: 'There is an internal error' })
-          }
-
-          const cageStatus = 'reserved'
-          const newSql = 'UPDATE boarding_cages SET status = ? where cage_id = ?'
-          const newValues = [cageStatus, data1[0].cage_id]
-
-          db.query(newSql, newValues, (err, data) => {
-            if (err) {
-              return res.json({ message: 'There is an internal error' })
-            }
-            return res.json({ message: 'Successfully Done!' })
-          })
-        })
-      })
-    })
+  const check1 = 'SELECT *FROM boarding_package WHERE package_id = ?'
+  const checkValues1 = [selectpackage]
+  db.query(check1,checkValues1,(err,data)=>{
+    if(err){
+      return res.json({message:"There is an internel error"})
+    }
+   return res.json({data})
   })
+}
+
+
+export const getallcages = async(req,res,next)=>{
+  const {selectpackage} = req.body
+  const sqlQuery = "SELECT *FROM boarding_cages WHERE package_id = ?"
+  const value =[ selectpackage]
+  db.query(sqlQuery,value,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an internel error'})
+    }
+    return res.json({data})
+  })
+
 }
 
 
@@ -1586,6 +1546,50 @@ export const getallpets = async (req, res, next) => {
   })
 }
 
+export const insert = async(req,res,next)=>{
+  const { email,
+    startdate,
+    enddate,
+    selectpackage,
+    selectpet,
+    originalprice,
+  originalcage} = req.body
+  console.log(originalcage)
+
+    const input = new Date()
+    const date = format(input, 'yyy-MM-dd')
+
+    const cancel_date = new Date(startdate);
+    cancel_date.setDate(cancel_date.getDate() + 2);
+    const new_cancel_date = cancel_date.toISOString().substr(0, 10)
+    const checkSql = 'SELECT * FROM client WHERE email = ?'
+    const checkValues = [email]
+
+    db.query(checkSql,checkValues,(err,data)=>{
+      const sqlQuery1 = 'INSERT INTO boarding_request (placed_date, verify_cancel_date,  package_id, client_id, board_arrival_date, board_carry_date, pet_id, price, cage_id ) VALUES (?,?,?,?,?,?,?,?,?)'
+      const value = [
+        date,
+        new_cancel_date,
+        selectpackage,
+        data[0].client_id,
+        startdate,
+        enddate,
+        selectpet,
+        originalprice,
+        originalcage
+      ]
+      db.query(sqlQuery1,value,(err,data)=>{
+        if(err){
+          return res.json({message:'There is an internel error'})
+        }
+        return res.json({message:'insert'})
+      })
+
+    })
+
+
+   
+}
 
 // MIND RELAXING
 // get pets from db
