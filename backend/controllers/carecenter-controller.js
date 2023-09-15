@@ -228,35 +228,35 @@ export const addingpet = async (req, res, next) => {
 }
 
 // pet viewing
-export const petViewing = async(req,res,next) => {
+export const petViewing = async (req, res, next) => {
     // const id = req.params.id
     const sqlQuery = 'SELECT * FROM mind_relaxing_pets'
     // const values = [id]
 
-    db.query(sqlQuery,  (err, data) => {
-        if(err) {
-            return res.json({message:'There is an internal error'})
+    db.query(sqlQuery, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
         }
-        return res.json({data})
+        return res.json({ data })
     })
 }
 
 // pet deleting
-export const petDeleteing = async(req,res,next) => {
+export const petDeleteing = async (req, res, next) => {
     const id = req.params.id
     const sqlQuery = 'DELETE FROM mind_relaxing_pets WHERE pet_id = ?'
     const values = [id]
 
     db.query(sqlQuery, values, (err, data) => {
-        if(err) {
-            return res.json({message:'There is an internal error'})
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
         }
-        return res.json({message:'Deleted Successfully'})
+        return res.json({ message: 'Deleted Successfully' })
     })
 }
 
-export const submit = async(req,res,next)=>{
-    const {first,last,email} = req.body
+export const submit = async (req, res, next) => {
+    const { first, last, email } = req.body
     console.log(first)
     const sqlQuery = "INSERT INTO employee(first_name,last_name,email)VALUES(?,?,?)"
     const checkvalue = [
@@ -264,66 +264,134 @@ export const submit = async(req,res,next)=>{
         last,
         email
     ]
-    db.query(sqlQuery,checkvalue,(err,data)=>{
-        if(err){
-            return res.json({message:"There is an internel error"})
+    db.query(sqlQuery, checkvalue, (err, data) => {
+        if (err) {
+            return res.json({ message: "There is an internel error" })
         }
-        return res.json({message:"insert"})
+        return res.json({ message: "insert" })
     })
 }
 
-export const get_groom_apo = async(req,res,next)=>{
-    const status = "completed"
-    const sqlQuery = "SELECT a.appointment_id,a.appointment_status,a.placed_date,a.client_email,a.cancel_date,p.price FROM carecenter_appointment a INNER JOIN carecenter_package p on a.package_id = p.package_id WHERE a.appointment_status = ?"
-    const value = [
-        status
-    ]
-    db.query(sqlQuery,value,(err,data)=>{
-        if(err){
-            return res.json({message:'There is an internel error'})
+export const get_groom_apo = async (req, res, next) => {
+    // const status = "completed"
+    const sqlQuery = "SELECT a.appointment_id,a.appointment_status,a.placed_date,a.client_email,a.cancel_date,p.price FROM carecenter_appointment a INNER JOIN carecenter_package p on a.package_id = p.package_id "
+    // const value = [
+    //     status
+    // ]
+    db.query(sqlQuery, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internel error' })
         }
-        return res.json({data})
+        return res.json({ data })
     })
 }
-export const get_training = async(req,res,next)=>{
-  
+export const get_training = async (req, res, next) => {
+
     const sqlQuery = "SELECT t.id,t.placed_date,t.day,t.breed,t.client_email,t.cancel_date,p.price,p.start,p.end FROM pet_trainning_payment t INNER JOIN pet_trainning_shedule p ON p.day = t.day"
-   
-    db.query(sqlQuery,(err,data)=>{
-        if(err){
-            return res.json({message:'There is an internel error'})
+
+    db.query(sqlQuery, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internel error' })
         }
-        return res.json({data})
+        return res.json({ data })
     })
 }
 
-export const get_employee = async(req,res,next)=>{
+export const get_employee = async (req, res, next) => {
     const id = req.params.id
-   
+
     const sqlQuery = "SELECT *FROM employee"
-  
-    db.query(sqlQuery,(err,data)=>{
-        if(err){
-            return res.json({message:"There is an internel error"})
+
+    db.query(sqlQuery, (err, data) => {
+        if (err) {
+            return res.json({ message: "There is an internel error" })
         }
 
-        return res.json({data})
+        return res.json({ data })
     })
 }
 
-export const leave = async(req,res,next)=>{
-    const {id , dateStart,dateEnd} = req.body
+export const leave = async (req, res, next) => {
+    const { id, dateStart, dateEnd } = req.body
     const sqlQuery = "UPDATE employee SET unfree_date_start = ? , unfree_date_end = ? WHERE emp_id = ?"
     const value = [
         dateStart,
         dateEnd,
         id
     ]
-    db.query(sqlQuery,value,(err,data)=>{
-        if(err){
-            return res.json({message:'There is an internel error'})
+    db.query(sqlQuery, value, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internel error' })
         }
-        return res.json({message:'updated'})
+        return res.json({ message: 'updated' })
     })
+}
+
+// mind relaxing apppointments viewing
+export const mind_relaxing = async (req, res, next) => {
+    const id = req.params.id
+
+    if (id === '1') {
+        const sqlQuery = 'SELECT a.appointment_id, a.timeslot_id, a.date, a.email, a.pet_id, a.status, t.start_time, t.end_time FROM mindrelaxing_appointments a INNER JOIN mind_relaxing_timeslots t WHERE a.timeslot_id = t.id'
+        db.query(sqlQuery, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        })
+    } 
+    else if(id === '2') {
+        const status = 'pending'
+        const sqlQuery = 'SELECT a.appointment_id, a.timeslot_id, a.date, a.email, a.pet_id, a.status, t.start_time, t.end_time FROM mindrelaxing_appointments a INNER JOIN mind_relaxing_timeslots t WHERE a.timeslot_id = t.id AND a.status = ?'
+        const values = [status]
+        db.query(sqlQuery,values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        })
+
+    }
+    else if(id === '3') {
+        const status = 'completed'
+        const sqlQuery = 'SELECT a.appointment_id, a.timeslot_id, a.date, a.email, a.pet_id, a.status, t.start_time, t.end_time FROM mindrelaxing_appointments a INNER JOIN mind_relaxing_timeslots t WHERE a.timeslot_id = t.id AND a.status = ?'
+        const values = [status]
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        })
+
+    }
+    else if(id === '4') {
+        const status = 'cancelled'
+        const sqlQuery = 'SELECT a.appointment_id, a.timeslot_id, a.date, a.email, a.pet_id, a.status, t.start_time, t.end_time FROM mindrelaxing_appointments a INNER JOIN mind_relaxing_timeslots t WHERE a.timeslot_id = t.id AND a.status = ?'
+        const values = [status]
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        })
+    }
+}
+
+export const CompletePending = async(req,res,next) => {
+    const {
+        id
+    } = req.body;
+
+    const status = 'completed'
+    const sqlQuery = 'UPDATE mindrelaxing_appointments SET status = ? WHERE appointment_id = ?'
+    const values = [status, id]
+
+    db.query(sqlQuery, values, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({message:'completed'})
+    })
+
 }
 
