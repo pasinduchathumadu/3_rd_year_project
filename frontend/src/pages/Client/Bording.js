@@ -241,7 +241,7 @@ const Bording = () => {
           </FormControl>
         </div>
 
-        {/* error / success messages displaying */}
+        {/* error or success messages displaying */}
         {error && (
           <Stack sx={{ width: '100%', marginTop:'1%', marginBottom:'1%'}} spacing={2}>
             <Alert severity="error">{message}</Alert>

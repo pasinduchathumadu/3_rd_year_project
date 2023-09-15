@@ -14,8 +14,9 @@ import axios from 'axios'
 import CPetProfile from "./CPetProfile";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useNavigate } from "react-router";
-// import NotificationsIcon from '@mui/icons-material/Notifications';
-
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import FormControl from '@mui/material/FormControl';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -39,50 +40,84 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 
-
-
-
-
-
-
-
 function Appo() {
+  const [rows, setgrooming] = useState([])
+  const [rows2, settraining] = useState([])
 
- 
-  const [rows , setgrooming ] = useState([])
-  const [ rows2 , settraining ] = useState([])
-
-  
-  const get_groom_apo = async()=>{
-    try{
+  const get_groom_apo = async () => {
+    try {
       const res = await axios.get('http://localhost:5000/pet_care/care_center_manager/get_groom_apo')
       const data = await res.data
       return data
-    }catch(err){
-      console.log(err)
-    }
-  }
-  const pet_training = async()=>{
-    try{
-      const res = await axios.get('http://localhost:5000/pet_care/care_center_manager/get_training')
-      const data = await res.data
-      return data
-  
-    }catch(err){
+    } catch (err) {
       console.log(err)
     }
   }
 
-  useEffect(()=>{
+  const pet_training = async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/pet_care/care_center_manager/get_training')
+      const data = await res.data
+      return data
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  useEffect(() => {
     get_groom_apo()
-    .then((data)=>setgrooming(data.data))
-    .catch((err)=>console.log(err))
+      .then((data) => setgrooming(data.data))
+      .catch((err) => console.log(err))
   })
-  useEffect(()=>{
+  useEffect(() => {
     pet_training()
-    .then((data)=>settraining(data.data))
-    .catch((err)=>console.log(err))
+      .then((data) => settraining(data.data))
+      .catch((err) => console.log(err))
   })
+
+  // mind relaxing appointments
+  // drop down
+  const [client1, setclient1] = React.useState('1')
+  const handleChange1 =(event) => {
+    setclient1(event.target.value)
+
+    mind_relaxing()
+  }
+  const [mind, setmind] = useState("")
+  const mind_relaxing = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/care_center_manager/mind_relaxing/${client1}`)
+      setmind(res.data.data)  
+    } catch (err) {
+      console.log(client1)
+      console.log(err)
+    }
+  }
+  useEffect(() => {
+    mind_relaxing()
+  },[client1, mind_relaxing])
+
+  // pending -> completed
+  const [error1, seterror1] = useState(false)
+  const [message1, setmessage1] = useState("")
+
+  const CompletePending = async(id) => {
+    try {
+      const res = await axios.post(`http://localhost:5000/pet_care/care_center_manager/CompletePending`, {
+        id
+      })
+      if(res.data.message === 'There is an internal error') {
+        setmessage1('There is an internal error')
+        seterror1(true)
+      }else if(res.data.message === "completed") {
+        setvalue(2)
+      }
+    }catch(err) {
+      console.log('There is an internal error')
+    }
+  }
+
 
   const input = new Date();
   const date = input.toDateString();
@@ -101,10 +136,10 @@ function Appo() {
   const profile = () => {
     navigate("/profile")
   }
-   // get profile picture
-   const getProfilepicturepath = (imageName) => {
+  // get profile picture
+  const getProfilepicturepath = (imageName) => {
     return require(`../../../../backend/images/store/${imageName}`)
-}
+  }
 
   return (
     <>
@@ -188,7 +223,7 @@ function Appo() {
                 <TableHead>
                   <TableRow>
                     <StyledTableCell align="left" >
-                     Appointment ID
+                      Appointment ID
                     </StyledTableCell>
                     <StyledTableCell align="left">
                       Client Email
@@ -197,7 +232,7 @@ function Appo() {
                       Appointment Status
                     </StyledTableCell>
                     <StyledTableCell align="left" >
-                     Placed Date
+                      Placed Date
                     </StyledTableCell>
                     <StyledTableCell align="left" >
                       Payment(Rs)
@@ -228,7 +263,7 @@ function Appo() {
                       <StyledTableCell align="left">
                         {row.cancel_date}
                       </StyledTableCell>
-                      
+
                     </StyledTableRow>
                   ))}
                 </TableBody>
@@ -259,18 +294,18 @@ function Appo() {
                       Selected Time Slot
                     </StyledTableCell>
                     <StyledTableCell align="left" sx={{ width: "10%" }}>
-                     Trainning Day
+                      Trainning Day
                     </StyledTableCell>
                     <StyledTableCell align="left" sx={{ width: "10%" }}>
                       Payment
                     </StyledTableCell>
-                  
+
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {rows2.map((row) => (
                     <StyledTableRow key={row.name}>
-                       <StyledTableCell align="left">
+                      <StyledTableCell align="left">
                         {row.id}
                       </StyledTableCell>
                       <StyledTableCell component="th" scope="row">
@@ -280,7 +315,7 @@ function Appo() {
                         {row.breed}
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        {row.start+" - "+row.end}
+                        {row.start + " - " + row.end}
                       </StyledTableCell>
                       <StyledTableCell align="left">
                         {row.day}
@@ -288,8 +323,8 @@ function Appo() {
                       <StyledTableCell align="left">
                         {row.price}.00
                       </StyledTableCell>
-                     
-                     
+
+
                     </StyledTableRow>
                   ))}
                 </TableBody>
@@ -298,68 +333,85 @@ function Appo() {
           )}
 
           {value === 2 && (
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 800 }} aria-label="customized table">
-                <TableHead>
-                  <TableRow>
-                    <StyledTableCell align="left" sx={{ width: "10%" }}>
-                      Client ID
-                    </StyledTableCell>
-                    {/* <StyledTableCell align="left" sx={{ width: "10%" }}>
-                      Pet ID
-                    </StyledTableCell> */}
-                    <StyledTableCell align="left" sx={{ width: "10%" }}>
-                      Category
-                    </StyledTableCell>
-                    {/* <StyledTableCell align="left" sx={{ width: "10%" }}>
-                      Package
-                    </StyledTableCell> */}
-                    {/* <StyledTableCell align="left" sx={{ width: "10%" }}>
-                      CareGiver ID
-                    </StyledTableCell> */}
-                    <StyledTableCell align="left" sx={{ width: "10%" }}>
-                      Selected Time Slot
-                    </StyledTableCell>
-                    <StyledTableCell align="left" sx={{ width: "10%" }}>
-                      Payment(Rs)
-                    </StyledTableCell>
-                    <StyledTableCell align="left" sx={{ width: "10%" }}>
-                      Appointment Status
-                    </StyledTableCell>
-                    {/* <StyledTableCell align="left" sx={{ width: "10%" }}>
-                      Pet Profile
-                    </StyledTableCell> */}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows2.map((row) => (
-                    <StyledTableRow key={row.id}>
-                      <StyledTableCell component="th" scope="row">
-                        {row.client_email}
+            <>
+              <div>
+                <Box sx={{ width: '13%', marginLeft: '87%', marginBottom:'1%' }}>
+                  <FormControl fullWidth>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      variant='filled'
+                      onChange={handleChange1}
+                      l
+                      sx={{ fontSize: '12px' }}>
+                      <MenuItem value={1}>All</MenuItem>
+                      <MenuItem value={2}>Pending</MenuItem>
+                      <MenuItem value={3}>Completed</MenuItem>
+                      <MenuItem value={4}>Cancelled</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
+              </div>
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 800 }} aria-label="customized table">
+                  <TableHead>
+                    <TableRow>
+                      <StyledTableCell align="center" sx={{ width: "10%" }}>
+                        Appointment ID
                       </StyledTableCell>
-                      {/* <StyledTableCell align="left">
-                        {row.calories}
-                      </StyledTableCell> */}
-                      <StyledTableCell align="left">
-                        {row.breed}
+                      <StyledTableCell align="center" sx={{ width: "10%" }}>
+                        Client Email
                       </StyledTableCell>
-                      <StyledTableCell align="left">
-                        {row.day}
+                      <StyledTableCell align="center" sx={{ width: "10%" }}>
+                        Selected Pet ID
                       </StyledTableCell>
-                      <StyledTableCell align="left">
-                        {row.price}
+                      <StyledTableCell align="center" sx={{ width: "10%" }}>
+                        Date
                       </StyledTableCell>
-                      <StyledTableCell align="left">
-                        {row.start + row.end}
+                      <StyledTableCell align="center" sx={{ width: "10%" }}>
+                        Selected Time Slot
                       </StyledTableCell>
-                      {/* <StyledTableCell align="left">
-                        <Button onClick={Submit} sx={{ backgroundColor: "orange", color: "white", width: "75px", ":hover": { backgroundColor: "orange" } }}>View</Button>
-                      </StyledTableCell> */}
-                    </StyledTableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+                      <StyledTableCell align="center" sx={{ width: "10%" }}>
+                        Appointment Status
+                      </StyledTableCell>
+                      <StyledTableCell align="center" sx={{ width: "10%" }}>
+                      </StyledTableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {mind && mind.map((row, index) => (
+                      <StyledTableRow key={row.appointment_id}>
+                        <StyledTableCell component="th" scope="row" align="center">
+                          {row.appointment_id}
+                        </StyledTableCell>
+                        <StyledTableCell component="th" scope="row" align="center">
+                          {row.email}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.pet_id}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.date}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.start_time + " - " + row.end_time}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.status}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.status === 'pending' ? (
+                            <Button onClick={() => CompletePending(row.appointment_id)} sx={{ backgroundColor: "black", color: "white", ":hover": { backgroundColor: "black" } }}>Completed</Button>
+                          ) : (
+                            "")
+                          }
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </>
           )}
         </Grid>
         {PopupOpen && <CPetProfile />}
