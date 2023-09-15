@@ -11,7 +11,7 @@ import TrackOrder from "./pages/Client/Storereview";
 import Bill from "./pages/Client/Bill";
 
 import { Dashboard } from "./pages/Client/Dashboard";
-import { Reports } from "./pages/Client/Reports";
+
 
 import Menu from "./pages/Client/Menu";
 import Petcare from "./pages/Client/Petcare";
@@ -93,6 +93,7 @@ import Viewvet from "./pages/Medi-help_manager/View_vet";
 import ViewMedical from "./pages/Client/ViewMedical";
 
 import ActivityTracking from "./pages/Client/ActivityTracking";
+import Reports from "./pages/Client/Reports";
 // ----------
 // sidebar icons
 import HomeIcon from "@mui/icons-material/Home"; //dashboard
@@ -407,15 +408,7 @@ function App() {
 
           {isLoggedIn && user_role === "client" && (
             <>
-              <Route
-                path="/reports"
-                element={
-                  <>
-                    <Header userRole={"client"} />
-                    <Reports />{" "}
-                  </>
-                }
-              ></Route>
+             
               <Route
                 path="/trainning"
                 element={
@@ -439,6 +432,14 @@ function App() {
                 element={
                   <>
                     <Header userRole={"client"} /> <Dashboard />
+                  </>
+                }
+              ></Route>
+              <Route
+                path="/reports"
+                element={
+                  <>
+                    <Header userRole={"client"} /> <Reports />
                   </>
                 }
               ></Route>

@@ -42,7 +42,7 @@ import logo from "../../assests/2.png";
 import star from "../../assests/star3.png";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faL, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
+import { faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
 
 
 import 'aos/dist/aos.css';
@@ -92,6 +92,7 @@ function Pet_grooming() {
   const [paymentdo, setpaymentdo] = useState(false)
   const [employee_detail, setEmployeeDetail] = useState([]);
   const [loading , setLoading ] = useState(true)
+  const [packageID , setpackageid ] = useState("")
   const handleDateChange = (newDate) => {
     setSelectedDate(newDate);
   };
@@ -153,25 +154,17 @@ function Pet_grooming() {
   };
 
   const random_assit = async (package_id) => {
-    const cancel_date = new Date(selectedDateString);
-    cancel_date.setDate(cancel_date.getDate() + 2);
-    const new_cancel_date = cancel_date.toISOString().substr(0, 10);
-    
-   
-  
-   
     if (fill) {
       navigate('/Pet_grooming')
     }
     else {
+      setpackageid(package_id)
       try {
         const res = await axios.post('http://localhost:5000/pet_care/user/random_assistant', {
           Id,
           selectedDateString,
-          email,
-          package_id,
-          choose_package,
-          new_cancel_date
+          choose_package
+        
         })
         const data = await res.data
         setEmployeeDetail(data.data)
@@ -215,8 +208,18 @@ function Pet_grooming() {
   }
 
   const get_appointment_id = async () => {
+    const cancel_date = new Date(selectedDateString);
+    cancel_date.setDate(cancel_date.getDate() + 2);
+    const new_cancel_date = cancel_date.toISOString().substr(0, 10);
+    
     try {
-      const res = await axios.get(`http://localhost:5000/pet_care/user/get_appointment_id/${email}`)
+      const res = await axios.post(`http://localhost:5000/pet_care/user/get_appointment_id`,{
+        selectedDateString,
+        email,
+        packageID,
+        Id,
+        new_cancel_date
+      })
 
       if (res.data.message === "success") {
         confirm()

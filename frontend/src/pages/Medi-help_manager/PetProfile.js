@@ -15,8 +15,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-import profile from "../../assests/profile.jpg";
-import { Typography, Avatar, Stack, Button } from "@mui/material";
+import {  Button } from "@mui/material";
 import { useNavigate } from "react-router";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
