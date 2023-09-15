@@ -1487,6 +1487,7 @@ export const getprice = async(req,res,next)=>{
     selectpackage
   }=req.body
 
+
   const check1 = 'SELECT *FROM boarding_package WHERE package_id = ?'
   const checkValues1 = [selectpackage]
   db.query(check1,checkValues1,(err,data)=>{
@@ -1496,6 +1497,7 @@ export const getprice = async(req,res,next)=>{
    return res.json({data})
   })
 }
+
 
 export const getallcages = async(req,res,next)=>{
   const {selectpackage} = req.body
@@ -1588,5 +1590,21 @@ export const insert = async(req,res,next)=>{
 
    
 }
+
+// MIND RELAXING
+// get pets from db
+export const getMindRealxingPets = async(req,res,next) => {
+  const sqlQuery = 'SELECT * FROM mind_relaxing_pets'
+
+  db.query(sqlQuery, (err,data) => {
+    if(err) {
+      return res.json({message:'There is an internal error'})
+    }
+    return res.json({data})
+  })
+
+
+} 
+
 
 
