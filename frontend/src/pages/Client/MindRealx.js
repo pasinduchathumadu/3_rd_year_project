@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 
 import { Typography, Button, Card, CardActionArea, CardContent, CardMedia, TextField, IconButton } from "@mui/material";
 import CoverImage from '../../assests/mindrelaxcover.jpg';
-import petImage from '../../assests/black2.jpg'; 
+import petImage from '../../assests/black2.jpg';
 
 // import Button from '@mui/material/Button';
 import petImage2 from '../../assests/top.png';
@@ -114,7 +114,6 @@ function MindRealx() {
   })
 
 
-  // const [time, settime] = useState("")
   const [time, settime] = useState("")
 
   const handleTime = (event) => { //time slot id
@@ -125,17 +124,47 @@ function MindRealx() {
   const [success, setsuccess] = useState(false)
   const [message, setmessage] = useState("")
   // place appointment form
+  const currentDate = new Date()
+  const newdate = new Date(day)
+
+  const currentDateMinusOneDay = new Date(currentDate);
+  currentDateMinusOneDay.setDate(currentDate.getDate() - 1);
+
+  const twoWeeksFromToday = new Date();
+  twoWeeksFromToday.setDate(currentDate.getDate() + 14);
+
   const SubmitForm = async () => {
+    if (twoWeeksFromToday < newdate) {
+      setmessage('Please pick a date within two weeks')
+      seterror(true)
+      return;
+    }
+    if (currentDateMinusOneDay > newdate) {
+      setmessage('Cannot pick a previous day')
+      seterror(true)
+      return;
+    }
+    if (day === "" || time === "") {
+      setmessage('Please fill the fileds')
+      seterror(true)
+      return;
+    }
     try {
       const res = await axios.post(`http://localhost:5000/pet_care/user/SubmitForm/${id}`, {
         email,
         day,
         time
       })
+
       if (res.data.message === 'There is an internal error') {
         setmessage('Cannot place the appointment')
         seterror(true)
-      } else if (res.data.message === 'Successfully Done!') {
+      }
+      else if (res.data.message === 'Pet already reserved') {
+        setmessage('Pet already reserved')
+        seterror(true)
+      }
+      else if (res.data.message === 'Successfully Done!') {
         setsuccess(true)
         seterror(false)
         setmessage('Successfully Done!')
