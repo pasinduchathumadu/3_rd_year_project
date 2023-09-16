@@ -1,8 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CoverImage from '../../assests/reportcover.jpeg';
 import { Button, InputLabel, TextField, Typography } from "@mui/material"
+import axios from "axios"
+
 
 const Reports = () => {
+
+    const email = localStorage.getItem('client_email')
+    const [ board , setboardreport ] = useState([])
+
+    const boardreport = async()=>{
+        try{
+            const res = await axios.get(`http://localhost:5000/pet_care/user/boardreport/${email}`)
+            const data = await res.data
+            return data
+
+        }
+        catch(err){
+            console.log(err)
+
+        }
+       
+    }
+
+    useEffect(()=>{
+        boardreport()
+        .then((data)=>setboardreport(data.data))
+        .catch((err)=>console.log(err))
+    })
 
     return (
         <div style={{ marginTop: '4%' }}>
@@ -42,92 +67,86 @@ const Reports = () => {
                     </div>
                     <hr />
                     <div style={{ marginTop: '1%', marginBottom: '1%' }}>
-                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '1%', marginBottom: '1%' }}>
-                            <TextField
-                                id="outlined-read-only-input"
-                                label="Request ID"
-                                defaultValue="02"
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                                sx={{ width: '40%' }}
-                            />
-                            <TextField
-                                id="outlined-read-only-input"
-                                label="Client ID"
-                                defaultValue="02"
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                                sx={{ width: '40%' }}
-                            />
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '1%', marginBottom: '1%' }}>
-                            <TextField
-                                id="outlined-read-only-input"
-                                label="Pet ID"
-                                defaultValue="02"
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                                sx={{ width: '40%' }}
-                            />
-                            <TextField
-                                id="outlined-read-only-input"
-                                label="Package"
-                                defaultValue="Gold"
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                                sx={{ width: '40%' }}
-                            />
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', marginTop: '1%', marginBottom: '1%' }}>
-                            <InputLabel>Boarding Time Period :</InputLabel>
-                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '1%' }}>
-
+                        {board && board.map((menu,index)=>(
+                             <><><div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '1%', marginBottom: '1%' }}>
                                 <TextField
                                     id="outlined-read-only-input"
-                                    label="From "
-                                    defaultValue="2023-08-10"
+                                    label="Request ID"
+                                    defaultValue={menu.request_id}
                                     InputProps={{
                                         readOnly: true,
                                     }}
-                                    sx={{ width: '40%' }}
-                                />
+                                    sx={{ width: '40%' }} />
                                 <TextField
                                     id="outlined-read-only-input"
-                                    label="To "
-                                    defaultValue="2023-08-14"
+                                    label="Client ID"
+                                    defaultValue={menu.client_id}
                                     InputProps={{
                                         readOnly: true,
                                     }}
-                                    sx={{ width: '40%' }}
-                                />
-                            </div>
+                                    sx={{ width: '40%' }} />
+                            </div><div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '1%', marginBottom: '1%' }}>
+                                    <TextField
+                                        id="outlined-read-only-input"
+                                        label="Pet ID"
+                                        defaultValue={menu.pet_id}
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
+                                        sx={{ width: '40%' }} />
+                                    <TextField
+                                       
+                                        id="outlined-read-only-input"
+                                        label="Package"
+                                        defaultValue={menu.package_name}
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
+                                        sx={{ width: '40%' }} />
+                                </div><div style={{ display: 'flex', flexDirection: 'column', marginTop: '1%', marginBottom: '1%' }}>
+                                    <InputLabel>Boarding Time Period :</InputLabel>
+                                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '1%' }}>
 
-                            <div style={{ marginTop: '1%', marginBottom: '1%' }} >
-                                <hr />
-                            </div>
-                            <div style={{ marginTop: '1%', marginBottom: '1%', display:'flex' ,flexDirection: 'row'}}>
-                                <InputLabel> Payment (Rs) :</InputLabel>
+                                        <TextField
+                                            id="outlined-read-only-input"
+                                            label="From "
+                                            defaultValue={menu.board_arrival_date}
+                                            InputProps={{
+                                                readOnly: true,
+                                            }}
+                                            sx={{ width: '40%' }} />
+                                        <TextField
+                                            id="outlined-read-only-input"
+                                            label="To "
+                                            defaultValue={menu.board_carry_date}
+                                            InputProps={{
+                                                readOnly: true,
+                                            }}
+                                            sx={{ width: '40%' }} />
+                                    </div>
 
-                                <TextField
-                                    id="outlined-read-only-input"
-                                    // label="Payment "
-                                    defaultValue="1200.00"
-                                    InputProps={{
-                                        readOnly: true,
-                                    }}
-                                    sx={{marginLeft:'1%'}}
-                                />
-                            </div>
-                        </div>
-                    </div>
+                                    <div style={{ marginTop: '1%', marginBottom: '1%' }}>
+                                        <hr />
+                                    </div>
+                                    <div style={{ marginTop: '1%', marginBottom: '1%', display: 'flex', flexDirection: 'row' }}>
+                                        <InputLabel> Payment (Rs) :</InputLabel>
 
-                    <div style={{ marginTop: '2%', marginBottom: '1%', marginLeft: '40%' }}>
-                        <Button sx={{ color: 'white', backgroundColor: 'red', ':hover': { backgroundColor: 'red' }, width: '25%' }}>Download</Button>
-                    </div>
+                                        <TextField
+                                            id="outlined-read-only-input"
+                                            // label="Payment "
+                                            defaultValue={menu.price}
+                                            InputProps={{
+                                                readOnly: true,
+                                            }}
+                                            sx={{ marginLeft: '1%' }} />
+                                    </div>
+                                </div></><div style={{ marginTop: '2%', marginBottom: '1%', marginLeft: '40%' }}>
+                                    <Button sx={{ color: 'white', backgroundColor: 'red', ':hover': { backgroundColor: 'red' }, width: '25%' }}>Download</Button>
+                                </div></>
+
+                        ))}
+                             </div>
+                       
                 </div>
 
             </div>

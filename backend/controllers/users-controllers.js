@@ -1262,9 +1262,11 @@ export const training_orders = async (req, res, next) => {
 
 export const delete_appointment_training = async (req, res, next) => {
   const { rowId, date } = req.body
-
-  const sqlQuery = "DELETE FROM pet_trainning_payment WHERE id = ? AND cancel_date >= ?"
+  const status = "cancelled"
+  const sqlQuery = "UPDATE pet_trainning_payment SET status = ?,early_cancel_date = ? WHERE id = ? AND verify_cancel_date >= ?"
   const value = [
+    status,
+    date,
     rowId,
     date
   ]
@@ -1622,16 +1624,49 @@ export const getTimeSlots = async (req, res, next) => {
 export const getDetails = async (req, res, next) => {
   const id = req.params.id
 
-  const sqlQuery = 'SELECT * FROM mind_relaxing_pets WHERE pet_id = ?'
-  const values = [id]
 
-  db.query(sqlQuery, values, (err, data) => {
-    if (err) {
-      return res.json({ message: 'There is an internal error' })
+export const boardreport = async(req,res,next)=>{
+  const email = req.params.email
+  const status = "completed"
+  const sqlQuery = "SELECT *FROM client WHERE email = ?"
+  const value = [
+    email
+  ]
+  db.query(sqlQuery,value,(err,data1)=>{
+    if(err){
+      return res.json({message:'There is an internel error'})
     }
-    return res.json({ data })
+    const sqlQuery1 = "SELECT b.request_id,b.placed_date,b.verify_cancel_date,b.package_id,b.client_id,b.board_arrival_date,b.board_carry_date,b.pet_id,b.price,p.package_name FROM boarding_package p INNER JOIN  boarding_request b ON b.package_id = p.package_id  WHERE b.client_id = ? AND b.request_status = ? ORDER BY b.request_id DESC LIMIT 1"
+    const value1 = [
+      data1[0].client_id,
+      status
+    ]
+    db.query(sqlQuery1,value1,(err,data)=>{
+      if(err){
+        return res.json({message:'There is an internel error'})
+      }
+      return res.json({data})
+    })
+  })
+
+}
+export const onlinereport = async(req,res,next)=>{
+  const email = req.params.email
+  const status = "handed"
+  const sqlQuery = "Select *FROM purchase_order WHERE order_email = ? AND po_status = ? ORDER BY po_id DESC LIMIT 1"
+  const value = [
+    email
+  ]
+  db.query(sqlQuery,value,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an internel error'})
+    }
+    return res.json({data})
   })
 }
+
+
+ 
 
 // place the 
 export const SubmitForm = async (req, res, next) => {
