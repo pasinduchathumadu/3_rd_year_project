@@ -186,12 +186,6 @@ export const reset_password = async (req, res, next) => {
     return res.json({ message: 'New password and confirm password do not match.' });
   }
 
-
-
-
-
-
-
 }
 export const forget_confirmation = async (req, res, next) => {
   const { otp } = req.body
@@ -958,9 +952,6 @@ export const deletePet = async (req, res, next) => {
   })
 }
 
-
-
-
 export const get_appointment_id = async (req, res, next) => {
   const {selectedDateString,email, packageID,Id,new_cancel_date} = req.body
  
@@ -1107,10 +1098,6 @@ export const check_appointment = async (req, res, next) => {
     }
     return res.json({ message: 'added' })
   })
-
-
-
-
 
 }
 
@@ -1689,12 +1676,13 @@ export const SubmitForm = async (req, res, next) => {
     time
   } = req.body;
 
-  const checkQuery1 = 'SELECT * FROM reserve_mindrelaxing_pets WHERE day = ? AND pet_id = ?'
+  // const checkQuery1 = 'SELECT * FROM reserve_mindrelaxing_pets WHERE day = ? AND pet_id = ?'
+  const checkQuery1 = 'SELECT COUNT(id) as idcount FROM reserve_mindrelaxing_pets WHERE date = ? AND pet_id = ?'
   const checkValues1 = [day, pet_id]
 
   db.query(checkQuery1, checkValues1, (err, data1) => {
-    // if (data1.length > 0) {
-    if (Array.isArray(data1) && data1.length > 0) {
+    if (data1[0].idcount > 0) {
+      // console.log("cannot")
       return res.json({ message: 'Pet already reserved' })
     }
 
@@ -1703,7 +1691,7 @@ export const SubmitForm = async (req, res, next) => {
 
     db.query(sql2, value2, (err, data2) => {
       if (err) {
-        return res.json({ message: 'There is an internal error' })
+        return res.json({ message: 'There is an internal errorrrr' })
       }
 
       const sql3 = 'INSERT INTO reserve_mindrelaxing_pets (pet_id, date) VALUES (?,?)'
