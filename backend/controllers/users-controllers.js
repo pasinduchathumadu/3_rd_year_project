@@ -1624,6 +1624,17 @@ export const getTimeSlots = async (req, res, next) => {
 export const getDetails = async (req, res, next) => {
   const id = req.params.id
 
+  const sqlQuery = 'SELECT * FROM mind_relaxing_pets WHERE pet_id = ?'
+  const values = [id]
+
+  db.query(sqlQuery, values, (err, data) => {
+    if (err) {
+      return res.json({ message: 'There is an internal error' })
+    }
+    return res.json({ data })
+  })
+}
+
 
 export const boardreport = async(req,res,next)=>{
   const email = req.params.email
