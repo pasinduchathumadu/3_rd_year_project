@@ -24,12 +24,12 @@ care_center_route.get('/get_employee',get_employee)
 care_center_route.post('/submit',submit)
 
 // APPOINTMENTS
-care_center_route.get('/get_groom_apo',get_groom_apo)
-care_center_route.get('/get_training',get_training)
+care_center_route.get('/get_groom_apo/:id',get_groom_apo)
+care_center_route.get('/get_training/:id',get_training)
 care_center_route.get('/mind_relaxing/:id',mind_relaxing)
 care_center_route.post('/CompletePending',CompletePending)
 
-// 
+
 care_center_route.post('/leave',leave)
 
 export default care_center_route;
