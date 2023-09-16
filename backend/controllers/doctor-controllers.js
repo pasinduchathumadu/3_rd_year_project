@@ -115,11 +115,6 @@ export const add_vet = async (req, res, next) => {
 }
 
 
-//     return res.json({message:'updated'})
-//    })
-// }
-
-
 // --- COMPLAINS ---
 // add new complain
 export const add_complain = async (req, res, next) => {

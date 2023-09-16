@@ -95,9 +95,18 @@ const Dashboard = () => {
 
     const input = new Date();
     const date = input.toDateString();
+
     // PENDING AND COMPLETED APPOINTMENTS COUNT
-    const [count1, setcount1] = useState([])
-    const [count2, setcount2] = useState([])
+    const [count1, setcount1] = useState([]) //pending
+    const [count2, setcount2] = useState([]) //completed
+
+    // const [time1, settime1] = React.useState('1')
+    // const handleChange1 = (event) => {
+    //     settime1(event.target.value);
+
+    //     pendingBox()
+    //     completedBox()
+    // };
 
     const pendingBox = async () => {
         try {
@@ -111,7 +120,7 @@ const Dashboard = () => {
     }
     const completedBox = async () => {
         try {
-            const res = await axios.get(`http://localhost:5000/pet_care/medi_help_manager/pendingBox/`)
+            const res = await axios.get(`http://localhost:5000/pet_care/medi_help_manager/completedBox`)
             setcount2(res.data.data)
 
         } catch (err) {
@@ -226,7 +235,7 @@ const Dashboard = () => {
 
                                     variant='outlined'
                                     label="Time"
-                                    // onChange={handleChange1}
+                                    onChange={handleChange1}
                                     l
                                     sx={{ fontSize: '12px' }}>
                                     <MenuItem value={1}>Today</MenuItem>
@@ -239,22 +248,16 @@ const Dashboard = () => {
 
                     <div style={{ display: 'flex', flexDirection: 'row' }} >
                         <div style={{ backgroundColor: 'white', width: '50%', borderRadius: '10px', margin: '1%', padding: '1%' }} >
-                            <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'orange', marginRight: '5px' }} />Completed Appointments</p>
-                            {count1.length === 0 ? (
-                                <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>0</h1>
-                            ) : (
-                                count1.map((count, index) => (
-                                    <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>{count.totalpending}</h1>
-                                )))}
+                            <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'orange', marginRight: '5px' }} />Pending Appointments</p>
+                            {count1 && count1.map((menu, index) => (
+                                <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>{menu.totalpending}</h1>
+                            ))}
                         </div>
                         <div style={{ backgroundColor: 'white', width: '50%', borderRadius: '10px', margin: '1%', padding: '1%' }} >
-                            <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'orange', marginRight: '5px' }} />Pending Appointments</p>
-                            {count2.length === 0 ? (
-                                <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>0</h1>
-                            ) : (
-                                count2.map((count, index) => (
-                                    <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>{count.totalpending}</h1>
-                                )))}
+                            <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'orange', marginRight: '5px' }} />Completed Appointments</p>
+                            {count2 && count2.map((menu, index) => (
+                                <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>{menu.totalcompleted}</h1>
+                            ))}
                         </div>
                     </div>
                 </div>

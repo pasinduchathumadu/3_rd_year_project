@@ -1,8 +1,6 @@
 import express from "express";
 
-
-import {login,signup,forget_password,reset_password,forget_confirmation,upload_file,get_store, temp_cart, load_cart,increase, decrease,total, load_payement, load_total,delete_cart,final_payment, back,date_client,confirm,generate , client_load, delete_order, random_assistant, get_allpackage, get_package, timeslot, delete_order_care,addpet, view_pets,get_appointment_id,cancel_appointment, care_orders,delete_appointment,edit_appointment,get_doctors,book_doctor,get_medi_user,check_appointment,medi_payment, pet_trainning, pet_booking, get_breed, get_medi_orders, training_orders, delete_appointment_training, blog_post,deletePet,viewmyComplains,addNewComplain,deleteMyComplain, getPackageid, AssignCage, getallpets,getMindRealxingPets, getprice, getallcages, insert, boardreport} from "../controllers/users-controllers.js";
-
+import {login,signup,forget_password,reset_password,forget_confirmation,upload_file,get_store, temp_cart, load_cart,increase, decrease,total, load_payement, load_total,delete_cart,final_payment, back,date_client,confirm,generate , client_load, delete_order, random_assistant, get_allpackage, get_package, timeslot, delete_order_care,addpet, view_pets,get_appointment_id,cancel_appointment, care_orders,delete_appointment,edit_appointment,get_doctors,book_doctor,get_medi_user,check_appointment,medi_payment, pet_trainning, pet_booking, get_breed, get_medi_orders, training_orders, delete_appointment_training, blog_post,deletePet,viewmyComplains,addNewComplain,deleteMyComplain, getPackageid, AssignCage, getallpets,getMindRealxingPets, getprice, getallcages, insert, getTimeSlots,SubmitForm, getDetails, boardreport} from "../controllers/users-controllers.js";
 
 const user_route = express.Router();
 
@@ -65,6 +63,10 @@ user_route.post('/getallcages',getallcages)
 user_route.post('/insert',insert)
 user_route.get('/boardreport/:email',boardreport)
 user_route.get('/getMindRealxingPets',getMindRealxingPets)
+user_route.get('/getTimeSlots',getTimeSlots)
+user_route.get('/getDetails/:id',getDetails)
+user_route.post('/SubmitForm/:id',SubmitForm)
+
 
 
 

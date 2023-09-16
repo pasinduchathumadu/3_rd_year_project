@@ -1595,18 +1595,35 @@ export const insert = async(req,res,next)=>{
 
 // MIND RELAXING
 // get pets from db
-export const getMindRealxingPets = async(req,res,next) => {
+export const getMindRealxingPets = async (req, res, next) => {
   const sqlQuery = 'SELECT * FROM mind_relaxing_pets'
 
-  db.query(sqlQuery, (err,data) => {
-    if(err) {
-      return res.json({message:'There is an internal error'})
+  db.query(sqlQuery, (err, data) => {
+    if (err) {
+      return res.json({ message: 'There is an internal error' })
     }
-    return res.json({data})
+    return res.json({ data })
+  })
+}
+
+// get mind relaxing time slots
+export const getTimeSlots = async (req, res, next) => {
+  // const sqlQuery = 'SELECT id, CONCAT(start_time, " - ", end_time) AS time FROM mind_relaxing_timeslots'
+  const sqlQuery = 'SELECT * FROM mind_relaxing_timeslots'
+
+  db.query(sqlQuery, (err, data) => {
+    if (err) {
+      return res.json({ message: 'There is an internal error' })
+    }
+    return res.json({ data })
   })
 
+}
 
-} 
+// get pet details for form
+export const getDetails = async (req, res, next) => {
+  const id = req.params.id
+
 
 export const boardreport = async(req,res,next)=>{
   const email = req.params.email
@@ -1649,4 +1666,46 @@ export const onlinereport = async(req,res,next)=>{
 }
 
 
+ 
 
+// place the 
+export const SubmitForm = async (req, res, next) => {
+  const pet_id = req.params.id
+
+  const {
+    email,
+    day,
+    time
+  } = req.body;
+
+  const checkQuery1 = 'SELECT * FROM reserve_mindrelaxing_pets WHERE day = ? AND pet_id = ?'
+  const checkValues1 = [day, pet_id]
+
+  db.query(checkQuery1, checkValues1, (err, data1) => {
+    // if (data1.length > 0) {
+    if (Array.isArray(data1) && data1.length > 0) {
+      return res.json({ message: 'Pet already reserved' })
+    }
+
+    const sql2 = 'INSERT INTO mindrelaxing_appointments (timeslot_id, date, email, pet_id) VALUES (?,?,?,?)'
+    const value2 = [time, day, email, pet_id]
+
+    db.query(sql2, value2, (err, data2) => {
+      if (err) {
+        return res.json({ message: 'There is an internal error' })
+      }
+
+      const sql3 = 'INSERT INTO reserve_mindrelaxing_pets (pet_id, date) VALUES (?,?)'
+      const value3 = [pet_id, day]
+
+      db.query(sql3, value3, (err, data3) => {
+        if (err) {
+          return res.json({ message: 'There is an internal error' })
+        }
+        return res.json({ message: 'Successfully Done!' })
+      })
+    })
+  })
+}
+
+ 
