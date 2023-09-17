@@ -17,7 +17,8 @@ import { useNavigate } from "react-router";
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
-
+import Alert from '@mui/material/Alert';
+// import Stack from '@mui/material/Stack';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -136,10 +137,10 @@ function Appo() {
     setvalue(newvalue);
   };
 
-  const [PopupOpen, setPopoup] = useState(false);
-  const Submit = () => {
-    setPopoup(true)
-  }
+  // const [PopupOpen, setPopoup] = useState(false);
+  // const Submit = () => {
+  //   setPopoup(true)
+  // }
 
   const navigate = useNavigate("")
   // connect profile
@@ -149,6 +150,43 @@ function Appo() {
   // get profile picture
   const getProfilepicturepath = (imageName) => {
     return require(`../../../../backend/images/store/${imageName}`)
+  }
+
+  // WARNING BOX
+  const [warn, setwarn] = useState(false)
+
+  // display warning box
+  const displayWarning = () => {
+    setwarn(true)
+    setvalue(false)
+  }
+
+  // removing all uncompleted appointments
+  const [error2, seterror2] = useState(false)
+  const [success2, setsuccess2] = useState(false)
+  const [message2, setmessage2] = useState("")
+  const removeUncompleted = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/care_center_manager/removeUncompleted`)
+      if (res.data.message === 'There is an internal error') {
+        seterror2(true)
+        setmessage2('There is an internal error')
+      } 
+      else if (res.data.message === 'Deleted') {
+        setvalue(2)
+        setwarn(false)
+        setsuccess2(true)
+        setmessage2('Successfully Removed')
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  // cancel removing
+  const cancelDelete = () => {
+    setwarn(false)
+    setvalue(2)
   }
 
   return (
@@ -247,6 +285,7 @@ function Appo() {
                   </FormControl>
                 </Box>
               </div>
+
               <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 800 }} aria-label="customized table">
                   <TableHead>
@@ -383,22 +422,37 @@ function Appo() {
           {value === 2 && (
             <>
               <div>
-                <Box sx={{ width: '13%', marginLeft: '87%', marginBottom: '1%' }}>
-                  <FormControl fullWidth>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      variant='filled'
-                      onChange={handleChange1}
-                      l
-                      sx={{ fontSize: '12px' }}>
-                      <MenuItem value={1}>All</MenuItem>
-                      <MenuItem value={2}>Pending</MenuItem>
-                      <MenuItem value={3}>Completed</MenuItem>
-                      <MenuItem value={4}>Cancelled</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Box>
+                <div>
+                  <Button onClick={displayWarning} sx={{ backgroundColor: 'black', color: 'white', 'hover': { backgroundColor: 'black' } }}>Remove All Uncompleted Appointments</Button>
+                  {error2 && (
+                    <Stack sx={{ width: '20%' }} spacing={2}>
+                      <Alert severity="error">{message2}</Alert>
+                    </Stack>
+                  )}
+                  {success2 && (
+                    <Stack sx={{ width: '20%' }} spacing={2}>
+                      <Alert severity="success">{message2}</Alert>
+                    </Stack>
+                  )}
+                </div>
+                <div>
+                  <Box sx={{ width: '15%', marginLeft: '85%',marginBottom:'1%' }}>
+                    <FormControl fullWidth>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        variant='filled'
+                        onChange={handleChange1}
+                        l
+                        sx={{ fontSize: '12px' }}>
+                        <MenuItem value={1}>All</MenuItem>
+                        <MenuItem value={2}>Pending</MenuItem>
+                        <MenuItem value={3}>Completed</MenuItem>
+                        <MenuItem value={4}>Cancelled</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
+                </div>
               </div>
 
               <TableContainer component={Paper}>
@@ -468,7 +522,45 @@ function Appo() {
             </>
           )}
         </Grid>
-        {PopupOpen && <CPetProfile />}
+        {/* {PopupOpen && <CPetProfile />} */}
+
+        {/* warning box for removing */}
+        {warn && (
+          <div style={{
+            backdropFilter: 'blur(4px)',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            padding: '5px',
+            width: '100%',
+            height: '100vh',
+            borderRadius: '10px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginRight: '300px',
+            zIndex: 1001,
+          }}>
+            <div style={{ backgroundColor: 'black', padding: '10px' }}>
+              <div style={{
+                padding: '10px',
+                borderRadius: '5px',
+                backgroundColor: '#f0f0f5',
+                width: '500px',
+                position: 'relative',
+                zIndex: 1001,
+              }}>
+                <Typography sx={{ textAlign: 'center' }}>Confirm Remove? </Typography>
+                <hr /><br />
+
+                <div style={{ display: 'flex', flexDirection: 'row', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                  <Button onClick={removeUncompleted} sx={{ backgroundColor: 'orange', color: 'white', margin: '10px', ':hover': { backgroundColor: 'orange' } }}>Confirm</Button>
+                  <Button onClick={cancelDelete} sx={{ backgroundColor: 'red', color: 'white', margin: '10px', ':hover': { backgroundColor: 'red' } }}>Cancel</Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
       </div>
     </>

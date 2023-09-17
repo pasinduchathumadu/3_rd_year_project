@@ -272,11 +272,11 @@ export const submit = async (req, res, next) => {
     })
 }
 
-  //grooming appointments viewing
+//grooming appointments viewing
 export const get_groom_apo = async (req, res, next) => {
     const id = req.params.id
 
-    if(id === '1') {
+    if (id === '1') {
         const sqlQuery = "SELECT a.appointment_id,a.appointment_status,a.placed_date,a.client_email,a.verify_cancel_date ,a.early_cancel_date, p.price FROM carecenter_appointment a INNER JOIN carecenter_package p on a.package_id = p.package_id "
 
         db.query(sqlQuery, (err, data) => {
@@ -286,49 +286,49 @@ export const get_groom_apo = async (req, res, next) => {
             return res.json({ data })
         })
     }
-    if(id === '2') {
+    if (id === '2') {
         const status = 'pending'
         const sqlQuery = "SELECT a.appointment_id,a.appointment_status,a.placed_date,a.client_email,a.verify_cancel_date ,a.early_cancel_date, p.price FROM carecenter_appointment a INNER JOIN carecenter_package p on a.package_id = p.package_id AND a.appointment_status = ?"
         const values = [status]
 
-         db.query(sqlQuery, values,(err, data) => {
+        db.query(sqlQuery, values, (err, data) => {
             if (err) {
                 return res.json({ message: 'There is an internel error' })
             }
             return res.json({ data })
         })
     }
-    if(id === '3') {
+    if (id === '3') {
         const status = 'completed'
         const sqlQuery = "SELECT a.appointment_id,a.appointment_status,a.placed_date,a.client_email,a.verify_cancel_date ,a.early_cancel_date, p.price FROM carecenter_appointment a INNER JOIN carecenter_package p on a.package_id = p.package_id AND a.appointment_status = ?"
         const values = [status]
 
-         db.query(sqlQuery, values,(err, data) => {
+        db.query(sqlQuery, values, (err, data) => {
             if (err) {
                 return res.json({ message: 'There is an internel error' })
             }
             return res.json({ data })
         })
     }
-    if(id === '4') {
+    if (id === '4') {
         const status = 'cancelled'
         const sqlQuery = "SELECT a.appointment_id,a.appointment_status,a.placed_date,a.client_email,a.verify_cancel_date ,a.early_cancel_date, p.price FROM carecenter_appointment a INNER JOIN carecenter_package p on a.package_id = p.package_id AND a.appointment_status = ?"
         const values = [status]
 
-         db.query(sqlQuery, values,(err, data) => {
+        db.query(sqlQuery, values, (err, data) => {
             if (err) {
                 return res.json({ message: 'There is an internel error' })
             }
             return res.json({ data })
         })
-    } 
+    }
 }
 
-  // exercising appointments viewing
+// exercising appointments viewing
 export const get_training = async (req, res, next) => {
     const id = req.params.id
 
-    if(id === '1') {
+    if (id === '1') {
         const sqlQuery = "SELECT t.id,t.placed_date,t.day,t.breed,t.client_email,t.early_cancel_date, t.verify_cancel_date, p.price,p.start,p.end FROM pet_trainning_payment t INNER JOIN pet_trainning_shedule p ON p.day = t.day"
 
         db.query(sqlQuery, (err, data) => {
@@ -338,42 +338,42 @@ export const get_training = async (req, res, next) => {
             return res.json({ data })
         })
     }
-    else if(id === '2'){
+    else if (id === '2') {
         const status = 'pending'
         const sqlQuery = "SELECT t.id,t.placed_date,t.day,t.breed,t.client_email,t.early_cancel_date, t.verify_cancel_date, p.price,p.start,p.end FROM pet_trainning_payment t INNER JOIN pet_trainning_shedule p ON p.day = t.day AND t.status = ?"
         const values = [status]
 
-        db.query(sqlQuery, values,(err, data) => {
+        db.query(sqlQuery, values, (err, data) => {
             if (err) {
                 return res.json({ message: 'There is an internel error' })
             }
             return res.json({ data })
         })
     }
-    else if(id === '3'){
+    else if (id === '3') {
         const status = 'completed'
         const sqlQuery = "SELECT t.id,t.placed_date,t.day,t.breed,t.client_email,t.early_cancel_date, t.verify_cancel_date, p.price,p.start,p.end FROM pet_trainning_payment t INNER JOIN pet_trainning_shedule p ON p.day = t.day AND t.status = ?"
         const values = [status]
 
-        db.query(sqlQuery, values,(err, data) => {
+        db.query(sqlQuery, values, (err, data) => {
             if (err) {
                 return res.json({ message: 'There is an internel error' })
             }
             return res.json({ data })
         })
     }
-    else if(id === '4'){
+    else if (id === '4') {
         const status = 'cancelled'
         const sqlQuery = "SELECT t.id,t.placed_date,t.day,t.breed,t.client_email,t.early_cancel_date, t.verify_cancel_date, p.price,p.start,p.end FROM pet_trainning_payment t INNER JOIN pet_trainning_shedule p ON p.day = t.day AND t.status = ?"
         const values = [status]
 
-        db.query(sqlQuery, values,(err, data) => {
+        db.query(sqlQuery, values, (err, data) => {
             if (err) {
                 return res.json({ message: 'There is an internel error' })
             }
             return res.json({ data })
         })
-    }   
+    }
 }
 
 export const get_employee = async (req, res, next) => {
@@ -418,12 +418,12 @@ export const mind_relaxing = async (req, res, next) => {
             }
             return res.json({ data })
         })
-    } 
-    else if(id === '2') {
+    }
+    else if (id === '2') {
         const status = 'pending'
         const sqlQuery = 'SELECT a.appointment_id, a.timeslot_id, a.date, a.email, a.pet_id, a.status, t.start_time, t.end_time FROM mindrelaxing_appointments a INNER JOIN mind_relaxing_timeslots t WHERE a.timeslot_id = t.id AND a.status = ?'
         const values = [status]
-        db.query(sqlQuery,values, (err, data) => {
+        db.query(sqlQuery, values, (err, data) => {
             if (err) {
                 return res.json({ message: 'There is an internal error' })
             }
@@ -431,7 +431,7 @@ export const mind_relaxing = async (req, res, next) => {
         })
 
     }
-    else if(id === '3') {
+    else if (id === '3') {
         const status = 'completed'
         const sqlQuery = 'SELECT a.appointment_id, a.timeslot_id, a.date, a.email, a.pet_id, a.status, t.start_time, t.end_time FROM mindrelaxing_appointments a INNER JOIN mind_relaxing_timeslots t WHERE a.timeslot_id = t.id AND a.status = ?'
         const values = [status]
@@ -443,7 +443,7 @@ export const mind_relaxing = async (req, res, next) => {
         })
 
     }
-    else if(id === '4') {
+    else if (id === '4') {
         const status = 'cancelled'
         const sqlQuery = 'SELECT a.appointment_id, a.timeslot_id, a.date, a.email, a.pet_id, a.status, t.start_time, t.end_time FROM mindrelaxing_appointments a INNER JOIN mind_relaxing_timeslots t WHERE a.timeslot_id = t.id AND a.status = ?'
         const values = [status]
@@ -456,7 +456,8 @@ export const mind_relaxing = async (req, res, next) => {
     }
 }
 
-export const CompletePending = async(req,res,next) => {
+// complete pending appointment (pending -> completed)
+export const CompletePending = async (req, res, next) => {
     const {
         id
     } = req.body;
@@ -465,11 +466,30 @@ export const CompletePending = async(req,res,next) => {
     const sqlQuery = 'UPDATE mindrelaxing_appointments SET status = ? WHERE appointment_id = ?'
     const values = [status, id]
 
+    db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
+        }
+        return res.json({ message: 'completed' })
+    })
+}
+
+// remove all uncompleted appointments
+export const removeUncompleted = async (req, res, next) => {
+    const currentDate = new Date()
+    const currentDateMinusOneDay = new Date(currentDate);
+    currentDateMinusOneDay.setDate(currentDate.getDate() - 1);
+    const status = 'pending'
+
+    const sqlQuery = 'DELETE FROM mindrelaxing_appointments WHERE status = ? AND date < ?'
+    const values = [status, currentDateMinusOneDay]
+
     db.query(sqlQuery, values, (err,data) => {
         if(err) {
-            return res.json({message:'There is an internal error'})
+        return res.json({message: 'There is an internal error'})
         }
-        return res.json({message:'completed'})
+        return res.json({message:'Deleted'})
+
     })
 
 }
