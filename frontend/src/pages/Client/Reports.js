@@ -8,6 +8,8 @@ const Reports = () => {
 
     const email = localStorage.getItem('client_email')
     const [ board , setboardreport ] = useState([])
+    const [ online , setonline ] = useState([])
+    const [ value , setvalue ] = useState(0)
 
     const boardreport = async()=>{
         try{
@@ -22,10 +24,29 @@ const Reports = () => {
         }
        
     }
+    const onlinereport = async()=>{
+        try{
+            const res = await axios.get(`http://localhost:5000/pet_care/user/onlinereport/${email}`)
+            const data = await res.data
+            return data
+
+        }
+        catch(err){
+            console.log(err)
+
+        }
+       
+    }
+
 
     useEffect(()=>{
         boardreport()
         .then((data)=>setboardreport(data.data))
+        .catch((err)=>console.log(err))
+    })
+    useEffect(()=>{
+        onlinereport()
+        .then((data)=>setonline(data.data))
         .catch((err)=>console.log(err))
     })
 
@@ -50,104 +71,236 @@ const Reports = () => {
 
             <div style={{ display: 'flex', flexDirection: 'row' }}>
                 <div style={{ width: '20%', height: '100vh', backgroundColor: '#F0F0F5', padding: '1%', borderRadius: '10px' }}>
-                    <Button sx={{ color: 'white', backgroundColor: 'black', borderRadius: '10px', padding: '3%', width: '100%', marginTop: '5%', marginBottom: '5%', ':hover': { backgroundColor: 'black' } }}>Boarding House Reports</Button>
-                    <Button sx={{ color: 'white', backgroundColor: 'black', borderRadius: '10px', padding: '3%', width: '100%', marginTop: '5%', marginBottom: '5%', ':hover': { backgroundColor: 'black' } }}>Online Store Reports</Button>
-                    <Button sx={{ color: 'white', backgroundColor: 'black', borderRadius: '10px', padding: '3%', width: '100%', marginTop: '5%', marginBottom: '5%', ':hover': { backgroundColor: 'black' } }}>Medi Help Center Reports</Button>
-                    <Button sx={{ color: 'white', backgroundColor: 'black', borderRadius: '10px', padding: '3%', width: '100%', marginTop: '5%', marginBottom: '5%', ':hover': { backgroundColor: 'black' } }}>Care Center Reports</Button>
+                    <Button onClick={()=>setvalue(0)} sx={{ color: 'white', backgroundColor: 'black', borderRadius: '10px', padding: '3%', width: '100%', marginTop: '5%', marginBottom: '5%', ':hover': { backgroundColor: 'black' } }}>Boarding House Reports</Button>
+                    <Button   onClick={()=>setvalue(1)} sx={{ color: 'white', backgroundColor: 'black', borderRadius: '10px', padding: '3%', width: '100%', marginTop: '5%', marginBottom: '5%', ':hover': { backgroundColor: 'black' } }}>Online Store Reports</Button>
+                    <Button   onClick={()=>setvalue(2)}  sx={{ color: 'white', backgroundColor: 'black', borderRadius: '10px', padding: '3%', width: '100%', marginTop: '5%', marginBottom: '5%', ':hover': { backgroundColor: 'black' } }}>Medi Help Center Reports</Button>
+                    <Button   onClick={()=>setvalue(3)} sx={{ color: 'white', backgroundColor: 'black', borderRadius: '10px', padding: '3%', width: '100%', marginTop: '5%', marginBottom: '5%', ':hover': { backgroundColor: 'black' } }}>Care Center Reports</Button>
                 </div>
-
-                <div style={{ width: '80%', height: '100%', padding: '2%', margin: '2%', borderRadius: '10px', border: '#F0F0F5 2px', backgroundColor: '#F0F0F5' }}>
-                    <div>
-                        <Typography sx={{ fontWeight: '100', fontSize: '20px', marginTop: '1%', textAlign: 'center' }}> Happy Tails - Boarding House</Typography>
-                        <Typography sx={{ fontWeight: '100', fontSize: '18px', marginTop: '1%', textAlign: 'center' }}><u>Boarding Receipt</u></Typography>
-                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Typography sx={{ fontWeight: '100', fontSize: '14px', marginTop: '1%' }}> Contact Number : 077123456</Typography>
-                            <Typography sx={{ fontWeight: '100', fontSize: '14px', marginTop: '1%' }}> Email Address  : happytails@gmail.com</Typography>
-                        </div>
-                    </div>
-                    <hr />
-                    <div style={{ marginTop: '1%', marginBottom: '1%' }}>
-                        {board && board.map((menu,index)=>(
-                             <><><div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '1%', marginBottom: '1%' }}>
-                                <TextField
-                                    id="outlined-read-only-input"
-                                    label="Request ID"
-                                    defaultValue={menu.request_id}
-                                    InputProps={{
-                                        readOnly: true,
-                                    }}
-                                    sx={{ width: '40%' }} />
-                                <TextField
-                                    id="outlined-read-only-input"
-                                    label="Client ID"
-                                    defaultValue={menu.client_id}
-                                    InputProps={{
-                                        readOnly: true,
-                                    }}
-                                    sx={{ width: '40%' }} />
-                            </div><div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '1%', marginBottom: '1%' }}>
-                                    <TextField
+                {value === 1 &&(
+                     <div style={{ width: '80%', height: '100%', padding: '2%', margin: '2%', borderRadius: '10px', border: '#F0F0F5 2px', backgroundColor: '#F0F0F5' }}>
+                     <div>
+                         <Typography sx={{ fontWeight: '100', fontSize: '20px', marginTop: '1%', textAlign: 'center' }}> Happy Tails - Boarding House</Typography>
+                         <Typography sx={{ fontWeight: '100', fontSize: '18px', marginTop: '1%', textAlign: 'center' }}><u>Online Store Receipt</u></Typography>
+                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                             <Typography sx={{ fontWeight: '100', fontSize: '14px', marginTop: '1%' }}> Contact Number : 077123456</Typography>
+                             <Typography sx={{ fontWeight: '100', fontSize: '14px', marginTop: '1%' }}> Email Address  : happytails@gmail.com</Typography>
+                         </div>
+                     </div>
+                     <hr />
+                     <div style={{ marginTop: '1%', marginBottom: '1%' }}>
+                         {online && online.map((menu,index)=>(
+                              <><><div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '1%', marginBottom: '1%' }}>
+                                 <TextField
+                                     id="outlined-read-only-input"
+                                     label="Purchase ID"
+                                     defaultValue={menu.po_id}
+                                     InputProps={{
+                                         readOnly: true,
+                                     }}
+                                     sx={{ width: '40%' }} />
+                                 <TextField
+                                     id="outlined-read-only-input"
+                                     label="Client Email"
+                                     defaultValue={menu.order_email}
+                                     InputProps={{
+                                         readOnly: true,
+                                     }}
+                                     sx={{ width: '40%' }} />
+                             </div><div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '1%', marginBottom: '1%' }}>
+                                     <TextField
+                                         id="outlined-read-only-input"
+                                         label="Placed Date"
+                                         defaultValue={menu.placed_date}
+                                         InputProps={{
+                                             readOnly: true,
+                                         }}
+                                         sx={{ width: '30%',marginRight:'2%'}} />
+                                     <TextField
+                                        
+                                         id="outlined-read-only-input"
+                                         label="Placed Time"
+                                         defaultValue={menu.placed_time}
+                                         InputProps={{
+                                             readOnly: true,
+                                         }}
+                                         sx={{ width: '40%' }} />
+                                          <TextField
+                                        
                                         id="outlined-read-only-input"
-                                        label="Pet ID"
-                                        defaultValue={menu.pet_id}
+                                        label="Hand Over Date"
+                                        defaultValue={menu.handover_date}
                                         InputProps={{
                                             readOnly: true,
                                         }}
-                                        sx={{ width: '40%' }} />
-                                    <TextField
+                                        sx={{ width: '30%',marginLeft:'2%' }} />
                                        
-                                        id="outlined-read-only-input"
-                                        label="Package"
-                                        defaultValue={menu.package_name}
-                                        InputProps={{
-                                            readOnly: true,
-                                        }}
-                                        sx={{ width: '40%' }} />
-                                </div><div style={{ display: 'flex', flexDirection: 'column', marginTop: '1%', marginBottom: '1%' }}>
-                                    <InputLabel>Boarding Time Period :</InputLabel>
-                                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '1%' }}>
+                                 </div>
+                                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '1%', marginBottom: '1%' ,marginLeft:'2%'}}>
+                                     <TextField
+                                         id="outlined-read-only-input"
+                                         label="Payment Method"
+                                         defaultValue={menu.payment_method}
+                                         InputProps={{
+                                             readOnly: true,
+                                         }}
+                                         sx={{ width: '30%' ,marginLeft:'15%'}} />
+                                     <TextField
+                                        
+                                         id="outlined-read-only-input"
+                                         label="Collecting Method"
+                                         defaultValue={menu.collecting_method}
+                                         InputProps={{
+                                             readOnly: true,
+                                         }}
+                                         sx={{ width: '30%',marginRight:'15%' }} />
+                                 </div>
+                                 <div style={{ display: 'flex', flexDirection: 'column', marginTop: '1%', marginBottom: '1%',marginLeft:'2%'  }}>
+                                    
+                                     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '1%'}}>
+ 
+                                         <TextField
+                                             id="outlined-read-only-input"
+                                             label="Shipping Address"
+                                             defaultValue={menu.shipping_address}
+                                             InputProps={{
+                                                 readOnly: true,
+                                             }}
+                                             sx={{ width: '40%' }} />
+                                         <TextField
+                                             id="outlined-read-only-input"
+                                             label="Shipping Number "
+                                             defaultValue={menu.shipping_number}
+                                             InputProps={{
+                                                 readOnly: true,
+                                             }}
+                                             sx={{ width: '40%' }} />
+                                     </div>
+ 
+                                     <div style={{ marginTop: '1%', marginBottom: '1%' }}>
+                                         <hr />
+                                     </div>
+                                     <div style={{ marginTop: '1%', marginBottom: '1%', display: 'flex', flexDirection: 'row' }}>
+                                         <InputLabel> Payment (Rs) :</InputLabel>
+ 
+                                         <TextField
+                                             id="outlined-read-only-input"
+                                             // label="Payment "
+                                             defaultValue={menu.payment}
+                                             InputProps={{
+                                                 readOnly: true,
+                                             }}
+                                             sx={{ marginLeft: '1%' }} />
+                                     </div>
+                                 </div></><div style={{ marginTop: '2%', marginBottom: '1%', marginLeft: '40%' }}>
+                                     <Button sx={{ color: 'white', backgroundColor: 'red', ':hover': { backgroundColor: 'red' }, width: '25%' }}>Download</Button>
+                                 </div></>
+ 
+                         ))}
+                              </div>
+                             
+                        
+                 </div>
 
-                                        <TextField
-                                            id="outlined-read-only-input"
-                                            label="From "
-                                            defaultValue={menu.board_arrival_date}
-                                            InputProps={{
-                                                readOnly: true,
-                                            }}
-                                            sx={{ width: '40%' }} />
-                                        <TextField
-                                            id="outlined-read-only-input"
-                                            label="To "
-                                            defaultValue={menu.board_carry_date}
-                                            InputProps={{
-                                                readOnly: true,
-                                            }}
-                                            sx={{ width: '40%' }} />
-                                    </div>
+                )}
 
-                                    <div style={{ marginTop: '1%', marginBottom: '1%' }}>
-                                        <hr />
-                                    </div>
-                                    <div style={{ marginTop: '1%', marginBottom: '1%', display: 'flex', flexDirection: 'row' }}>
-                                        <InputLabel> Payment (Rs) :</InputLabel>
+                {value === 0 &&(
+                     <div style={{ width: '80%', height: '100%', padding: '2%', margin: '2%', borderRadius: '10px', border: '#F0F0F5 2px', backgroundColor: '#F0F0F5' }}>
+                     <div>
+                         <Typography sx={{ fontWeight: '100', fontSize: '20px', marginTop: '1%', textAlign: 'center' }}> Happy Tails - Boarding House</Typography>
+                         <Typography sx={{ fontWeight: '100', fontSize: '18px', marginTop: '1%', textAlign: 'center' }}><u>Boarding Receipt</u></Typography>
+                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                             <Typography sx={{ fontWeight: '100', fontSize: '14px', marginTop: '1%' }}> Contact Number : 077123456</Typography>
+                             <Typography sx={{ fontWeight: '100', fontSize: '14px', marginTop: '1%' }}> Email Address  : happytails@gmail.com</Typography>
+                         </div>
+                     </div>
+                     <hr />
+                     <div style={{ marginTop: '1%', marginBottom: '1%' }}>
+                         {board && board.map((menu,index)=>(
+                              <><><div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '1%', marginBottom: '1%' }}>
+                                 <TextField
+                                     id="outlined-read-only-input"
+                                     label="Request ID"
+                                     defaultValue={menu.request_id}
+                                     InputProps={{
+                                         readOnly: true,
+                                     }}
+                                     sx={{ width: '40%' }} />
+                                 <TextField
+                                     id="outlined-read-only-input"
+                                     label="Client ID"
+                                     defaultValue={menu.client_id}
+                                     InputProps={{
+                                         readOnly: true,
+                                     }}
+                                     sx={{ width: '40%' }} />
+                             </div><div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '1%', marginBottom: '1%' }}>
+                                     <TextField
+                                         id="outlined-read-only-input"
+                                         label="Pet ID"
+                                         defaultValue={menu.pet_id}
+                                         InputProps={{
+                                             readOnly: true,
+                                         }}
+                                         sx={{ width: '40%' }} />
+                                     <TextField
+                                        
+                                         id="outlined-read-only-input"
+                                         label="Package"
+                                         defaultValue={menu.package_name}
+                                         InputProps={{
+                                             readOnly: true,
+                                         }}
+                                         sx={{ width: '40%' }} />
+                                 </div><div style={{ display: 'flex', flexDirection: 'column', marginTop: '1%', marginBottom: '1%' }}>
+                                     <InputLabel>Boarding Time Period :</InputLabel>
+                                     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '1%' }}>
+ 
+                                         <TextField
+                                             id="outlined-read-only-input"
+                                             label="From "
+                                             defaultValue={menu.board_arrival_date}
+                                             InputProps={{
+                                                 readOnly: true,
+                                             }}
+                                             sx={{ width: '40%' }} />
+                                         <TextField
+                                             id="outlined-read-only-input"
+                                             label="To "
+                                             defaultValue={menu.board_carry_date}
+                                             InputProps={{
+                                                 readOnly: true,
+                                             }}
+                                             sx={{ width: '40%' }} />
+                                     </div>
+ 
+                                     <div style={{ marginTop: '1%', marginBottom: '1%' }}>
+                                         <hr />
+                                     </div>
+                                     <div style={{ marginTop: '1%', marginBottom: '1%', display: 'flex', flexDirection: 'row' }}>
+                                         <InputLabel> Payment (Rs) :</InputLabel>
+ 
+                                         <TextField
+                                             id="outlined-read-only-input"
+                                             // label="Payment "
+                                             defaultValue={menu.price}
+                                             InputProps={{
+                                                 readOnly: true,
+                                             }}
+                                             sx={{ marginLeft: '1%' }} />
+                                     </div>
+                                 </div></><div style={{ marginTop: '2%', marginBottom: '1%', marginLeft: '40%' }}>
+                                     <Button sx={{ color: 'white', backgroundColor: 'red', ':hover': { backgroundColor: 'red' }, width: '25%' }}>Download</Button>
+                                 </div></>
+ 
+                         ))}
+                              </div>
+                             
+                        
+                 </div>
 
-                                        <TextField
-                                            id="outlined-read-only-input"
-                                            // label="Payment "
-                                            defaultValue={menu.price}
-                                            InputProps={{
-                                                readOnly: true,
-                                            }}
-                                            sx={{ marginLeft: '1%' }} />
-                                    </div>
-                                </div></><div style={{ marginTop: '2%', marginBottom: '1%', marginLeft: '40%' }}>
-                                    <Button sx={{ color: 'white', backgroundColor: 'red', ':hover': { backgroundColor: 'red' }, width: '25%' }}>Download</Button>
-                                </div></>
-
-                        ))}
-                             </div>
-                       
-                </div>
+                )}
+               
+               
 
             </div>
         </div>
