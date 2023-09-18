@@ -1666,7 +1666,8 @@ export const onlinereport = async(req,res,next)=>{
   const status = "handed"
   const sqlQuery = "Select *FROM purchase_order WHERE order_email = ? AND po_status = ? ORDER BY po_id DESC LIMIT 1"
   const value = [
-    email
+    email,
+    status
   ]
   db.query(sqlQuery,value,(err,data)=>{
     if(err){
