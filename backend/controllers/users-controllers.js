@@ -1115,17 +1115,18 @@ export const check_appointment = async (req, res, next) => {
 }
 
 export const medi_payment = async (req, res, next) => {
-  const { id, date_medi, email, new_cancel_date, selectpet } = req.body
+  const { id, date_medi, email,payment_charge, new_cancel_date, selectpet } = req.body
 
 
   const status = "confirm"
-  const sqlQuery = 'INSERT INTO medi_appointment (appointment_status , placed_date , client_email ,pet_id, vet_id,cancel_date) VALUES (?,?,?,?,?,?) '
+  const sqlQuery = 'INSERT INTO medi_appointment (appointment_status , placed_date , client_email ,pet_id, vet_id,payment,cancel_date) VALUES (?,?,?,?,?,?,?) '
   const values = [
     status,
     date_medi,
     email,
     selectpet,
     id,
+    payment_charge,
     new_cancel_date
   ]
   db.query(sqlQuery, values, (err, data) => {
@@ -1718,6 +1719,21 @@ export const SubmitForm = async (req, res, next) => {
       })
     })
   })
+}
+
+export const medireport = async(req,res,next)=>{
+  const email = req.params.email
+  const sqlQuery = "SELECT a.appointment_id , a.payment,a.placed_date ,a.pet_id,a.client_email,v.first_name,v.last_name FROM medi_appointment a INNER JOIN vet v ON v.vet_id = a.vet_id WHERE a.client_email = ?"
+  const value = [
+    email
+  ]
+  db.query(sqlQuery,value,(err,data)=>{
+    if(err){
+      res.json({message:'There is an internel error'})
+    }
+    return res.json({data})
+  })
+
 }
 
  
