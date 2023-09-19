@@ -1,4 +1,4 @@
-import { Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, IconButton, Typography, TextField, Paper, Box, Tab, Tabs, List } from "@mui/material";
+import { Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, IconButton, Typography, TextField, Paper, Box, Tab, Tabs, List, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import ThumbUpIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -16,21 +16,40 @@ import logo from '../../assests/logo.png'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import axios from "axios"
 const Blog = () => {
-    const [blog, setblog] = useState("")
+    const [blog, setblog] = useState([])
     const [old_comments, get_comment] = useState("")
     const [like, setLike] = useState(0)
-    const [heart,setheart] = useState(0)
+    const [heart, setheart] = useState(0)
     const [id, setid] = useState(null)
     const [comments, setcomment] = useState(null)
     const [value, setValue] = useState(0);
+    const [value1, setValue1] = useState(10);
     const [formIndex, setFormIndex] = useState(null);
     const [show, setShow] = useState(false)
     const [icon, seticon] = useState(false)
     const [icon1, seticon1] = useState(false)
     const [dogBackground, setDogBackground] = useState(dog)
+
+ 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+    const handleChange1 = (event) => {
+        setValue1(event.target.value);
+      
+    };
+    var filterCondition = ""
+    if(value1 === 10){
+        filterCondition = "Health of Pets"
+
+    }
+    if(value1 === 20){
+        filterCondition = "Harassment of Pets"
+    }
+    if(value1 === 30){
+        filterCondition = "Charitable Posts"
+    }
+  
     const getImageSrc = (imageName) => {
         return require(`../../assests/${imageName}`)
     };
@@ -88,7 +107,7 @@ const Blog = () => {
                     return dog;
                 }
             });
-        }, 1200); 
+        }, 1200);
 
         return () => {
             clearInterval(interval); // Cleanup the interval on component unmount
@@ -127,8 +146,8 @@ const Blog = () => {
 
     return (
         <>
-           
-            <Box sx={{ width: '100%', height: '80vh', backgroundImage: `url(${dogBackground})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center' ,  transition: 'background-image 0.7s ease-in-out'}} />
+
+            <Box sx={{ width: '100%', height: '80vh', backgroundImage: `url(${dogBackground})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center', transition: 'background-image 0.7s ease-in-out' }} />
             <div style={{ display: 'flex', alignItems: 'center', paddingLeft: '35%', paddingTop: '4%' }}>
                 <img
                     style={{ width: '100px', height: '100px', display: 'inline', }}
@@ -154,11 +173,26 @@ const Blog = () => {
                 </Tabs>
 
             </Box>
-            <Grid sx={{ marginTop: '150px' }}>
-                {blog && blog.map((menu, index) => (
-                    <Card
-
-
+            <Grid sx={{ marginTop: '4%' ,marginBottom:'10%'}}>
+                <Box sx={{ minWidth: 100 }}>
+                    <FormControl sx={{ width: '30%', marginLeft: '10%' }} >
+                        <InputLabel id="demo-simple-select-label">Content</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                          
+                            value={value1}
+                            
+                            onChange={handleChange1}
+                        >
+                            <MenuItem value={10}>Health of Pets</MenuItem>
+                            <MenuItem value={20}>Harassment of Pets</MenuItem>
+                            <MenuItem value={30}>Charityable Posts</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
+                {blog.filter((menu,index)=>menu.content === filterCondition).map((menu, index) => (
+                    <><Card
                         sx={{
                             marginRight: '25%',
                             marginLeft: '25%',
@@ -166,7 +200,6 @@ const Blog = () => {
                             border: "10px",
                             borderRadius: '10px',
                             marginTop: '35px',
-
                         }}
                     >
                         <CardActionArea>
@@ -176,18 +209,17 @@ const Blog = () => {
                                         sx={{ height: "400px" }}
                                         component={"img"}
                                         src={getImageSrc(menu.image)}
-                                        alt={menu.description}
-                                    />
+                                        alt={menu.description} />
                                 </div>
                                 {show && formIndex === index && (
                                     <div style={{ width: '50%', marginTop: '5px', marginLeft: '3px', marginRight: '3px', height: 'auto' }}>
-                                        <Paper >
+                                        <Paper>
                                             <Typography>
 
                                                 <Stack direction="row" spacing={2}>
                                                     <Typography sx={{ paddingTop: '10px', paddingBottom: '5px' }}>{old_comments && old_comments.map((com, index) => (
                                                         <div style={{ display: 'flex' }}>
-                                                            <div style={{ display: 'inline',marginBottom:'5px' }}>
+                                                            <div style={{ display: 'inline', marginBottom: '5px' }}>
                                                                 <Avatar>H</Avatar>
                                                             </div>
                                                             <div style={{ display: 'inline', marginTop: '6px', marginLeft: '5px' }}>
@@ -202,7 +234,7 @@ const Blog = () => {
                                 )}
                             </div>
                             <CardContent>
-                                <Typography variant="h4" gutterBottom component={"div"} sx={{ color: 'black' }} >
+                                <Typography variant="h4" gutterBottom component={"div"} sx={{ color: 'black' }}>
                                     {menu.name}
                                 </Typography>
                                 <List>
@@ -233,7 +265,7 @@ const Blog = () => {
                                 <ListItem>
 
                                 </ListItem>
-                                <Typography variant="h6" gutterBottom component={"div"} sx={{color:"#949494" ,fontSize:"15px"}} >
+                                <Typography variant="h6" gutterBottom component={"div"} sx={{ color: "#949494", fontSize: "15px" }}>
                                     {menu.description}
                                 </Typography>
                             </CardContent>
@@ -248,10 +280,10 @@ const Blog = () => {
 
                                 </Typography>
                             </IconButton>
-                            <IconButton color="primary"onClick={() => all_function1(index)}>
+                            <IconButton color="primary" onClick={() => all_function1(index)}>
                                 <FavoriteIcon sx={{ color: 'red' }} />
                                 <Typography variant="body2" color="textSecondary" sx={{ marginLeft: '10px' }}>
-                                    {icon1=== index && (
+                                    {icon1 === index && (
                                         heart
                                     )}
 
@@ -264,8 +296,7 @@ const Blog = () => {
                                 size="small"
                                 onChange={(e) => setcomment(e.target.value)}
 
-                                sx={{ width: '35%', marginLeft: '25px', borderRadius: '90px' }}
-                            />
+                                sx={{ width: '35%', marginLeft: '25px', borderRadius: '90px' }} />
                             <IconButton onClick={() => showForm(index, menu.post_id)}>
                                 <SendIcon sx={{ color: 'black' }} />
                             </IconButton>
@@ -274,7 +305,7 @@ const Blog = () => {
                             </IconButton>
                             <Grid sx={{ paddingLeft: '10%' }}>{dateJoined}</Grid>
                         </CardActions>
-                    </Card>
+                    </Card></>
                 ))}
             </Grid>
         </>
