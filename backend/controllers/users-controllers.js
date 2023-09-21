@@ -1724,4 +1724,20 @@ export const medireport = async(req,res,next)=>{
 
 }
 
+export const carecenter = async(req,res,next)=>{
+  const email = req.params.email
+  const status = "pending"
+  const sqlQuery = "SELECT a.appointment_id ,a.appointment_status,a.early_cancel_date, a.placed_date , a.client_email ,p.package_name , p.price FROM carecenter_appointment a INNER JOIN carecenter_package p ON a.package_id = p.package_id WHERE a.appointment_status != ? AND a.client_email = ?"
+  const value = [
+    status,
+    email
+  ]
+  db.query(sqlQuery,value,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an internel error'})
+    }
+    return res.json({data})
+  })
+}
+
  

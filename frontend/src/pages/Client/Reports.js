@@ -11,6 +11,7 @@ const Reports = () => {
     const [ online , setonline ] = useState([])
     const [ value , setvalue ] = useState(0)
     const [ medi , setmedi ] = useState([])
+    const [care , setcare ] = useState([])
 
     const boardreport = async()=>{
         try{
@@ -37,6 +38,17 @@ const Reports = () => {
 
         }
        
+    }
+    const carecenterreport = async()=>{
+        try{
+            const res = await axios.get(`http://localhost:5000/pet_care/user/carecenter/${email}`)
+            const data = await res.data
+            return data
+
+        }catch(err){
+            console.log(err)
+
+        }
     }
     const medireport = async()=>{
         try{
@@ -65,6 +77,12 @@ const Reports = () => {
     useEffect(()=>{
         medireport()
         .then((data)=>setmedi(data.data))
+        .catch((err)=>console.log(err))
+    })
+    
+    useEffect(()=>{
+        carecenterreport()
+        .then((data)=>setcare(data.data))
         .catch((err)=>console.log(err))
     })
 
@@ -318,6 +336,103 @@ const Reports = () => {
                  </div>
 
                 )}
+                       {value === 3 &&(
+                     <div style={{ width: '80%', height: '100%', padding: '2%', margin: '2%', borderRadius: '10px', border: '#F0F0F5 2px', backgroundColor: '#F0F0F5' }}>
+                     <div>
+                         <Typography sx={{ fontWeight: '100', fontSize: '20px', marginTop: '1%', textAlign: 'center' }}> Happy Tails - Boarding House</Typography>
+                         <Typography sx={{ fontWeight: '100', fontSize: '18px', marginTop: '1%', textAlign: 'center' }}><u>carecenter Receipt</u></Typography>
+                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                             <Typography sx={{ fontWeight: '100', fontSize: '14px', marginTop: '1%' }}> Contact Number : 077123456</Typography>
+                             <Typography sx={{ fontWeight: '100', fontSize: '14px', marginTop: '1%' }}> Email Address  : happytails@gmail.com</Typography>
+                         </div>
+                     </div>
+                     <hr />
+                     <div style={{ marginTop: '1%', marginBottom: '1%' }}>
+                         {care && care.map((menu,index)=>(
+                              <><><div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '1%', marginBottom: '1%' }}>
+                                 <TextField
+                                     id="outlined-read-only-input"
+                                     label="Request ID"
+                                     defaultValue={menu.appointment_id}
+                                     InputProps={{
+                                         readOnly: true,
+                                     }}
+                                     sx={{ width: '40%' }} />
+                                 <TextField
+                                     id="outlined-read-only-input"
+                                     label="Client Email"
+                                     defaultValue={menu.client_email}
+                                     InputProps={{
+                                         readOnly: true,
+                                     }}
+                                     sx={{ width: '40%' }} />
+                             </div><div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '1%', marginBottom: '1%' }}>
+                                     <TextField
+                                         id="outlined-read-only-input"
+                                         label="Appointment Status"
+                                         defaultValue={menu.appointment_status}
+                                         InputProps={{
+                                             readOnly: true,
+                                         }}
+                                         sx={{ width: '40%' }} />
+                                     <TextField
+                                        
+                                         id="outlined-read-only-input"
+                                         label="Package Name"
+                                         defaultValue={menu.package_name}
+                                         InputProps={{
+                                             readOnly: true,
+                                         }}
+                                         sx={{ width: '40%' }} />
+                                 </div><div style={{ display: 'flex', flexDirection: 'column', marginTop: '1%', marginBottom: '1%' }}>
+                                   
+                                     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '1%' }}>
+ 
+                                         <TextField
+                                             id="outlined-read-only-input"
+                                             label="Placed Date"
+                                             defaultValue={menu.placed_date}
+                                             InputProps={{
+                                                 readOnly: true,
+                                             }}
+                                             sx={{ width: '40%' }} />
+                                         <TextField
+                                             id="outlined-read-only-input"
+                                             label="Cancel Appoinment DATE"
+                                             defaultValue={menu.early_cancel_date}
+                                             InputProps={{
+                                                 readOnly: true,
+                                             }}
+                                             sx={{ width: '40%' }} />
+                                     </div>
+ 
+                                     <div style={{ marginTop: '1%', marginBottom: '1%' }}>
+                                         <hr />
+                                     </div>
+                                     <div style={{ marginTop: '1%', marginBottom: '1%', display: 'flex', flexDirection: 'row' }}>
+                                         <InputLabel> Payment (Rs) :</InputLabel>
+ 
+                                         <TextField
+                                             id="outlined-read-only-input"
+                                             // label="Payment "
+                                             defaultValue={menu.price}
+                                             InputProps={{
+                                                 readOnly: true,
+                                             }}
+                                             sx={{ marginLeft: '1%' }} />
+                                     </div>
+                                 </div></><div style={{ marginTop: '2%', marginBottom: '1%', marginLeft: '40%' }}>
+                                     <Button sx={{ color: 'white', backgroundColor: 'red', ':hover': { backgroundColor: 'red' }, width: '25%' }}>Download</Button>
+                                 </div></>
+ 
+                         ))}
+                              </div>
+                             
+                        
+                 </div>
+
+                )}
+                
                   {value === 2 &&(
                      <div style={{ width: '80%', height: '100%', padding: '2%', margin: '2%', borderRadius: '10px', border: '#F0F0F5 2px', backgroundColor: '#F0F0F5' }}>
                      <div>
@@ -412,12 +527,14 @@ const Reports = () => {
                                  </div></>
  
                          ))}
+                         
                               </div>
                              
                         
                  </div>
 
                 )}
+                
 
                
                
