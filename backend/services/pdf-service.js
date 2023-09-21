@@ -1,22 +1,15 @@
 // services/pdf-service.js
 import PDFDocument from 'pdfkit';
 
-export function 
-  buildPDF(dataCallback, endCallback,name,email) {
-    const doc = new PDFDocument({ bufferPages: true, font: 'Courier' });
+export function buildPDF(res, email) {
+  const doc = new PDFDocument({ bufferPages: true, font: 'Courier' });
 
-    doc.on('data', dataCallback);
-    doc.on('end', endCallback);
+  // Pipe the PDF data directly to the response object
+  doc.pipe(res);
 
-    doc.fontSize(20).text('A heading');
+  doc.fontSize(20).text('A heading');
 
-    doc
-    .fontSize(12)
-    .text(`Name: ${name}`);
-    doc
-    .fontSize(12)
-    .text(`Email: ${email}`);
+  doc.fontSize(12).text(`Email: ${email}`); // Include the email in the PDF
 
-    doc.end();
-  }
-
+  doc.end();
+}

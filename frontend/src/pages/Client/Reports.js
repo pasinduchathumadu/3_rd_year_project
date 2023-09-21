@@ -13,6 +13,39 @@ const Reports = () => {
     const [ medi , setmedi ] = useState([])
     const [care , setcare ] = useState([])
 
+  
+    const download = async () => {
+        try {
+            const email = "example@example.com"; // Replace with the actual email
+    
+            // Add any additional data that the server requires to generate the PDF
+            const requestData = {
+                email: email,
+                // Add other data here if needed
+            };
+    
+            const response = await axios.post('http://localhost:5000/pet_care/pdf/card', requestData, {
+                responseType: 'blob' // Tell Axios to expect binary data in the response
+            });
+    
+            // Create a blob with the PDF data from the response
+            const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
+    
+            // Create a link and trigger a click event to download the PDF
+            const url = window.URL.createObjectURL(pdfBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'invoice.pdf'; // You can set the desired filename
+            a.click();
+    
+            // Clean up
+            window.URL.revokeObjectURL(url);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    
+    
     const boardreport = async()=>{
         try{
             const res = await axios.get(`http://localhost:5000/pet_care/user/boardreport/${email}`)
@@ -422,7 +455,7 @@ const Reports = () => {
                                              sx={{ marginLeft: '1%' }} />
                                      </div>
                                  </div></><div style={{ marginTop: '2%', marginBottom: '1%', marginLeft: '40%' }}>
-                                     <Button sx={{ color: 'white', backgroundColor: 'red', ':hover': { backgroundColor: 'red' }, width: '25%' }}>Download</Button>
+                                     <Button onClick={download} sx={{ color: 'white', backgroundColor: 'red', ':hover': { backgroundColor: 'red' }, width: '25%' }}>Download</Button>
                                  </div></>
  
                          ))}
