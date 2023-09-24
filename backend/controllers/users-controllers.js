@@ -1761,8 +1761,9 @@ export const viewBuyPets = async (req, res, next) => {
 export const viewOwnPets = async (req, res, next) => {
   const {
     email,
-    box
+   
   } = req.body
+  const box = req.params.id
   
   if (box === '1') {
     const sqlQuery = 'SELECT * FROM pets_buy_and_sell WHERE email=?'

@@ -73,7 +73,7 @@ user_route.get('/carecenter/:email',carecenter)
 
 // buy and sell
 user_route.get('/viewBuyPets',viewBuyPets)
-user_route.post('/viewOwnPets',viewOwnPets)
+user_route.post('/viewOwnPets/:id',viewOwnPets)
 
 
 

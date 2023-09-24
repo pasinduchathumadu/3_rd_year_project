@@ -46,29 +46,28 @@ export const Shop = () => {
   // VIEW OWN PETS (SELLING)
   const [sellpet, setsellpet] = useState([])
   // drop down
-  const [box, setbox] = React.useState('1')
-  const handleChange = (event) => {
-    setbox(event.target.value)
-
+  const [box, setbox] = useState(1)
+  const handleChange = (id) => {
+    setbox(id)
     viewOwnPets()
   }
 
   const viewOwnPets = async () => {
     try {
-      const res = await axios.post(`http://localhost:5000/pet_care/user/viewOwnPets/`, {
+      const res = await axios.post(`http://localhost:5000/pet_care/user/viewOwnPets/${box}`, {
         email,
-        box
       })
-      const data = await res.data
-      return data
+      if(res.data.message!=="There is an internal error"){
+        setsellpet(res.data.data)
+      }
+     
     } catch (err) {
       console.log('There is an internal error')
     }
   }
-  useState(() => {
+  useEffect(() => {
     viewOwnPets()
-      .then((data) => setsellpet(data.data))
-      .catch((err) => console.log(err))
+
   })
 
 
@@ -88,6 +87,9 @@ export const Shop = () => {
     setpage(1)
     setaddpets(false)
   }
+
+  // update 
+  const [update,setupdate] = useState(false)
 
 
   return (
@@ -172,7 +174,8 @@ export const Shop = () => {
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   variant='filled'
-                  onChange={handleChange}
+                  value={box}
+                  onChange={(e) => handleChange(e.target.value)}
                   sx={{ fontSize: '12px' }}>
                   <MenuItem value={1}>All</MenuItem>
                   <MenuItem value={2}>Not Sold</MenuItem>
@@ -232,6 +235,130 @@ export const Shop = () => {
       )}
 
       {addpet && (
+        <>
+          <div style={{
+            backdropFilter: 'blur(4px)',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            height: "100vh",
+            width: "100%",
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: "10px",
+            zIndex: 1001
+          }}>
+            <FormControl sx={{
+              padding: '2%',
+              backgroundColor: '#f0f0f5',
+              borderRadius: '10px',
+              width: '50%',
+              position: 'relative',
+              zIndex: 1001,
+            }}>
+
+              <div style={{ marginLeft: '95%' }}>
+                <IconButton onClick={backfromadding}><CloseIcon sx={{ color: 'white', backgroundColor: 'red' }} /></IconButton>
+              </div>
+
+              <div style={{ marginBottom: '3%' }}>
+                <Typography sx={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold', color: 'black' }}>Add New Pets</Typography>
+                <hr />
+              </div>
+
+              <div style={{ marginBottom: '3%' }}>
+                <TextField
+                  id="outlined-textarea"
+                  label=" Breed "
+                  placeholder="breed"
+                  multiline
+                  // onChange={(e) => setbreed(e.target.value)}
+                  sx={{ width: '100%' }}
+                />
+              </div>
+
+              <div style={{ marginBottom: '3%' }}>
+                <FormControl sx={{ minWidth: 120, width: '100%' }}>
+                  <InputLabel id="demo-simple-select-standard-label">Category</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-standard-label"
+                    id="demo-simple-select-standard"
+                    // value={petcategory}
+                    // onChange={handleChangeCategory}
+                    label="Pet Category"
+
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={10}>Cat</MenuItem>
+                    <MenuItem value={20}>Dog</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+
+              <div style={{ marginBottom: '3%' }}>
+                <FormControl sx={{ minWidth: 120, width: '100%' }}>
+                  <InputLabel id="demo-simple-select-standard-label">Sex</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-standard-label"
+                    id="demo-simple-select-standard"
+                    // value={petsex}
+                    // onChange={handleChangeSex}
+                    label="Sex"
+
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={10}>Male</MenuItem>
+                    <MenuItem value={20}>Female</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+
+              <div style={{ marginBottom: '3%' }}>
+                <TextField
+                  type="number"
+                  id="outlined-textarea"
+                  label=" Price "
+                  placeholder="name"
+                  multiline
+                  // onChange={(e) => setname(e.target.value)}
+                  sx={{ width: '100%' }}
+                />
+              </div>
+
+              <div>
+                <Button
+                  variant="contained"
+                  component="label"
+                  startIcon={<CloudUploadIcon />}
+                  sx={{ width: '100%' }}
+                >
+                  Upload File
+                  <input type="file" hidden required />
+                </Button>
+
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '10px', marginBottom: '10px' }}>
+                {/* <Button variant="contained" sx={{ background: "orange", marginTop: '1%', marginLeft: '30%', ':hover': { backgroundColor: "#fe9e0d" }, width: '40%' }} onClick={() => addpet()}>Submit</Button> */}
+                <Button variant="contained" sx={{ background: "orange", marginTop: '1%', marginLeft: '30%', ':hover': { backgroundColor: "#fe9e0d" }, width: '40%' }} >Submit</Button>
+              </div>
+              {error && (
+                <Stack sx={{ width: '100%' }} spacing={2}>
+                  <Alert severity="error">{message}</Alert>
+                </Stack>
+              )}
+
+            </FormControl>
+          </div>
+        </>
+      )}
+
+      {update && (
         <>
           <div style={{
             backdropFilter: 'blur(4px)',
