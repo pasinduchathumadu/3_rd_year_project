@@ -1,24 +1,21 @@
-import React, { useState } from 'react'
-// import { PRODUCTS } from './Produc'
-// import { Product } from './MindRelaxShop'
+import React, { useEffect, useState } from 'react'
 import "../../styles/Client/Shop.css"
-// import Box from '@mui/material/Box'
 import { Alert, IconButton, Tab, Typography, Card, CardActionArea, CardContent, CardMedia, Button, InputLabel, TextField, Select, FormControl, MenuItem, Box } from "@mui/material"
 import { Tabs } from "@mui/material"
 import ViewBackgroundImage from '../../assests/viewpets.png'
-import AddBackgroundImage from '../../assests/pet_add.jpeg';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from "@mui/icons-material/Add";
-import PetsIcon from '@mui/icons-material/Pets';
-// import MenuItem from '@mui/material/MenuItem';
-// import FormControl from '@mui/material/FormControl';
-// import Select from '@mui/material/Select';
 import { Stack } from '@mui/system'
 import EditIcon from '@mui/icons-material/Edit';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloseIcon from '@mui/icons-material/Close';
+import axios from 'axios';
+import AnnouncementIcon from '@mui/icons-material/Announcement';
+
 
 export const Shop = () => {
+  const email = localStorage.getItem("client_email")
+
   const [page, setpage] = useState(0); //main page
   const handleForm = (event, existing_value) => {
     setpage(existing_value)
@@ -27,6 +24,52 @@ export const Shop = () => {
   const getImageSrc = (imageName) => {
     return require(`../../../../backend/images/store/${imageName}`)
   }
+
+  // VIEW PETS FOR BUYING
+  const [buypet, setbuypet] = useState("")
+  const viewBuyPets = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/user/viewBuyPets`)
+      const data = await res.data
+      return data
+
+    } catch (err) {
+      console.log('There is an internal error')
+    }
+  }
+  useEffect(() => {
+    viewBuyPets()
+      .then((data) => setbuypet(data.data))
+      .catch((err) => console.log(err))
+  })
+
+  // VIEW OWN PETS (SELLING)
+  const [sellpet, setsellpet] = useState([])
+  // drop down
+  const [box, setbox] = React.useState('1')
+  const handleChange = (event) => {
+    setbox(event.target.value)
+
+    viewOwnPets()
+  }
+
+  const viewOwnPets = async () => {
+    try {
+      const res = await axios.post(`http://localhost:5000/pet_care/user/viewOwnPets/`, {
+        email,
+        box
+      })
+      const data = await res.data
+      return data
+    } catch (err) {
+      console.log('There is an internal error')
+    }
+  }
+  useState(() => {
+    viewOwnPets()
+      .then((data) => setsellpet(data.data))
+      .catch((err) => console.log(err))
+  })
 
 
   // ADDING PETS FOR SELL
@@ -79,41 +122,41 @@ export const Shop = () => {
       {page === 0 && (
         <div style={{ marginLeft: '3%', marginRight: '3%', backgroundColor: '#f0f0f5', borderRadius: '10px', padding: '1%' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-            {/* {viewpet && viewpet.length > 0 ? ( */}
-            {/* viewpet.map((menu, index) => ( */}
+            {buypet && buypet.length > 0 ? (
+              buypet.map((menu, index) => (
 
-            <Card sx={{ maxWidth: "300px", display: "flex", flexDirection: 'row', m: 2, border: "10px", borderRadius: '10px', marginTop: '35px' }}>
-              <CardActionArea>
-                <CardMedia
-                  sx={{ minHeight: "300px" }}
-                  component={"img"}
-                  // src={menu.image === "" ? getImageSrc("noimage.png") : getImageSrc(menu.image)}
-                  src={getImageSrc("noimage.png")}
-                  alt={"menu.name"} />
-                <CardContent>
-                  <Typography variant="h6" gutterBottom component={"div"} sx={{ textAlign: 'center' }}>
-                    Pet ID : 2
-                  </Typography>
-                  <Typography variant="body2" sx={{ textAlign: 'center' }}>breed</Typography><br />
-                  <Typography variant="body2" sx={{ color: "red", marginBottom: '9px', textAlign: 'center' }}>sex</Typography>
-                  <Typography variant="h5" gutterBottom component={"div"} sx={{ textAlign: 'center' }}>
-                    Price
-                  </Typography>
-                  <Button sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' }, padding: '2%', width: '50%', marginLeft: '23%' }}>Buy</Button>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-            {/* )) */}
-            {/* ) : (
-            <div style={{ margin: '3%', backgroundColor: 'white', padding: '2%', borderRadius: '10px', width: '100%' }}>
-              <Typography sx={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold', color: 'black' }}><AnnouncementIcon sx={{ marginRight: '1%', color: 'orange' }} />No Added Pets</Typography>
-              <hr />
-              <img
-                src={getImageSrc("nodata.png")}
-                style={{ width: '15%', height: 'auto', marginLeft: '42%' }}
-              />
-            </div>
-          )} */}
+                <Card sx={{ maxWidth: "300px", display: "flex", flexDirection: 'row', m: 2, border: "10px", borderRadius: '10px', marginTop: '35px' }}>
+                  <CardActionArea>
+                    <CardMedia
+                      sx={{ minHeight: "300px" }}
+                      component={"img"}
+                      src={menu.image === "" ? getImageSrc("noimage.png") : getImageSrc(menu.image)}
+                      alt={"menu.name"} />
+                    <CardContent>
+                      <Typography variant="h6" gutterBottom component={"div"} sx={{ textAlign: 'center' }}>
+                        Pet ID : {menu.pet_id}
+                      </Typography>
+                      <Typography variant="body2" sx={{ textAlign: 'center' }}>{menu.breed}</Typography><br />
+                      <Typography variant="body2" sx={{ color: "red", marginBottom: '9px', textAlign: 'center' }}>{menu.sex}</Typography>
+                      <Typography variant="h5" gutterBottom component={"div"} sx={{ textAlign: 'center' }}>
+                        Rs. {menu.price}.00
+                      </Typography>
+                      <Typography variant="body2" sx={{ textAlign: 'center' }}>Owner: {menu.first_name}{" "}{menu.last_name}</Typography><br />
+                      <Button sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' }, padding: '2%', width: '50%', marginLeft: '23%' }}>Buy</Button>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              ))
+            ) : (
+              <div style={{ margin: '3%', backgroundColor: 'white', padding: '2%', borderRadius: '10px', width: '100%' }}>
+                <Typography sx={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold', color: 'black' }}><AnnouncementIcon sx={{ marginRight: '1%', color: 'orange' }} />No Added Pets</Typography>
+                <hr />
+                <img
+                  src={getImageSrc("nodata.png")}
+                  style={{ width: '15%', height: 'auto', marginLeft: '42%' }}
+                />
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -128,11 +171,8 @@ export const Shop = () => {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-
                   variant='filled'
-
-                  // onChange={handleChange}
-                  l
+                  onChange={handleChange}
                   sx={{ fontSize: '12px' }}>
                   <MenuItem value={1}>All</MenuItem>
                   <MenuItem value={2}>Not Sold</MenuItem>
@@ -144,44 +184,48 @@ export const Shop = () => {
 
           <div style={{ marginLeft: '3%', marginRight: '3%', backgroundColor: '#f0f0f5', borderRadius: '10px', padding: '1%' }}>
             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-              {/* {viewpet && viewpet.length > 0 ? ( */}
-              {/* viewpet.map((menu, index) => ( */}
-
-              <Card sx={{ maxWidth: "300px", display: "flex", flexDirection: 'row', m: 2, border: "10px", borderRadius: '10px', marginTop: '35px' }}>
-                <CardActionArea>
-                  <CardMedia
-                    sx={{ minHeight: "300px" }}
-                    component={"img"}
-                    // src={menu.image === "" ? getImageSrc("noimage.png") : getImageSrc(menu.image)}
-                    src={getImageSrc("noimage.png")}
-                    alt={"menu.name"} />
-                  <CardContent>
-                    <Stack sx={{ display: 'flex', flexDirection: 'row', marginLeft: '70%' }}>
-                      <IconButton><EditIcon sx={{ color: 'black' }} /></IconButton>
-                      <IconButton ><DeleteIcon sx={{ color: 'red' }} /></IconButton>
-                    </Stack>
-                    <Typography variant="h6" gutterBottom component={"div"} sx={{ textAlign: 'center' }}>
-                      Pet ID : 2
-                    </Typography>
-                    <Typography variant="body2" sx={{ textAlign: 'center' }}>breed</Typography><br />
-                    <Typography variant="body2" sx={{ color: "red", marginBottom: '9px', textAlign: 'center' }}>sex</Typography>
-                    <Typography variant="h5" gutterBottom component={"div"} sx={{ textAlign: 'center' }}>
-                      Price
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-              {/* )) */}
-              {/* ) : (
-            <div style={{ margin: '3%', backgroundColor: 'white', padding: '2%', borderRadius: '10px', width: '100%' }}>
-              <Typography sx={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold', color: 'black' }}><AnnouncementIcon sx={{ marginRight: '1%', color: 'orange' }} />No Added Pets</Typography>
-              <hr />
-              <img
-                src={getImageSrc("nodata.png")}
-                style={{ width: '15%', height: 'auto', marginLeft: '42%' }}
-              />
-            </div>
-          )} */}
+              {sellpet && sellpet.length > 0 ? (
+                sellpet.map((menu, index) => (
+                  <Card sx={{ maxWidth: "300px", display: "flex", flexDirection: 'row', m: 2, border: "10px", borderRadius: '10px', marginTop: '35px' }}>
+                    <CardActionArea>
+                      <CardMedia
+                        sx={{ minHeight: "300px" }}
+                        component={"img"}
+                        src={menu.image === "" ? getImageSrc("noimage.png") : getImageSrc(menu.image)}
+                        alt={"menu.name"} />
+                      <CardContent>
+                        <Stack sx={{ display: 'flex', flexDirection: 'row', marginLeft: '70%' }}>
+                          <IconButton><EditIcon sx={{ color: 'black' }} /></IconButton>
+                          <IconButton ><DeleteIcon sx={{ color: 'red' }} /></IconButton>
+                        </Stack>
+                        <Typography variant="h6" gutterBottom component={"div"} sx={{ textAlign: 'center' }}>
+                          Pet ID : {menu.pet_id}
+                        </Typography>
+                        <Typography variant="body2" sx={{ textAlign: 'center' }}>{menu.breed}</Typography><br />
+                        <Typography variant="body2" sx={{ color: "red", marginBottom: '9px', textAlign: 'center' }}>{menu.sex}</Typography>
+                        <Typography variant="h5" gutterBottom component={"div"} sx={{ textAlign: 'center' }}>
+                          Rs. {menu.price}.00
+                        </Typography>
+                        {menu.status === 'pending' ? (
+                          <Button sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' }, padding: '2%', width: '50%', marginLeft: '23%' }}>Pending</Button>) :
+                          (
+                            <Button sx={{ backgroundColor: 'orange', color: 'white', ':hover': { backgroundColor: 'orange' }, padding: '2%', width: '50%', marginLeft: '23%' }}>Sold</Button>
+                          )
+                        }
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                ))
+              ) : (
+                <div style={{ margin: '3%', backgroundColor: 'white', padding: '2%', borderRadius: '10px', width: '100%' }}>
+                  <Typography sx={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold', color: 'black' }}><AnnouncementIcon sx={{ marginRight: '1%', color: 'orange' }} />No Added Pets</Typography>
+                  <hr />
+                  <img
+                    src={getImageSrc("nodata.png")}
+                    style={{ width: '15%', height: 'auto', marginLeft: '42%' }}
+                  />
+                </div>
+              )}
             </div>
           </div>
         </>
