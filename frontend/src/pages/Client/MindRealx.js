@@ -296,7 +296,7 @@ function MindRealx() {
               <CardMedia
                 sx={{ width: '20%', height: 'auto', borderRadius: '10%' }}
                 component={"img"}
-                src={getImageSrc("noimage.png")}
+                // src={getImageSrc("noimage.png")}
                 src={menu.image === "" ? getImageSrc("noimage.png") : getImageSrc(menu.image)}
                 alt={menu.name}
               />

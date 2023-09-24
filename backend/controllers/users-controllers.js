@@ -1761,10 +1761,10 @@ export const viewBuyPets = async (req, res, next) => {
 export const viewOwnPets = async (req, res, next) => {
   const {
     email,
-   
+
   } = req.body
   const box = req.params.id
-  
+
   if (box === '1') {
     const sqlQuery = 'SELECT * FROM pets_buy_and_sell WHERE email=?'
     const values = [email]
@@ -1799,6 +1799,84 @@ export const viewOwnPets = async (req, res, next) => {
       }
       return res.json({ data })
     })
+  }
+}
+
+// add new pets for selling
+export const submitAddForm = async (req, res, next) => {
+  const {
+    email,
+    breed,
+    sex,
+    category,
+    price,
+  } = req.body;
+
+  try {
+    var newCategory = ""
+    if (category === 10) {
+      newCategory = "Cat"
+    } else if (category === 20) {
+      newCategory = "Dog"
+    }
+
+    var newSex = ""
+    if (sex === 10) {
+      newSex = "Male"
+    } else if (sex === 20) {
+      newSex = "Female"
+    }
+
+    const sqlQuery = 'INSERT INTO pets_buy_and_sell (email, breed, category, sex, price) VALUES (?,?,?,?,?)'
+    const values = [email, breed, newCategory, newSex, price]
+
+    db.query(sqlQuery, values, (err, data) => {
+      if (err) {
+        return res.json({ message: 'There is an internal error' })
+      }
+      return res.json({ message: 'success' })
+    })
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+export const getDetailsforUpdate = async (req, res, next) => {
+  const id = req.params.id
+
+  const sqlQuery = 'SELECT * FROM pets_buy_and_sell WHERE pet_id = ? '
+  const values = [id]
+
+  db.query(sqlQuery, values, (err, data) => {
+    if (err) {
+      return res.json({ message: 'There is an internal error' })
+    }
+    return res.json({ data })
+  })
+}
+
+export const submitUpdateForm = async (req, res, next) => {
+  const {
+    id1,
+    newprice
+  } = req.body;
+
+  console.log(id1)
+  console.log(newprice)
+
+  try {
+    const sqlQuery = 'UPDATE pets_buy_and_sell SET price = ? WHERE pet_id = ?'
+    const values = [newprice, id1]
+
+    db.query(sqlQuery, values, (err, data) => {
+      if (err) {
+        return res.json({ message: 'There is an internal error' })
+      }
+      return res.json({ message: 'success' })
+    })
+
+  } catch (err) {
+    console.log(err)
   }
 }
 

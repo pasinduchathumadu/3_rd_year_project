@@ -57,10 +57,10 @@ export const Shop = () => {
       const res = await axios.post(`http://localhost:5000/pet_care/user/viewOwnPets/${box}`, {
         email,
       })
-      if(res.data.message!=="There is an internal error"){
+      if (res.data.message !== "There is an internal error") {
         setsellpet(res.data.data)
       }
-     
+
     } catch (err) {
       console.log('There is an internal error')
     }
@@ -73,14 +73,53 @@ export const Shop = () => {
 
   // ADDING PETS FOR SELL
   const [addpet, setaddpets] = useState(false)
-  // add new pets
-  const addnewpets = () => {
-    setpage(false)
-    setaddpets(true)
-  }
 
   const [error, seterror] = useState(false)
   const [message, setmessage] = useState("")
+  const [breed, setbreed] = useState("")
+  const [sex, setsex] = useState("")
+  const [category, setcategory] = useState("")
+  const [price, setprice] = useState("")
+
+  const handleCategory = (event) => {
+    setcategory(event.target.value)
+  }
+  const handleSex = (event) => {
+    setsex(event.target.value)
+  }
+  // open add pets form
+  const addnewpets = () => {
+    setpage(false)
+    setaddpets(true)
+    seterror(false)
+  }
+  // sumit the add pets form
+  const submitAddForm = async () => {
+    if (breed === "" || sex === "" || category === "" || price === "") {
+      seterror(true)
+      setmessage("Please fill all the field")
+      return;
+    }
+    try {
+      const res = await axios.post(`http://localhost:5000/pet_care/user/submitAddForm`, {
+        email,
+        breed,
+        sex,
+        category,
+        price
+      })
+      if (res.data.message === 'There is an internal error') {
+        setmessage('Internal error')
+        seterror(true)
+      } else if (res.data.message === 'success') {
+        setpage(1)
+        setaddpets(false)
+      }
+
+    } catch (err) {
+      console.log('There is an internal error')
+    }
+  }
 
   // back without adding
   const backfromadding = () => {
@@ -88,8 +127,69 @@ export const Shop = () => {
     setaddpets(false)
   }
 
-  // update 
-  const [update,setupdate] = useState(false)
+  // UPDATE 
+  const [update, setupdate] = useState(false)
+  const [id, setid] = useState("")
+  const [error1, seterror1] = useState(false)
+  const [message1, setmessage1] = useState("")
+  // open update form
+  const openUpdateForm = (id) => {
+    setupdate(true)
+    setpage(false)
+    setid(id)
+    seterror1(false)
+  }
+
+  // get details for update form
+  const [details, setdetails] = useState("")
+  const getDetailsforUpdate = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/user/getDetailsforUpdate/${id}`)
+      const data = await res.data
+      return data
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  useEffect(() => {
+    getDetailsforUpdate()
+      .then((data) => setdetails(data.data))
+      .catch((err) => console.log(err))
+  })
+
+  // submit update form
+  const [newprice, setnewprice] = useState("")
+  const submitUpdateForm = async (id1) => {
+    if (newprice === "") {
+      seterror1(true)
+      setmessage1('Please fill the field')
+      return;
+    }
+
+    try {
+      const res = await axios.post(`http://localhost:5000/pet_care/user/submitUpdateForm`, {
+        id1,
+        newprice
+      })
+      if (res.data.message === 'There is an internal error') {
+        setmessage1('Internal error')
+        seterror1(true)
+      } else if (res.data.message === 'success') {
+        setpage(1)
+        setupdate(false)
+      }
+
+    } catch (err) {
+      console.log('There is an internal error')
+    }
+  }
+
+  // back without updating
+  const backfromupdate = () => {
+    setupdate(false)
+    setpage(1)
+  }
 
 
   return (
@@ -198,8 +298,16 @@ export const Shop = () => {
                         alt={"menu.name"} />
                       <CardContent>
                         <Stack sx={{ display: 'flex', flexDirection: 'row', marginLeft: '70%' }}>
-                          <IconButton><EditIcon sx={{ color: 'black' }} /></IconButton>
-                          <IconButton ><DeleteIcon sx={{ color: 'red' }} /></IconButton>
+                          {menu.status === 'pending' ?
+                            (
+                              <>
+                                <IconButton onClick={() => openUpdateForm(menu.pet_id)}><EditIcon sx={{ color: 'black' }} /></IconButton>
+                                <IconButton ><DeleteIcon sx={{ color: 'red' }} /></IconButton>
+                              </>
+                            ) :
+                            ("")}
+                          {/* // <IconButton onClick={() => openUpdateForm(menu.pet_id)}><EditIcon sx={{ color: 'black' }} /></IconButton> */}
+                          {/* <IconButton ><DeleteIcon sx={{ color: 'red' }} /></IconButton> */}
                         </Stack>
                         <Typography variant="h6" gutterBottom component={"div"} sx={{ textAlign: 'center' }}>
                           Pet ID : {menu.pet_id}
@@ -273,7 +381,7 @@ export const Shop = () => {
                   label=" Breed "
                   placeholder="breed"
                   multiline
-                  // onChange={(e) => setbreed(e.target.value)}
+                  onChange={(e) => setbreed(e.target.value)}
                   sx={{ width: '100%' }}
                 />
               </div>
@@ -284,8 +392,8 @@ export const Shop = () => {
                   <Select
                     labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
-                    // value={petcategory}
-                    // onChange={handleChangeCategory}
+                    value={category}
+                    onChange={handleCategory}
                     label="Pet Category"
 
                   >
@@ -304,8 +412,8 @@ export const Shop = () => {
                   <Select
                     labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
-                    // value={petsex}
-                    // onChange={handleChangeSex}
+                    value={sex}
+                    onChange={handleSex}
                     label="Sex"
 
                   >
@@ -323,9 +431,9 @@ export const Shop = () => {
                   type="number"
                   id="outlined-textarea"
                   label=" Price "
-                  placeholder="name"
+                  placeholder="price"
                   multiline
-                  // onChange={(e) => setname(e.target.value)}
+                  onChange={(e) => setprice(e.target.value)}
                   sx={{ width: '100%' }}
                 />
               </div>
@@ -344,8 +452,7 @@ export const Shop = () => {
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '10px', marginBottom: '10px' }}>
-                {/* <Button variant="contained" sx={{ background: "orange", marginTop: '1%', marginLeft: '30%', ':hover': { backgroundColor: "#fe9e0d" }, width: '40%' }} onClick={() => addpet()}>Submit</Button> */}
-                <Button variant="contained" sx={{ background: "orange", marginTop: '1%', marginLeft: '30%', ':hover': { backgroundColor: "#fe9e0d" }, width: '40%' }} >Submit</Button>
+                <Button onClick={() => submitAddForm()} variant="contained" sx={{ background: "orange", marginTop: '1%', marginLeft: '30%', ':hover': { backgroundColor: "#fe9e0d" }, width: '40%' }} >Submit</Button>
               </div>
               {error && (
                 <Stack sx={{ width: '100%' }} spacing={2}>
@@ -377,105 +484,61 @@ export const Shop = () => {
               padding: '2%',
               backgroundColor: '#f0f0f5',
               borderRadius: '10px',
-              width: '50%',
+              width: '35%',
               position: 'relative',
               zIndex: 1001,
             }}>
 
               <div style={{ marginLeft: '95%' }}>
-                <IconButton onClick={backfromadding}><CloseIcon sx={{ color: 'white', backgroundColor: 'red' }} /></IconButton>
+                <IconButton onClick={backfromupdate}><CloseIcon sx={{ color: 'white', backgroundColor: 'red' }} /></IconButton>
               </div>
 
               <div style={{ marginBottom: '3%' }}>
-                <Typography sx={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold', color: 'black' }}>Add New Pets</Typography>
+                <Typography sx={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold', color: 'black' }}>Update Price</Typography>
                 <hr />
               </div>
 
-              <div style={{ marginBottom: '3%' }}>
-                <TextField
-                  id="outlined-textarea"
-                  label=" Breed "
-                  placeholder="breed"
-                  multiline
-                  // onChange={(e) => setbreed(e.target.value)}
-                  sx={{ width: '100%' }}
-                />
-              </div>
 
-              <div style={{ marginBottom: '3%' }}>
-                <FormControl sx={{ minWidth: 120, width: '100%' }}>
-                  <InputLabel id="demo-simple-select-standard-label">Category</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-standard-label"
-                    id="demo-simple-select-standard"
-                    // value={petcategory}
-                    // onChange={handleChangeCategory}
-                    label="Pet Category"
+              {details && details.map((row, index) => (
+                <>
+                  <div style={{ marginBottom: '3%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <CardMedia
+                      sx={{ width: '20%', height: 'auto', borderRadius: '10%' }}
+                      component={"img"}
+                      src={row.image === "" ? getImageSrc("noimage.png") : getImageSrc(row.image)}
+                      alt={"row.pet_id"} />
 
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={10}>Cat</MenuItem>
-                    <MenuItem value={20}>Dog</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
+                    <TextField
+                      id="outlined-read-only-input"
+                      label="Pet ID"
+                      defaultValue={row.pet_id}
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                    />
+                  </div>
 
-              <div style={{ marginBottom: '3%' }}>
-                <FormControl sx={{ minWidth: 120, width: '100%' }}>
-                  <InputLabel id="demo-simple-select-standard-label">Sex</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-standard-label"
-                    id="demo-simple-select-standard"
-                    // value={petsex}
-                    // onChange={handleChangeSex}
-                    label="Sex"
+                  <div style={{ marginBottom: '3%', display: 'flex', flexDirection: 'column' }}>
+                    <Typography sx={{ marginRight: '10%' }}>Price</Typography>
+                    <TextField
+                      type="number"
+                      id="outlined-helperText"
+                      defaultValue={row.price}
+                      onChange={(e) => setnewprice(e.target.value)}
+                    />
+                  </div>
 
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={10}>Male</MenuItem>
-                    <MenuItem value={20}>Female</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
-
-              <div style={{ marginBottom: '3%' }}>
-                <TextField
-                  type="number"
-                  id="outlined-textarea"
-                  label=" Price "
-                  placeholder="name"
-                  multiline
-                  // onChange={(e) => setname(e.target.value)}
-                  sx={{ width: '100%' }}
-                />
-              </div>
-
-              <div>
-                <Button
-                  variant="contained"
-                  component="label"
-                  startIcon={<CloudUploadIcon />}
-                  sx={{ width: '100%' }}
-                >
-                  Upload File
-                  <input type="file" hidden required />
-                </Button>
-
-              </div>
-
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '10px', marginBottom: '10px' }}>
-                {/* <Button variant="contained" sx={{ background: "orange", marginTop: '1%', marginLeft: '30%', ':hover': { backgroundColor: "#fe9e0d" }, width: '40%' }} onClick={() => addpet()}>Submit</Button> */}
-                <Button variant="contained" sx={{ background: "orange", marginTop: '1%', marginLeft: '30%', ':hover': { backgroundColor: "#fe9e0d" }, width: '40%' }} >Submit</Button>
-              </div>
-              {error && (
-                <Stack sx={{ width: '100%' }} spacing={2}>
-                  <Alert severity="error">{message}</Alert>
-                </Stack>
-              )}
+                  <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '10px', marginBottom: '10px' }}>
+                    {/* <Button variant="contained" sx={{ background: "orange", marginTop: '1%', marginLeft: '30%', ':hover': { backgroundColor: "#fe9e0d" }, width: '40%' }} onClick={() => addpet()}>Submit</Button> */}
+                    <Button onClick={() => submitUpdateForm(row.pet_id)} variant="contained" sx={{ background: "orange", marginTop: '1%', marginLeft: '30%', ':hover': { backgroundColor: "#fe9e0d" }, width: '40%' }} >Submit</Button>
+                  </div>
+                  {error1 && (
+                    <Stack sx={{ width: '100%' }} spacing={2}>
+                      <Alert severity="error">{message1}</Alert>
+                    </Stack>
+                  )}
+                </>
+              ))}
 
             </FormControl>
           </div>
