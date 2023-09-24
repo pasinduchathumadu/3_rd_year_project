@@ -1841,6 +1841,7 @@ export const submitAddForm = async (req, res, next) => {
   }
 }
 
+// get details for update form
 export const getDetailsforUpdate = async (req, res, next) => {
   const id = req.params.id
 
@@ -1855,14 +1856,12 @@ export const getDetailsforUpdate = async (req, res, next) => {
   })
 }
 
+// submit the update form
 export const submitUpdateForm = async (req, res, next) => {
   const {
     id1,
     newprice
   } = req.body;
-
-  console.log(id1)
-  console.log(newprice)
 
   try {
     const sqlQuery = 'UPDATE pets_buy_and_sell SET price = ? WHERE pet_id = ?'

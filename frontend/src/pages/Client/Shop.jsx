@@ -12,7 +12,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
 
-
 export const Shop = () => {
   const email = localStorage.getItem("client_email")
 
@@ -69,7 +68,6 @@ export const Shop = () => {
     viewOwnPets()
 
   })
-
 
   // ADDING PETS FOR SELL
   const [addpet, setaddpets] = useState(false)
@@ -190,6 +188,8 @@ export const Shop = () => {
     setupdate(false)
     setpage(1)
   }
+
+  // DELETE PETS (selling)
 
 
   return (
