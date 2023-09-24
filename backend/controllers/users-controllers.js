@@ -1102,17 +1102,18 @@ export const check_appointment = async (req, res, next) => {
 }
 
 export const medi_payment = async (req, res, next) => {
-  const { id, date_medi, email, new_cancel_date, selectpet } = req.body
+  const { id, date_medi, email,payment_charge, new_cancel_date, selectpet } = req.body
 
 
   const status = "confirm"
-  const sqlQuery = 'INSERT INTO medi_appointment (appointment_status , placed_date , client_email ,pet_id, vet_id,cancel_date) VALUES (?,?,?,?,?,?) '
+  const sqlQuery = 'INSERT INTO medi_appointment (appointment_status , placed_date , client_email ,pet_id, vet_id,payment,cancel_date) VALUES (?,?,?,?,?,?,?) '
   const values = [
     status,
     date_medi,
     email,
     selectpet,
     id,
+    payment_charge,
     new_cancel_date
   ]
   db.query(sqlQuery, values, (err, data) => {
@@ -1653,7 +1654,8 @@ export const onlinereport = async(req,res,next)=>{
   const status = "handed"
   const sqlQuery = "Select *FROM purchase_order WHERE order_email = ? AND po_status = ? ORDER BY po_id DESC LIMIT 1"
   const value = [
-    email
+    email,
+    status
   ]
   db.query(sqlQuery,value,(err,data)=>{
     if(err){
@@ -1704,6 +1706,37 @@ export const SubmitForm = async (req, res, next) => {
         return res.json({ message: 'Successfully Done!' })
       })
     })
+  })
+}
+
+export const medireport = async(req,res,next)=>{
+  const email = req.params.email
+  const sqlQuery = "SELECT a.appointment_id , a.payment,a.placed_date ,a.pet_id,a.client_email,v.first_name,v.last_name FROM medi_appointment a INNER JOIN vet v ON v.vet_id = a.vet_id WHERE a.client_email = ?"
+  const value = [
+    email
+  ]
+  db.query(sqlQuery,value,(err,data)=>{
+    if(err){
+      res.json({message:'There is an internel error'})
+    }
+    return res.json({data})
+  })
+
+}
+
+export const carecenter = async(req,res,next)=>{
+  const email = req.params.email
+  const status = "pending"
+  const sqlQuery = "SELECT a.appointment_id ,a.appointment_status,a.early_cancel_date, a.placed_date , a.client_email ,p.package_name , p.price FROM carecenter_appointment a INNER JOIN carecenter_package p ON a.package_id = p.package_id WHERE a.appointment_status != ? AND a.client_email = ?"
+  const value = [
+    status,
+    email
+  ]
+  db.query(sqlQuery,value,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an internel error'})
+    }
+    return res.json({data})
   })
 }
 

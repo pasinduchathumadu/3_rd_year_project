@@ -208,6 +208,7 @@ function Medi() {
         id,
         date_medi,
         email,
+        payment_charge,
         new_cancel_date,
         selectpet
       })
