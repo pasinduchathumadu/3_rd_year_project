@@ -190,6 +190,38 @@ export const Shop = () => {
   }
 
   // DELETE PETS (selling)
+  const [warn, setwarn] = useState(false)
+  const [id2, setid2] = useState("")
+  // display warn box
+  const displayWarnBox = (id) => {
+    setwarn(true)
+    setpage(false)
+    setid2(id)
+  }
+  // confirm deletion
+  const [error2, seterror2] = useState(false)
+  const [message2, setmessage2] = useState("")
+  const deleteSellPet = async() => {
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/user/deleteSellPet/${id2}`)
+      if(res.data.message === 'There is an internal error') {
+        seterror2(true)
+        setmessage2('There is an internal error')
+      }else {
+        setwarn(false)
+        setpage(1)
+        seterror2(false)
+      }
+    }catch(err) {
+      console.log(err)
+    }
+  }
+
+  // cancel without deleting
+  const cancelDelete = () => {
+    setwarn(false)
+    setpage(1)
+  }
 
 
   return (
@@ -302,7 +334,7 @@ export const Shop = () => {
                             (
                               <>
                                 <IconButton onClick={() => openUpdateForm(menu.pet_id)}><EditIcon sx={{ color: 'black' }} /></IconButton>
-                                <IconButton ><DeleteIcon sx={{ color: 'red' }} /></IconButton>
+                                <IconButton onClick={() => displayWarnBox(menu.pet_id)} ><DeleteIcon sx={{ color: 'red' }} /></IconButton>
                               </>
                             ) :
                             ("")}
@@ -465,6 +497,7 @@ export const Shop = () => {
         </>
       )}
 
+      {/* update selling pets price */}
       {update && (
         <>
           <div style={{
@@ -529,7 +562,6 @@ export const Shop = () => {
                   </div>
 
                   <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '10px', marginBottom: '10px' }}>
-                    {/* <Button variant="contained" sx={{ background: "orange", marginTop: '1%', marginLeft: '30%', ':hover': { backgroundColor: "#fe9e0d" }, width: '40%' }} onClick={() => addpet()}>Submit</Button> */}
                     <Button onClick={() => submitUpdateForm(row.pet_id)} variant="contained" sx={{ background: "orange", marginTop: '1%', marginLeft: '30%', ':hover': { backgroundColor: "#fe9e0d" }, width: '40%' }} >Submit</Button>
                   </div>
                   {error1 && (
@@ -539,10 +571,49 @@ export const Shop = () => {
                   )}
                 </>
               ))}
-
             </FormControl>
           </div>
         </>
+      )}
+
+      {/* warning box for delete selling pet */}
+      {warn && (
+        <div style={{
+          backdropFilter: 'blur(4px)',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          padding: '5px',
+          width: '100%',
+          height: '100vh',
+          borderRadius: '10px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginRight: '300px',
+          zIndex: 1001,
+         
+        }}>
+          <div style={{ backgroundColor: 'black', padding: '10px' }}>
+            <div style={{
+              padding: '10px',
+              borderRadius: '5px',
+              backgroundColor: '#f0f0f5',
+              width: '500px',
+              position: 'relative',
+              zIndex: 1001
+            }}>
+              <Typography sx={{ textAlign: 'center' }}>Confirm Remove? </Typography>
+              <hr /><br />
+
+              <div style={{ display: 'flex', flexDirection: 'row', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                <Button onClick={deleteSellPet} sx={{ backgroundColor: 'orange', color: 'white', margin: '10px', ':hover': { backgroundColor: 'orange' } }}>Confirm</Button>
+                {/* <Button  sx={{ backgroundColor: 'orange', color: 'white', margin: '10px', ':hover': { backgroundColor: 'orange' } }}>Confirm</Button> */}
+                <Button onClick={cancelDelete} sx={{ backgroundColor: 'red', color: 'white', margin: '10px', ':hover': { backgroundColor: 'red' } }}>Cancel</Button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
     </div>

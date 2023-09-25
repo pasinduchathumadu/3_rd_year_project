@@ -1879,3 +1879,17 @@ export const submitUpdateForm = async (req, res, next) => {
   }
 }
 
+// delete selling pets
+export const deleteSellPet = async(req,res,next) => {
+  const id = req.params.id2
+  const sqlQuery = 'DELETE FROM pets_buy_and_sell WHERE pet_id = ?'
+  const values = [id]
+
+  db.query(sqlQuery, values, (err,data) => {
+    if(err){
+      return res.json({message:'There is an internal error'})
+    }
+    return res.json({message:'Deleted'})
+  })
+}
+
