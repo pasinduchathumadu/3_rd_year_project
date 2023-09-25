@@ -1,12 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
-// import PrimarySearchAppBar from "../../components/Layout/Header";
-
 import { Typography, Button, Card, CardActionArea, CardContent, CardMedia, TextField, IconButton } from "@mui/material";
 import CoverImage from '../../assests/mindrelaxcover.jpg';
 import petImage from '../../assests/black2.jpg';
-
-// import Button from '@mui/material/Button';
 import petImage2 from '../../assests/top.png';
 import "../../styles/Client/Mindrelax.css";
 import AOS from 'aos';
@@ -15,15 +10,10 @@ import AnnouncementIcon from '@mui/icons-material/Announcement';
 import PetsIcon from '@mui/icons-material/Pets';
 import { Stack } from '@mui/system';
 import { FormControl } from '@mui/base';
-// import Box from '@mui/material/Box';
-// import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-// import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-// import FormHelperText from '@mui/material/FormHelperText';
 import CloseIcon from '@mui/icons-material/Close';
 import Alert from '@mui/material/Alert';
-// import Stack from '@mui/material/Stack';
 
 function MindRealx() {
   const email = localStorage.getItem('store_email') //session
@@ -306,7 +296,7 @@ function MindRealx() {
               <CardMedia
                 sx={{ width: '20%', height: 'auto', borderRadius: '10%' }}
                 component={"img"}
-                src={getImageSrc("noimage.png")}
+                // src={getImageSrc("noimage.png")}
                 src={menu.image === "" ? getImageSrc("noimage.png") : getImageSrc(menu.image)}
                 alt={menu.name}
               />

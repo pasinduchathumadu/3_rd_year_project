@@ -18,7 +18,7 @@ import Petcare from "./pages/Client/Petcare";
 import TrainingPets from "./pages/Client/Training_Pets";
 import MindRealx from "./pages/Client/MindRealx";
 import { Shop } from "./pages/Client/Shop";
-import { NonBredShop } from "./pages/Client/NonBredShop";
+// import { NonBredShop } from "./pages/Client/NonBredShop";
 import PopupForm from "./pages/Client/popupform";
 
 import Header from "../src/components/Layout/Header";
@@ -470,15 +470,7 @@ function App() {
                   </>
                 }
               ></Route>
-              <Route
-                path="/NonBredShop"
-                element={
-                  <>
-                    <Header userRole={"client"} />
-                    <NonBredShop />
-                  </>
-                }
-              ></Route>
+              
               <Route
                 path="/bording"
                 element={
