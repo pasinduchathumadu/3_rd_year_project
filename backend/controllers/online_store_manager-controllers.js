@@ -382,6 +382,7 @@ export const filter = async (req, res, next) => {
     } else if (id === "2") {
         startDate.setDate(currentDate.getDate() - 7);
         const status = 'pending'
+        //this is the status of the client complain
         const startDateOnly = startDate.toISOString().substr(0, 10);
         const sqlQuery = "SELECT COUNT(com_date)AS total FROM client_complain WHERE complain_status = ? AND com_date >= ?"
         const values = [
