@@ -7,6 +7,7 @@ import {
   get_complaints,
   update_blog,
   update_blog_reject,
+  petsViewing,
 } from "../controllers/company-controllers";
 
 const company_manager = express.Router();
@@ -20,5 +21,7 @@ company_manager.post("/update_blog", update_blog);
 company_manager.post("/update_blog_reject", update_blog_reject);
 
 company_manager.get("/blog", blog);
+
+company_manager.get("/petsViewing/:id", petsViewing);
 
 export default company_manager;

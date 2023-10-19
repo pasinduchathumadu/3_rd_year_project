@@ -143,3 +143,44 @@ export const blog = async (req, res, next) => {
     return res.json({ data });
   });
 };
+
+// SHOP
+// view pets details
+export const petsViewing = async(req,res,next) => {
+  const id = req.params.id
+
+  if(id === '1'){
+    const sqlQuery = 'SELECT * FROM pets_buy_and_sell'
+
+    db.query(sqlQuery, (err,data) => {
+      if(err){
+        return res.json({message:'There is an internal error'})
+      }
+      return res.json({data})
+    })
+
+  }else if(id === '2'){
+    const status = 'pending'
+    const sqlQuery = 'SELECT * FROM pets_buy_and_sell WHERE status = ?'
+    const values = [status]
+
+    db.query(sqlQuery, values, (err,data) => {
+      if(err){
+        return res.json({message:'There is an internal error'})
+      }
+      return res.json({data})
+    })
+
+  }else if(id === '3'){
+    const status = 'sold'
+    const sqlQuery = 'SELECT * FROM pets_buy_and_sell WHERE status = ?'
+    const values = [status]
+
+    db.query(sqlQuery, values, (err,data) => {
+      if(err){
+        return res.json({message:'There is an internal error'})
+      }
+      return res.json({data})
+    })
+  } 
+}

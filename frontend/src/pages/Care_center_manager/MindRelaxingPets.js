@@ -1,4 +1,4 @@
-import { Avatar, Button, FormControl, FormLabel, IconButton, MenuItem, Select, TextField, Typography, Card, CardActionArea, CardContent, CardMedia } from "@mui/material";
+import {Button, FormControl, FormLabel, IconButton, MenuItem, Select, TextField, Typography, Card, CardActionArea, CardContent, CardMedia } from "@mui/material";
 import { Stack } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import profile from "../../assests/profile.jpg";
