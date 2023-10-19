@@ -58,14 +58,15 @@ export default function TemporaryDrawer({
   }
 
    else if (userType === "company_manager") {
-    data = ["Dashboard", "Clients Categorization", "Competitions", "Complains","Blog"];
+    data = ["Dashboard","Pet Shop", "Clients Categorization", "Competitions","Blog","Complaints"];
 
     data_link = [
       "company_dashboard",
+      "petshop",
       "company_clients",
       "company_competitions",
-      "company_complains",
       "company_blog",
+      "company_complains"
     ];
   }
   else if (userType === "medi_help_manager") {
