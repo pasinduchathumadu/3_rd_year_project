@@ -247,7 +247,7 @@ const Complains = () => {
                                             </StyledTableCell>
                                             <StyledTableCell align="center">
                                                 {row.complain_status === "pending" ? (
-                                                    <IconButton onClick={() => displayWarnBox(row.complain_id)}><DeleteIcon sx={{ color: 'orange' }} /></IconButton>
+                                                    <IconButton onClick={() => displayWarnBox(row.complain_id)}><DeleteIcon sx={{ color: 'red' }} /></IconButton>
 
                                                 ) : (
                                                     ""
