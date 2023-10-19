@@ -32,9 +32,7 @@ export const add_competition = async (req, res, next) => {
 
 export const add_complaint = async (req, res, next) => {
   const role = "company_manager";
-  const { compDes, compDate, compTime, email } = req.body;
-
-  console.log(compDes, compDate, compTime, email);
+  const { compDes, email } = req.body;
 
   try {
     // Check if the email is provided
@@ -61,10 +59,15 @@ export const add_complaint = async (req, res, next) => {
       // Get the manager_id from the retrieved data
       const manager_id = data[0].manager_id;
 
+      // current date and time
+      const date = new Date()
+      const placed_date = date.toLocaleDateString()
+      const placed_time = date.toLocaleTimeString()
+
       // Insert the complaint into manager_complain table
       const sqlquery1 =
-        "INSERT INTO manager_complain (manager_id, complain_txt, com_date, com_time, manager_role) VALUES (?, ?, ?, ?, ?)";
-      const value1 = [manager_id, compDes, compDate, compTime, role];
+        "INSERT INTO manager_complain (manager_id, complain_txt, com_date, com_time, manager_role,complain_status) VALUES (?, ?, ?,?, ?, ?)";
+      const value1 = [manager_id, compDes, placed_date, placed_time, role, "pending"];
 
       db.query(sqlquery1, value1, (err, result) => {
         if (err) {
@@ -92,16 +95,148 @@ export const get_competitions = async (req, res, next) => {
   });
 };
 
+// get company manager's complains
 export const get_complaints = async (req, res, next) => {
-  const sqlquery = "SELECT * FROM manager_complain order by complain_id desc";
-  db.query(sqlquery, (err, data) => {
-    if (err) {
-      return res.json({ message: "There is an internel error" });
-    } else {
-      return res.json({ data });
-    }
-  });
+  const id = req.params.id
+  const role = 'company_manager'
+
+  if (id === "1") {
+    const sqlquery = "SELECT * FROM manager_complain WHERE manager_role = ?"
+    const values = [role]
+
+    db.query(sqlquery, values, (err, data) => {
+      if (err) {
+        return res.json({ message: "There is an internel error" });
+      } else {
+        return res.json({ data });
+      }
+    });
+
+  } else if (id === "2") {
+    const status = "pending"
+    const sqlquery = "SELECT * FROM manager_complain WHERE manager_role = ? AND complain_status = ?"
+    const values = [role, status]
+
+    db.query(sqlquery, values, (err, data) => {
+      if (err) {
+        return res.json({ message: "There is an internel error" });
+      } else {
+        return res.json({ data });
+      }
+    });
+
+  } else if (id === "3") {
+    const status = "completed"
+    const sqlquery = "SELECT * FROM manager_complain WHERE manager_role = ? AND complain_status = ?"
+    const values = [role, status]
+
+    db.query(sqlquery, values, (err, data) => {
+      if (err) {
+        return res.json({ message: "There is an internel error" });
+      } else {
+        return res.json({ data });
+      }
+    });
+  }
 };
+
+// get clients complains
+export const clientsComplains = async (req, res, next) => {
+  const id = req.params.id
+  const role = 'company_manager'
+
+  if (id === "1") {
+    const sqlquery = "SELECT * FROM client_complain WHERE manager_role = ?"
+    const values = [role]
+
+    db.query(sqlquery, values, (err, data) => {
+      if (err) {
+        return res.json({ message: "There is an internel error" });
+      } else {
+        return res.json({ data });
+      }
+    });
+
+  } else if (id === "2") {
+    const status = "pending"
+    const sqlquery = "SELECT * FROM client_complain WHERE manager_role = ? AND complain_status = ?"
+    const values = [role, status]
+
+    db.query(sqlquery, values, (err, data) => {
+      if (err) {
+        return res.json({ message: "There is an internel error" });
+      } else {
+        return res.json({ data });
+      }
+    });
+
+  } else if (id === "3") {
+    const status = "completed"
+    const sqlquery = "SELECT * FROM client_complain WHERE manager_role = ? AND complain_status = ?"
+    const values = [role, status]
+
+    db.query(sqlquery, values, (err, data) => {
+      if (err) {
+        return res.json({ message: "There is an internel error" });
+      } else {
+        return res.json({ data });
+      }
+    });
+  }
+}
+
+// add response - view client response details
+export const complainDetails = async (req, res, next) => {
+  const id = req.params.id
+  const role = 'company_manager'
+  const sqlQuery = 'SELECT * FROM client_complain WHERE complain_id = ?  AND manager_role =? '
+  const values = [id, role]
+
+  db.query(sqlQuery, values, (err, data) => {
+      if (err) {
+          return res.json({ message: 'There is an internal error' })
+      }
+      return res.json({ data })
+  })
+}
+
+// add response - update table with response details
+export const addingResponse = async (req, res, next) => {
+  const {
+      id,
+      newres,
+  } = req.body;
+
+  const status = 'completed'
+  const current = new Date()
+  const currentDate = current.toDateString()
+
+  const sqlQuery = 'UPDATE client_complain SET response_txt = ? , response_date = ?, complain_status = ? WHERE complain_id = ?'
+  const values = [newres, currentDate, status, id]
+
+  db.query(sqlQuery, values, (err, data) => {
+      if (err) {
+          return res.json({ message: 'There is an internal error' })
+      }
+      return res.json({ message: 'Added response' })
+  })
+}
+
+// delete my complain
+export const deleteMyComplain = async (req, res, next) => {
+  const id = req.params.id
+  const sqlQuery = 'DELETE FROM manager_complain WHERE complain_id = ? '
+  const values = [id]
+
+  db.query(sqlQuery, values, (err, data) => {
+      if (err) {
+          return res.json({ message: 'There is an internal errrror' })
+      }
+      return res.json({ message: 'Deleted' })
+  })
+
+}
+
 
 export const update_blog = async (req, res, next) => {
   const { id } = req.body;
@@ -146,41 +281,41 @@ export const blog = async (req, res, next) => {
 
 // SHOP
 // view pets details
-export const petsViewing = async(req,res,next) => {
+export const petsViewing = async (req, res, next) => {
   const id = req.params.id
 
-  if(id === '1'){
+  if (id === '1') {
     const sqlQuery = 'SELECT * FROM pets_buy_and_sell'
 
-    db.query(sqlQuery, (err,data) => {
-      if(err){
-        return res.json({message:'There is an internal error'})
+    db.query(sqlQuery, (err, data) => {
+      if (err) {
+        return res.json({ message: 'There is an internal error' })
       }
-      return res.json({data})
+      return res.json({ data })
     })
 
-  }else if(id === '2'){
+  } else if (id === '2') {
     const status = 'pending'
     const sqlQuery = 'SELECT * FROM pets_buy_and_sell WHERE status = ?'
     const values = [status]
 
-    db.query(sqlQuery, values, (err,data) => {
-      if(err){
-        return res.json({message:'There is an internal error'})
+    db.query(sqlQuery, values, (err, data) => {
+      if (err) {
+        return res.json({ message: 'There is an internal error' })
       }
-      return res.json({data})
+      return res.json({ data })
     })
 
-  }else if(id === '3'){
+  } else if (id === '3') {
     const status = 'sold'
     const sqlQuery = 'SELECT * FROM pets_buy_and_sell WHERE status = ?'
     const values = [status]
 
-    db.query(sqlQuery, values, (err,data) => {
-      if(err){
-        return res.json({message:'There is an internal error'})
+    db.query(sqlQuery, values, (err, data) => {
+      if (err) {
+        return res.json({ message: 'There is an internal error' })
       }
-      return res.json({data})
+      return res.json({ data })
     })
-  } 
+  }
 }
