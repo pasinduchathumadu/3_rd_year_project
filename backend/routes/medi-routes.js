@@ -1,6 +1,6 @@
 import express from "express";
 
-import { get_medi, leave, set_count, setprice,add_complain,viewmyComplains,viewClientsComplains,complainDetails,addingResponse,deleteMyComplain,add_vet,systemDoctors ,pendingRequest,completedBox,pendingBox,PendingAppointments,get_pets, completedAppointments,PendingtoCompeleted,PendingtoUncompeleted} from "../controllers/doctor-controllers";
+import { get_medi, leave, set_count, setprice,add_complain,viewmyComplains,viewClientsComplains,complainDetails,addingResponse,deleteMyComplain,add_vet,systemDoctors ,pendingRequest,completedBox,pendingBox,PendingAppointments,get_pets, completedAppointments,PendingtoCompeleted,PendingtoUncompeleted, complainsCount} from "../controllers/doctor-controllers";
 
 
 const medi_help_manager = express.Router()
@@ -24,6 +24,7 @@ medi_help_manager.get('/systemDoctors',systemDoctors )
 medi_help_manager.get('/pendingRequest',pendingRequest )
 medi_help_manager.get('/pendingBox',pendingBox) 
 medi_help_manager.get('/completedBox',completedBox)
+medi_help_manager.get('/complainsCount',complainsCount)
 
 // appointments
 medi_help_manager.get('/PendingAppointments',PendingAppointments)
