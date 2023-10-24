@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 import ProfilePicture from "../../assests/profile-picture.png";
@@ -17,18 +17,19 @@ import CardActionArea from "@mui/material/CardActionArea";
 import { PieChart } from '@mui/x-charts/PieChart';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import { useNavigate } from "react-router";
+import axios from "axios";
 
 const Company_Home = () => {
   const navigate = useNavigate("")
   // connect profile
   const profile = () => {
     navigate("/profile")
-}
+  }
 
   // get profile picture
   const getProfilepicturepath = (imageName) => {
     return require(`../../../../backend/images/store/${imageName}`)
-}
+  }
 
   const date = new Date()
   const currentdate = date.toDateString();
@@ -39,6 +40,42 @@ const Company_Home = () => {
     // Perform an action when the card is clicked
     console.log("Card clicked!");
   };
+
+  // count of incoming competitions
+  const [com, setcom] = useState("")
+  const incomingCompetitions = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/company_manager/incomingCompetitions`)
+      const data = await res.data
+      return data
+    } catch (err) {
+      console.log('There is an internal error')
+    }
+  }
+  useEffect(() => {
+    incomingCompetitions()
+      .then((data) => setcom(data.data))
+      .catch((err) => console.log(err))
+  })
+
+  // count of pending complaints
+  const [complain, setcomplain] = useState("")
+  const pendingComplains = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/company_manager/pendingComplains`)
+      const data = await res.data
+      return data
+    } catch (err) {
+      console.log('There is an internal error')
+    }
+  }
+  useEffect(() => {
+    pendingComplains()
+      .then((data) => setcomplain(data.data))
+      .catch((err) => console.log(err))
+  })
+
+
 
   return (
     <Box>
@@ -66,14 +103,10 @@ const Company_Home = () => {
         <Stack direction="row" justifyContent="center" alignItems="center">
           <NotificationsIcon className="bell-icon" />
           <Button onClick={profile}><img src={getProfilepicturepath("company_profile.jpeg")} alt="profilepicture" className="boarding-profile-picture" /></Button>
-          {/* <img
-            src={ProfilePicture}
-            alt="profilepicture"
-            className="boarding-profile-picture" /> */}
         </Stack>
       </Stack>
 
-      <Box sx={{ backgroundColor: "#f0f0f5", marginBottom: '20px' }}>
+      <Box sx={{ backgroundColor: "#f0f0f5", marginBottom: '1%', padding: '2%' }}>
         <Stack
           direction="row"
           spacing={15}
@@ -86,7 +119,7 @@ const Company_Home = () => {
             </Typography>
           </Stack>
 
-          <Box sx={{ minWidth: 10 }}>
+          {/* <Box sx={{ minWidth: 10 }}>
             <FormControl>
               <Select
                 labelId="demo-simple-select-label"
@@ -101,7 +134,7 @@ const Company_Home = () => {
                 <MenuItem value={3}>Last Months</MenuItem>
               </Select>
             </FormControl>
-          </Box>
+          </Box> */}
         </Stack>
 
         <Stack
@@ -109,39 +142,41 @@ const Company_Home = () => {
           spacing={15}
           justifyContent="center"
           alignItems="center">
-          <Box sx={{ width: "200px", height: '150px' }}>
-            <Card variant="outlined" sx={{backgroundColor:"orange", borderRadius:'10px'}}>
+          <Box sx={{ width: "15%", height: '10%' }}>
+            <Card variant="outlined" sx={{ backgroundColor: "orange", borderRadius: '10px' }}>
               <CardContent>
                 <Stack
                   direction={"row"}
                   justifyContent="center"
                   alignItems="center">
                   <PetsIcon sx={{ color: "white", marginRight: "5px" }} />
-                  <Typography sx={{ fontSize: 14, fontWeight:'bold' }} color="text.secondary">
+                  <Typography sx={{ fontSize: 14, fontWeight: 'bold' }} color="text.secondary">
                     Incoming Competitions
                   </Typography>
                 </Stack>
 
-                <Typography
-                  fontWeight="bold"
-                  variant="h3"
-                  component="div"
-                  align="center">
-                  10
-                </Typography>
+                {com && com.map((row, index) => (
+                  <Typography
+                    fontWeight="bold"
+                    variant="h3"
+                    component="div"
+                    align="center">
+                    {row.count}
+                  </Typography>
+                ))}
               </CardContent>
             </Card>
           </Box>
 
-          <Box sx={{ width: "200px", height: '150px' }}>
-            <Card variant="outlined" sx={{backgroundColor:"orange", borderRadius:'10px'}}>
+          <Box sx={{ width: "15%", height: '10%' }}>
+            <Card variant="outlined" sx={{ backgroundColor: "orange", borderRadius: '10px' }}>
               <CardContent>
                 <Stack
                   direction={"row"}
                   justifyContent="center"
                   alignItems="center">
                   <PetsIcon sx={{ color: "white", marginRight: "5px" }} />
-                  <Typography sx={{ fontSize: 14 , fontWeight:'bold'}} color="text.secondary">
+                  <Typography sx={{ fontSize: 14, fontWeight: 'bold' }} color="text.secondary">
                     Pending Blogs Verifications
                   </Typography>
                 </Stack>
@@ -156,80 +191,82 @@ const Company_Home = () => {
             </Card>
           </Box>
 
-          <Box sx={{ width: "200px", height: '150px' }}>
-            <Card variant="outlined" sx={{backgroundColor:"orange", borderRadius:'10px'}}>
+          <Box sx={{ width: "15%", height: '10%' }}>
+            <Card variant="outlined" sx={{ backgroundColor: "orange", borderRadius: '10px' }}>
               <CardContent>
                 <Stack
                   direction={"row"}
                   justifyContent="center"
                   alignItems="center">
                   <PetsIcon sx={{ color: "white", marginRight: "5px" }} />
-                  <Typography sx={{ fontSize: 14, fontWeight:'bold' }} color="text.secondary">
+                  <Typography sx={{ fontSize: 14, fontWeight: 'bold' }} color="text.secondary">
                     Pending Clients Complaints
                   </Typography>
                 </Stack>
-                <Typography
-                  fontWeight="bold"
-                  variant="h3"
-                  component="div"
-                  align="center">
-                  2
-                </Typography>
+                {complain && complain.map((row, index) => (
+                  <Typography
+                    fontWeight="bold"
+                    variant="h3"
+                    component="div"
+                    align="center">
+                    {row.count}
+                  </Typography>
+                ))}
               </CardContent>
             </Card>
           </Box>
         </Stack>
 
-        <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
-        <div className="boarding-wrapper" style={{ backgroundColor: 'white', height: '300px' }}>
-          <div className="boarding-box-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-              <AssessmentIcon sx={{ marginRight: '10px', color: 'orange' }} />
-              <Typography style={{  fontSize: 14, color:"text.secondary",  fontWeight:'bold'}}>Clients Blogs Verification</Typography>
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+          <div className="boarding-wrapper" style={{ backgroundColor: 'white', height: '300px' }}>
+            <div className="boarding-box-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <AssessmentIcon sx={{ marginRight: '10px', color: 'orange' }} />
+                <Typography style={{ fontSize: 14, color: "text.secondary", fontWeight: 'bold' }}>Clients Blogs Verification</Typography>
+              </div>
+            </div>
+
+            <div>
+              <PieChart
+                colors={['#FBBD08', '#55555C']}
+                series={[
+                  {
+                    data: [
+                      { id: 0, value: 15, label: 'Pending' },
+                      { id: 1, value: 25, label: 'Completed' },
+                    ],
+                  },
+                ]}
+                width={600}
+                height={200}
+              />
             </div>
           </div>
 
-          <div>
-            <PieChart
-              colors={['#FBBD08', '#55555C']}
-              series={[
-                {
-                  data: [
-                    { id: 0, value: 15, label: 'Pending' },
-                    { id: 1, value: 25, label: 'Completed' },
-                  ],
-                },
-              ]}
-              width={600}
-              height={200}
-            />
-          </div>
-        </div>
+          <div className="boarding-wrapper" style={{ backgroundColor: 'white', height: '300px' }}>
+            <div className="boarding-box-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <AssessmentIcon sx={{ marginRight: '10px', color: 'orange' }} />
+                <Typography style={{ fontSize: 14, color: "text.secondary", fontWeight: 'bold' }}> Clients Categorize Analyse</Typography>
+              </div>
+            </div>
 
-        <div className="boarding-wrapper" style={{ backgroundColor: 'white', height: '300px' }}>
-          <div className="boarding-box-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-              <AssessmentIcon sx={{ marginRight: '10px', color: 'orange' }} />
-              <Typography style={{  fontSize: 14, color:"text.secondary", fontWeight:'bold'}}> Clients Categorize Analyse</Typography>
+            <div>
+              <PieChart
+                colors={['#FBBD08', '#55555C']}
+                series={[
+                  {
+                    data: [
+                      { id: 0, value: 15, label: 'Premium' },
+                      { id: 1, value: 25, label: 'Regular' },
+                    ],
+                  },
+                ]}
+                width={600}
+                height={200}
+              />
             </div>
           </div>
-
-          <div>
-            <PieChart
-              colors={['#FBBD08', '#55555C']}
-              series={[
-                {
-                  data: [
-                    { id: 0, value: 15, label: 'Premium' },
-                    { id: 1, value: 25, label: 'Regular' },
-                  ],
-                },
-              ]}
-              width={600}
-              height={200}
-            />
-          </div>
-        </div>
         </div>
 
 
