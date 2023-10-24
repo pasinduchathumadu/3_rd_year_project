@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { db } from "../database";
 
 export const add_competition = async (req, res, next) => {
@@ -377,4 +378,58 @@ export const pendingComplains = async(req,res,next) => {
     }
     return res.json({data})
   })
+}
+
+// pending blogs verifications count
+export const pendingBlogs = async(req,res,next) => {
+  const status = 'pending'
+  const sqlQuery = 'SELECT COUNT(post_id) as count FROM client_post WHERE blog_status = ?'
+  const values = [status]
+
+  db.query(sqlQuery, values, (err,data) => {
+    if(err){
+      return res.json({message:'There is an internal error'})
+    }
+    return res.json({data})
+  })
+}
+
+// get count of buy and sold pets
+export const petShopCount = async(req,res,next) => {
+  const status1 = 'pending'
+  const status2 = 'sold'
+  const sqlQuery = 'SELECT (SELECT COUNT(pet_id) FROM pets_buy_and_sell WHERE status = ?) AS pendingcount, (SELECT COUNT(pet_id) FROM pets_buy_and_sell WHERE status = ?) AS soldcount'
+  const values = [status1, status2]
+
+  db.query(sqlQuery, values, (err,data) => {
+    if(err) {
+      return res.json({message:'There is an internal error'})
+    }
+    return res.json({data})
+  })
+
+}
+
+// CATEGORIZATION
+
+export const categorizeClients = async(req,res,next) => {
+  // const currentDate = new Date()
+  // const date = format(currentDate, 'yyy-MM-dd')
+  // const monthBeforeFromToday = new Date()
+  // monthBeforeFromToday.setDate(currentDate.getDate() -30)
+  // const date_month = format(monthBeforeFromToday, 'yyy-MM-dd')
+
+  const status = 'handed'
+  // const sqlQuery = 'SELECT p.order_email, COUNT(p.po_id) AS order_count, SUM(p.payment) AS total_amount, c.client_id FROM purchase_order p INNER JOIN client c ON c.email = p.order_email WHERE po_status = ? AND p.placed_date > ? AND p.placed_date < ? GROUP BY order_email'
+  const sqlQuery = 'SELECT p.order_email, COUNT(p.po_id) AS order_count, SUM(p.payment) AS total_amount, c.client_id FROM purchase_order p INNER JOIN client c ON c.email = p.order_email WHERE po_status = ? GROUP BY order_email'
+  const values = [status, ]
+
+  db.query(sqlQuery, values, (err,data) => {
+    if(err) {
+      return res.json({message: 'There is an internal error'})
+    }
+    return res.json({data})
+  })
+
+
 }
