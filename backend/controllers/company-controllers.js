@@ -85,14 +85,43 @@ export const add_complaint = async (req, res, next) => {
 };
 
 export const get_competitions = async (req, res, next) => {
-  const sqlquery = "SELECT * FROM company_competitions order by notice_id desc";
-  db.query(sqlquery, (err, data) => {
-    if (err) {
-      return res.json({ message: "There is an internel error" });
-    } else {
-      return res.json({ data });
-    }
-  });
+  const id = req.params.id
+
+  if (id === "1") {
+    const sqlquery = "SELECT * FROM company_competitions order by notice_id desc";
+    db.query(sqlquery, (err, data) => {
+      if (err) {
+        return res.json({ message: "There is an internel error" });
+      } else {
+        return res.json({ data });
+      }
+    });
+
+  } else if (id === "2") {
+    const status = "pending"
+    const sqlquery = "SELECT * FROM company_competitions WHERE status = ?";
+    const values = [status]
+
+    db.query(sqlquery, values, (err, data) => {
+      if (err) {
+        return res.json({ message: "There is an internel error" });
+      } else {
+        return res.json({ data });
+      }
+    });
+  } else if(id === "3"){
+    const status = "completed"
+    const sqlquery = "SELECT * FROM company_competitions WHERE status = ?";
+    const values = [status]
+
+    db.query(sqlquery, values, (err, data) => {
+      if (err) {
+        return res.json({ message: "There is an internel error" });
+      } else {
+        return res.json({ data });
+      }
+    });
+  }
 };
 
 // get company manager's complains
@@ -193,18 +222,18 @@ export const complainDetails = async (req, res, next) => {
   const values = [id, role]
 
   db.query(sqlQuery, values, (err, data) => {
-      if (err) {
-          return res.json({ message: 'There is an internal error' })
-      }
-      return res.json({ data })
+    if (err) {
+      return res.json({ message: 'There is an internal error' })
+    }
+    return res.json({ data })
   })
 }
 
 // add response - update table with response details
 export const addingResponse = async (req, res, next) => {
   const {
-      id,
-      newres,
+    id,
+    newres,
   } = req.body;
 
   const status = 'completed'
@@ -215,10 +244,10 @@ export const addingResponse = async (req, res, next) => {
   const values = [newres, currentDate, status, id]
 
   db.query(sqlQuery, values, (err, data) => {
-      if (err) {
-          return res.json({ message: 'There is an internal error' })
-      }
-      return res.json({ message: 'Added response' })
+    if (err) {
+      return res.json({ message: 'There is an internal error' })
+    }
+    return res.json({ message: 'Added response' })
   })
 }
 
@@ -229,10 +258,10 @@ export const deleteMyComplain = async (req, res, next) => {
   const values = [id]
 
   db.query(sqlQuery, values, (err, data) => {
-      if (err) {
-          return res.json({ message: 'There is an internal errrror' })
-      }
-      return res.json({ message: 'Deleted' })
+    if (err) {
+      return res.json({ message: 'There is an internal errrror' })
+    }
+    return res.json({ message: 'Deleted' })
   })
 
 }
@@ -318,4 +347,34 @@ export const petsViewing = async (req, res, next) => {
       return res.json({ data })
     })
   }
+}
+
+// DASHBOARD
+// incoming pet competitions count
+export const incomingCompetitions = async(req, res, next) => {
+  const status = "pending"
+  const sqlQuery = 'SELECT COUNT(notice_id) as count FROM company_competitions WHERE status = ?'
+  const values = [status]
+
+  db.query(sqlQuery, values, (err,data) => {
+    if (err) {
+      return res.json({ message: 'There is an internal error' })
+    }
+    return res.json({ data })
+  })
+}
+
+// pending complains count
+export const pendingComplains = async(req,res,next) => {
+  const status = 'pending'
+  const role = 'company_manager'
+  const sqlQuery = 'SELECT COUNT(complain_id) as count FROM client_complain WHERE complain_status = ? AND manager_role = ?'
+  const values = [status, role]
+
+  db.query(sqlQuery, values, (err,data) => {
+    if(err){
+      return res.json({message:'There is an internal error'})
+    }
+    return res.json({data})
+  })
 }

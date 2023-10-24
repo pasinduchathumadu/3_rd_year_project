@@ -10,6 +10,8 @@ import Paper from "@mui/material/Paper";
 import {
   Avatar,
   Dialog,
+  Select,
+  MenuItem,
   DialogActions,
   DialogContent,
   DialogTitle,
@@ -121,25 +123,32 @@ function Company_Competitions() {
   const [second, setSecond] = useState(false);
   const [id, setid] = useState("");
 
+  const [clients, setClients] = React.useState('1');
+  const handleChange = (event) => {
+    setClients(event.target.value);
+
+    getCompetitions()
+  };
+
   const getCompetitions = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/pet_care/company_manager/get_competitions"
-      );
-      const data = await res.data;
-      return data;
+        `http://localhost:5000/pet_care/company_manager/get_competitions/${clients}`
+      )
+      setCom(res.data.data) 
     } catch (err) {
       console.log(err);
+      console.log(clients);
     }
-  };
-  const close = () => {
-    setSecond(false);
   };
   useEffect(() => {
     getCompetitions()
-      .then((data) => setCom(data.data))
-      .catch((err) => console.log(err));
-  }, []);
+  }, [clients, getCompetitions]);
+
+
+  const close = () => {
+    setSecond(false);
+  };
 
   const handleClick = (id) => {
     setid(id);
@@ -207,6 +216,24 @@ function Company_Competitions() {
                 <AddIcon />
                 Add New Competition
               </Button>
+            </Box>
+
+            <Box sx={{ width: '10%', marginLeft: '90%', marginBottom:'1%' }}>
+              <FormControl fullWidth>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+
+                  variant='filled'
+
+                  onChange={handleChange}
+                  l
+                  sx={{ fontSize: '12px' }}>
+                  <MenuItem value={1}>All</MenuItem>
+                  <MenuItem value={2}>Pending</MenuItem>
+                  <MenuItem value={3}>Completed</MenuItem>
+                </Select>
+              </FormControl>
             </Box>
 
             <TableContainer component={Paper}>
