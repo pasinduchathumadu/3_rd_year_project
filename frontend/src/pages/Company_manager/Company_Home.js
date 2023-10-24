@@ -75,6 +75,41 @@ const Company_Home = () => {
       .catch((err) => console.log(err))
   })
 
+  // count of pending blogs verifications
+  const [blog, setblog] = useState("")
+  const pendingBlogs = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/company_manager/pendingBlogs`)
+      const data = await res.data
+      return data
+    } catch (err) {
+      console.log('There is an internal error')
+    }
+  }
+  useEffect(() => {
+    pendingBlogs()
+      .then((data) => setblog(data.data))
+      .catch((err) => console.log(err))
+  })
+
+  // get counts of pet shop - pensing and sold pets
+  const [shop, setshop] = useState("")
+  const petShopCount = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/company_manager/petShopCount`)
+      const data = await res.data
+      return data
+    } catch (err) {
+      console.log('There is an internal error')
+    }
+  }
+  useEffect(() => {
+    petShopCount()
+      .then((data) => setshop(data.data))
+      .catch((err) => console.log(err))
+  })
+
+
 
 
   return (
@@ -180,13 +215,15 @@ const Company_Home = () => {
                     Pending Blogs Verifications
                   </Typography>
                 </Stack>
-                <Typography
-                  fontWeight="bold"
-                  variant="h3"
-                  component="div"
-                  align="center">
-                  4
-                </Typography>
+                {blog && blog.map((row, index) => (
+                  <Typography
+                    fontWeight="bold"
+                    variant="h3"
+                    component="div"
+                    align="center">
+                    {row.count}
+                  </Typography>
+                ))}
               </CardContent>
             </Card>
           </Box>
@@ -222,24 +259,26 @@ const Company_Home = () => {
             <div className="boarding-box-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', flexDirection: 'row' }}>
                 <AssessmentIcon sx={{ marginRight: '10px', color: 'orange' }} />
-                <Typography style={{ fontSize: 14, color: "text.secondary", fontWeight: 'bold' }}>Clients Blogs Verification</Typography>
+                <Typography style={{ fontSize: 14, color: "text.secondary", fontWeight: 'bold' }}>Pet Shop - Sold & Buy Pets</Typography>
               </div>
             </div>
 
             <div>
-              <PieChart
-                colors={['#FBBD08', '#55555C']}
-                series={[
-                  {
-                    data: [
-                      { id: 0, value: 15, label: 'Pending' },
-                      { id: 1, value: 25, label: 'Completed' },
-                    ],
-                  },
-                ]}
-                width={600}
-                height={200}
-              />
+              {shop && shop.map((row, index) => (
+                <PieChart
+                  colors={['#FBBD08', '#55555C']}
+                  series={[
+                    {
+                      data: [
+                        { id: 0, value: row.pendingcount, label: 'Pending' },
+                        { id: 1, value: row.soldcount, label: 'Sold' },
+                      ],
+                    },
+                  ]}
+                  width={600}
+                  height={200}
+                />
+              ))}
             </div>
           </div>
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -18,6 +18,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { useNavigate } from "react-router";
+import axios from "axios";
 
 
 function Company_Clients() {
@@ -25,21 +26,21 @@ function Company_Clients() {
   // connect profile
   const profile = () => {
     navigate("/profile")
-}
+  }
 
   // get profile picture
   const getProfilepicturepath = (imageName) => {
     return require(`../../../../backend/images/store/${imageName}`)
-}
+  }
 
   const date = new Date()
   const currentdate = date.toDateString();
 
-  const [selectedTab, setSelectedTab] = useState(0);
+  // const [selectedTab, setSelectedTab] = useState(0);
 
-  const handleTabChange = (event, newValue) => {
-    setSelectedTab(newValue);
-  };
+  // const handleTabChange = (event, newValue) => {
+  //   setSelectedTab(newValue);
+  // };
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -61,18 +62,37 @@ function Company_Clients() {
     },
   }));
 
-  function createData(id, name, payment, category, pcategory) {
-    return { id, name, payment, category, pcategory };
-  }
+  // function createData(id, name, payment, category, pcategory) {
+  //   return { id, name, payment, category, pcategory };
+  // }
 
-  const rows = [
-    createData("1", "Gayan Sandamal", "1000", "premium", "pending"),
-    createData("2", "Malik Dias", "2000", "gold", "pending"),
-  ];
+  // const rows = [
+  //   createData("1", "Gayan Sandamal", "1000", "premium", "pending"),
+  //   createData("2", "Malik Dias", "2000", "gold", "pending"),
+  // ];
+
   //modal
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  // display clients details
+  const [details, setdetails] = useState("")
+  const categorizeClients = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/company_manager/categorizeClients`)
+      const data = await res.data
+      return data
+    } catch (err) {
+      console.log('There is an internal error')
+    }
+  }
+  useEffect(() => {
+    categorizeClients()
+      .then((data) => setdetails(data.data))
+      .catch((err) => console.log(err))
+  })
+
 
   return (
     <>
@@ -95,134 +115,50 @@ function Company_Clients() {
         </Box>
         <Stack justifyContent="center" alignItems="center">
           <Typography color="textPrimary" fontWeight="bold" fontSize={"25px"}>
-            Clients Categorization
+            Clients Categorization - Online Store
           </Typography>
         </Stack>
         <Stack direction="row" justifyContent="center" alignItems="center">
           <NotificationsIcon className="bell-icon" />
           <Button onClick={profile}><img src={getProfilepicturepath("company_profile.jpeg")} alt="profilepicture" className="boarding-profile-picture" /></Button>
-          {/* <img
-            src={ProfilePicture}
-            alt="profilepicture"
-            className="boarding-profile-picture"
-          /> */}
         </Stack>
       </Stack>
 
       <Box padding={2}>
-        <Tabs value={selectedTab} onChange={handleTabChange} centered variant="fullWidth" sx={{
-            "& .MuiTab-root": {
-              fontSize: "16px",
-              color: "black",
-              borderRadius: "10px",
-              "&:hover": {
-                backgroundColor: "#FFD580",
-              },
-            },
-            "& .Mui-selected": {
-              backgroundColor: "orange", // Change background color for selected tab
-              color: "black", // Change text color for selected tab
-              "&:hover": {
-                backgroundColor: "orange",
-              },
-            },
-          }}
-        >
-          <Tab label="Boarding House" />
-          <Tab label="Care Center" />
-          <Tab label="Online Store" />
-        </Tabs>
-        {selectedTab === 0 && (
-          <Box padding={2}>
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                <TableHead>
-                  <TableRow>
-                    <StyledTableCell align="center">Client ID </StyledTableCell>
-                    <StyledTableCell  align="center">Client Name</StyledTableCell>
-                    <StyledTableCell  align="center">Completed Requests </StyledTableCell>
-                    <StyledTableCell  align="center">Cancelled or Incompleted Requests</StyledTableCell>
-                    <StyledTableCell  align="center">Category</StyledTableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map((row) => (
-                    <StyledTableRow key={row.id}>
-                      <StyledTableCell component="th" scope="row"  align="center">
-                        {row.id}
-                      </StyledTableCell>
-                      <StyledTableCell  align="center">{row.name}</StyledTableCell>
-                      <StyledTableCell  align="center">3</StyledTableCell>
-                      <StyledTableCell  align="center">2</StyledTableCell>
-                      <StyledTableCell  align="center">***</StyledTableCell>
-                    </StyledTableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Box>
-        )}
-        {selectedTab === 1 && (
-          <Box padding={2}>
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                <TableHead>
-                  <TableRow>
-                    <StyledTableCell  align="center">Client ID </StyledTableCell>
-                    <StyledTableCell  align="center">Client Name</StyledTableCell>
-                    <StyledTableCell  align="center">Completed Appointments</StyledTableCell>
-                    <StyledTableCell  align="center">Cancelled or Incompleted Appointments</StyledTableCell>
-                    <StyledTableCell  align="center">Category</StyledTableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map((row) => (
-                    <StyledTableRow key={row.id}>
-                      <StyledTableCell component="th" scope="row"  align="center">
-                        {row.id}
-                      </StyledTableCell>
-                      <StyledTableCell  align="center">{row.name}</StyledTableCell>
-                      <StyledTableCell  align="center">6</StyledTableCell>
-                      <StyledTableCell  align="center">3</StyledTableCell>
-                      <StyledTableCell  align="center">*****</StyledTableCell>
-                    </StyledTableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Box>
-        )}
-        {selectedTab === 2 && (
-          <Box padding={2}>
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                <TableHead>
-                  <TableRow>
-                    <StyledTableCell  align="center">Client ID </StyledTableCell>
-                    <StyledTableCell  align="center">Client Name</StyledTableCell>
-                    <StyledTableCell  align="center">Completed Orders</StyledTableCell>
-                    <StyledTableCell  align="center">Category</StyledTableCell>
+        <Box padding={2}>
+          <div style={{ marginBottom: '1%' }}>
+            <Typography>Considered Time Period : </Typography>
+          </div>
 
-                    {/* <StyledTableCell>View</StyledTableCell> */}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map((row) => (
-                    <StyledTableRow key={row.id}>
-                      <StyledTableCell component="th" scope="row"  align="center">
-                        {row.id}
-                      </StyledTableCell>
-                      <StyledTableCell  align="center">{row.name}</StyledTableCell>
-                      <StyledTableCell  align="center">{row.payment}</StyledTableCell>
-                      {/* <StyledTableCell  align="center">{row.category}</StyledTableCell> */}
-                      <StyledTableCell  align="center">****</StyledTableCell>
-                    </StyledTableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Box>
-        )}
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell align="center">Client ID </StyledTableCell>
+                  <StyledTableCell align="center">Email Address </StyledTableCell>
+                  <StyledTableCell align="center">Completed Orders </StyledTableCell>
+                  <StyledTableCell align="center">Total Price (Rs.)</StyledTableCell>
+                  <StyledTableCell align="center">Category</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+
+                {details && details.map((menu, index) => (
+                  <StyledTableRow>
+                    <StyledTableCell component="th" scope="row" align="center">{menu.client_id}
+
+                    </StyledTableCell>
+                    <StyledTableCell align="center">{menu.order_email}</StyledTableCell>
+                    <StyledTableCell align="center">{menu.order_count}</StyledTableCell>
+                    <StyledTableCell align="center">{menu.total_amount}.00</StyledTableCell>
+                    <StyledTableCell align="center"></StyledTableCell>
+                  </StyledTableRow>
+                ))}
+
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
       </Box>
     </>
   );

@@ -13,7 +13,10 @@ import {
   addingResponse,
   deleteMyComplain,
   incomingCompetitions,
-  pendingComplains
+  pendingComplains,
+  pendingBlogs,
+  petShopCount,
+  categorizeClients
 } from "../controllers/company-controllers";
 
 const company_manager = express.Router();
@@ -37,6 +40,11 @@ company_manager.get("/petsViewing/:id", petsViewing);
 // DASHBOARD
 company_manager.get("/incomingCompetitions", incomingCompetitions);
 company_manager.get("/pendingComplains", pendingComplains);
+company_manager.get("/pendingBlogs", pendingBlogs);
+company_manager.get("/petShopCount", petShopCount);
+
+// CATEGORIZATION
+company_manager.get("/categorizeClients", categorizeClients);
 
 
 export default company_manager;
