@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import { da } from "date-fns/locale";
 import { db } from "../database";
 
 export const add_competition = async (req, res, next) => {
@@ -412,24 +413,50 @@ export const petShopCount = async(req,res,next) => {
 
 // CATEGORIZATION
 
-export const categorizeClients = async(req,res,next) => {
-  // const currentDate = new Date()
-  // const date = format(currentDate, 'yyy-MM-dd')
-  // const monthBeforeFromToday = new Date()
-  // monthBeforeFromToday.setDate(currentDate.getDate() -30)
-  // const date_month = format(monthBeforeFromToday, 'yyy-MM-dd')
+export const categorizeClients = async (req, res, next) => {
+  const currentDate = new Date();
+  const date = format(currentDate, 'yyy-MM-dd');
+  const monthBeforeFromToday = new Date();
+  monthBeforeFromToday.setDate(currentDate.getDate() - 30);
+  const date_month = format(monthBeforeFromToday, 'yyy-MM-dd');
 
-  const status = 'handed'
-  // const sqlQuery = 'SELECT p.order_email, COUNT(p.po_id) AS order_count, SUM(p.payment) AS total_amount, c.client_id FROM purchase_order p INNER JOIN client c ON c.email = p.order_email WHERE po_status = ? AND p.placed_date > ? AND p.placed_date < ? GROUP BY order_email'
-  const sqlQuery = 'SELECT p.order_email, COUNT(p.po_id) AS order_count, SUM(p.payment) AS total_amount, c.client_id FROM purchase_order p INNER JOIN client c ON c.email = p.order_email WHERE po_status = ? GROUP BY order_email'
-  const values = [status, ]
+  const status = 'handed';
+  const sqlQuery = 'SELECT p.order_email, COUNT(p.po_id) AS order_count, SUM(p.payment) AS total_amount, c.client_id, c.status FROM purchase_order p INNER JOIN client c ON c.email = p.order_email WHERE po_status = ? AND p.placed_date > ? AND p.placed_date < ? GROUP BY order_email';
+  const values = [status, date_month, date];
 
-  db.query(sqlQuery, values, (err,data) => {
-    if(err) {
-      return res.json({message: 'There is an internal error'})
+  db.query(sqlQuery, values, (err, data) => {
+    if (err) {
+      return res.json({ message: 'There is an internal error' });
     }
-    return res.json({data})
-  })
 
+    const status1 = "premium";
+    const status2 = "regular";
 
-}
+    const results = []; // To collect results
+
+    for (const order of data) {
+      const orderCount = order.order_count;
+      const totalAmount = order.total_amount;
+      const email = order.order_email;
+      const status = orderCount >= 2 && totalAmount >= 3000 ? status1 : status2;
+
+      const checkQuery = 'UPDATE client SET status = ? WHERE email = ?';
+      const checkValues = [status, email];
+
+      db.query(checkQuery, checkValues, (err, data1) => {
+        if (err) {
+          // Handle the error, but do not send a response here.
+          console.error('An error occurred:', err);
+        } else {
+          // Collect successful results
+          results.push({ email, status });
+        }
+
+        // Check if all queries are done before sending the response
+        if (results.length === data.length) {
+          res.json({ data1: results,data:data });
+        }
+      });
+    }
+  });
+};
