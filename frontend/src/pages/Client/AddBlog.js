@@ -28,7 +28,7 @@ function AddBlog() {
 
     const [description, setdescription] = useState("")
     const [title, settitle] = useState("")
-    const [comments, setcomment] = useState(null)
+   
     const [author, setpublisher] = useState("")
 
     const [image, setimage] = useState("")

@@ -1,3 +1,4 @@
+import { da } from 'date-fns/locale';
 import { db } from '../database.js';
 
 export const blog = async (req, res, next) => {
@@ -18,9 +19,9 @@ export const blog = async (req, res, next) => {
 
 export const myblog = async (req, res, next) => {
     const email = req.params.email
-
-    const sqlQuery = "select *from client_post WHERE client_email = ?"
-    const value = [email]
+    const status = "pending"
+    const sqlQuery = "select *from client_post WHERE client_email = ? and blog_status != ?"
+    const value = [email,status]
 
     db.query(sqlQuery, value, (err, data) => {
         if (err) {
@@ -166,6 +167,48 @@ export const updateClient = async (req, res, next) => {
     })
 
 }
+
+export const likefunc = async (req, res, next) => {
+    try {
+      const { likes, index } = req.body;
+      const sqlQuery = "UPDATE client_post SET likes = ? WHERE post_id = ?";
+      const values = [likes, index];
+
+
+      db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+          console.error(err); // Log the error
+          return res.json({ message: 'There was an internal error' });
+        }
+        return res.json({ message: 'Updated like count successfully' });
+      });
+    } catch (err) {
+      console.error(err);
+      return res.json({ message: 'Internal server error' });
+    }
+  };
+  
+  export const heartfunc = async (req, res, next) => {
+    try {
+      const { hearts, index } = req.body;
+    
+      const sqlQuery = "UPDATE client_post SET heart = ? WHERE post_id = ?";
+      const values = [hearts, index];
+      db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+          console.error(err); // Log the error
+          return res.json({ message: 'There was an internal error' });
+        }
+        return res.json({ message: 'Updated heart count successfully' });
+      });
+    } catch (err) {
+      console.error(err);
+      return res.json({ message: 'Internal server error' });
+    }
+  };
+
+
+  
 
 // delete client profile
 export const deleteProfile = async (req, res, next) => {
