@@ -148,11 +148,9 @@ function Company_Clients() {
                     <StyledTableCell align="center">{menu.order_email}</StyledTableCell>
                     <StyledTableCell align="center">{menu.order_count}</StyledTableCell>
                     <StyledTableCell align="center">{menu.total_amount}.00</StyledTableCell>
-                    <StyledTableCell align="center"><StarRateIcon sx={{color:'orange', marginRight:'1%'}} />{menu.status}</StyledTableCell>
-                   
+                    <StyledTableCell align="center">{menu.status}</StyledTableCell> 
                   </StyledTableRow>
                 ))}
-
               </TableBody>
             </Table>
           </TableContainer>
