@@ -166,6 +166,11 @@ const PetProfile = () => {
     setmain(true)
   }
 
+  // navigate to vaccine shedule page
+  const vaccineShedule = () => {
+    navigate("/vaccine")
+  }
+
 
 
 
@@ -193,8 +198,9 @@ const PetProfile = () => {
 
       {main && (
         <>
-          <div style={{ paddingLeft: '85%' }}>
-            <Button sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }} onClick={addMedical}>Add Medical Reports</Button>
+          <div style={{ display:'flex', flexDirection:'row', justifyContent:'space-between', marginLeft:'2%', marginRight:'2%' }}>
+            <Button sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }}} onClick={vaccineShedule} >Vaccination Shedule</Button>
+            <Button sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' }}} onClick={addMedical}>Add Vaccine Records </Button>
           </div>
 
           <div style={{ padding: '2%' }}>
@@ -256,7 +262,7 @@ const PetProfile = () => {
 
           <Typography variant="h6" sx={{ textAlign: 'center', fontWeight: 'bold' }}>Adding Medical Reports</Typography>
           <hr />
-          <InputLabel sx={{textAlign:'center'}}><span style={{color:'red'}}>**</span>Here display only pet ids from medi appointments</InputLabel>
+          <InputLabel sx={{ textAlign: 'center' }}><span style={{ color: 'red' }}>**</span>Here display only pet ids from medi appointments</InputLabel>
 
           <div style={{ marginBottom: '1%', marginTop: '1%' }}>
             <FormControl sx={{ minWidth: 120, width: '100%' }}>
@@ -274,15 +280,21 @@ const PetProfile = () => {
                     {menu.pet_id}
                   </MenuItem>
                 ))}
-
-
               </Select>
             </FormControl>
           </div>
 
-          {/* date should save in the db */}
+          {/* vaccnie id - name
+          date
+           */}
+          <div>
 
-          <div style={{ marginBottom: '1%', marginTop: '1%' }}>
+
+          </div>
+
+
+
+          {/* <div style={{ marginBottom: '1%', marginTop: '1%' }}>
             <FormControl>
               <Typography>Upload Medical Files :</Typography>
               <div>
@@ -297,7 +309,7 @@ const PetProfile = () => {
                 </Button>
               </div>
             </FormControl>
-          </div>
+          </div> */}
 
           <div style={{ marginTop: '3%', }}>
             <Button sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' }, width: '30%', marginLeft: '35%' }}>Submit</Button>

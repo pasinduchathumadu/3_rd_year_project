@@ -95,6 +95,7 @@ import ViewMedical from "./pages/Client/ViewMedical";
 
 import ActivityTracking from "./pages/Client/ActivityTracking";
 import Reports from "./pages/Client/Reports";
+import Vaccine from "./pages/Medi-help_manager/AddVaccine";
 // ----------
 // sidebar icons
 import HomeIcon from "@mui/icons-material/Home"; //dashboard
@@ -610,6 +611,15 @@ function App() {
                   <>
                     <HomeHeader userRole={"medi_help_manager"} />
                     <ManagerProfile />
+                  </>
+                }
+              />
+             <Route
+                path="/vaccine"
+                element={
+                  <>
+                    <HomeHeader userRole={"medi_help_manager"} />
+                    <Vaccine />
                   </>
                 }
               />

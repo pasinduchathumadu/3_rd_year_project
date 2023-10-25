@@ -1,7 +1,5 @@
 import express from "express";
-
-import { get_medi, leave, set_count, setprice,add_complain,viewmyComplains,viewClientsComplains,complainDetails,addingResponse,deleteMyComplain,add_vet,systemDoctors ,pendingRequest,completedBox,pendingBox,PendingAppointments,get_pets, completedAppointments,PendingtoCompeleted,PendingtoUncompeleted, complainsCount,addMedical} from "../controllers/doctor-controllers";
-
+import { get_medi, leave, set_count, setprice,add_complain,viewmyComplains,viewClientsComplains,complainDetails,addingResponse,deleteMyComplain,add_vet,systemDoctors ,pendingRequest,completedBox,pendingBox,PendingAppointments,get_pets, completedAppointments,PendingtoCompeleted,PendingtoUncompeleted, complainsCount,addMedical, submitNewVaccine, DogVaccine, CatVaccine, deleteVaccine, getDetailsforUpdate, updateVaccine} from "../controllers/doctor-controllers";
 
 const medi_help_manager = express.Router()
 medi_help_manager.get('/get_pets/:email',get_pets)
@@ -34,6 +32,13 @@ medi_help_manager.get('/pending1/:id',PendingtoUncompeleted)
 
 // pet profiles
 medi_help_manager.get('/addMedical',addMedical) 
+medi_help_manager.post('/submitNewVaccine',submitNewVaccine) 
+medi_help_manager.get('/DogVaccine',DogVaccine) 
+medi_help_manager.get('/CatVaccine',CatVaccine) 
+medi_help_manager.get('/deleteVaccine/:id',deleteVaccine) 
+medi_help_manager.get('/getDetailsforUpdate/:id',getDetailsforUpdate) 
+medi_help_manager.post('/updateVaccine',updateVaccine) 
+
 
 
 
