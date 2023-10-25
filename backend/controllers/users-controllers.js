@@ -864,6 +864,7 @@ export const addpet = async (req, res, next) => {
     name,
     breed,
     petsex,
+    image
   } = req.body;
 
   try {
@@ -889,14 +890,15 @@ export const addpet = async (req, res, next) => {
         return res.json({ message: "There is an internal error" })
       }
       // id = data[0].client_id;
-      const sqlQuery = 'INSERT INTO pet (client_id, breed, name,  category, sex) VALUES(?,?,?,?,?)';
+      const sqlQuery = 'INSERT INTO pet (client_id, breed, name,  category, sex,image) VALUES(?,?,?,?,?,?)';
       const values = [
         data[0].client_id,
         breed,
         name,
 
         OriginalCategory,
-        OriginalSex
+        OriginalSex,
+        image
       ];
 
       db.query(sqlQuery, values, (err, data) => {
@@ -1810,6 +1812,8 @@ export const submitAddForm = async (req, res, next) => {
     sex,
     category,
     price,
+    image
+
   } = req.body;
 
   try {
@@ -1827,8 +1831,8 @@ export const submitAddForm = async (req, res, next) => {
       newSex = "Female"
     }
 
-    const sqlQuery = 'INSERT INTO pets_buy_and_sell (email, breed, category, sex, price) VALUES (?,?,?,?,?)'
-    const values = [email, breed, newCategory, newSex, price]
+    const sqlQuery = 'INSERT INTO pets_buy_and_sell (email, breed, category, sex, price,image) VALUES (?,?,?,?,?,?)'
+    const values = [email, breed, newCategory, newSex, price,image]
 
     db.query(sqlQuery, values, (err, data) => {
       if (err) {

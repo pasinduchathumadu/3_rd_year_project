@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import { FormControl, InputLabel, TextField, Typography, Button, IconButton, MenuItem, Select, Card, CardActionArea, CardContent, CardMedia, Stack, Alert } from "@mui/material";
 import React, { useEffect, useState } from 'react';
 import AddBackgroundImage from '../../assests/pet_add.jpeg';
@@ -9,18 +10,24 @@ import PetsIcon from '@mui/icons-material/Pets';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloseIcon from '@mui/icons-material/Close';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
-
+import { useNavigate } from "react-router-dom";
 
 const AddPets = () => {
     const [error, seterror] = useState(false);
-    // const [success, setsuccess] = useState(false);
+    const navigate = useNavigate();
     const [message, setmessage] = useState("")
     const [name, setname] = useState("");
     const [breed, setbreed] = useState("");
     const [petcategory, setpetcategory] = useState("");
     const [petsex, setpetsex] = useState("");
     const [viewpet, setviewpet] = useState([]);
-
+    const [selectfile, setfile] = useState(null)
+    const [image, setimage] = useState("")
+    const handlefilechange = async (event) => {
+        const file = event.target.files[0]
+        setfile(file)
+        setimage(file.name)
+    }
     const handleChangeCategory = (event) => {
         setpetcategory(event.target.value)
 
@@ -40,7 +47,31 @@ const AddPets = () => {
         setmain(false)
         setaddpets(true)
     }
+    const handleFileUpload = async () => {
+        seterror(false)
 
+
+
+        try {
+            const formData = new FormData();
+            formData.append("image", selectfile);
+
+            const res = await axios.post("http://localhost:5000/pet_care/user/upload", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            if (res.data.message === "File uploaded successfully") {
+                addpet();
+            }
+
+            console.log("File uploaded successfully!");
+            // Add any further handling of the response from the backend if needed.
+
+        } catch (err) {
+            console.log("There is an internal error", err);
+        }
+    }
     // pet adding
     const addpet = async () => {
         if (petcategory === "" || name === "" || breed === "" || petsex === "") {
@@ -55,14 +86,14 @@ const AddPets = () => {
                 name,
                 breed,
                 petsex,
+                image
             })
 
             if (res.data.message === 'There is an internal error') {
                 setmessage('Internal error')
                 seterror(true)
             } else if (res.data.message === 'success') {
-                setmain(true)
-                setaddpets(false)
+               navigate('/dashboard')
             }
         } catch (err) {
             console.log('There is an internal error')
@@ -181,14 +212,14 @@ const AddPets = () => {
                                         </Card>
                                     ))
                                 ) : (
-                                <div style={{ margin: '3%', backgroundColor: 'white', padding: '2%', borderRadius: '10px', width:'100%' }}>
-                                    <Typography sx={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold', color: 'black' }}><AnnouncementIcon sx={{ marginRight: '1%', color: 'orange' }} />No Added Pets</Typography>
-                                    <hr />
-                                    <img 
-                                        src={getImageSrc("nodata.png")}
-                                        style={{width:'15%', height:'auto', marginLeft:'42%'}}
-                                    />
-                                </div>
+                                    <div style={{ margin: '3%', backgroundColor: 'white', padding: '2%', borderRadius: '10px', width: '100%' }}>
+                                        <Typography sx={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold', color: 'black' }}><AnnouncementIcon sx={{ marginRight: '1%', color: 'orange' }} />No Added Pets</Typography>
+                                        <hr />
+                                        <img
+                                            src={getImageSrc("nodata.png")}
+                                            style={{ width: '15%', height: 'auto', marginLeft: '42%' }}
+                                        />
+                                    </div>
                                 )}
                             </div>
                         </div>
@@ -294,24 +325,25 @@ const AddPets = () => {
                                         sx={{ width: '100%' }}
                                     >
                                         Upload File
-                                        <input type="file" hidden required />
+                                        <input type="file" hidden onChange={handlefilechange} required />
                                     </Button>
+                                    <div style={{ display: 'inline', paddingTop: '6px', paddingLeft: '7px' }}>
+                                        {selectfile && (
+                                            <Typography sx={{color:'black'}}>{selectfile.name}</Typography>
 
+                                        )}
+                                    </div>
                                 </div>
 
                                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '10px', marginBottom: '10px' }}>
-                                    <Button variant="contained" sx={{ background: "orange", marginTop: '1%', marginLeft: '30%', ':hover': { backgroundColor: "#fe9e0d" }, width: '40%' }} onClick={() => addpet()}>Submit</Button>
+                                    <Button variant="contained" sx={{ background: "orange", marginTop: '1%', marginLeft: '30%', ':hover': { backgroundColor: "#fe9e0d" }, width: '40%' }} onClick={handleFileUpload}>Submit</Button>
                                 </div>
                                 {error && (
                                     <Stack sx={{ width: '100%' }} spacing={2}>
                                         <Alert severity="error">{message}</Alert>
                                     </Stack>
                                 )}
-                                {/* {success && (
-                                    <Stack sx={{ width: '100%' }} spacing={2}>
-                                        <Alert severity="success">{message}</Alert>
-                                    </Stack>
-                                )} */}
+
                             </FormControl>
                         </div>
                     </>
@@ -346,7 +378,7 @@ const AddPets = () => {
                                 <Typography sx={{ textAlign: 'center' }}>Confirm Remove? </Typography>
                                 <hr /><br />
 
-                                <div style={{ display: 'flex', flexDirection: 'row', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                                <div style={{ display: 'flex', flexDirection: 'row',  justifyContent: 'space-evenly' }}>
                                     <Button onClick={deletePet} sx={{ backgroundColor: 'orange', color: 'white', margin: '10px', ':hover': { backgroundColor: 'orange' } }}>Confirm</Button>
                                     <Button onClick={cancelDelete} sx={{ backgroundColor: 'red', color: 'white', margin: '10px', ':hover': { backgroundColor: 'red' } }}>Cancel</Button>
                                 </div>
