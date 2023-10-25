@@ -1,5 +1,7 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect, useState } from 'react'
 import "../../styles/Client/Shop.css"
+import pay from "../../assests/pay1.jpg"
 import { Alert, IconButton, Tab, Typography, Card, CardActionArea, CardContent, CardMedia, Button, InputLabel, TextField, Select, FormControl, MenuItem, Box } from "@mui/material"
 import { Tabs } from "@mui/material"
 import ViewBackgroundImage from '../../assests/viewpets.png'
@@ -11,11 +13,55 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
-
+import { useNavigate } from "react-router-dom";
+import StripeCheckout from "react-stripe-checkout"
 export const Shop = () => {
+  const navigate = useNavigate();
   const email = localStorage.getItem("client_email")
-
+  const [second, setsecond] = useState(false)
+  const [main , setmain ] = useState(true)
+  const [payment_charge, setprice1] = useState("")
   const [page, setpage] = useState(0); //main page
+  const [selectfile, setfile] = useState(null)
+  const [image, setimage] = useState("")
+
+  const confirm = async () => {
+    try {
+      await axios.get(`http://localhost:5000/pet_care/user/confirm/${email}`);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const handlefilechange = async (event) => {
+    const file = event.target.files[0]
+    setfile(file)
+    setimage(file.name)
+  }
+  const handleFileUpload = async () => {
+    seterror(false)
+
+
+
+    try {
+      const formData = new FormData();
+      formData.append("image", selectfile);
+
+      const res = await axios.post("http://localhost:5000/pet_care/user/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      if (res.data.message === "File uploaded successfully") {
+        submitAddForm();
+      }
+
+      console.log("File uploaded successfully!");
+      // Add any further handling of the response from the backend if needed.
+
+    } catch (err) {
+      console.log("There is an internal error", err);
+    }
+  }
   const handleForm = (event, existing_value) => {
     setpage(existing_value)
   };
@@ -23,7 +69,63 @@ export const Shop = () => {
   const getImageSrc = (imageName) => {
     return require(`../../../../backend/images/store/${imageName}`)
   }
+  const buy = async (price) => {
+    try {
+      setmain(false)
+      setsecond(true)
+      setpage(false)
+      setaddpets(false)
+      setupdate(false)
+      setwarn(false)
+      setprice1(price)
+      await axios.get(`http://localhost:5000/pet_care/user/confirm/${id}`);
+    
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const [product] = useState({
+    name: "React from FB",
+    price: payment_charge,
+    productBy: "facebook",
+  });
 
+  const makePayment = async (token) => {
+    const body = {
+      token,
+      product,
+    };
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/pet_care/payment/card",
+        {
+          body,
+          headers,
+        }
+      );
+      if (res.data.message === "success") {
+        navigate('/shop')
+        console.log("success")
+       
+      }
+      else {
+        console.log("failed")
+        navigate('/shop')
+      }
+    } catch (err) {
+      navigate('/shop')
+      console.log("failed")
+
+    }
+
+  }
+  const back = async () => {
+    navigate('/dashboard')
+    
+  };
   // VIEW PETS FOR BUYING
   const [buypet, setbuypet] = useState("")
   const viewBuyPets = async () => {
@@ -104,7 +206,8 @@ export const Shop = () => {
         breed,
         sex,
         category,
-        price
+        price,
+        image
       })
       if (res.data.message === 'There is an internal error') {
         setmessage('Internal error')
@@ -201,18 +304,18 @@ export const Shop = () => {
   // confirm deletion
   const [error2, seterror2] = useState(false)
   const [message2, setmessage2] = useState("")
-  const deleteSellPet = async() => {
+  const deleteSellPet = async () => {
     try {
       const res = await axios.get(`http://localhost:5000/pet_care/user/deleteSellPet/${id2}`)
-      if(res.data.message === 'There is an internal error') {
+      if (res.data.message === 'There is an internal error') {
         seterror2(true)
         setmessage2('There is an internal error')
-      }else {
+      } else {
         setwarn(false)
         setpage(1)
         seterror2(false)
       }
-    }catch(err) {
+    } catch (err) {
       console.log(err)
     }
   }
@@ -225,7 +328,9 @@ export const Shop = () => {
 
 
   return (
-    <div style={{ marginTop: '4%' }}>
+
+    <><div style={{ marginTop: '4%' }}>
+
       <div style={{
         backgroundImage: `url(${ViewBackgroundImage})`,
         backgroundSize: 'cover',
@@ -238,20 +343,23 @@ export const Shop = () => {
       }}>
         <Typography sx={{ position: 'absolute', color: 'white', fontSize: '50px', padding: '20px', borderRadius: '10px', fontWeight: "30", marginBottom: '8%', marginLeft: '30%' }}>Buy and Sell Your Pets</Typography>
       </div>
+      {main && (
+        <Box sx={{ width: '98%', marginTop: '10px', marginBottom: '10px', marginLeft: '20px', marginRight: '10px', paddingRight: '10px', paddingLeft: '10px' }}>
+          <Tabs
+            value={page}
+            variant="fullWidth"
+            aria-label="Tab Component"
+            onChange={handleForm}
+            indicatorColor="transparent"
+            sx={{ borderRadius: '10px' }}
+          >
+            <Tab sx={{ backgroundColor: page === 0 ? 'orange' : '#F0F0F5', color: 'black' }} label="Buy Pets"></Tab>
+            <Tab sx={{ backgroundColor: page === 1 ? 'orange' : '#F0F0F5', color: 'black' }} label="Sell Pets"></Tab>
+          </Tabs>
+        </Box>
 
-      <Box sx={{ width: '98%', marginTop: '10px', marginBottom: '10px', marginLeft: '20px', marginRight: '10px', paddingRight: '10px', paddingLeft: '10px' }}>
-        <Tabs
-          value={page}
-          variant="fullWidth"
-          aria-label="Tab Component"
-          onChange={handleForm}
-          indicatorColor="transparent"
-          sx={{ borderRadius: '10px' }}
-        >
-          <Tab sx={{ backgroundColor: page === 0 ? 'orange' : '#F0F0F5', color: 'black' }} label="Buy Pets" ></Tab>
-          <Tab sx={{ backgroundColor: page === 1 ? 'orange' : '#F0F0F5', color: 'black' }} label="Sell Pets"></Tab>
-        </Tabs>
-      </Box>
+      )}
+
 
       {page === 0 && (
         <div style={{ marginLeft: '3%', marginRight: '3%', backgroundColor: '#f0f0f5', borderRadius: '10px', padding: '1%' }}>
@@ -276,7 +384,7 @@ export const Shop = () => {
                         Rs. {menu.price}.00
                       </Typography>
                       <Typography variant="body2" sx={{ textAlign: 'center' }}>Owner: {menu.first_name}{" "}{menu.last_name}</Typography><br />
-                      <Button sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' }, padding: '2%', width: '50%', marginLeft: '23%' }}>Buy</Button>
+                      <Button onClick={() => buy(menu.price)} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' }, padding: '2%', width: '50%', marginLeft: '23%' }}>Buy</Button>
                     </CardContent>
                   </CardActionArea>
                 </Card>
@@ -287,8 +395,7 @@ export const Shop = () => {
                 <hr />
                 <img
                   src={getImageSrc("nodata.png")}
-                  style={{ width: '15%', height: 'auto', marginLeft: '42%' }}
-                />
+                  style={{ width: '15%', height: 'auto', marginLeft: '42%' }} />
               </div>
             )}
           </div>
@@ -299,7 +406,7 @@ export const Shop = () => {
       {page === 1 && (
         <>
           <div style={{ marginTop: '1%', marginBottom: '10px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '3%', marginRight: '3%' }}>
-            <Button onClick={addnewpets} sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }} >Add New Pets<AddIcon /></Button>
+            <Button onClick={addnewpets} sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }}>Add New Pets<AddIcon /></Button>
             <Box sx={{ width: '150px' }}>
               <FormControl fullWidth>
                 <Select
@@ -334,7 +441,7 @@ export const Shop = () => {
                             (
                               <>
                                 <IconButton onClick={() => openUpdateForm(menu.pet_id)}><EditIcon sx={{ color: 'black' }} /></IconButton>
-                                <IconButton onClick={() => displayWarnBox(menu.pet_id)} ><DeleteIcon sx={{ color: 'red' }} /></IconButton>
+                                <IconButton onClick={() => displayWarnBox(menu.pet_id)}><DeleteIcon sx={{ color: 'red' }} /></IconButton>
                               </>
                             ) :
                             ("")}
@@ -353,8 +460,7 @@ export const Shop = () => {
                           <Button sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' }, padding: '2%', width: '50%', marginLeft: '23%' }}>Pending</Button>) :
                           (
                             <Button sx={{ backgroundColor: 'orange', color: 'white', ':hover': { backgroundColor: 'orange' }, padding: '2%', width: '50%', marginLeft: '23%' }}>Sold</Button>
-                          )
-                        }
+                          )}
                       </CardContent>
                     </CardActionArea>
                   </Card>
@@ -365,8 +471,7 @@ export const Shop = () => {
                   <hr />
                   <img
                     src={getImageSrc("nodata.png")}
-                    style={{ width: '15%', height: 'auto', marginLeft: '42%' }}
-                  />
+                    style={{ width: '15%', height: 'auto', marginLeft: '42%' }} />
                 </div>
               )}
             </div>
@@ -414,8 +519,7 @@ export const Shop = () => {
                   placeholder="breed"
                   multiline
                   onChange={(e) => setbreed(e.target.value)}
-                  sx={{ width: '100%' }}
-                />
+                  sx={{ width: '100%' }} />
               </div>
 
               <div style={{ marginBottom: '3%' }}>
@@ -466,8 +570,7 @@ export const Shop = () => {
                   placeholder="price"
                   multiline
                   onChange={(e) => setprice(e.target.value)}
-                  sx={{ width: '100%' }}
-                />
+                  sx={{ width: '100%' }} />
               </div>
 
               <div>
@@ -478,13 +581,19 @@ export const Shop = () => {
                   sx={{ width: '100%' }}
                 >
                   Upload File
-                  <input type="file" hidden required />
+                  <input type="file" hidden onChange={handlefilechange} required />
                 </Button>
+                <div style={{ display: 'inline', paddingTop: '6px', paddingLeft: '7px' }}>
+                  {selectfile && (
+                    <Typography sx={{ color: 'black' }}>{selectfile.name}</Typography>
+
+                  )}
+                </div>
 
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '10px', marginBottom: '10px' }}>
-                <Button onClick={() => submitAddForm()} variant="contained" sx={{ background: "orange", marginTop: '1%', marginLeft: '30%', ':hover': { backgroundColor: "#fe9e0d" }, width: '40%' }} >Submit</Button>
+                <Button onClick={handleFileUpload} variant="contained" sx={{ background: "orange", marginTop: '1%', marginLeft: '30%', ':hover': { backgroundColor: "#fe9e0d" }, width: '40%' }}>Submit</Button>
               </div>
               {error && (
                 <Stack sx={{ width: '100%' }} spacing={2}>
@@ -547,8 +656,7 @@ export const Shop = () => {
                       defaultValue={row.pet_id}
                       InputProps={{
                         readOnly: true,
-                      }}
-                    />
+                      }} />
                   </div>
 
                   <div style={{ marginBottom: '3%', display: 'flex', flexDirection: 'column' }}>
@@ -557,12 +665,11 @@ export const Shop = () => {
                       type="number"
                       id="outlined-helperText"
                       defaultValue={row.price}
-                      onChange={(e) => setnewprice(e.target.value)}
-                    />
+                      onChange={(e) => setnewprice(e.target.value)} />
                   </div>
 
                   <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '10px', marginBottom: '10px' }}>
-                    <Button onClick={() => submitUpdateForm(row.pet_id)} variant="contained" sx={{ background: "orange", marginTop: '1%', marginLeft: '30%', ':hover': { backgroundColor: "#fe9e0d" }, width: '40%' }} >Submit</Button>
+                    <Button onClick={() => submitUpdateForm(row.pet_id)} variant="contained" sx={{ background: "orange", marginTop: '1%', marginLeft: '30%', ':hover': { backgroundColor: "#fe9e0d" }, width: '40%' }}>Submit</Button>
                   </div>
                   {error1 && (
                     <Stack sx={{ width: '100%' }} spacing={2}>
@@ -592,7 +699,6 @@ export const Shop = () => {
           alignItems: 'center',
           marginRight: '300px',
           zIndex: 1001,
-         
         }}>
           <div style={{ backgroundColor: 'black', padding: '10px' }}>
             <div style={{
@@ -606,7 +712,7 @@ export const Shop = () => {
               <Typography sx={{ textAlign: 'center' }}>Confirm Remove? </Typography>
               <hr /><br />
 
-              <div style={{ display: 'flex', flexDirection: 'row', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
                 <Button onClick={deleteSellPet} sx={{ backgroundColor: 'orange', color: 'white', margin: '10px', ':hover': { backgroundColor: 'orange' } }}>Confirm</Button>
                 {/* <Button  sx={{ backgroundColor: 'orange', color: 'white', margin: '10px', ':hover': { backgroundColor: 'orange' } }}>Confirm</Button> */}
                 <Button onClick={cancelDelete} sx={{ backgroundColor: 'red', color: 'white', margin: '10px', ':hover': { backgroundColor: 'red' } }}>Cancel</Button>
@@ -617,5 +723,79 @@ export const Shop = () => {
       )}
 
     </div>
+      {second && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundImage: `url(${pay})`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            width: "100%",
+            height: "100vh",
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "rgba(0, 0, 0, 0.7)",
+              padding: "20px",
+              borderRadius: "10px",
+              textAlign: "center",
+            }}
+          >
+            <Typography variant="h6" sx={{ color: "white", marginBottom: "20px" }}>
+              Are you sure?
+            </Typography>
+            <StripeCheckout
+              stripeKey="pk_test_51NGJbtSDLfwYkCbGu6RR8Pf0Pj8KoKTEdIogc7wKKhMBsoEzaoLuwmukYs8Tc6GF8YqvdXJ7AYzk5ktxfByXN1Wk00elCyMdCm"
+              token={makePayment}
+              name="Buy React"
+              amount={product.price}
+              shippingAddress
+            >
+              <Stack justifyContent={"center"} alignItems={"center"} direction={"row"} spacing={2}>
+
+                <Button
+                  onClick={confirm}
+                  variant="contained"
+                  sx={{
+                    width: "300px",
+                    height: "50px",
+                    backgroundColor: "black",
+                    marginTop: "10px",
+                    paddingLeft: "15px",
+                    marginLeft: '1%',
+                    fontSize: "16px",
+                    "&:hover": { backgroundColor: "black" },
+                  }}
+                >
+                  Confirm (Rs.{payment_charge})
+                </Button>
+               </Stack>
+
+            </StripeCheckout>
+            <Button
+                  onClick={back}
+                  variant="contained"
+                  sx={{
+                    width: "300px",
+                    height: "50px",
+                    backgroundColor: "red",
+
+                    fontSize: "16px",
+                    "&:hover": { backgroundColor: "red" },
+                    marginTop: "10px",
+                  }}
+                >
+                  Cancel
+                </Button>           
+
+          </div>
+        </div>
+
+      )}
+    </>
   )
 }

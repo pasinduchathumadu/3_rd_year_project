@@ -19,9 +19,9 @@ export const blog = async (req, res, next) => {
 
 export const myblog = async (req, res, next) => {
     const email = req.params.email
-
-    const sqlQuery = "select *from client_post WHERE client_email = ?"
-    const value = [email]
+    const status = "pending"
+    const sqlQuery = "select *from client_post WHERE client_email = ? and blog_status != ?"
+    const value = [email,status]
 
     db.query(sqlQuery, value, (err, data) => {
         if (err) {
