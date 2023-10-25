@@ -473,3 +473,113 @@ export const addMedical = async(req,res,next) => {
     })
 }
 
+// add new vaccine to schedule
+export const submitNewVaccine = async(req,res,next) => {
+    const {
+        name,
+        category,
+        time,
+    } = req.body;
+
+    try {
+        var originalCategory = ""
+        if(category === 10) {
+            originalCategory = "Cat"
+        }else if(category === 20) {
+            originalCategory = "Dog"
+        }
+
+        const sqlQuery = 'INSERT INTO vaccine_details(name, category, period) VALUES(?, ?, ?)'
+        const values = [name, originalCategory, time]
+
+        db.query(sqlQuery, values,(err,data) => {
+            if(err){
+                return res.json({message:'There is an internal error'})
+            }
+            return res.json({message:'success'})
+        })
+    }catch(err){
+        console.log(err)
+    }  
+}
+
+// view dogs vaccine shedules
+export const DogVaccine = async(req,res,next) => {
+    const category = "Dog"
+    const sqlQuery = 'SELECT * FROM vaccine_details WHERE category = ?'
+    const values = [category]
+
+    db.query(sqlQuery, values, (err, data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+// view cats vaccine shedules
+export const CatVaccine = async(req,res,next) => {
+    const category = "Cat"
+    const sqlQuery = 'SELECT * FROM vaccine_details WHERE category = ?'
+    const values = [category]
+
+    db.query(sqlQuery, values, (err, data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+// delete a vaccine
+export const deleteVaccine = async(req,res,next) => {
+    const id = req.params.id
+    const sqlQuery = 'DELETE FROM vaccine_details WHERE vaccine_id = ?'
+    const values = [id]
+
+    db.query(sqlQuery, values, (err, data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({message:'Deleted'})
+    })
+
+}
+
+// get details for update form
+export const getDetailsforUpdate =async(req,res,next) => {
+    const id = req.params.id
+    const sqlQuery = 'SELECT * FROM vaccine_details WHERE vaccine_id = ?'
+    const values = [id]
+     db.query(sqlQuery, values, (err,data) => {
+         if(err) {
+             return res.json({message:'There is an internal error'})
+         }
+         return res.json({data})
+     })
+}
+
+// update vaccine form
+export const updateVaccine = async(req,res,next) => {
+    const {
+        id,
+        newtime,
+    } = req.body;
+
+    try {
+        const sqlQuery = 'UPDATE vaccine_details SET period = ? WHERE vaccine_id = ?'
+        const values = [newtime, id]
+
+        db.query(sqlQuery, values, (err, data) => {
+            if(err){
+                return res.json({message:'There is an internal error'})
+            }
+            return res.json({message:'success'})
+        })
+
+    }catch(err) {
+        console.log(err)
+    }
+}
+
+
