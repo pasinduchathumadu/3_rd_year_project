@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import '../../styles/Medi-help_manager/PetProfile.css';
 import DeletePet from "./DeletePet";
@@ -21,6 +21,8 @@ import Paper from '@mui/material/Paper';
 import { FormControl } from "@mui/base";
 import CloseIcon from '@mui/icons-material/Close';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import pdficon from '../../assests/pdficon.png'
+import axios from "axios";
 
 
 const PetProfile = () => {
@@ -82,13 +84,44 @@ const PetProfile = () => {
   const [add, setadd] = useState(false)
   const [nextVaccine, setnextVaccine] = useState(false)
   const [pastVaccine, setpastVaccine] = useState(false)
+  const [other, setother] = useState(false)
 
-
-  // adding medical reports
-  const addMedical = () => {
-    setmain(false)
-    setadd(true)
+  //get pet ids from medi appointments
+  const [addmedical, setaddmedical] = useState("")
+  const addMedical = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/medi_help_manager/addMedical`)
+      setaddmedical(res.data.data)
+      setmain(false)
+      setadd(true)
+    } catch (err) {
+      console.log('There is an internal error')
+    }
   }
+  // submit add medical reports box
+  const [selectpetid, setselectpetid] = useState("")
+  const [message, setmessage] = useState("")
+  const [error, seterror] = useState(false)
+  const handlepetid = (event) => {
+    setselectpetid(event.target.value)
+  }
+  const submitAddMedical = async () => {
+    try {
+      const res = await axios.post(`http://localhost:5000/pet_care/medi_help_manager/submitAddMedical`, {
+        selectpetid
+      })
+      if (res.data.message === 'There is an internal error') {
+        setmessage('Internal error')
+        seterror(true)
+      } else if (res.data.message === 'success') {
+        setmain(true)
+        setaddmedical(false)
+      }
+    } catch (err) {
+      console.log('There is an internal error')
+    }
+  }
+
 
 
   // cancel adding medical reports
@@ -120,6 +153,19 @@ const PetProfile = () => {
     setpastVaccine(false)
     setmain(true)
   }
+
+  // open other medical rpeorts box
+  const openOther = () => {
+    setother(true)
+    setmain(false)
+  }
+
+  // close other medical reports box
+  const closeOther = () => {
+    setother(false)
+    setmain(true)
+  }
+
 
 
 
@@ -175,7 +221,7 @@ const PetProfile = () => {
                       <Button onClick={pastVaccinationDetails} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' }, width: '40%' }}>View</Button>
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      <Button>Medical Reports</Button>
+                      <Button onClick={openOther} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' } }}>Medical Reports</Button>
                     </StyledTableCell>
                   </StyledTableRow>
                 </TableBody>
@@ -210,6 +256,7 @@ const PetProfile = () => {
 
           <Typography variant="h6" sx={{ textAlign: 'center', fontWeight: 'bold' }}>Adding Medical Reports</Typography>
           <hr />
+          <InputLabel sx={{textAlign:'center'}}><span style={{color:'red'}}>**</span>Here display only pet ids from medi appointments</InputLabel>
 
           <div style={{ marginBottom: '1%', marginTop: '1%' }}>
             <FormControl sx={{ minWidth: 120, width: '100%' }}>
@@ -217,16 +264,18 @@ const PetProfile = () => {
               <Select
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
-                // value={petcategory}
+                value={addmedical}
                 // onChange={handleChangeCategory}
                 label="Pet Category"
                 sx={{ width: '50%' }}
               >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>Cat</MenuItem>
-                <MenuItem value={20}>Dog</MenuItem>
+                {addmedical && addmedical.map((menu, index) => (
+                  <MenuItem key={index} value={menu.appointment_id}>
+                    {menu.pet_id}
+                  </MenuItem>
+                ))}
+
+
               </Select>
             </FormControl>
           </div>
@@ -350,7 +399,7 @@ const PetProfile = () => {
                   <StyledTableCell align="center">Date</StyledTableCell>
                 </TableRow>
               </TableHead>
-              
+
               <TableBody>
                 <StyledTableRow>
                   <StyledTableCell align="center">clientrow.complain_id</StyledTableCell>
@@ -364,6 +413,48 @@ const PetProfile = () => {
                 </StyledTableRow>
               </TableBody>
             </Table>
+          </div>
+        </div>
+      )}
+
+
+      {/* other medical reports viewing */}
+      {other && (
+        <div style={{
+          backgroundColor: '#f0f0f5',
+          paddingLeft: '2%',
+          paddingRight: '2%',
+          paddingTop: '1%',
+          paddingBottom: '2%',
+          marginLeft: '28%',
+          marginRight: '3%',
+          marginTop: '2%',
+          width: '40%',
+          borderRadius: '2%'
+        }}
+        >
+          <div style={{ marginLeft: '94%' }}>
+            <IconButton onClick={closeOther}><CloseIcon sx={{
+              backgroundColor: 'red',
+              color: 'white',
+              marginLeft: '80%'
+            }} /></IconButton>
+          </div>
+
+          <Typography variant="h6" sx={{ textAlign: 'center', fontWeight: 'bold' }}>Other Medical Records</Typography>
+          <hr />
+
+          <div style={{ marginBottom: '1%', marginTop: '1%', display: 'flex', flexDirection: 'row' }}>
+            <Typography sx={{ fontWeight: 'bold', marginRight: '1%' }}>Pet ID:  </Typography>
+            <Typography sx={{ fontWeight: 'bold', marginLeft: '1%' }}>34  </Typography>
+          </div>
+          <hr />
+
+          <div style={{ marginBottom: '1%', marginTop: '2%', marginLeft: '5%' }}>
+            <img src={pdficon} style={{ width: '10%', marginRight: '2%' }} />
+            <img src={pdficon} style={{ width: '10%', marginRight: '2%' }} />
+            <img src={pdficon} style={{ width: '10%', marginRight: '2%' }} />
+
           </div>
         </div>
       )}

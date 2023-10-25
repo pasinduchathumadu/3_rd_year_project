@@ -460,3 +460,16 @@ export const PendingtoUncompeleted = async(req,res,next) => {
     })
 }
 
+// PET PROFILES MAINTAINING
+// get pet ids
+export const addMedical = async(req,res,next) => {
+    const sqlQuery = 'SELECT DISTINCT pet_id FROM medi_appointment'
+
+    db.query(sqlQuery, (err, data) => {
+        if(err){
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+

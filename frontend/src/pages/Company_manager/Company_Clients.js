@@ -9,16 +9,16 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ProfilePicture from "../../assests/profile-picture.png";
 import { Button, Stack } from "@mui/material";
-
+import StarRateIcon from '@mui/icons-material/StarRate';
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import { format } from 'date-fns';
 
 
 function Company_Clients() {
@@ -35,6 +35,12 @@ function Company_Clients() {
 
   const date = new Date()
   const currentdate = date.toDateString();
+
+  // const currentDate = new Date()
+  const date_today = format(date, 'yyy-MM-dd')
+  const monthBeforeFromToday = new Date()
+  monthBeforeFromToday.setDate(date.getDate() -30)
+  const date_month = format(monthBeforeFromToday, 'yyy-MM-dd')
 
   // const [selectedTab, setSelectedTab] = useState(0);
 
@@ -61,15 +67,6 @@ function Company_Clients() {
       border: 0,
     },
   }));
-
-  // function createData(id, name, payment, category, pcategory) {
-  //   return { id, name, payment, category, pcategory };
-  // }
-
-  // const rows = [
-  //   createData("1", "Gayan Sandamal", "1000", "premium", "pending"),
-  //   createData("2", "Malik Dias", "2000", "gold", "pending"),
-  // ];
 
   //modal
   const [open, setOpen] = React.useState(false);
@@ -127,7 +124,7 @@ function Company_Clients() {
       <Box padding={2}>
         <Box padding={2}>
           <div style={{ marginBottom: '1%' }}>
-            <Typography>Considered Time Period : </Typography>
+            <Typography>Considered Time Period :- <span sx={{fontWeight:'bold'}}>{date_month} - {date_today}</span> </Typography>
           </div>
 
           <TableContainer component={Paper}>
@@ -151,7 +148,8 @@ function Company_Clients() {
                     <StyledTableCell align="center">{menu.order_email}</StyledTableCell>
                     <StyledTableCell align="center">{menu.order_count}</StyledTableCell>
                     <StyledTableCell align="center">{menu.total_amount}.00</StyledTableCell>
-                    <StyledTableCell align="center"></StyledTableCell>
+                    <StyledTableCell align="center"><StarRateIcon sx={{color:'orange', marginRight:'1%'}} />{menu.status}</StyledTableCell>
+                   
                   </StyledTableRow>
                 ))}
 

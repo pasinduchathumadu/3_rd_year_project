@@ -14,11 +14,13 @@ import { styled } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom";
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
+import { format } from 'date-fns';
+
 const Bill = () => {
     const navigate = useNavigate("")
-    const input = new Date()
-    const date = input.toDateString()
-    const time = input.toLocaleTimeString()
+    const currentDate = new Date()
+    const date = format(currentDate, 'yyy-MM-dd')
+    const time = currentDate.toLocaleTimeString()
     const [delivery ,setdelivery ] = useState("")
     const [card,setcard] = useState("")
     const [shipping , setshipping] = useState("")
