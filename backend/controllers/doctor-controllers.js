@@ -354,6 +354,21 @@ export const completedBox = async (req, res, next) => {
     })
 }
 
+export const complainsCount = async(req,res, next) => {
+    const status1 = 'pending'
+    const status2 = 'completed'
+    const role = 'medi_help_manager'
+    const sqlQuery = 'SELECT (SELECT COUNT(complain_id) FROM client_complain WHERE complain_status = ? AND manager_role =? ) AS pendingCount, (SELECT COUNT(complain_id) FROM client_complain WHERE complain_status = ? AND manager_role = ?) AS completedCount'
+    const values = [status1, role, status2, role]
+
+    db.query(sqlQuery, values, (err, data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
 // AAPOINTMENTS
 // pending appointments
 export const PendingAppointments = async(req,res,next) => {
@@ -442,6 +457,19 @@ export const PendingtoUncompeleted = async(req,res,next) => {
             return res.json({message:'There is an internal error'})
         }
         return res.json({message:'uncompleted'})
+    })
+}
+
+// PET PROFILES MAINTAINING
+// get pet ids
+export const addMedical = async(req,res,next) => {
+    const sqlQuery = 'SELECT DISTINCT pet_id FROM medi_appointment'
+
+    db.query(sqlQuery, (err, data) => {
+        if(err){
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
     })
 }
 

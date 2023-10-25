@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import '../../styles/Medi-help_manager/PetProfile.css';
 import DeletePet from "./DeletePet";
@@ -14,10 +14,15 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-
-import {  Button } from "@mui/material";
+import { Button, Typography, MenuItem, Select, InputLabel, IconButton, FormLabel, Box, TextField } from "@mui/material";
 import { useNavigate } from "react-router";
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import Paper from '@mui/material/Paper';
+import { FormControl } from "@mui/base";
+import CloseIcon from '@mui/icons-material/Close';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import pdficon from '../../assests/pdficon.png'
+import axios from "axios";
 
 
 const PetProfile = () => {
@@ -75,6 +80,93 @@ const PetProfile = () => {
 
   }
 
+  const [main, setmain] = useState(true)
+  const [add, setadd] = useState(false)
+  const [nextVaccine, setnextVaccine] = useState(false)
+  const [pastVaccine, setpastVaccine] = useState(false)
+  const [other, setother] = useState(false)
+
+  //get pet ids from medi appointments
+  const [addmedical, setaddmedical] = useState("")
+  const addMedical = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/medi_help_manager/addMedical`)
+      setaddmedical(res.data.data)
+      setmain(false)
+      setadd(true)
+    } catch (err) {
+      console.log('There is an internal error')
+    }
+  }
+  // submit add medical reports box
+  const [selectpetid, setselectpetid] = useState("")
+  const [message, setmessage] = useState("")
+  const [error, seterror] = useState(false)
+  const handlepetid = (event) => {
+    setselectpetid(event.target.value)
+  }
+  const submitAddMedical = async () => {
+    try {
+      const res = await axios.post(`http://localhost:5000/pet_care/medi_help_manager/submitAddMedical`, {
+        selectpetid
+      })
+      if (res.data.message === 'There is an internal error') {
+        setmessage('Internal error')
+        seterror(true)
+      } else if (res.data.message === 'success') {
+        setmain(true)
+        setaddmedical(false)
+      }
+    } catch (err) {
+      console.log('There is an internal error')
+    }
+  }
+
+
+
+  // cancel adding medical reports
+  const cancelAdding = () => {
+    setadd(false)
+    setmain(true)
+  }
+
+  // view next vaccine details
+  const nextVaccineDetails = () => {
+    setnextVaccine(true)
+    setmain(false)
+  }
+
+  // close next vaccination details box
+  const closeNextVaccine = () => {
+    setnextVaccine(false)
+    setmain(true)
+  }
+
+  // view past vaccine details
+  const pastVaccinationDetails = () => {
+    setpastVaccine(true)
+    setmain(false)
+  }
+
+  // close past vaccination details box
+  const closePastVaccination = () => {
+    setpastVaccine(false)
+    setmain(true)
+  }
+
+  // open other medical rpeorts box
+  const openOther = () => {
+    setother(true)
+    setmain(false)
+  }
+
+  // close other medical reports box
+  const closeOther = () => {
+    setother(false)
+    setmain(true)
+  }
+
+
 
 
   return (
@@ -99,67 +191,281 @@ const PetProfile = () => {
         </div>
       </div>
 
-      <div className="col-md-12">
-
-        <div className="card1">
-
-          <div className="card-header">
-
-            {/* <Button sx={{ width: '10%', color: 'black', marginLeft: '78%', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }} onClick={() => setModelOpen(true)} > + Add Pet</Button> */}
-
+      {main && (
+        <>
+          <div style={{ paddingLeft: '85%' }}>
+            <Button sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }} onClick={addMedical}>Add Medical Reports</Button>
           </div>
-          <div >
-            <TableContainer sx={{ marginLeft: '8%', marginRight: '2%', marginTop: '2%' }}>
-              <Table sx={{ minWidth: 700, width: '80%' }} aria-label="customized table">
+
+          <div style={{ padding: '2%' }}>
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell>ID</StyledTableCell>
-                    <StyledTableCell align="right">Species</StyledTableCell>
-                    <StyledTableCell align="right">Pet Name</StyledTableCell>
-                    <StyledTableCell align="right">Owner Name</StyledTableCell>
-                    <StyledTableCell align="right">Phone Number</StyledTableCell>
-                    <StyledTableCell align="right">Add Vaccination</StyledTableCell>
-                    <StyledTableCell align="right">View Vaccination</StyledTableCell>
-                    <StyledTableCell align="right">View PetProfile</StyledTableCell>
-                    <StyledTableCell align="right">Edit</StyledTableCell>
-                    <StyledTableCell align="right">Delete</StyledTableCell>
+                    <StyledTableCell align="center">Pet ID</StyledTableCell>
+                    <StyledTableCell align="center">Client Email Address </StyledTableCell>
+                    <StyledTableCell align="center">Next Vaccination</StyledTableCell>
+                    <StyledTableCell align="center">Past Vaccinations</StyledTableCell>
+                    <StyledTableCell align="center">Other</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map((row) => (
-                    <StyledTableRow key={row.name}>
-                      <StyledTableCell component="th" scope="row">
 
-                      </StyledTableCell>
-
-                      <StyledTableCell align="right"> Dog</StyledTableCell>
-                      <StyledTableCell align="right">Chewy</StyledTableCell>
-                      <StyledTableCell align="right">John Deo</StyledTableCell>
-                      <StyledTableCell align="right">0123456789</StyledTableCell>
-
-                      <StyledTableCell align="right"><Button sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white' }} onClick={() => setModel2Open(true)}>AddVaccines</Button></StyledTableCell>
-                      <StyledTableCell align="right"><Button sx={{ backgroundColor: '#313130', ':hover': { backgroundColor: '#313130' }, color: 'white' }} onClick={() => setModel3Open(true)}>ViewVaccines</Button></StyledTableCell>
-                      <StyledTableCell align="right"><Button sx={{ backgroundColor: '#bbbbbb', ':hover': { backgroundColor: '#bbbbbb' }, color: 'white' }} onClick={() => setModel4Open(true)}>ViewProfile</Button></StyledTableCell>
-                      <StyledTableCell align="right"><Button sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white' }} >Edit</Button></StyledTableCell>
-                      <StyledTableCell align="right"><Button sx={{ backgroundColor: 'black', ':hover': { backgroundColor: 'black' }, color: 'white' }} onClick={() => setShow(true)}>Delete</Button></StyledTableCell>
-
-                    </StyledTableRow>
-                  ))}
+                  <StyledTableRow>
+                    <StyledTableCell align="center">clientrow.complain_id</StyledTableCell>
+                    <StyledTableCell align="center">"clientrow.client_id"</StyledTableCell>
+                    <StyledTableCell align="center">
+                      <Button onClick={nextVaccineDetails} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' }, width: '40%' }}>View</Button>
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <Button onClick={pastVaccinationDetails} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' }, width: '40%' }}>View</Button>
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <Button onClick={openOther} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' } }}>Medical Reports</Button>
+                    </StyledTableCell>
+                  </StyledTableRow>
                 </TableBody>
               </Table>
             </TableContainer>
           </div>
-          {modelOpen && <AddPet />}
-          {model2Open && <AddVaccine />}
-          {model3Open && <ViewVaccine />}
-          {model4Open && <ViewProfile />}
-          {show && <DeletePet />}
+        </>
+      )}
+
+      {add && (
+        <div style={{
+          backgroundColor: '#f0f0f5',
+          paddingLeft: '2%',
+          paddingRight: '2%',
+          paddingTop: '1%',
+          paddingBottom: '2%',
+          marginLeft: '22%',
+          marginRight: '3%',
+          marginTop: '2%',
+          width: '50%',
+          borderRadius: '2%'
+        }}
+        >
+
+          <div style={{ marginLeft: '94%' }}>
+            <IconButton onClick={cancelAdding}><CloseIcon sx={{
+              backgroundColor: 'red',
+              color: 'white',
+              marginLeft: '80%'
+            }} /></IconButton>
+          </div>
+
+          <Typography variant="h6" sx={{ textAlign: 'center', fontWeight: 'bold' }}>Adding Medical Reports</Typography>
+          <hr />
+          <InputLabel sx={{textAlign:'center'}}><span style={{color:'red'}}>**</span>Here display only pet ids from medi appointments</InputLabel>
+
+          <div style={{ marginBottom: '1%', marginTop: '1%' }}>
+            <FormControl sx={{ minWidth: 120, width: '100%' }}>
+              <Typography>Select Pet ID</Typography>
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                value={addmedical}
+                // onChange={handleChangeCategory}
+                label="Pet Category"
+                sx={{ width: '50%' }}
+              >
+                {addmedical && addmedical.map((menu, index) => (
+                  <MenuItem key={index} value={menu.appointment_id}>
+                    {menu.pet_id}
+                  </MenuItem>
+                ))}
+
+
+              </Select>
+            </FormControl>
+          </div>
+
+          {/* date should save in the db */}
+
+          <div style={{ marginBottom: '1%', marginTop: '1%' }}>
+            <FormControl>
+              <Typography>Upload Medical Files :</Typography>
+              <div>
+                <Button
+                  variant="contained"
+                  component="label"
+                  startIcon={<CloudUploadIcon />}
+                  sx={{ width: '100%' }}
+                >
+                  Upload File
+                  <input type="file" hidden required />
+                </Button>
+              </div>
+            </FormControl>
+          </div>
+
+          <div style={{ marginTop: '3%', }}>
+            <Button sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' }, width: '30%', marginLeft: '35%' }}>Submit</Button>
+          </div>
         </div>
-      </div>
+      )}
+
+      {/* viewing next vaccination records details */}
+      {nextVaccine && (
+        <div style={{
+          backgroundColor: '#f0f0f5',
+          paddingLeft: '2%',
+          paddingRight: '2%',
+          paddingTop: '1%',
+          paddingBottom: '2%',
+          marginLeft: '22%',
+          marginRight: '3%',
+          marginTop: '2%',
+          width: '40%',
+          borderRadius: '2%'
+        }}
+        >
+          <div style={{ marginLeft: '94%' }}>
+            <IconButton onClick={closeNextVaccine}><CloseIcon sx={{
+              backgroundColor: 'red',
+              color: 'white',
+              marginLeft: '80%'
+            }} /></IconButton>
+          </div>
+
+          <Typography variant="h6" sx={{ textAlign: 'center', fontWeight: 'bold' }}>Next Vaccination Details</Typography>
+          <hr />
+
+          <div style={{ marginBottom: '1%', marginTop: '1%', display: 'flex', flexDirection: 'row' }}>
+            <Typography sx={{ fontWeight: 'bold', marginRight: '1%' }}>Pet ID:  </Typography>
+            <Typography sx={{ fontWeight: 'bold', marginLeft: '1%' }}>34  </Typography>
+          </div>
+          <hr />
+
+          <div style={{ marginBottom: '1%', marginTop: '2%', marginLeft: '22%' }}>
+            <TableBody>
+              <StyledTableRow>
+                <StyledTableCell align="left" sx={{ width: '60%' }}>Vaccination ID</StyledTableCell>
+                <StyledTableCell align="center" sx={{ width: '60%' }}>2</StyledTableCell>
+              </StyledTableRow>
+
+              <StyledTableRow>
+                <StyledTableCell align="left" sx={{ width: '60%' }}>Vaccine Name</StyledTableCell>
+                <StyledTableCell align="center" sx={{ width: '60%' }}>XXX Vaccine</StyledTableCell>
+              </StyledTableRow>
+
+              <StyledTableRow>
+                <StyledTableCell align="left" sx={{ width: '60%' }}>Date</StyledTableCell>
+                <StyledTableCell align="center" sx={{ width: '60%' }}>2023-11-01</StyledTableCell>
+              </StyledTableRow>
+            </TableBody>
+          </div>
+        </div>
+      )}
+
+      {/* past vaccination records viewing */}
+      {pastVaccine && (
+        <div style={{
+          backgroundColor: '#f0f0f5',
+          paddingLeft: '2%',
+          paddingRight: '2%',
+          paddingTop: '1%',
+          paddingBottom: '2%',
+          marginLeft: '28%',
+          marginRight: '3%',
+          marginTop: '2%',
+          width: '40%',
+          borderRadius: '2%'
+        }}
+        >
+          <div style={{ marginLeft: '94%' }}>
+            <IconButton onClick={closePastVaccination}><CloseIcon sx={{
+              backgroundColor: 'red',
+              color: 'white',
+              marginLeft: '80%'
+            }} /></IconButton>
+          </div>
+
+          <Typography variant="h6" sx={{ textAlign: 'center', fontWeight: 'bold' }}>Past Vaccination Records</Typography>
+          <hr />
+
+          <div style={{ marginBottom: '1%', marginTop: '1%', display: 'flex', flexDirection: 'row' }}>
+            <Typography sx={{ fontWeight: 'bold', marginRight: '1%' }}>Pet ID:  </Typography>
+            <Typography sx={{ fontWeight: 'bold', marginLeft: '1%' }}>34  </Typography>
+          </div>
+          <hr />
+
+          <div style={{ marginBottom: '1%', marginTop: '2%', marginLeft: '5%' }}>
+            <Table sx={{ width: '60%' }} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell align="center">Vaccine ID</StyledTableCell>
+                  <StyledTableCell align="center">Vaccine </StyledTableCell>
+                  <StyledTableCell align="center">Date</StyledTableCell>
+                </TableRow>
+              </TableHead>
+
+              <TableBody>
+                <StyledTableRow>
+                  <StyledTableCell align="center">clientrow.complain_id</StyledTableCell>
+                  <StyledTableCell align="center">"clientrow.client_id"</StyledTableCell>
+                  <StyledTableCell align="center">"clientrow.client_id"</StyledTableCell>
+                </StyledTableRow>
+                <StyledTableRow>
+                  <StyledTableCell align="center">clientrow.complain_id</StyledTableCell>
+                  <StyledTableCell align="center">"clientrow.client_id"</StyledTableCell>
+                  <StyledTableCell align="center">"clientrow.client_id"</StyledTableCell>
+                </StyledTableRow>
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+      )}
+
+
+      {/* other medical reports viewing */}
+      {other && (
+        <div style={{
+          backgroundColor: '#f0f0f5',
+          paddingLeft: '2%',
+          paddingRight: '2%',
+          paddingTop: '1%',
+          paddingBottom: '2%',
+          marginLeft: '28%',
+          marginRight: '3%',
+          marginTop: '2%',
+          width: '40%',
+          borderRadius: '2%'
+        }}
+        >
+          <div style={{ marginLeft: '94%' }}>
+            <IconButton onClick={closeOther}><CloseIcon sx={{
+              backgroundColor: 'red',
+              color: 'white',
+              marginLeft: '80%'
+            }} /></IconButton>
+          </div>
+
+          <Typography variant="h6" sx={{ textAlign: 'center', fontWeight: 'bold' }}>Other Medical Records</Typography>
+          <hr />
+
+          <div style={{ marginBottom: '1%', marginTop: '1%', display: 'flex', flexDirection: 'row' }}>
+            <Typography sx={{ fontWeight: 'bold', marginRight: '1%' }}>Pet ID:  </Typography>
+            <Typography sx={{ fontWeight: 'bold', marginLeft: '1%' }}>34  </Typography>
+          </div>
+          <hr />
+
+          <div style={{ marginBottom: '1%', marginTop: '2%', marginLeft: '5%' }}>
+            <img src={pdficon} style={{ width: '10%', marginRight: '2%' }} />
+            <img src={pdficon} style={{ width: '10%', marginRight: '2%' }} />
+            <img src={pdficon} style={{ width: '10%', marginRight: '2%' }} />
+
+          </div>
+        </div>
+      )}
+
+
+
+
+
+
 
     </div>
-
-
   )
 }
 

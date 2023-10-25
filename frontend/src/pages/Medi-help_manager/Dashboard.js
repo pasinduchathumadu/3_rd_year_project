@@ -100,14 +100,6 @@ const Dashboard = () => {
     const [count1, setcount1] = useState([]) //pending
     const [count2, setcount2] = useState([]) //completed
 
-    // const [time1, settime1] = React.useState('1')
-    // const handleChange1 = (event) => {
-    //     settime1(event.target.value);
-
-    //     pendingBox()
-    //     completedBox()
-    // };
-
     const pendingBox = async () => {
         try {
             const res = await axios.get(`http://localhost:5000/pet_care/medi_help_manager/pendingBox`)
@@ -116,7 +108,6 @@ const Dashboard = () => {
         } catch (err) {
             console.log(err)
         }
-
     }
     const completedBox = async () => {
         try {
@@ -147,7 +138,6 @@ const Dashboard = () => {
         // setTables(false);
         setmain(true);
         setid1(null)
-
     }
 
     // connect profile 
@@ -195,6 +185,23 @@ const Dashboard = () => {
             .catch((err) => console.log(err))
     })
 
+    // get counts of pending and completed complains
+    const [complain, setcomplain] = useState("")
+    const complainsCount = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/medi_help_manager/complainsCount`)
+            const data = await res.data
+            return data
+        } catch (err) {
+            console.log('There is an internal error')
+        }
+    }
+    useEffect(() => {
+        complainsCount()
+            .then((data) => setcomplain(data.data))
+            .catch((err) => console.log(err))
+    })
+
 
     return (
 
@@ -226,24 +233,6 @@ const Dashboard = () => {
                             <AnalyticsIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
                             <h3 style={{ color: 'black' }}>Appointments Analyze</h3>
                         </div>
-                        {/* <Box sx={{ minWidth: 120 }}>
-                            <FormControl fullWidth>
-                                <InputLabel disabled={true} displayPrint="none" htmlFor="demo-input" color="warning" variant="outlined" id="demo-select-small-label">Today</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-
-                                    variant='outlined'
-                                    label="Time"
-                                    onChange={handleChange1}
-                                    l
-                                    sx={{ fontSize: '12px' }}>
-                                    <MenuItem value={1}>Today</MenuItem>
-                                    <MenuItem value={2}>Last 7 days</MenuItem>
-                                    <MenuItem value={3}>Last Month</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Box> */}
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'row' }} >
@@ -344,40 +333,26 @@ const Dashboard = () => {
                 </div>
 
                 <div style={{ backgroundColor: '#F0F0F5', height: '310px', width: '46%', padding: '1%', borderRadius: '10px', marginRight: '4%' }}>
-                    <div className="boarding-box-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} >
-                        <div style={{ display: 'flex', flexDirection: 'row' }}>
-                            <InventoryIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
-                            <h3 style={{ fontWeight: 'normal', marginBottom: '50', color: 'black' }}>Daily</h3>
-                            <h3 style={{ fontWeight: 'normal', marginTop: '0', color: 'black' }}>Appointment</h3>
-                            <h3 style={{ fontWeight: 'normal', marginTop: '0', color: 'black' }}>Analyze</h3>
-                        </div>
+                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                        <AssessmentIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
+                        <h3 style={{ color: 'black' }}>Clients Complaints </h3>
                     </div>
-                    <div>
 
-                        <ResponsiveChartContainer
-                            margin={{ top: 20, left: 10, right: 10, bottom: 30 }}
-                            height={250}
+                    {complain && complain.map((menu, index) => (
+                        <PieChart
+                            colors={['#FBBD08', '#55555C']}
                             series={[
                                 {
-                                    type: 'line',
-                                    data: [13, 13, 54, 651, 657, 987, 64, 654, 954, 654, 897, 84],
+                                    data: [
+                                        { id: 0, value: menu.pendingCount, label: 'Pending' },
+                                        { id: 1, value: menu.completedCount, label: 'Completed' },
+                                    ],
                                 },
                             ]}
-                            xAxis={[{ data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] }]}
-                        >
-
-                            <LinePlot className="custom-chart-line" /> {/* Set the line chart color to orange */}
-                            <DrawingAreaBox />
-                        </ResponsiveChartContainer>
-                        <div className="x-axis-labels">
-                            <span>Days</span>
-
-                        </div>
-
-                        <div className="y-axis-labels">
-                            <span>Appointments</span>
-                        </div>
-                    </div>
+                            width={600}
+                            height={200}
+                        />
+                    ))}
                 </div>
             </div>
         </div>
