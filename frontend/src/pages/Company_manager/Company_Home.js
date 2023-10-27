@@ -109,6 +109,23 @@ const Company_Home = () => {
       .catch((err) => console.log(err))
   })
 
+  // dashboard -  regular and premium counts
+  const [clientcount, setclientcount] = useState("")
+  const clientCount = async() => {
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/company_manager/clientCount`)
+      const data = await res.data
+      return data
+    }catch(err) {
+      console.log('There is an internal error')
+    }
+  }
+  useEffect(() => {
+    clientCount()
+    .then((data) => setclientcount(data.data))
+    .catch((err) => console.log(err)) 
+  })
+
 
 
 
@@ -153,23 +170,6 @@ const Company_Home = () => {
               Analytical Overview
             </Typography>
           </Stack>
-
-          {/* <Box sx={{ minWidth: 10 }}>
-            <FormControl>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={time}
-                variant="filled"
-                label="Time"
-                l
-                sx={{ fontSize: "12px", marginRight: "50px", width: "150px", marginTop: '20px' }}>
-                <MenuItem value={1}>Today</MenuItem>
-                <MenuItem value={2}>Last 7 days</MenuItem>
-                <MenuItem value={3}>Last Months</MenuItem>
-              </Select>
-            </FormControl>
-          </Box> */}
         </Stack>
 
         <Stack
@@ -286,24 +286,26 @@ const Company_Home = () => {
             <div className="boarding-box-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', flexDirection: 'row' }}>
                 <AssessmentIcon sx={{ marginRight: '10px', color: 'orange' }} />
-                <Typography style={{ fontSize: 14, color: "text.secondary", fontWeight: 'bold' }}> Clients Categorize Analyse</Typography>
+                <Typography style={{ fontSize: 14, color: "text.secondary", fontWeight: 'bold' }}>Online Store - Client Categorization</Typography>
               </div>
             </div>
 
             <div>
+              {clientcount && clientcount.map((menu,index) => (
               <PieChart
                 colors={['#FBBD08', '#55555C']}
                 series={[
                   {
                     data: [
-                      { id: 0, value: 15, label: 'Premium' },
-                      { id: 1, value: 25, label: 'Regular' },
+                      { id: 0, value: menu.premiumCount, label: 'Premium' },
+                      { id: 1, value: menu.regularCount, label: 'Regular' },
                     ],
                   },
                 ]}
                 width={600}
                 height={200}
               />
+              ))}
             </div>
           </div>
         </div>
