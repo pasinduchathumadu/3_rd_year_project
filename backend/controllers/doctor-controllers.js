@@ -543,7 +543,6 @@ export const deleteVaccine = async(req,res,next) => {
         }
         return res.json({message:'Deleted'})
     })
-
 }
 
 // get details for update form
@@ -559,16 +558,16 @@ export const getDetailsforUpdate =async(req,res,next) => {
      })
 }
 
-// update vaccine form
+//submit update vaccine 
 export const updateVaccine = async(req,res,next) => {
     const {
-        id,
+        id2,
         newtime,
     } = req.body;
 
     try {
         const sqlQuery = 'UPDATE vaccine_details SET period = ? WHERE vaccine_id = ?'
-        const values = [newtime, id]
+        const values = [newtime, id2]
 
         db.query(sqlQuery, values, (err, data) => {
             if(err){

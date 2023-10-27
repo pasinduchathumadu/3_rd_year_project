@@ -231,10 +231,6 @@ const AddVaccine = () => {
   }
 
 
-
-
-
-
   return (
     <div style={{ marginTop: '4%' }}>
       <div className="top">
@@ -324,7 +320,7 @@ const AddVaccine = () => {
                     <StyledTableCell align="center">{menu.name}</StyledTableCell>
                     <StyledTableCell align="center">{menu.period}</StyledTableCell>
                     <StyledTableCell align="center">
-                      <IconButton onClick={() => getDetailsforUpdate(menu.vaccine_id)}><EditIcon /></IconButton>
+                      <IconButton onClick={() => displayUpdateForm(menu.vaccine_id)}><EditIcon /></IconButton>
                       <IconButton onClick={() => displayWarn(menu.vaccine_id)}><DeleteIcon sx={{ color: 'red' }} /></IconButton>
                     </StyledTableCell>
                   </StyledTableRow>
