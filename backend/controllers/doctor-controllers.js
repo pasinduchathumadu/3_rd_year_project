@@ -654,6 +654,7 @@ export const remove_final = async (req,res,next)=>{
             return res.json({message:'There is an internel error'})
         }
         return res.json({message:'Deleted'})
+    })}
 
 // get details for main page (pet profile)
 export const getDetails = async(req,res,next) => {
