@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
-import { Grid, Avatar, Typography, Box, Button } from '@mui/material';
+import { Grid, Typography, Box, Button, Dialog, DialogTitle, IconButton, DialogContent, TextField, DialogActions, Alert } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import profile from "../../assests/pic12.jfif";
+
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { BarChart } from '@mui/x-charts/BarChart';
@@ -15,7 +15,7 @@ import { PieChart, pieArcClasses } from '@mui/x-charts/PieChart';
 import axios from 'axios';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-
+import CloseIcon from "@mui/icons-material/Close";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
 // import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
@@ -36,18 +36,40 @@ const Home = () => {
     const [food, setfoods] = useState("")
     const [accessories, setaccessories] = useState("")
     const [toys, settoys] = useState("")
-
+    const [discountitem , setdiscount] = useState("")
+    const [selectedremove , setremoveconfirm] = useState("")
+    const [removeid , setremove] = useState([])
+    const [error, seterror] = useState(false)
     const navigate = useNavigate("")
     // connect profile
     const profile = () => {
         navigate("/profile")
     }
 
-     // get profile picture
-     const getProfilepicturepath = (imageName) => {
+    // get profile picture
+    const getProfilepicturepath = (imageName) => {
         return require(`../../../../backend/images/store/${imageName}`)
     }
+    const [open, setOpen] = React.useState(false);
+    const [open1, setOpen1] = React.useState(false);
 
+    const handleClickOpen = () => {
+        setOpen(true);
+        getid();
+    };
+    const handleClickOpen1 = () => {
+        setOpen1(true);
+        getid();
+    };
+    const handleremove = (event) =>{
+        setremoveconfirm(event.target.value)
+    }
+    const handleClose = () => {
+        setOpen(false);
+    };
+    const handleClose1 = () => {
+        setOpen1(false);
+    };
     const handleChange = (event) => {
         setAge(event.target.value);
 
@@ -66,6 +88,28 @@ const Home = () => {
         filtercomplain2()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    const getid = async()=>{
+        try{
+            const res = await axios.get('http://localhost:5000/pet_care/online_store_manager/removeitem')
+            setremove(res.data.data);
+            seterror(false)
+        }catch(err){
+            console.log(err);
+        }
+    }
+    const removefrompermenant = async()=>{
+    
+        try{
+            const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/remove_item_finally/${selectedremove}`)
+            if(res.data.message === "Deleted"){
+               seterror(true)
+            }
+
+        }catch(err){
+            console.log(err)
+        }
+
+    }
     const filtercomplain = async () => {
         try {
             const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/filter/${age}`)
@@ -121,7 +165,20 @@ const Home = () => {
     }
 
 
+    const discountrate = async() => {
+        try{
+            const res = await axios.post('http://localhost:5000/pet_care/online_store_manager/discount',{
+                selectedremove,
+                discountitem
+            })
+            if(res.data.message === "updated"){
+                seterror(true)
+             }
 
+        }catch(err){
+            console.log(err)
+        }
+    }
     const get_count2 = async () => {
         try {
             const res = await axios.get('http://localhost:5000/pet_care/online_store_manager/get_count2')
@@ -299,22 +356,7 @@ const Home = () => {
                                     <div style={{ display: 'inline', alignItems: 'center', marginLeft: 'auto' }}>
                                         <FormControl sx={{ minWidth: 120, backgroundColor: 'white' }} size="small">
                                             <InputLabel disabled={true} displayPrint="none" htmlFor="demo-input" color="warning" variant="outlined" id="demo-select-small-label">Today</InputLabel>
-                                            {/* <Select
 
-                                                id="demo-select-small"
-                                                value={age1}
-                                                variant='outlined'
-                                                placeholder='AGE'
-                                                onChange={handleChange}
-                                            >
-                                                <MenuItem value="">
-                                                    <em>None</em>
-                                                </MenuItem>
-                                                <MenuItem value={1}>Today</MenuItem>
-                                                <MenuItem value={2}>Last 7 Days</MenuItem>
-                                                <MenuItem value={3}>Last Month</MenuItem>
-
-                                            </Select> */}
                                         </FormControl>
 
                                     </div>
@@ -455,7 +497,7 @@ const Home = () => {
 
                                             </div>
 
-                                            <Typography sx={{ marginTop: '5%', textAlign: 'center', fontSize: '68px' }}>18</Typography>
+                                            <Typography sx={{ marginTop: '5%', textAlign: 'center', fontSize: '38px' }}>Set The Discount</Typography>
                                         </Box>
 
                                     </div>
@@ -466,21 +508,190 @@ const Home = () => {
                                                 <DoneAllIcon sx={{ display: 'inline', alignItems: 'center' }} /><Typography sx={{ display: 'inline', alignItems: 'center', marginLeft: '5%' }}>Remove Items</Typography>
                                             </div>
 
-                                            <Typography sx={{ marginTop: '5%', textAlign: 'center', fontSize: '68px' }}>8</Typography>
+                                            <Typography sx={{ marginTop: '5%', textAlign: 'center', fontSize: '38px' }}>Online Store</Typography>
 
                                         </Box>
 
                                     </div>
                                 </div>
 
-                                <Button sx={{ width: '40%', backgroundColor: 'orange', marginTop: '10%', marginLeft: '4%', color: 'white', ':hover': { backgroundColor: 'orange' } }}>ADD NEW ONE</Button>
-                                <Button sx={{ width: '40%', backgroundColor: 'orange', marginTop: '10%', marginLeft: '12%', color: 'white', ':hover': { backgroundColor: 'orange' } }}>FIND MORE</Button>
+                                <Button onClick={handleClickOpen1} sx={{ width: '40%', backgroundColor: 'orange', marginTop: '10%', marginLeft: '4%', color: 'white', ':hover': { backgroundColor: 'orange' } }}>ADD NEW ONE</Button>
+                                <Button onClick={handleClickOpen} sx={{ width: '40%', backgroundColor: 'orange', marginTop: '10%', marginLeft: '12%', color: 'white', ':hover': { backgroundColor: 'orange' } }}>FIND MORE</Button>
 
                             </Box>
                         </div>
                     </div>
 
                 </Grid>
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        {"Add Remove Item"}
+                        <IconButton
+                            aria-label="close"
+                            onClick={handleClose}
+                            sx={{
+                                position: "absolute",
+                                right: 8,
+                                top: 8,
+                                color: (theme) => theme.palette.grey[500],
+                            }}
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                    </DialogTitle>
+                    <DialogContent>
+                        <form action="">
+                            <Box sx={{ minWidth: 120,marginBottom:'2%',marginTop:'2%' }}>
+                                <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">Item</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={selectedremove}
+                                        label="Age"
+                                        onChange={handleremove}
+                                    >
+                                      {removeid.map((menu,index)=>(
+                                       <MenuItem value={menu.item_id} key={menu.item_id}>{menu.item_id}-{menu.name}</MenuItem>
+                                      ))}
+                                    </Select>
+                                </FormControl>
+                            </Box>
+                            <TextField
+                                type="text"
+                                variant="outlined"
+                                color="secondary"
+                                label="Reason"
+
+                                fullWidth
+                                required
+                                sx={{ mb: 2 }}
+                            />
+
+                            <Stack spacing={2} direction="row" sx={{ marginBottom: 2 }}>
+                                <TextField
+                                    type="date"
+                                    variant="outlined"
+                                    color="secondary"
+
+                                    fullWidth
+                                    required
+                                />
+                                <TextField
+                                    type="time"
+                                    variant="outlined"
+                                    color="secondary"
+
+                                    fullWidth
+                                    required
+                                />
+                            </Stack>
+                        </form>
+                    </DialogContent>
+                    {error &&(
+                             <Stack sx={{ width: '100%' }} spacing={2}>
+                             
+                             <Alert severity="success">Successfully Deleted</Alert>
+                           </Stack>
+                        )}
+                    <DialogActions>
+                     
+                        <Button variant="outlined" color="secondary" onClick={handleClose}>
+                            Cancel
+                        </Button>
+
+                        <Button
+                            onClick = {removefrompermenant}
+                            variant="outlined"
+                            color="secondary"
+                            type="submit"
+                        >
+                            Submit
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+                <Dialog
+                    open={open1}
+                    onClose={handleClose1}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        {"Add Discount For Products"}
+                        <IconButton
+                            aria-label="close"
+                            onClick={handleClose1}
+                            sx={{
+                                position: "absolute",
+                                right: 8,
+                                top: 8,
+                                color: (theme) => theme.palette.grey[500],
+                            }}
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                    </DialogTitle>
+                    <DialogContent>
+                        <form action="">
+                            <Box sx={{ minWidth: 120,marginBottom:'2%',marginTop:'2%' }}>
+                                <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">Item</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={selectedremove}
+                                        label="Age"
+                                        onChange={handleremove}
+                                    >
+                                      {removeid.map((menu,index)=>(
+                                       <MenuItem value={menu.item_id} key={menu.item_id}>{menu.item_id}-{menu.name}</MenuItem>
+                                      ))}
+                                    </Select>
+                                </FormControl>
+                            </Box>
+                            <TextField
+                                type="number"
+                                variant="outlined"
+                                color="secondary"
+                                label="Discount Rate"
+                                onChange={(e)=>setdiscount(e.target.value)}
+                                fullWidth
+                                required
+                                sx={{ mb: 2 }}
+                            />
+
+                          
+                        </form>
+                    </DialogContent>
+                    {error &&(
+                             <Stack sx={{ width: '100%' }} spacing={2}>
+                             
+                             <Alert severity="success">Successfully Deleted</Alert>
+                           </Stack>
+                        )}
+                    <DialogActions>
+                     
+                        <Button variant="outlined" color="secondary" onClick={handleClose1}>
+                            Cancel
+                        </Button>
+
+                        <Button
+                            onClick = {discountrate}
+                            variant="outlined"
+                            color="secondary"
+                            type="submit"
+                        >
+                            Submit
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
+
             </div>
         </>
     );

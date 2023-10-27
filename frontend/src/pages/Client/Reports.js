@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import CoverImage from '../../assests/reportcover.jpeg';
-import { Button, InputLabel, TextField, Typography } from "@mui/material"
+import { Button, InputLabel, Select, TextField, Typography } from "@mui/material"
 import axios from "axios"
+
+import Box from '@mui/material/Box';
+
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+
 
 
 const Reports = () => {
@@ -13,7 +19,11 @@ const Reports = () => {
     const [medi, setmedi] = useState([])
     const [care, setcare] = useState([])
 
+    const [age, setAge] = React.useState('');
 
+    const handleChange = (event) => {
+        setAge(event.target.value);
+    };
 
     const download = async (price, placed_date, early_cancel_date, package_name, appointment_id, appointment_status, client_email) => {
         try {
@@ -282,10 +292,33 @@ const Reports = () => {
                 alignItems: 'center',
                 color: 'white'
             }}>
+
+
+
+
                 <Typography sx={{ position: 'absolute', color: 'white', fontSize: '45px', padding: '20px', borderRadius: '10px', fontWeight: "30" }}> Your Reports</Typography>
+                
             </div>
+            <div style={{textAlign:'right',marginTop:'2%',marginRight:'2%'}}>
+                    <Box sx={{ minWidth: 100 }}>
+                        <FormControl sx={{width:200}}>
+                            <InputLabel id="demo-simple-select-label">Current</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={age}
+                                label="Age"
+                                onChange={handleChange}
+                            >
+                                <MenuItem value={10}>Last 7 days</MenuItem>
+                                <MenuItem value={20}>Last Month</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
+                </div>
 
             <div style={{ display: 'flex', flexDirection: 'row' }}>
+
                 <div style={{ width: '20%', height: '100vh', backgroundColor: '#F0F0F5', padding: '1%', borderRadius: '10px' }}>
                     <Button onClick={() => setvalue(1)} sx={{ color: 'white', backgroundColor: 'black', borderRadius: '10px', padding: '3%', width: '100%', marginTop: '5%', marginBottom: '5%', ':hover': { backgroundColor: 'black' } }}>Online Store Reports</Button>
                     <Button onClick={() => setvalue(0)} sx={{ color: 'white', backgroundColor: 'black', borderRadius: '10px', padding: '3%', width: '100%', marginTop: '5%', marginBottom: '5%', ':hover': { backgroundColor: 'black' } }}>Boarding House Reports</Button>
@@ -481,7 +514,7 @@ const Reports = () => {
                                             }}
                                             sx={{ width: '40%' }} />
                                     </div><div style={{ display: 'flex', flexDirection: 'column', marginTop: '1%', marginBottom: '1%' }}>
-                                        <InputLabel>Boarding Time Period :</InputLabel>
+                                        <InputLabel sx={{marginBottom:'2px'}}>Boarding Time Period :</InputLabel>
                                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '1%' }}>
 
                                             <TextField

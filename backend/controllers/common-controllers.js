@@ -244,5 +244,14 @@ export const deleteProfile = async (req, res, next) => {
         }
     })
 }
+export const event = async(req,res,next)=>{
+    const sqlQuery = "select *from company_competitions"
+    db.query(sqlQuery,(err,data)=>{
+        if(err){
+            return res.json({message:"There is an internel error"})
+        }
+        return res.json({data})
+    })
+}
 
 

@@ -11,7 +11,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ProfilePicture from "../../assests/profile-picture.png";
-import { Button, Stack } from "@mui/material";
+import { Alert, Button, Stack, TextField } from "@mui/material";
 import StarRateIcon from '@mui/icons-material/StarRate';
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -35,19 +35,29 @@ function Company_Clients() {
 
   const date = new Date()
   const currentdate = date.toDateString();
-
+  const [error, seterror] = useState(false)
   // const currentDate = new Date()
   const date_today = format(date, 'yyy-MM-dd')
   const monthBeforeFromToday = new Date()
-  monthBeforeFromToday.setDate(date.getDate() -30)
+  monthBeforeFromToday.setDate(date.getDate() - 30)
   const date_month = format(monthBeforeFromToday, 'yyy-MM-dd')
-
+  const [offer, setoffer] = useState("")
   // const [selectedTab, setSelectedTab] = useState(0);
 
   // const handleTabChange = (event, newValue) => {
   //   setSelectedTab(newValue);
   // };
-
+  const offeritem = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/offer/${offer}`)
+      if (res.data.message === "updated") {
+        seterror(true);
+      }
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.common.black,
@@ -69,9 +79,7 @@ function Company_Clients() {
   }));
 
   //modal
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+
 
   // display clients details
   const [details, setdetails] = useState("")
@@ -124,7 +132,7 @@ function Company_Clients() {
       <Box padding={2}>
         <Box padding={2}>
           <div style={{ marginBottom: '1%' }}>
-            <Typography>Considered Time Period :- <span sx={{fontWeight:'bold'}}>{date_month} - {date_today}</span> </Typography>
+            <Typography>Considered Time Period :- <span sx={{ fontWeight: 'bold' }}>{date_month} - {date_today}</span> </Typography>
           </div>
 
           <TableContainer component={Paper}>
@@ -148,12 +156,25 @@ function Company_Clients() {
                     <StyledTableCell align="center">{menu.order_email}</StyledTableCell>
                     <StyledTableCell align="center">{menu.order_count}</StyledTableCell>
                     <StyledTableCell align="center">{menu.total_amount}.00</StyledTableCell>
+
                     <StyledTableCell align="center">{menu.status}</StyledTableCell> 
+
                   </StyledTableRow>
                 ))}
               </TableBody>
             </Table>
           </TableContainer>
+          <Stack sx={{ display: 'flex', flexDirection: 'row', marginTop: '2%' }}>
+            <Typography sx={{ marginTop: '1%' }}>SET THE OFFER FOR PREMIUM USERS</Typography>
+            <TextField type="number" sx={{ width: '15%', marginRight: '2%', marginLeft: '2%' }} onChange={(e) => setoffer(e.target.value)} />
+            <Button onClick={offeritem} sx={{ width: '20%', backgroundColor: 'black', color: 'white' , "&:hover": { backgroundColor: "black" }}}>Submit</Button>
+          </Stack>
+          {error && (
+            <Stack sx={{ width: '50%',marginTop:'2%' }} spacing={2}>
+
+              <Alert severity="success">Successfully Updated</Alert>
+            </Stack>
+          )}
         </Box>
       </Box>
     </>
