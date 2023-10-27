@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/Care_center_manager/caregiverlist.css";
-
 import AddIcon from "@mui/icons-material/Add";
-
 import Regicaregiver from "./Regicaregiver";
 import CaregiverProfile from "./CaregiverProfile"
 import {
@@ -11,26 +9,27 @@ import {
   DialogContent,
   DialogContentText,
   TextField,
-  Alert
+  Alert, FormControl, IconButton, MenuItem, FormLabel, Select
 } from "@mui/material";
 
 import { Grid, Box, Tab, Tabs, Button } from "@mui/material";
 import { useNavigate } from "react-router";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import axios from "axios";
+import CloseIcon from '@mui/icons-material/Close';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 
 function Caregiverlist() {
-  const [modelOpen, setModelOpen] = useState(false);
-  const [modelOpen2, setModelOpen2] = useState(false);
+  // const [modelOpen, setModelOpen] = useState(false);
+  // const [modelOpen2, setModelOpen2] = useState(false);
   const [menu, setemp] = useState([])
   const [id, setid] = useState("")
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [dateStart, setDateStart] = useState("");
   const [dateEnd, setDateEnd] = useState("");
-  const [error , seterror ] = useState(false)
-  const [message , setmessage ] = useState("")
-
+  const [error, seterror] = useState(false)
+  const [message, setmessage] = useState("")
 
   const openPopup = (id) => {
     setid(id)
@@ -41,10 +40,6 @@ function Caregiverlist() {
     seterror(false)
     setIsPopupOpen(false);
   };
-
-
-
-
 
   const input = new Date();
   const date = input.toDateString();
@@ -57,7 +52,7 @@ function Caregiverlist() {
   const leave_submit = async () => {
     const selectedStartDate = new Date(dateStart);
     const selectedEndDate = new Date(dateEnd);
-    if(dateStart === "" || dateEnd === ""){
+    if (dateStart === "" || dateEnd === "") {
       seterror(true)
       setmessage("Please Filled The Fields!!")
       return
@@ -85,11 +80,11 @@ function Caregiverlist() {
   }
 
   const navigate = useNavigate("")
- 
+
   const profile = () => {
     navigate("/profile")
   }
- 
+
   const getProfilepicturepath = (imageName) => {
     return require(`../../../../backend/images/store/${imageName}`)
   }
@@ -113,6 +108,63 @@ function Caregiverlist() {
       .then((data) => setemp(data.data))
       .catch((err) => console.log(err))
   })
+
+  // ADD NEW CARE GIVER/TRAINER
+  const [addnew, setaddnew] = useState(false)
+
+  const [error1, seterror1] = useState(false)
+  const [message1, setmessage1] = useState("")
+  const [first, setfirst] = useState("")
+  const [last, setlast] = useState("")
+  const [contact, setcontact] = useState("")
+  const [empemail, setempemail] = useState("")
+  const [type, settype] = useState("")
+
+  const handleType = (event) => {
+    settype(event.target.value)
+  }
+  // open add new caregiver form
+  const addNewcaregiver = () => {
+    seterror1(false)
+    setvalue(false)
+    setaddnew(true)
+  }
+
+  // submit add new employee form
+  const submitNewEmployee = async () => {
+    if (first === "" || last === "" || contact === "" || empemail === "" || type === "") {
+      seterror1(true)
+      setmessage1('Please enter all required fileds')
+      return;
+    }
+    try {
+      const res = await axios.post(`http://localhost:5000/pet_care/care_center_manager/submitNewEmployee`, {
+        first,
+        last,
+        contact,
+        empemail,
+        type,
+      })
+      if (res.data.message === 'There is an internal error') {
+        setmessage1('Internal error')
+        seterror1(true)
+      } else if (res.data.message === 'success') {
+        setvalue(0)
+        setaddnew(false)
+        // seterror(false)
+
+      }
+    } catch (err) {
+      console.log('There is an internal error')
+    }
+  }
+
+
+  // cancel adding
+  const cancelAdding = () => {
+    setvalue(0)
+    setaddnew(false)
+  }
 
   return (
     <>
@@ -186,7 +238,7 @@ function Caregiverlist() {
             variant="fullWidth"
             aria-label="Tab Component"
             indicatorColor="transparent"
-            sx={{ borderRadius: "10px" }}
+            sx={{ borderRadius: "10px", marginRight: '3%' }}
           >
             <Tab sx={{ backgroundColor: value === 0 ? "orange" : "white", color: value === 0 ? "white" : "black" }} label="Pet Grooming Care Givers" />
             <Tab sx={{ backgroundColor: value === 1 ? "orange" : "white", color: value === 1 ? "white" : "black", }} label=" Trainning & Exercising Employees" />
@@ -194,19 +246,15 @@ function Caregiverlist() {
         </Box>
       </Grid>
 
+      <div style={{ marginLeft: '84%' }}>
+        <Button sx={{ backgroundColor: 'orange', color: 'white', ':hover': { backgroundColor: 'orange' } }} onClick={addNewcaregiver}><AddIcon /> ADD NEW CAREGIVER</Button>
+      </div>
+
       {/* pet grooming  */}
       {value === 0 && (
         <div className="full-page">
-          <div className="maintopic">
-            <button className="mainbutton" onClick={() => setModelOpen(true)}>
-              ADD NEW CAREGIVER
-              <AddIcon className="icon-plus" />
-            </button>
-          </div>
-
           <Box sx={{ marginTop: '40px', marginLeft: '20px', marginRight: '20px', display: "flex", flexWrap: "wrap", justifyContent: "center", border: '15px', borderRadius: '20px', borderColor: 'white', borderStyle: 'solid' }}>
-
-            {menu.filter((menu, index) => menu.type !== "training").map((menu, index) => (
+            {menu.filter((menu, index) => menu.type !== "TRAINING").map((menu, index) => (
               <Card sx={{ maxWidth: "300px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '39px' }}>
                 <CardActionArea>
                   <CardMedia
@@ -231,28 +279,18 @@ function Caregiverlist() {
                 </CardActionArea>
               </Card>
 
-            ))}</Box>
-          {modelOpen && <Regicaregiver />}
-          {modelOpen2 && <CaregiverProfile />}
-
-
-
+            ))}
+          </Box>
+          {/* {modelOpen && <Regicaregiver />} */}
+          {/* {modelOpen2 && <CaregiverProfile />} */}
         </div>
       )}
 
       {value === 1 && (
         // trianing employees
         <div className="full-page">
-          <div className="maintopic">
-            <button className="mainbutton" onClick={() => setModelOpen(true)}>
-              ADD NEW CAREGIVER
-              <AddIcon className="icon-plus" />
-            </button>
-          </div>
-
           <Box sx={{ marginTop: '40px', marginLeft: '20px', marginRight: '20px', display: "flex", flexWrap: "wrap", justifyContent: "center", border: '15px', borderRadius: '20px', borderColor: 'white', borderStyle: 'solid' }}>
-
-            {menu.filter((menu, index) => menu.type === "training").map((menu, index) => (
+            {menu.filter((menu, index) => menu.type === "TRAINING").map((menu, index) => (
               <Card sx={{ maxWidth: "300px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '39px' }}>
                 <CardActionArea>
                   <CardMedia
@@ -281,14 +319,16 @@ function Caregiverlist() {
 
             ))}</Box>
 
-          {modelOpen && <Regicaregiver />}
-          {modelOpen2 && <CaregiverProfile />}
+          {/* {modelOpen && <Regicaregiver />} */}
+          {/* {modelOpen2 && <CaregiverProfile />} */}
 
 
         </div>
       )}
+      {/* ADDING LEAVE */}
       <Dialog open={isPopupOpen} onClose={closePopup} fullWidth>
         <DialogTitle>Add Leave</DialogTitle>
+        <hr />
         <DialogContent >
           <DialogContentText sx={{ paddingBottom: '1%' }}>Enter Leave Details:</DialogContentText>
           <Typography>Start Date</Typography>
@@ -296,7 +336,7 @@ function Caregiverlist() {
             placeholder="Date Start"
             type="date"
             fullWidth
-           
+
             onChange={(e) => setDateStart(e.target.value)}
             sx={{ marginBottom: 2 }}
           />
@@ -305,16 +345,16 @@ function Caregiverlist() {
             placeholder="Date End"
             type="date"
             fullWidth
-        
+
             onChange={(e) => setDateEnd(e.target.value)}
           />
         </DialogContent>
-        {error &&(
-           <Stack sx={{ width: '75%',marginLeft:'3%' }} spacing={2}>
-          
-           <Alert sx={{width:'75%'}} severity="warning">{message}</Alert>
-          
-         </Stack>
+        {error && (
+          <Stack sx={{ width: '75%', marginLeft: '3%' }} spacing={2}>
+
+            <Alert sx={{ width: '75%' }} severity="warning">{message}</Alert>
+
+          </Stack>
         )}
         <Button
           variant="contained"
@@ -328,6 +368,116 @@ function Caregiverlist() {
           Submit
         </Button>
       </Dialog>
+
+
+      {/* ADD NEW CARE GIVER OR TRAINER */}
+      {addnew && (
+        <div style={{
+          backdropFilter: 'blur(4px)',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '50%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginRight: '300px',
+          zIndex: 1001,
+        }}>
+          <FormControl sx={{
+            marginLeft: '8%',
+            borderRadius: '10px',
+            marginTop: '25%',
+            width: '700px',
+            padding: '20px',
+            backgroundColor: '#F0F0F5',
+            position: 'relative',
+            zIndex: 1001
+          }}>
+            <div style={{ backgroundColor: 'white', padding: '15px', borderRadius: '10px' }}>
+              <div>
+                <IconButton onClick={cancelAdding} ><CloseIcon sx={{ color: 'white', backgroundColor: 'red', marginLeft: '600px' }} /></IconButton>
+              </div>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '20px', textAlign: 'center' }}>
+                Add New Care Giver OR Trainer
+              </Typography>
+              <hr />
+
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                <div style={{ marginTop: '20px' }} className="form-label">
+                  <FormLabel>First Name</FormLabel>
+                  <TextField id="outlined-basic" placeholder="First Name" variant="outlined" onChange={(e) => setfirst(e.target.value)} required />
+                </div>
+
+                <div style={{ marginTop: '20px' }} className="form-label">
+                  <FormLabel>Last Name</FormLabel>
+                  <TextField id="outlined-basic" placeholder="Last Name" variant="outlined" onChange={(e) => setlast(e.target.value)} required />
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                <div style={{ marginTop: '20px' }} className="form-label">
+                  <FormLabel> Email Address</FormLabel>
+                  <TextField id="outlined-basic" placeholder="Email Address" variant="outlined" onChange={(e) => setempemail(e.target.value)} required />
+                </div>
+
+                <div style={{ marginTop: '20px' }} className="form-label">
+                  <FormLabel>  Contact Number</FormLabel>
+                  <TextField id="outlined-basic" placeholder="Contact Number" variant="outlined" onChange={(e) => setcontact(e.target.value)} required />
+                </div>
+              </div>
+
+              <div style={{ marginBottom: '3%' }}>
+                <FormLabel>Type</FormLabel>
+                <FormControl sx={{ minWidth: 120, width: '100%' }}>
+                  <Select
+                    labelId="demo-simple-select-standard-label"
+                    id="demo-simple-select-standard"
+                    value={type}
+                    onChange={handleType}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={10}>BATH</MenuItem>
+                    <MenuItem value={20}>BATH AND HAIR CUTS</MenuItem>
+                    <MenuItem value={30}>MINI GROOMING</MenuItem>
+                    <MenuItem value={40}>TRAINING</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+
+              {/* <div className="form-label">
+                <FormLabel>Upload Bank Slip: </FormLabel>
+                <div style={{ display: 'inline' }}>
+                  <Button
+                    variant="contained"
+                    component="label"
+
+                    startIcon={<CloudUploadIcon />}
+                  >
+                    Upload Package Symbol
+                    <input type="file" style={{ width: '100%' }} hidden required />
+
+                  </Button>
+                </div>
+              </div> */}
+
+              {error1 && (
+                <Stack sx={{ width: '100%' }} spacing={2}>
+                  <Alert severity="error">{message1}</Alert>
+                </Stack>
+              )}
+              
+              <Button variant="contained" type="submit" sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }} onClick={() => submitNewEmployee()} >Submit</Button>
+            </div>
+          </FormControl>
+        </div>
+      )}
+
+
+
     </>
   );
 }

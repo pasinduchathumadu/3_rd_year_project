@@ -491,6 +491,41 @@ export const removeUncompleted = async (req, res, next) => {
         return res.json({message:'Deleted'})
 
     })
+}
 
+// submit add new emplyee form
+export const submitNewEmployee = async(req,res,next) => {
+    const {
+        first,
+        last,
+        contact,
+        empemail,
+        type,
+    } = req.body;
+
+    try {
+        var originalType = ""
+        if(type === 10) {
+            originalType = "BATH"
+        }else if(type === 20) {
+            originalType = "BATH AND HAIR CUTS"
+        }else if(type === 30) {
+            originalType = "MINI GROOMING"
+        }else if (type === 40) {
+            originalType = "TRAINING"
+        }
+
+        const sqlQuery = 'INSERT INTO employee(first_name, last_name, email, contact_number, type) VALUES(?,?,?,?,?)'
+        const values = [first, last, empemail, contact, originalType]
+    
+        db.query(sqlQuery, values,(err,data) => {
+            if(err) {
+                return res.json({message:'There is an internal error'})
+            }
+            return res.json({message:'success'})
+        })
+    }catch(err) {
+        console.log(err)
+    }  
 }
 
