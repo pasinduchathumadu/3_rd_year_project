@@ -1,4 +1,4 @@
-import { Box, Grid, Typography, TextField, Button ,Paper} from "@mui/material";
+import { Box, Grid, Typography, TextField, Button, Paper } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import EmailIcon from '@mui/icons-material/Email';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
@@ -21,12 +21,13 @@ const Bill = () => {
     const currentDate = new Date()
     const date = format(currentDate, 'yyy-MM-dd')
     const time = currentDate.toLocaleTimeString()
-    const [delivery ,setdelivery ] = useState("")
-    const [card,setcard] = useState("")
-    const [shipping , setshipping] = useState("")
-    const [contact,setcontact] = useState("")
-    const [error,seterror] = useState(false)
-    const [error_message,setmessage] = useState("")
+    const [delivery, setdelivery] = useState("")
+    const [card, setcard] = useState("")
+    const [shipping, setshipping] = useState("")
+    const [contact, setcontact] = useState("")
+    const [error, seterror] = useState(false)
+
+    const [error_message, setmessage] = useState("")
     const email = localStorage.getItem("store_email")
 
     const Item = styled(Paper)(({ theme }) => ({
@@ -37,26 +38,25 @@ const Bill = () => {
         color: theme.palette.text.secondary,
     }));
 
-   
-
-    const back = () =>{
+    const back = () => {
         navigate('/menu')
     }
 
-    const changedelivery = (event,newValue) =>{
+    const changedelivery = (event, newValue) => {
         setdelivery(event.target.value)
     }
-    const cardpayment = (event,newValue) =>{
+    const cardpayment = (event, newValue) => {
         setcard(event.target.value)
     }
-    const final_payment = async(payment) =>{
-        if(!shipping || !card  || !contact || !delivery ){
+    const final_payment = async (payment) => {
+        console.log(payment)
+        if (!shipping || !card || !contact || !delivery) {
             seterror(true)
             setmessage("Please Fill Out All The Fields")
             return;
         }
-        try{
-            const res = await axios.post("http://localhost:5000/pet_care/user/final_payment",{
+        try {
+            const res = await axios.post("http://localhost:5000/pet_care/user/final_payment", {
                 date,
                 time,
                 shipping,
@@ -67,14 +67,14 @@ const Bill = () => {
                 payment
 
             })
-            if(res.data.messsage === "There is an internel error"){
-              seterror(true)
+            if (res.data.messsage === "There is an internel error") {
+                seterror(true)
             }
-            else{
+            else {
                 navigate('/payment')
             }
 
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
     }
@@ -82,49 +82,69 @@ const Bill = () => {
     function FormRow() {
         return (
             <React.Fragment>
-                <Grid sx={{marginLeft:'1%',marginBottom:'1%'}} item xs={2}>
+                <Grid sx={{ marginLeft: '1%', marginBottom: '1%' }} item xs={2}>
                     <Item>Name</Item>
                 </Grid>
-                <Grid sx={{marginLeft:'8%',marginBottom:'1%'}}item xs={2}>
+                <Grid sx={{ marginLeft: '8%', marginBottom: '1%' }} item xs={2}>
                     <Item>Unit Price</Item>
                 </Grid>
-                <Grid sx={{marginLeft:'8%',marginBottom:'1%'}} item xs={2}>
+                <Grid sx={{ marginLeft: '8%', marginBottom: '1%' }} item xs={2}>
                     <Item>Quantity</Item>
                 </Grid>
-                <Grid sx={{marginLeft:'8%',marginBottom:'1%'}} item xs={2}>
+                <Grid sx={{ marginLeft: '8%', marginBottom: '1%' }} item xs={2}>
                     <Item>Total (Rs.)</Item>
                 </Grid>
             </React.Fragment>
         );
     }
-
+    const [redeempoints, setreedeem] = useState(false)
     const [payment, setpayment] = useState([])
-    const [total1,settotal] = useState("")
+    const [total1, settotal] = useState("")
+    const [clientcategory, setclient] = useState([])
+ 
     const id = localStorage.getItem("store_email")
     const load_payement = async () => {
         const res = await axios.get(`http://localhost:5000/pet_care/user/load_payment/${id}`)
         const data = await res.data
         return data
     }
-
-    const load_total = async() =>{
+    const redeem = () => {
+        setreedeem(true)
+    }
+    const load_total = async () => {
         const res = await axios.get(`http://localhost:5000/pet_care/user/load_total/${id}`)
         const data = await res.data
         return data
     }
-    useEffect(()=>{
+    const getclientcategory = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/user/getclientcategory/${id}`)
+            setclient(res.data.data)
+           
+
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    useEffect(() => {
+        getclientcategory()
         load_total()
-        .then((data)=>settotal(data.data))
-        .catch((err)=>console.log(err))
+            .then((data) => settotal(data.data))
+            .catch((err) => console.log(err))
     })
     useEffect(() => {
         load_payement()
             .then((data) => setpayment(data.data))
             .catch((err) => console.log(err))
     })
- 
+
+
+
+
+
     return (
-        <div style={{ marginTop: '7%',marginBottom:'2%' }}>
+        <div style={{ marginTop: '7%', marginBottom: '2%' }}>
             <Grid sx={{ marginLeft: '45%', fontSize: '24px', fontWeight: '600' }}>
                 Happy Tails
             </Grid>
@@ -134,17 +154,14 @@ const Bill = () => {
             <Grid sx={{ marginLeft: '40%', fontSize: '18px', fontWeight: '300', alignItems: 'center', display: 'flex', marginTop: '1%' }}>
                 <LocalPhoneIcon sx={{ marginRight: '1%' }} />+94 704122822
             </Grid>
-            <Grid sx={{ marginLeft: '45%', fontSize: '18px', fontWeight: '400', marginTop: '1%' }}>
-                Order ID #0001
-            </Grid>
 
-            {error &&(
-                 <Stack sx={{ width: '50%',marginLeft:'25%',marginTop:'2%' }} spacing={2}>
-                 <Alert severity="warning">{error_message}</Alert>
-                 </Stack>
+            {error && (
+                <Stack sx={{ width: '50%', marginLeft: '25%', marginTop: '2%' }} spacing={2}>
+                    <Alert severity="warning">{error_message}</Alert>
+                </Stack>
 
             )}
-           
+
             <div style={{ display: 'flex' }}>
                 <Box sx={{ width: '50%', marginTop: '5%', marginLeft: '3%', border: '1px', borderRadius: '10px', borderStyle: "double", height: 'auto' }}>
                     <Typography sx={{ marginLeft: '40%', marginTop: '1%', marginBottom: '2%', fontSize: '24px', fontWeight: '600' }}>Shipping Details</Typography>
@@ -153,7 +170,7 @@ const Bill = () => {
                             <Grid container item spacing={3}>
                                 <FormRow />
                             </Grid>
-                           
+
                         </Grid>
                     </Box>
                     <div style={{ marginTop: '1%', marginLeft: '1%' }}>
@@ -163,28 +180,53 @@ const Bill = () => {
                                 <div style={{ flex: 3, marginLeft: '1%', marginBottom: '1%' }}>{menu.name}</div>
                                 <div style={{ flex: 3, marginBottom: '1%' }}>{menu.unit_price}</div>
                                 <div style={{ flex: 3, marginBottom: '1%' }}>{menu.quantity}</div>
-                                <div style={{ flex: 2, marginBottom: '1%',alignItems:'left' }}>{menu.total}</div>
+                                <div style={{ flex: 2, marginBottom: '1%', alignItems: 'left' }}>{menu.total}</div>
                             </div>
                         ))}
 
-                    </div>
-                    <div style={{border:'3px',borderRadius:'2px',borderStyle:'groove',marginLeft:'55%',marginRight:'5%',marginTop:'3%'}}>
 
-                        <Typography sx={{marginLeft:'4%',display:'flex'}}>Total<div style={{marginLeft:'53%',display:"flex"}}>
-                        {total1 && total1.map((row,index)=>(
-                            row.new2))}
-                            </div>
-                      </Typography> 
+
+                    </div>
+
+
+                    <div style={{ border: '3px', borderRadius: '2px', borderStyle: 'groove', marginLeft: '55%', marginRight: '5%', marginTop: '3%' }}>
+
+                        <Typography sx={{ marginLeft: '4%', display: 'flex' }}>Total<div style={{ marginLeft: '53%', display: "flex" }}>
+                            {total1 && total1.map((row, index) => (
+                                row.new2))}
+                        </div>
+                        </Typography>
+                    </div>
+                    <div style={{ display: 'inline', float: 'right', marginRight: '5%', marginTop: '2%' }}>
+                       
+                        {clientcategory.filter((menu, index) => menu.status === "premium").map((menu, index) => (
+                            
+                            <><Typography sx={{ fontFamily: 'inherit', fontSize: '20px' }}>You can get your Premium Offer:Rs.{total1 && total1.map((row, index) => (
+                                (menu.offer*row.new2)/100))}</Typography><Button onClick={redeem} sx={{ backgroundColor: 'black', color: 'white', width: '25%', marginBottom: '2%', marginTop: '2%' ,'&:hover': { backgroundColor: 'black' } }}>Redeem</Button><div style={{ border: '3px', borderRadius: '2px', borderStyle: 'groove', marginLeft: '5%', marginRight: '5%', marginTop: '3%' }}>
+                                {redeempoints && (
+                                    <Typography sx={{ marginLeft: '4%', display: 'flex' }}>Sub Total<div style={{ marginLeft: '50%', display: "flex" }}>
+                                        {total1 && total1.map((row, index) => (
+                                            row.new2-(menu.offer*row.new2)/100))}
+                                    </div>
+                                    </Typography>
+
+                                )}
+
+                            </div></>
+
+                        ))}
+
                     </div>
 
 
                 </Box>
+
                 <Box sx={{ marginTop: '5%', marginLeft: '3%', border: '1px', borderRadius: '10px', borderStyle: "double", height: 'auto', width: '40%', backgroundColor: '#f0f0f5' }}>
                     <div style={{ margin: '1%' }}>
-                        <TextField id="outlined-basic" onChange={(e)=>setshipping(e.target.value)} placeholder="Shipping Address" variant="outlined" sx={{ width: '100%', backgroundColor: 'white' }} required />
+                        <TextField id="outlined-basic" onChange={(e) => setshipping(e.target.value)} placeholder="Shipping Address" variant="outlined" sx={{ width: '100%', backgroundColor: 'white' }} required />
                     </div>
                     <div style={{ margin: '1%' }}>
-                        <TextField id="outlined-basic" onChange={(e)=>setcontact(e.target.value)} placeholder="Contact Number" variant="outlined" sx={{ width: '100%', backgroundColor: 'white' }} required />
+                        <TextField id="outlined-basic" onChange={(e) => setcontact(e.target.value)} placeholder="Contact Number" variant="outlined" sx={{ width: '100%', backgroundColor: 'white' }} required />
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
                         <CalendarMonthIcon sx={{ marginLeft: '1%', marginRight: '1%' }} />{date}
@@ -228,8 +270,16 @@ const Bill = () => {
                     </div>
 
                     <div>
-                        <Button onClick={back} sx={{ width: '30%', backgroundColor: 'red', color: 'black', margin: '2%',':hover':{backgroundColor:'red'} }}>Cancel</Button>
-                        <Button onClick={() => final_payment(total1 && total1.map((menu,index) => menu.new2))} sx={{ width: '50%', backgroundColor: 'orange', color: 'black', ':hover': { backgroundColor: 'orange' } }}>Buy Now (RS.{total1 && total1.map((menu,index) => menu.new2)})</Button>
+                        <Button onClick={back} sx={{ width: '30%', backgroundColor: 'red', color: 'black', margin: '2%', ':hover': { backgroundColor: 'red' } }}>Cancel</Button>
+                        {redeempoints &&   clientcategory.filter((menu, index) => menu.status === "premium").map((row, index) =>  (
+                            <Button onClick={() => final_payment(total1 && total1.map((menu, index) => menu.new2-(row.offer*menu.new2)/100))} sx={{ width: '50%', backgroundColor: 'orange', color: 'black', ':hover': { backgroundColor: 'orange' } }}>Buy Now (RS.{total1 && total1.map((menu, index) => menu.new2-(row.offer*menu.new2)/100)})</Button>
+
+                        ))}
+                        {!redeempoints && (
+                             <Button onClick={() => final_payment(total1 && total1.map((menu, index) => menu.new2))} sx={{ width: '50%', backgroundColor: 'orange', color: 'black', ':hover': { backgroundColor: 'orange' } }}>Buy Now (RS.{total1 && total1.map((menu, index) => menu.new2)})</Button>
+
+                        )}
+                       
 
                     </div>
 

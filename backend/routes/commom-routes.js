@@ -1,6 +1,6 @@
 import express from "express";
 
-import {blog,comment,get_comment,ManagerProfile,DisplayManagerDetails,UpdateManager,myblog,ClientProfile,DisplayClientDetails,updateClient,deleteProfile, likefunc, heartfunc} from "../controllers/common-controllers.js"
+import {blog,comment,get_comment,ManagerProfile,DisplayManagerDetails,UpdateManager,myblog,ClientProfile,DisplayClientDetails,updateClient,deleteProfile, likefunc, heartfunc, event} from "../controllers/common-controllers.js"
 
 const common_route = express.Router()
 common_route.get('/blog',blog)
@@ -12,7 +12,7 @@ common_route.get('/myblog/:email',myblog)
 
 common_route.get('/DisplayManagerDetails/:email',DisplayManagerDetails)
 common_route.post('/UpdateManager/',UpdateManager)
-
+common_route.get('/event',event)
 common_route.get('/ClientProfile/:email',ClientProfile)
 common_route.get('/DisplayClientDetails/:email',DisplayClientDetails)
 common_route.post('/updateClient/',updateClient)

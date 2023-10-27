@@ -605,3 +605,50 @@ export const filtercomplain2 = async(req,res,next)=>{
     }
 
 }
+export const removeitem = async(req,res,next)=>{
+    const sqlQuery = "select *from item";
+    db.query(sqlQuery,(err,data)=>{
+        if(err){
+            res.json({message:'There is an internel error'})
+        }
+        return res.json({data})
+    })
+}
+export const remove_item_finally = async(req,res,next)=>{
+    const selectedremove = req.params.selectedremove;
+
+    const sqlQuery = "Delete from item WHERE item_id = ?"
+    const checkarray = [selectedremove]
+    db.query(sqlQuery,checkarray,(err,data)=>{
+        if(err){
+            res.json({message:"There is an internel error"})
+        }
+        return res.json({message:"Deleted"})
+    })
+
+}
+export const discount = async(req,res,next)=>{
+    const {selectedremove, discountitem} = req.body
+    const sqlQuery = "Update item SET discount = ? WHERE item_id = ?"
+    const value = [discountitem , selectedremove]
+    db.query(sqlQuery,value,(err,data)=>{
+        if(err){
+            return res.json({message:'There is an internel error'})
+        }
+        return res.json({message:'updated'})
+    })
+
+}
+
+export const offer = async(req,res,next)=>{
+    const id = req.params.offer
+    const status = "premium"
+    const sqlQuery = "Update client SET offer = ? WHERE status = ?"
+    const values = [id,status]
+    db.query(sqlQuery,values,(err,data)=>{
+        if(err){
+            return res.json({message:'There is an internel error'})
+        }
+        return res.json({message:'updated'})
+    })
+}
