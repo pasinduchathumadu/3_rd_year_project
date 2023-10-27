@@ -354,7 +354,7 @@ const Clients = () => {
                                         <StyledTableCell align="center">Client Name</StyledTableCell>
                                         <StyledTableCell align="center">Address</StyledTableCell>
                                         <StyledTableCell align="center">Contact Number</StyledTableCell>
-                                        <StyledTableCell align="center">Status</StyledTableCell>
+                                        {/* <StyledTableCell align="center">Status</StyledTableCell> */}
                                         <StyledTableCell align="center"></StyledTableCell>
                                     </TableRow>
                                 </TableHead>
@@ -365,9 +365,9 @@ const Clients = () => {
                                             <StyledTableCell align="center">{client.name}</StyledTableCell>
                                             <StyledTableCell align="center">{client.address}</StyledTableCell>
                                             <StyledTableCell align="center">{client.contact_number}</StyledTableCell>
-                                            <StyledTableCell align="center">
+                                            {/* <StyledTableCell align="center">
                                                 {client.status === "premium" ? <><StarIcon sx={{ color: 'orange' }} /> premium</> : "regular"}
-                                            </StyledTableCell>
+                                            </StyledTableCell> */}
                                             <StyledTableCell align="center">
                                                 <Button onClick={() => viewPetDetails(client.client_id)} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Pets Details</Button>
                                             </StyledTableCell>

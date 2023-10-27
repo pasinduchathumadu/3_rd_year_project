@@ -193,7 +193,7 @@ export const Shop = () => {
     setaddpets(true)
     seterror(false)
   }
-  // sumit the add pets form
+  // submit the add pets form
   const submitAddForm = async () => {
     if (breed === "" || sex === "" || category === "" || price === "") {
       seterror(true)

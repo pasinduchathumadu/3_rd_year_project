@@ -36,7 +36,7 @@ import Footer from "./pages/Common/Footer";
 
 import BoardingHome from "./pages/Boarding_house_manager/Home";
 import BoardingClients from "./pages/Boarding_house_manager/Clients";
-import BoardingPets from "./pages/Boarding_house_manager/Boardpets";
+// import BoardingPets from "./pages/Boarding_house_manager/Boardpets";
 import BoardingPackages from "./pages/Boarding_house_manager/Packages";
 import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 import Cages from "./pages/Boarding_house_manager/Cages";
@@ -95,6 +95,7 @@ import ViewMedical from "./pages/Client/ViewMedical";
 
 import ActivityTracking from "./pages/Client/ActivityTracking";
 import Reports from "./pages/Client/Reports";
+import Vaccine from "./pages/Medi-help_manager/AddVaccine";
 // ----------
 // sidebar icons
 import HomeIcon from "@mui/icons-material/Home"; //dashboard
@@ -613,6 +614,15 @@ function App() {
                   </>
                 }
               />
+             <Route
+                path="/vaccine"
+                element={
+                  <>
+                    <HomeHeader userRole={"medi_help_manager"} />
+                    <Vaccine />
+                  </>
+                }
+              />
             <Route
               path="/viewAppointments"
               element={
@@ -708,15 +718,6 @@ function App() {
                   <>
                     <HomeHeader userRole={"boarding_house_manager"} />
                     <BoardingClients />
-                  </>
-                }
-              />
-              <Route
-                path="/boarding_pets"
-                element={
-                  <>
-                    <HomeHeader userRole={"boarding_house_manager"} />
-                    <BoardingPets />
                   </>
                 }
               />

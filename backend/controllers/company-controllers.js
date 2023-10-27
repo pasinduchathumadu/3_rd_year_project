@@ -411,6 +411,21 @@ export const petShopCount = async(req,res,next) => {
 
 }
 
+// counts of regular and premium clients in online store
+export const clientCount = async(req,res,next) => {
+  const status1 = "premium"
+  const status2 = "regular"
+  const sqlQuery = 'SELECT (SELECT DISTINCT COUNT(c.client_id) FROM client c INNER JOIN purchase_order p ON c.email = p.order_email WHERE c.status = ? GROUP BY p.order_email) AS premiumCount, (SELECT DISTINCT COUNT(c.client_id) FROM client c INNER JOIN purchase_order p ON c.email = p.order_email WHERE c.status = ? GROUP BY p.order_email) AS regularCount'
+  const values = [status1, status2]
+
+  db.query(sqlQuery, values, (err, data) => {
+    if(err) {
+      return res.json({message:'There is an internal error'})
+    }
+    return res.json({data})
+  })
+}
+
 // CATEGORIZATION
 
 export const categorizeClients = async (req, res, next) => {

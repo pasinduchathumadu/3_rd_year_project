@@ -16,7 +16,8 @@ import {
   pendingComplains,
   pendingBlogs,
   petShopCount,
-  categorizeClients
+  categorizeClients,
+  clientCount
 } from "../controllers/company-controllers";
 
 const company_manager = express.Router();
@@ -42,6 +43,7 @@ company_manager.get("/incomingCompetitions", incomingCompetitions);
 company_manager.get("/pendingComplains", pendingComplains);
 company_manager.get("/pendingBlogs", pendingBlogs);
 company_manager.get("/petShopCount", petShopCount);
+company_manager.get("/clientCount", clientCount);
 
 // CATEGORIZATION
 company_manager.get("/categorizeClients", categorizeClients);

@@ -32,15 +32,15 @@ export default function TemporaryDrawer({
     data = [
       "Dashboard",
       "Packages",
-      "Boarding Pets",
       "Boarding Requests",
+      "Cage Structure",
       "Complains",
     ];
     data_link = [
       "boarding_dashboard",
       "boarding_packages",
-      "boarding_pets",
       "boarding_clients",
+      "cages",
       "boarding_complains",
     ];
   } else if (userType === "admin") {
