@@ -1,5 +1,5 @@
 import express from "express";
-import {viewmycomplain, viewClientcomplains, complainDetails, addResponse, add_complain, deleteMyComplain,refund_appointments, refundAdding,toRefund,ViewRefundDetails, addingpet,petViewing,petDeleteing,submit, get_training, get_groom_apo, get_employee, leave,mind_relaxing, CompletePending, removeUncompleted} from "../controllers/carecenter-controller.js";
+import {viewmycomplain, viewClientcomplains, complainDetails, addResponse, add_complain, deleteMyComplain,refund_appointments, refundAdding,toRefund,ViewRefundDetails, addingpet,petViewing,petDeleteing,submit, get_training, get_groom_apo, get_employee, leave,mind_relaxing, CompletePending, removeUncompleted, submitNewEmployee, getEmplyeeID, submitConfirmationForm} from "../controllers/carecenter-controller.js";
 const care_center_route = express.Router()
 
 // COMPLAINS 
@@ -32,6 +32,9 @@ care_center_route.get('/removeUncompleted',removeUncompleted)
 
 
 care_center_route.post('/leave',leave)
+care_center_route.post('/submitNewEmployee',submitNewEmployee)
+care_center_route.get('/getEmplyeeID/:id',getEmplyeeID)
+care_center_route.post('/submitConfirmationForm',submitConfirmationForm)
 
 export default care_center_route;
 
