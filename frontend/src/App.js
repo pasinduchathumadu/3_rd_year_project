@@ -36,7 +36,7 @@ import Footer from "./pages/Common/Footer";
 
 import BoardingHome from "./pages/Boarding_house_manager/Home";
 import BoardingClients from "./pages/Boarding_house_manager/Clients";
-import BoardingPets from "./pages/Boarding_house_manager/Boardpets";
+// import BoardingPets from "./pages/Boarding_house_manager/Boardpets";
 import BoardingPackages from "./pages/Boarding_house_manager/Packages";
 import BoardingComplains from "./pages/Boarding_house_manager/Complains";
 import Cages from "./pages/Boarding_house_manager/Cages";
@@ -718,15 +718,6 @@ function App() {
                   <>
                     <HomeHeader userRole={"boarding_house_manager"} />
                     <BoardingClients />
-                  </>
-                }
-              />
-              <Route
-                path="/boarding_pets"
-                element={
-                  <>
-                    <HomeHeader userRole={"boarding_house_manager"} />
-                    <BoardingPets />
                   </>
                 }
               />
