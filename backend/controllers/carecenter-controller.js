@@ -375,13 +375,15 @@ export const get_training = async (req, res, next) => {
         })
     }
 }
-
+// get all emplyees
 export const get_employee = async (req, res, next) => {
-    const id = req.params.id
+    // const id = req.params.id
+    const status = 'active'
 
-    const sqlQuery = "SELECT *FROM employee"
+    const sqlQuery = "SELECT *FROM employee WHERE status = ?"
+    const values = [status]
 
-    db.query(sqlQuery, (err, data) => {
+    db.query(sqlQuery, values, (err, data) => {
         if (err) {
             return res.json({ message: "There is an internel error" })
         }
@@ -390,6 +392,8 @@ export const get_employee = async (req, res, next) => {
     })
 }
 
+
+// set leave to emplyees
 export const leave = async (req, res, next) => {
     const { id, dateStart, dateEnd } = req.body
     const sqlQuery = "UPDATE employee SET unfree_date_start = ? , unfree_date_end = ? WHERE emp_id = ?"
@@ -527,5 +531,40 @@ export const submitNewEmployee = async(req,res,next) => {
     }catch(err) {
         console.log(err)
     }  
+}
+
+// get id for confirmation box
+export const getEmplyeeID =async(req,res,next) => {
+    const id = req.params.id
+
+    const sqlQuery = 'SELECT * FROM employee WHERE emp_id = ?'
+    const values = [id]
+
+    db.query(sqlQuery, values,(err, data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+
+} 
+
+// submit confirmation form
+export const submitConfirmationForm = async(req,res, next) => {
+    const {
+        id,
+        reason
+    } = req.body;
+
+    const status = "removed"
+    const sqlQuery = 'UPDATE employee SET status = ?, reason = ? WHERE emp_id = ?'
+    const values = [status, reason, id]
+
+    db.query(sqlQuery, values, (err, data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({message:'Removed Successfully!'})
+    })
 }
 

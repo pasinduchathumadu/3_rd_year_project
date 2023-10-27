@@ -18,6 +18,8 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import axios from "axios";
 import CloseIcon from '@mui/icons-material/Close';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 
 function Caregiverlist() {
@@ -158,12 +160,65 @@ function Caregiverlist() {
       console.log('There is an internal error')
     }
   }
-
-
   // cancel adding
   const cancelAdding = () => {
     setvalue(0)
     setaddnew(false)
+  }
+
+  // ADD REASON FOR REMOVE AN EMPLOYEE
+  const [addReason, setaddReason] = useState(false)
+  const [id1, setid1] = useState("")
+  // cancel removing 
+  const cancelRemoving = () => {
+    setaddReason(false)
+    setvalue(0)
+  }
+
+  // display confirmation box
+  const confirmationForm = (id) => {
+    setaddReason(true)
+    setvalue(false)
+    setid1(id)
+  }
+
+  // get emplyee id
+  const [details, setdetails] = useState("")
+  const getEmplyeeID = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/care_center_manager/getEmplyeeID/${id1}`)
+      const data = await res.data
+      return data
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  useEffect(() => {
+    getEmplyeeID()
+      .then((data) => setdetails(data.data))
+      .catch((err) => console.log(err))
+  })
+
+  const [reason, setreason] = useState("") //reason
+  const [error2, seterror2] = useState(false)
+  const [message2, setmessage2] = useState("")
+  // submit remove confirmation form
+  const submitConfirmationForm = async (id) => {
+    if (reason === "") {
+      seterror2(true)
+      setmessage2("Please fill the field")
+      return;
+    }
+    setvalue(0)
+    setaddReason(false)
+    try {
+      const res = await axios.post(`http://localhost:5000/pet_care/care_center_manager/submitConfirmationForm`, {
+        id,
+        reason
+      })
+    } catch (err) {
+      console.log('There is an internal error')
+    }
   }
 
   return (
@@ -263,9 +318,12 @@ function Caregiverlist() {
                     src={getImageSrc(menu.img)}
                     alt={menu.first_name} />
                   <CardContent>
-                    <Typography variant="h5" gutterBottom component={"div"}>
-                      {menu.first_name + " " + menu.last_name}
-                    </Typography>
+                    <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                      <Typography variant="h5" gutterBottom component={"div"}>
+                        {menu.first_name + " " + menu.last_name}
+                      </Typography>
+                      <IconButton onClick={() => confirmationForm(menu.emp_id)}><DeleteIcon sx={{ color: 'red' }} /></IconButton>
+                    </Stack>
                     <Typography variant="body2">{menu.email}</Typography>
                     <Typography variant="body2">{menu.contact_number}</Typography><br />
                     <Typography variant="body2" sx={{ color: "black", marginBottom: '9px' }}>Grooming Type - {menu.type}</Typography>
@@ -299,9 +357,12 @@ function Caregiverlist() {
                     src={getImageSrc(menu.img)}
                     alt={menu.first_name} />
                   <CardContent>
-                    <Typography variant="h5" gutterBottom component={"div"}>
-                      {menu.first_name + " " + menu.last_name}
-                    </Typography>
+                    <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                      <Typography variant="h5" gutterBottom component={"div"}>
+                        {menu.first_name + " " + menu.last_name}
+                      </Typography>
+                      <IconButton onClick={() => confirmationForm(menu.emp_id)}><DeleteIcon sx={{ color: 'red' }} /></IconButton>
+                    </Stack>
                     <Typography variant="body2">{menu.email}</Typography>
                     <Typography variant="body2">{menu.contact_number}</Typography><br />
                     <Typography variant="body2" sx={{ color: "black", marginBottom: '9px' }}>Grooming Type - {menu.type}</Typography>
@@ -469,8 +530,67 @@ function Caregiverlist() {
                   <Alert severity="error">{message1}</Alert>
                 </Stack>
               )}
-              
+
               <Button variant="contained" type="submit" sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }} onClick={() => submitNewEmployee()} >Submit</Button>
+            </div>
+          </FormControl>
+        </div>
+      )}
+
+      {/* ADD REASON FOR REMOVING */}
+      {addReason && (
+        <div style={{
+          backdropFilter: 'blur(4px)',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '50%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginRight: '300px',
+          zIndex: 1001,
+        }}>
+          <FormControl sx={{
+            marginLeft: '8%',
+            borderRadius: '10px',
+            marginTop: '25%',
+            width: '700px',
+            padding: '20px',
+            backgroundColor: '#F0F0F5',
+            position: 'relative',
+            zIndex: 1001
+          }}>
+            <div style={{ backgroundColor: 'white', padding: '15px', borderRadius: '10px' }}>
+              <div>
+                <IconButton onClick={cancelRemoving} ><CloseIcon sx={{ color: 'white', backgroundColor: 'red', marginLeft: '600px' }} /></IconButton>
+              </div>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '20px', textAlign: 'center' }}>
+                Confirmation of Removing?
+              </Typography>
+              <hr />
+
+              {details && details.map((menu, index) => (
+                <>
+                  <div style={{ marginTop: '20px' }} className="form-label">
+                    <Typography sx={{ fontWeight: 'bold' }}>Emplyee ID : {menu.emp_id} </Typography>
+                  </div>
+
+                  <div style={{ marginTop: '20px' }} className="form-label">
+                    <FormLabel>Enter the Reason</FormLabel>
+                    <TextField id="outlined-basic" placeholder="Reason" variant="outlined" onChange={(e) => setreason(e.target.value)} required />
+                  </div>
+
+                  {error2 && (
+                    <Stack sx={{ width: '100%' }} spacing={2}>
+                      <Alert severity="error">{message2}</Alert>
+                    </Stack>
+                  )}
+
+                  <Button variant="contained" type="submit" sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }} onClick={() => submitConfirmationForm(menu.emp_id)} >Submit</Button>
+                </>
+              ))}
             </div>
           </FormControl>
         </div>
