@@ -291,7 +291,6 @@ const Home = () => {
                             <AssessmentIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
                             <h3 style={{ color: 'black' }}> Cages Current Usage</h3>
                         </div>
-                        <Button onClick={cages} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>View Cages Structure</Button>
                     </div>
                     {cage && cage.map((row, index) => (
                         <div>
