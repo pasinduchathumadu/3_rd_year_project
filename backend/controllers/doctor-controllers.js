@@ -473,3 +473,30 @@ export const addMedical = async(req,res,next) => {
     })
 }
 
+export const remove = async(req,res,next)=>{
+    const status = "active"
+    const sqlQuery = "Select *FROM vet WHERE status = ?"
+    const value = [status]
+    db.query(sqlQuery,value,(err,data)=>{
+        if(err){
+            return res.json({message:'There is an internel error'})
+        }
+        return res.json({data})
+    })
+}
+
+export const remove_final = async (req,res,next)=>{
+    const status = "removed"
+    const { selectedID,reason} = req.body
+    const sqlQuery = "update vet SET status = ? , reason = ? WHERE vet_id = ?"
+    const value = [status,reason,selectedID]
+
+    db.query(sqlQuery,value,(err,data)=>{
+        if(err){
+            return res.json({message:'There is an internel error'})
+        }
+        return res.json({message:'Deleted'})
+    })
+
+}
+

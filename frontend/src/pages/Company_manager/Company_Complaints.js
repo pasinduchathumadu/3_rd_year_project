@@ -126,6 +126,7 @@ function Company_Complaints() {
     getComplaints()
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const getComplaints = async () => {
     try {
       const res = await axios.get(
@@ -151,11 +152,10 @@ function Company_Complaints() {
     clientsComplains()
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const clientsComplains = async () => {
     try {
-      const res = await axios.get(
-        `http://localhost:5000/pet_care/company_manager/clientsComplains/${clients2}`
-      );
+      const res = await axios.get(`http://localhost:5000/pet_care/company_manager/clientsComplains/${clients2}`);
       setclientcom(res.data.data)
 
     } catch (err) {
@@ -593,7 +593,7 @@ function Company_Complaints() {
               <Typography sx={{ textAlign: 'center' }}>Confirm Remove? </Typography>
               <hr /><br />
 
-              <div style={{ display: 'flex', flexDirection: 'row', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
                 <Button onClick={deleteMyComplain} sx={{ backgroundColor: 'orange', color: 'white', margin: '10px', ':hover': { backgroundColor: 'orange' } }}>Confirm</Button>
                 <Button onClick={cancelDelete} sx={{ backgroundColor: 'red', color: 'white', margin: '10px', ':hover': { backgroundColor: 'red' } }}>Cancel</Button>
               </div>

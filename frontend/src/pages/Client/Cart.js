@@ -52,6 +52,7 @@ const CartTable = () => {
   
   const handleIncreaseQuantity = async(itemId,quantity,price) => {
     try{
+   
       const res = await axios.post("http://localhost:5000/pet_care/user/increase",{
         email,
         itemId,
@@ -153,13 +154,13 @@ const CartTable = () => {
                 src={getImageSrc(item.image)}
                 alt={item.name}
               /></TableCell>
-              <TableCell>RS.{item.unit_price}</TableCell>
+              <TableCell>RS.{item.unit_price - (item.discount * item.unit_price) / 100}</TableCell>
               <TableCell sx={{textAlign:'center'}}>
-                <Button variant="contained" sx={{ backgroundColor: 'black', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '20px', minHeight: '20px', fontSize: '12px', '&:hover': { backgroundColor: 'black' } }} onClick={() => handleDecreaseQuantity(item.item_id,item.quantity,item.unit_price)}>-</Button>
+                <Button variant="contained" sx={{ backgroundColor: 'black', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '20px', minHeight: '20px', fontSize: '12px', '&:hover': { backgroundColor: 'black' } }} onClick={() => handleDecreaseQuantity(item.item_id,item.quantity,item.unit_price - (item.discount * item.unit_price) / 100)}>-</Button>
                 {item.quantity}
-                <Button variant="contained" sx={{ backgroundColor: 'black', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '20px', minHeight: '20px', fontSize: '12px', '&:hover': { backgroundColor: 'black' } }} onClick={() => handleIncreaseQuantity(item.item_id,item.quantity,item.unit_price)}>+</Button>
+                <Button variant="contained" sx={{ backgroundColor: 'black', margin: '10px', paddingLeft: '15px', paddingRight: '15px', minWidth: '20px', minHeight: '20px', fontSize: '12px', '&:hover': { backgroundColor: 'black' } }} onClick={() => handleIncreaseQuantity(item.item_id,item.quantity,item.unit_price - (item.discount * item.unit_price) / 100)}>+</Button>
               </TableCell>
-              <TableCell>RS.{item.unit_price * item.quantity}</TableCell>
+              <TableCell>RS.{(item.quantity,item.unit_price - (item.discount * item.unit_price) / 100) * item.quantity}</TableCell>
 
               <TableCell><Button onClick={()=>removeitem(item.item_id)} variant="contained" sx={{ backgroundColor: 'black',':hover':{backgroundColor:'black'}, marginLeft: '50px' }}>Remove Item</Button></TableCell>
             </TableRow>

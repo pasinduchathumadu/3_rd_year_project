@@ -10,7 +10,7 @@ export const add_competition = async (req, res, next) => {
     compTime,
     compVenue,
     compPay,
-    compFile,
+    image,
   } = req.body;
   const sqlquery =
     "INSERT INTO company_competitions (name,description,date,time,venue,pay,file) VALUES (?,?,?,?,?,?,?) ";
@@ -21,7 +21,7 @@ export const add_competition = async (req, res, next) => {
     compTime,
     compVenue,
     compPay,
-    compFile,
+    image,
   ];
   db.query(sqlquery, value, (err, data) => {
     if (err) {

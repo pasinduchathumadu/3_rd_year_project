@@ -28,22 +28,25 @@ function Viw_vet() {
     const [isPopupOpen1, setIsPopupOpen1] = useState(false);
     const [isPopupOpen2, setIsPopupOpen2] = useState(false);
     const [isPopupOpen3, setIsPopupOpen3] = useState(false)
+    const [isPopupOpen4, setIsPopupOpen4] = useState(false)
     const [dateStart, setDateStart] = useState("");
     const [dateEnd, setDateEnd] = useState("");
     const [count, setcount] = useState("")
     const [error, seterror] = useState(false)
     const [message, setmessage] = useState("")
     const [price, setprice1] = useState("")
-
+    const [ vetid , setvetid ] = useState([])
     const [image, setimage] = useState("")
     const [first, setfirst] = useState("")
     const [second, setsecond] = useState("")
     const [fee, setfee] = useState("")
+    const [ reason ,setreason] = useState("")
     const [starttime, settime] = useState("")
     const [contact, setcontact] = useState("")
     const [countnew, setcountnew] = useState("")
     const [working, setworking] = useState(0)
     const [selectfile, setfile] = useState(null)
+    const [ selectedID , setselectID] = useState("")
     const handleChangeworking = (event) => {
         setworking(event.target.value)
     }
@@ -52,7 +55,7 @@ function Viw_vet() {
         setfile(file)
         setimage(file.name)
     }
-   
+
 
 
     const openPopup = (id) => {
@@ -74,6 +77,7 @@ function Viw_vet() {
         setIsPopupOpen1(false)
         setIsPopupOpen2(false)
         setIsPopupOpen3(false)
+        setIsPopupOpen4(false)
     };
 
     const input = new Date();
@@ -83,6 +87,26 @@ function Viw_vet() {
     const handleChange = (event, newvalue) => {
         setvalue(newvalue);
     };
+
+    const handleselect = (event) =>{
+        setselectID(event.target.value)
+
+    }
+
+    const removevet = () => {
+        getid()
+    }
+    const getid = async()=>{
+        try{
+            const res = await axios.get('http://localhost:5000/pet_care/medi_help_manager/remove')
+            setvetid(res.data.data)
+            setIsPopupOpen4(true)
+
+
+        }catch(err){
+            console.log(err);
+        }
+    }
 
     const leave_submit = async () => {
         const selectedStartDate = new Date(dateStart);
@@ -119,6 +143,21 @@ function Viw_vet() {
         setIsPopupOpen3(true)
     }
 
+    const removed = async()=>{
+        try{
+            const res = await axios.post('http://localhost:5000/pet_care/medi_help_manager/remove_final',{
+                selectedID,
+                reason
+            })
+            if(res.data.message === "Deleted"){
+                seterror(true)
+            }
+
+        }catch(err){
+            console.log(err)
+        }
+    }
+
 
     const set_count = async () => {
         if (count < 1) {
@@ -136,14 +175,14 @@ function Viw_vet() {
     }
 
 
-    const addvet = async()=>{
-        if(first === "" || second ==="" || starttime ==="" || fee === "" || contact === "" ||countnew ==="" || image ==="" || working === ""){
+    const addvet = async () => {
+        if (first === "" || second === "" || starttime === "" || fee === "" || contact === "" || countnew === "" || image === "" || working === "") {
             seterror(true)
             setmessage("Please fill all the required!!")
             return
         }
-        try{
-            const res = await axios.post('http://localhost:5000/pet_care/medi_help_manager/add_vet',{
+        try {
+            const res = await axios.post('http://localhost:5000/pet_care/medi_help_manager/add_vet', {
                 first,
                 second,
                 starttime,
@@ -153,16 +192,16 @@ function Viw_vet() {
                 image,
                 working
             })
-            if(res.data.message === "Added"){
+            if (res.data.message === "Added") {
                 seterror(false)
                 setmessage("There is no error")
             }
-            else{
+            else {
                 seterror(true)
                 setmessage("Cannot be Added")
             }
 
-        }catch(err){
+        } catch (err) {
             console.log(err)
         }
     }
@@ -244,26 +283,26 @@ function Viw_vet() {
 
     return (
         <>
-            <div className="home-container" style={{ marginTop: '4%'}}>
-            <div className="top">
-                <div className="top-line">
-                    <p>Medi Help Center Manager</p>
-                    <p className="top-line-text">Today</p>
-                    <p class="top-line-text">{date}</p>
-                </div>
-                <div className="top-line">
-                    <p style={{ fontSize: '20px', fontWeight: 1000, color: 'black' }}>Doctors</p>
-                </div>
+            <div className="home-container" style={{ marginTop: '4%' }}>
+                <div className="top">
+                    <div className="top-line">
+                        <p>Medi Help Center Manager</p>
+                        <p className="top-line-text">Today</p>
+                        <p class="top-line-text">{date}</p>
+                    </div>
+                    <div className="top-line">
+                        <p style={{ fontSize: '20px', fontWeight: 1000, color: 'black' }}>Doctors</p>
+                    </div>
 
-                <div className="top-line">
-                    <NotificationsIcon className="bell-icon" />
-                    <Button onClick={profile}>
-                        <img src={getProfilepicturepath("medi_profile.jpg")} 
-                            alt="profilepicture" 
-                            className="boarding-profile-picture" />
-                    </Button>
+                    <div className="top-line">
+                        <NotificationsIcon className="bell-icon" />
+                        <Button onClick={profile}>
+                            <img src={getProfilepicturepath("medi_profile.jpg")}
+                                alt="profilepicture"
+                                className="boarding-profile-picture" />
+                        </Button>
+                    </div>
                 </div>
-            </div>
 
 
 
@@ -290,11 +329,11 @@ function Viw_vet() {
                     </Tabs>
                 </Box>
 
-                <Button onClick={() => switchtoadd()} sx={{ backgroundColor: 'black', color: 'white', width: '10%', borderRadius: '5%', marginLeft: '0%', ':hover':{backgroundColor:'black'} }}><AddIcon />Add Vet</Button>
-
+                <Button onClick={() => switchtoadd()} sx={{ backgroundColor: 'black', color: 'white', width: '10%', borderRadius: '5%', marginLeft: '0%', ':hover': { backgroundColor: 'black' } }}><AddIcon />Add Vet</Button>
+                <Button onClick={() => removevet()} sx={{ backgroundColor: 'black', color: 'white', width: '10%', borderRadius: '5%', marginLeft: '0%', ':hover': { backgroundColor: 'black' }, float: 'right', marginRight: '5%' }}><AddIcon />Remove Vet</Button>
             </Grid>
 
-           
+
             {value === 1 && (
                 <div className="full-page">
 
@@ -527,7 +566,7 @@ function Viw_vet() {
                 </Button>
             </Dialog>
             <Dialog open={isPopupOpen3} onClose={closePopup} fullWidth>
-                <DialogTitle sx={{marginLeft:'40%', fontWeight:'bold'}}>Add Vet</DialogTitle>
+                <DialogTitle sx={{ marginLeft: '40%', fontWeight: 'bold' }}>Add Vet</DialogTitle>
                 <hr />
                 <DialogContent >
                     <DialogContentText sx={{ paddingBottom: '1%' }}>Enter  Details:</DialogContentText>
@@ -621,8 +660,8 @@ function Viw_vet() {
                                 <input type="file" hidden onChange={handlefilechange} required />
                             </Button>
                         </Stack>
-                        <Stack sx={{color:"red" }}>
-                        
+                        <Stack sx={{ color: "red" }}>
+
                             {selectfile && (
 
                                 <Typography>{selectfile.name}</Typography>
@@ -649,6 +688,62 @@ function Viw_vet() {
                     sx={{ margin: '16px' }}
                 >
                     Submit
+                </Button>
+            </Dialog>
+            <Dialog open={isPopupOpen4} onClose={closePopup} fullWidth>
+                <DialogTitle sx={{ marginLeft: '40%', fontWeight: 'bold' }}>Remove Vet</DialogTitle>
+                <hr />
+                <DialogContent >
+                    <DialogContentText sx={{ paddingBottom: '1%' }}>Select Vet ID:</DialogContentText>
+                   
+                        <Box sx={{ minWidth: 120, marginBottom: '2%', marginTop: '2%' }}>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">ID</InputLabel>
+                                <Select
+                                    fullWidth
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={selectedID}
+                                    label="ID"
+                                    onChange={handleselect}
+                                >
+                                    {vetid.map((menu, index) => (
+                                        <MenuItem value={menu.vet_id} key={menu.vet_id}>ID:{menu.vet_id} - Dr.{menu.first_name+" "+menu.last_name}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Box>
+                  
+                    <Typography>Reason</Typography>
+                    <TextField
+                        placeholder="Reason For Remove"
+                        type="text"
+                        required
+                        fullWidth
+
+                        onChange={(e) => setreason(e.target.value)}
+                    />
+
+
+
+
+
+
+                </DialogContent>
+                {error && (
+                    <Stack sx={{ width: '75%', marginLeft: '3%' }} spacing={2}>
+
+                        <Alert sx={{ width: '75%' }} severity="success">Successfully Removed</Alert>
+
+                    </Stack>
+                )}
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={removed}
+                    sx={{ margin: '16px' }}
+                >
+                    Removed
                 </Button>
             </Dialog>
         </>
