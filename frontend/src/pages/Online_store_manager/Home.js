@@ -497,7 +497,7 @@ const Home = () => {
 
                                             </div>
 
-                                            <Typography sx={{ marginTop: '5%', textAlign: 'center', fontSize: '38px' }}>Set The Discount</Typography>
+                                            <Typography sx={{ marginTop: '5%', textAlign: 'center', fontSize: '25px' }}>Set The Discount</Typography>
                                         </Box>
 
                                     </div>
@@ -508,7 +508,7 @@ const Home = () => {
                                                 <DoneAllIcon sx={{ display: 'inline', alignItems: 'center' }} /><Typography sx={{ display: 'inline', alignItems: 'center', marginLeft: '5%' }}>Remove Items</Typography>
                                             </div>
 
-                                            <Typography sx={{ marginTop: '5%', textAlign: 'center', fontSize: '38px' }}>Online Store</Typography>
+                                            <Typography sx={{ marginTop: '5%', textAlign: 'center', fontSize: '25px' }}>Online Store</Typography>
 
                                         </Box>
 

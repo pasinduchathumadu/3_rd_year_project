@@ -504,29 +504,22 @@ export default function OrderTable() {
                         <StyledTableCell align="center">Arrival Date</StyledTableCell>
                         <StyledTableCell align="center">Placed Date</StyledTableCell>
                         <StyledTableCell align="center">Status</StyledTableCell>
-                        <StyledTableCell align="center"></StyledTableCell>
-                        <StyledTableCell align="center"></StyledTableCell>
-
                       </TableRow>
                     </TableHead>
                     <TableBody>
                       {boardingdata && boardingdata.map((menu, index) => (
                         <StyledTableRow key={menu.request_id}>
-
                           <StyledTableCell align="center">{menu.request_id}</StyledTableCell>
                           <StyledTableCell align="center">{menu.pet_id}</StyledTableCell>
                           <StyledTableCell align="center">{menu.package_name}</StyledTableCell>
                           <StyledTableCell align="center">{menu.board_arrival_date}</StyledTableCell>
                           <StyledTableCell align="center">{menu.placed_date}</StyledTableCell>
-                          {/* <StyledTableCell align="center">{menu.request_status}</StyledTableCell> */}
                           <StyledTableCell align="center">
                             {menu.request_status === "pending" && menu.placed_date + 2 >= date
                               ? (<Button sx={{ backgroundColor: 'orange', color: 'white', ':hover': { backgroundColor: 'orange' } }}>CANCEL</Button>)
                               : menu.request_status
                             }
-
                           </StyledTableCell>
-
                         </StyledTableRow>
                       ))}
                     </TableBody>
@@ -550,8 +543,6 @@ export default function OrderTable() {
                         <StyledTableCell align="center">Pet ID</StyledTableCell>
                         <StyledTableCell align="center">Reserved Date</StyledTableCell>
                         <StyledTableCell align="center">Status</StyledTableCell>
-                        {/* <StyledTableCell align="center">Payment</StyledTableCell> */}
-                        {/* <StyledTableCell align="center">Edit</StyledTableCell> */}
                         <StyledTableCell align="center"></StyledTableCell>
                       </TableRow>
                     </TableHead>
@@ -564,12 +555,6 @@ export default function OrderTable() {
                           <StyledTableCell align="center">{menu.pet_id}</StyledTableCell>
                           <StyledTableCell align="center">{menu.date}</StyledTableCell>
                           <StyledTableCell align="center">{menu.status}</StyledTableCell>
-                          {/* <StyledTableCell align="left">
-
-                            <Dialog title="Change" btn_name="Edit">
-                              <EditForm />
-                            </Dialog>
-                          </StyledTableCell> */}
                           <StyledTableCell align="left">
                             <div style={{ width: '60%', marginTop: '1px', backgroundColor: 'white' }}>
                               <Dialog
@@ -609,7 +594,7 @@ export default function OrderTable() {
                                   <Button onClick={() => handleClose()} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' } }} >
                                     Back
                                   </Button>
-                                  <Button onClick={() => confirmDelete_training(menu.id)} sx={{ backgroundColor: 'red', color: 'white', ':hover': { backgroundColor: 'red' } }} autoFocus>
+                                  <Button onClick={() => cancelMindRelaxingAppointment(menu.appointment_id)} sx={{ backgroundColor: 'red', color: 'white', ':hover': { backgroundColor: 'red' } }} autoFocus>
                                     Delete
                                   </Button>
                                 </DialogActions>
