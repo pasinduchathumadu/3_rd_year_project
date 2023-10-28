@@ -82,13 +82,13 @@ const Bording = () => {
       })
       if (res.data.message === "success") {
         console.log("success")
-        navigate('/petcare')
+        navigate('/dashboard')
       }
       else {
         console.log("failed")
       }
     } catch (err) {
-      navigate('/petcare')
+      navigate('/dashboard')
       console.log("failed")
     }
   }
@@ -327,12 +327,12 @@ const Bording = () => {
 
             <div style={{ display: 'flex', flexDirection: 'row', gap: '40%', marginTop: '1%' }}>
               <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <InputLabel>Board Date :</InputLabel>
+                <InputLabel>Arrival Date :</InputLabel>
                 <TextField type="date" onChange={handleStartDate} sx={{ width: '200%' }}></TextField>
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <InputLabel>Arrived Date :</InputLabel>
+                <InputLabel>Carry Date :</InputLabel>
                 <TextField type="date" onChange={handleEndDate} sx={{ width: '200%' }}></TextField>
               </div>
             </div>

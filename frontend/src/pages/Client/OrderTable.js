@@ -59,6 +59,9 @@ export default function OrderTable() {
   const date = format(input, 'yyy-MM-dd')
   const [boarding, setboarding] = useState(false)
   const [mind, setmind] = useState(false)
+  const [open1, setOpen1] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
+
 
   const handleClose = () => {
     window.location.reload()
@@ -192,9 +195,6 @@ export default function OrderTable() {
     AOS.init({ duration: 450 });
   }, []);
 
-  // const email = localStorage.getItem("client_email")
-
-
   // boarding requests viewing
   const [boardingdata, setboardingdata] = useState("")
   const boardingRequestsViewing = async () => {
@@ -214,26 +214,28 @@ export default function OrderTable() {
   })
 
   // cancel boarding request
-  // const [id, setid] = useState("")
-  const cancelBoarding = async(id) => {
+ const [error3, seterror3] = useState(false)
+ const [message3, setmessage3] = useState("")
+  const cancelBoarding = async (id2) => {
     try {
-      const res = await axios.get(`http://localhost:5000/pet_care/user/cancelBoarding/${id}`)
-      const data = await res.data
-      return data
-
-    }catch(err){
+      const res = await axios.get(`http://localhost:5000/pet_care/user/cancelBoarding/${id2}`)
+      if(res.data.message === 'Removed Successfully') {
+        seterror3(true)
+        setmessage3('Removed Successfully')
+      }
+    } catch (err) {
       console.log(err)
     }
   }
 
   // mind relaxing appointments viewing
   const [minddetails, setminddetails] = useState("")
-  const mindrelaxingAppointments = async() => {
+  const mindrelaxingAppointments = async () => {
     try {
       const res = await axios.get(`http://localhost:5000/pet_care/user/mindrelaxingAppointments/${email}`)
       const data = await res.data
       return data
-    }catch(err) {
+    } catch (err) {
       console.log(err)
     }
   }
@@ -244,16 +246,21 @@ export default function OrderTable() {
   })
 
   // cancel mid relaxing appointments 
-  // const [id1, setid1] = useState("")
-  const cancelMindRelaxingAppointment = async(id1) => {
+  const [error2, seterror2] = useState(false)
+  const [message2, setmessage2] = useState("")
+
+  const cancelMindRelaxingAppointment = async (id1) => {
     try {
       const res = await axios.get(`http://localhost:5000/pet_care/user/cancelMindRelaxingAppointment/${id1}`)
-      const data = await res.data
-      return data
+      if (res.data.message === 'Removed Successfully') {
+        seterror2(true)
+        setmessage2('Removed Successfully')
 
-    }catch(err){
+      }
+    } catch (err) {
       console.log(err)
     }
+
   }
 
 
@@ -505,26 +512,66 @@ export default function OrderTable() {
                         <StyledTableCell align="center">Placed Date</StyledTableCell>
                         <StyledTableCell align="center">Status</StyledTableCell>
                         <StyledTableCell align="center"></StyledTableCell>
-                        <StyledTableCell align="center"></StyledTableCell>
-
                       </TableRow>
                     </TableHead>
                     <TableBody>
                       {boardingdata && boardingdata.map((menu, index) => (
                         <StyledTableRow key={menu.request_id}>
-
                           <StyledTableCell align="center">{menu.request_id}</StyledTableCell>
                           <StyledTableCell align="center">{menu.pet_id}</StyledTableCell>
                           <StyledTableCell align="center">{menu.package_name}</StyledTableCell>
                           <StyledTableCell align="center">{menu.board_arrival_date}</StyledTableCell>
                           <StyledTableCell align="center">{menu.placed_date}</StyledTableCell>
-                          {/* <StyledTableCell align="center">{menu.request_status}</StyledTableCell> */}
+                          <StyledTableCell align="center">{menu.request_status}</StyledTableCell>
                           <StyledTableCell align="center">
-                            {menu.request_status === "pending" && menu.placed_date + 2 >= date
-                              ? (<Button sx={{ backgroundColor: 'orange', color: 'white', ':hover': { backgroundColor: 'orange' } }}>CANCEL</Button>)
-                              : menu.request_status
-                            }
+                            {menu.request_status === "pending" && menu.verify_cancel_date >= date &&  (
+                              <div style={{ width: '60%', marginTop: '1px', backgroundColor: 'white' }}>
+                                <Dialog
+                                  btn_name="Delete"
+                                  open={open2}
+                                  onClose={() => {
+                                    seterror3(false)
+                                    setmessage3("")
+                                    handleClose();
+                                  }}
+                                  aria-labelledby="alert-dialog-title"
+                                  aria-describedby="alert-dialog-description"
+                                >
+                                  <DialogTitle id="alert-dialog-title">
+                                    Confirmation
+                                  </DialogTitle>
+                                  <DialogContent>
+                                    <DialogContentText id="alert-dialog-description">
+                                      Are You Sure Do you want to Delete this Permenatly?
+                                    </DialogContentText>
+                                  </DialogContent>
+                                  <DialogActions>
+                                    <DialogContent>
+                                      <div style={{ marginLeft: '1%', marginTop: '1%' }}>
+                                        {error3 && (
+                                          <Stack sx={{ width: '85%' }} spacing={3}>
+                                            <Alert
+                                              sx={{ color: 'black', fontSize: '14px' }}
+                                              severity={message3 === 'Removed Successfully' ? 'success' : 'warning'}
+                                            >
+                                              {message3}
+                                            </Alert>
+                                          </Stack>
+                                        )}
+                                      </div>
+                                    </DialogContent>
+                                    <Button onClick={() => handleClose()} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' } }} >
+                                      Back
+                                    </Button>
 
+                                    <Button onClick={() => cancelBoarding(menu.request_id)} sx={{ backgroundColor: 'red', color: 'white', ':hover': { backgroundColor: 'red' } }} autoFocus>
+                                      Delete
+                                    </Button>
+
+                                  </DialogActions>
+                                </Dialog>
+                              </div>
+                             )} 
                           </StyledTableCell>
 
                         </StyledTableRow>
@@ -550,8 +597,6 @@ export default function OrderTable() {
                         <StyledTableCell align="center">Pet ID</StyledTableCell>
                         <StyledTableCell align="center">Reserved Date</StyledTableCell>
                         <StyledTableCell align="center">Status</StyledTableCell>
-                        {/* <StyledTableCell align="center">Payment</StyledTableCell> */}
-                        {/* <StyledTableCell align="center">Edit</StyledTableCell> */}
                         <StyledTableCell align="center"></StyledTableCell>
                       </TableRow>
                     </TableHead>
@@ -560,61 +605,59 @@ export default function OrderTable() {
                         <StyledTableRow key={menu.appointment_id}>
 
                           <StyledTableCell align="center">{menu.appointment_id}</StyledTableCell>
-                          <StyledTableCell align="center">{menu.start_time  + " - " + menu.end_time}</StyledTableCell>
+                          <StyledTableCell align="center">{menu.start_time + " - " + menu.end_time}</StyledTableCell>
                           <StyledTableCell align="center">{menu.pet_id}</StyledTableCell>
                           <StyledTableCell align="center">{menu.date}</StyledTableCell>
                           <StyledTableCell align="center">{menu.status}</StyledTableCell>
-                          {/* <StyledTableCell align="left">
-
-                            <Dialog title="Change" btn_name="Edit">
-                              <EditForm />
-                            </Dialog>
-                          </StyledTableCell> */}
                           <StyledTableCell align="left">
-                            <div style={{ width: '60%', marginTop: '1px', backgroundColor: 'white' }}>
-                              <Dialog
-                                btn_name="Delete"
-                                open={open}
-                                onClose={() => {
-                                  seterror(false); // Set error to false when the dialog is closed for Pet Grooming
-                                  seterror1(false); // Set error1 to false when the dialog is closed for Pet Training
-                                  handleClose();
-                                }}
-                                aria-labelledby="alert-dialog-title"
-                                aria-describedby="alert-dialog-description"
-                              >
-                                <DialogTitle id="alert-dialog-title">
-                                  Confirmation
-                                </DialogTitle>
-                                <DialogContent>
-                                  <DialogContentText id="alert-dialog-description">
-                                    Are You Sure Do you want to Delete this Permenatly?
-                                  </DialogContentText>
-                                </DialogContent>
-                                <DialogActions>
+                            {menu.status !== 'cancelled' && (
+                              <div style={{ width: '60%', marginTop: '1px', backgroundColor: 'white' }}>
+                                <Dialog
+                                  btn_name="Delete"
+                                  open={open1}
+                                  onClose={() => {
+                                    seterror2(false)
+                                    setmessage2("")
+                                    handleClose();
+                                  }}
+                                  aria-labelledby="alert-dialog-title"
+                                  aria-describedby="alert-dialog-description"
+                                >
+                                  <DialogTitle id="alert-dialog-title">
+                                    Confirmation
+                                  </DialogTitle>
                                   <DialogContent>
-                                    <div style={{ marginLeft: '1%', marginTop: '1%' }}>
-                                      {error1 && (
-                                        <Stack sx={{ width: '85%' }} spacing={3}>
-                                          <Alert
-                                            sx={{ color: 'black', fontSize: '14px' }}
-                                            severity={message1 === 'Successfully Deleted!!!' ? 'success' : 'warning'}
-                                          >
-                                            {message1}
-                                          </Alert>
-                                        </Stack>
-                                      )}
-                                    </div>
+                                    <DialogContentText id="alert-dialog-description">
+                                      Are You Sure Do you want to Delete this Permenatly?
+                                    </DialogContentText>
                                   </DialogContent>
-                                  <Button onClick={() => handleClose()} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' } }} >
-                                    Back
-                                  </Button>
-                                  <Button onClick={() => confirmDelete_training(menu.id)} sx={{ backgroundColor: 'red', color: 'white', ':hover': { backgroundColor: 'red' } }} autoFocus>
-                                    Delete
-                                  </Button>
-                                </DialogActions>
-                              </Dialog>
-                            </div>
+                                  <DialogActions>
+                                    <DialogContent>
+                                      <div style={{ marginLeft: '1%', marginTop: '1%' }}>
+                                        {error2 && (
+                                          <Stack sx={{ width: '85%' }} spacing={3}>
+                                            <Alert
+                                              sx={{ color: 'black', fontSize: '14px' }}
+                                              severity={message2 === 'Removed Successfully' ? 'success' : 'warning'}
+                                            >
+                                              {message2}
+                                            </Alert>
+                                          </Stack>
+                                        )}
+                                      </div>
+                                    </DialogContent>
+                                    <Button onClick={() => handleClose()} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' } }} >
+                                      Back
+                                    </Button>
+
+                                    <Button onClick={() => cancelMindRelaxingAppointment(menu.appointment_id)} sx={{ backgroundColor: 'red', color: 'white', ':hover': { backgroundColor: 'red' } }} autoFocus>
+                                      Delete
+                                    </Button>
+
+                                  </DialogActions>
+                                </Dialog>
+                              </div>
+                            )}
                           </StyledTableCell>
 
                         </StyledTableRow>
@@ -626,7 +669,7 @@ export default function OrderTable() {
               )}
             </div>
 
-           
+
 
 
           </div>
