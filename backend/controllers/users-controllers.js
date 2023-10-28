@@ -1,7 +1,7 @@
 import pkg from 'object-hash';
 import { LocalStorage } from "node-localstorage";
 import { db } from "../database.js";
-import { sendmailer} from '../controllers/email-controllers.js';
+import { sendmailer } from '../controllers/email-controllers.js';
 import { confirmation } from "../controllers/email-controllers.js";
 import { sendvaccine1 } from '../controllers/email-controllers.js';
 import multer from 'multer'
@@ -1058,7 +1058,7 @@ export const get_doctors = async (req, res, next) => {
   const status = "active"
   const sqlQuery = 'SELECT *FROM vet where status = ?'
   const values = [status]
-  db.query(sqlQuery,values, (err, data) => {
+  db.query(sqlQuery, values, (err, data) => {
     if (err) {
       return res.json({ message: 'There is an internel error' })
     }
@@ -1918,9 +1918,9 @@ export const getclientcategory = async (req, res, next) => {
   })
 }
 
-export const sendvaccine = async(req,res,next)=>{
-  const { name,period,pet_id,email} = req.body
-  sendvaccine1(res,req,name,period,pet_id,email)
+export const sendvaccine = async (req, res, next) => {
+  const { name, period, pet_id, email } = req.body
+  sendvaccine1(res, req, name, period, pet_id, email)
 
 }
 // VIEW PAST VACCINE RECORDS
@@ -1962,4 +1962,140 @@ export const displayRecords = async (req, res, next) => {
     }
     return res.json({ data })
   })
+}
+
+// APPOINTMENTS VIEWING
+// boarding appointments viewing
+export const boardingRequestsViewing = async (req, res, next) => {
+  const email = req.params.email
+
+  const sql1 = 'SELECT client_id FROM client WHERE email = ?'
+  const value1 = [email]
+
+  db.query(sql1, value1, (err, data1) => {
+    if (err) {
+      return res.json({ message: 'There is an internal error' })
+    }
+    const client_id = data1[0].client_id
+    const sqlQuery = 'SELECT * FROM boarding_request b INNER JOIN boarding_package p ON b.package_id = p.package_id WHERE b.client_id = ? '
+    const values = [client_id]
+
+    db.query(sqlQuery, values, (err, data) => {
+      if (err) {
+        return res.json({ message: 'There is an internal error' })
+      }
+      return res.json({ data })
+    })
+  })
+}
+
+
+// cancel boarding request
+export const cancelBoarding = async (req, res, next) => {
+  const id = req.params.id //request id
+
+  const sql1 = 'SELECT cage_id FROM boarding_request WHERE request_id ? '
+  const value1 = [id]
+
+  db.query(sql1, value1, (err, data1) => {
+    if (err) {
+      return res.json({ message: 'There is an internal error' })
+    }
+    const cage = data1[0].cage_id
+    const cagestatus = 'free'
+
+    const sql2 = 'UPDATE boarding_cages SET status = ? WHERE cage_id = ?'
+    const value2 = [cagestatus, cage]
+
+    db.query(sql2, value2, (err, data2) => {
+      if (err) {
+        return res.json({ message: 'There is an internal error' })
+      }
+      const newstatus = 'cancelled'
+      const sql3 = 'UPDATE boarding_request SET request_status = ? WHERE request_id = ?'
+      const value3 = [newstatus, id]
+
+      db.query(sql3, value3, (err, data3) => {
+        if (err) {
+          return res.json({ message: 'There is an internal error' })
+        }
+        const sql4 = 'SELECT * FROM boarding_request WHERE request_id = ?'
+        const value4 = [id]
+
+        db.query(sql4, value4, (err, data4) => {
+          if (err) {
+            return res.json({ message: 'There is an internal error' })
+          }
+          const req_id = data4[0].request_id
+          const client_id = data4[0].client_id
+          const payment = data4[0].price
+
+          const sql5 = 'INSERT INTO boarding_refund(request_id, client_id, payment) VALUES(?, ?, ?)'
+          const value5 = [req_id, client_id, payment]
+
+          db.query(sql5, value5, (err, data5) => {
+            if (err) {
+              return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ message: 'success' })
+          })
+        })
+      })
+    })
+  })
+}
+
+// view mind relaxing appointments
+export const mindrelaxingAppointments = async (req, res, next) => {
+  const email = req.params.email
+  const sqlQuery = 'SELECT * FROM mindrelaxing_appointments a INNER JOIN mind_relaxing_timeslots m ON m.id = a.timeslot_id WHERE a.email = ?'
+  const values = [email]
+
+  db.query(sqlQuery, values, (err, data) => {
+    if (err) {
+      return res.json({ message: 'There is an internal error' })
+    }
+    return res.json({ data })
+  })
+
+}
+
+// cancel mind relaxing appointment
+export const cancelMindRelaxingAppointment = async (req, res, next) => {
+  const id = req.params.id //appointemnt id
+  const newstatus = 'cancelled'
+
+  const sqlQuery1 = 'UPDATE mindrelaxing_appointments SET status = ? WHERE appointment_id = ?'
+  const values1 = [newstatus, id]
+
+  db.query(sqlQuery1, values1, (err, data1) => {
+    if(err) {
+      return res.json({message:'There is an internal error'})
+    }
+
+    const sqlQuery2 = 'SELECT * FROM mindrelaxing_appointment WHERE appointment_id = ? '
+    const values2 = [id]
+
+    db.query(sqlQuery2, values2,(err, data2) =>{
+      if(err){
+        return res.json({message:'There is an internal error'})
+      }
+      const pet_id = data2[0].pet_id
+      const date = data2[0].date
+      
+      const sqlQuery3 = 'DELETE FROM reserve_mindrelaxing_pets WHERE pet_id = ? AND date = ?'
+      const values3 = [pet_id, date]
+
+      db.query(sqlQuery3, values3, (err,data3) => {
+        if(err) {
+          return res.json({message:'There is an internal error'})
+        }
+        return res.json({message:'Removed Successfully'})
+
+      })
+
+    })
+  })
+
+
 }

@@ -189,6 +189,7 @@ function Appo() {
     setvalue(2)
   }
 
+
   return (
     <>
       <div className="container1" style={{ marginTop: '4%' }}>
@@ -261,6 +262,7 @@ function Appo() {
                 <Tab sx={{ backgroundColor: value === 0 ? "orange" : "white", color: value === 0 ? "white" : "black" }} label="Pet Grooming Appointments" />
                 <Tab sx={{ backgroundColor: value === 1 ? "orange" : "white", color: value === 1 ? "white" : "black", }} label="Dog Trainning & Exercising Appointments" />
                 <Tab sx={{ backgroundColor: value === 2 ? "orange" : "white", color: value === 2 ? "white" : "black", }} label="Mind Relaxing Appointments" />
+               
               </Tabs>
             </Box>
           </Grid>
