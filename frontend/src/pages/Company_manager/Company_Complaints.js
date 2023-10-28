@@ -11,7 +11,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { MenuItem, Select, FormControl, IconButton, FormLabel, Alert } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import ProfilePicture from "../../assests/profile-picture.png";
+
 import {
   Button,
   Dialog,
@@ -51,7 +51,7 @@ function Company_Complaints() {
   const [error, seterror] = useState(false);
   const email = localStorage.getItem("store_email");
   const submit = async () => {
-    // if (compDes === null || compDate === null || compTime === null) {
+    
     if (compDes === null) {
       return;
     }
@@ -60,15 +60,13 @@ function Company_Complaints() {
         "http://localhost:5000/pet_care/company_manager/add_complaint",
         {
           compDes,
-          // compDate,
-          // compTime,
-          email,
+          email
         }
       );
-      if (res.message === "successfully added") {
+      if (res.data.message === "successfully added") {
         seterror(true);
-        window.location.reload();
       }
+
     } catch (err) {
       console.log(err);
     }
@@ -111,6 +109,7 @@ function Company_Complaints() {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
+    seterror(false)
     setOpen(true);
   };
 
@@ -140,12 +139,12 @@ function Company_Complaints() {
     }
   }
   useEffect(() => {
-    getComplaints()
-  }, [clients1, getComplaints]);
+    getComplaints();
+  }, [clients1]);
 
   //get clients complaints
-  const [clientcom, setclientcom] = useState("")
-  const [clients2, setClients2] = React.useState('1');
+  const [clientcom, setclientcom] = useState([])
+  const [clients2, setClients2] = useState('1');
   const handleChange2 = (event) => {
     setClients2(event.target.value);
 
@@ -164,22 +163,22 @@ function Company_Complaints() {
     }
   }
   useEffect(() => {
-    clientsComplains()
-  }, [clients2, clientsComplains]);
+    clientsComplains();
+  }, [clients2]);
 
   // ADD RESPONCE TO CLIENTS COMPLAINS
   const [addResponce, setaddResponce] = useState(false);
 
   // clients complains - add responses - get id
   const [error1, seterror1] = useState(false)
-  const [message1, setmessage1] = useState("")
-  const [resdetails, setresdetails] = useState("")
+
+  const [resdetails, setresdetails] = useState([])
   const complainDetails = async (id) => {
     try {
       const res = await axios.get(`http://localhost:5000/pet_care/company_manager/complainDetails/${id}`)
       if (res.data.message === 'There is an internal error') {
         seterror1(true)
-        setmessage1('There is an internal error')
+
       } else {
         setaddResponce(true)
         setresdetails(res.data.data)
@@ -234,16 +233,17 @@ function Company_Complaints() {
   }
 
   // delete the complain
-  const [messge, setmessage] = useState("")
+
   const deleteMyComplain = async () => {
     try {
       const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/deleteMyComplain/${id}`)
       if (res.data.message === 'There is an internal error') {
         seterror(true)
-        setmessage('There is an internal error')
+
       } else {
         setSelectedTab(1)
         setwarn(false)
+        window.location.reload()
       }
 
     } catch (err) {
@@ -327,7 +327,7 @@ function Company_Complaints() {
                   id="demo-simple-select"
                   variant='filled'
                   onChange={handleChange2}
-                  l
+                  value={clients2}
                   sx={{ fontSize: '12px' }}>
                   <MenuItem value={1}>All</MenuItem>
                   <MenuItem value={2}>Pending</MenuItem>
@@ -395,7 +395,7 @@ function Company_Complaints() {
                   id="demo-simple-select"
                   variant='filled'
                   onChange={handleChange1}
-                  l
+                  value={clients1}
                   sx={{ fontSize: '12px' }}>
                   <MenuItem value={1}>All</MenuItem>
                   <MenuItem value={2}>Pending</MenuItem>
@@ -468,7 +468,14 @@ function Company_Complaints() {
             />
           </form>
         </DialogContent>
+        {error && (
+            <Stack >
+
+              <Alert severity="success">Successfully Added</Alert>
+            </Stack>
+          )}
         <DialogActions>
+        
           <Button variant="outlined" color="secondary" onClick={handleClose}>
             Cancel
           </Button>
@@ -601,16 +608,6 @@ function Company_Complaints() {
           </div>
         </div>
       )}
-
-
-
-
-
-
-
-
-
-
     </>
 
 

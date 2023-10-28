@@ -1,10 +1,10 @@
 /* eslint-disable no-mixed-operators */
 import React, { useState } from "react";
 
-import { Grid, Typography, Avatar, Tab, Tabs, Box, TextField, Button, Select, MenuItem, Alert, AlertTitle, IconButton, CardMedia, Card, CardActionArea } from "@mui/material";
+import { Grid, Typography, Tab, Tabs, Box, TextField, Button, Select, MenuItem, Alert, AlertTitle, IconButton, CardMedia, Card, CardActionArea } from "@mui/material";
 import { useNavigate } from "react-router";
 import Stack from '@mui/material/Stack';
-import profile from "../../assests/pic12.jfif";
+
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import axios from "axios";

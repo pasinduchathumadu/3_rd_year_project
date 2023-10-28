@@ -144,6 +144,7 @@ const Complain = () => {
     setform(true);
     seterror(false)
     setsuccess(false)
+    
   };
 
   const secondclose = () => {

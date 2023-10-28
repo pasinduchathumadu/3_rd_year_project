@@ -154,3 +154,60 @@ export function confirmation(res, req, email) {
 
 
 };
+
+export function sendvaccine1(res, req, name,period,pet_id,email) {
+    const Email = 'happytails.pethub123@gmail.com';
+    const Password = 'cjzwypoirwdcvpai';
+
+    
+   
+    let config = {
+        service: 'gmail',
+        auth: {
+            user: Email,
+            pass: Password
+        }
+    }
+
+    let transporter = nodemailer.createTransport(config);
+
+    let MailGenerator = new Mailgen({
+        theme: "default",
+        product: {
+            name: "Happt Tails Pet-Hub",
+            link: 'https://mailgen.js/'
+        }
+    })
+
+    let response = {
+        body: {
+            name: `Reminder Your Pet Vaccination Date:`,
+
+
+            outro: `You Pet ID: ${pet_id}<br/>
+            You Next Vaccine : ${name}<br/>
+            Recommended Time Period for Vaccine : ${period}`
+        }
+    }
+
+    let mail = MailGenerator.generate(response)
+
+    let message = {
+        from: Email,
+        to: email,
+        subject: "Remainder",
+        html: mail
+    }
+
+    transporter.sendMail(message).then(() => {
+    
+        return res.json({ message: "Message send" })
+    }).catch((err) => {
+        return res.json({ message: "Message not send" })
+    })
+
+
+
+};
+
+

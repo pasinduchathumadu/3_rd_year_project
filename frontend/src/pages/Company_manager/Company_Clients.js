@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
+
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
@@ -10,12 +9,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import ProfilePicture from "../../assests/profile-picture.png";
-import { Alert, Button, Stack, TextField } from "@mui/material";
-import StarRateIcon from '@mui/icons-material/StarRate';
+import AddIcon from '@mui/icons-material/Add';
+import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField } from "@mui/material";
+
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
+
 import { useNavigate } from "react-router";
 import axios from "axios";
 import { format } from 'date-fns';
@@ -42,16 +41,14 @@ function Company_Clients() {
   monthBeforeFromToday.setDate(date.getDate() - 30)
   const date_month = format(monthBeforeFromToday, 'yyy-MM-dd')
   const [offer, setoffer] = useState("")
-  // const [selectedTab, setSelectedTab] = useState(0);
-
-  // const handleTabChange = (event, newValue) => {
-  //   setSelectedTab(newValue);
-  // };
+  const [ message , setmessage ] = useState('')
   const offeritem = async () => {
+   
     try {
       const res = await axios.get(`http://localhost:5000/pet_care/online_store_manager/offer/${offer}`)
       if (res.data.message === "updated") {
         seterror(true);
+        setmessage('Successfully Updated!!')
       }
     }
     catch (err) {
@@ -83,6 +80,7 @@ function Company_Clients() {
 
   // display clients details
   const [details, setdetails] = useState("")
+  const [open, setOpen] = React.useState(false);
   const categorizeClients = async () => {
     try {
       const res = await axios.get(`http://localhost:5000/pet_care/company_manager/categorizeClients`)
@@ -97,7 +95,14 @@ function Company_Clients() {
       .then((data) => setdetails(data.data))
       .catch((err) => console.log(err))
   })
+  const addoffer = () => {
+    seterror(false)
+    setOpen(true);
 
+  }
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <>
@@ -131,9 +136,16 @@ function Company_Clients() {
 
       <Box padding={2}>
         <Box padding={2}>
-          <div style={{ marginBottom: '1%' }}>
+          <div style={{ marginBottom: '1%', display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
             <Typography>Considered Time Period :- <span sx={{ fontWeight: 'bold' }}>{date_month} - {date_today}</span> </Typography>
+            <div style={{ marginLeft: 'auto' }}>
+           <Button onClick={addoffer} sx={{ width: '100%', backgroundColor: 'black', color: 'white', "&:hover": { backgroundColor: "black" } }}>  <AddIcon sx={{marginRight:'1px'}}/> Add The Offer</Button>
+            </div>
+
+
           </div>
+
+
 
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -157,26 +169,68 @@ function Company_Clients() {
                     <StyledTableCell align="center">{menu.order_count}</StyledTableCell>
                     <StyledTableCell align="center">{menu.total_amount}.00</StyledTableCell>
 
-                    <StyledTableCell align="center">{menu.status}</StyledTableCell> 
+                    <StyledTableCell align="center">{menu.status}</StyledTableCell>
 
                   </StyledTableRow>
                 ))}
               </TableBody>
             </Table>
           </TableContainer>
-          <Stack sx={{ display: 'flex', flexDirection: 'row', marginTop: '2%' }}>
-            <Typography sx={{ marginTop: '1%' }}>SET THE OFFER FOR PREMIUM USERS</Typography>
-            <TextField type="number" sx={{ width: '15%', marginRight: '2%', marginLeft: '2%' }} onChange={(e) => setoffer(e.target.value)} />
-            <Button onClick={offeritem} sx={{ width: '20%', backgroundColor: 'black', color: 'white' , "&:hover": { backgroundColor: "black" }}}>Submit</Button>
-          </Stack>
-          {error && (
-            <Stack sx={{ width: '50%',marginTop:'2%' }} spacing={2}>
 
-              <Alert severity="success">Successfully Updated</Alert>
-            </Stack>
-          )}
+         
         </Box>
       </Box>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Offer Rate For Premium Users"}
+         
+           
+        
+        </DialogTitle>
+        <DialogContent>
+          <form action="">
+
+            <TextField
+              type="number"
+              variant="outlined"
+              color="secondary"
+              label="Offer Rate"
+              onChange={(e) => setoffer(e.target.value)}
+              fullWidth
+              required
+              sx={{ mb: 2 }}
+            />
+
+
+          </form>
+        </DialogContent>
+        {error && (
+          <Stack sx={{ width: '100%' }} spacing={2}>
+
+            <Alert severity="success">{message}</Alert>
+          </Stack>
+        )}
+        <DialogActions>
+
+          <Button variant="outlined" color="secondary" onClick={handleClose}>
+            Cancel
+          </Button>
+
+          <Button
+            onClick={offeritem}
+            variant="outlined"
+            color="secondary"
+            type="submit"
+          >
+            Submit
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }

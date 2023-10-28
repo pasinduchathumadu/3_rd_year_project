@@ -1,7 +1,9 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Box from '@mui/material/Box';
-import { Tab, IconButton, Typography, Card, CardActionArea, CardContent, CardMedia } from "@mui/material";
+import { Tab, IconButton, Typography, Card, CardActionArea, CardContent, CardMedia, Grid, Avatar } from "@mui/material";
 import { Tabs } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
@@ -25,7 +27,7 @@ import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import CloseIcon from '@mui/icons-material/Close';
-
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: theme.palette.common.black,
@@ -125,6 +127,7 @@ const Users = () => {
                 city,
                 Street,
                 role,
+                image
 
             })
             if (res.data.message === 'Email already exists') {
@@ -320,7 +323,9 @@ const Users = () => {
 
     const input = new Date();
     const date = input.toDateString();
-
+    const getImageSrc = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+      };
     // view client pet details
     const [petdetails, setpetdetails] = useState([])
     const [error3, seterror3] = useState(false)
@@ -357,6 +362,38 @@ const Users = () => {
     const getProfileImageSrc = (imageName) => {
         return require(`../../../../backend/images/store/${imageName}`)
     }
+    const [image, setimage] = useState("")
+    const [selectfile, setfile] = useState(null)
+    const handlefilechange = async (event) => {
+        const file = event.target.files[0]
+        setfile(file)
+        setimage(file.name)
+      }
+    const handleFileUpload = async () => {
+        seterror(false)
+      
+       
+    
+        try {
+          const formData = new FormData();
+          formData.append("image", selectfile);
+    
+          const res = await axios.post("http://localhost:5000/pet_care/user/upload", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+          if (res.data.message === "File uploaded successfully") {
+            submitManager()
+          }
+    
+          console.log("File uploaded successfully!");
+          // Add any further handling of the response from the backend if needed.
+    
+        } catch (err) {
+          console.log("There is an internal error", err);
+        }
+      }
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
@@ -417,7 +454,7 @@ const Users = () => {
                                 <TableBody>
                                     {manager && manager.map((managerow, index) => (
                                         <StyledTableRow key={managerow.id}>
-                                            <StyledTableCell align="center"><img src={Image} style={{ width: '80px', borderRadius: '50%' }} alt="image" /></StyledTableCell>
+                                            <StyledTableCell align="center"><img src={getImageSrc(managerow.profile_image)} style={{ width: '80px', borderRadius: '50%' }} alt="image" /></StyledTableCell>
                                             <StyledTableCell align="center">{managerow.manager_id}</StyledTableCell>
                                             <StyledTableCell align="center">{managerow.full_name}</StyledTableCell>
                                             <StyledTableCell align="center">{managerow.email}</StyledTableCell>
@@ -588,8 +625,31 @@ const Users = () => {
 
                                 </FormControl>
                             </div>
+                            <Grid item sx={{ paddingTop: '20px' }}>
+                  <div style={{ display: 'flex' }}>
+                    <div style={{ display: 'inline' }}>
+                      <Button
+                        variant="contained"
+                        component="label"
 
-                            <Button variant="contained" onClick={submitManager} sx={{ background: "orange", marginTop: '10px', ':hover': { backgroundColor: "orange" }, width: '100%' }}>Add </Button>
+                        startIcon={<CloudUploadIcon />}
+                      >
+                        Upload Image
+                        <input type="file" hidden onChange={handlefilechange} required />
+
+                      </Button>
+                    </div>
+                    <div style={{ display: 'inline', paddingTop: '6px', paddingLeft: '7px' }}>
+                      {selectfile && (
+                        <Typography>{selectfile.name}</Typography>
+
+                      )}
+                    </div>
+                  </div>
+
+                </Grid>
+
+                            <Button variant="contained" onClick={handleFileUpload} sx={{ background: "orange", marginTop: '10px', ':hover': { backgroundColor: "orange" }, width: '100%' }}>Add </Button>
                         </div>
                         <div style={{ marginTop: '1%' }}>
                             {error && (
@@ -628,7 +688,7 @@ const Users = () => {
                         backgroundColor: '#F0F0F5',
                         position: 'relative', 
                         zIndex: 1001,
-                        backgroundColor: 'black'
+                       
                     }}>
                         {managerdetails && managerdetails.map((mgrow, index) => (
                             <div style={{ backgroundColor: 'white', padding: '15px', borderRadius: '10px' }}>
@@ -642,7 +702,8 @@ const Users = () => {
 
                                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                                     <div className="form-label">
-                                        <img src={Image} alt="manager photo" style={{ borderRadius: '50%', width: '200px', height: 'auto' }} />
+                                    <img src={getImageSrc(mgrow.profile_image)} alt="manager photo" style={{ borderRadius: '50%', width: '120px', height: 'auto' }} />
+                                        
                                     </div>
 
                                     <div className="form-label">
@@ -940,7 +1001,7 @@ const Users = () => {
                             <Typography sx={{ textAlign: 'center' }}>Confirm Remove? </Typography>
                             <hr /><br />
 
-                            <div style={{ display: 'flex', flexDirection: 'row', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
                                 <Button onClick={deleteClient} sx={{ backgroundColor: 'orange', color: 'white', margin: '10px', ':hover': { backgroundColor: 'orange' } }}>Confirm</Button>
                                 <Button onClick={cancelCLientDelete} sx={{ backgroundColor: 'red', color: 'white', margin: '10px', ':hover': { backgroundColor: 'red' } }}>Cancel</Button>
                             </div>
