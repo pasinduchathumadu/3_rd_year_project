@@ -1568,7 +1568,7 @@ export const insert = async (req, res, next) => {
   const input = new Date()
   const date = format(input, 'yyy-MM-dd')
 
-  const cancel_date = new Date(startdate);
+  const cancel_date = new Date(date);
   cancel_date.setDate(cancel_date.getDate() + 2);
   const new_cancel_date = cancel_date.toISOString().substr(0, 10)
   const checkSql = 'SELECT * FROM client WHERE email = ?'
@@ -1992,14 +1992,14 @@ export const boardingRequestsViewing = async (req, res, next) => {
 
 // cancel boarding request
 export const cancelBoarding = async (req, res, next) => {
-  const id = req.params.id //request id
+  const id = req.params.id2 //request id
 
-  const sql1 = 'SELECT cage_id FROM boarding_request WHERE request_id ? '
+  const sql1 = 'SELECT * FROM boarding_request WHERE request_id = ? '
   const value1 = [id]
 
   db.query(sql1, value1, (err, data1) => {
     if (err) {
-      return res.json({ message: 'There is an internal error' })
+      return res.json({ message: 'There is an internal errrrrror' })
     }
     const cage = data1[0].cage_id
     const cagestatus = 'free'
@@ -2037,7 +2037,7 @@ export const cancelBoarding = async (req, res, next) => {
             if (err) {
               return res.json({ message: 'There is an internal error' })
             }
-            return res.json({ message: 'success' })
+            return res.json({ message: 'Removed Successfully' })
           })
         })
       })
@@ -2062,7 +2062,7 @@ export const mindrelaxingAppointments = async (req, res, next) => {
 
 // cancel mind relaxing appointment
 export const cancelMindRelaxingAppointment = async (req, res, next) => {
-  const id = req.params.id //appointemnt id
+  const id = req.params.id1 //appointemnt id
   const newstatus = 'cancelled'
 
   const sqlQuery1 = 'UPDATE mindrelaxing_appointments SET status = ? WHERE appointment_id = ?'
@@ -2073,12 +2073,12 @@ export const cancelMindRelaxingAppointment = async (req, res, next) => {
       return res.json({message:'There is an internal error'})
     }
 
-    const sqlQuery2 = 'SELECT * FROM mindrelaxing_appointment WHERE appointment_id = ? '
+    const sqlQuery2 = 'SELECT * FROM mindrelaxing_appointments WHERE appointment_id = ? '
     const values2 = [id]
 
     db.query(sqlQuery2, values2,(err, data2) =>{
       if(err){
-        return res.json({message:'There is an internal error'})
+        return res.json({message:'There is an internal eriiiror'})
       }
       const pet_id = data2[0].pet_id
       const date = data2[0].date
