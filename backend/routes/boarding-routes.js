@@ -1,5 +1,5 @@
 import express from "express";
-import { view_requests, view_allclients, add_complain, viewmyComplains, viewClientsComplains, packageUsage, viewCurrent, viewRequested, viewBoarded, refund_requests, pendingRequest, view_refundDetails,toRefund, viewPetDetails,refundAdding, complainDetails, addingResponse, deleteMyComplain,AcceptedtoArrived, ArrviedtoCompleted,filterbox1,filterbox2,BasicPackageDetails,PackageFacilities, getCages,CagesCount} from '../controllers/boarding-controller';
+import { view_requests, view_allclients, add_complain, viewmyComplains, viewClientsComplains, packageUsage, viewCurrent, viewRequested, viewBoarded, refund_requests, pendingRequest, view_refundDetails,toRefund, viewPetDetails,refundAdding, complainDetails, addingResponse, deleteMyComplain,PendingToAccepted, AcceptedToCompleted,filterbox1,filterbox2,BasicPackageDetails,PackageFacilities, getCages,CagesCount} from '../controllers/boarding-controller';
 import {AddNewPackage} from '../controllers/boarding-controller';
 const boarding_house_manager = express.Router()
 
@@ -17,8 +17,8 @@ boarding_house_manager.get('/view_refundDetails/:id',view_refundDetails)
 boarding_house_manager.get('/toRefund/:id',toRefund) 
 boarding_house_manager.get('/viewPetDetails/:id',viewPetDetails) 
 boarding_house_manager.post('/refundAdding',refundAdding) 
-boarding_house_manager.post('/AcceptedtoArrived',AcceptedtoArrived) 
-boarding_house_manager.post('/ArrviedtoCompleted',ArrviedtoCompleted) 
+boarding_house_manager.post('/PendingToAccepted',PendingToAccepted) 
+boarding_house_manager.post('/AcceptedToCompleted',AcceptedToCompleted) 
 
 
 // complains
