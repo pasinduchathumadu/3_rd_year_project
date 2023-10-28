@@ -19,7 +19,7 @@ import Paper from '@mui/material/Paper';
 import { FormControl } from "@mui/base";
 import CloseIcon from '@mui/icons-material/Close';
 // import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import pdficon from '../../assests/pdficon.png'
+// import pdficon from '../../assests/pdficon.png'
 import axios from "axios";
 import { format } from 'date-fns';
 
@@ -27,12 +27,6 @@ import { format } from 'date-fns';
 
 const PetProfile = () => {
   const navigate = useNavigate("")
-  // const [show, setShow] = useState(false);
-  // const [model2Open, setModel2Open] = useState(false);
-  // const [model3Open, setModel3Open] = useState(false);
-  // const [model4Open, setModel4Open] = useState(false);
-  // const [modelOpen, setModelOpen] = useState(false);
-
   const input = new Date();
   const date = input.toDateString();
 
@@ -56,18 +50,6 @@ const PetProfile = () => {
     },
   }));
 
-  // function createData(name, calories, fat, carbs, protein) {
-  //   return { name, calories, fat, carbs, protein };
-  // }
-
-  // const rows = [
-  //   createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  //   createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  //   createData('Eclair', 262, 16.0, 24, 6.0),
-  //   createData('Cupcake', 305, 3.7, 67, 4.3),
-  //   createData('Gingerbread', 356, 16.0, 49, 3.9),
-  // ];
-
   // connect profile 
   const profile = () => {
     navigate("/profile")
@@ -82,7 +64,6 @@ const PetProfile = () => {
   const [add, setadd] = useState(false)
   const [nextVaccine, setnextVaccine] = useState(false)
   const [pastVaccine, setpastVaccine] = useState(false)
-  const [other, setother] = useState(false)
 
   // get details for main page
   const [maindata, setmaindata] =useState("")
