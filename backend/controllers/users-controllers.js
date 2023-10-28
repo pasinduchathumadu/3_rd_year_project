@@ -1397,6 +1397,8 @@ export const addNewComplain = async (req, res, next) => {
   const current = new Date()
   const currentDate = current.toDateString()
   const status = 'pending'
+  const date = format(current, 'yyy-MM-dd')
+
 
   const {
     email,
@@ -1429,7 +1431,7 @@ export const addNewComplain = async (req, res, next) => {
       const values = [
         data[0].client_id,
         text,
-        currentDate,
+        date,
         status,
         originalRole
       ]

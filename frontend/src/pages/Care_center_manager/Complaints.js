@@ -40,25 +40,25 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein, respond) {
-  return { name, calories, fat, carbs, protein, respond };
-}
+// function createData(name, calories, fat, carbs, protein, respond) {
+//   return { name, calories, fat, carbs, protein, respond };
+// }
 
-const rows = [
-  createData("001", "002", "Took too much time", "2023/08/02", "5.00PM", ""),
-  createData("001", "002", "Took too much time", "2023/08/02", "5.00PM", ""),
-  createData("001", "002", "Took too much time", "2023/08/02", "5.00PM", ""),
-  createData("001", "002", "Took too much time", "2023/08/02", "5.00PM", ""),
-  createData("001", "002", "Took too much time", "2023/08/02", "5.00PM", ""),
-];
+// const rows = [
+//   createData("001", "002", "Took too much time", "2023/08/02", "5.00PM", ""),
+//   createData("001", "002", "Took too much time", "2023/08/02", "5.00PM", ""),
+//   createData("001", "002", "Took too much time", "2023/08/02", "5.00PM", ""),
+//   createData("001", "002", "Took too much time", "2023/08/02", "5.00PM", ""),
+//   createData("001", "002", "Took too much time", "2023/08/02", "5.00PM", ""),
+// ];
 
-const rows2 = [
-  createData("001", "002", "Took too much time", "2023/08/02", "We will look into it", ""),
-  createData("001", "002", "Took too much time", "2023/08/02", "We will look into it", ""),
-  createData("001", "002", "Took too much time", "2023/08/02", "We will look into it", ""),
-  createData("001", "002", "Took too much time", "2023/08/02", "We will look into it", ""),
-  createData("001", "002", "Took too much time", "2023/08/02", "We will look into it", ""),
-];
+// const rows2 = [
+//   createData("001", "002", "Took too much time", "2023/08/02", "We will look into it", ""),
+//   createData("001", "002", "Took too much time", "2023/08/02", "We will look into it", ""),
+//   createData("001", "002", "Took too much time", "2023/08/02", "We will look into it", ""),
+//   createData("001", "002", "Took too much time", "2023/08/02", "We will look into it", ""),
+//   createData("001", "002", "Took too much time", "2023/08/02", "We will look into it", ""),
+// ];
 
 function Complaints() {
   const input = new Date();
@@ -349,9 +349,6 @@ function Complaints() {
                     <StyledTableCell align="center" sx={{ width: "20%" }}>
                       Placed Date
                     </StyledTableCell>
-                    <StyledTableCell align="center" sx={{ width: "15%" }}>
-                      Placed Time
-                    </StyledTableCell>
                     <StyledTableCell align="center" sx={{ width: "10%" }}>
                       Response
                     </StyledTableCell>
@@ -360,7 +357,7 @@ function Complaints() {
                 <TableBody>
                   {clientcomplain && clientcomplain.map((clientrow, index) => (
                     <StyledTableRow key={clientrow.complain_id}>
-                      <StyledTableCell aling="center" component="th" scope="row">
+                      <StyledTableCell align="center" component="th" scope="row">
                         {clientrow.complain_id}
                       </StyledTableCell>
                       <StyledTableCell align="center">
@@ -371,9 +368,6 @@ function Complaints() {
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         {clientrow.com_date}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {clientrow.com_time}
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         {clientrow.complain_status === 'pending'
@@ -428,7 +422,6 @@ function Complaints() {
                         <StyledTableCell align="center">Complain ID</StyledTableCell>
                         <StyledTableCell align="center">Complain</StyledTableCell>
                         <StyledTableCell align="center">Placed Date</StyledTableCell>
-                        <StyledTableCell align="center">Placed Time</StyledTableCell>
                         <StyledTableCell align="center">Response</StyledTableCell>
                         <StyledTableCell align="center"></StyledTableCell>
                       </TableRow>
@@ -439,7 +432,6 @@ function Complaints() {
                           <StyledTableCell align="center">{myrow.complain_id}</StyledTableCell>
                           <StyledTableCell align="center">{myrow.complain_txt}</StyledTableCell>
                           <StyledTableCell align="center">{myrow.com_date}</StyledTableCell>
-                          <StyledTableCell align="center">{myrow.com_time}</StyledTableCell>
                           <StyledTableCell align="center">
                             {myrow.complain_status === "pending" ?
                               <Button sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Pending</Button>
