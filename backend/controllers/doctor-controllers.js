@@ -27,8 +27,10 @@ export const get_pets = async (req, res, next) => {
 }
 
 export const get_medi = async (req, res, next) => {
-    const sqlquery = "SELECT *FROM vet"
-    db.query(sqlquery, (err, data) => {
+    const status = "active"
+    const sqlquery = "SELECT *FROM vet WHERE status = ?"
+    const values = [status]
+    db.query(sqlquery, values,(err, data) => {
         if (err) {
             return res.json({ message: 'There is an internel error' })
         }
@@ -492,19 +494,29 @@ export const submitAddMedical = async (req, res, next) => {
         vaccinedate,
     } = req.body;
 
-    try {
-        const sqlQuery = 'INSERT INTO past_vaccine_records(vaccine_id, pet_id, vaccined_date) VALUES(?,?,?)'
-        const values = [selectvaccine, selectpetid, vaccinedate]
+    const sqlQuery1 = 'SELECT *FROM past_vaccine_records WHERE pet_id = ? AND vaccine_id = ?'
+    const values1 = [selectpetid,selectvaccine]
+    db.query(sqlQuery1,values1,(err,data1)=>{
+        if(data1.length === 1){
+            return res.json({message:'already exisit'})
+        }
+        try {
+            const sqlQuery = 'INSERT INTO past_vaccine_records(vaccine_id, pet_id, vaccined_date) VALUES(?,?,?)'
+            const values = [selectvaccine, selectpetid, vaccinedate]
+    
+            db.query(sqlQuery, values, (err, data) => {
+                if (err) {
+                    return res.json({ message: 'There is an internal error' })
+                }
+                return res.json({ message: 'success' })
+            })
+        } catch (err) {
+            console.log(err)
+        }
+       
+    })
 
-        db.query(sqlQuery, values, (err, data) => {
-            if (err) {
-                return res.json({ message: 'There is an internal error' })
-            }
-            return res.json({ message: 'success' })
-        })
-    } catch (err) {
-        console.log(err)
-    }
+   
 }
 
 // add new vaccine to schedule
@@ -619,7 +631,7 @@ export const updateVaccine = async (req, res, next) => {
 export const pastVaccinationDetails = async(req,res,next) => {
     const id = req.params.id
 
-    const sqlQuery = 'SELECT * FROM past_vaccine_records WHERE pet_id = ?'
+    const sqlQuery = 'SELECT p.vaccine_id,p.vaccined_date,v.name from past_vaccine_records p INNER JOIN vaccine_details v ON v.vaccine_id = p.vaccine_id WHERE p.pet_id = ?'
     const values = [id]
 
     db.query(sqlQuery, values, (err,data) => {
@@ -667,6 +679,25 @@ export const getDetails = async(req,res,next) => {
         return res.json({data})
     })
 
+}
+export const getnextvaccineid = async(req,res,next)=>{
+  
+    const id = req.params.nextVaccine
+    const sqlQuery = "SELECT *FROM past_vaccine_records WHERE pet_id = ? ORDER BY id DESC LIMIT 1"
+    const value = [id];
+    db.query(sqlQuery,value,(err,data1)=>{
+        if(err){
+            return res.json({message:'There is an internel error'})
+        }
+        const sqlQuery1 = "select *from vaccine_details WHERE vaccine_id = ?"
+        const values = [data1[0].vaccine_id+1]
+        db.query(sqlQuery1,values,(err,data)=>{
+            if(err){
+                return res.json({message:'There is an internel errokkkr'})
+            }
+            return res.json({data})
+        })
+    })
 }
 
 
