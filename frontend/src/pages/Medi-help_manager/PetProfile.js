@@ -19,7 +19,7 @@ import Paper from '@mui/material/Paper';
 import { FormControl } from "@mui/base";
 import CloseIcon from '@mui/icons-material/Close';
 // import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-// import pdficon from '../../assests/pdficon.png'
+
 import axios from "axios";
 import { format } from 'date-fns';
 
@@ -27,6 +27,7 @@ import { format } from 'date-fns';
 
 const PetProfile = () => {
   const navigate = useNavigate("")
+
   const input = new Date();
   const date = input.toDateString();
 
@@ -50,6 +51,7 @@ const PetProfile = () => {
     },
   }));
 
+
   // connect profile 
   const profile = () => {
     navigate("/profile")
@@ -65,23 +67,25 @@ const PetProfile = () => {
   const [nextVaccine, setnextVaccine] = useState(false)
   const [pastVaccine, setpastVaccine] = useState(false)
 
+
+
   // get details for main page
-  const [maindata, setmaindata] =useState("")
-  const getDetails = async() => {
+  const [maindata, setmaindata] = useState("")
+  const getDetails = async () => {
     try {
       const res = await axios.get(`http://localhost:5000/pet_care/medi_help_manager/getDetails`)
       const data = await res.data
       return data
 
-    }catch(err){
+    } catch (err) {
       console.log(err)
     }
   }
   useEffect(() => {
     getDetails()
-    .then((data) =>setmaindata(data.data))
-    .catch((err) => console.log(err))
-  })
+      .then((data) => setmaindata(data.data))
+      .catch((err) => console.log(err))
+  }, [])
 
   //get pet ids from medi appointments
   const [addmedical, setaddmedical] = useState("")
@@ -112,7 +116,7 @@ const PetProfile = () => {
     getVaccineDetails()
       .then((data) => setvacc(data.data))
       .catch((err) => console.log(err))
-  })
+  }, [])
 
 
   // submit add vaccine
@@ -155,6 +159,10 @@ const PetProfile = () => {
         setmain(true)
         setadd(false)
       }
+      else if(res.data.message === 'already exisit'){
+        setmessage('This record already exisit!!')
+        seterror(true)
+      }
     } catch (err) {
       console.log('There is an internal error')
     }
@@ -165,36 +173,69 @@ const PetProfile = () => {
     setadd(false)
     setmain(true)
   }
-
+  const [nextvaccid, setnextvaccid] = useState("")
+  const [getnextvaccdetails, setnextvaccinedetails] = useState([])
   // view next vaccine details
   const nextVaccineDetails = (id) => {
     setnextVaccine(true)
+    setnextvaccid(id)
     setmain(false)
+    seterror(false)
+    getnextvaccineid(id)
   }
+  const getnextvaccineid = async (nextVaccine) => {
 
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/medi_help_manager/getnextvaccineid/${nextVaccine}`)
+      setnextvaccinedetails(res.data.data)
+
+    } catch (err) {
+      console.log(err)
+    }
+
+  }
   // close next vaccination details box
   const closeNextVaccine = () => {
     setnextVaccine(false)
     setmain(true)
   }
 
+  const email = localStorage.getItem('store_email')
+  const sendvaccine = async(name,period,pet_id)=>{
+   
+    try{
+      const res = await axios.post('http://localhost:5000/pet_care/user/sendvaccine',{
+      name,
+      period,
+      pet_id,
+      email
+      })
+      if(res.data.message === "Message send"){
+        seterror(true)
+
+
+      }
+    }catch(err){
+      console.log(err)
+
+    }
+  }
   // view past vaccine details
-  // const [id, setid] = useState("")
-  // const [error1, seterror1] = useState(false)
-  // const [message1, setmessage1] = useState("")
-  // const [past,setpast] = useState("")
+  const [pastpetid, setid] = useState("")
+  
+  const [past, setpast] = useState([])
 
   const pastVaccinationDetails = async (id) => {
-    //   try {
-    //     const res = await axios.get(`http://localhost:5000/pet_care/medi_help_manager/pastVaccinationDetails/${id}`)
-    //     setpast(res.data.data)
-    //     setid(id)
-    //     setmain(false)
-    //     /// seterror1(false)
-    //     setpastVaccine(true)      
-    //   } catch (err) {
-    //     console.log(err)
-    //   }
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/medi_help_manager/pastVaccinationDetails/${id}`)
+      setpast(res.data.data)
+      setid(id)
+      setmain(false)
+      /// seterror1(false)
+      setpastVaccine(true)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   // close past vaccination details box
@@ -261,7 +302,7 @@ const PetProfile = () => {
                         <Button onClick={() => nextVaccineDetails(menu.pet_id)} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' }, width: '40%' }}>View</Button>
                       </StyledTableCell>
                       <StyledTableCell align="center">
-                        <Button onClick={pastVaccinationDetails} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' }, width: '40%' }}>View</Button>
+                        <Button onClick={() => pastVaccinationDetails(menu.pet_id)} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' }, width: '40%' }}>View</Button>
                       </StyledTableCell>
                     </StyledTableRow>
                   ))}
@@ -386,28 +427,39 @@ const PetProfile = () => {
 
           <div style={{ marginBottom: '1%', marginTop: '1%', display: 'flex', flexDirection: 'row' }}>
             <Typography sx={{ fontWeight: 'bold', marginRight: '1%' }}>Pet ID:  </Typography>
-            <Typography sx={{ fontWeight: 'bold', marginLeft: '1%' }}>34  </Typography>
+            <Typography sx={{ fontWeight: 'bold', marginLeft: '1%' }}>{nextvaccid}</Typography>
           </div>
           <hr />
+          {getnextvaccdetails && getnextvaccdetails.map((menu, index) => (
+            <><div style={{ marginBottom: '1%', marginTop: '2%', marginLeft: '22%' }}>
+              <TableBody>
+                <StyledTableRow>
+                  <StyledTableCell align="left" sx={{ width: '60%' }}>Vaccination ID</StyledTableCell>
+                  <StyledTableCell align="center" sx={{ width: '60%' }}>{menu.vaccine_id}</StyledTableCell>
+                </StyledTableRow>
 
-          <div style={{ marginBottom: '1%', marginTop: '2%', marginLeft: '22%' }}>
-            <TableBody>
-              <StyledTableRow>
-                <StyledTableCell align="left" sx={{ width: '60%' }}>Vaccination ID</StyledTableCell>
-                <StyledTableCell align="center" sx={{ width: '60%' }}>2</StyledTableCell>
-              </StyledTableRow>
+                <StyledTableRow>
+                  <StyledTableCell align="left" sx={{ width: '60%' }}>Vaccine Name</StyledTableCell>
+                  <StyledTableCell align="center" sx={{ width: '60%' }}>{menu.name}</StyledTableCell>
+                </StyledTableRow>
 
-              <StyledTableRow>
-                <StyledTableCell align="left" sx={{ width: '60%' }}>Vaccine Name</StyledTableCell>
-                <StyledTableCell align="center" sx={{ width: '60%' }}>XXX Vaccine</StyledTableCell>
-              </StyledTableRow>
+                <StyledTableRow>
+                  <StyledTableCell align="left" sx={{ width: '60%' }}>Vaccination Period</StyledTableCell>
+                  <StyledTableCell align="center" sx={{ width: '60%' }}>{menu.period}</StyledTableCell>
+                </StyledTableRow>
+              </TableBody>
+            </div>
+            {error && (
+            <Stack sx={{ width: '100%', marginTop: '1%', marginBottom: '1%' }} spacing={2}>
+              <Alert severity="success">Message Send Successfully</Alert>
+            </Stack>
+          )}
+            <Stack sx={{textAlign:'center',marginTop:'2%'}}>
+            <Button onClick={()=>sendvaccine(menu.name,menu.period,nextvaccid)} sx={{backgroundColor:'black',color:'white',':hover': { backgroundColor: 'black' }}}>Send Email</Button>
+              </Stack></>
 
-              <StyledTableRow>
-                <StyledTableCell align="left" sx={{ width: '60%' }}>Date</StyledTableCell>
-                <StyledTableCell align="center" sx={{ width: '60%' }}>2023-11-01</StyledTableCell>
-              </StyledTableRow>
-            </TableBody>
-          </div>
+          ))}
+
         </div>
       )}
 
@@ -439,12 +491,12 @@ const PetProfile = () => {
 
           <div style={{ marginBottom: '1%', marginTop: '1%', display: 'flex', flexDirection: 'row' }}>
             <Typography sx={{ fontWeight: 'bold', marginRight: '1%' }}>Pet ID:  </Typography>
-            <Typography sx={{ fontWeight: 'bold', marginLeft: '1%' }}>34  </Typography>
+            <Typography sx={{ fontWeight: 'bold', marginLeft: '1%' }}>{pastpetid}</Typography>
           </div>
           <hr />
 
           <div style={{ marginBottom: '1%', marginTop: '2%', marginLeft: '5%' }}>
-            <Table sx={{ width: '60%' }} aria-label="customized table">
+            <Table sx={{ width: '100%' }} aria-label="customized table">
               <TableHead>
                 <TableRow>
                   <StyledTableCell align="center">Vaccine ID</StyledTableCell>
@@ -454,16 +506,18 @@ const PetProfile = () => {
               </TableHead>
 
               <TableBody>
+              {past && past.map((menu, index) => (
                 <StyledTableRow>
-                  <StyledTableCell align="center">clientrow.complain_id</StyledTableCell>
-                  <StyledTableCell align="center">"clientrow.client_id"</StyledTableCell>
-                  <StyledTableCell align="center">"clientrow.client_id"</StyledTableCell>
+                 
+
+                    <><StyledTableCell align="center">{menu.vaccine_id}</StyledTableCell>
+                    <StyledTableCell align="center">{menu.name}</StyledTableCell>
+                    <StyledTableCell align="center">{menu.vaccined_date}</StyledTableCell></>
+                
+
                 </StyledTableRow>
-                <StyledTableRow>
-                  <StyledTableCell align="center">clientrow.complain_id</StyledTableCell>
-                  <StyledTableCell align="center">"clientrow.client_id"</StyledTableCell>
-                  <StyledTableCell align="center">"clientrow.client_id"</StyledTableCell>
-                </StyledTableRow>
+                  ))}
+
               </TableBody>
             </Table>
           </div>

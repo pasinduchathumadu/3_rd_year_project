@@ -175,6 +175,7 @@ export const get_complaints = async (req, res, next) => {
 export const clientsComplains = async (req, res, next) => {
   const id = req.params.id
   const role = 'company_manager'
+  console.log(id)
 
   if (id === "1") {
     const sqlquery = "SELECT * FROM client_complain WHERE manager_role = ?"
@@ -219,6 +220,7 @@ export const clientsComplains = async (req, res, next) => {
 // add response - view client response details
 export const complainDetails = async (req, res, next) => {
   const id = req.params.id
+  console.log(id)
   const role = 'company_manager'
   const sqlQuery = 'SELECT * FROM client_complain WHERE complain_id = ?  AND manager_role =? '
   const values = [id, role]

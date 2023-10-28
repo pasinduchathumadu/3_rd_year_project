@@ -7,7 +7,7 @@ import Mailgen from 'mailgen'
 
 // ---- USERS ----
 export const registration = async (req, res, next) => {
-    const { email, first, second, id, contact, city, Street, role } = req.body;
+    const { email, first, second, id, contact, city, Street, role,image } = req.body;
     try {
         const hash = pkg;
         const date = new Date();
@@ -66,7 +66,7 @@ export const registration = async (req, res, next) => {
                 }
 
                 const sqlQuery =
-                    'INSERT INTO users (email, password, first_name, last_name, user_role, date_joined, status, verify_no) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+                    'INSERT INTO users (email, password, first_name, last_name, user_role, date_joined, status, verify_no,profile_image) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)';
                 const values = [
                     email,
                     hashedPassword,
@@ -75,7 +75,8 @@ export const registration = async (req, res, next) => {
                     user_role,
                     date_joined,
                     status,
-                    verify_no
+                    verify_no,
+                    image
                 ];
 
                 db.query(sqlQuery, values, (err, userData) => {
@@ -90,7 +91,8 @@ export const registration = async (req, res, next) => {
                         user_role,
                         contact,
                         Street,
-                        city
+                        city,
+                        
                     ];
 
                     db.query(query, values1, async (err, managerData) => {
@@ -151,7 +153,7 @@ export const registration = async (req, res, next) => {
 };
 export const get_manager = async (req, res, next) => {
     const role = 'client'
-    const sqlQuery = 'SELECT manager.manager_id,users.email , CONCAT(users.first_name," ",users.last_name) AS full_name ,manager.user_role , manager.contact_number,CONCAT(manager.city," ",manager.street) AS address FROM users INNER JOIN manager ON users.email = manager.email where manager.user_role != ?'
+    const sqlQuery = 'SELECT users.profile_image, manager.manager_id,users.email , CONCAT(users.first_name," ",users.last_name) AS full_name ,manager.user_role , manager.contact_number,CONCAT(manager.city," ",manager.street) AS address FROM users INNER JOIN manager ON users.email = manager.email where manager.user_role != ?'
     const values = [
         role
     ]
@@ -208,7 +210,7 @@ export const get_client = async (req, res, next) => {
 // get detaisl for update manager
 export const ManagerDetails = async (req, res, next) => {
     const id = req.params.id
-    const sqlQuery = 'SELECT CONCAT(u.first_name, " ", u.last_name) as name, u.email, m.manager_id, m.contact_number, m.street, m.city from users u INNER JOIN manager m ON u.email=m.email WHERE m.manager_id = ? '
+    const sqlQuery = 'SELECT u.profile_image,CONCAT(u.first_name, " ", u.last_name) as name, u.email, m.manager_id, m.contact_number, m.street, m.city from users u INNER JOIN manager m ON u.email=m.email WHERE m.manager_id = ? '
     const values = [id]
 
     db.query(sqlQuery, values, (err, data) => {

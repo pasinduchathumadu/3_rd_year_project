@@ -1,8 +1,9 @@
 import pkg from 'object-hash';
 import { LocalStorage } from "node-localstorage";
 import { db } from "../database.js";
-import { sendmailer } from '../controllers/email-controllers.js';
+import { sendmailer} from '../controllers/email-controllers.js';
 import { confirmation } from "../controllers/email-controllers.js";
+import { sendvaccine1 } from '../controllers/email-controllers.js';
 import multer from 'multer'
 import { format } from 'date-fns'
 
@@ -1054,8 +1055,10 @@ export const edit_appointment = async (req, res, next) => {
 }
 
 export const get_doctors = async (req, res, next) => {
-  const sqlQuery = 'SELECT *FROM vet'
-  db.query(sqlQuery, (err, data) => {
+  const status = "active"
+  const sqlQuery = 'SELECT *FROM vet where status = ?'
+  const values = [status]
+  db.query(sqlQuery,values, (err, data) => {
     if (err) {
       return res.json({ message: 'There is an internel error' })
     }
@@ -1915,6 +1918,11 @@ export const getclientcategory = async (req, res, next) => {
   })
 }
 
+export const sendvaccine = async(req,res,next)=>{
+  const { name,period,pet_id,email} = req.body
+  sendvaccine1(res,req,name,period,pet_id,email)
+
+}
 // VIEW PAST VACCINE RECORDS
 // viewing pets
 export const viewPets = async (req, res, next) => {
@@ -1940,4 +1948,5 @@ export const viewPets = async (req, res, next) => {
       return res.json({ data })
     })
   })
+
 }
