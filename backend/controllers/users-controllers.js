@@ -1927,17 +1927,30 @@ export const viewPets = async (req, res, next) => {
     if (err) {
       return res.json({ message: 'There is an internal error' })
     }
-    console.log(data[0].client_id)
     const client_id = data[0].client_id
 
     const sqlQuery = 'SELECT * FROM pet WHERE client_id = ?'
     const value = [client_id]
-   
+
     db.query(sqlQuery, value, (err, data) => {
       if (err) {
         return res.json({ message: 'There is an internal error' })
       }
       return res.json({ data })
     })
+  })
+}
+
+// get details of selected pets
+export const displayRecords = async (req, res, next) => {
+  const id = req.params.id //pet id
+  const sqlQuery = 'SELECT p.vaccine_id, p.pet_id, p.vaccined_date, v.name FROM past_vaccine_records p INNER JOIN vaccine_details v ON v.vaccine_id = p.vaccine_id WHERE p.pet_id = ?'
+  const values = [id]
+
+  db.query(sqlQuery, values, (err, data) => {
+    if (err) {
+      return res.json({ message: 'There is an internal error' })
+    }
+    return res.json({ data })
   })
 }
