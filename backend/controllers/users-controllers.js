@@ -1914,3 +1914,30 @@ export const getclientcategory = async (req, res, next) => {
     return res.json({ data })
   })
 }
+
+// VIEW PAST VACCINE RECORDS
+// viewing pets
+export const viewPets = async (req, res, next) => {
+  const email = req.params.email
+
+  const sql1 = 'SELECT * FROM client WHERE email = ?'
+  const value1 = [email]
+
+  db.query(sql1, value1, (err, data) => {
+    if (err) {
+      return res.json({ message: 'There is an internal error' })
+    }
+    console.log(data[0].client_id)
+    const client_id = data[0].client_id
+
+    const sqlQuery = 'SELECT * FROM pet WHERE client_id = ?'
+    const value = [client_id]
+   
+    db.query(sqlQuery, value, (err, data) => {
+      if (err) {
+        return res.json({ message: 'There is an internal error' })
+      }
+      return res.json({ data })
+    })
+  })
+}
