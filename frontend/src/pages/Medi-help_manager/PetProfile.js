@@ -27,7 +27,6 @@ import { format } from 'date-fns';
 
 const PetProfile = () => {
   const navigate = useNavigate("")
- 
 
   const input = new Date();
   const date = input.toDateString();
@@ -52,7 +51,6 @@ const PetProfile = () => {
     },
   }));
 
- 
 
   // connect profile 
   const profile = () => {
@@ -68,7 +66,8 @@ const PetProfile = () => {
   const [add, setadd] = useState(false)
   const [nextVaccine, setnextVaccine] = useState(false)
   const [pastVaccine, setpastVaccine] = useState(false)
- 
+
+
 
   // get details for main page
   const [maindata, setmaindata] = useState("")

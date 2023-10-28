@@ -214,7 +214,7 @@ const Complains = () => {
                                         <StyledTableCell align="center">Complain ID</StyledTableCell>
                                         <StyledTableCell align="center">Complained Section</StyledTableCell>
                                         <StyledTableCell align="center">Complain</StyledTableCell>
-                                        <StyledTableCell align="center">Placed Date</StyledTableCell>
+                                        {/* <StyledTableCell align="center">Placed Date</StyledTableCell> */}
                                         <StyledTableCell align="center">Response</StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
                                     </TableRow>
@@ -237,7 +237,7 @@ const Complains = () => {
                                                 })()}
                                             </StyledTableCell>
                                             <StyledTableCell align="center">{row.complain_txt}</StyledTableCell>
-                                            <StyledTableCell align="center">{row.com_date}</StyledTableCell>
+                                            {/* <StyledTableCell align="center">{row.com_date}</StyledTableCell> */}
                                             <StyledTableCell align="center">
                                                 {row.complain_status === "pending" ? (
                                                     <Button sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }} > Pending</Button>

@@ -563,15 +563,15 @@ export const load_payement = async (req, res, next) => {
     }
   })
 }
-export const loadfinal = async(req,res,next)=>{
+export const loadfinal = async (req, res, next) => {
   const id = req.params.id
   const sqlQuery = "SELECT *FROM purchase_order WHERE order_email = ? ORDER BY po_id DESC LIMIT 1"
   const values = [id]
-  db.query(sqlQuery,values,(err,data)=>{
-    if(err){
-      return res.json({message:'There is an internel error'})
+  db.query(sqlQuery, values, (err, data) => {
+    if (err) {
+      return res.json({ message: 'There is an internel error' })
     }
-    return res.json({data})
+    return res.json({ data })
   })
 
 }
@@ -1400,6 +1400,8 @@ export const addNewComplain = async (req, res, next) => {
   const current = new Date()
   const currentDate = current.toDateString()
   const status = 'pending'
+  const date = format(current, 'yyy-MM-dd')
+
 
   const {
     email,
@@ -1432,7 +1434,7 @@ export const addNewComplain = async (req, res, next) => {
       const values = [
         data[0].client_id,
         text,
-        currentDate,
+        date,
         status,
         originalRole
       ]
@@ -1613,7 +1615,6 @@ export const getMindRealxingPets = async (req, res, next) => {
 
 // get mind relaxing time slots
 export const getTimeSlots = async (req, res, next) => {
-  // const sqlQuery = 'SELECT id, CONCAT(start_time, " - ", end_time) AS time FROM mind_relaxing_timeslots'
   const sqlQuery = 'SELECT * FROM mind_relaxing_timeslots'
 
   db.query(sqlQuery, (err, data) => {
@@ -1682,10 +1683,7 @@ export const onlinereport = async (req, res, next) => {
   })
 }
 
-
-
-
-// place the 
+// place the mind relaxing appointment 
 export const SubmitForm = async (req, res, next) => {
   const pet_id = req.params.id
 
@@ -1695,13 +1693,11 @@ export const SubmitForm = async (req, res, next) => {
     time
   } = req.body;
 
-  // const checkQuery1 = 'SELECT * FROM reserve_mindrelaxing_pets WHERE day = ? AND pet_id = ?'
   const checkQuery1 = 'SELECT COUNT(id) as idcount FROM reserve_mindrelaxing_pets WHERE date = ? AND pet_id = ?'
   const checkValues1 = [day, pet_id]
 
   db.query(checkQuery1, checkValues1, (err, data1) => {
     if (data1[0].idcount > 0) {
-      // console.log("cannot")
       return res.json({ message: 'Pet already reserved' })
     }
 
@@ -1926,5 +1922,31 @@ export const sendvaccine = async(req,res,next)=>{
   const { name,period,pet_id,email} = req.body
   sendvaccine1(res,req,name,period,pet_id,email)
 
-  
+}
+// VIEW PAST VACCINE RECORDS
+// viewing pets
+export const viewPets = async (req, res, next) => {
+  const email = req.params.email
+
+  const sql1 = 'SELECT * FROM client WHERE email = ?'
+  const value1 = [email]
+
+  db.query(sql1, value1, (err, data) => {
+    if (err) {
+      return res.json({ message: 'There is an internal error' })
+    }
+    console.log(data[0].client_id)
+    const client_id = data[0].client_id
+
+    const sqlQuery = 'SELECT * FROM pet WHERE client_id = ?'
+    const value = [client_id]
+   
+    db.query(sqlQuery, value, (err, data) => {
+      if (err) {
+        return res.json({ message: 'There is an internal error' })
+      }
+      return res.json({ data })
+    })
+  })
+
 }

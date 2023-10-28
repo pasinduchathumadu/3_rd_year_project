@@ -332,7 +332,7 @@ const AddPets = () => {
                                             <Typography sx={{color:'black'}}>{selectfile.name}</Typography>
 
                                         )}
-                                    </div>
+                                    </div>                                   
                                 </div>
 
                                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '10px', marginBottom: '10px' }}>

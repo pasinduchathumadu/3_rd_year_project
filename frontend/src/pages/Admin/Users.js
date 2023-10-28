@@ -505,7 +505,7 @@ const Users = () => {
                                         <StyledTableCell align="center"> Email</StyledTableCell>
                                         <StyledTableCell align="center">Contact Numebr</StyledTableCell>
                                         <StyledTableCell align="center">Address</StyledTableCell>
-                                        <StyledTableCell align="center">Category</StyledTableCell>
+                                        <StyledTableCell align="center">Category : Online Store</StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
                                     </StyledTableRow>
