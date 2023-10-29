@@ -182,6 +182,7 @@ export const view_requests = async (req, res, next) => {
 // view incompleted & cancelled requests (for refund)
 export const refund_requests = async (req, res, next) => {
     const id = req.params.id
+    console.log(id)
 
     if (id === '1') {
         const status1 = 'pending'
@@ -197,19 +198,19 @@ export const refund_requests = async (req, res, next) => {
         });
     } else if (id === '2') {
         const status = 'pending'
-        const sqlQuery = 'SELECT f.refund_id, f.client_id, f.request_id, f.admin_verification, f.refund_status, q.cancelled_date, q.price, q.request_status FROM boarding_refund f INNER JOIN boarding_request q ON f.request_id = q.request_id WHERE f.refund_status  = ? ';
+        const sqlQuery = 'SELECT f.refund_id, f.client_id, f.request_id, f.admin_verification, f.refund_status, q.early_cancel_date, q.price, q.request_status FROM boarding_refund f INNER JOIN boarding_request q ON f.request_id = q.request_id WHERE f.refund_status  = ? ';
         const values = [status]
 
         db.query(sqlQuery, values, (err, data) => {
             if (err) {
-                return res.json({ message: 'There is an internal error' })
+                return res.json({ message: 'There is an internal error44' })
             }
             return res.json({ data })
         });
 
     } else if (id === '3') {
         const status = 'completed'
-        const sqlQuery = 'SELECT f.refund_id, f.client_id, f.request_id, f.admin_verification, f.refund_status, q.cancelled_date, q.price, q.request_status FROM boarding_refund f INNER JOIN boarding_request q ON f.request_id = q.request_id WHERE f.refund_status = ? ';
+        const sqlQuery = 'SELECT f.refund_id, f.client_id, f.request_id, f.admin_verification, f.refund_status, q.early_cancel_date, q.price, q.request_status FROM boarding_refund f INNER JOIN boarding_request q ON f.request_id = q.request_id WHERE f.refund_status = ? ';
         const values = [status]
 
         db.query(sqlQuery, values, (err, data) => {
@@ -263,7 +264,7 @@ export const view_allclients = async (req, res, next) => {
 // viewing refund details of completed refund
 export const view_refundDetails = async (req, res, next) => {
     const id = req.params.id
-    const sqlQuery = 'SELECT r.refund_id, r.request_id, r.client_id,  r.refund_slip, r.date, r.time, r.refund_mny, b.acc_no, b.bank, b.branch FROM boarding_refund r INNER JOIN client_bankdetails b ON r.client_id = b.client_id WHERE r.refund_id = ?'
+    const sqlQuery = 'SELECT c.early_cancel_date, r.payment,r.admin_verification, r.refund_id, r.request_id, r.client_id,  r.refund_slip, r.date, r.time, r.refund_mny, b.acc_no, b.bank, b.branch FROM boarding_refund r INNER JOIN client_bankdetails b ON r.client_id = b.client_id INNER JOIN boarding_request c ON r.request_id = c.request_id WHERE r.refund_id = ?'
     const values = [id]
 
     db.query(sqlQuery, values, (err, data) => {
@@ -277,6 +278,7 @@ export const view_refundDetails = async (req, res, next) => {
 // view refund details before add refund (pending refund)
 export const toRefund = async (req, res, next) => {
     const id = req.params.id
+    console.log(id)
     const sqlQuery = 'SELECT r.refund_id, r.request_id, r.client_id,  r.refund_mny, b.acc_no, b.bank, b.branch FROM boarding_refund r INNER JOIN client_bankdetails b ON r.client_id = b.client_id WHERE r.refund_id = ?'
     const values = [id]
 
@@ -289,18 +291,17 @@ export const toRefund = async (req, res, next) => {
 }
 // get details from post - pending refund
 export const refundAdding = async (req, res, next) => {
-    const {
-        id,
-        amount,
-    } = req.body;
+    const {  refundid,amount,image } = req.body;
+
+   
 
     const status = 'completed'
     const current = new Date() //get the current date and time
     const currentDate = current.toDateString() //current date
     const currentTime = current.toLocaleTimeString() //current time
 
-    const sqlQuery = 'UPDATE boarding_refund SET refund_mny = ?, refund_status = ?, date =?, time =?  WHERE refund_id = ?'
-    const values = [amount, status, currentDate, currentTime, id]
+    const sqlQuery = 'UPDATE boarding_refund SET refund_mny = ?, refund_status = ?, date =?, time =?,refund_slip = ?  WHERE refund_id = ?'
+    const values = [amount, status, currentDate, currentTime, image,refundid]
 
     db.query(sqlQuery, values, (err, data) => {
         if (err) {

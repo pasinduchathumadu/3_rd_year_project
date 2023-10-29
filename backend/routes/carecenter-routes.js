@@ -11,7 +11,7 @@ care_center_route.post('/add_complain',add_complain)
 care_center_route.get('/deleteMyComplain/:id',deleteMyComplain)
 
 // REFUND
-care_center_route.get('/refund_appointments',refund_appointments)
+care_center_route.get('/refund_appointments/:id',refund_appointments)
 care_center_route.get('/toRefund/:id',toRefund)
 care_center_route.post('/refundAdding',refundAdding)
 care_center_route.get('/ViewRefundDetails/:id',ViewRefundDetails) 

@@ -57,7 +57,7 @@ const Refund = () => {
     const [viewrefund, setviewrefund] = useState([])
     const refund_appointments = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/pet_care/care_center_manager/refund_appointments')
+            const res = await axios.get(`http://localhost:5000/pet_care/care_center_manager/refund_appointments/${clients}`)
             const data = await res.data
             return data
         } catch (err) {
@@ -109,12 +109,45 @@ const Refund = () => {
         try {
             const res = await axios.post(`http://localhost:5000/pet_care/care_center_manager/refundAdding`, {
                 id,
-                amount
+                amount,
+                image
             })
         } catch (err) {
             console.log(err)
         }
     }
+    const [image, setimage] = useState("")
+    const [selectfile, setfile] = useState(null)
+    const handlefilechange = async (event) => {
+        const file = event.target.files[0]
+        setfile(file)
+        setimage(file.name)
+      }
+    const handleFileUpload = async (refund_id) => {
+        seterror(false)
+      
+        try {
+          const formData = new FormData();
+          formData.append("image", selectfile);
+    
+          const res = await axios.post("http://localhost:5000/pet_care/user/upload", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+          if (res.data.message === "File uploaded successfully") {
+            refundAdding(refund_id)
+          
+          }
+    
+          console.log("File uploaded successfully!");
+          // Add any further handling of the response from the backend if needed.
+    
+        } catch (err) {
+          console.log("There is an internal error", err);
+        }
+      }
+    
 
     // click on view refuned details  button
     const [view, setview] = useState(false)
@@ -439,13 +472,18 @@ const Refund = () => {
                                             startIcon={<CloudUploadIcon />}
                                         >
                                             Upload File
-                                            <input type="file" hidden required />
+                                            <input type="file" hidden onChange={handlefilechange} required />
 
                                         </Button>
                                     </div>
                                 </div>
+                                {selectfile && (
+                                            <Typography sx={{color:'black'}}>{selectfile.name}</Typography>
+
+                                        )}
                                 <div>
-                                    <Button variant="contained" onClick={() => refundAdding(drow1.refund_id)} sx={{ background: 'orange', width: '100%', marginRight: '10px', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Place Refund</Button>
+                             
+                                    <Button variant="contained" onClick={() => handleFileUpload(drow1.refund_id)} sx={{ background: 'orange', width: '100%', marginRight: '10px', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Place Refund</Button>
                                 </div>
                             </div>
                         </FormControl>

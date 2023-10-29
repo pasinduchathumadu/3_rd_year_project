@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -184,15 +185,25 @@ const Clients = () => {
     const handleAmount = (event) => {
         setamount(event.target.value)
     }
-    const refundAdding = async (id) => {
-        setaddRefund(false)
-        showRequests(1)
+    const [refundid , setrefundid ] = useState("")
+    const handleconfirm = (refund_id)=>{
+        setrefundid(refund_id)
+        handleFileUpload()
+    }
+    const refundAdding = async () => {
+     
+       
 
         try {
             const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/refundAdding`, {
-                id,
-                amount
+                refundid,
+                amount,
+                image
             })
+            if(res.data.message === "Refund Added"){
+                setaddRefund(false)
+                showRequests(1)
+            }
         } catch (err) {
             console.log(err)
         }
@@ -286,6 +297,38 @@ const Clients = () => {
             console.log('There is an internal error')
         }
     }
+    const [image, setimage] = useState("")
+    const [selectfile, setfile] = useState(null)
+    const handlefilechange = async (event) => {
+        const file = event.target.files[0]
+        setfile(file)
+        setimage(file.name)
+      }
+    const handleFileUpload = async () => {
+        seterror(false)
+      
+        try {
+          const formData = new FormData();
+          formData.append("image", selectfile);
+    
+          const res = await axios.post("http://localhost:5000/pet_care/user/upload", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+          if (res.data.message === "File uploaded successfully") {
+            refundAdding()
+          
+          }
+    
+          console.log("File uploaded successfully!");
+          // Add any further handling of the response from the backend if needed.
+    
+        } catch (err) {
+          console.log("There is an internal error", err);
+        }
+      }
+    
 
 
     return (
@@ -392,7 +435,7 @@ const Clients = () => {
                                     variant='filled'
                                     label="clients"
                                     onChange={handleChange1}
-                                    l
+                                    
                                     sx={{ fontSize: '11px' }}
                                 >
                                     <MenuItem value={1}>All</MenuItem>
@@ -460,7 +503,7 @@ const Clients = () => {
                                     variant='filled'
                                     label="clients"
                                     onChange={handleChange2}
-                                    l
+                                    
                                     sx={{ fontSize: '11px' }}
                                 >
                                     <MenuItem value={1}>All</MenuItem>
@@ -491,7 +534,7 @@ const Clients = () => {
                                             <StyledTableCell align="center">{refundrow.request_id}</StyledTableCell>
                                             <StyledTableCell align="center">{refundrow.client_id}</StyledTableCell>
                                             <StyledTableCell align="center">
-                                                {refundrow.cancelled_date === "" ? "Incompleted Request" : refundrow.cancelled_date}
+                                                {refundrow.early_cancel_date === "" ? "Incompleted Request" : refundrow.early_cancel_date}
                                             </StyledTableCell>
                                             <StyledTableCell align="center">{refundrow.price}.00</StyledTableCell>
                                             <StyledTableCell align="center">
@@ -767,14 +810,20 @@ const Clients = () => {
                                             startIcon={<CloudUploadIcon />}
                                         >
                                             Upload File
-                                            <input type="file" hidden required />
+                                            <input type="file" hidden onChange={handlefilechange} required />
 
                                         </Button>
+                                        <div style={{ display: 'inline', paddingTop: '6px', paddingLeft: '7px' }}>
+                                        {selectfile && (
+                                            <Typography sx={{color:'black'}}>{selectfile.name}</Typography>
+
+                                        )}
+                                    </div>        
                                     </div>
                                 </div>
-
+                               
                                 <div>
-                                    <Button variant="contained" onClick={() => refundAdding(drow1.request_id)} sx={{ background: 'orange', width: '100%', marginRight: '10px', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Place Refund</Button>
+                                    <Button variant="contained" onClick={() =>handleconfirm(drow1.refund_id)} sx={{ background: 'orange', width: '100%', marginRight: '10px', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Place Refund</Button>
                                 </div>
                             </div>
                         </FormControl>
