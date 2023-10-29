@@ -289,7 +289,7 @@ export default function OrderTable() {
             <div style={{ display: 'inline' }}>
               {grooming && (
                 <><Typography sx={{ fontSize: '28px', marginTop: '8%', marginLeft: '5%' }}>Pet Grooming</Typography><TableContainer component={Paper} sx={{ padding: "50px", boxShadow: "none" }}>
-                  <h1 style={{ fontSize: "15px", fontWeight: "1", marginTop: "25px", padding: "10px", color: "gray", marginLeft: "10px" }}>You only can cancel your Appointment with in a Day</h1>
+                  <Typography style={{ fontSize: "15px", fontWeight: "1", marginTop: "25px", padding: "10px", color: "gray", marginLeft: "10px" }}> <span style={{color:'red'}}>** </span>You can cancel your appointment with in  two days</Typography>
 
                   <Table sx={{ minWidth: 1000, marginTop: "20px", border: "none" }} aria-label="customized table">
                     <TableHead>
@@ -373,7 +373,7 @@ export default function OrderTable() {
             <div style={{ display: 'inline' }}>
               {medi && (
                 <><Typography sx={{ fontSize: '28px', marginTop: '8%', marginLeft: '5%' }}>Medi Help Ceneter</Typography><TableContainer component={Paper} sx={{ padding: "50px", boxShadow: "none" }}>
-                  <h1 style={{ fontSize: "15px", fontWeight: "1", marginTop: "25px", padding: "10px", color: "gray", marginLeft: "10px" }}>You only can cancel your Appointment with in a Day</h1>
+                  <Typography style={{ fontSize: "15px", fontWeight: "1", marginTop: "25px", padding: "10px", color: "gray", marginLeft: "10px" }}><span style={{color:'red'}}>**</span> You only can update your appointment date</Typography>
                   <Table sx={{ minWidth: 1000, marginTop: "20px", border: "none" }} aria-label="customized table">
                     <TableHead>
                       <TableRow sx={{ height: "5vh", fontWeight: "1000" }}>
@@ -414,7 +414,7 @@ export default function OrderTable() {
             <div style={{ display: 'inline' }}>
               {trainning_order && (
                 <><Typography sx={{ fontSize: '28px', marginTop: '8%', marginLeft: '5%' }}>Pet Training</Typography><TableContainer component={Paper} sx={{ padding: "50px", boxShadow: "none" }}>
-                  <h1 style={{ fontSize: "15px", fontWeight: "1", marginTop: "25px", padding: "10px", color: "gray", marginLeft: "10px" }}>You only can cancel your Appointment with in a Day</h1>
+                  <Typography style={{ fontSize: "15px", fontWeight: "1", marginTop: "25px", padding: "10px", color: "gray", marginLeft: "10px" }}><span style={{color:'red'}}>** </span>You can cancel your appointment with in two days</Typography>
                   <Table sx={{ minWidth: 1000, marginTop: "20px", border: "none" }} aria-label="customized table">
                     <TableHead>
                       <TableRow sx={{ height: "5vh", fontWeight: "1000" }}>
