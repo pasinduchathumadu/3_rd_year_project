@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { FormLabel, TextField, Typography, IconButton } from "@mui/material";
+import { FormLabel, TextField, Typography, IconButton, InputLabel, MenuItem, Select, DialogContent, Dialog, DialogTitle, DialogActions, DialogContentText } from "@mui/material";
 import { FormControl } from '@mui/material';
 import Box from '@mui/material/Box';
 import { Tab } from "@mui/material";
@@ -19,124 +19,20 @@ import { useNavigate } from "react-router";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloseIcon from '@mui/icons-material/Close';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+// import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 
 const Packages = () => {
     const [new1, setNew] = useState(true);  //package cards
-    const [form, setForm] = useState(false); //add new package form
-    const [updateform, setUpdateform] = useState(false); //update form
-    const [popularity, setPopularity] = useState(false); // popularity
-    const [detailsbox, setdetailsbox] = useState(false) //details box of packages
-
-    // view package basic details
-    const [details, setdetails] = useState("")
-    const BasicPackageDetails = async () => {
-        try {
-            const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/BasicPackageDetails`)
-            const data = await res.data
-            return data
-
-        } catch (err) {
-            console.log('There is an internal error')
-        }
-    }
-    useEffect(() => {
-        BasicPackageDetails()
-            .then((data) => setdetails(data.data))
-            .catch((err) => console.log(err))
-    })
-
-    // get package image 
-    const getImageSrc = (imageName) => {
-        return require(`../../../../backend/images/store/${imageName}`)
-    }
-
-    // view package details box
-    // const viewDetails = () => {
-    //     setdetailsbox(true)
-    //     setNew(false)
-    // }
-    // back from viewing facilities
-    const backFromViewing = () => {
-        setdetailsbox(false)
-        setNew(true)
-    }
-
-    // get facilities of packages
-    const [facility, setfacility] = useState("")
-    const [error1, seterror1] = useState(false)
-    const [messsage1, setmessage1] = useState("")
-
-    const PackageFacilities = async (id) => {
-        try {
-            const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/PackageFacilities/${id}`)
-            if (res.data.message === 'There is an internal error') {
-                seterror1(true)
-                setmessage1('There is an internal error')
-            } else {
-                setdetailsbox(true)
-                setfacility(res.data.data)
-            }
-        } catch (err) {
-            console.log(err)
-        }
-    }
-    // useEffect(() => {
-    //     PackageFacilities()
-    //     .then((data) => setfacility(data.data))
-    //     .catch((err) => console.log(err))
-    // })
+    const [addform, setaddform] = useState(false); //add new package form
+    const [addfacility, setaddfacility] = useState(false); //add  package facilities
+    const [openfacility, setopenfacility] = useState(false); //view package facilities
+    const [updateprice, setupdateprice] = useState(false); //update price
+    const [warn, setwarn] = useState(false) //warning
 
 
-
-    // after click on update icon
-    const update = () => {
-        setNew(false);
-        setUpdateform(true);
-    }
-    // after click on submit button on update form
-    const afterUpdate = () => {
-        // check
-        setNew(true);
-        setUpdateform(false);
-    }
-    // click on cancel button ofupdate package
-    const cancelUpdate = () => {
-        setUpdateform(false);
-        setNew(true);
-    }
-
-    // after click on view popularity
-    const clickPopularity = () => {
-        setNew(false);
-        setPopularity(true);
-    }
-
-    // finish the viewing
-    const afterview = () => {
-        setNew(true);
-        setPopularity(false);
-    }
     const input = new Date();
     const date = input.toDateString();
-
-    // view packages popularity
-    const [pckg, setpckg] = useState("")
-    const packageUsage = async () => {
-        try {
-            const res = await axios.get("http://localhost:5000/pet_care/boarding_house_manager/packageUsage")
-            const data = await res.data
-            return data
-
-        } catch (err) {
-            console.log('There is an internal error')
-        }
-    }
-    useEffect(() => {
-        packageUsage()
-            .then((data) => setpckg(data.data))
-            .catch((err) => console.log(err))
-    })
 
     const navigate = useNavigate("")
     // connect profile
@@ -144,77 +40,253 @@ const Packages = () => {
         navigate("/profile")
     }
 
-    // get profile picture
+    // get images from backend
     const getProfilepicturepath = (imageName) => {
         return require(`../../../../backend/images/store/${imageName}`)
     }
 
-    // ----- ADD NEW PACKAGES - ADD TEXT FIELDS ONE BY ONE
-    const [textFields, setTextFields] = useState(['']); // Initialize with one empty text field
-
-    // Function to add a new text field
-    const addTextField = () => {
-        setTextFields([...textFields, '']);
-    };
-
-    // Function to handle text field value changes
-    const handleTextFieldChange = (index, event) => {
-        const updatedTextFields = [...textFields];
-        updatedTextFields[index] = event.target.value;
-        setTextFields(updatedTextFields);
-    };
-
-    // Function to submit the form (you can implement your logic here)
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // Do something with the text field values
-        const facilities = textFields.filter((facility) => facility.trim() !== "");
-        console.log(textFields);
-    };
-    // ----
-
-    // add new pacakge
-    const AddPackageForm = () => {
+    // ADD NEW PACKAGE
+    // CLOSE
+    const backfromadding = () => {
+        setNew(true)
+        setaddform(false)
+        setaddfacility(false)
+        setopenfacility(false)
+        setupdateprice(false)
+        setwarn(false)
+    }
+    // open add new package - basic details
+    const openForm = () => {
         setNew(false)
-        setForm(true)
+        setaddform(true)
+        seterror(false)
+        setopenfacility(false)
+        setupdateprice(false)
+        setaddfacility(false)
+        setwarn(false)
     }
-
-    // back without adding a package
-    const cancelAdding = () => {
-        setForm(false);
-        setNew(true);
-    }
-
-    const [name, setname] = useState("")
-    const [price, setprice] = useState("")
-    const [facilities, setfacilites] = useState([])
     const [error, seterror] = useState(false)
     const [message, setmessage] = useState("")
-
-    const AddNewPackage = async () => {
-        if (name === '' || price === '' || facilities === '') {
+    const [name, setname] = useState("")
+    const [price, setprice] = useState("")
+    const [color, setcolor] = useState("")
+    // add basic details
+    const submitBasicDetails = async () => {
+        if (name === "" || price === "" || color === "") {
+            setmessage('Please fill all fields')
             seterror(true)
-            setmessage('Please fill the filed')
             return;
         }
         try {
-            const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/AddNewPackage`, {
+            const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/submitBasicDetails`, {
                 name,
                 price,
-                facilities
+                color
             })
             if (res.data.message === 'There is an internal error') {
-                setmessage('You cannot add this package')
                 seterror(true)
+                setmessage('Internal error')
+            } else if (res.data.message === 'Cannot be added. Already has 3 packages') {
+                seterror(true)
+                setmessage('Cannot be added. Already has 3 packages')
             } else if (res.data.message === 'success') {
+                setaddform(false)
                 setNew(true)
-                setForm(false)
-                seterror(false)
+                setaddfacility(false)
+                setupdateprice(false)
+                setwarn(false)
             }
         } catch (err) {
             console.log('There is an internal error')
         }
     }
+
+    // display package basic details
+    const [details, setdetails] = useState("")
+    const getBasicDetails = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/getBasicDetails`)
+            const data = await res.data
+            return data
+
+        } catch (err) {
+            console.log('There is an internal error')
+        }
+    }
+    useEffect(() => {
+        getBasicDetails()
+            .then((data) => setdetails(data.data))
+            .catch((err) => console.log(err))
+    })
+
+    // open facilities form
+    const openFacilityForm = () => {
+        setNew(false)
+        setaddform(false)
+        setaddfacility(true)
+        seterror1(false)
+        setopenfacility(false)
+        setupdateprice(false)
+        setwarn(false)
+    }
+
+    // add facilities
+    const [newfacility, setnewfacility] = useState("")
+    const [bpckg, setbpckg] = useState("")
+    const handlebpckg = (event) => {
+        setbpckg(event.target.value)
+    }
+    const [error1, seterror1] = useState(false)
+    const [message1, setmessage1] = useState("")
+
+    // submit facility form
+    const submitFacilityForm = async () => {
+        if (newfacility === "" || bpckg === "") {
+            setmessage1('Please fill all required fields')
+            seterror1(true)
+            return;
+        }
+        try {
+            const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/submitFacilityForm`, {
+                bpckg,
+                newfacility
+            })
+            if (res.data.message === 'There is an internal error') {
+                setmessage1('There is an internal error')
+                seterror1(true)
+            } else if (res.data.message === 'success') {
+                setNew(true)
+                setaddfacility(false)
+                setaddform(false)
+                setupdateprice(false)
+                setwarn(false)
+                setopenfacility(false)
+            }
+
+        } catch (err) {
+            console.log('There is an internal error')
+        }
+    }
+
+    // view facilities
+    const [fac, setfac] = useState("")
+    const viewFacilities = async (id) => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/viewFacilities/${id}`)
+            setfac(res.data.data)
+            setopenfacility(true)
+            setNew(false)
+            setaddform(false)
+            setaddfacility(false)
+            setupdateprice(false)
+            setwarn(false)
+
+        } catch (err) {
+            console.log('There is an internal error')
+        }
+    }
+
+    // change price of package
+    // open form
+    const [id, setid] = useState("")
+    const openChangePrice = (id) => {
+        setupdateprice(true)
+        setopenfacility(false)
+        setaddform(false)
+        setNew(false)
+        setaddfacility(false)
+        setid(id)
+        setwarn(false)
+    }
+    // get price for update form
+    const [getprice, setgetprice] = useState("")
+    const getPrice = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/getPrice/${id}`)
+            const data = await res.data
+            return data
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    useEffect(() => {
+        getPrice()
+            .then((data) => setgetprice(data.data))
+            .catch((err) => console.log(err))
+    })
+
+    // submit
+    const [newprice, setnewprice] = useState("")
+    const [error2, seterror2] = useState(false)
+    const [message2, setmessage2] = useState("")
+
+    const SubmitNewPrice = async (id) => {
+        if (newprice === "") {
+            seterror2(true)
+            setmessage2('Please fill all the fields')
+        }
+        try {
+            const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/SubmitNewPrice`, {
+                id,
+                newprice,
+            })
+            if (res.data.message === 'There is an internal error') {
+                seterror2(true)
+                setmessage2('There is an internal error')
+            } else if (res.data.message === 'updated') {
+                setNew(true)
+                setaddfacility(false)
+                setaddform(false)
+                setupdateprice(false)
+                setopenfacility(false)
+                setwarn(false)
+            }
+
+        } catch (err) {
+            console.log('There is an internal error')
+        }
+    }
+
+    // DELETE PACKAGE
+    // display warning
+    const [id1, setid1] = useState("")
+    const displayWarn = (id1) => {
+        setwarn(true)
+        setopenfacility(false)
+        setNew(false)
+        setaddfacility(false)
+        setaddform(false)
+        setupdateprice(false)
+        setid1(id1)
+    }
+    const [error3, seterror3] = useState(false)
+    const [message3, setmessage3] = useState("")
+    const deletePackage = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/deletePackage/${id1}`)
+            if(res.data.message === 'There is an internal error') {
+                seterror3(true)
+                setmessage3('There is an internal error')
+            }else {
+                setNew(true)
+                setwarn(false)
+                setopenfacility(false)
+                setaddfacility(false)
+                setaddform(false)
+                setupdateprice(false)
+            }
+        }catch(err) {
+            console.log(err)
+        }
+
+    }
+
+
+
+
+
+
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }} >
@@ -247,23 +319,24 @@ const Packages = () => {
             </Box>
 
             <div className="top-button-header">
-                <Button variant="contained" onClick={AddPackageForm} sx={{ background: "black", ':hover': { backgroundColor: "black" } }}>Add New Package <AddIcon sx={{ marginLeft: '10px' }} /></Button>
-                <Button variant="contained" onClick={() => clickPopularity()} sx={{ background: "black", ':hover': { backgroundColor: "black" } }}>View Popularity</Button>
+                <Button variant="contained" sx={{ background: "black", ':hover': { backgroundColor: "black" } }} onClick={openForm}>Add New Package <AddIcon sx={{ marginLeft: '10px' }} /></Button>
+                <Button variant="contained" sx={{ background: "black", ':hover': { backgroundColor: "black" } }} onClick={openFacilityForm}><AddIcon sx={{ marginRight: '10px' }} />Add Package Facilities</Button>
             </div>
 
             {new1 && (
                 <div className="boarding-card-line" style={{ display: 'flex', flexDirection: 'column', marginLeft: '2%', marginRight: '2%', marginBottom: '2%' }}>
                     <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
                         {details && details.map((menu, index) => (
-                            <div className="boarding-card" style={{ backgroundColor: menu.color, marginBottom: '1%', marginRight: '1%' }}>
+                            <div className="boarding-card" style={{ backgroundColor: menu.color, marginRight: '1%' }}>
+
                                 <div className="boarding-two-icon">
-                                    <EditIcon onClick={() => update()} />
-                                    <DeleteIcon color="error" sx={{ marginLeft: '15px' }} />
+                                    <IconButton onClick={() => displayWarn(menu.package_id)}><DeleteIcon sx={{ color: 'red' }} /></IconButton>
                                 </div>
+
                                 <div>
                                     <Typography sx={{ color: 'white', fontSize: '35px', fontWeight: 'bold', position: 'absolute' }}>{menu.package_name}</Typography>
                                     <img
-                                        src={menu.symbol === "" ? getImageSrc("noimage.png") : getImageSrc(menu.symbol)}
+                                        src={menu.symbol === "" ? getProfilepicturepath("noimage.png") : getProfilepicturepath(menu.symbol)}
                                         alt={menu.package_name}
                                         style={{ height: '200px', width: 'auto' }} />
                                 </div>
@@ -271,405 +344,301 @@ const Packages = () => {
                                     <Typography sx={{ color: 'black', fontSize: '55px', fontWeight: 'bold' }}>Rs. {menu.price} </Typography>
                                     <Typography sx={{ color: 'white', fontSize: '25px', fontWeight: 'bold', marginTop: '30px' }}>/ day</Typography>
                                 </div>
+
                                 <div>
-                                    <Button onClick={() => PackageFacilities(menu.package_id)} sx={{ color: 'black', backgroundColor: 'white', ':hover': { backgroundColor: 'white' } }}>View Facilities</Button>
+                                    <Button sx={{ color: 'black', backgroundColor: 'white', ':hover': { backgroundColor: 'white' } }} onClick={() => viewFacilities(menu.package_id)}>View Facilities</Button>
+                                </div>
+
+                                <div style={{ marginTop: '3%', marginBottom: '1%' }}>
+                                    <Button sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }} onClick={() => openChangePrice(menu.package_id)}>Change Price<EditIcon /></Button>
                                 </div>
                             </div>
                         ))}
                     </div>
-
-                    {/* <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <div className="boarding-card" style={{ backgroundColor: '#A6A6A6' }}>
-                            <div className="boarding-card-facility">
-                                <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /> Foods with <b>normal brands</b> </p>
-                                <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /> Washing only</p>
-                                <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /> <b>No</b> air condition apply  </p>
-                            </div>
-                        </div>
-
-                        <div className="boarding-card" style={{ backgroundColor: '#55555C' }}>
-                            <div className="boarding-card-facility">
-                                <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} />Foods with <b>high brands</b></p>
-                                <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b>Free</b> washing with <b>high brands</b> ingrediants</p>
-                                <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b>Air conditional</b> apply</p>
-                                <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b>Free</b> spa</p>
-                                <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b>Comforting</b> medicine</p>
-                            </div>
-                        </div>
-
-                        <div className="boarding-card" style={{ backgroundColor: '#FBBD08' }}>
-                            <div className="boarding-card-facility">
-                                <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} />Foods  with <b>normal brands</b></p>
-                                <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b>Free </b> washing with <b>normal brand</b> ingrediants </p>
-                                <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /><b> Half Air conditional</b> apply</p>
-                                <p><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} /> <b>Free</b> spa</p>
-                            </div>
-                        </div>
-
-                    </div> */}
                 </div>
             )}
 
-            {/* add a new package */}
-            {form && (
+            {/* add new packages - basic details */}
+            {addform && (
                 <div style={{
-                    backdropFilter: 'blur(4px)',
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '50%',
+                    backgroundPosition: 'center',
                     display: 'flex',
+                    flexDirection: "column",
                     justifyContent: 'center',
                     alignItems: 'center',
-                    marginRight: '300px',
-                    zIndex: 1001,
+                    marginLeft: '10%'
                 }}>
-                    <FormControl sx={{
-                        marginLeft: '10%',
-                        borderRadius: '10px',
-                        marginTop: '30%',
-                        width: '700px',
-                        padding: '20px',
-                        backgroundColor: '#F0F0F5',
-                        position: 'relative',
-                        zIndex: 1001
-                    }}>
-                        <div style={{ backgroundColor: 'white', padding: '15px', borderRadius: '10px' }}>
-                            <div>
-                                <IconButton onClick={cancelAdding} ><CloseIcon sx={{ color: 'white', backgroundColor: 'red', marginLeft: '600px' }} /></IconButton>
-                            </div>
-                            <div className="form-topic">
-                                Add New Package
-                            </div>
-                            <hr />
-                            <div style={{ marginTop: '20px' }} className="form-label">
-                                <FormLabel>Package Name</FormLabel>
-                                <TextField id="outlined-basic" placeholder="Package Name" variant="outlined" onChange={(e) => setname(e.target.value)} required />
-                            </div>
+                    <FormControl sx={{ padding: '2%', backgroundColor: '#f0f0f5', borderRadius: '10px', width: '50%' }}>
 
-                            <div className="form-label">
-                                <FormLabel>Price(per day) Rs.</FormLabel>
-                                <TextField id="outlined-basic" placeholder="Package Price" variant="outlined" type="number" onChange={(e) => setprice(e.target.value)} required />
-                            </div>
-
-                            <div className="form-label">
-                                <FormLabel>Upload Bank Slip: </FormLabel>
-                                <div style={{ display: 'inline' }}>
-                                    <Button
-                                        variant="contained"
-                                        component="label"
-
-                                        startIcon={<CloudUploadIcon />}
-                                    >
-                                        Upload Package Symbol
-                                        <input type="file" style={{ width: '100%' }} hidden required />
-
-                                    </Button>
-                                </div>
-                            </div>
-
-                            {/* <div className="form-label">
-                                <FormLabel>Facilities</FormLabel>
-                                <TextField id="outlined-basic" placeholder="Facility 01" variant="outlined" sx={{ marginBottom: '5px' }} onChange={(e) => setFirst(e.target.value)} required />
-                                <TextField id="outlined-basic" placeholder="Facility 02" variant="outlined" sx={{ marginBottom: '5px' }} onChange={(e) => setSecond(e.target.value)} required />
-                                <TextField id="outlined-basic" placeholder="Facility 03" variant="outlined" sx={{ marginBottom: '5px' }} onChange={(e) => setThird(e.target.value)} required />
-                                <TextField id="outlined-basic" placeholder="Facility 03" variant="outlined" sx={{ marginBottom: '5px' }} onChange={(e) => setFourth(e.target.value)} />
-                                <TextField id="outlined-basic" placeholder="Facility 03" variant="outlined" sx={{ marginBottom: '5px' }} onChange={(e) => setFifth(e.target.value)} />
-                            </div> */}
-                            <div className="form-label">
-                                <FormLabel>Facilities</FormLabel>
-                                <form onSubmit={handleSubmit}>
-                                    {textFields.map((text, index) => (
-                                        <div key={index}>
-                                            <TextField
-                                                label={`Facility ${index + 1}`}
-                                                value={text}
-                                                onChange={(event) => handleTextFieldChange(index, event)}
-                                                sx={{ marginBottom: '5px', width: '100%' }} />
-                                        </div>
-                                    ))}
-                                    <div style={{ display: 'flex', flexDirection: 'row', marginTop: '1%' }}>
-                                        <Button sx={{ backgroundColor: 'black', color: 'white', borderRadius: '10px', ':hover': { backgroundColor: 'black' } }} onClick={addTextField}>
-                                            <AddCircleIcon sx={{ color: 'white', marginRight: '10px' }} />Add New Facility
-                                        </Button>
-                                    </div>
-                                    {/* <button type="submit">Submit</button> */}
-                                </form>
-                            </div>
-
-                            <Button variant="contained" type="submit" onClick={() => AddNewPackage()} sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Add Package</Button>
+                        <div>
+                            <IconButton onClick={backfromadding}><CloseIcon sx={{ color: 'white', backgroundColor: 'red', marginLeft: '590px' }} /></IconButton>
                         </div>
-                        {/* display error or success message  */}
+
+                        <div style={{ marginBottom: '3%' }}>
+                            <Typography sx={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold', color: 'black' }}>Add New Package</Typography>
+                            <hr />
+                        </div>
+
+                        <div style={{ marginBottom: '3%' }}>
+                            <TextField
+                                id="outlined-textarea"
+                                label="Package Name"
+                                placeholder="name"
+                                multiline
+                                onChange={(e) => setname(e.target.value)}
+                                sx={{ width: '100%' }}
+                            />
+                        </div>
+
+                        <div style={{ marginBottom: '3%' }}>
+                            <TextField
+                                id="outlined-textarea"
+                                label="Price (per day)"
+                                placeholder="price"
+                                type="number"
+                                multiline
+                                onChange={(e) => setprice(e.target.value)}
+                                sx={{ width: '100%' }}
+                            />
+                        </div>
+
+                        <div style={{ marginBottom: '3%' }}>
+                            <TextField
+                                id="outlined-textarea"
+                                label="Color (#hexa value)"
+                                placeholder="color"
+                                multiline
+                                onChange={(e) => setcolor(e.target.value)}
+                                sx={{ width: '100%' }}
+                            />
+                        </div>
+
+                        {/* <div>
+                        <Button
+                            variant="contained"
+                            component="label"
+                            startIcon={<CloudUploadIcon />}
+                            sx={{ width: '100%' }}
+                        >
+                            Upload File
+                            <input type="file" hidden onChange={handlefilechange} required />
+                        </Button>
+                        <div style={{ display: 'inline', paddingTop: '6px', paddingLeft: '7px' }}>
+                            {selectfile && (
+                                <Typography sx={{color:'black'}}>{selectfile.name}</Typography>
+
+                            )}
+                        </div>                                   
+                    </div> */}
+
                         {error && (
                             <Stack sx={{ width: '100%' }} spacing={2}>
                                 <Alert severity="error">{message}</Alert>
                             </Stack>
                         )}
+
+                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '10px', marginBottom: '10px' }}>
+                            <Button variant="contained" sx={{ background: "orange", marginTop: '1%', marginLeft: '30%', ':hover': { backgroundColor: "#fe9e0d" }, width: '40%' }} onClick={() => submitBasicDetails()}>Submit</Button>
+                        </div>
+
                     </FormControl>
                 </div>
             )}
 
-            {/* update package */}
-            {updateform && (
+            {/* add packages facilities */}
+            {addfacility && (
                 <div style={{
-                    backdropFilter: 'blur(4px)',
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '50%',
+                    backgroundPosition: 'center',
                     display: 'flex',
+                    flexDirection: "column",
                     justifyContent: 'center',
                     alignItems: 'center',
-                    marginRight: '300px',
-                    zIndex: 1001,
+                    marginLeft: '10%'
                 }}>
-                    <FormControl sx={{
-                        marginLeft: '10%',
-                        borderRadius: '10px',
-                        marginTop: '40%',
-                        width: '700px',
-                        padding: '20px',
-                        backgroundColor: '#F0F0F5',
-                        position: 'relative',
-                        zIndex: 1001
-                    }}>
-                        <div style={{ backgroundColor: 'white', padding: '15px', borderRadius: '10px' }}>
+                    <FormControl sx={{ padding: '2%', backgroundColor: '#f0f0f5', borderRadius: '10px', width: '50%' }}>
+
+                        <div>
+                            <IconButton onClick={backfromadding}><CloseIcon sx={{ color: 'white', backgroundColor: 'red', marginLeft: '590px' }} /></IconButton>
+                        </div>
+
+                        <div style={{ marginBottom: '2%' }}>
+                            <Typography sx={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold', color: 'black' }}>Add Package Facilities</Typography>
+                            <hr />
+                        </div>
+
+                        <div style={{ marginBottom: '3%' }}>
+                            <FormControl sx={{ minWidth: 120, width: '100%' }}>
+                                <InputLabel id="demo-simple-select-standard-label">Package</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-standard-label"
+                                    id="demo-simple-select-standard"
+                                    value={bpckg}
+                                    onChange={handlebpckg}
+                                    label="Pet Category"
+
+                                >
+                                    {details && details.map((menu, index) => (
+                                        <MenuItem key={index} value={menu.package_id}>
+                                            {menu.package_id + " - " + menu.package_name}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </div>
+
+                        <div style={{ marginBottom: '3%' }}>
+                            <TextField
+                                id="outlined-textarea"
+                                label="Facility"
+                                placeholder="facility"
+                                multiline
+                                onChange={(e) => setnewfacility(e.target.value)}
+                                sx={{ width: '100%' }}
+                            />
+                        </div>
+
+                        {error1 && (
+                            <Stack sx={{ width: '100%' }} spacing={2}>
+                                <Alert severity="error">{message1}</Alert>
+                            </Stack>
+                        )}
+
+                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '10px', marginBottom: '10px' }}>
+                            <Button variant="contained" sx={{ background: "orange", marginTop: '1%', marginLeft: '30%', ':hover': { backgroundColor: "#fe9e0d" }, width: '40%' }} onClick={() => submitFacilityForm()}>Submit</Button>
+                        </div>
+
+                    </FormControl>
+                </div>
+            )}
+
+            {/*  view package facilities */}
+            {openfacility && (
+                <div style={{
+                    backgroundPosition: 'center',
+                    display: 'flex',
+                    flexDirection: "column",
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginLeft: '10%'
+                }}>
+                    <FormControl sx={{ padding: '2%', backgroundColor: '#f0f0f5', borderRadius: '10px', width: '50%' }}>
+
+                        <div style={{ marginLeft: '95%' }}>
+                            <IconButton onClick={backfromadding}><CloseIcon sx={{ color: 'white', backgroundColor: 'red' }} /></IconButton>
+                        </div>
+
+                        <div style={{ marginBottom: '2%' }}>
+
+                            <Typography sx={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold', color: 'black' }}> Package Facilities</Typography>
+                            <hr />
+                        </div>
+
+                        <div className="form-label">
+                            {fac && fac.length > 0 && (
+                                <Typography sx={{ fontSize: '20px', fontWeight: 'bold', color: 'black', textAlign: 'center' }}>
+                                    Package : {fac[0].package_id}
+                                </Typography>
+                            )}
+
+                            <Typography sx={{ fontWeight: 'bold' }}> Facilities :  </Typography>
+                            <hr />
                             <div>
-                                <IconButton onClick={cancelUpdate} ><CloseIcon sx={{ color: 'white', backgroundColor: 'red', marginLeft: '600px' }} /></IconButton>
+                                {fac && fac.map((menu, index) => (
+                                    <Typography sx={{ marginTop: '1%', marginBottom: '1%' }}>
+                                        <CheckCircleIcon sx={{ marginRight: '1%', color: 'green' }} />
+                                        {menu.facility}
+                                    </Typography>
+                                ))}
                             </div>
-                            <div className="form-topic">
-                                Update Package
-                                <hr />
-                            </div>
-                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <div className="form-label">
-                                    <FormLabel>Package ID : </FormLabel>
-                                    <Box
-                                        component="form"
-                                        sx={{
-                                            '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                        }}
-                                        noValidate
-                                        autoComplete="off"
-                                    >
-                                        <div>
-                                            <TextField
-                                                disabled
-                                                id="outlined-disabled"
-                                                label=""
-                                                defaultValue="02"
-                                            /></div>
-
-                                    </Box>
-                                </div>
-                                <div className="form-label">
-                                    <FormLabel>Package Name : </FormLabel>
-                                    <Box
-                                        component="form"
-                                        sx={{
-                                            '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                        }}
-                                        noValidate
-                                        autoComplete="off"
-                                    >
-                                        <div>
-                                            <TextField
-                                                required
-                                                id="outlined-required"
-                                                label=""
-                                                defaultValue="Gold"
-                                            /></div>
-
-                                    </Box>
-                                </div>
-                            </div>
-
-                            <div className="form-label">
-                                <FormLabel>Price(per week) Rs.</FormLabel>
-                                <Box
-                                    component="form"
-                                    sx={{
-                                        '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                    }}
-                                    noValidate
-                                    autoComplete="off"
-                                >
-                                    <div>
-                                        <TextField
-                                            required
-                                            type="number"
-                                            id="outlined-required"
-                                            label=""
-                                            defaultValue="4000.00"
-                                        /></div>
-
-                                </Box>
-                            </div>
-
-                            <div className="form-label">
-                                <FormLabel>Facilities</FormLabel>
-                                <Box
-                                    component="form"
-                                    sx={{
-                                        '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                    }}
-                                    noValidate
-                                    autoComplete="off"
-                                >
-                                    <div>
-                                        <TextField
-                                            required
-                                            id="outlined-required"
-                                            label=""
-                                            defaultValue="Facility 01"
-                                        /></div>
-
-                                </Box>
-                                <Box
-                                    component="form"
-                                    sx={{
-                                        '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                    }}
-                                    noValidate
-                                    autoComplete="off"
-                                >
-                                    <div>
-                                        <TextField
-                                            required
-                                            id="outlined-required"
-                                            label=""
-                                            defaultValue="Facility 02"
-                                        /></div>
-
-                                </Box>
-                                <Box
-                                    component="form"
-                                    sx={{
-                                        '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                    }}
-                                    noValidate
-                                    autoComplete="off"
-                                >
-                                    <div>
-                                        <TextField
-                                            required
-                                            id="outlined-required"
-                                            label=""
-                                            defaultValue="Facility 03"
-                                        /></div>
-
-                                </Box>
-                            </div>
-                            <Button variant="contained" onClick={() => afterUpdate()} sx={{ background: "#fe9e0d", marginTop: '10px', marginRight: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }}>Update Package</Button>
                         </div>
                     </FormControl>
                 </div>
             )}
 
-
-            {/* view popularity */}
-            {popularity && (
+            {/* update price form */}
+            {updateprice && (
                 <div style={{
-                    backdropFilter: 'blur(4px)',
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '50%',
+                    backgroundPosition: 'center',
                     display: 'flex',
+                    flexDirection: "column",
                     justifyContent: 'center',
                     alignItems: 'center',
-                    marginRight: '300px',
-                    zIndex: 1001,
+                    marginLeft: '10%'
                 }}>
-                    <FormControl sx={{
-                        marginLeft: '10%',
-                        borderRadius: '10px',
-                        marginTop: '30%',
-                        width: '700px',
-                        padding: '20px',
-                        backgroundColor: '#F0F0F5',
-                        position: 'relative',
-                        zIndex: 1001
-                    }}>
-                        {pckg && pckg.map((pkrow, index) => (
-                            <div>
-                                <div>
-                                    <IconButton onClick={afterview} ><CloseIcon sx={{ color: 'white', backgroundColor: 'red', marginLeft: '600px' }} /></IconButton>
-                                </div>
-                                <div style={{ marginBottom: '10px' }}>
-                                    <Typography variant="h6" sx={{ textAlign: 'center', fontWeight: 'bold' }}>Packages Popularity</Typography>
-                                    <hr />
+                    <FormControl sx={{ padding: '2%', backgroundColor: '#f0f0f5', borderRadius: '10px', width: '50%' }}>
+
+                        <div style={{ marginLeft: '95%' }}>
+                            <IconButton onClick={backfromadding}><CloseIcon sx={{ color: 'white', backgroundColor: 'red' }} /></IconButton>
+                        </div>
+
+                        <div style={{ marginBottom: '2%' }}>
+
+                            <Typography sx={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold', color: 'black' }}> Update Package Price</Typography>
+                            <hr />
+                        </div>
+
+                        {getprice && getprice.map((menu, index) => (
+                            <>
+                                <div className="form-label">
+                                    <div style={{ marginBottom: '3%', display: 'flex', flexDirection: 'column' }}>
+                                        <Typography sx={{ marginRight: '10%' }}>Price</Typography>
+                                        <TextField
+                                            type="number"
+                                            id="outlined-helperText"
+                                            defaultValue={menu.price}
+                                            onChange={(e) => setnewprice(e.target.value)}
+                                        />
+                                    </div>
                                 </div>
 
-                                <div>
-                                    <PieChart
-                                        colors={['#FBBD08', '#A6A6A6', '#55555C']}
-                                        series={[
-                                            {
-                                                data: [
-                                                    { id: 0, value: pkrow.gold, label: 'Gold' },
-                                                    { id: 1, value: pkrow.silver, label: 'Silver' },
-                                                    { id: 2, value: pkrow.platinum, label: 'Platinum' },
-                                                ],
-                                            },
-                                        ]}
-                                        width={600}
-                                        height={300}
-                                    />
+                                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '10px', marginBottom: '10px' }}>
+                                    <Button variant="contained" sx={{ background: "orange", marginTop: '1%', marginLeft: '30%', ':hover': { backgroundColor: "#fe9e0d" }, width: '40%' }} onClick={() => SubmitNewPrice(menu.package_id)}>Submit</Button>
                                 </div>
-                            </div>
+                            </>
                         ))}
                     </FormControl>
                 </div>
             )}
 
-            {/*  package details box  */}
-            {detailsbox && (
+            {warn && (
                 <div style={{
                     backdropFilter: 'blur(4px)',
                     position: 'absolute',
                     top: 0,
                     left: 0,
+                    padding: '5px',
                     width: '100%',
-                    height: '100vh',
+                    borderRadius: '10px',
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
                     marginRight: '300px',
                     zIndex: 1001,
-
+                    marginTop: '12%'
                 }}>
-                    {facility && facility.map((menu, index) => (
-
-                        <FormControl sx={{
-                            marginLeft: '10%',
-                            borderRadius: '10px',
-                            marginTop: '3%',
-                            width: '700px',
-                            padding: '20px',
-                            backgroundColor: menu.color,
+                    <div style={{ backgroundColor: 'black', padding: '10px' }}>
+                        <div style={{
+                            padding: '10px',
+                            borderRadius: '5px',
+                            backgroundColor: '#f0f0f5',
+                            width: '500px',
                             position: 'relative',
                             zIndex: 1001
                         }}>
-                            <div style={{ backgroundColor: 'white', borderRadius: '10px', padding: '2%' }}>
+                            <Typography sx={{ textAlign: 'center' }}>Confirm Remove? </Typography>
+                            <hr /><br />
 
-                                <div>
-                                    <IconButton onClick={backFromViewing}><CloseIcon sx={{ color: 'white', backgroundColor: "red", marginLeft: '590px' }} /></IconButton>
-                                </div>
-                                <Typography sx={{ marginLeft: '40%', fontWeight: 'bold' }}>{menu.package_name} Package Facilities</Typography>
-                                <hr style={{ marginBottom: '1%' }} />
-                                {menu.facilities.map((facility, findex) => (
-                                    <p key={findex}><CheckCircleIcon sx={{ marginRight: '20px', color: 'green' }} />{facility}</p>
-                                ))}
+                            <div style={{ display: 'flex', flexDirection: 'row', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                                <Button onClick={deletePackage} sx={{ backgroundColor: 'orange', color: 'white', margin: '10px', ':hover': { backgroundColor: 'orange' } }}>Confirm</Button>
+                                <Button onClick={backfromadding} sx={{ backgroundColor: 'red', color: 'white', margin: '10px', ':hover': { backgroundColor: 'red' } }}>Cancel</Button>
                             </div>
-                        </FormControl>
-                    ))}
+                        </div>
+                    </div>
                 </div>
-            )
-            }
+            )}
+
+
+
         </div >
     )
 }
