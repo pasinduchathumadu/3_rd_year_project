@@ -84,7 +84,7 @@ export const setprice = async (req, res, next) => {
 }
 
 export const add_vet = async (req, res, next) => {
-    const { first, second, starttime, fee, contact, countnew, image, working } = req.body
+    const { first, second, starttime, fee, contact, countnew, image, working , qualifications } = req.body
     var status = ""
     if (working === 10) {
         status = "week"
@@ -94,7 +94,7 @@ export const add_vet = async (req, res, next) => {
         status = "weekend"
     }
 
-    const sqlquery = "INSERT INTO vet (first_name,last_name,contact_number,working,start_time,img,fee,daily_count) VALUES(?,?,?,?,?,?,?,?)"
+    const sqlquery = "INSERT INTO vet (first_name,last_name,contact_number,working,start_time,img,fee,daily_count,qualifications) VALUES(?,?,?,?,?,?,?,?,?)"
     const values = [
         first,
         second,
@@ -104,7 +104,8 @@ export const add_vet = async (req, res, next) => {
         starttime,
         image,
         fee,
-        countnew
+        countnew,
+        qualifications
     ]
 
     db.query(sqlquery, values, (err, data) => {
