@@ -332,7 +332,7 @@ const Menu = () => {
                       </Box>
                     </Stack>
                     {menu.discount !== 0 && (
-                      <Typography sx={{ fontFamily: 'fantasy', fontSize: '24px', textAlign: 'center', marginBottom: '2%' }}>New Price : Rs.{menu.unit_price - (menu.discount * menu.unit_price) / 100}</Typography>
+                      <Typography sx={{ fontWeight:'bold', fontSize: '24px', textAlign: 'center', marginBottom: '2%' }}>New Price : Rs.{menu.unit_price - (menu.discount * menu.unit_price) / 100}</Typography>
                     )}
 
 

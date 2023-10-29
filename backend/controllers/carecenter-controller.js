@@ -192,6 +192,7 @@ export const addingpet = async (req, res, next) => {
         name,
         breed,
         petsex,
+        image
     } = req.body;
 
     try {
@@ -208,12 +209,13 @@ export const addingpet = async (req, res, next) => {
         } else if (petsex === 20) {
             OriginalSex = "Female"
         }
-        const sqlQuery = 'INSERT INTO mind_relaxing_pets (breed, name,  category, sex) VALUES(?,?,?,?)';
+        const sqlQuery = 'INSERT INTO mind_relaxing_pets (breed, name,  category, sex,image) VALUES(?,?,?,?,?)';
         const values = [
             breed,
             name,
             OriginalCategory,
-            OriginalSex
+            OriginalSex,
+            image
         ];
 
         db.query(sqlQuery, values, (err, data) => {
@@ -505,6 +507,7 @@ export const submitNewEmployee = async(req,res,next) => {
         contact,
         empemail,
         type,
+        image
     } = req.body;
 
     try {
@@ -519,8 +522,8 @@ export const submitNewEmployee = async(req,res,next) => {
             originalType = "TRAINING"
         }
 
-        const sqlQuery = 'INSERT INTO employee(first_name, last_name, email, contact_number, type) VALUES(?,?,?,?,?)'
-        const values = [first, last, empemail, contact, originalType]
+        const sqlQuery = 'INSERT INTO employee(first_name, last_name, email, contact_number, type,img) VALUES(?,?,?,?,?,?)'
+        const values = [first, last, empemail, contact, originalType,image]
     
         db.query(sqlQuery, values,(err,data) => {
             if(err) {
