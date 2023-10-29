@@ -1160,7 +1160,7 @@ export const pet_trainning = async (req, res, next) => {
   const status = "active"
   const sqlQuery = "SELECT p.start,p.end,p.day,p.count,e.first_name,e.last_name,e.img,e.contact_number,e.email,p.price FROM pet_trainning_shedule p INNER JOIN employee e ON p.emp_id = e.emp_id WHERE e.status = ?"
   const values = [status]
-  db.query(sqlQuery,values,(err, data) => {
+  db.query(sqlQuery, values, (err, data) => {
     if (err) {
       return res.json({ message: 'There is an internel error' })
     }
@@ -1765,7 +1765,7 @@ export const viewBuyPets = async (req, res, next) => {
   const email = req.params.email
   const status = "pending"
   const sqlQuery = 'SELECT u.first_name, u.last_name, u.email, b.pet_id, b.email,b.category, b.sex, b.price,b.status, b.image FROM pets_buy_and_sell b INNER JOIN users u WHERE u.email=b.email AND b.status = ? where u.email !=?'
-  const sqlValues = [status,email]
+  const sqlValues = [status, email]
 
   db.query(sqlQuery, sqlValues, (err, data) => {
     if (err) {
@@ -1956,16 +1956,16 @@ export const viewPets = async (req, res, next) => {
 
 }
 
-export const buypets = async(req,res,next)=>{
-  const {petid} = req.body;
+export const buypets = async (req, res, next) => {
+  const { petid } = req.body;
   const status = "sold"
   const sqlquery = "UPDATE pets_buy_and_sell SET status = ? WHERE pet_id = ?"
-  const values = [status,petid]
-  db.query(sqlquery,values,(err,data)=>{
-    if(err){
-      return res.json({message:"There is an internel error"})
+  const values = [status, petid]
+  db.query(sqlquery, values, (err, data) => {
+    if (err) {
+      return res.json({ message: "There is an internel error" })
     }
-    return res.json({message:'updated'})
+    return res.json({ message: 'updated' })
   })
 }
 
@@ -2090,34 +2090,105 @@ export const cancelMindRelaxingAppointment = async (req, res, next) => {
   const values1 = [newstatus, id]
 
   db.query(sqlQuery1, values1, (err, data1) => {
-    if(err) {
-      return res.json({message:'There is an internal error'})
+    if (err) {
+      return res.json({ message: 'There is an internal error' })
     }
 
     const sqlQuery2 = 'SELECT * FROM mindrelaxing_appointments WHERE appointment_id = ? '
     const values2 = [id]
 
-    db.query(sqlQuery2, values2,(err, data2) =>{
-      if(err){
-        return res.json({message:'There is an internal eriiiror'})
+    db.query(sqlQuery2, values2, (err, data2) => {
+      if (err) {
+        return res.json({ message: 'There is an internal eriiiror' })
       }
       const pet_id = data2[0].pet_id
       const date = data2[0].date
-      
+
       const sqlQuery3 = 'DELETE FROM reserve_mindrelaxing_pets WHERE pet_id = ? AND date = ?'
       const values3 = [pet_id, date]
 
-      db.query(sqlQuery3, values3, (err,data3) => {
-        if(err) {
-          return res.json({message:'There is an internal error'})
+      db.query(sqlQuery3, values3, (err, data3) => {
+        if (err) {
+          return res.json({ message: 'There is an internal error' })
         }
-        return res.json({message:'Removed Successfully'})
+        return res.json({ message: 'Removed Successfully' })
 
       })
 
     })
   })
+}
 
+// BANK DETAILS
 
+// add bank details
+export const SubmitBankDetails = async (req, res, next) => {
+  const {
+    email,
+    num,
+    branch,
+    bank
+  } = req.body;
 
+  const checkQuery = 'SELECT COUNT(acc_no) as count FROM client_bankdetails WHERE email = ?'
+  const checkvalues = [email]
+
+  db.query(checkQuery, checkvalues, (err, data1) => {
+    if (err) {
+      return res.json({ message: 'There is an internal error' })
+    } else if (data1[0].count > 0) {
+      return res.json({ message: 'Already added bank details' })
+    }
+
+    const sql1 = 'SELECT * FROM client WHERE email = ?'
+    const values1 = [email]
+
+    db.query(sql1, values1, (err, data2) => {
+      if (err) {
+        return res.json({ message: 'There is an internal error' })
+      }
+      const client_id = data2[0].client_id
+      const sqlQuery = 'INSERT INTO client_bankdetails(email, client_id, acc_no, bank, branch) VALUES (?,?,?,?,?)'
+      const values = [email, client_id, num, bank, branch]
+
+      db.query(sqlQuery, values, (err, data3) => {
+        if (err) {
+          return res.json({ message: 'There is an internal error' })
+        }
+        return res.json({ message: 'added' })
+      })
+
+    })
+  })
+}
+
+// get bank detals
+export const getBankDetails = async (req,res,next) => {
+  const email = req.params.email
+
+  const sqlQuery = 'SELECT * FROM client_bankdetails WHERE email = ?'
+  const values = [email]
+
+  db.query(sqlQuery, values, (err,data) => {
+    if(err) {
+      return res.json({message:'There is an internal error'})
+    }
+    return res.json({data})
+  })
+
+}
+
+// delete bank details
+export const deleteBankDetails = async(req,res,next) => {
+  const email = req.params.email
+
+  const sqlQuery = 'DELETE FROM client_bankdetails WHERE email = ?'
+  const values = [email]
+
+  db.query(sqlQuery, values,(err, data) => {
+    if(err) {
+      return res.json({message:'There is an internal error'})
+    }
+    return res.json({message:'Deleted'})
+  })
 }
