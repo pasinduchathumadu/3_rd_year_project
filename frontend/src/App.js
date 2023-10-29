@@ -121,6 +121,7 @@ import BookOnlineIcon from "@mui/icons-material/BookOnline"; // appointments
 
 import Company_Blog from "./pages/Company_manager/Company_Blog";
 import AddBlog from "./pages/Client/AddBlog";
+import Bank from "./pages/Client/BankDetails";
 import axios from "axios";
 
 function App() {
@@ -434,6 +435,14 @@ function App() {
                 element={
                   <>
                     <Header userRole={"client"} /> <Dashboard />
+                  </>
+                }
+              ></Route>
+              <Route
+                path="/bankdetails"
+                element={
+                  <>
+                    <Header userRole={"client"} /> <Bank />
                   </>
                 }
               ></Route>
