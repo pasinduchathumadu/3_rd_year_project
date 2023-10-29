@@ -21,6 +21,8 @@ import {
   IconButton,
   TextField,
   Grid,
+  Alert,
+  AlertTitle,
 } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 
@@ -56,6 +58,7 @@ function Company_Competitions() {
   const [compPay, setPayment] = useState("");
   const [compFile, setFile] = useState("");
   const [error, seterror] = useState(false);
+  const [message , setmessage ] = useState("")
   const [selectfile, setfile] = useState(null)
   const [image, setimage] = useState("")
   const handlefilechange = async (event) => {
@@ -99,6 +102,8 @@ function Company_Competitions() {
       compPay === null ||
       image === null
     ) {
+      seterror(true)
+      setmessage("Please be filled!!!")
       return;
     }
     try {
@@ -483,6 +488,15 @@ function Company_Competitions() {
             </Grid>
           </form>
         </DialogContent>
+        {error && (
+            <Stack sx={{ width: '50%', marginLeft: '25%' }} spacing={2}>
+              <Alert severity="error">
+                <AlertTitle>Warning</AlertTitle>
+                This is a warning alert — <strong>{message}</strong>
+              </Alert>
+            </Stack>
+
+          )}
         <DialogActions>
           <Button variant="outlined" color="secondary" onClick={handleClose}>
             Cancel

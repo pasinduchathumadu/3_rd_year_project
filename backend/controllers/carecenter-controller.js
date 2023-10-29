@@ -411,7 +411,7 @@ export const get_training = async (req, res, next) => {
 export const get_employee = async (req, res, next) => {
     // const id = req.params.id
     const status = 'active'
-
+    const new_status = "working"
     const sqlQuery = "SELECT *FROM employee WHERE status = ?"
     const values = [status]
 
@@ -601,3 +601,15 @@ export const submitConfirmationForm = async(req,res, next) => {
     })
 }
 
+export const assigned = async(req,res,next)=>{
+    const id = req.params.id
+    const status = "working"
+    const sqlQuery = "UPDATE employee SET unfree_date_start = ? , unfree_date_end = ? WHERE emp_id = ?"
+    const values = [status,status,id]
+    db.query(sqlQuery,values,(err,data)=>{
+        if(err){
+            return res.json({message:'There is an internel error'})
+        }
+        return res.json({message:'assigned'})
+    })
+}

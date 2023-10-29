@@ -208,7 +208,6 @@ function Medi() {
         date_medi,
         email,
         payment_charge,
-       
         selectpet
       })
       if (res.data.message === "There is an internel error") {
