@@ -102,9 +102,8 @@ export const view_requests = async (req, res, next) => {
         const status1 = 'completed'
         const status2 = 'pending'
         const status3 = 'accepted'
-        const status4 = 'arrived'
-        const sqlQuery = 'SELECT r.request_id, r.client_id, r.pet_id, r.package_id, r.board_arrival_date, r.board_carry_date, r.request_status, p.package_name FROM boarding_request r INNER JOIN boarding_package p ON p.package_id = r.package_id WHERE request_status = ? OR request_status = ? OR request_status = ? OR request_status = ?';
-        const values = [status1, status2, status3, status4]
+        const sqlQuery = 'SELECT r.request_id, r.client_id, r.pet_id, r.package_id, r.board_arrival_date, r.board_carry_date, r.request_status, p.package_name FROM boarding_request r INNER JOIN boarding_package p ON p.package_id = r.package_id WHERE request_status = ? OR request_status = ? OR request_status = ?';
+        const values = [status1, status2, status3]
 
         db.query(sqlQuery, values, (err, data) => {
             if (err) {
@@ -135,19 +134,8 @@ export const view_requests = async (req, res, next) => {
             return res.json({ data })
         });
 
+    
     } else if (id === '4') {
-        const status = 'arrived'
-        const sqlQuery = 'SELECT r.request_id, r.client_id, r.pet_id, r.package_id, r.board_arrival_date, r.board_carry_date, r.request_status, p.package_name FROM boarding_request r INNER JOIN boarding_package p ON p.package_id = r.package_id WHERE request_status = ? ';
-        const values = [status]
-
-        db.query(sqlQuery, values, (err, data) => {
-            if (err) {
-                return res.json({ message: 'There is an internal error' })
-            }
-            return res.json({ data })
-        });
-
-    } else if (id === '5') {
         const status = 'completed'
         const sqlQuery = 'SELECT r.request_id, r.client_id, r.pet_id, r.package_id, r.board_arrival_date, r.board_carry_date, r.request_status, p.package_name FROM boarding_request r INNER JOIN boarding_package p ON p.package_id = r.package_id WHERE request_status = ? ';
         const values = [status]
@@ -262,7 +250,6 @@ export const toRefund = async (req, res, next) => {
     const sqlQuery = 'SELECT r.refund_id, r.request_id, r.client_id,  r.refund_mny, b.acc_no, b.bank, b.branch FROM boarding_refund r INNER JOIN client_bankdetails b ON r.client_id = b.client_id WHERE r.refund_id = ?'
     const values = [id]
 
-
     db.query(sqlQuery, values, (err, data) => {
         if (err) {
             return res.json({ message: 'There is an internal error' })
@@ -307,13 +294,13 @@ export const viewPetDetails = async (req, res, next) => {
     })
 }
 
-// clients request => from accepted to arrived
-export const AcceptedtoArrived = async (req, res, next) => {
+// clients request => from pending to accepted
+export const PendingToAccepted = async (req, res, next) => {
     const {
         id
     } = req.body;
 
-    const status = 'Arrived'
+    const status = 'accepted'
     const sqlQuery = 'UPDATE boarding_request SET request_status = ? WHERE request_id = ?'
     const values = [status, id]
 
@@ -321,17 +308,17 @@ export const AcceptedtoArrived = async (req, res, next) => {
         if (err) {
             return res.json({ message: 'There is an internal error' })
         }
-        return res.json({ message: 'arrived' })
+        return res.json({ message: 'accepted' })
     })
 }
 
-// clients request => from arrvied to completed
-export const ArrviedtoCompleted = async (req, res, next) => {
+// clients request => from accepted to completed
+export const AcceptedToCompleted = async (req, res, next) => {
     const {
         id
     } = req.body;
 
-    const status = 'Completed'
+    const status = 'completed'
     const sqlQuery = 'UPDATE boarding_request SET request_status = ? WHERE request_id = ?'
     const values = [status, id]
 
@@ -339,7 +326,26 @@ export const ArrviedtoCompleted = async (req, res, next) => {
         if (err) {
             return res.json({ message: 'There is an internal error' })
         }
-        return res.json({ message: 'completed' })
+        const sqlQuery1 = 'SELECT cage_id FROM boarding_request WHERE request_id = ?'
+        const values1 = [id]
+
+        db.query(sqlQuery1, values1, (err, data1) => {
+            if(err) {
+                return res.json({message:'There is an internal error'})
+            }
+
+            const cage = data1[0].cage_id
+            const cagestatus = 'free'
+            const sqlQuery2 = 'UPDATE boarding_cages SET status = ? WHERE cage_id = ? '
+            const values2 = [cagestatus, cage]
+
+            db.query(sqlQuery2, values2,(err, data2) => {
+                if(err) {
+                    return res.json({message:'There is an internal error'})
+                }
+                return res.json({message:'completed'})
+            })
+        })
     })
 }
 
@@ -602,7 +608,7 @@ export const filterbox1 = async (req, res, next) => {
 
     if (id === "1") { //today
         startDate = new Date(currentDate);
-        const status = 'Completed';
+        const status = 'completed';
         const startDateOnly = startDate.toISOString().substr(0, 10);
         const sqlQuery = 'SELECT COUNT(request_id) as totalcompleted,request_status FROM boarding_request WHERE request_status = ? AND board_carry_date = ?';
         const values = [status, startDateOnly];
@@ -615,7 +621,7 @@ export const filterbox1 = async (req, res, next) => {
         });
     } else if (id === "2") { //last 7 days
         startDate.setDate(currentDate.getDate() - 7);
-        const status = 'Completed';
+        const status = 'completed';
         const startDateOnly = startDate.toISOString().substr(0, 10);
         const sqlQuery = 'SELECT COUNT(request_id) as totalcompleted,request_status FROM boarding_request WHERE board_carry_date >= ? AND request_status = ?';
         const values = [startDateOnly, status];
@@ -628,7 +634,7 @@ export const filterbox1 = async (req, res, next) => {
         });
     } else if (id === "3") { //last month
         startDate.setMonth(currentDate.getMonth() - 1);
-        const status = 'Completed';
+        const status = 'completed';
         const startDateOnly = startDate.toISOString().substr(0, 10);
         const sqlQuery = 'SELECT COUNT(request_id) as totalcompleted,request_status  FROM boarding_request WHERE request_status = ? AND board_carry_date >= ?';
         const values = [status, startDateOnly];
@@ -650,7 +656,7 @@ export const filterbox2 = async (req, res, next) => {
 
     if (id === "1") { //today
         startDate = new Date(currentDate)
-        const status = 'Cancelled'
+        const status = 'cancelled'
         const startDateOnly = startDate.toISOString().substr(0, 10)
         const sqlQuery = 'SELECT COUNT(request_id) as totalcancelled FROM boarding_request WHERE request_status = ? AND board_carry_date = ?'
         const values = [status, startDateOnly]
@@ -663,7 +669,7 @@ export const filterbox2 = async (req, res, next) => {
         })
     } else if (id === "2") { //last 7 days
         startDate.setDate(currentDate.getDate() - 7);
-        const status = 'Cancelled'
+        const status = 'cancelled'
         const startDateOnly = startDate.toISOString().substr(0, 10)
         const sqlQuery = 'SELECT COUNT(request_id) as totalcancelled FROM boarding_request WHERE request_status = ? AND board_carry_date >= ?'
         const values = [status, startDateOnly]
@@ -676,7 +682,7 @@ export const filterbox2 = async (req, res, next) => {
         })
     } else if (id === "3") { //last month
         startDate.setMonth(currentDate.getMonth() - 1);
-        const status = 'Cancelled'
+        const status = 'cancelled'
         const startDateOnly = startDate.toISOString().substr(0, 10)
         const sqlQuery = 'SELECT COUNT(request_id) as totalcancelled FROM boarding_request WHERE request_status = ? AND board_carry_date >= ?'
         const values = [status, startDateOnly]

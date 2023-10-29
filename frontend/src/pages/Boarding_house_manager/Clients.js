@@ -57,7 +57,7 @@ const Clients = () => {
     const [clients1, setclients1] = React.useState('1')
     const handleChange1 = (event) => {
         setclients1(event.target.value)
-        
+
         view_requests()
     };
     const view_requests = async () => {
@@ -94,7 +94,7 @@ const Clients = () => {
     }
     useEffect(() => {
         view_allclients()
-    }, [clients,view_allclients]);
+    }, [clients, view_allclients]);
 
     // view requests for refund
     const [refund, setrefund] = useState([])
@@ -102,7 +102,7 @@ const Clients = () => {
     const [clients2, setclients2] = React.useState('1')
     const handleChange2 = (event) => {
         setclients2(event.target.value)
-        
+
         refund_requests()
     };
     const refund_requests = async () => {
@@ -110,7 +110,7 @@ const Clients = () => {
             const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/refund_requests/${clients2}`)
             setrefund(res.data.data)
             setclients2('')
-            
+
         } catch (err) {
             console.log(clients2)
             console.log(err)
@@ -118,8 +118,8 @@ const Clients = () => {
     }
     useEffect(() => {
         refund_requests()
-           
-    }, [clients2,refund_requests])
+
+    }, [clients2, refund_requests])
 
 
     const input = new Date();
@@ -240,19 +240,18 @@ const Clients = () => {
         navigate("/profile")
     }
 
-    // clients' boarding requests - from accepted to arrived
-    const [error3, seterror3] = useState(false)
-    const [message3, setmessage3] = useState("")
-
      // get profile picture
      const getProfilepicturepath = (imageName) => {
         return require(`../../../../backend/images/store/${imageName}`)
-
     }
 
-    const AcceptedtoArrived = async (id) => {
+    // clients' boarding requests - from pending to accepted
+    const [error3, seterror3] = useState(false)
+    const [message3, setmessage3] = useState("")
+
+    const PendingToAccepted = async (id) => {
         try {
-            const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/AcceptedtoArrived`, {
+            const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/PendingToAccepted`, {
                 id
             })
             if (res.data.message === 'There is an internal error') {
@@ -267,13 +266,13 @@ const Clients = () => {
         }
     }
 
-    // clients' boarding requests - from arrvied to completed
+    // clients' boarding requests - from accepted to completed
     const [error4, seterror4] = useState(false)
     const [message4, setmessage4] = useState("")
 
-    const ArrviedtoCompleted = async (id) => {
+    const AcceptedToCompleted = async (id) => {
         try {
-            const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/ArrviedtoCompleted`, {
+            const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/AcceptedToCompleted`, {
                 id
             })
             if (res.data.message === 'There is an internal error') {
@@ -331,7 +330,7 @@ const Clients = () => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    
+
                                     variant='filled'
                                     label="clients"
                                     onChange={handleChange}
@@ -389,7 +388,7 @@ const Clients = () => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                   
+
                                     variant='filled'
                                     label="clients"
                                     onChange={handleChange1}
@@ -399,8 +398,7 @@ const Clients = () => {
                                     <MenuItem value={1}>All</MenuItem>
                                     <MenuItem value={2}>Pending</MenuItem>
                                     <MenuItem value={3}>Accepted</MenuItem>
-                                    <MenuItem value={4}>Arrived</MenuItem>
-                                    <MenuItem value={5}>Completed</MenuItem>
+                                    <MenuItem value={4}>Completed</MenuItem>
                                 </Select>
                             </FormControl>
                         </Box>
@@ -416,28 +414,30 @@ const Clients = () => {
                                         <StyledTableCell align="center">Package</StyledTableCell>
                                         <StyledTableCell align="center">Arrival Date</StyledTableCell>
                                         <StyledTableCell align="center">Carry Date</StyledTableCell>
-                                        <StyledTableCell align="center">Request Status</StyledTableCell>
+                                        {/* <StyledTableCell align="center">Request Status</StyledTableCell> */}
                                         <StyledTableCell align="center"></StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {request && request.map((requestrow, index) => (
-                                        <StyledTableRow key={requestrow.id}>
+                                        <StyledTableRow key={requestrow.request_id}>
                                             <StyledTableCell align="center">{requestrow.request_id}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.client_id}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.pet_id}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.package_name}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.board_arrival_date}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.board_carry_date}</StyledTableCell>
-                                            <StyledTableCell align="center">{requestrow.request_status}</StyledTableCell>
-                                            <StyledTableCell align="center">
-                                                {requestrow.request_status === 'Accepted'
-                                                    ? (<Button onClick={() => AcceptedtoArrived(requestrow.request_id)} sx={{ color: 'white', width: '150px', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Arrived</Button>) :
-                                                    requestrow.request_status === 'Arrived'
-                                                        ? (<Button onClick={() => ArrviedtoCompleted(requestrow.request_id)} sx={{ color: 'white', width: '150px', backgroundColor: '#000000', ':hover': { backgroundColor: '#000000' } }}>Completed</Button>)
-                                                        : ""}
+                                            {/* <StyledTableCell align="center">{requestrow.request_status}</StyledTableCell> */}
+                                            <StyledTableCell align="left">
+                                                {requestrow.request_status === 'pending'
+                                                    ? (<Button onClick={() => PendingToAccepted(requestrow.request_id)} sx={{color:'white', backgroundColor:'orange', ':hover':{backgroundColor:'orange'}}}>Accepted</Button>) :
+                                                    requestrow.request_status === 'accepted'
+                                                        ? (<Button onClick={() => AcceptedToCompleted(requestrow.request_id)} sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }}>Complete</Button>) :
+                                                            requestrow.request_status === 'completed' 
+                                                            ? "Completed" : ""}
 
                                             </StyledTableCell>
+
                                         </StyledTableRow>
                                     ))}
                                 </TableBody>
@@ -456,7 +456,7 @@ const Clients = () => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    
+
                                     variant='filled'
                                     label="clients"
                                     onChange={handleChange2}
@@ -562,29 +562,29 @@ const Clients = () => {
                                             alt={petrow.name} />
 
                                         <CardContent>
-                                            <Stack sx={{display:'flex', flexDirection:'row'}}>
+                                            <Stack sx={{ display: 'flex', flexDirection: 'row' }}>
                                                 <Typography gutterBottom component={"div"} sx={{ textAlign: 'center' }}>Pet ID  </Typography>
-                                                <Typography sx={{marginLeft:'5%', fontWeight:'bold'}}>: {petrow.pet_id}</Typography>
+                                                <Typography sx={{ marginLeft: '5%', fontWeight: 'bold' }}>: {petrow.pet_id}</Typography>
                                             </Stack>
 
-                                            <Stack sx={{display:'flex', flexDirection:'row'}}>
+                                            <Stack sx={{ display: 'flex', flexDirection: 'row' }}>
                                                 <Typography gutterBottom component={"div"} sx={{ textAlign: 'center' }}> Name  </Typography>
-                                                <Typography sx={{marginLeft:'5%', fontWeight:'bold'}}>: {petrow.name}</Typography>
+                                                <Typography sx={{ marginLeft: '5%', fontWeight: 'bold' }}>: {petrow.name}</Typography>
                                             </Stack>
 
-                                            <Stack sx={{display:'flex', flexDirection:'row'}}>
+                                            <Stack sx={{ display: 'flex', flexDirection: 'row' }}>
                                                 <Typography gutterBottom component={"div"} sx={{ textAlign: 'center' }}>Category  </Typography>
-                                                <Typography sx={{marginLeft:'5%'}}>: {petrow.category}</Typography>
+                                                <Typography sx={{ marginLeft: '5%' }}>: {petrow.category}</Typography>
                                             </Stack>
 
-                                            <Stack sx={{display:'flex', flexDirection:'row'}}>
+                                            <Stack sx={{ display: 'flex', flexDirection: 'row' }}>
                                                 <Typography gutterBottom component={"div"} sx={{ textAlign: 'center' }}>Breed  </Typography>
-                                                <Typography sx={{marginLeft:'5%', color:'red'}}>: {petrow.breed}</Typography>
+                                                <Typography sx={{ marginLeft: '5%', color: 'red' }}>: {petrow.breed}</Typography>
                                             </Stack>
 
-                                            <Stack sx={{display:'flex', flexDirection:'row'}}>
+                                            <Stack sx={{ display: 'flex', flexDirection: 'row' }}>
                                                 <Typography gutterBottom component={"div"} sx={{ textAlign: 'center' }}> Sex  </Typography>
-                                                <Typography sx={{marginLeft:'5%'}}>: {petrow.sex}</Typography>
+                                                <Typography sx={{ marginLeft: '5%' }}>: {petrow.sex}</Typography>
                                             </Stack>
                                         </CardContent>
                                     </CardActionArea>
@@ -617,7 +617,7 @@ const Clients = () => {
                             borderRadius: '10px',
                             width: '1000px',
                             padding: '20px',
-                            position: 'relative', 
+                            position: 'relative',
                             zIndex: 1001,
                             backgroundColor: 'black'
                         }}>
