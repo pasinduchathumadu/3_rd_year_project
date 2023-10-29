@@ -1,6 +1,6 @@
 import express from "express";
 
-import { get_medi, leave, set_count, setprice,add_complain,viewmyComplains,viewClientsComplains,complainDetails,addingResponse,deleteMyComplain,add_vet,systemDoctors ,pendingRequest,completedBox,pendingBox,PendingAppointments,get_pets, completedAppointments,PendingtoCompeleted,PendingtoUncompeleted, complainsCount,addMedical, submitNewVaccine, DogVaccine, CatVaccine, deleteVaccine, getDetailsforUpdate, updateVaccine, getVaccineDetails, submitAddMedical, pastVaccinationDetails,getDetails,remove, remove_final,getnextvaccineid} from "../controllers/doctor-controllers";
+import { get_medi, leave, set_count, setprice,add_complain,viewmyComplains,viewClientsComplains,complainDetails,addingResponse,deleteMyComplain,add_vet,systemDoctors ,pendingRequest,completedBox,pendingBox,get_pets, complainsCount,addMedical, submitNewVaccine, DogVaccine, CatVaccine, deleteVaccine, getDetailsforUpdate, updateVaccine, getVaccineDetails, submitAddMedical, pastVaccinationDetails,getDetails,remove, remove_final,getnextvaccineid, ViewAppointments} from "../controllers/doctor-controllers";
 
 
 const medi_help_manager = express.Router()
@@ -27,10 +27,9 @@ medi_help_manager.get('/completedBox',completedBox)
 medi_help_manager.get('/complainsCount',complainsCount)
 
 // appointments
-medi_help_manager.get('/PendingAppointments',PendingAppointments)
-medi_help_manager.get('/completedAppointments/:id',completedAppointments)
-medi_help_manager.get('/pending/:id',PendingtoCompeleted) 
-medi_help_manager.get('/pending1/:id',PendingtoUncompeleted) 
+medi_help_manager.get('/ViewAppointments',ViewAppointments) 
+
+
 
 // pet profiles
 medi_help_manager.get('/addMedical',addMedical) 

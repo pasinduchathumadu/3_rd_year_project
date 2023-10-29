@@ -373,94 +373,19 @@ export const complainsCount = async (req, res, next) => {
 }
 
 // AAPOINTMENTS
-// pending appointments
-export const PendingAppointments = async (req, res, next) => {
-    const status = 'pending'
-    const sqlQuery = 'SELECT m.appointment_id, m.vet_id, m.appointment_status,  m.pet_id, m.placed_date, c.client_id, m.client_email,  c.contact_number FROM medi_appointment m INNER JOIN client c  ON c.email = m.client_email WHERE m.appointment_status = ?'
+//  appointments viewing
+export const ViewAppointments = async(req,res,next) => {
+    const status = 'confirm'
+    const sqlQuery = 'SELECT * FROM medi_appointment WHERE appointment_status = ?'
     const values = [status]
 
     db.query(sqlQuery, values, (err, data) => {
-        if (err) {
-            return res.json({ message: 'There is an internal error' })
+        if(err) {
+            return res.json({message:'There is an internal error'})
         }
-        return res.json({ data })
+        return res.json({data})
     })
-}
 
-// completed & uncompleted appointments
-export const completedAppointments = async (req, res, next) => {
-    const id = req.params.id
-
-    if (id === '1') {
-        const status1 = 'completed'
-        const status2 = 'uncompleted'
-        const sqlQuery = 'SELECT m.appointment_id, m.vet_id, m.appointment_status, m.pet_id, m.placed_date, c.client_id, m.client_email,  c.contact_number FROM medi_appointment m INNER JOIN client c  ON c.email = m.client_email WHERE m.appointment_status = ? || m.appointment_status = ?'
-        const values = [status1, status2]
-
-        db.query(sqlQuery, values, (err, data) => {
-            if (err) {
-                return res.json({ message: 'There is an internal error' })
-            }
-            return res.json({ data })
-        })
-    }
-    else if (id === '2') {
-        const status = 'completed'
-        const sqlQuery = 'SELECT m.appointment_id, m.vet_id, m.appointment_status,  m.pet_id, m.placed_date, c.client_id, m.client_email,  c.contact_number FROM medi_appointment m INNER JOIN client c  ON c.email = m.client_email WHERE m.appointment_status = ?'
-        const values = [status]
-
-        db.query(sqlQuery, values, (err, data) => {
-            if (err) {
-                return res.json({ message: 'There is an internal error' })
-            }
-            return res.json({ data })
-        })
-
-    }
-    else if (id === '3') {
-        const status = 'uncompleted'
-        const sqlQuery = 'SELECT m.appointment_id, m.vet_id, m.appointment_status,  m.pet_id, m.placed_date, c.client_id, m.client_email,  c.contact_number FROM medi_appointment m INNER JOIN client c  ON c.email = m.client_email WHERE m.appointment_status = ?'
-        const values = [status]
-
-        db.query(sqlQuery, values, (err, data) => {
-            if (err) {
-                return res.json({ message: 'There is an internal error' })
-            }
-            return res.json({ data })
-        })
-    }
-}
-
-//  pending to completed
-export const PendingtoCompeleted = async (req, res, next) => {
-    const id = req.params.id
-    console.log(id)
-    const status = 'completed'
-    const sqlQuery = 'UPDATE medi_appointment SET appointment_status = ? WHERE appointment_id = ?'
-    const values = [status, id]
-
-    db.query(sqlQuery, values, (err, data) => {
-        if (err) {
-            return res.json({ message: 'There is an internal error' })
-        }
-        return res.json({ message: 'completed' })
-    })
-}
-
-//  pending to uncompleted
-export const PendingtoUncompeleted = async (req, res, next) => {
-    const id = req.params.id
-
-    const status = 'uncompleted'
-    const sqlQuery = 'UPDATE medi_appointment SET appointment_status = ? WHERE appointment_id = ?'
-    const values = [status, id]
-
-    db.query(sqlQuery, values, (err, data) => {
-        if (err) {
-            return res.json({ message: 'There is an internal error' })
-        }
-        return res.json({ message: 'uncompleted' })
-    })
 }
 
 // PET PROFILES MAINTAINING
