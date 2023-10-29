@@ -14,7 +14,7 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-
+import {format} from "date-fns"
 import axios from 'axios'
 import React, { useState, useEffect } from "react";
 import { Alert, Button, Card, CardContent, CardMedia, FormControl, InputLabel, MenuItem, Select, Stack, TextField, Typography } from "@mui/material";
@@ -48,6 +48,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 const Training_Pets = () => {
     const current = new Date()
+    const date = format(current, 'yyy-MM-dd')
     const [loading, setLoading] = useState(true)
     const [value, setValue] = useState('1');
     const [shedule, setshedule] = useState([]);
@@ -140,7 +141,7 @@ const Training_Pets = () => {
             setmessage("Can't Pick Previous Days!!");
             return;
         }
-        const cancel_date = new Date(selectedDate);
+        const cancel_date = new Date(date);
         cancel_date.setDate(cancel_date.getDate() + 2);
         const new_cancel_date = cancel_date.toISOString().substr(0, 10);
 
