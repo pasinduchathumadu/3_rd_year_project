@@ -1,4 +1,4 @@
-import { Button, FormControl, FormLabel, IconButton, MenuItem, Select, TextField, Typography, Card, CardActionArea, CardContent, CardMedia, Grid } from "@mui/material";
+import { Button, FormControl, FormLabel, IconButton, MenuItem, Select, TextField, Typography, Card, CardActionArea, CardContent, CardMedia, Grid, Alert } from "@mui/material";
 import { Stack } from "@mui/system";
 import React, { useEffect, useState } from "react";
 
@@ -36,6 +36,7 @@ const MindRelaxingPets = () => {
 
     // pet adding
     const [error, seterror] = useState(false)
+    const [message, setmessage] = useState("")
     const [petcategory, setpetcategory] = useState("")
     const [name, setname] = useState("")
     const [breed, setbreed] = useState("")
@@ -49,7 +50,12 @@ const MindRelaxingPets = () => {
     };
 
     const addingpet = async () => {
-        seterror(false);
+        if (petcategory === "" || name === "" || breed === "" || petsex === "") {
+            seterror(true)
+            setmessage('Please fill all the fields')
+            return;
+        }
+        // seterror(false);
         try {
             const res = await axios.post('http://localhost:5000/pet_care/care_center_manager/addingpet', {
                 petcategory,
@@ -137,35 +143,35 @@ const MindRelaxingPets = () => {
     const [image, setimage] = useState("")
     const [selectfile, setfile] = useState(null)
     const handlefilechange = async (event) => {
-      const file = event.target.files[0]
-      setfile(file)
-      setimage(file.name)
+        const file = event.target.files[0]
+        setfile(file)
+        setimage(file.name)
     }
     const handleFileUpload = async () => {
         seterror(false)
-       
-    
+
+
         try {
-          const formData = new FormData();
-          formData.append("image", selectfile);
-    
-          const res = await axios.post("http://localhost:5000/pet_care/user/upload", formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          });
-          if (res.data.message === "File uploaded successfully") {
-           
-            addingpet()
-          }
-    
-          console.log("File uploaded successfully!");
-          // Add any further handling of the response from the backend if needed.
-    
+            const formData = new FormData();
+            formData.append("image", selectfile);
+
+            const res = await axios.post("http://localhost:5000/pet_care/user/upload", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            if (res.data.message === "File uploaded successfully") {
+
+                addingpet()
+            }
+
+            console.log("File uploaded successfully!");
+            // Add any further handling of the response from the backend if needed.
+
         } catch (err) {
-          console.log("There is an internal error", err);
+            console.log("There is an internal error", err);
         }
-      }
+    }
 
     return (
         <div>
@@ -331,8 +337,13 @@ const MindRelaxingPets = () => {
                                         )}
                                     </div>
                                 </div>
-
                             </Grid>
+
+                            {error && (
+                                <Stack sx={{ width: '100%' }} spacing={2}>
+                                    <Alert severity="error">{message}</Alert>
+                                </Stack>
+                            )}
 
                             <div style={{ marginTop: '15px', marginBottom: '20px', marginLeft: '220px' }}>
                                 <Button onClick={handleFileUpload} sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white', width: '150px' }}> Submit</Button>
@@ -371,7 +382,7 @@ const MindRelaxingPets = () => {
                             <Typography sx={{ textAlign: 'center' }}>Confirm Remove? </Typography>
                             <hr /><br />
 
-                            <div style={{ display: 'flex', flexDirection: 'row',  justifyContent: 'space-evenly' }}>
+                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
                                 <Button onClick={petDeleteing} sx={{ backgroundColor: 'orange', color: 'white', margin: '10px', ':hover': { backgroundColor: 'orange' } }}>Confirm</Button>
                                 <Button onClick={cancelDelete} sx={{ backgroundColor: 'red', color: 'white', margin: '10px', ':hover': { backgroundColor: 'red' } }}>Cancel</Button>
                             </div>
