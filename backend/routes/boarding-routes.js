@@ -1,12 +1,16 @@
 import express from "express";
-import { view_requests, view_allclients, add_complain, viewmyComplains, viewClientsComplains, packageUsage, viewCurrent, viewRequested, viewBoarded, refund_requests, pendingRequest, view_refundDetails,toRefund, viewPetDetails,refundAdding, complainDetails, addingResponse, deleteMyComplain,PendingToAccepted, AcceptedToCompleted,filterbox1,filterbox2,BasicPackageDetails,PackageFacilities, getCages,CagesCount} from '../controllers/boarding-controller';
-import {AddNewPackage} from '../controllers/boarding-controller';
+import { view_requests, view_allclients, add_complain, viewmyComplains, viewClientsComplains, packageUsage, viewCurrent, viewRequested, viewBoarded, refund_requests, pendingRequest, view_refundDetails,toRefund, viewPetDetails,refundAdding, complainDetails, addingResponse, deleteMyComplain,PendingToAccepted, AcceptedToCompleted,filterbox1,filterbox2, getCages,CagesCount} from '../controllers/boarding-controller';
+import {submitBasicDetails, getBasicDetails, submitFacilityForm, viewFacilities, getPrice, SubmitNewPrice, deletePackage} from '../controllers/boarding-controller';
 const boarding_house_manager = express.Router()
 
 // packages
-boarding_house_manager.post('/AddNewPackage',AddNewPackage)
-boarding_house_manager.get('/BasicPackageDetails',BasicPackageDetails)
-boarding_house_manager.get('/PackageFacilities/:id',PackageFacilities)
+boarding_house_manager.post('/submitBasicDetails',submitBasicDetails)
+boarding_house_manager.get('/getBasicDetails',getBasicDetails)
+boarding_house_manager.post('/submitFacilityForm',submitFacilityForm)
+boarding_house_manager.get('/viewFacilities/:id',viewFacilities)
+boarding_house_manager.get('/getPrice/:id',getPrice)
+boarding_house_manager.post('/SubmitNewPrice',SubmitNewPrice)
+boarding_house_manager.get('/deletePackage/:id1',deletePackage)
 
 
 // boaridng requets

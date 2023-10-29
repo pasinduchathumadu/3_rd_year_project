@@ -3,95 +3,125 @@ import { db } from '../database.js'
 
 //  ----- PACKAGES -----
 
-// add new package 
-export const AddNewPackage = async (req, res, next) => {
+// add packages basic details
+export const submitBasicDetails = async (req, res, next) => {
     const {
         name,
         price,
-        facilities,
+        color
     } = req.body;
 
-    // console.log(facilities); 
-
-    if (!Array.isArray(facilities)) {
-        return res.json({ message: 'Facilities should be an array' })
-    }
-
-    const sqlQuery = 'INSERT INTO boarding_package(package_name, price) VALUES(?,?)'
-    const values = [name, price]
-
-    db.query(sqlQuery, values, (err, packageData) => {
+    const checkQuery = 'SELECT COUNT(package_id) AS count FROM boarding_package'
+    db.query(checkQuery, (err, data1) => {
         if (err) {
             return res.json({ message: 'There is an internal error' })
+        } else if (data1[0].count == 3) {
+            return res.json({ message: 'Cannot be added. Already has 3 packages' })
         }
-        // return res.json({message:'success'})/
-        const packageid = packageData.insertID;
 
-        const sqlQuery2 = 'INSERT INTO boarding_package_facility(package_id, facility) VALUES (?,?)';
-        const values2 = facilities.map((facility) => [packageid, facility])
+        const sqlQuery = 'INSERT INTO boarding_package(package_name, price, color) VALUES(?,?,?)'
+        const values = [name, price, color]
 
-        db.query(sqlQuery2, values2, (facilityerr, facilitydata) => {
-            if (facilityerr) {
-                return res.json({ message: 'There is an internal errorrr' })
+        db.query(sqlQuery, values, (err, data2) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
             }
             return res.json({ message: 'success' })
         })
     })
 }
 
-export const BasicPackageDetails = async(req,res,next) => {
-    const sqlQuery = 'SELECT * FROM boarding_package'
+// get packages basic details
+export const getBasicDetails = async (req, res, next) => {
+    const sqlQuery = 'SELECT * FROM boarding_package';
 
-    db.query(sqlQuery, (err,data) => {
-        if(err){
+    db.query(sqlQuery, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
+        }
+        return res.json({ data })
+    })
+}
+
+// submit facilities
+export const submitFacilityForm = async (req, res, next) => {
+    const {
+        bpckg,
+        newfacility
+    }= req.body;
+
+    const sqlQuery = 'INSERT INTO boarding_package_facility (package_id, facility) VALUES (?,?)'
+    const values = [bpckg, newfacility]
+
+    db.query(sqlQuery, values, (err, data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({message:'success'})
+    })
+}
+
+// viewing facilities
+export const viewFacilities = async(req,res,next) => {
+    const id = req.params.id
+    const sqlQuery = 'SELECT * FROM boarding_package_facility  WHERE package_id = ?'
+    const values = [id]
+    
+    db.query(sqlQuery, values,(err,data) => {
+        if(err) {
             return res.json({message:'There is an internal error'})
         }
         return res.json({data})
     })
-
 }
 
-// get package  facility details
-// export const PackageFacilities = async (req,res,next) => {
-//     const id = req.params.id
-//     const sqlQuery = 'SELECT p.package_name, p.color, p.package_id, f.facility FROM boarding_package p INNER JOIN boarding_package_facility f ON p.package_id = f.package_id WHERE p.package_id = ? '
-//     const values = [id]
+// get price for update form
+export const getPrice = async(req,res,next) => {
+    const id = req.params.id
+    const sqlQuery = 'SELECT * FROM boarding_package WHERE package_id = ?'
+    const values = [id]
 
-//     db.query(sqlQuery, values, (err, data) => {
-//         if(err){
-//             return res.json({message:'There is an internal error'})
-//         }
-//         return res.json({data})
-//     })
-   
-// }
-export const PackageFacilities = async (req, res, next) => {
-    const id = req.params.id;
-    const sqlQuery =
-        'SELECT p.package_name, p.color, p.package_id, GROUP_CONCAT(f.facility) AS facilities ' +
-        'FROM boarding_package p ' +
-        'INNER JOIN boarding_package_facility f ON p.package_id = f.package_id ' +
-        'WHERE p.package_id = ? ' +
-        'GROUP BY p.package_name, p.color, p.package_id';
-    const values = [id];
+    db.query(sqlQuery, values, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+// submit price changes form
+export const SubmitNewPrice = async(req,res,next) => {
+    const {
+        id,
+        newprice,
+    } = req.body;
+
+    const sqlQuery = 'UPDATE boarding_package SET price = ? WHERE package_id = ?'
+    const values = [newprice, id]
+
+    db.query(sqlQuery, values,(err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({message:'updated'})
+    })
+}
+
+// delete a package
+export const deletePackage = async(req,res,next) => {
+    const id = req.params.id1
+
+    const sqlQuery = 'DELETE FROM boarding_package WHERE package_id = ?'
+    const values = [id]
 
     db.query(sqlQuery, values, (err, data) => {
-        if (err) {
-            return res.json({ message: 'There is an internal error' });
+        if(err) {
+            return res.json({message:'There is an internal error'})
         }
+        return res.json({message:'deleted'})
+    })
 
-        // Transform the result to have facilities as an array
-        const transformedData = data.map((item) => ({
-            package_name: item.package_name,
-            color: item.color,
-            package_id: item.package_id,
-            facilities: item.facilities.split(', ').map((facility) => facility.trim()), // Split facilities into an array
-        }));
-
-        return res.json({ data: transformedData });
-    });
-};
-
+}
 
 // ---------BOARDING REQUESTS---------------------------------
 
@@ -134,7 +164,7 @@ export const view_requests = async (req, res, next) => {
             return res.json({ data })
         });
 
-    
+
     } else if (id === '4') {
         const status = 'completed'
         const sqlQuery = 'SELECT r.request_id, r.client_id, r.pet_id, r.package_id, r.board_arrival_date, r.board_carry_date, r.request_status, p.package_name FROM boarding_request r INNER JOIN boarding_package p ON p.package_id = r.package_id WHERE request_status = ? ';
@@ -330,8 +360,8 @@ export const AcceptedToCompleted = async (req, res, next) => {
         const values1 = [id]
 
         db.query(sqlQuery1, values1, (err, data1) => {
-            if(err) {
-                return res.json({message:'There is an internal error'})
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
             }
 
             const cage = data1[0].cage_id
@@ -339,11 +369,11 @@ export const AcceptedToCompleted = async (req, res, next) => {
             const sqlQuery2 = 'UPDATE boarding_cages SET status = ? WHERE cage_id = ? '
             const values2 = [cagestatus, cage]
 
-            db.query(sqlQuery2, values2,(err, data2) => {
-                if(err) {
-                    return res.json({message:'There is an internal error'})
+            db.query(sqlQuery2, values2, (err, data2) => {
+                if (err) {
+                    return res.json({ message: 'There is an internal error' })
                 }
-                return res.json({message:'completed'})
+                return res.json({ message: 'completed' })
             })
         })
     })
@@ -412,7 +442,7 @@ export const viewmyComplains = async (req, res, next) => {
         const status = 'pending'
         const role = 'boarding_house_manager'
         const sqlQuery = 'SELECT complain_id, complain_txt, com_date, com_time, complain_status, response_txt FROM manager_complain WHERE manager_role = ? AND complain_status = ?';
-        const values = [role,status]
+        const values = [role, status]
         db.query(sqlQuery, values, (err, data) => {
             if (err) {
                 return res.json({ message: 'There is an internal error' })
@@ -424,7 +454,7 @@ export const viewmyComplains = async (req, res, next) => {
         const status = 'completed'
         const role = 'boarding_house_manager'
         const sqlQuery = 'SELECT complain_id, complain_txt, com_date, com_time, complain_status, response_txt FROM manager_complain WHERE manager_role = ? AND complain_status = ?';
-        const values = [role,status]
+        const values = [role, status]
         db.query(sqlQuery, values, (err, data) => {
             if (err) {
                 return res.json({ message: 'There is an internal error' })
@@ -444,35 +474,35 @@ export const viewClientsComplains = async (req, res, next) => {
         const sqlQuery = 'SELECT client_id, complain_id, complain_txt, com_date, com_time, complain_status, response_txt FROM client_complain WHERE manager_role = ? ';
         const values = [role]
 
-        db.query(sqlQuery, values, (err,data) => {
-            if(err){
-                return res.json({message:'There is an internal error'})
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
             }
-            return res.json({data})
+            return res.json({ data })
         })
-    }else if(id === '2') {
+    } else if (id === '2') {
         const role = "boarding_house_manager"
         const status = 'pending'
         const sqlQuery = 'SELECT client_id, complain_id, complain_txt, com_date, com_time, complain_status, response_txt FROM client_complain WHERE manager_role = ? AND complain_status = ? ';
         const values = [role, status]
 
-        db.query(sqlQuery, values, (err,data) => {
-            if(err){
-                return res.json({message:'There is an internal error'})
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
             }
-            return res.json({data})
+            return res.json({ data })
         })
-    }else if(id === '3') {
+    } else if (id === '3') {
         const role = "boarding_house_manager"
         const status = 'completed'
         const sqlQuery = 'SELECT client_id, complain_id, complain_txt, com_date, com_time, complain_status, response_txt FROM client_complain WHERE manager_role = ? AND complain_status = ? ';
         const values = [role, status]
 
-        db.query(sqlQuery, values, (err,data) => {
-            if(err){
-                return res.json({message:'There is an internal error'})
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
             }
-            return res.json({data})
+            return res.json({ data })
         })
 
     }
@@ -720,28 +750,28 @@ export const pendingRequest = async (req, res, next) => {
 }
 
 // cages analyse
-export const CagesCount = async(req,res,next) => {
+export const CagesCount = async (req, res, next) => {
     const status1 = 'reserved'
     const status2 = 'free'
     const sqlQuery = 'SELECT (SELECT COUNT(cage_id) FROM boarding_cages WHERE status = ?) AS reservedcount, (SELECT COUNT(cage_id) FROM boarding_cages WHERE status = ?) AS freecount'
     const values = [status1, status2]
 
     db.query(sqlQuery, values, (err, data) => {
-        if(err) {
-            return res.json({message: 'There is an internal error'})
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
         }
-        return res.json({data})
+        return res.json({ data })
     })
 }
 
 // CAGES
-export const getCages = async(req,res,next) => {
+export const getCages = async (req, res, next) => {
     const sqlQuery = 'SELECT * FROM boarding_cages';
     db.query(sqlQuery, (err, data) => {
-        if(err) {
-            return res.json({message:'There is an internal error'})
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
         }
-        return res.json({data})
-    } )
+        return res.json({ data })
+    })
 }
 
