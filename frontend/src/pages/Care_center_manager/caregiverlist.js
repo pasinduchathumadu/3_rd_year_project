@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/Care_center_manager/caregiverlist.css";
 import AddIcon from "@mui/icons-material/Add";
-import Regicaregiver from "./Regicaregiver";
-import CaregiverProfile from "./CaregiverProfile"
+
 import {
   Typography, Stack, Card, CardActionArea, CardMedia, CardContent, Dialog,
   DialogTitle,
@@ -146,12 +145,13 @@ function Caregiverlist() {
         contact,
         empemail,
         type,
+        image
       })
       if (res.data.message === 'There is an internal error') {
         setmessage1('Internal error')
         seterror1(true)
       } else if (res.data.message === 'success') {
-        setvalue(0)
+        setvalue(1)
         setaddnew(false)
         // seterror(false)
 
@@ -181,7 +181,13 @@ function Caregiverlist() {
     setvalue(false)
     setid1(id)
   }
-
+  const [image, setimage] = useState("")
+  const [selectfile, setfile] = useState(null)
+  const handlefilechange = async (event) => {
+    const file = event.target.files[0]
+    setfile(file)
+    setimage(file.name)
+  }
   // get emplyee id
   const [details, setdetails] = useState("")
   const getEmplyeeID = async () => {
@@ -198,7 +204,31 @@ function Caregiverlist() {
       .then((data) => setdetails(data.data))
       .catch((err) => console.log(err))
   })
+  const handleFileUpload = async () => {
+    seterror(false)
+   
 
+    try {
+      const formData = new FormData();
+      formData.append("image", selectfile);
+
+      const res = await axios.post("http://localhost:5000/pet_care/user/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      if (res.data.message === "File uploaded successfully") {
+        submitNewEmployee()
+        
+      }
+
+      console.log("File uploaded successfully!");
+      // Add any further handling of the response from the backend if needed.
+
+    } catch (err) {
+      console.log("There is an internal error", err);
+    }
+  }
   const [reason, setreason] = useState("") //reason
   const [error2, seterror2] = useState(false)
   const [message2, setmessage2] = useState("")
@@ -509,21 +539,29 @@ function Caregiverlist() {
                 </FormControl>
               </div>
 
-              {/* <div className="form-label">
-                <FormLabel>Upload Bank Slip: </FormLabel>
-                <div style={{ display: 'inline' }}>
-                  <Button
-                    variant="contained"
-                    component="label"
+              <Grid item sx={{ paddingTop: '20px' }}>
+                  <div style={{ display: 'flex' }}>
+                    <div style={{ display: 'inline' }}>
+                      <Button
+                        variant="contained"
+                        component="label"
 
-                    startIcon={<CloudUploadIcon />}
-                  >
-                    Upload Package Symbol
-                    <input type="file" style={{ width: '100%' }} hidden required />
+                        startIcon={<CloudUploadIcon />}
+                      >
+                        Upload File
+                        <input type="file" hidden onChange={handlefilechange} required />
 
-                  </Button>
-                </div>
-              </div> */}
+                      </Button>
+                    </div>
+                    <div style={{ display: 'inline', paddingTop: '6px', paddingLeft: '7px' }}>
+                      {selectfile && (
+                        <Typography>{selectfile.name}</Typography>
+
+                      )}
+                    </div>
+                  </div>
+
+                </Grid>
 
               {error1 && (
                 <Stack sx={{ width: '100%' }} spacing={2}>
@@ -531,7 +569,7 @@ function Caregiverlist() {
                 </Stack>
               )}
 
-              <Button variant="contained" type="submit" sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }} onClick={() => submitNewEmployee()} >Submit</Button>
+              <Button variant="contained" type="submit" sx={{ background: "#fe9e0d", marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" }, width: '100%' }} onClick={() => handleFileUpload()} >Submit</Button>
             </div>
           </FormControl>
         </div>

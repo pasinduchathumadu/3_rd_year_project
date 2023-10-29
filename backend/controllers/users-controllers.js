@@ -794,17 +794,18 @@ export const delete_order = async (req, res, next) => {
 
 export const random_assistant = async (req, res, next) => {
 
-
+  const status = "active"
   const { Id, selectedDateString, choose_package } = req.body
   if (selectedDateString === null || Id === null) {
     return res.json({ message: "There is an internel error" })
   }
   const sqlQuery2 =
-    "SELECT CONCAT(first_name, ' ', last_name)AS full_name, email,contact_number, img FROM employee WHERE type = ? AND ? > unfree_date_start AND ? > unfree_date_end"
+    "SELECT CONCAT(first_name, ' ', last_name)AS full_name, email,contact_number, img FROM employee WHERE type = ? AND ? > unfree_date_start AND ? > unfree_date_end AND status =?"
   const value2 = [
     choose_package,
     selectedDateString,
-    selectedDateString
+    selectedDateString,
+    status
   ]
 
   db.query(sqlQuery2, value2, (err, data) => {
@@ -1156,8 +1157,10 @@ export const get_medi_user = async (req, res, next) => {
 }
 
 export const pet_trainning = async (req, res, next) => {
-  const sqlQuery = "SELECT p.start,p.end,p.day,p.count,e.first_name,e.last_name,e.img,e.contact_number,e.email,p.price FROM pet_trainning_shedule p INNER JOIN employee e ON p.emp_id = e.emp_id"
-  db.query(sqlQuery, (err, data) => {
+  const status = "active"
+  const sqlQuery = "SELECT p.start,p.end,p.day,p.count,e.first_name,e.last_name,e.img,e.contact_number,e.email,p.price FROM pet_trainning_shedule p INNER JOIN employee e ON p.emp_id = e.emp_id WHERE e.status = ?"
+  const values = [status]
+  db.query(sqlQuery,values,(err, data) => {
     if (err) {
       return res.json({ message: 'There is an internel error' })
     }
@@ -1205,7 +1208,7 @@ export const pet_booking = async (req, res, next) => {
       if (data[0].count1 > data[0].count) {
         return res.json({ message: 'No more appointments are available' })
       }
-      const sqlQuery2 = "INSERT INTO pet_trainning_payment (placed_date,day,breed,client_email,cancel_date) VALUES(?,?,?,?,?)"
+      const sqlQuery2 = "INSERT INTO pet_trainning_payment (placed_date,day,breed,client_email,verify_cancel_date) VALUES(?,?,?,?,?)"
       const values2 = [
         selectedDate,
         day,
@@ -1251,9 +1254,11 @@ export const get_medi_orders = async (req, res, next) => {
 
 export const training_orders = async (req, res, next) => {
   const email = req.params.email
-  const sqlQuery = "SELECT v.breed,a.price,a.start,a.end,v.day,v.id,v.placed_date FROM pet_trainning_payment v INNER JOIN pet_trainning_shedule a ON v.day = a.day WHERE client_email = ?"
+  const status = "cancelled"
+  const sqlQuery = "SELECT v.breed,a.price,a.start,a.end,v.day,v.id,v.placed_date FROM pet_trainning_payment v INNER JOIN pet_trainning_shedule a ON v.day = a.day WHERE client_email = ? AND status != ?"
   const value = [
-    email
+    email,
+    status
   ]
   db.query(sqlQuery, value, (err, data) => {
     if (err) {
@@ -1757,9 +1762,10 @@ export const carecenter = async (req, res, next) => {
 
 // view pets for buying
 export const viewBuyPets = async (req, res, next) => {
+  const email = req.params.email
   const status = "pending"
-  const sqlQuery = 'SELECT u.first_name, u.last_name, u.email, b.pet_id, b.email,b.category, b.sex, b.price,b.status, b.image FROM pets_buy_and_sell b INNER JOIN users u WHERE u.email=b.email AND b.status = ? '
-  const sqlValues = [status]
+  const sqlQuery = 'SELECT u.first_name, u.last_name, u.email, b.pet_id, b.email,b.category, b.sex, b.price,b.status, b.image FROM pets_buy_and_sell b INNER JOIN users u WHERE u.email=b.email AND b.status = ? where u.email !=?'
+  const sqlValues = [status,email]
 
   db.query(sqlQuery, sqlValues, (err, data) => {
     if (err) {
@@ -1950,6 +1956,21 @@ export const viewPets = async (req, res, next) => {
 
 }
 
+export const buypets = async(req,res,next)=>{
+  const {petid} = req.body;
+  const status = "sold"
+  const sqlquery = "UPDATE pets_buy_and_sell SET status = ? WHERE pet_id = ?"
+  const values = [status,petid]
+  db.query(sqlquery,values,(err,data)=>{
+    if(err){
+      return res.json({message:"There is an internel error"})
+    }
+    return res.json({message:'updated'})
+  })
+}
+
+
+
 // get details of selected pets
 export const displayRecords = async (req, res, next) => {
   const id = req.params.id //pet id
@@ -2096,6 +2117,7 @@ export const cancelMindRelaxingAppointment = async (req, res, next) => {
 
     })
   })
+
 
 
 }

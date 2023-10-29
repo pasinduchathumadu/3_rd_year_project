@@ -32,21 +32,22 @@ function Viw_vet() {
     const [dateStart, setDateStart] = useState("");
     const [dateEnd, setDateEnd] = useState("");
     const [count, setcount] = useState("")
+    const [ qualifications , setqualifications ] = useState("")
     const [error, seterror] = useState(false)
     const [message, setmessage] = useState("")
     const [price, setprice1] = useState("")
-    const [ vetid , setvetid ] = useState([])
+    const [vetid, setvetid] = useState([])
     const [image, setimage] = useState("")
     const [first, setfirst] = useState("")
     const [second, setsecond] = useState("")
     const [fee, setfee] = useState("")
-    const [ reason ,setreason] = useState("")
+    const [reason, setreason] = useState("")
     const [starttime, settime] = useState("")
     const [contact, setcontact] = useState("")
     const [countnew, setcountnew] = useState("")
     const [working, setworking] = useState(0)
     const [selectfile, setfile] = useState(null)
-    const [ selectedID , setselectID] = useState("")
+    const [selectedID, setselectID] = useState("")
     const handleChangeworking = (event) => {
         setworking(event.target.value)
     }
@@ -55,7 +56,8 @@ function Viw_vet() {
         setfile(file)
         setimage(file.name)
     }
-
+    const [error1 ,seterror1 ] = useState(false)
+    const [message1 , setmessage1 ] = useState('')
 
 
     const openPopup = (id) => {
@@ -88,7 +90,7 @@ function Viw_vet() {
         setvalue(newvalue);
     };
 
-    const handleselect = (event) =>{
+    const handleselect = (event) => {
         setselectID(event.target.value)
 
     }
@@ -96,14 +98,14 @@ function Viw_vet() {
     const removevet = () => {
         getid()
     }
-    const getid = async()=>{
-        try{
+    const getid = async () => {
+        try {
             const res = await axios.get('http://localhost:5000/pet_care/medi_help_manager/remove')
             setvetid(res.data.data)
             setIsPopupOpen4(true)
 
 
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
     }
@@ -140,20 +142,22 @@ function Viw_vet() {
 
 
     const switchtoadd = () => {
+        seterror1(false)
+        setmessage1("")
         setIsPopupOpen3(true)
     }
 
-    const removed = async()=>{
-        try{
-            const res = await axios.post('http://localhost:5000/pet_care/medi_help_manager/remove_final',{
+    const removed = async () => {
+        try {
+            const res = await axios.post('http://localhost:5000/pet_care/medi_help_manager/remove_final', {
                 selectedID,
                 reason
             })
-            if(res.data.message === "Deleted"){
+            if (res.data.message === "Deleted") {
                 seterror(true)
             }
 
-        }catch(err){
+        } catch (err) {
             console.log(err)
         }
     }
@@ -177,8 +181,8 @@ function Viw_vet() {
 
     const addvet = async () => {
         if (first === "" || second === "" || starttime === "" || fee === "" || contact === "" || countnew === "" || image === "" || working === "") {
-            seterror(true)
-            setmessage("Please fill all the required!!")
+            seterror1(true)
+            setmessage1("Please fill all the required!!")
             return
         }
         try {
@@ -190,15 +194,16 @@ function Viw_vet() {
                 contact,
                 countnew,
                 image,
-                working
+                working,
+                qualifications
             })
             if (res.data.message === "Added") {
-                seterror(false)
-                setmessage("There is no error")
+                seterror1(true)
+                setmessage1("Successfully Added")
             }
             else {
-                seterror(true)
-                setmessage("Cannot be Added")
+                seterror1(true)
+                setmessage1("Cannot be Added")
             }
 
         } catch (err) {
@@ -648,6 +653,14 @@ function Viw_vet() {
                             </Select>
                         </FormControl>
                     </Box>
+                    <Typography sx={{marginTop:'1%'}}>Degree Qualifications</Typography>
+                    <TextField
+                        placeholder="Qualifications"
+                        type="text"
+                        fullWidth
+
+                        onChange={(e) => setqualifications(e.target.value)}
+                    />
                     <Stack sx={{ display: 'flex', marginTop: '2%' }}>
                         <Stack sx={{ display: 'inline' }}>
                             <Button
@@ -670,10 +683,10 @@ function Viw_vet() {
                         </Stack>
                     </Stack>
                 </DialogContent>
-                {error && (
-                    <Stack sx={{ width: '75%', marginLeft: '3%' }} spacing={2}>
+                {error1 && (
+                    <Stack sx={{ width: '75%', marginLeft: '3%',marginTop:'2%' }} spacing={2}>
 
-                        <Alert sx={{ width: '75%' }} severity="warning">{message}</Alert>
+                        <Alert sx={{ width: '75%' }} severity="warning">{message1}</Alert>
 
                     </Stack>
                 )}
@@ -695,25 +708,25 @@ function Viw_vet() {
                 <hr />
                 <DialogContent >
                     <DialogContentText sx={{ paddingBottom: '1%' }}>Select Vet ID:</DialogContentText>
-                   
-                        <Box sx={{ minWidth: 120, marginBottom: '2%', marginTop: '2%' }}>
-                            <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">ID</InputLabel>
-                                <Select
-                                    fullWidth
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={selectedID}
-                                    label="ID"
-                                    onChange={handleselect}
-                                >
-                                    {vetid.map((menu, index) => (
-                                        <MenuItem value={menu.vet_id} key={menu.vet_id}>ID:{menu.vet_id} - Dr.{menu.first_name+" "+menu.last_name}</MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </Box>
-                  
+
+                    <Box sx={{ minWidth: 120, marginBottom: '2%', marginTop: '2%' }}>
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">ID</InputLabel>
+                            <Select
+                                fullWidth
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={selectedID}
+                                label="ID"
+                                onChange={handleselect}
+                            >
+                                {vetid.map((menu, index) => (
+                                    <MenuItem value={menu.vet_id} key={menu.vet_id}>ID:{menu.vet_id} - Dr.{menu.first_name + " " + menu.last_name}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Box>
+
                     <Typography>Reason</Typography>
                     <TextField
                         placeholder="Reason For Remove"

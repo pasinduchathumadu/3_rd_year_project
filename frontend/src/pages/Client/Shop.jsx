@@ -69,21 +69,30 @@ export const Shop = () => {
   const getImageSrc = (imageName) => {
     return require(`../../../../backend/images/store/${imageName}`)
   }
-  const buy = async (price) => {
+  const [ petid , setpetid ] = useState("")
+  const buy = (pet_id,price) => {
+    setprice1(price)
+    setpetid(pet_id)
+    setmain(false)
+    setsecond(true)
+    setpage(false)
+    setaddpets(false)
+    setupdate(false)
+    setwarn(false)
+  };
+  const buyconfirm = async()=>{
     try {
-      setmain(false)
-      setsecond(true)
-      setpage(false)
-      setaddpets(false)
-      setupdate(false)
-      setwarn(false)
-      setprice1(price)
-      await axios.get(`http://localhost:5000/pet_care/user/confirm/${id}`);
-    
+      const res = await axios.post('http://localhost:5000/pet_care/user/buypets',{
+        petid
+      })
+      if(res.data.message === "updated"){
+      confirm();
+      }
     } catch (err) {
       console.log(err);
     }
-  };
+
+  }
   const [product] = useState({
     name: "React from FB",
     price: payment_charge,
@@ -109,14 +118,16 @@ export const Shop = () => {
       if (res.data.message === "success") {
         navigate('/shop')
         console.log("success")
+        } 
+        else {
        
-      }
-      else {
-        console.log("failed")
-        navigate('/shop')
-      }
-    } catch (err) {
-      navigate('/shop')
+          console.log("failed")
+          navigate('/dashboard')
+        }
+        
+       
+       } catch (err) {
+      navigate('/dashboard')
       console.log("failed")
 
     }
@@ -130,7 +141,7 @@ export const Shop = () => {
   const [buypet, setbuypet] = useState("")
   const viewBuyPets = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/pet_care/user/viewBuyPets`)
+      const res = await axios.get(`http://localhost:5000/pet_care/user/viewBuyPets/${email}`)
       const data = await res.data
       return data
 
@@ -384,7 +395,7 @@ export const Shop = () => {
                         Rs. {menu.price}.00
                       </Typography>
                       <Typography variant="body2" sx={{ textAlign: 'center' }}>Owner: {menu.first_name}{" "}{menu.last_name}</Typography><br />
-                      <Button onClick={() => buy(menu.price)} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' }, padding: '2%', width: '50%', marginLeft: '23%' }}>Buy</Button>
+                      <Button onClick={() => buy(menu.pet_id,menu.price)} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' }, padding: '2%', width: '50%', marginLeft: '23%' }}>Buy</Button>
                     </CardContent>
                   </CardActionArea>
                 </Card>
@@ -758,7 +769,7 @@ export const Shop = () => {
               <Stack justifyContent={"center"} alignItems={"center"} direction={"row"} spacing={2}>
 
                 <Button
-                  onClick={confirm}
+                  onClick={buyconfirm}
                   variant="contained"
                   sx={{
                     width: "300px",

@@ -420,7 +420,7 @@ const Complain = () => {
               <Stack sx={{ width: '50%', marginLeft: '25%' }} spacing={2}>
                 <Alert severity="error">
                   <AlertTitle>Warning</AlertTitle>
-                  This is a warning alert — <strong>check it out!</strong>
+                  This is a warning alert — <strong>Fill Out The Required Fields!</strong>
                 </Alert>
               </Stack>
 

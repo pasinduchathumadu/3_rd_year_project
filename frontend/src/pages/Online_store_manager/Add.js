@@ -91,7 +91,15 @@ const Add = () => {
 
   }
   const updatestore = async (id) => {
+    if(  updatedescription === "" ||
+      updateavailibility === "" ||
+      updateprice === ""){
+        setValue(0)
+        setupdate(false)
+        setupdate_error(true)
+        return
 
+      }
     try {
       const res = await axios.post('http://localhost:5000/pet_care/online_store_manager/update', {
         id,
@@ -299,7 +307,7 @@ const Add = () => {
             <Stack sx={{ width: '50%', marginLeft: '25%' }} spacing={2}>
               <Alert severity="error">
                 <AlertTitle>Warning</AlertTitle>
-                This is a warning alert — <strong>check it out!</strong>
+                This is a warning alert — <strong>Fiil Out All The Fields!</strong>
               </Alert>
             </Stack>
 
