@@ -137,10 +137,6 @@ function Appo() {
     setvalue(newvalue);
   };
 
-  // const [PopupOpen, setPopoup] = useState(false);
-  // const Submit = () => {
-  //   setPopoup(true)
-  // }
 
   const navigate = useNavigate("")
   // connect profile
@@ -171,7 +167,7 @@ function Appo() {
       if (res.data.message === 'There is an internal error') {
         seterror2(true)
         setmessage2('There is an internal error')
-      } 
+      }
       else if (res.data.message === 'Deleted') {
         setvalue(2)
         setwarn(false)
@@ -188,6 +184,27 @@ function Appo() {
     setwarn(false)
     setvalue(2)
   }
+
+  // grooming appointment => pending -> completed
+  const [error3, seterror3] = useState(false)
+  const [message3, setmessage3] = useState("")
+
+  const GroomingPendingToComplete = async (id) => {
+    try {
+      const res = await axios.post(`http://localhost:5000/pet_care/care_center_manager/GroomingPendingToComplete`, {
+        id
+      })
+      if (res.data.message === 'There is an internal error') {
+        setmessage3('There is an internal error')
+        seterror3(true)
+      } else if (res.data.message === "completed") {
+        setvalue(0)
+      }
+    } catch (err) {
+      console.log('There is an internal error')
+    }
+  }
+
 
 
   return (
@@ -262,7 +279,7 @@ function Appo() {
                 <Tab sx={{ backgroundColor: value === 0 ? "orange" : "white", color: value === 0 ? "white" : "black" }} label="Pet Grooming Appointments" />
                 <Tab sx={{ backgroundColor: value === 1 ? "orange" : "white", color: value === 1 ? "white" : "black", }} label="Dog Trainning & Exercising Appointments" />
                 <Tab sx={{ backgroundColor: value === 2 ? "orange" : "white", color: value === 2 ? "white" : "black", }} label="Mind Relaxing Appointments" />
-               
+
               </Tabs>
             </Box>
           </Grid>
@@ -282,7 +299,6 @@ function Appo() {
                       <MenuItem value={1}>All</MenuItem>
                       <MenuItem value={2}>Pending</MenuItem>
                       <MenuItem value={3}>Completed</MenuItem>
-                      <MenuItem value={4}>Cancelled</MenuItem>
                     </Select>
                   </FormControl>
                 </Box>
@@ -292,46 +308,46 @@ function Appo() {
                 <Table sx={{ minWidth: 800 }} aria-label="customized table">
                   <TableHead>
                     <TableRow>
-                      <StyledTableCell align="left" >
+                      <StyledTableCell align="center" >
                         Appointment ID
                       </StyledTableCell>
-                      <StyledTableCell align="left">
+                      <StyledTableCell align="center">
                         Client Email
                       </StyledTableCell>
-                      <StyledTableCell align="left" >
-                        Appointment Status
-                      </StyledTableCell>
-                      <StyledTableCell align="left" >
+                      <StyledTableCell align="center" >
                         Placed Date
                       </StyledTableCell>
-                      <StyledTableCell align="left" >
+                      <StyledTableCell align="center" >
                         Payment(Rs)
                       </StyledTableCell>
-                      <StyledTableCell align="left">
-                        Cancelled Date
+                      <StyledTableCell align="center" >
+                        Appointment Status
                       </StyledTableCell>
+                      <StyledTableCell align="center"></StyledTableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {rows.map((row) => (
                       <StyledTableRow key={row.appointment_id}>
-                        <StyledTableCell component="th" scope="row">
+                        <StyledTableCell component="th" scope="row" align="center">
                           {row.appointment_id}
                         </StyledTableCell>
-                        <StyledTableCell align="left">
+                        <StyledTableCell align="center">
                           {row.client_email}
                         </StyledTableCell>
-                        <StyledTableCell align="left">
-                          {row.appointment_status}
-                        </StyledTableCell>
-                        <StyledTableCell align="left">
+                        <StyledTableCell align="center">
                           {row.placed_date}
                         </StyledTableCell>
-                        <StyledTableCell align="left">
-                          {row.price}
+                        <StyledTableCell align="center">
+                          {row.price}.00
                         </StyledTableCell>
-                        <StyledTableCell align="left">
-                          {row.early_cancel_date}
+                        <StyledTableCell align="center">
+                          {row.appointment_status}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.appointment_status === 'pending' && (
+                            <Button sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }} onClick={() => GroomingPendingToComplete(row.appointment_id)}>COMPLETE ?</Button>
+                          )}
                         </StyledTableCell>
 
                       </StyledTableRow>
@@ -438,7 +454,7 @@ function Appo() {
                   )}
                 </div>
                 <div>
-                  <Box sx={{ width: '15%', marginLeft: '85%',marginBottom:'1%' }}>
+                  <Box sx={{ width: '15%', marginLeft: '85%', marginBottom: '1%' }}>
                     <FormControl fullWidth>
                       <Select
                         labelId="demo-simple-select-label"

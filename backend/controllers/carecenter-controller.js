@@ -312,18 +312,24 @@ export const get_groom_apo = async (req, res, next) => {
             return res.json({ data })
         })
     }
-    if (id === '4') {
-        const status = 'cancelled'
-        const sqlQuery = "SELECT a.appointment_id,a.appointment_status,a.placed_date,a.client_email,a.verify_cancel_date ,a.early_cancel_date, p.price FROM carecenter_appointment a INNER JOIN carecenter_package p on a.package_id = p.package_id AND a.appointment_status = ?"
-        const values = [status]
+}
+// GROOMING -> pending to completed
+export const GroomingPendingToComplete = async(req,res,next) => {
+    const {
+        id
+    } = req.body;
+    const status = 'completed'
 
-        db.query(sqlQuery, values, (err, data) => {
-            if (err) {
-                return res.json({ message: 'There is an internel error' })
-            }
-            return res.json({ data })
-        })
-    }
+    const sqlQuery = 'UPDATE carecenter_appointment SET appointment_status = ? WHERE appointment_id = ?'
+    const values = [status, id]
+
+    db.query(sqlQuery, values,(err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({message:'completed'})
+    })
+
 }
 
 // exercising appointments viewing
