@@ -205,6 +205,26 @@ function Appo() {
     }
   }
 
+  // Training appointment => pending -> completed
+  const [error4, seterror4] = useState(false)
+  const [message4, setmessage4] = useState("")
+
+  const TrainingPendingToComplete = async (id) => {
+    try {
+      const res = await axios.post(`http://localhost:5000/pet_care/care_center_manager/TrainingPendingToComplete`, {
+        id
+      })
+      if (res.data.message === 'There is an internal error') {
+        setmessage4('There is an internal error')
+        seterror4(true)
+      } else if (res.data.message === "completed") {
+        setvalue(1)
+      }
+    } catch (err) {
+      console.log('There is an internal error')
+    }
+  }
+
 
 
   return (
@@ -349,7 +369,6 @@ function Appo() {
                             <Button sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }} onClick={() => GroomingPendingToComplete(row.appointment_id)}>COMPLETE ?</Button>
                           )}
                         </StyledTableCell>
-
                       </StyledTableRow>
                     ))}
                   </TableBody>
@@ -398,13 +417,15 @@ function Appo() {
                         Trainning Day
                       </StyledTableCell>
                       <StyledTableCell align="center" sx={{ width: "10%" }}>
-                        Payment
+                        Payment (Rs.)
                       </StyledTableCell>
                       <StyledTableCell align="center" sx={{ width: "10%" }}>
-                        Cancelled Date
+                        Status
                       </StyledTableCell>
+                      <StyledTableCell align="center" sx={{ width: "10%" }}></StyledTableCell>
                     </TableRow>
                   </TableHead>
+
                   <TableBody>
                     {rows2.map((row) => (
                       <StyledTableRow key={row.name}>
@@ -427,8 +448,14 @@ function Appo() {
                           {row.price}.00
                         </StyledTableCell>
                         <StyledTableCell align="center">
-                          {row.early_cancel_date}
+                          {row.status}
                         </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {row.status === 'pending' && (
+                            <Button sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }} onClick={() => TrainingPendingToComplete(row.id)}>COMPLETE ?</Button>
+                          )}
+                        </StyledTableCell>
+
                       </StyledTableRow>
                     ))}
                   </TableBody>

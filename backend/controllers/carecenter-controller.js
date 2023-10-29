@@ -337,7 +337,7 @@ export const get_training = async (req, res, next) => {
     const id = req.params.id
 
     if (id === '1') {
-        const sqlQuery = "SELECT t.id,t.placed_date,t.day,t.breed,t.client_email,t.early_cancel_date, t.verify_cancel_date, p.price,p.start,p.end FROM pet_trainning_payment t INNER JOIN pet_trainning_shedule p ON p.day = t.day"
+        const sqlQuery = "SELECT t.id,t.placed_date,t.day,t.breed,t.client_email,t.early_cancel_date, t.verify_cancel_date, p.price,p.start,p.end, t.status FROM pet_trainning_payment t INNER JOIN pet_trainning_shedule p ON p.day = t.day"
 
         db.query(sqlQuery, (err, data) => {
             if (err) {
@@ -348,7 +348,7 @@ export const get_training = async (req, res, next) => {
     }
     else if (id === '2') {
         const status = 'pending'
-        const sqlQuery = "SELECT t.id,t.placed_date,t.day,t.breed,t.client_email,t.early_cancel_date, t.verify_cancel_date, p.price,p.start,p.end FROM pet_trainning_payment t INNER JOIN pet_trainning_shedule p ON p.day = t.day AND t.status = ?"
+        const sqlQuery = "SELECT t.id,t.placed_date,t.day,t.breed,t.client_email,t.early_cancel_date, t.verify_cancel_date, p.price,p.start,p.end, t.status FROM pet_trainning_payment t INNER JOIN pet_trainning_shedule p ON p.day = t.day AND t.status = ?"
         const values = [status]
 
         db.query(sqlQuery, values, (err, data) => {
@@ -360,7 +360,7 @@ export const get_training = async (req, res, next) => {
     }
     else if (id === '3') {
         const status = 'completed'
-        const sqlQuery = "SELECT t.id,t.placed_date,t.day,t.breed,t.client_email,t.early_cancel_date, t.verify_cancel_date, p.price,p.start,p.end FROM pet_trainning_payment t INNER JOIN pet_trainning_shedule p ON p.day = t.day AND t.status = ?"
+        const sqlQuery = "SELECT t.id,t.placed_date,t.day,t.breed,t.client_email,t.early_cancel_date, t.verify_cancel_date, p.price,p.start,p.end, t.status FROM pet_trainning_payment t INNER JOIN pet_trainning_shedule p ON p.day = t.day AND t.status = ?"
         const values = [status]
 
         db.query(sqlQuery, values, (err, data) => {
@@ -372,7 +372,7 @@ export const get_training = async (req, res, next) => {
     }
     else if (id === '4') {
         const status = 'cancelled'
-        const sqlQuery = "SELECT t.id,t.placed_date,t.day,t.breed,t.client_email,t.early_cancel_date, t.verify_cancel_date, p.price,p.start,p.end FROM pet_trainning_payment t INNER JOIN pet_trainning_shedule p ON p.day = t.day AND t.status = ?"
+        const sqlQuery = "SELECT t.id,t.placed_date,t.day,t.breed,t.client_email,t.early_cancel_date, t.verify_cancel_date, p.price,p.start,p.end, t.status FROM pet_trainning_payment t INNER JOIN pet_trainning_shedule p ON p.day = t.day AND t.status = ?"
         const values = [status]
 
         db.query(sqlQuery, values, (err, data) => {
@@ -383,6 +383,27 @@ export const get_training = async (req, res, next) => {
         })
     }
 }
+
+// TRAINING -> pending to completed
+export const TrainingPendingToComplete = async(req,res,next) => {
+    const {
+        id
+    } = req.body;
+    const status = 'completed'
+
+    const sqlQuery = 'UPDATE pet_trainning_payment SET status = ? WHERE id = ?'
+    const values = [status, id]
+
+    db.query(sqlQuery, values,(err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({message:'completed'})
+    })
+
+}
+
+
 // get all emplyees
 export const get_employee = async (req, res, next) => {
     // const id = req.params.id
