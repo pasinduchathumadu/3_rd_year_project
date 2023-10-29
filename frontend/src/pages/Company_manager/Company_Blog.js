@@ -233,6 +233,18 @@ const Company_Blog = () => {
                 </CardContent>
               </CardActionArea>
               <CardActions sx={{ justifyContent: "center", marginTop: "auto" }}>
+              <Button
+                  onClick={()=>handleClickOpen(menu.post_id)}
+                  sx={{
+                    backgroundColor: "green",
+                    color: "white",
+                    "&:hover": {
+                      backgroundColor: "darkgreen",
+                    },
+                  }}
+                >
+                  Accept
+                </Button>
                 <Button
                   onClick={()=>handleClickOpenReject(menu.post_id)}
                   sx={{
@@ -246,18 +258,7 @@ const Company_Blog = () => {
                   Reject
                 </Button>
 
-                <Button
-                  onClick={()=>handleClickOpen(menu.post_id)}
-                  sx={{
-                    backgroundColor: "green",
-                    color: "white",
-                    "&:hover": {
-                      backgroundColor: "darkgreen",
-                    },
-                  }}
-                >
-                  Accept
-                </Button>
+              
                 <Dialog
                   open={open}
                   onClose={handleClose}
