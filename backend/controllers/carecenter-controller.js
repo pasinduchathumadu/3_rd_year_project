@@ -631,12 +631,26 @@ export const submitConfirmationForm = async(req,res, next) => {
 export const assigned = async(req,res,next)=>{
     const id = req.params.id
     const status = "working"
-    const sqlQuery = "UPDATE employee SET unfree_date_start = ? , unfree_date_end = ? WHERE emp_id = ?"
-    const values = [status,status,id]
-    db.query(sqlQuery,values,(err,data)=>{
+    const sqlquery1 = "SELECT *FROM employee WHERE unfree_date_start = ? AND unfree_date_end = ? AND emp_id = ?"
+    const values1 = [status,status,id]
+
+    db.query(sqlquery1,values1,(err,data)=>{
         if(err){
             return res.json({message:'There is an internel error'})
         }
-        return res.json({message:'assigned'})
+        else if(data[0].unfree_date_start === 'working'){
+            return res.json({message:'exist'})
+        }
+        else{
+            const sqlQuery = "UPDATE employee SET unfree_date_start = ? , unfree_date_end = ? WHERE emp_id = ?"
+            const values = [status,status,id]
+            db.query(sqlQuery,values,(err,data)=>{
+                if(err){
+                    return res.json({message:'There is an internel error'})
+                }
+                return res.json({message:'assigned'})
+            })
+
+        }
     })
 }

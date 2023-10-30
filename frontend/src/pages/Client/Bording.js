@@ -133,8 +133,8 @@ const Bording = () => {
       seterror(true)
       return
     }
-    if (startdate === "" || enddate === "" || selectpackage === "" || setselectpet === "") {
-      setmessage('Cannot place the boarding request')
+    if (startdate === "" || enddate === "" || selectpackage === "" || selectpet === "") {
+      setmessage('Please be Filled required fields')
       seterror(true)
       return
 
@@ -161,10 +161,15 @@ const Bording = () => {
         const res1 = await axios.post('http://localhost:5000/pet_care/user/getprice', {
           startdate,
           enddate,
-          selectpackage
+          selectpackage,
+          selectpet
         })
         if (res1.data.message === "There is an internel error") {
           setmessage('Cannot place the boarding request')
+          seterror(true)
+        }
+       else if (res1.data.message === "exisit") {
+          setmessage('This pet already assigned to the boarding house')
           seterror(true)
         }
         else {

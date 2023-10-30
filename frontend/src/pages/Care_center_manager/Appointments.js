@@ -366,7 +366,7 @@ function Appo() {
                         </StyledTableCell>
                         <StyledTableCell align="center">
                           {row.appointment_status === 'pending' && (
-                            <Button sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }} onClick={() => GroomingPendingToComplete(row.appointment_id)}>COMPLETE ?</Button>
+                            <Button sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }} onClick={() => GroomingPendingToComplete(row.appointment_id)}>COMPLETE </Button>
                           )}
                         </StyledTableCell>
                       </StyledTableRow>
@@ -452,7 +452,7 @@ function Appo() {
                         </StyledTableCell>
                         <StyledTableCell align="center">
                           {row.status === 'pending' && (
-                            <Button sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }} onClick={() => TrainingPendingToComplete(row.id)}>COMPLETE ?</Button>
+                            <Button sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }} onClick={() => TrainingPendingToComplete(row.id)}>COMPLETE </Button>
                           )}
                         </StyledTableCell>
 
