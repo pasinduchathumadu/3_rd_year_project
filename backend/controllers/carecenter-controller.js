@@ -121,17 +121,46 @@ export const deleteMyComplain = async (req, res, next) => {
 
 // ***** REFUND *****
 export const refund_appointments = async (req, res, next) => {
-    const status1 = 'incompleted'
-    const status2 = 'cancelled'
-    const sqlQuery = 'SELECT r.refund_id, r.appointment_id, r.email, r.payment, r.refund_status, r.admin_verification, a.package_id, a.appointment_status FROM carecenter_appointment a INNER JOIN carecenter_refund r ON a.appointment_id = r.appointment_id WHERE a.appointment_status = ? OR a.appointment_status = ? '
-    const values = [status1, status2]
+    const id = req.params.id
+    if(id === '1'){
+        const sqlQuery = 'SELECT r.refund_id, r.appointment_id, r.email, r.payment, r.refund_status, r.admin_verification, a.package_id, a.appointment_status FROM carecenter_appointment a INNER JOIN carecenter_refund r ON a.appointment_id = r.appointment_id '
+      
+    
+        db.query(sqlQuery,(err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        })
+        
+    }
+    else if(id === '2'){
+        const status = "pending"
+        const sqlQuery = 'SELECT r.refund_id, r.appointment_id, r.email, r.payment, r.refund_status, r.admin_verification, a.package_id, a.appointment_status FROM carecenter_appointment a INNER JOIN carecenter_refund r ON a.appointment_id = r.appointment_id where r.refund_status = ?'
+      
+        const values = [status]
+        db.query(sqlQuery,values,(err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        })
 
-    db.query(sqlQuery, values, (err, data) => {
-        if (err) {
-            return res.json({ message: 'There is an internal error' })
-        }
-        return res.json({ data })
-    })
+    }
+    else if(id === '3'){
+        const status = "completed"
+        const sqlQuery = 'SELECT r.refund_id, r.appointment_id, r.email, r.payment, r.refund_status, r.admin_verification, a.package_id, a.appointment_status FROM carecenter_appointment a INNER JOIN carecenter_refund r ON a.appointment_id = r.appointment_id where r.refund_status = ?'
+      
+        const values = [status]
+        db.query(sqlQuery,values,(err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        })
+
+    }
+ 
 }
 
 // place refund - get details for form
@@ -152,6 +181,7 @@ export const refundAdding = async (req, res, next) => {
     const {
         id,
         amount,
+        image
     } = req.body;
 
     const status = 'completed'
@@ -159,8 +189,8 @@ export const refundAdding = async (req, res, next) => {
     const currentDate = current.toDateString() //current date
     const currentTime = current.toLocaleTimeString() //current time
 
-    const sqlQuery = 'UPDATE carecenter_refund SET refund_mny = ?, refund_status = ?, date =?, time =?  WHERE refund_id = ?'
-    const values = [amount, status, currentDate, currentTime, id]
+    const sqlQuery = 'UPDATE carecenter_refund SET refund_mny = ?, refund_status = ?, date =?, time =? , refund_slip = ? WHERE refund_id = ?'
+    const values = [amount, status, currentDate, currentTime,image, id]
 
     db.query(sqlQuery, values, (err, data) => {
         if (err) {
@@ -408,7 +438,7 @@ export const TrainingPendingToComplete = async(req,res,next) => {
 export const get_employee = async (req, res, next) => {
     // const id = req.params.id
     const status = 'active'
-
+    const new_status = "working"
     const sqlQuery = "SELECT *FROM employee WHERE status = ?"
     const values = [status]
 
@@ -598,3 +628,15 @@ export const submitConfirmationForm = async(req,res, next) => {
     })
 }
 
+export const assigned = async(req,res,next)=>{
+    const id = req.params.id
+    const status = "working"
+    const sqlQuery = "UPDATE employee SET unfree_date_start = ? , unfree_date_end = ? WHERE emp_id = ?"
+    const values = [status,status,id]
+    db.query(sqlQuery,values,(err,data)=>{
+        if(err){
+            return res.json({message:'There is an internel error'})
+        }
+        return res.json({message:'assigned'})
+    })
+}

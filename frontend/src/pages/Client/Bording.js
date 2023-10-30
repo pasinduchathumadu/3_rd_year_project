@@ -92,7 +92,7 @@ const Bording = () => {
       console.log("failed")
     }
   }
-  const insert = async () => {
+  const insert = async (id) => {
     try {
       const res = await axios.post('http://localhost:5000/pet_care/user/insert', {
         email,
@@ -101,10 +101,12 @@ const Bording = () => {
         selectpackage,
         selectpet,
         originalprice: payment.map((menu, index) => menu.price * diff),
-
         originalcage: cage.map((menu, index) => menu.cage_id)
 
       })
+      if(res.data.message === "insert"){
+       console.log('success')
+      }
 
     } catch (err) {
       console.log(err)
@@ -138,7 +140,7 @@ const Bording = () => {
 
     }
     if (enddate < startdate) {
-      setmessage('Cannot place the boarding request11')
+      setmessage('Cannot place the boarding request')
       seterror(true)
       return
     }
@@ -149,7 +151,7 @@ const Bording = () => {
 
 
       if (res.data.message === 'There is an internal error') {
-        setmessage('Cannot place the boarding request')
+        setmessage('There is no more cages are available')
         seterror(true)
       }
 
@@ -445,7 +447,7 @@ const Bording = () => {
 
               </Stack>
 
-              <Button onClick={move} sx={{ backgroundColor: 'orange', color: 'black', width: '30%', marginLeft: '35%', marginBottom: '5%', marginTop: '2%' }}>{payment && payment.map((menu, index) => "payment RS." + menu.price * diff)}</Button>
+              <Button onClick={move} sx={{ backgroundColor: 'orange', color: 'black', width: '30%', marginLeft: '35%', marginBottom: '5%', marginTop: '2%',':hover': { backgroundColor: 'orange' } }}>{payment && payment.map((menu, index) => "payment RS." + menu.price * diff)}</Button>
 
             </Stack>
           )}
@@ -489,7 +491,7 @@ const Bording = () => {
 
                   <Button
 
-                    onClick={insert}
+                    onClick={()=>insert(2)}
 
                     variant="contained"
                     sx={{

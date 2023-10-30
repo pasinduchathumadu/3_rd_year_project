@@ -64,15 +64,18 @@ export default function OrderTable() {
 
 
   const handleClose = () => {
+    seterror(false)
     window.location.reload()
   }
 
   const email = localStorage.getItem('store_email')
-  const confirmDelete = async (rowId) => {
+  const confirmDelete = async (rowId,price) => {
 
     const res = await axios.post(`http://localhost:5000/pet_care/user/delete_appointment`, {
       rowId,
-      date
+      date,
+      email,
+      price
 
     })
     if (res.data.message === "deleted") {
@@ -349,7 +352,7 @@ export default function OrderTable() {
                                   <Button onClick={() => handleClose()} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' } }} >
                                     Back
                                   </Button>
-                                  <Button onClick={() => confirmDelete(row.appointment_id)} sx={{ backgroundColor: 'red', color: 'white', ':hover': { backgroundColor: 'red' } }}>
+                                  <Button onClick={() => confirmDelete(row.appointment_id,row.price)} sx={{ backgroundColor: 'red', color: 'white', ':hover': { backgroundColor: 'red' } }}>
                                     Delete
                                   </Button>
                                 </DialogActions>

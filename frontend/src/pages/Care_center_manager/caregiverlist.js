@@ -8,7 +8,7 @@ import {
   DialogContent,
   DialogContentText,
   TextField,
-  Alert, FormControl, IconButton, MenuItem, FormLabel, Select
+  Alert, FormControl, IconButton, MenuItem, FormLabel, Select, InputLabel, DialogActions
 } from "@mui/material";
 
 import { Grid, Box, Tab, Tabs, Button } from "@mui/material";
@@ -18,6 +18,7 @@ import axios from "axios";
 import CloseIcon from '@mui/icons-material/Close';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 
 
@@ -49,6 +50,15 @@ function Caregiverlist() {
   const handleChange = (event, newvalue) => {
     setvalue(newvalue);
   };
+  const [open1 , setopen1 ] = useState(false)
+  const reassign = () =>{
+    seterror(false);
+    setopen1(true);
+    
+  }
+  const handleClose1 = ()=>{
+    setopen1(false)
+  }
 
   const leave_submit = async () => {
     const selectedStartDate = new Date(dateStart);
@@ -204,9 +214,30 @@ function Caregiverlist() {
       .then((data) => setdetails(data.data))
       .catch((err) => console.log(err))
   })
+const [ assigned , setassign ] = useState("")
+  const handleassign = (event)=>{
+    setassign(event.target.value)
+  }
+  const assignemp = async()=>{
+    if(assigned===""){
+      seterror(true)
+      setmessage("Please be selected Employee")
+      return
+    }
+    try{
+      const res = await axios.get(`http://localhost:5000/pet_care/care_center_manager/assign/${assigned}`)
+      if(res.data.message === "assigned"){
+        seterror(true)
+        setmessage("Successfully Re-Assigned The Employee")
+      }
+
+    }catch(err){
+      console.log(err)
+    }
+  }
   const handleFileUpload = async () => {
     seterror(false)
-   
+
 
     try {
       const formData = new FormData();
@@ -219,7 +250,7 @@ function Caregiverlist() {
       });
       if (res.data.message === "File uploaded successfully") {
         submitNewEmployee()
-        
+
       }
 
       console.log("File uploaded successfully!");
@@ -330,10 +361,15 @@ function Caregiverlist() {
           </Tabs>
         </Box>
       </Grid>
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '7%', marginRight: '7%' }}>
 
-      <div style={{ marginLeft: '84%' }}>
         <Button sx={{ backgroundColor: 'orange', color: 'white', ':hover': { backgroundColor: 'orange' } }} onClick={addNewcaregiver}><AddIcon /> ADD NEW CAREGIVER</Button>
+
+
+        <Button sx={{ backgroundColor: 'orange', color: 'white', ':hover': { backgroundColor: 'orange' } }} onClick={reassign}><AddIcon />Re-Assign Caregiver</Button>
+
       </div>
+
 
       {/* pet grooming  */}
       {value === 0 && (
@@ -540,28 +576,28 @@ function Caregiverlist() {
               </div>
 
               <Grid item sx={{ paddingTop: '20px' }}>
-                  <div style={{ display: 'flex' }}>
-                    <div style={{ display: 'inline' }}>
-                      <Button
-                        variant="contained"
-                        component="label"
+                <div style={{ display: 'flex' }}>
+                  <div style={{ display: 'inline' }}>
+                    <Button
+                      variant="contained"
+                      component="label"
 
-                        startIcon={<CloudUploadIcon />}
-                      >
-                        Upload File
-                        <input type="file" hidden onChange={handlefilechange} required />
+                      startIcon={<CloudUploadIcon />}
+                    >
+                      Upload File
+                      <input type="file" hidden onChange={handlefilechange} required />
 
-                      </Button>
-                    </div>
-                    <div style={{ display: 'inline', paddingTop: '6px', paddingLeft: '7px' }}>
-                      {selectfile && (
-                        <Typography>{selectfile.name}</Typography>
-
-                      )}
-                    </div>
+                    </Button>
                   </div>
+                  <div style={{ display: 'inline', paddingTop: '6px', paddingLeft: '7px' }}>
+                    {selectfile && (
+                      <Typography>{selectfile.name}</Typography>
 
-                </Grid>
+                    )}
+                  </div>
+                </div>
+
+              </Grid>
 
               {error1 && (
                 <Stack sx={{ width: '100%' }} spacing={2}>
@@ -574,6 +610,72 @@ function Caregiverlist() {
           </FormControl>
         </div>
       )}
+      <Dialog
+        open={open1}
+        onClose={handleClose1}
+       
+        fullWidth
+      >
+
+        <DialogTitle id="alert-dialog-title">
+          {"Re - Assigned The Employees"}
+          <IconButton
+            aria-label="close"
+            onClick={handleClose1}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          <form action="">
+            <Box>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Select Employee</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={assigned}
+                  label="Employee ID"
+                  onChange={handleassign}
+                >
+                  {menu.map((row, index) => (
+                    <MenuItem value={row.emp_id} key={row.emp_id}>{row.emp_id}-{row.first_name + " "+row.last_name}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+            
+
+          </form>
+        </DialogContent>
+        {error && (
+          <Stack sx={{ width: '100%' }} spacing={2}>
+
+            <Alert severity="info">{message}</Alert>
+          </Stack>
+        )}
+        <DialogActions>
+
+          <Button variant="outlined" color="secondary" onClick={handleClose1}>
+            Cancel
+          </Button>
+
+          <Button
+            onClick={assignemp}
+            variant="outlined"
+            color="secondary"
+            type="submit"
+          >
+            Submit
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       {/* ADD REASON FOR REMOVING */}
       {addReason && (

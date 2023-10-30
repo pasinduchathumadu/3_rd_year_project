@@ -200,16 +200,14 @@ function Medi() {
     setappoinment(false)
   }
   const confirm = async (id) => {
-    const cancel_date = new Date(date_medi);
-    cancel_date.setDate(cancel_date.getDate() + 2);
-    const new_cancel_date = cancel_date.toISOString().substr(0, 10);
+  
+    
     try {
       const res = await axios.post('http://localhost:5000/pet_care/user/medi_payment', {
         id,
         date_medi,
         email,
         payment_charge,
-        new_cancel_date,
         selectpet
       })
       if (res.data.message === "There is an internel error") {

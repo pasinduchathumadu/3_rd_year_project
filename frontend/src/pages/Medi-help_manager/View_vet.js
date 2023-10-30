@@ -148,6 +148,11 @@ function Viw_vet() {
     }
 
     const removed = async () => {
+        if(selectedID === "" || reason === ""){
+            seterror(true)
+            setmessage("Please be filled the required fields!!")
+            return
+        }
         try {
             const res = await axios.post('http://localhost:5000/pet_care/medi_help_manager/remove_final', {
                 selectedID,
@@ -155,6 +160,7 @@ function Viw_vet() {
             })
             if (res.data.message === "Deleted") {
                 seterror(true)
+                setmessage("Successfully Removed!!")
             }
 
         } catch (err) {
@@ -746,7 +752,7 @@ function Viw_vet() {
                 {error && (
                     <Stack sx={{ width: '75%', marginLeft: '3%' }} spacing={2}>
 
-                        <Alert sx={{ width: '75%' }} severity="success">Successfully Removed</Alert>
+                        <Alert sx={{ width: '75%' }} severity="info">{message}</Alert>
 
                     </Stack>
                 )}
