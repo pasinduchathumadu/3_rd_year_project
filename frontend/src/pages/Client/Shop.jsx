@@ -472,6 +472,9 @@ export const Shop = () => {
                           (
                             <Button sx={{ backgroundColor: 'orange', color: 'white', ':hover': { backgroundColor: 'orange' }, padding: '2%', width: '50%', marginLeft: '23%' }}>Sold</Button>
                           )}
+
+                          {menu.status === 'sold' ? 
+                          (<Typography sx={{textAlign:'center', marginTop:'1%'}}>Buy by : {menu.buy_email}</Typography>) : ""}
                       </CardContent>
                     </CardActionArea>
                   </Card>
