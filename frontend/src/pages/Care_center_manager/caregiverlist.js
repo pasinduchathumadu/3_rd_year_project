@@ -18,7 +18,7 @@ import axios from "axios";
 import CloseIcon from '@mui/icons-material/Close';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { faL } from "@fortawesome/free-solid-svg-icons";
+
 
 
 
@@ -230,6 +230,10 @@ const [ assigned , setassign ] = useState("")
         seterror(true)
         setmessage("Successfully Re-Assigned The Employee")
       }
+      if (res.data.message === "exist") {
+        seterror(true)
+        setmessage("Already In working Can not be re-assigned")
+    }
 
     }catch(err){
       console.log(err)

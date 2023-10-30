@@ -1098,38 +1098,47 @@ export const book_doctor = async (req, res, next) => {
 }
 
 export const check_appointment = async (req, res, next) => {
-  const { date_medi, email, id } = req.body;
-  const sqlQuery = "SELECT COUNT(a.appointment_id) AS appointment_count,v.daily_count  FROM vet v INNER JOIN medi_appointment a ON v.vet_id = a.vet_id WHERE a.placed_date = ? AND a.client_email = ? AND v.vet_id = ?"
-  const values = [
-    date_medi,
-    email,
-    id
-  ]
-  db.query(sqlQuery, values, (err, data) => {
-    if (err) {
-      return res.json({ message: 'There is an internel error' })
+  const { date_medi, email, id , selectpet } = req.body;
+  const sql1 ="SELECT *FROM medi_appointment WHERE pet_id = ? AND placed_date = ?"
+  const value1 = [selectpet,date_medi]
+  db.query(sql1,value1,(err,data)=>{
+    if(data.length >0){
+      return res.json({message:'exisit'})
     }
-
-    if (data[0].appointment_count > data[0].daily_count) {
-      return res.json({ message: 'Appoinments are over' })
-    }
+    const sqlQuery = "SELECT COUNT(a.appointment_id) AS appointment_count,v.daily_count  FROM vet v INNER JOIN medi_appointment a ON v.vet_id = a.vet_id WHERE a.placed_date = ? AND a.client_email = ? AND v.vet_id = ?"
+    const values = [
+      date_medi,
+      email,
+      id
+    ]
+    db.query(sqlQuery, values, (err, data) => {
+      if (err) {
+        return res.json({ message: 'There is an internel error' })
+      }
+  
+      if (data[0].appointment_count > data[0].daily_count) {
+        return res.json({ message: 'Appoinments are over' })
+      }
+    })
+    const sqlQuery1 = "SELECT *FROM vet WHERE vet_id = ? AND  ? >= unfree_date_start AND ? <=unfree_date_end"
+    const value2 = [
+      id,
+      date_medi,
+      date_medi
+  
+    ]
+    db.query(sqlQuery1, value2, (err, data1) => {
+      if (err) {
+        return res.json({ message: 'There is an internel error' })
+      }
+      if (data1.length > 0) {
+        return res.json({ message: 'doctors is not free' })
+      }
+      return res.json({ message: 'added' })
+    })
+    
   })
-  const sqlQuery1 = "SELECT *FROM vet WHERE vet_id = ? AND  ? >= unfree_date_start AND ? <=unfree_date_end"
-  const value2 = [
-    id,
-    date_medi,
-    date_medi
-
-  ]
-  db.query(sqlQuery1, value2, (err, data1) => {
-    if (err) {
-      return res.json({ message: 'There is an internel error' })
-    }
-    if (data1.length > 0) {
-      return res.json({ message: 'doctors is not free' })
-    }
-    return res.json({ message: 'added' })
-  })
+ 
 
 }
 
@@ -1513,18 +1522,38 @@ export const getprice = async (req, res, next) => {
   const {
     startdate,
     enddate,
-    selectpackage
+    selectpackage,
+    selectpet
   } = req.body
+  const sqlQuery = 'SELECT *FROM boarding_request WHERE pet_id = ? AND board_arrival_date <= ? AND board_carry_date >=? '
+  const values = [ selectpet , startdate,enddate]
 
-
-  const check1 = 'SELECT *FROM boarding_package WHERE package_id = ?'
-  const checkValues1 = [selectpackage]
-  db.query(check1, checkValues1, (err, data) => {
-    if (err) {
-      return res.json({ message: "There is an internel error" })
+  db.query(sqlQuery,values,(err,data1)=>{
+    if(data1.length>0){
+      return res.json({message:'exisit'})
     }
-    return res.json({ data })
+    const sqlQuery1 = 'SELECT *FROM boarding_request WHERE pet_id = ? AND board_carry_date >=? '
+    const values1 = [ selectpet , startdate]
+    db.query(sqlQuery1,values1,(err,data2)=>{
+      if(data2.length>0){
+        return res.json({message:'exisit'})
+      }
+      const check1 = 'SELECT *FROM boarding_package WHERE package_id = ?'
+      const checkValues1 = [selectpackage]
+      db.query(check1, checkValues1, (err, data) => {
+        if (err) {
+          return res.json({ message: "There is an internel error" })
+        }
+        return res.json({ data })
+      })
+  
+    })
+   
+  
   })
+
+
+ 
 }
 
 

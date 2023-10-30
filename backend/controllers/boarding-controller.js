@@ -8,7 +8,8 @@ export const submitBasicDetails = async (req, res, next) => {
     const {
         name,
         price,
-        color
+        color,
+        image
     } = req.body;
 
     const checkQuery = 'SELECT COUNT(package_id) AS count FROM boarding_package'
@@ -19,8 +20,8 @@ export const submitBasicDetails = async (req, res, next) => {
             return res.json({ message: 'Cannot be added. Already has 3 packages' })
         }
 
-        const sqlQuery = 'INSERT INTO boarding_package(package_name, price, color) VALUES(?,?,?)'
-        const values = [name, price, color]
+        const sqlQuery = 'INSERT INTO boarding_package(package_name,symbol,price,color) VALUES(?,?,?,?)'
+        const values = [name,image,price, color,]
 
         db.query(sqlQuery, values, (err, data2) => {
             if (err) {

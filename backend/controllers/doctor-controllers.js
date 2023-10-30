@@ -596,7 +596,7 @@ export const remove_final = async (req,res,next)=>{
 
 // get details for main page (pet profile)
 export const getDetails = async(req,res,next) => {
-    const sqlQuery = 'SELECT DISTINCT pet_id FROM medi_appointment'
+    const sqlQuery = 'SELECT DISTINCT (pet_id) FROM medi_appointment'
 
     db.query(sqlQuery, (err,data) => {
         if(err) {
@@ -624,6 +624,33 @@ export const getnextvaccineid = async(req,res,next)=>{
             return res.json({data})
         })
     })
+}
+export const assigned = async(req,res,next)=>{
+    const id = req.params.id
+    console.log(id)
+    const status = "working"
+    const sqlquery1 = "SELECT *FROM vet WHERE unfree_date_start = ? AND unfree_date_end = ? AND vet_id = ?"
+    const values1 = [status,status,id]
+    db.query(sqlquery1,values1,(err,data)=>{
+        if(err){
+            return res.json({message:'There is an internel error'})
+        }
+        else if(data[0].unfree_date_start === 'working'){
+            return res.json({message:'exist'})
+        }
+        else{
+            const sqlQuery = "UPDATE vet SET unfree_date_start = ? , unfree_date_end = ? WHERE vet_id = ?"
+            const values = [status,status,id]
+            db.query(sqlQuery,values,(err,data)=>{
+                if(err){
+                    return res.json({message:'There is an internel error'})
+                }
+                return res.json({message:'assigned'})
+            })
+
+        }
+    })
+   
 }
 
 
