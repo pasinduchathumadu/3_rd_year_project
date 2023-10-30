@@ -3,7 +3,7 @@ import express from "express";
 import {blog,comment,get_comment,ManagerProfile,DisplayManagerDetails,UpdateManager,myblog,ClientProfile,DisplayClientDetails,updateClient,deleteProfile, likefunc, heartfunc, event} from "../controllers/common-controllers.js"
 
 const common_route = express.Router()
-common_route.get('/blog',blog)
+common_route.get('/blog/:id',blog)
 common_route.post('/comment',comment)
 common_route.get('/comment/:id',get_comment)
 common_route.get('/ManagerProfile/:email',ManagerProfile)

@@ -2247,3 +2247,12 @@ export const deleteBankDetails = async(req,res,next) => {
     return res.json({message:'Deleted'})
   })
 }
+export const getfacilities = async(req,res,next)=>{
+  const sqlQuery = "SELECT *FROM boarding_package_facility"
+  db.query(sqlQuery,(err,data)=>{
+    if(err){
+      return res.json({message:'There is an internel error'})
+    }
+    return res.json({data})
+  })
+}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Typography, FormControl, TextField, Button, Alert, Stack, FormLabel, Box } from "@mui/material";
+import { Typography, FormControl, TextField, Button, Alert, Stack, FormLabel} from "@mui/material";
 import AddBackgroundImage from '../../assests/pet_add.jpeg';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import axios from "axios";

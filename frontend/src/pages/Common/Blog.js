@@ -15,11 +15,11 @@ import dog2 from '../../assests/blog3.jpg';
 import logo from '../../assests/logo.png';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import axios from "axios";
-import { da } from "date-fns/locale";
+
 
 const Blog = () => {
     const [blog, setBlog] = useState([]);
-    const [events_company , setevent] = useState([])
+    const [events_company, setevent] = useState([])
     const [oldComments, setOldComments] = useState([]);
     const [likes, setLikes] = useState([]);
     const [hearts, setHearts] = useState([]);
@@ -41,41 +41,35 @@ const Blog = () => {
 
     const handleChange1 = (event) => {
         setValue1(event.target.value);
+        
     };
 
-    var filterCondition = "";
-
-    if (value1 === 10) {
-        filterCondition = "Health of Pets";
-    } else if (value1 === 20) {
-        filterCondition = "Harassment of Pets";
-    } else if (value1 === 30) {
-        filterCondition = "Charitable Posts";
-    }
-
+   
+ 
     const getImageSrc = (imageName) => {
-        return require(`../../assests/${imageName}`);
-    };
+        return require(`../../../../backend/images/store/${imageName}`)
+      };
+    
 
     const handleIncrease = (index) => {
         const newLikes = [...likes];
         newLikes[index] += 1;
         setLikes(newLikes);
-        likefunc(newLikes[index], index + 1);
+        likefunc(newLikes[index]);
     };
 
     const handleIncrease1 = (index) => {
         const newHearts = [...hearts];
         newHearts[index] += 1;
         setHearts(newHearts);
-        heartfunc(newHearts[index], index + 1);
+        heartfunc(newHearts[index]);
     };
 
     const handleDecrease1 = (index) => {
         const newHearts = [...hearts];
         newHearts[index] -= 1;
         setHearts(newHearts);
-        heartfunc(newHearts[index], index + 1);
+        heartfunc(newHearts[index]);
 
     };
 
@@ -83,34 +77,34 @@ const Blog = () => {
         const newLikes = [...likes];
         newLikes[index] -= 1;
         setLikes(newLikes);
-        likefunc(newLikes[index], index + 1);
+        likefunc(newLikes[index]);
     };
-    const events = async()=>{
-        try{
+    const events = async () => {
+        try {
             const res = await axios.get('http://localhost:5000/pet_care/common/event')
             const data = await res.data
             return data;
 
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
     }
-    const heartfunc = async (hearts, index) => {
+    const heartfunc = async (hearts) => {
         try {
             const res = await axios.post('http://localhost:5000/pet_care/common/heartfunc', {
                 hearts,
-                index
+                postid
             });
         } catch (err) {
             console.log(err);
         }
     };
 
-    const likefunc = async (likes, index) => {
+    const likefunc = async (likes) => {
         try {
             const res = await axios.post('http://localhost:5000/pet_care/common/likefunc', {
                 likes,
-                index
+                postid
             });
         } catch (err) {
             console.log(err);
@@ -131,9 +125,11 @@ const Blog = () => {
             console.log("There is an internal error");
         }
     };
-
+  
     const sendrequest = async () => {
-        const res = await axios.get("http://localhost:5000/pet_care/common/blog").catch((err) => console.log(err));
+      
+    
+        const res = await axios.get(`http://localhost:5000/pet_care/common/blog/${value1}`)
 
         const data = await res.data;
 
@@ -141,17 +137,17 @@ const Blog = () => {
     };
 
     const getrequest = async (id, postIndex) => {
-        const res = await axios.get(`http://localhost:5000/pet_care/common/comment/${id}`).catch((err) => console.log(err));
+        const res = await axios.get(`http://localhost:5000/pet_care/common/comment/${id}`)
         const data = await res.data;
         const newComments = [...oldComments];
         newComments[postIndex] = data.data;
         setOldComments(newComments);
     };
     useEffect(() => {
-        events().then((data)=>{
+        events().then((data) => {
             setevent(data.data)
 
-        }).catch((err)=>console.log(err))
+        }).catch((err) => console.log(err))
 
     })
     useEffect(() => {
@@ -173,7 +169,7 @@ const Blog = () => {
             setClickButton(initialClickButton);
             setClickButton1(initialClickButton1);
         }).catch((err) => console.log(err));
-    }, []);
+    }, [value1]);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -193,7 +189,7 @@ const Blog = () => {
         };
     }, []);
 
-    const all_function = (index, postIndex) => {
+    const all_function = (index, postIndex,postid) => {
         if (clickButton[postIndex]) {
             handleIncrease(index);
             const newIcon = [...icon];
@@ -202,6 +198,7 @@ const Blog = () => {
             newClickButton[postIndex] = false;
             setIcon(newIcon);
             setClickButton(newClickButton);
+            setpostid(postid)
         } else {
             handleDecrease(index);
             const newIcon = [...icon];
@@ -210,10 +207,11 @@ const Blog = () => {
             newClickButton[postIndex] = true;
             setIcon(newIcon);
             setClickButton(newClickButton);
+            setpostid(postid)
         }
     };
-
-    const all_function1 = (index, postIndex) => {
+    const [postid , setpostid ] = useState("")
+    const all_function1 = (index, postIndex,postid) => {
         if (clickButton1[postIndex]) {
             handleIncrease1(index);
             const newIcon1 = [...icon1];
@@ -222,6 +220,8 @@ const Blog = () => {
             newClickButton1[postIndex] = false;
             setIcon1(newIcon1);
             setClickButton1(newClickButton1);
+           
+            setpostid(postid)
         } else {
             handleDecrease1(index);
             const newIcon1 = [...icon1];
@@ -230,6 +230,7 @@ const Blog = () => {
             newClickButton1[postIndex] = true;
             setIcon1(newIcon1);
             setClickButton1(newClickButton1);
+            setpostid(postid)
         }
     };
 
@@ -251,7 +252,7 @@ const Blog = () => {
 
     return (
         <>
-       
+
             <Box sx={{ width: '100%', height: '80vh', backgroundImage: `url(${dogBackground})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center', transition: 'background-image 0.7s ease-in-out' }} />
             <div style={{ display: 'flex', alignItems: 'center', paddingLeft: '35%', paddingTop: '4%' }}>
                 <img
@@ -275,238 +276,238 @@ const Blog = () => {
                     <Tab sx={{ backgroundColor: value === 1 ? 'orange' : 'white', color: "black" }} label="Competitions" />
                 </Tabs>
             </Box>
-            {value === 0 &&(
-                 <Grid sx={{ marginTop: '4%', marginBottom: '10%' }}>
-                 <Box sx={{ minWidth: 100 }}>
-                     <FormControl sx={{ width: '30%', marginLeft: '10%' }} >
-                         <InputLabel id="demo-simple-select-label">Content</InputLabel>
-                         <Select
-                             labelId="demo-simple-select-label"
-                             id="demo-simple-select"
-                             value={value1}
-                             onChange={handleChange1}
-                         >
-                             <MenuItem value={10}>Health of Pets</MenuItem>
-                             <MenuItem value={20}>Harassment of Pets</MenuItem>
-                             <MenuItem value={30}>Charitable Posts</MenuItem>
-                         </Select>
-                     </FormControl>
-                 </Box>
-                 {blog.filter((menu, index) => menu.content === filterCondition).map((menu, index) => (
-                     <React.Fragment key={menu.post_id}>
-                         <Card
-                             sx={{
-                                 marginRight: '25%',
-                                 marginLeft: '25%',
-                                 maxWidth: "100%",
-                                 border: "10px",
-                                 borderRadius: '10px',
-                                 marginTop: '35px',
-                             }}
-                         >
-                             <CardActionArea>
-                                 <div style={{ display: 'flex' }}>
-                                     <div style={{ width: show && formIndex === index ? '60%' : '100%' }}>
-                                         <CardMedia
-                                             sx={{ height: "400px" }}
-                                             component={"img"}
-                                             src={getImageSrc(menu.image)}
-                                             alt={menu.description}
-                                         />
-                                     </div>
-                                     {show && formIndex === index && (
-                                         <div style={{ width: '50%', marginTop: '5px', marginLeft: '3px', marginRight: '3px', height: 'auto' }}>
-                                             <Paper>
-                                                 <Typography>
-                                                     <Stack direction="row" spacing={2}>
-                                                         <Typography sx={{ paddingTop: '10px', paddingBottom: '5px' }}>
-                                                             {oldComments[index] && oldComments[index].map((com, comIndex) => (
-                                                                 <div style={{ display: 'flex' }} key={comIndex}>
-                                                                     <div style={{ display: 'inline', marginBottom: '5px' }}>
-                                                                         <Avatar>H</Avatar>
-                                                                     </div>
-                                                                     <div style={{ display: 'inline', marginTop: '6px', marginLeft: '5px' }}>
-                                                                         <Typography>{com.comments}</Typography>
-                                                                     </div>
-                                                                 </div>
-                                                             ))}
-                                                         </Typography>
-                                                     </Stack>
-                                                 </Typography>
-                                             </Paper>
-                                         </div>
-                                     )}
-                                 </div>
-                                 <CardContent>
-                                     <Typography variant="h4" gutterBottom component={"div"} sx={{ color: 'black' }}>
-                                         {menu.name}
-                                     </Typography>
-                                     <List>
-                                         <ListItem sx={{ display: 'inline' }}>
-                                             <div style={{ display: 'flex' }}>
-                                                 <TodayIcon />
-                                                 <Typography sx={{ paddingLeft: '5px' }}>
-                                                     {menu.posted_date}
-                                                 </Typography>
-                                             </div>
-                                             <div style={{ display: 'flex', marginTop: '15px' }}>
-                                                 <AlarmIcon />
-                                                 <Typography sx={{ paddingLeft: '5px' }}>
-                                                     {menu.posted_time}
-                                                 </Typography>
-                                             </div>
-                                         </ListItem>
-                                     </List>
-                                     <Typography variant="h6" gutterBottom component={"div"} sx={{ color: "#949494", fontSize: "15px" }}>
-                                         {menu.description}
-                                     </Typography>
-                                 </CardContent>
-                             </CardActionArea>
-                            
-                             <CardActions sx={{ marginTop: 'auto' }}>
-                         
- 
-                                 {clickButton[index] && (
-                                     <IconButton color="primary" onClick={() => all_function(index, index)}>
-                                         <ThumbUpIcon />
-                                     </IconButton>
-                                     
-                                    
-                                 )}
-                                 
-                               
-                                 {!clickButton[index] && (
-                                     <IconButton color="primary" onClick={() => all_function(index, index)}>
-                                         <ThumbUpIcon />
-                                     </IconButton>
-                                 )}
-                                   {likes[index]}
-                                 {clickButton1[index] && (
-                                     <IconButton color="primary" onClick={() => all_function1(index, index)}>
-                                         <FavoriteIcon sx={{ color: 'red' }} />
-                                        
-                                     </IconButton>
-                                 )}
-                                 {!clickButton1[index] && (
-                                     <IconButton color="primary" onClick={() => all_function1(index, index)}>
-                                         <FavoriteIcon sx={{ color: 'red' }} />
-                                        
-                                     </IconButton>
-                                 )}
-                               
-                                             {hearts[index]}
-                                      
-                                 <TextField
-                                     id="outlined-basic"
-                                     placeholder="Comment here......."
-                                     variant="outlined"
-                                     size="small"
-                                     onChange={(e) => setComments(e.target.value)}
-                                     sx={{ width: '35%', marginLeft: '25px', borderRadius: '90px' }}
-                                 />
-                                 <IconButton onClick={() => showForm(index, menu.post_id, index)}>
-                                     <SendIcon sx={{ color: 'black' }} />
-                                 </IconButton>
-                                 <IconButton onClick={() => closeApp(index, index)}>
-                                     <ArrowBackIosIcon sx={{ color: 'black' }} />
-                                 </IconButton>
-                                 <Grid sx={{ paddingLeft: '10%' }}>{dateJoined}</Grid>
-                             </CardActions>
-                         </Card>
-                     </React.Fragment>
-                 ))}
-             </Grid>
+            {value === 0 && (
+                <Grid sx={{ marginTop: '4%', marginBottom: '10%' }}>
+                    <Box sx={{ minWidth: 100 }}>
+                        <FormControl sx={{ width: '30%', marginLeft: '10%' }} >
+                            <InputLabel id="demo-simple-select-label">Content</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={value1}
+                                onChange={handleChange1}
+                            >
+                                <MenuItem value={10}>Health of Pets</MenuItem>
+                                <MenuItem value={20}>Harassment of Pets</MenuItem>
+                                <MenuItem value={30}>Charitable Posts</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
+                    {blog.map((menu, index) => (
+                        <React.Fragment key={menu.post_id}>
+                            <Card
+                                sx={{
+                                    marginRight: '25%',
+                                    marginLeft: '25%',
+                                    maxWidth: "100%",
+                                    border: "10px",
+                                    borderRadius: '10px',
+                                    marginTop: '35px',
+                                }}
+                            >
+                                <CardActionArea>
+                                    <div style={{ display: 'flex' }}>
+                                        <div style={{ width: show && formIndex === index ? '60%' : '100%' }}>
+                                            <CardMedia
+                                                sx={{ height: "400px" }}
+                                                component={"img"}
+                                                src={getImageSrc(menu.image)}
+                                                alt={menu.description}
+                                            />
+                                        </div>
+                                        {show && formIndex === index && (
+                                            <div style={{ width: '50%', marginTop: '5px', marginLeft: '3px', marginRight: '3px', height: 'auto' }}>
+                                                <Paper>
+                                                    <Typography>
+                                                        <Stack direction="row" spacing={2}>
+                                                            <Typography sx={{ paddingTop: '10px', paddingBottom: '5px' }}>
+                                                                {oldComments[index] && oldComments[index].map((com, comIndex) => (
+                                                                    <div style={{ display: 'flex' }} key={comIndex}>
+                                                                        <div style={{ display: 'inline', marginBottom: '5px' }}>
+                                                                            <Avatar>H</Avatar>
+                                                                        </div>
+                                                                        <div style={{ display: 'inline', marginTop: '6px', marginLeft: '5px' }}>
+                                                                            <Typography>{com.comments}</Typography>
+                                                                        </div>
+                                                                    </div>
+                                                                ))}
+                                                            </Typography>
+                                                        </Stack>
+                                                    </Typography>
+                                                </Paper>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <CardContent>
+                                        <Typography variant="h4" gutterBottom component={"div"} sx={{ color: 'black' }}>
+                                            {menu.name}
+                                        </Typography>
+                                        <List>
+                                            <ListItem sx={{ display: 'inline' }}>
+                                                <div style={{ display: 'flex' }}>
+                                                    <TodayIcon />
+                                                    <Typography sx={{ paddingLeft: '5px' }}>
+                                                        {menu.posted_date}
+                                                    </Typography>
+                                                </div>
+                                                <div style={{ display: 'flex', marginTop: '15px' }}>
+                                                    <AlarmIcon />
+                                                    <Typography sx={{ paddingLeft: '5px' }}>
+                                                        {menu.posted_time}
+                                                    </Typography>
+                                                </div>
+                                            </ListItem>
+                                        </List>
+                                        <Typography variant="h6" gutterBottom component={"div"} sx={{ color: "#949494", fontSize: "15px" }}>
+                                            {menu.description}
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+
+                                <CardActions sx={{ marginTop: 'auto' }}>
+
+
+                                    {clickButton[index] && (
+                                        <IconButton color="primary" onClick={() => all_function(index, index,menu.post_id)}>
+                                            <ThumbUpIcon />
+                                        </IconButton>
+
+
+                                    )}
+
+
+                                    {!clickButton[index] && (
+                                        <IconButton color="primary" onClick={() => all_function(index, index,menu.post_id)}>
+                                            <ThumbUpIcon />
+                                        </IconButton>
+                                    )}
+                                    {likes[index]}
+                                    {clickButton1[index] && (
+                                        <IconButton color="primary" onClick={() => all_function1(index, index,menu.post_id)}>
+                                            <FavoriteIcon sx={{ color: 'red' }} />
+
+                                        </IconButton>
+                                    )}
+                                    {!clickButton1[index] && (
+                                        <IconButton color="primary" onClick={() => all_function1(index, index,menu.post_id)}>
+                                            <FavoriteIcon sx={{ color: 'red' }} />
+
+                                        </IconButton>
+                                    )}
+
+                                    {hearts[index]}
+
+                                    <TextField
+                                        id="outlined-basic"
+                                        placeholder="Comment here......."
+                                        variant="outlined"
+                                        size="small"
+                                        onChange={(e) => setComments(e.target.value)}
+                                        sx={{ width: '35%', marginLeft: '25px', borderRadius: '90px' }}
+                                    />
+                                    <IconButton onClick={() => showForm(index, menu.post_id, index)}>
+                                        <SendIcon sx={{ color: 'black' }} />
+                                    </IconButton>
+                                    <IconButton onClick={() => closeApp(index, index)}>
+                                        <ArrowBackIosIcon sx={{ color: 'black' }} />
+                                    </IconButton>
+                                    <Grid sx={{ paddingLeft: '10%' }}>{dateJoined}</Grid>
+                                </CardActions>
+                            </Card>
+                        </React.Fragment>
+                    ))}
+                </Grid>
 
             )}
-            {value === 1 &&(
-                  <Grid sx={{ marginTop: '150px' }}>
-                  {events_company && events_company.map((menu, index) => (
-                      <Card
+            {value === 1 && (
+                <Grid sx={{ marginTop: '150px' }}>
+                    {events_company && events_company.map((menu, index) => (
+                        <Card
 
 
-                          sx={{
-                              marginRight: '25%',
-                              marginLeft: '25%',
-                              maxWidth: "100%",
-                              border: "10px",
-                              borderRadius: '10px',
-                              marginTop: '35px',
+                            sx={{
+                                marginRight: '25%',
+                                marginLeft: '25%',
+                                maxWidth: "100%",
+                                border: "10px",
+                                borderRadius: '10px',
+                                marginTop: '35px',
 
-                          }}
-                      >
-                          <CardActionArea>
-                              <div style={{ display: 'flex' }}>
-                                  <div style={{ width: show && formIndex === index ? '60%' : '100%' }}>
-                                      <CardMedia
-                                          sx={{ height: "400px" }}
-                                          component={"img"}
-                                          src={getImageSrc(menu.file)}
-                                          alt={menu.description}
-                                      />
-                                  </div>
-                                  {show && formIndex === index && (
-                                      <div style={{ width: '50%', marginTop: '5px', marginLeft: '3px', marginRight: '3px', height: 'auto' }}>
-                                          <Paper >
-                                              <Typography>
+                            }}
+                        >
+                            <CardActionArea>
+                                <div style={{ display: 'flex' }}>
+                                    <div style={{ width: show && formIndex === index ? '60%' : '100%' }}>
+                                        <CardMedia
+                                            sx={{ height: "400px" }}
+                                            component={"img"}
+                                            src={getImageSrc(menu.file)}
+                                            alt={menu.description}
+                                        />
+                                    </div>
+                                    {show && formIndex === index && (
+                                        <div style={{ width: '50%', marginTop: '5px', marginLeft: '3px', marginRight: '3px', height: 'auto' }}>
+                                            <Paper >
+                                                <Typography>
 
-                                                  <Stack direction="row" spacing={2}>
-                                                    
-                                                      </Stack>
-                                              </Typography>
-                                          </Paper>
-                                      </div>
-                                  )}
-                              </div>
-                              <CardContent>
-                                  <Typography variant="h4" gutterBottom component={"div"} sx={{ color: 'black' }} >
-                                      {menu.name}
-                                  </Typography>
-                                  <List>
-                                      <ListItem sx={{ display: 'inline' }}>
+                                                    <Stack direction="row" spacing={2}>
 
-                                          <div style={{ display: 'flex' }}>
-                                              <TodayIcon />
-                                              <Typography sx={{ paddingLeft: '5px' }}>
-                                                Posted Date :  {menu.date}
-                                              </Typography>
+                                                    </Stack>
+                                                </Typography>
+                                            </Paper>
+                                        </div>
+                                    )}
+                                </div>
+                                <CardContent>
+                                    <Typography variant="h4" gutterBottom component={"div"} sx={{ color: 'black' }} >
+                                        {menu.name}
+                                    </Typography>
+                                    <List>
+                                        <ListItem sx={{ display: 'inline' }}>
 
-                                          </div>
+                                            <div style={{ display: 'flex' }}>
+                                                <TodayIcon />
+                                                <Typography sx={{ paddingLeft: '5px' }}>
+                                                    Posted Date :  {menu.date}
+                                                </Typography>
 
-                                          <div style={{ display: 'flex', marginTop: '15px' }}>
-                                              <AlarmIcon />
+                                            </div>
 
-
-                                              <Typography sx={{ paddingLeft: '5px' }}>
-                                                Posted Time :  {menu.time}
-                                              </Typography>
+                                            <div style={{ display: 'flex', marginTop: '15px' }}>
+                                                <AlarmIcon />
 
 
-                                          </div>
-                                          <div style={{ display: 'flex' }}>
-                                           
-                                              <Typography sx={{ paddingLeft: '5px',fontSize:'24px' }}>
-                                                Entry Fee :  Rs.{menu.pay}
-                                              </Typography>
+                                                <Typography sx={{ paddingLeft: '5px' }}>
+                                                    Posted Time :  {menu.time}
+                                                </Typography>
 
-                                          </div>
 
-                                      </ListItem>
+                                            </div>
+                                            <div style={{ display: 'flex' }}>
 
-                                  </List>
-                                  <ListItem>
+                                                <Typography sx={{ paddingLeft: '5px', fontSize: '24px' }}>
+                                                    Entry Fee :  Rs.{menu.pay}
+                                                </Typography>
 
-                                  </ListItem>
-                                  <Typography variant="h6" gutterBottom component={"div"} sx={{ color: "#949494", fontSize: "15px" }} >
-                                      {menu.description}
-                                  </Typography>
-                              </CardContent>
-                          </CardActionArea>
+                                            </div>
 
-                      </Card>
-                  ))}
-              </Grid>
+                                        </ListItem>
+
+                                    </List>
+                                    <ListItem>
+
+                                    </ListItem>
+                                    <Typography variant="h6" gutterBottom component={"div"} sx={{ color: "#949494", fontSize: "15px" }} >
+                                        {menu.description}
+                                    </Typography>
+                                </CardContent>
+                            </CardActionArea>
+
+                        </Card>
+                    ))}
+                </Grid>
             )}
-           
+
         </>
     );
 };

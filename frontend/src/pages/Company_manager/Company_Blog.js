@@ -60,13 +60,11 @@ const Company_Blog = () => {
   const [show, setShow] = useState(false);
 
   const getImageSrc = (imageName) => {
-    return require(`../../assests/${imageName}`);
+    return require(`../../../../backend/images/store/${imageName}`)
   };
 
   const sendrequest = async () => {
-    const res = await axios
-      .get("http://localhost:5000/pet_care/company_manager/blog")
-      .catch((err) => console.log(err));
+    const res = await axios.get("http://localhost:5000/pet_care/company_manager/blog")
     const data = await res.data;
     return data;
   };
