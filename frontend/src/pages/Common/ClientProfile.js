@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import { Button, FormLabel, Typography, IconButton, Stack, Alert } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { TextField, FormControl } from "@mui/material";
@@ -48,6 +49,8 @@ const Profile = () => {
                 seterror(true)
                 setmessage("There is an internal error")
             } else {
+                seterror(false)
+                seterror1(false)
                 setupdate(true)
                 setmain(false)
                 setviewclient(res.data.data)
@@ -57,34 +60,33 @@ const Profile = () => {
         }
     }
 
-    const [city, setcity] = useState("")
-    const [street, setstreet] = useState("")
-    const [contact, setcontact] = useState("")
+    const [city, setcity] = useState(null)
+    const [street, setstreet] = useState(null)
+    const [contact, setcontact] = useState(null)
 
     const [error1, seterror1] = useState(false)
     const [message1, setmessage1] = useState("")
 
     // updating profile
     const updateClient = async () => {
-        if (contact === "" || street === "" || city === "") {
-            seterror1(true)
-            setmessage1('Please fill all fields')
-            return;
-        }
+        const updatedCity = city === null ? profiledetails.map((menu,index)=>menu.city) : city;
+        const updatedStreet = street === null ?  profiledetails.map((menu,index)=>menu.street): street;
+        const updatedContact = contact === null ?  profiledetails.map((menu,index)=>menu.contact_number): contact;
+      
+       
         try {
             const res = await axios.post(`http://localhost:5000/pet_care/common/updateClient`, {
                 email,
-                contact,
-                street,
-                city
+                contact: updatedContact,
+                street: updatedStreet,
+                city: updatedCity
             });
             if (res.data.message === 'There is an internal error') {
                 setmessage1('Internal error')
                 seterror1(true)
             } else if (res.data.message === 'success') {
-                // setviewclient(false)
-                setmain(true)
-                setupdate(false)
+                seterror1(true)
+                setmessage1("Successfully Updated!!")
             }
 
         } catch (err) {
@@ -299,7 +301,7 @@ const Profile = () => {
                                 </div>
                                 {error1 && (
                                     <Stack sx={{ width: '100%' }} spacing={2}>
-                                        <Alert severity="error">{message1}</Alert>
+                                        <Alert severity="info">{message1}</Alert>
                                     </Stack>
                                 )}
                             </FormControl>
@@ -336,7 +338,7 @@ const Profile = () => {
                             <Typography sx={{ textAlign: 'center' }}>Confirm Remove? </Typography>
                             <hr /><br />
 
-                            <div style={{ display: 'flex', flexDirection: 'row', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
                                 <Button onClick={deleteProfile} sx={{ backgroundColor: 'orange', color: 'white', margin: '10px', ':hover': { backgroundColor: 'orange' } }}>Confirm</Button>
                                 <Button onClick={cancelDelete} sx={{ backgroundColor: 'red', color: 'white', margin: '10px', ':hover': { backgroundColor: 'red' } }}>Cancel</Button>
                             </div>

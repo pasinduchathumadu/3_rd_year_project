@@ -2,11 +2,22 @@ import { da } from 'date-fns/locale';
 import { db } from '../database.js';
 
 export const blog = async (req, res, next) => {
+    const id = req.params.id
+    var filterCondition = "";
+
+    if (id === "10") {
+        filterCondition = "Health of Pets";
+    } else if (id=== "20") {
+        filterCondition = "Harassment of Pets";
+    } else if (id === "30") {
+        filterCondition = "Charitable Posts";
+    }
     const status = "posted"
 
-    const sqlQuery = "select *from client_post WHERE blog_status = ?"
+    const sqlQuery = "select *from client_post WHERE blog_status = ? AND content = ?"
     const value = [
-        status
+        status,
+        filterCondition
     ]
     db.query(sqlQuery,value,(err, data) => {
         if (err) {
@@ -170,9 +181,9 @@ export const updateClient = async (req, res, next) => {
 
 export const likefunc = async (req, res, next) => {
     try {
-      const { likes, index } = req.body;
+      const { likes, postid} = req.body;
       const sqlQuery = "UPDATE client_post SET likes = ? WHERE post_id = ?";
-      const values = [likes, index];
+      const values = [likes, postid];
 
 
       db.query(sqlQuery, values, (err, data) => {
@@ -190,10 +201,11 @@ export const likefunc = async (req, res, next) => {
   
   export const heartfunc = async (req, res, next) => {
     try {
-      const { hearts, index } = req.body;
+      const { hearts, postid } = req.body;
+      
     
       const sqlQuery = "UPDATE client_post SET heart = ? WHERE post_id = ?";
-      const values = [hearts, index];
+      const values = [hearts, postid];
       db.query(sqlQuery, values, (err, data) => {
         if (err) {
           console.error(err); // Log the error

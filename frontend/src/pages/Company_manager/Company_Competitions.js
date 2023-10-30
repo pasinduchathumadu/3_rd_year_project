@@ -156,27 +156,22 @@ function Company_Competitions() {
   const [second, setSecond] = useState(false);
   const [id, setid] = useState("");
 
-  const [clients, setClients] = React.useState('1');
-  const handleChange = (event) => {
-    setClients(event.target.value);
-
-    getCompetitions()
-  };
-
+  
+ 
   const getCompetitions = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/pet_care/company_manager/get_competitions/${clients}`
+        `http://localhost:5000/pet_care/company_manager/get_competitions`
       )
       setCom(res.data.data)
     } catch (err) {
       console.log(err);
-      console.log(clients);
+     
     }
   };
   useEffect(() => {
     getCompetitions()
-  }, [clients, getCompetitions]);
+  }, []);
 
 
   const close = () => {
@@ -251,23 +246,7 @@ function Company_Competitions() {
               </Button>
             </Box>
 
-            <Box sx={{ width: '10%', marginLeft: '90%', marginBottom: '1%' }}>
-              <FormControl fullWidth>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-
-                  variant='filled'
-
-                  onChange={handleChange}
-                  l
-                  sx={{ fontSize: '12px' }}>
-                  <MenuItem value={1}>All</MenuItem>
-                  <MenuItem value={2}>Pending</MenuItem>
-                  <MenuItem value={3}>Completed</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
+            
 
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 700 }} aria-label="customized table">
