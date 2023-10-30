@@ -86,7 +86,7 @@ function AddBlog() {
         }
     }
     const getImageSrc = (imageName) => {
-        return require(`../../assests/${imageName}`)
+        return require(`../../../../backend/images/store/${imageName}`)
     };
     const handleFileUpload = async () => {
         seterror(false)

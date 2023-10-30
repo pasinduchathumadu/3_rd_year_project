@@ -61,9 +61,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar({ userRole }) {
+  const [click , setclick ] = React.useState(true)
   const navigate = useNavigate();
   const handlebank = ()=>{
-    navigate('/bankdetails')
+    if(click){
+      setclick(false)
+      navigate('/bankdetails')
+    }
+    else{
+      setclick(true)
+      navigate('/dashboard')
+    }
+  
   }
   const [state, setState] = React.useState({
     top: false,
@@ -103,16 +112,17 @@ export default function PrimarySearchAppBar({ userRole }) {
     handleMobileMenuClose();
   };
 
-  // const handleMenuCloseProfile = () => {
-  //   // setAnchorEl(null);
-  //   // handleMobileMenuClose();
-
-  // };
-
-  // const navigate = useNavigate("")
-  // connect profile
+ const [profileclick , setprofileclick ] = React.useState(true)
   const profile = () => {
+    if(profileclick){
+      setprofileclick(false)
       navigate("/profile")
+    }
+    else{
+      setprofileclick(true)
+      navigate('/dashboard')
+    }
+      
   }
 
    // get profile picture
