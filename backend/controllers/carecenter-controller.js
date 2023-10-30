@@ -654,3 +654,127 @@ export const assigned = async(req,res,next)=>{
         }
     })
 }
+
+// PACKAGES
+// submit a new package - basic details
+export const SubmitAddPackage = async(req,res,next) => {
+    const {
+        name,
+        price,
+        
+    } = req.body;
+
+    const checkQuery = 'SELECT COUNT(package_id) AS count FROM carecenter_package'
+    
+    db.query(checkQuery,(err,data1) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }else if(data1[0].count === 3) {
+           return res.json({message:'Already have 3 packages'})
+       }
+
+       const sqlQuery = 'INSERT INTO carecenter_package(package_name, price) VALUES (?,?)'
+       const values = [name, price]
+
+       db.query(sqlQuery, values, (err,data2) => {
+           if(err) {
+               return res.json({message:'There is an internal error'})
+           }
+           return res.json({message:'success'})
+       })
+    })
+}
+
+// get id and name for add facility form
+export const getDetails = async(req,res,next) => {
+    const sqlQuery = 'SELECT * FROM carecenter_package'
+
+    db.query(sqlQuery, (err, data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+// submit add facility form
+export const submitFacilityForm = async(req,res,next) => {
+    const {
+        bpckg,
+        newfacility
+    }= req.body;
+
+    const sqlQuery = 'INSERT INTO carecenter_package_facility (package_id, facility) VALUES(?,?)'
+    const values = [bpckg, newfacility]
+
+    db.query(sqlQuery, values,(err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({message:'success'})
+    })
+}
+
+// view facilities
+export const viewFacilities = async(req,res,next) => {
+    const id = req.params.id
+
+    const sqlQuery = 'SELECT * FROM carecenter_package_facility WHERE package_id = ?'
+    const values = [id]
+    db.query(sqlQuery, values, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+
+// get price for update form
+export const getPrice = async(req,res,next) => {
+    const id = req.params.id
+    const sqlQuery = 'SELECT * FROM carecenter_package WHERE package_id = ?'
+    const values = [id]
+
+    db.query(sqlQuery, values, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+// submit price changes form
+export const SubmitNewPrice = async(req,res,next) => {
+    const {
+        id,
+        newprice,
+    } = req.body;
+
+    const sqlQuery = 'UPDATE carecenter_package SET price = ? WHERE package_id = ?'
+    const values = [newprice, id]
+
+    db.query(sqlQuery, values,(err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({message:'updated'})
+    })
+}
+
+// delete a package
+export const deletePackage = async(req,res,next) => {
+    const id = req.params.id1
+
+    const sqlQuery = 'DELETE FROM carecenter_package WHERE package_id = ?'
+    const values = [id]
+
+    db.query(sqlQuery, values, (err, data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({message:'deleted'})
+    })
+
+}
+
