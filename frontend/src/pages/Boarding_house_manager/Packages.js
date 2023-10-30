@@ -28,7 +28,9 @@ const Packages = () => {
     const [addfacility, setaddfacility] = useState(false); //add  package facilities
     const [openfacility, setopenfacility] = useState(false); //view package facilities
     const [updateprice, setupdateprice] = useState(false); //update price
-    const [warn, setwarn] = useState(false) //warning
+    const [warn, setwarn] = useState(false)
+    const [selectfile, setfile] = useState(null)
+    const [image, setimage] = useState("") //warning
 
 
     const input = new Date();
@@ -64,6 +66,7 @@ const Packages = () => {
         setupdateprice(false)
         setaddfacility(false)
         setwarn(false)
+        
     }
     const [error, seterror] = useState(false)
     const [message, setmessage] = useState("")
@@ -81,7 +84,8 @@ const Packages = () => {
             const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/submitBasicDetails`, {
                 name,
                 price,
-                color
+                color,
+                image
             })
             if (res.data.message === 'There is an internal error') {
                 seterror(true)
@@ -281,6 +285,35 @@ const Packages = () => {
         }
 
     }
+    const handlefilechange = async (event) => {
+        const file = event.target.files[0]
+        setfile(file)
+        setimage(file.name)
+      }
+    const handleFileUpload = async () => {
+        seterror(false)
+      
+    
+        try {
+          const formData = new FormData();
+          formData.append("image", selectfile);
+    
+          const res = await axios.post("http://localhost:5000/pet_care/user/upload", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+          if (res.data.message === "File uploaded successfully") {
+            submitBasicDetails()
+          }
+    
+          console.log("File uploaded successfully!");
+          // Add any further handling of the response from the backend if needed.
+    
+        } catch (err) {
+          console.log("There is an internal error", err);
+        }
+      }
 
 
 
@@ -413,7 +446,7 @@ const Packages = () => {
                             />
                         </div>
 
-                        {/* <div>
+                        <div>
                         <Button
                             variant="contained"
                             component="label"
@@ -429,7 +462,7 @@ const Packages = () => {
 
                             )}
                         </div>                                   
-                    </div> */}
+                    </div> 
 
                         {error && (
                             <Stack sx={{ width: '100%' }} spacing={2}>
@@ -438,7 +471,7 @@ const Packages = () => {
                         )}
 
                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '10px', marginBottom: '10px' }}>
-                            <Button variant="contained" sx={{ background: "orange", marginTop: '1%', marginLeft: '30%', ':hover': { backgroundColor: "#fe9e0d" }, width: '40%' }} onClick={() => submitBasicDetails()}>Submit</Button>
+                            <Button variant="contained" sx={{ background: "orange", marginTop: '1%', marginLeft: '30%', ':hover': { backgroundColor: "#fe9e0d" }, width: '40%' }} onClick={()=>handleFileUpload()}>Submit</Button>
                         </div>
 
                     </FormControl>

@@ -12,13 +12,16 @@ import {
     FormControl,
     InputLabel,
     Select,
-    MenuItem
+    MenuItem,
+    DialogActions,
+    IconButton
 } from "@mui/material";
 import { Grid, Box, Tab, Tabs, Button } from "@mui/material";
 import { useNavigate } from "react-router";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import axios from "axios";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import CloseIcon from '@mui/icons-material/Close';
 
 function Viw_vet() {
     const [menu, setemp] = useState([])
@@ -32,7 +35,7 @@ function Viw_vet() {
     const [dateStart, setDateStart] = useState("");
     const [dateEnd, setDateEnd] = useState("");
     const [count, setcount] = useState("")
-    const [ qualifications , setqualifications ] = useState("")
+    const [qualifications, setqualifications] = useState("")
     const [error, seterror] = useState(false)
     const [message, setmessage] = useState("")
     const [price, setprice1] = useState("")
@@ -56,10 +59,12 @@ function Viw_vet() {
         setfile(file)
         setimage(file.name)
     }
-    const [error1 ,seterror1 ] = useState(false)
-    const [message1 , setmessage1 ] = useState('')
+    const [error1, seterror1] = useState(false)
+    const [message1, setmessage1] = useState('')
 
-
+    const handleClose1 = () => {
+        setopen1(false)
+    }
     const openPopup = (id) => {
         setid(id)
         setIsPopupOpen(true);
@@ -98,6 +103,7 @@ function Viw_vet() {
     const removevet = () => {
         getid()
     }
+  
     const getid = async () => {
         try {
             const res = await axios.get('http://localhost:5000/pet_care/medi_help_manager/remove')
@@ -148,7 +154,7 @@ function Viw_vet() {
     }
 
     const removed = async () => {
-        if(selectedID === "" || reason === ""){
+        if (selectedID === "" || reason === "") {
             seterror(true)
             setmessage("Please be filled the required fields!!")
             return
@@ -291,6 +297,48 @@ function Viw_vet() {
         return require(`../../../../backend/images/store/${imageName}`)
 
     }
+    const [assigned, setassign] = useState("")
+    const [open1, setopen1] = useState(false)
+    const reassign = () => {
+        seterror(false)
+        getassign()
+    }
+    const  getassign = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/pet_care/medi_help_manager/remove')
+            setvetid(res.data.data)
+            setopen1(true)
+
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    const handleassign = (event) => {
+        setassign(event.target.value)
+    }
+    const assignemp = async () => {
+        if (assigned === "") {
+            seterror(true)
+            setmessage("Please be selected Employee")
+            return
+        }
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/medi_help_manager/assign/${assigned}`)
+            if (res.data.message === "assigned") {
+                seterror(true)
+                setmessage("Successfully Re-Assigned The Vet")
+            }
+            if (res.data.message === "exist") {
+                seterror(true)
+                setmessage("Already In working Can not be re-assigned")
+            }
+
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
     return (
         <>
@@ -341,6 +389,7 @@ function Viw_vet() {
                 </Box>
 
                 <Button onClick={() => switchtoadd()} sx={{ backgroundColor: 'black', color: 'white', width: '10%', borderRadius: '5%', marginLeft: '0%', ':hover': { backgroundColor: 'black' } }}><AddIcon />Add Vet</Button>
+                <Button onClick={() => reassign()} sx={{ backgroundColor: 'black', color: 'white', width: '13%', borderRadius: '5%', marginLeft: '30%', ':hover': { backgroundColor: 'black' } }}><AddIcon />Re - Assign Vet</Button>
                 <Button onClick={() => removevet()} sx={{ backgroundColor: 'black', color: 'white', width: '10%', borderRadius: '5%', marginLeft: '0%', ':hover': { backgroundColor: 'black' }, float: 'right', marginRight: '5%' }}><AddIcon />Remove Vet</Button>
             </Grid>
 
@@ -576,6 +625,73 @@ function Viw_vet() {
                     Update
                 </Button>
             </Dialog>
+            <Dialog
+                open={open1}
+                onClose={handleClose1}
+
+                fullWidth
+            >
+
+                <DialogTitle id="alert-dialog-title">
+                    {"Re - Assigned The Vet"}
+                    <IconButton
+                        aria-label="close"
+                        onClick={handleClose1}
+                        sx={{
+                            position: "absolute",
+                            right: 8,
+                            top: 8,
+                            color: (theme) => theme.palette.grey[500],
+                        }}
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                </DialogTitle>
+                <DialogContent>
+                    <form action="">
+                        <Box>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Select Vet</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={assigned}
+                                    label="Vet ID"
+                                    onChange={handleassign}
+                                >
+                                    {vetid.map((row, index) => (
+                                        <MenuItem value={row.vet_id} key={row.vet_id}>Dr.{row.first_name + " " + row.last_name}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Box>
+
+
+                    </form>
+                </DialogContent>
+                {error && (
+                    <Stack sx={{ width: '100%' }} spacing={2}>
+
+                        <Alert severity="info">{message}</Alert>
+                    </Stack>
+                )}
+                <DialogActions>
+
+                    <Button variant="outlined" color="secondary" onClick={handleClose1}>
+                        Cancel
+                    </Button>
+
+                    <Button
+                        onClick={assignemp}
+                        variant="outlined"
+                        color="secondary"
+                        type="submit"
+                    >
+                        Submit
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
             <Dialog open={isPopupOpen3} onClose={closePopup} fullWidth>
                 <DialogTitle sx={{ marginLeft: '40%', fontWeight: 'bold' }}>Add Vet</DialogTitle>
                 <hr />
@@ -659,7 +775,7 @@ function Viw_vet() {
                             </Select>
                         </FormControl>
                     </Box>
-                    <Typography sx={{marginTop:'1%'}}>Degree Qualifications</Typography>
+                    <Typography sx={{ marginTop: '1%' }}>Degree Qualifications</Typography>
                     <TextField
                         placeholder="Qualifications"
                         type="text"
@@ -690,7 +806,7 @@ function Viw_vet() {
                     </Stack>
                 </DialogContent>
                 {error1 && (
-                    <Stack sx={{ width: '75%', marginLeft: '3%',marginTop:'2%' }} spacing={2}>
+                    <Stack sx={{ width: '75%', marginLeft: '3%', marginTop: '2%' }} spacing={2}>
 
                         <Alert sx={{ width: '75%' }} severity="warning">{message1}</Alert>
 

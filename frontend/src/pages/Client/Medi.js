@@ -173,18 +173,27 @@ function Medi() {
       date_medi,
       email,
       id,
+      selectpet
 
 
     })
     if (res.data.message === "Appoinments are over") {
       seterror(true)
       setmessage("No more Appointments are placed!!")
+      return
+
+    }
+    if (res.data.message === "exisit") {
+      seterror(true)
+      setmessage("This pet already have an appointment that day")
+      return
 
     }
     if (res.data.message === "doctors is not free") {
 
       seterror(true)
       setmessage("Unavialable pick another day")
+      return
 
     }
     else {
