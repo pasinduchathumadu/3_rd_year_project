@@ -226,7 +226,23 @@ const Bording = () => {
       console.log(err)
     }
   }
+  const [facilities , setfacilities] = useState([])
 
+  const getfacilities = async()=>{
+    try{
+      const res = await axios.get('http://localhost:5000/pet_care/user/getfacilities')
+      const data = await res.data
+      return data
+
+    }catch(err){
+      console.log(err)
+    }
+  }
+  useEffect(()=>{
+    getfacilities()
+    .then((data)=>setfacilities(data.data))
+    .catch((err)=>console.log(err))
+  })
   useEffect(() => {
     getallpets()
       .then((data) => setpet(data.data))
@@ -257,21 +273,26 @@ const Bording = () => {
               <h1 style={{ fontSize: "22px", fontWeight: "1" }}>24 x 7 Service</h1>
             </div>
           </div>
-
+        
           <div style={{ width: "100%", height: "80vh", backgroundColor: "", display: "flex", padding: "100px" }}>
-            <div style={{
-              width: "33%", height: "70vh", backgroundImage: "linear-gradient(to left, #5d5d5d, #797979, #959595, #b3b3b3, #d2d2d2, #d2d2d2, #d1d1d1, #d1d1d1, #b1b1b1, #939292, #757475, #595858)",
-              marginRight: "auto", marginLeft: "auto", borderRadius: "8px"
-            }} data-aos="flip-left">
-              <img className="smooth-scroll" src={silver} alt="Cage" style={{ fontSize: "20px", width: "150px", height: "150px", marginLeft: "34%", marginTop: "-50px" }} />
-              <h1 style={{ color: "black", textAlign: "center", fontWeight: "1" }}>Rs.1000</h1>
-              <p style={{ color: "black", textAlign: "center", fontWeight: "2" }}>/ per day</p>
-              <ol style={{ listStyleType: 'none', padding: 0, textAlign: "center", marginTop: "20px", color: "black", fontSize: "20px" }}>
-                <li className="tick-icon">Foods with <b>normal brands</b></li>
-                <li className="tick-icon">Washing only</li>
-                <li className="tick-icon"><b>No</b> air condition apply </li>
-              </ol>
-            </div>
+          
+              <div style={{
+                width: "33%", height: "70vh", backgroundImage: "linear-gradient(to left, #5d5d5d, #797979, #959595, #b3b3b3, #d2d2d2, #d2d2d2, #d1d1d1, #d1d1d1, #b1b1b1, #939292, #757475, #595858)",
+                marginRight: "auto", marginLeft: "auto", borderRadius: "8px"
+              }} data-aos="flip-left">
+                <img className="smooth-scroll" src={silver} alt="Cage" style={{ fontSize: "20px", width: "150px", height: "150px", marginLeft: "34%", marginTop: "-50px" }} />
+                <h1 style={{ color: "black", textAlign: "center", fontWeight: "1" }}>{package1.filter((menu,index)=>menu.package_id ===1).map((menu)=>menu.price)}</h1>
+                <p style={{ color: "black", textAlign: "center", fontWeight: "2" }}>/ per day</p>
+                <ol style={{ listStyleType: 'none', padding: 0, textAlign: "center", marginTop: "20px", color: "black", fontSize: "20px" }}>
+                {facilities.filter((menu,index)=>menu.package_id === 1).map((menu)=>(
+                  <><li className="tick-icon"><b>{menu.facility}</b></li></>
+                  ))}
+
+                </ol>
+              </div>
+              
+          
+            
 
             <div
               style={{
@@ -286,14 +307,13 @@ const Bording = () => {
                 },
               }} data-aos="fade-up">
               <img className="smooth-scroll" src={platinum} alt="Cage" style={{ fontSize: "20px", width: "150px", height: "150px", marginLeft: "34%", marginTop: "-50px" }} />
-              <h1 style={{ color: "white", textAlign: "center", fontWeight: "1" }}>Rs.1500</h1>
-              <p style={{ color: "black", textAlign: "center", fontWeight: "2", color: 'white' }}>/ per day</p>
+              <h1 style={{ color: "white", textAlign: "center", fontWeight: "1" }}>{package1.filter((menu,index)=>menu.package_id ===2).map((menu)=>menu.price)}</h1>
+              <p style={{ color: "black", textAlign: "center", fontWeight: "2"}}>/ per day</p>
               <ol style={{ listStyleType: 'none', padding: 0, textAlign: "center", marginTop: "20px", color: "white", fontSize: "20px" }}>
-                <li className="tick-icon">Foods with <b>high brands</b></li>
-                <li className="tick-icon"><b>Free</b> washing with <b>high brands</b> ingrediants</li>
-                <li className="tick-icon"><b>Air conditional</b> apply</li>
-                <li className="tick-icon"><b>Free</b> spa</li>
-                <li className="tick-icon"><b>Comforting</b> medicine </li>
+              {facilities.filter((menu,index)=>menu.package_id === 2).map((menu)=>(
+                
+                <li className="tick-icon"><b>{menu.facility}</b></li>
+              ))}
               </ol>
             </div>
 
@@ -302,17 +322,17 @@ const Bording = () => {
               marginRight: "auto", marginLeft: "auto", borderRadius: "8px"
             }} data-aos="flip-right">
               <img className="smooth-scroll" src={gold} alt="Cage" style={{ fontSize: "20px", width: "150px", height: "150px", marginLeft: "34%", marginTop: "-50px" }} />
-              <h1 style={{ color: "black", textAlign: "center", fontWeight: "1" }}>Rs.1200</h1>
+              <h1 style={{ color: "black", textAlign: "center", fontWeight: "1" }}>{package1.filter((menu,index)=>menu.package_id ===3).map((menu)=>menu.price)}</h1>
               <p style={{ color: "black", textAlign: "center", fontWeight: "2" }}>/ per day</p>
               <ol style={{ listStyleType: 'none', padding: 0, textAlign: "center", marginTop: "20px", color: "black", fontSize: "20px" }}>
-                <li className="tick-icon">Foods  with <b>normal brands</b></li>
-                <li className="tick-icon"><b>Free </b> washing with <b>normal brand</b> ingrediants</li>
-                <li className="tick-icon"><b>Air conditional</b> apply</li>
-                <li className="tick-icon"><b>Free</b> spa</li>
+              {facilities.filter((menu,index)=>menu.package_id === 3).map((menu)=>(
+                
+                <li className="tick-icon"><b>{menu.facility}</b></li>
+              ))}
               </ol>
             </div>
           </div>
-
+        
           <div style={{
             marginRight: '2%',
 

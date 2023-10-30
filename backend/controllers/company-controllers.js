@@ -87,10 +87,10 @@ export const add_complaint = async (req, res, next) => {
 };
 
 export const get_competitions = async (req, res, next) => {
-  const id = req.params.id
+  
 
-  if (id === "1") {
-    const sqlquery = "SELECT * FROM company_competitions order by notice_id desc";
+  
+    const sqlquery = "SELECT * FROM company_competitions";
     db.query(sqlquery, (err, data) => {
       if (err) {
         return res.json({ message: "There is an internel error" });
@@ -99,31 +99,9 @@ export const get_competitions = async (req, res, next) => {
       }
     });
 
-  } else if (id === "2") {
-    const status = "pending"
-    const sqlquery = "SELECT * FROM company_competitions WHERE status = ?";
-    const values = [status]
 
-    db.query(sqlquery, values, (err, data) => {
-      if (err) {
-        return res.json({ message: "There is an internel error" });
-      } else {
-        return res.json({ data });
-      }
-    });
-  } else if(id === "3"){
-    const status = "completed"
-    const sqlquery = "SELECT * FROM company_competitions WHERE status = ?";
-    const values = [status]
-
-    db.query(sqlquery, values, (err, data) => {
-      if (err) {
-        return res.json({ message: "There is an internel error" });
-      } else {
-        return res.json({ data });
-      }
-    });
-  }
+  
+  
 };
 
 // get company manager's complains
