@@ -1,4 +1,4 @@
-import { Avatar, IconButton, Typography } from "@mui/material";
+import { Alert, AlertTitle, Avatar, IconButton, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import profile from "../../assests/profile.jpg";
@@ -75,7 +75,7 @@ const Refund = () => {
     const [error, seterror] = useState(false)
     const [message, setmessage] = useState("")
     const [details1, setdetails1] = useState([])
-    
+
     const toRefund = async (id) => {
         try {
             const res = await axios.get(`http://localhost:5000/pet_care/care_center_manager/toRefund/${id}`)
@@ -83,6 +83,7 @@ const Refund = () => {
                 seterror(true)
                 setmessage("There is an internal error")
             } else {
+                seterror(false)
                 setaddRefund(true)
                 setdetails1(res.data.data)
             }
@@ -103,8 +104,12 @@ const Refund = () => {
         setamount(event.target.value)
     }
     const refundAdding = async (id) => {
-        setaddRefund(false)
-        setClients(true)
+      
+        if (amount === "" || image === "") {
+            seterror(true)
+            setmessage("Please Filled The Required Fields")
+            return
+        }
 
         try {
             const res = await axios.post(`http://localhost:5000/pet_care/care_center_manager/refundAdding`, {
@@ -112,6 +117,10 @@ const Refund = () => {
                 amount,
                 image
             })
+            if (res.data.message === "Refund Added") {
+               window.location.reload()
+
+            }
         } catch (err) {
             console.log(err)
         }
@@ -122,32 +131,32 @@ const Refund = () => {
         const file = event.target.files[0]
         setfile(file)
         setimage(file.name)
-      }
+    }
     const handleFileUpload = async (refund_id) => {
         seterror(false)
-      
+
         try {
-          const formData = new FormData();
-          formData.append("image", selectfile);
-    
-          const res = await axios.post("http://localhost:5000/pet_care/user/upload", formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          });
-          if (res.data.message === "File uploaded successfully") {
-            refundAdding(refund_id)
-          
-          }
-    
-          console.log("File uploaded successfully!");
-          // Add any further handling of the response from the backend if needed.
-    
+            const formData = new FormData();
+            formData.append("image", selectfile);
+
+            const res = await axios.post("http://localhost:5000/pet_care/user/upload", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            if (res.data.message === "File uploaded successfully") {
+                refundAdding(refund_id)
+
+            }
+
+            console.log("File uploaded successfully!");
+            // Add any further handling of the response from the backend if needed.
+
         } catch (err) {
-          console.log("There is an internal error", err);
+            console.log("There is an internal error", err);
         }
-      }
-    
+    }
+
 
     // click on view refuned details  button
     const [view, setview] = useState(false)
@@ -478,11 +487,20 @@ const Refund = () => {
                                     </div>
                                 </div>
                                 {selectfile && (
-                                            <Typography sx={{color:'black'}}>{selectfile.name}</Typography>
+                                    <Typography sx={{ color: 'black' }}>{selectfile.name}</Typography>
 
-                                        )}
+                                )}
                                 <div>
-                             
+                                    {error && (
+                                        <Stack sx={{ width: '50%', marginLeft: '25%' }} spacing={2}>
+                                            <Alert severity="error">
+                                                <AlertTitle>Warning</AlertTitle>
+                                                <strong>{message}</strong>
+                                            </Alert>
+                                        </Stack>
+
+                                    )}
+
                                     <Button variant="contained" onClick={() => handleFileUpload(drow1.refund_id)} sx={{ background: 'orange', width: '100%', marginRight: '10px', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Place Refund</Button>
                                 </div>
                             </div>
