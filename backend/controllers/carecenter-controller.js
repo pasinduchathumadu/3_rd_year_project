@@ -661,6 +661,7 @@ export const SubmitAddPackage = async(req,res,next) => {
     const {
         name,
         price,
+        image
         
     } = req.body;
 
@@ -673,8 +674,8 @@ export const SubmitAddPackage = async(req,res,next) => {
            return res.json({message:'Already have 3 packages'})
        }
 
-       const sqlQuery = 'INSERT INTO carecenter_package(package_name, price) VALUES (?,?)'
-       const values = [name, price]
+       const sqlQuery = 'INSERT INTO carecenter_package(package_name, price,symbol) VALUES (?,?,?)'
+       const values = [name, price,image]
 
        db.query(sqlQuery, values, (err,data2) => {
            if(err) {
@@ -703,6 +704,8 @@ export const submitFacilityForm = async(req,res,next) => {
         bpckg,
         newfacility
     }= req.body;
+
+   
 
     const sqlQuery = 'INSERT INTO carecenter_package_facility (package_id, facility) VALUES(?,?)'
     const values = [bpckg, newfacility]
