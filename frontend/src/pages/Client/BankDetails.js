@@ -3,12 +3,12 @@ import { Typography, FormControl, TextField, Button, Alert, Stack, FormLabel} fr
 import AddBackgroundImage from '../../assests/pet_add.jpeg';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const BankDetails = () => {
     const email = localStorage.getItem("client_email")
-    const navigate = useNavigate();
+   
 
     const [num, setnum] = useState("")
     const [branch, setbranch] = useState("")
@@ -19,6 +19,9 @@ const BankDetails = () => {
 
     // submit bank details
     const SubmitBankDetails = async () => {
+        seterror(false)
+        setsuccess(false)
+        setmessage("")
         if (num === "" || branch === "" || bank === "") {
             seterror(true)
             setmessage('Please fill all the fields')
