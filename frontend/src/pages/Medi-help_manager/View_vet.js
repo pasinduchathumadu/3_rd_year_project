@@ -324,7 +324,9 @@ function Viw_vet() {
             return
         }
         try {
-            const res = await axios.get(`http://localhost:5000/pet_care/medi_help_manager/assign/${assigned}`)
+            const res = await axios.post(`http://localhost:5000/pet_care/medi_help_manager/assign`,{
+                assigned
+            })
             if (res.data.message === "assigned") {
                 seterror(true)
                 setmessage("Successfully Re-Assigned The Vet")
@@ -339,6 +341,23 @@ function Viw_vet() {
             console.log(err)
         }
     }
+    const [emp1 , setemp1 ] = useState([])
+    const get_employee1 = async () => {
+      try {
+        const res = await axios.get(`http://localhost:5000/pet_care/medi_help_manager/get_employee1`)
+        const data = await res.data
+        return data
+  
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  
+    useEffect(() => {
+      get_employee1()
+        .then((data) => setemp1(data.data))
+        .catch((err) => console.log(err))
+    })
 
     return (
         <>
@@ -653,13 +672,13 @@ function Viw_vet() {
                             <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">Select Vet</InputLabel>
                                 <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={assigned}
-                                    label="Vet ID"
-                                    onChange={handleassign}
+                                      labelId="demo-simple-select-label"
+                                      id="demo-simple-select"
+                                      value={assigned}
+                                      label="Employee ID"
+                                      onChange={handleassign}
                                 >
-                                    {vetid.map((row, index) => (
+                                    {emp1.map((row, index) => (
                                         <MenuItem value={row.vet_id} key={row.vet_id}>Dr.{row.first_name + " " + row.last_name}</MenuItem>
                                     ))}
                                 </Select>

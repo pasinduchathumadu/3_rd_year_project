@@ -18,6 +18,7 @@ import axios from "axios";
 import CloseIcon from '@mui/icons-material/Close';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { display } from "@mui/system";
 
 
 
@@ -36,6 +37,8 @@ function Caregiverlist() {
   const openPopup = (id) => {
     setid(id)
     setIsPopupOpen(true);
+    setDateEnd("")
+    setDateStart("")
   };
 
   const closePopup = () => {
@@ -50,13 +53,13 @@ function Caregiverlist() {
   const handleChange = (event, newvalue) => {
     setvalue(newvalue);
   };
-  const [open1 , setopen1 ] = useState(false)
-  const reassign = () =>{
+  const [open1, setopen1] = useState(false)
+  const reassign = () => {
     seterror(false);
     setopen1(true);
-    
+
   }
-  const handleClose1 = ()=>{
+  const handleClose1 = () => {
     setopen1(false)
   }
 
@@ -71,6 +74,11 @@ function Caregiverlist() {
     if (selectedStartDate < input || selectedEndDate < input) {
       seterror(true)
       setmessage("Please Find Future Date!!")
+      return
+    }
+    if(selectedStartDate>selectedEndDate){
+      seterror(true)
+      setmessage("Check the start date and end date")
       return
     }
 
@@ -119,7 +127,23 @@ function Caregiverlist() {
       .then((data) => setemp(data.data))
       .catch((err) => console.log(err))
   })
+  const [emp1 , setemp1 ] = useState([])
+  const get_employee1 = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/care_center_manager/get_employee1`)
+      const data = await res.data
+      return data
 
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  useEffect(() => {
+    get_employee1()
+      .then((data) => setemp1(data.data))
+      .catch((err) => console.log(err))
+  })
   // ADD NEW CARE GIVER/TRAINER
   const [addnew, setaddnew] = useState(false)
 
@@ -214,28 +238,30 @@ function Caregiverlist() {
       .then((data) => setdetails(data.data))
       .catch((err) => console.log(err))
   })
-const [ assigned , setassign ] = useState("")
-  const handleassign = (event)=>{
+  const [assigned, setassign] = useState("")
+  const handleassign = (event) => {
     setassign(event.target.value)
   }
-  const assignemp = async()=>{
-    if(assigned===""){
+  const assignemp = async () => {
+    if (assigned === "") {
       seterror(true)
       setmessage("Please be selected Employee")
       return
     }
-    try{
-      const res = await axios.get(`http://localhost:5000/pet_care/care_center_manager/assign/${assigned}`)
-      if(res.data.message === "assigned"){
+    try {
+      const res = await axios.post(`http://localhost:5000/pet_care/care_center_manager/assign`,{
+        assigned
+      })
+      if (res.data.message === "assigned") {
         seterror(true)
         setmessage("Successfully Re-Assigned The Employee")
       }
       if (res.data.message === "exist") {
         seterror(true)
         setmessage("Already In working Can not be re-assigned")
-    }
+      }
 
-    }catch(err){
+    } catch (err) {
       console.log(err)
     }
   }
@@ -397,12 +423,20 @@ const [ assigned , setassign ] = useState("")
                     <Typography variant="body2">{menu.email}</Typography>
                     <Typography variant="body2">{menu.contact_number}</Typography><br />
                     <Typography variant="body2" sx={{ color: "black", marginBottom: '9px' }}>Grooming Type - {menu.type}</Typography>
-                    <Button
-                      sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: "black" } }}
-                      onClick={() => {
-                        openPopup(menu.emp_id);
-                      }}
-                    >Add Leave</Button>
+                    <div style={{display:"flex", flexDirection:'row', justifyContent:'space-between'}}>
+                      <Button
+                        sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: "black" } }}
+                        onClick={() => {
+                          openPopup(menu.emp_id);
+                        }}
+                      >Add Leave</Button>
+                      <>
+                        {menu.unfree_date_start === "working" ? (
+                          <Typography variant="h6" sx={{ textAlign: 'center', color: 'red', fontWeight:'bold' }}>WORKING</Typography>) :
+                          ("")
+                        }
+                      </>
+                    </div>
                   </CardContent>
                 </CardActionArea>
               </Card>
@@ -617,7 +651,7 @@ const [ assigned , setassign ] = useState("")
       <Dialog
         open={open1}
         onClose={handleClose1}
-       
+
         fullWidth
       >
 
@@ -648,13 +682,13 @@ const [ assigned , setassign ] = useState("")
                   label="Employee ID"
                   onChange={handleassign}
                 >
-                  {menu.map((row, index) => (
-                    <MenuItem value={row.emp_id} key={row.emp_id}>{row.emp_id}-{row.first_name + " "+row.last_name}</MenuItem>
+                  {emp1.map((row, index) => (
+                    <MenuItem value={row.emp_id} key={row.emp_id}>{row.emp_id}-{row.first_name + " " + row.last_name}</MenuItem>
                   ))}
                 </Select>
               </FormControl>
             </Box>
-            
+
 
           </form>
         </DialogContent>

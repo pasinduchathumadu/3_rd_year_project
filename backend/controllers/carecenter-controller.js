@@ -439,7 +439,7 @@ export const get_employee = async (req, res, next) => {
     // const id = req.params.id
     const status = 'active'
     const new_status = "working"
-    const sqlQuery = "SELECT *FROM employee WHERE status = ?"
+    const sqlQuery = "SELECT *FROM employee WHERE status = ? "
     const values = [status]
 
     db.query(sqlQuery, values, (err, data) => {
@@ -629,29 +629,15 @@ export const submitConfirmationForm = async(req,res, next) => {
 }
 
 export const assigned = async(req,res,next)=>{
-    const id = req.params.id
+    const {assigned}= req.body;
     const status = "working"
-    const sqlquery1 = "SELECT *FROM employee WHERE unfree_date_start = ? AND unfree_date_end = ? AND emp_id = ?"
-    const values1 = [status,status,id]
-
-    db.query(sqlquery1,values1,(err,data)=>{
+    const sqlQuery = "UPDATE employee SET unfree_date_start = ? , unfree_date_end = ? WHERE emp_id = ?"
+    const values = [status,status,assigned]
+    db.query(sqlQuery,values,(err,data)=>{
         if(err){
             return res.json({message:'There is an internel error'})
         }
-        else if(data[0].unfree_date_start === 'working'){
-            return res.json({message:'exist'})
-        }
-        else{
-            const sqlQuery = "UPDATE employee SET unfree_date_start = ? , unfree_date_end = ? WHERE emp_id = ?"
-            const values = [status,status,id]
-            db.query(sqlQuery,values,(err,data)=>{
-                if(err){
-                    return res.json({message:'There is an internel error'})
-                }
-                return res.json({message:'assigned'})
-            })
-
-        }
+        return res.json({message:'assigned'})
     })
 }
 
@@ -780,4 +766,15 @@ export const deletePackage = async(req,res,next) => {
     })
 
 }
-
+export const get_employee1 = async(req,res,next)=>{
+    const status = "working"
+    const new_status = "active"
+    const sqlQuery = "select *from employee WHERE unfree_date_start !=? AND unfree_date_start !=? AND status = ?"
+    const values = [status,status,new_status]
+    db.query(sqlQuery,values,(err,data)=>{
+        if(err){
+            return res.json({message:'There is an internel error'})
+        }
+        return res.json({data})
+    })
+}
