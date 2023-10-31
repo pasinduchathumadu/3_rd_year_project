@@ -1324,13 +1324,13 @@ export const blog_post = async (req, res, next) => {
   var content = ""
 
   const time = formatTime();
-  if (Categories === "10") {
+  if (Categories === 10) {
     content = "Health of Pets"
   }
-  if (Categories === "20") {
+  if (Categories === 20) {
     content = "Harassment of Pets"
   }
-  if (Categories === "30") {
+  if (Categories === 30) {
     content = "Charityable Posts"
   }
   const sqlQuery = "INSERT INTO client_post(client_email,image,name,description,content,posted_time,posted_date)VALUES(?,?,?,?,?,?,?)";
@@ -1400,7 +1400,7 @@ export const viewmyComplains = async (req, res, next) => {
       })
     })
   } else if (clients === 3) {
-    const status = 'completed'
+    const status = 'replied'
     const checkQuery = 'SELECT client_id FROM client WHERE email = ?'
     const checkValues = [email]
 
