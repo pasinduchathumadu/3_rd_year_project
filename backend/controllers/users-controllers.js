@@ -1400,7 +1400,7 @@ export const viewmyComplains = async (req, res, next) => {
       })
     })
   } else if (clients === 3) {
-    const status = 'completed'
+    const status = 'replied'
     const checkQuery = 'SELECT client_id FROM client WHERE email = ?'
     const checkValues = [email]
 

@@ -9,7 +9,7 @@ import axios from "axios";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 function Packages() {
   const input = new Date();
@@ -42,6 +42,7 @@ function Packages() {
     setview(false)
     seterror(false)
     setwarn(false)
+    setfile("")
   }
   const [name, setname] = useState("")
   const [price, setprice] = useState("")
@@ -58,6 +59,7 @@ function Packages() {
       const res = await axios.post(`http://localhost:5000/pet_care/care_center_manager/SubmitAddPackage`, {
         name,
         price,
+        image
 
       })
       if (res.data.message === 'There is an internal error') {
@@ -88,6 +90,10 @@ function Packages() {
     setupdatep(false)
     setview(false)
     setwarn(false)
+    seterror1(false)
+    setbpckg("")
+    setnewfacility("")
+
   }
 
   // get package details 
@@ -172,10 +178,12 @@ function Packages() {
     setid(id)
     setvalue(false)
     setwarn(false)
+    setnewprice("")
+    seterror2(false)
   }
 
   // get price for update form
-  const [getprice, setgetprice] = useState("")
+  const [getprice, setgetprice] = useState([])
   const getPrice = async () => {
     try {
       const res = await axios.get(`http://localhost:5000/pet_care/care_center_manager/getPrice/${id}`)
@@ -201,6 +209,7 @@ function Packages() {
     if (newprice === "") {
       seterror2(true)
       setmessage2('Please fill all the fields')
+      return
     }
     try {
       const res = await axios.post(`http://localhost:5000/pet_care/care_center_manager/SubmitNewPrice`, {
@@ -266,6 +275,38 @@ function Packages() {
     setview(false)
     setupdatep(false)
     setwarn(false)
+  }
+  const [selectfile, setfile] = useState(null)
+  const [image, setimage] = useState("")
+  const handlefilechange = async (event) => {
+    const file = event.target.files[0]
+    setfile(file)
+    setimage(file.name)
+  }
+  const handleFileUpload = async () => {
+    seterror(false)
+
+  
+    try {
+      const formData = new FormData();
+      formData.append("image", selectfile);
+
+      const res = await axios.post("http://localhost:5000/pet_care/user/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      if (res.data.message === "File uploaded successfully") {
+        SubmitAddPackage()
+       
+      }
+
+      console.log("File uploaded successfully!");
+      // Add any further handling of the response from the backend if needed.
+
+    } catch (err) {
+      console.log("There is an internal error", err);
+    }
   }
 
 
@@ -403,7 +444,7 @@ function Packages() {
                 />
               </div>
 
-              {/* <div>
+              <div>
                 <Button
                   variant="contained"
                   component="label"
@@ -419,7 +460,7 @@ function Packages() {
 
                   )}
                 </div>
-              </div> */}
+              </div>
 
               {error && (
                 <Stack sx={{ width: '100%' }} spacing={2}>
@@ -428,7 +469,7 @@ function Packages() {
               )}
 
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '10px', marginBottom: '10px' }}>
-                <Button variant="contained" sx={{ background: "orange", marginTop: '1%', marginLeft: '30%', ':hover': { backgroundColor: "#fe9e0d" }, width: '40%' }} onClick={() => SubmitAddPackage()}>Submit</Button>
+                <Button variant="contained" sx={{ background: "orange", marginTop: '1%', marginLeft: '30%', ':hover': { backgroundColor: "#fe9e0d" }, width: '40%' }} onClick={()=>handleFileUpload()}>Submit</Button>
               </div>
 
             </FormControl>
@@ -570,7 +611,7 @@ function Packages() {
                 <hr />
               </div>
 
-              {getprice && getprice.map((menu, index) => (
+              {getprice.filter((menu,index)=>menu.package_id === id).map((menu, index) => (
                 <>
                   <div className="form-label">
                     <div style={{ marginBottom: '3%', display: 'flex', flexDirection: 'column' }}>
@@ -583,6 +624,11 @@ function Packages() {
                       />
                     </div>
                   </div>
+                  {error2 && (
+                <Stack sx={{ width: '100%' }} spacing={2}>
+                  <Alert severity="error">{message2}</Alert>
+                </Stack>
+              )}
 
                   <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '10px', marginBottom: '10px' }}>
                     <Button variant="contained" sx={{ background: "orange", marginTop: '1%', marginLeft: '30%', ':hover': { backgroundColor: "#fe9e0d" }, width: '40%' }} onClick={() => SubmitNewPrice(menu.package_id)}>Submit</Button>
