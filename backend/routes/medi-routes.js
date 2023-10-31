@@ -1,6 +1,6 @@
 import express from "express";
 
-import { get_medi, leave, set_count, setprice,add_complain,viewmyComplains,viewClientsComplains,complainDetails,addingResponse,deleteMyComplain,add_vet,systemDoctors ,pendingRequest,completedBox,pendingBox,get_pets, complainsCount,addMedical, submitNewVaccine, DogVaccine, CatVaccine, deleteVaccine, getDetailsforUpdate, updateVaccine, getVaccineDetails, submitAddMedical, pastVaccinationDetails,getDetails,remove, remove_final,getnextvaccineid, ViewAppointments, assigned} from "../controllers/doctor-controllers";
+import { get_medi, leave, set_count, setprice,add_complain,viewmyComplains,viewClientsComplains,complainDetails,addingResponse,deleteMyComplain,add_vet,systemDoctors ,pendingRequest,completedBox,pendingBox,get_pets, complainsCount,addMedical, submitNewVaccine, DogVaccine, CatVaccine, deleteVaccine, getDetailsforUpdate, updateVaccine, getVaccineDetails, submitAddMedical, pastVaccinationDetails,getDetails,remove, remove_final,getnextvaccineid, ViewAppointments, assigned, get_employee1} from "../controllers/doctor-controllers";
 
 
 const medi_help_manager = express.Router()
@@ -44,10 +44,10 @@ medi_help_manager.post('/submitAddMedical',submitAddMedical)
 medi_help_manager.get('/pastVaccinationDetails/:id',pastVaccinationDetails) 
 medi_help_manager.get('/getDetails',getDetails) 
 
-
+medi_help_manager.get('/get_employee1',get_employee1)
 medi_help_manager.get('/remove',remove)
 medi_help_manager.post('/remove_final',remove_final)
-medi_help_manager.get('/assign/:id',assigned)
+medi_help_manager.post('/assign',assigned)
 medi_help_manager.get('/getnextvaccineid/:nextVaccine',getnextvaccineid)
 
 export default medi_help_manager

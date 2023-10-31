@@ -1,6 +1,6 @@
 import express from "express";
 
-import {viewmycomplain, viewClientcomplains, complainDetails, addResponse, add_complain, deleteMyComplain,refund_appointments, refundAdding,toRefund,ViewRefundDetails, addingpet,petViewing,petDeleteing,submit, get_training, get_groom_apo, get_employee, leave,mind_relaxing, CompletePending, removeUncompleted, submitNewEmployee, getEmplyeeID, submitConfirmationForm,GroomingPendingToComplete, TrainingPendingToComplete,assigned, SubmitAddPackage,getDetails, submitFacilityForm, viewFacilities, getPrice, SubmitNewPrice, deletePackage} from "../controllers/carecenter-controller.js";
+import {viewmycomplain, viewClientcomplains, complainDetails, addResponse, add_complain, deleteMyComplain,refund_appointments, refundAdding,toRefund,ViewRefundDetails, addingpet,petViewing,petDeleteing,submit, get_training, get_groom_apo, get_employee, leave,mind_relaxing, CompletePending, removeUncompleted, submitNewEmployee, getEmplyeeID, submitConfirmationForm,GroomingPendingToComplete, TrainingPendingToComplete,assigned, SubmitAddPackage,getDetails, submitFacilityForm, viewFacilities, getPrice, SubmitNewPrice, deletePackage, get_employee1} from "../controllers/carecenter-controller.js";
 
 const care_center_route = express.Router()
 
@@ -39,7 +39,8 @@ care_center_route.post('/leave',leave)
 care_center_route.post('/submitNewEmployee',submitNewEmployee)
 care_center_route.get('/getEmplyeeID/:id',getEmplyeeID)
 care_center_route.post('/submitConfirmationForm',submitConfirmationForm)
-care_center_route.get('/assign/:id',assigned)
+care_center_route.post('/assign',assigned)
+care_center_route.get('/get_employee1',get_employee1)
 
 // PACKAGESS
 care_center_route.post('/SubmitAddPackage',SubmitAddPackage)
