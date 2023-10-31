@@ -114,6 +114,7 @@ export const deletePackage = async(req,res,next) => {
 
     const sqlQuery = 'DELETE FROM boarding_package WHERE package_id = ?'
     const values = [id]
+    console.log(id)
 
     db.query(sqlQuery, values, (err, data) => {
         if(err) {
@@ -555,7 +556,7 @@ export const deleteMyComplain = async (req, res, next) => {
 
     db.query(sqlQuery, values, (err, data) => {
         if (err) {
-            return res.json({ message: 'There is an internal errrror' })
+            return res.json({ message: 'There is an internal error' })
         }
         return res.json({ message: 'Deleted' })
     })
