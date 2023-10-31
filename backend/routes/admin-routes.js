@@ -1,5 +1,5 @@
 import express from "express";
-import {get_client, get_manager, registration, countManagers, countClients, clientComplains, managerComplains, countComplains, boardingRefund, countRefund, ManagerDetails, FinishUpdate, deleteManager,addResponse, submitResponse,viewPetDetails, deleteClient, viewRefundDetails, viewSlipDetails, AdminVerify, AdminRejected,carecenterRefund,viewSlipDetailscc,AdminVerifycc,AdminRejectedcc,viewRefundccDetails,countClientPets} from "../controllers/admin-controllers.js"
+import {get_client, get_manager, registration, countManagers, countClients, clientComplains, managerComplains, countComplains, boardingRefund, countRefund, ManagerDetails, FinishUpdate, deleteManager,addResponse, submitResponse,viewPetDetails, deleteClient, viewRefundDetails, viewSlipDetails, AdminVerify, AdminRejected,carecenterRefund,viewSlipDetailscc,AdminVerifycc,AdminRejectedcc,viewRefundccDetails,countClientPets,BoardingRevenue, MediRevenue, OtherRevenue, StoreRevenue, CareCenterRevenue, systemPetsCount} from "../controllers/admin-controllers.js"
 const admin_route = express.Router()
 
 admin_route.post('/registration',registration)
@@ -29,5 +29,12 @@ admin_route.post('/AdminVerifycc',AdminVerifycc)
 admin_route.post('/AdminRejectedcc',AdminRejectedcc)
 admin_route.get('/viewRefundccDetails/:id',viewRefundccDetails)
 admin_route.get('/countClientPets',countClientPets)
+admin_route.get('/BoardingRevenue',BoardingRevenue)
+admin_route.get('/MediRevenue',MediRevenue)
+admin_route.get('/OtherRevenue',OtherRevenue)
+admin_route.get('/StoreRevenue',StoreRevenue)
+admin_route.get('/CareCenterRevenue',CareCenterRevenue)
+admin_route.get('/systemPetsCount',systemPetsCount)
+
 
 export default admin_route;
