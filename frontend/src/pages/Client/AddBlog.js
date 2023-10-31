@@ -223,7 +223,7 @@ function AddBlog() {
                                                 >
                                                     <MenuItem value={10}>Health of Pets</MenuItem>
                                                     <MenuItem value={20}>Harassment of Pets</MenuItem>
-                                                    <MenuItem value={20}>Charityable Posts</MenuItem>
+                                                    <MenuItem value={30}>Charityable Posts</MenuItem>
                                                 </Select>
                                             </div>
                                             <div style={{ display: 'inline', width: '40%', paddingLeft: '4%' }}>
