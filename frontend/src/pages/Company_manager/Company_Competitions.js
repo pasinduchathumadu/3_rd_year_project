@@ -120,7 +120,6 @@ function Company_Competitions() {
         }
       );
       if (res.data.message === "successfully added") {
-        seterror(true);
         window.location.reload();
       }
     } catch (err) {

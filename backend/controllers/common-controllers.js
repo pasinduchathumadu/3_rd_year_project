@@ -3,6 +3,7 @@ import { db } from '../database.js';
 
 export const blog = async (req, res, next) => {
     const id = req.params.id
+    console.log(id)
     var filterCondition = "";
 
     if (id === "10") {
@@ -10,7 +11,7 @@ export const blog = async (req, res, next) => {
     } else if (id=== "20") {
         filterCondition = "Harassment of Pets";
     } else if (id === "30") {
-        filterCondition = "Charitable Posts";
+        filterCondition = "Charityable Posts";
     }
     const status = "posted"
 
