@@ -359,7 +359,7 @@ const Home = () => {
                             </Box>
                             {otherrev && otherrev.map((menu, index) => (
                                 <Box sx={{ backgroundColor: '#F0F0F5', borderRadius: '10px', padding: '2%', width: '30%' }}>
-                                    <Typography sx={{ fontWeight: 'bold', textAlign: 'center' }}>Rs. {parseFloat(menu.pending + menu.sold + menu.competition).toFixed(2)}</Typography>
+                                    <Typography sx={{ fontWeight: 'bold', textAlign: 'center' }}>Rs. {parseFloat(menu.pending + menu.competition).toFixed(2)}</Typography>
                                 </Box>
                             ))}
                         </div>
