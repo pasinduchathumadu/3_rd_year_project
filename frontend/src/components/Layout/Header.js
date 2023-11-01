@@ -13,8 +13,8 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import MailIcon from "@mui/icons-material/Mail";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+
 import MoreIcon from "@mui/icons-material/MoreVert";
 import TemporaryDrawer from "./Sidebar";
 import Button from "@mui/material/Button";
@@ -61,8 +61,19 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar({ userRole }) {
+  const [click , setclick ] = React.useState(true)
   const navigate = useNavigate();
-
+  const handlebank = ()=>{
+    if(click){
+      setclick(false)
+      navigate('/bankdetails')
+    }
+    else{
+      setclick(true)
+      navigate('/dashboard')
+    }
+  
+  }
   const [state, setState] = React.useState({
     top: false,
     left: false,
@@ -101,6 +112,25 @@ export default function PrimarySearchAppBar({ userRole }) {
     handleMobileMenuClose();
   };
 
+ const [profileclick , setprofileclick ] = React.useState(true)
+  const profile = () => {
+    if(profileclick){
+      setprofileclick(false)
+      navigate("/profile")
+    }
+    else{
+      setprofileclick(true)
+      navigate('/dashboard')
+    }
+      
+  }
+
+   // get profile picture
+   const getProfilepicturepath = (imageName) => {
+      return require(`../../../../backend/images/store/${imageName}`)
+
+  }
+
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
@@ -128,7 +158,7 @@ export default function PrimarySearchAppBar({ userRole }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={profile}>Profile</MenuItem>
       <Link
         to="/OrderTable"
         style={{ textDecoration: "none", color: "inherit" }}
@@ -155,26 +185,8 @@ export default function PrimarySearchAppBar({ userRole }) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
+     
+   
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
@@ -227,20 +239,12 @@ export default function PrimarySearchAppBar({ userRole }) {
           >
             <IconButton
               size="large"
-              aria-label="show 4 new mails"
-              color="inherit"
-            >
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
               aria-label="show 17 new notifications"
               color="inherit"
+              onClick={handlebank}
             >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
+              <Badge  color="error">
+                <AccountBalanceIcon />
               </Badge>
             </IconButton>
             <IconButton

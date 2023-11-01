@@ -76,10 +76,10 @@ const Blogs = () => {
   };
   const load_total = async () => {
     const res = await axios.get(
-      `http://localhost:5000/pet_care/user/load_total/${id}`
+      `http://localhost:5000/pet_care/user/loadfinal/${id}`
     );
     const data = await res.data;
-    const total = data.data.reduce((total, item) => total + item.new2, 0);
+    const total = data.data.map((menu,index)=>menu.payment);
     setprice(total);
     return data;
   };

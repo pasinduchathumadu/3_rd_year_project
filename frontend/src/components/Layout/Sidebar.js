@@ -32,15 +32,15 @@ export default function TemporaryDrawer({
     data = [
       "Dashboard",
       "Packages",
-      "Boarding Pets",
       "Boarding Requests",
+      "Cage Structure",
       "Complains",
     ];
     data_link = [
       "boarding_dashboard",
       "boarding_packages",
-      "boarding_pets",
       "boarding_clients",
+      "cages",
       "boarding_complains",
     ];
   } else if (userType === "admin") {
@@ -49,8 +49,8 @@ export default function TemporaryDrawer({
     data_link = ["admin_dashboard", "admin_users", "admin_refund", "admin_complains"];
   }
   else if(userType === 'client'){
-    data = ["Dashboard","Add Pets"," Crossing Features ", "Shop","Non-Breadshop","Reports","Add Blog"];
-    data_link = ["dashboard","addpet","crossing","shop","NonBredShop","reports","addblog"]
+    data = ["Dashboard","Add Pets", "Pets Shop", "Reports","Add Blog","Complains"];
+    data_link = ["dashboard","addpet","shop","reports","addblog", "complains"]
   }
   else if(userType === 'care_center_manager'){
     data = ["Appointments","Packages","Cargivers","Mind Relaxing Pets","Refund","Complains"];
@@ -58,14 +58,31 @@ export default function TemporaryDrawer({
   }
 
    else if (userType === "company_manager") {
-    data = ["Dashboard", "Clients Categorization", "Competitions", "Complains","Blog"];
+    data = ["Dashboard","Pet Shop", "Clients Categorization", "Competitions","Blog","Complaints"];
 
     data_link = [
       "company_dashboard",
+      "petshop",
       "company_clients",
       "company_competitions",
-      "company_complains",
       "company_blog",
+      "company_complains"
+    ];
+  }
+  else if (userType === "medi_help_manager") {
+    data = [
+      "Dashbord",
+      "Appointments",
+      "Doctors",
+      "Pet Profiles",
+      "Complaints"
+    ];
+    data_link = [
+      "medi_dashboard",
+      "viewAppointments",
+      "view_vet",
+      "PetProfiles",
+      "medi_complaints",
     ];
   } else {
     // Default values if userType doesn't match any of the conditions

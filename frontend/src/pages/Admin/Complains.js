@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import ProfilePicture from '../../assests/profile-picture.png';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Box from '@mui/material/Box';
 import { IconButton, Tab } from "@mui/material";
@@ -46,12 +45,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 
 const Complains = () => {
-    // drop down
-    const [clients, setClients] = React.useState('1');
-    const handleChange = (event) => {
-        setClients(event.target.value);
-    };
-
     const [complain, setComplain] = useState(0);
     const handleForm = (event, existing_value) => {
         setComplain(existing_value)
@@ -110,7 +103,6 @@ const Complains = () => {
         }
     }
 
-
     // cancel without adding a response for manager complian
     const backAddingRes = () => {
         setaddResponce(false)
@@ -128,42 +120,53 @@ const Complains = () => {
     const date = input.toDateString();
 
     // view clients complains
+    const [clients, setClients] = React.useState('1');
+    const handleChange = (event) => {
+        setClients(event.target.value);
+        clientComplains()
+    };
+
     const [clientcom, setclientcom] = useState("");
     const clientComplains = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/pet_care/admin/clientComplains')
-            const data = await res.data
-            return data
-
+            const res = await axios.get(`http://localhost:5000/pet_care/admin/clientComplains/${clients}`)
+            setclientcom(res.data.data)
+            setClients('')
         } catch (err) {
-            console.log("There is an internal error")
+            console.log(clients)
+            console.log(err)
         }
     }
     useEffect(() => {
         clientComplains()
-            .then((data) => setclientcom(data.data))
-            .catch((err) => console.log(err))
-    })
+    }, [clients, clientComplains])
 
     // view managers complains
+    const [clients1, setClients1] = React.useState('1');
+    const handleChange1 = (event) => {
+        setClients1(event.target.value);
+        managerComplains()
+    };
     const [managercom, setmanagercom] = useState("");
     const managerComplains = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/pet_care/admin/managerComplains')
-            const data = await res.data
-            return data
+            const res = await axios.get(`http://localhost:5000/pet_care/admin/managerComplains/${clients1}`)
+            setmanagercom(res.data.data)
+            setClients1('')
 
         } catch (err) {
-            console.log("There is an internal error")
+            console.log(clients1)
+            console.log(err)
         }
     }
     useEffect(() => {
         managerComplains()
-            .then((data) => setmanagercom(data.data))
-            .catch((err) => console.log(err))
-    })
+    }, [clients1, managerComplains] )
 
-
+    // get admin profile photo
+    const getProfileImageSrc = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+    }
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
@@ -171,12 +174,19 @@ const Complains = () => {
                 <div className="top-line">
                     <p>Administrator</p>
                     <p className="top-line-text">Today</p>
-                    {/* <p class="top-line-text">18 June 2023</p> */}
                     <p class="top-line-text">{date}</p>
                 </div>
+
+                <div className="top-line">
+                    <p style={{ fontSize: '20px', fontWeight: 1000, color: 'black' }}>Complains Section</p>
+                </div>
+
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
-                    <img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" />
+                    <img 
+                        src={getProfileImageSrc("admin.jpg")} 
+                        alt="profilepicture" 
+                        className="boarding-profile-picture" />
                 </div>
             </div>
 
@@ -203,7 +213,7 @@ const Complains = () => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={clients}
+                                    
                                     variant='filled'
                                     label="clients"
                                     onChange={handleChange}
@@ -260,10 +270,10 @@ const Complains = () => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={clients}
+                                    
                                     variant='filled'
                                     label="clients"
-                                    onChange={handleChange}
+                                    onChange={handleChange1}
                                     l
                                     sx={{ fontSize: '11px' }}>
                                     <MenuItem value={1}>All</MenuItem>
@@ -322,9 +332,8 @@ const Complains = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    // Adjust as needed
-                    marginRight: '300px', // Adjust as needed
-                    zIndex: 1001, // Ensure the content is above the overlay
+                    marginRight: '300px', 
+                    zIndex: 1001, 
                 }}>
                     {comdetails && comdetails.map((resrow, index) => (
                         <FormControl sx={{
@@ -334,7 +343,7 @@ const Complains = () => {
                             width: '600px',
                             padding: '20px',
                             backgroundColor: 'black',
-                            position: 'relative', // Add this to ensure content appears on top of the overlay
+                            position: 'relative',
                             zIndex: 1001
                         }}>
                             <div style={{ padding: '10px', borderRadius: '10px', backgroundColor: 'white' }}>
@@ -461,7 +470,6 @@ const Complains = () => {
 
                             <div className="form-label">
                                 <FormLabel>Response   </FormLabel>
-                                {/* <p style={{ paddingRight: '20px', paddingLeft: '30px', paddingTop: '10px', paddingBottom: '10px', borderStyle: 'solid', borderColor: 'black', borderRadius: '10px' }} >This is the response for your complain</p> */}
                                 <Box
                                     component="form"
                                     sx={{

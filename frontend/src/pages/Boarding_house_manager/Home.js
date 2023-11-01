@@ -5,7 +5,6 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import AssignmentLateIcon from '@mui/icons-material/AssignmentLate';
-import ProfilePicture from '../../assests/profile-picture.png';
 import Box from '@mui/material/Box';
 import PetsIcon from '@mui/icons-material/Pets';
 import MenuItem from '@mui/material/MenuItem';
@@ -44,7 +43,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const Home = () => {
     const navigate = useNavigate("")
 
-      // analytical overview filtering
+    // analytical overview filtering
     const [time1, setTime1] = React.useState('1');
     const [count1, setcount1] = useState([])
     const [count2, setcount2] = useState([])
@@ -60,7 +59,7 @@ const Home = () => {
             const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/filterbox1/${time1}`)
             setcount1(res.data.data)
             setTime1('')
-        }catch(err) {
+        } catch (err) {
             console.log(time1)
             console.log(err)
         }
@@ -70,7 +69,7 @@ const Home = () => {
             const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/filterbox2/${time1}`)
             setcount2(res.data.data)
             setTime1('')
-        }catch(err) {
+        } catch (err) {
             console.log(time1)
             console.log(err)
         }
@@ -144,8 +143,24 @@ const Home = () => {
     // get profile picture
     const getProfilepicturepath = (imageName) => {
         return require(`../../../../backend/images/store/${imageName}`)
-
     }
+
+    // cage analyse
+    const [cage, setcage] = useState("")
+    const CagesCount = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/CagesCount')
+            const data = await res.data
+            return data
+        } catch (err) {
+            console.log('There is an internal error')
+        }
+    }
+    useEffect(() => {
+        CagesCount()
+            .then((data) => setcage(data.data))
+            .catch((err) => console.log(err))
+    })
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
@@ -162,8 +177,8 @@ const Home = () => {
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
                     <Button onClick={profile}>
-                        <img src={getProfilepicturepath("boarding_profile.jpeg")} 
-                            alt="profilepicture" 
+                        <img src={getProfilepicturepath("boarding_profile.jpeg")}
+                            alt="profilepicture"
                             className="boarding-profile-picture" />
                     </Button>
                 </div>
@@ -176,11 +191,11 @@ const Home = () => {
                         <h3>Analytical Overview</h3>
                         <Box sx={{ minWidth: 120, marginLeft: '315px' }}>
                             <FormControl fullWidth>
-                            <InputLabel disabled={true} displayPrint="none" htmlFor="demo-input" color="warning" variant="outlined" id="demo-select-small-label">Today</InputLabel>
+                                <InputLabel disabled={true} displayPrint="none" htmlFor="demo-input" color="warning" variant="outlined" id="demo-select-small-label">Today</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                
+
                                     variant='outlined'
                                     label="Time"
                                     onChange={handleChange1}
@@ -197,10 +212,10 @@ const Home = () => {
                     <div className="boarding-wrapper-box-mian">
                         <div className="boarding-wrapper-box" style={{ backgroundColor: 'white' }}>
                             <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'orange', marginRight: '5px' }} />Completed Boarding Requests</p>
-                            {count1 &&  count1.map((prow, index) => (
+                            {count1 && count1.map((prow, index) => (
                                 <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>{prow.totalcompleted}</h1>
                             ))}
-                          
+
                         </div>
 
                         <div className="boarding-wrapper-box" style={{ backgroundColor: 'white' }} >
@@ -213,7 +228,7 @@ const Home = () => {
                 </div>
 
 
-                <div className="boarding-wrapper" style={{ backgroundColor: 'orange', height: '250px' }}>
+                <div className="boarding-wrapper" style={{ backgroundColor: 'orange', height: '250px', overflowY: 'scroll' }}>
 
                     <div className="boarding-box-header">
                         <AssignmentLateIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
@@ -260,8 +275,8 @@ const Home = () => {
                         </>
                     ))
                     ) : (
-                        <div style={{padding:'10px', borderRadius:'10px', backgroundColor:'#f0f0f5' }}>
-                        <Typography sx={{textAlign:'center'}}>No Pending Boarding Requests</Typography>
+                        <div style={{ padding: '10px', borderRadius: '10px', backgroundColor: '#f0f0f5' }}>
+                            <Typography sx={{ textAlign: 'center' }}>No Pending Boarding Requests</Typography>
                         </div>
 
                     )}
@@ -274,25 +289,26 @@ const Home = () => {
                     <div className="boarding-box-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
                             <AssessmentIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
-                            <h3 style={{ color: 'black'}}> Cages Current Usage</h3>
+                            <h3 style={{ color: 'black' }}> Cages Current Usage</h3>
                         </div>
-                        <Button onClick={cages} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>View Cages Structure</Button>
                     </div>
-                    <div>
-                        <PieChart
-                            colors={['#FBBD08', '#55555C']}
-                            series={[
-                                {
-                                    data: [
-                                        { id: 0, value: 15, label: 'Reserved' },
-                                        { id: 1, value: 25, label: 'Free' },
-                                    ],
-                                },
-                            ]}
-                            width={600}
-                            height={200}
-                        />
-                    </div>
+                    {cage && cage.map((row, index) => (
+                        <div>
+                            <PieChart
+                                colors={['#FBBD08', '#55555C']}
+                                series={[
+                                    {
+                                        data: [
+                                            { id: 0, value: row.reservedcount, label: 'Reserved' },
+                                            { id: 1, value: row.freecount, label: 'Free' },
+                                        ],
+                                    },
+                                ]}
+                                width={600}
+                                height={200}
+                            />
+                        </div>
+                    ))}
                 </div>
 
                 <div className="boarding-wrapper" style={{ backgroundColor: '#F0F0F5', height: '310px' }}>
@@ -300,7 +316,7 @@ const Home = () => {
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
                             <InventoryIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
                             <h3 style={{ color: 'black' }}>Packages Usage</h3>
-                        </div>   
+                        </div>
                     </div>
 
                     {pckg && pckg.map((pkrow, index) => (

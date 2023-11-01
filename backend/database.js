@@ -14,5 +14,4 @@ db.getConnection((err,connection)=>{
         return;
       }
       console.log('Connected to MySQL database!');
-
 })

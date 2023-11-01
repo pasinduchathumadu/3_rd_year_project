@@ -38,7 +38,20 @@ import dog2 from "../../assests/blog3.jpg";
 import logo from "../../assests/logo.png";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import axios from "axios";
+import { useNavigate } from "react-router";
+
+
 const Company_Blog = () => {
+  const navigate = useNavigate("")
+  // connect profile
+  const profile = () => {
+    navigate("/profile")
+}
+
+  // get profile picture
+  const getProfilepicturepath = (imageName) => {
+    return require(`../../../../backend/images/store/${imageName}`)
+}
   const [blog, setblog] = useState("");
   const [id1 , setid1] = useState("");
   const [id ,setid] = useState("");
@@ -47,13 +60,11 @@ const Company_Blog = () => {
   const [show, setShow] = useState(false);
 
   const getImageSrc = (imageName) => {
-    return require(`../../assests/${imageName}`);
+    return require(`../../../../backend/images/store/${imageName}`)
   };
 
   const sendrequest = async () => {
-    const res = await axios
-      .get("http://localhost:5000/pet_care/company_manager/blog")
-      .catch((err) => console.log(err));
+    const res = await axios.get("http://localhost:5000/pet_care/company_manager/blog")
     const data = await res.data;
     return data;
   };
@@ -147,11 +158,12 @@ const Company_Blog = () => {
         </Stack>
         <Stack direction="row" justifyContent="center" alignItems="center">
           <NotificationsIcon className="bell-icon" />
-          <img
+          <Button onClick={profile}><img src={getProfilepicturepath("company_profile.jpeg")} alt="profilepicture" className="boarding-profile-picture" /></Button>
+          {/* <img
             src={ProfilePicture}
             alt="profilepicture"
             className="boarding-profile-picture"
-          />
+          /> */}
         </Stack>
       </Stack>
       <Grid>
@@ -219,6 +231,18 @@ const Company_Blog = () => {
                 </CardContent>
               </CardActionArea>
               <CardActions sx={{ justifyContent: "center", marginTop: "auto" }}>
+              <Button
+                  onClick={()=>handleClickOpen(menu.post_id)}
+                  sx={{
+                    backgroundColor: "green",
+                    color: "white",
+                    "&:hover": {
+                      backgroundColor: "darkgreen",
+                    },
+                  }}
+                >
+                  Accept
+                </Button>
                 <Button
                   onClick={()=>handleClickOpenReject(menu.post_id)}
                   sx={{
@@ -232,18 +256,7 @@ const Company_Blog = () => {
                   Reject
                 </Button>
 
-                <Button
-                  onClick={()=>handleClickOpen(menu.post_id)}
-                  sx={{
-                    backgroundColor: "green",
-                    color: "white",
-                    "&:hover": {
-                      backgroundColor: "darkgreen",
-                    },
-                  }}
-                >
-                  Accept
-                </Button>
+              
                 <Dialog
                   open={open}
                   onClose={handleClose}

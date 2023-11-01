@@ -1,7 +1,5 @@
-
 import React, { useEffect, useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
-import ProfilePicture from '../../assests/profile-picture.png';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { Alert, IconButton, Tab, Typography } from "@mui/material";
@@ -24,7 +22,7 @@ import axios from "axios";
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import { Stack } from "@mui/system";
-import {  useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -47,11 +45,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const Complains = () => {
-    // drop down
-    const [clients, setClients] = React.useState('1');
-    const handleChange = (event) => {
-        setClients(event.target.value);
-    };
 
     const [own, setOwn] = useState(0);
     const handleForm = (event, existing_value) => {
@@ -59,7 +52,6 @@ const Complains = () => {
     };
     const [form, setForm] = useState(false);
     const [addResponce, setaddResponce] = useState(false);
-    // const [viewResponce, setviewResponce] = useState(false);
 
     // after click on add new complain button
     const addForm = () => {
@@ -89,7 +81,7 @@ const Complains = () => {
                 complain,
             })
             if (res.data.message === 'There is an internal error') {
-                setMessage('You cannot add this package')
+                setMessage('You cannot add this complain')
                 seterror(true)
             } else if (res.data.message === 'success') {
                 setOwn(1);
@@ -106,14 +98,16 @@ const Complains = () => {
         setOwn(1);
     }
 
-    // clients complains - add responses - get id 
+    // clients complains - add responses - get id
+    const [error1, seterror1] = useState(false)
+    const [message1, setmessage1] = useState("")
     const [resdetails, setresdetails] = useState("")
     const complainDetails = async (id) => {
         try {
             const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/complainDetails/${id}`)
             if (res.data.message === 'There is an internal error') {
-                seterror(true)
-                setMessage('There is an internal error')
+                seterror1(true)
+                setmessage1('There is an internal error')
             } else {
                 setaddResponce(true)
                 setresdetails(res.data.data)
@@ -124,11 +118,19 @@ const Complains = () => {
     }
 
     // clients complains - add responses
+    const [error2, seterror2] = useState(false)
+    const [message2, setmessage2] = useState("")
     const [newres, setnewres] = useState("")
+
     const handleResponse = (event) => {
         setnewres(event.target.value)
     }
     const addingResponse = async (id) => {
+        if (newres === '') {
+            seterror2(true)
+            setmessage2("Please fill the field")
+            return;
+        }
         setOwn(0)
         setaddResponce(false)
 
@@ -181,40 +183,50 @@ const Complains = () => {
     }
 
     // viewing my complains
-    const [mycomplain, setmycomplain] = useState("");
+    const [clients1, setClients1] = React.useState('1');
+    const [mycomplain, setmycomplain] = useState([]);
+
+    const handleChange1 = (event) => {
+        setClients1(event.target.value);
+
+        viewmyComplains()
+    };
+
     const viewmyComplains = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/viewmyComplains')
-            const data = await res.data
-            return data
-
+            const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/viewmyComplains/${clients1}`)
+            setmycomplain(res.data.data)
+            setClients1('')
         } catch (err) {
-            console.log("There is an internal error")
+            console.log(clients1)
+            console.log(err)
         }
     }
     useEffect(() => {
-        viewmyComplains()
-            .then((data) => setmycomplain(data.data))
-            .catch((err) => console.log(err))
-    })
+        viewmyComplains()       
+    },[clients1,viewmyComplains])
 
-    // viewing clients all complains
+    // viewing clients all complains - with filter
+    const [clients, setClients] = React.useState('1');
+    const handleChange = (event) => {
+        setClients(event.target.value);
+
+        viewClientsComplains()
+    };
     const [clientcomplain, setclientcomplain] = useState("");
     const viewClientsComplains = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/viewClientsComplains')
-            const data = await res.data
-            return data
-
+            const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/viewClientsComplains/${clients}`)
+            setclientcomplain(res.data.data)
+            setClients('')
         } catch (err) {
-            console.log("There is an internal error")
+            console.log(clients)
+            console.log(err)
         }
     }
     useEffect(() => {
         viewClientsComplains()
-            .then((data) => setclientcomplain(data.data))
-            .catch((err) => console.log(err))
-    })
+    }, [clients,viewClientsComplains ])
 
     const navigate = useNavigate("")
     // connect profile
@@ -222,8 +234,8 @@ const Complains = () => {
         navigate("/profile")
     }
 
-     // get profile picture
-     const getProfilepicturepath = (imageName) => {
+    // get profile picture
+    const getProfilepicturepath = (imageName) => {
         return require(`../../../../backend/images/store/${imageName}`)
 
     }
@@ -235,6 +247,9 @@ const Complains = () => {
                     <p>Boarding House Manager</p>
                     <p className="top-line-text">Today</p>
                     <p class="top-line-text">{date} </p>
+                </div>
+                <div className="top-line">
+                    <p style={{ fontSize: '20px', fontWeight: 1000, color: 'black' }}>Complains Section</p>
                 </div>
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
@@ -265,12 +280,12 @@ const Complains = () => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={clients}
+                                    
                                     variant='filled'
-                                    label="clients"
+                                   
                                     onChange={handleChange}
                                     l
-                                    sx={{ fontSize: '11px' }}>
+                                    sx={{ fontSize: '12px' }}>
                                     <MenuItem value={1}>All</MenuItem>
                                     <MenuItem value={2}>Pending</MenuItem>
                                     <MenuItem value={3}>Completed</MenuItem>
@@ -329,16 +344,16 @@ const Complains = () => {
                                         <Select
                                             labelId="demo-simple-select-label"
                                             id="demo-simple-select"
-                                            value={own}
+                                           
                                             variant='filled'
-                                            label="clients"
-                                            onChange={handleChange}
+                                            label="Clients"
+                                            onChange={handleChange1}
                                             l
-                                            sx={{ fontSize: '11px' }}
+                                            sx={{ fontSize: '12px' }}
                                         >
                                             <MenuItem value={1}>All</MenuItem>
                                             <MenuItem value={2}>Pending</MenuItem>
-                                            <MenuItem value={2}>Completed</MenuItem>
+                                            <MenuItem value={3}>Completed</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </Box>
@@ -395,9 +410,8 @@ const Complains = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    // Adjust as needed
-                    marginRight: '300px', // Adjust as needed
-                    zIndex: 1001, // Ensure the content is above the overlay
+                    marginRight: '300px',
+                    zIndex: 1001,
                 }}>
                     <FormControl sx={{
                         marginLeft: '5%',
@@ -405,7 +419,7 @@ const Complains = () => {
                         borderRadius: '10px',
                         width: '700px',
                         padding: '20px',
-                        position: 'relative', // Add this to ensure content appears on top of the overlay
+                        position: 'relative',
                         zIndex: 1001,
                         backgroundColor: 'black'
                     }}>
@@ -453,7 +467,7 @@ const Complains = () => {
                     justifyContent: 'center',
                     alignItems: 'center',
                     marginRight: '300px',
-                    zIndex: 1001, 
+                    zIndex: 1001,
                 }}>
                     {resdetails && resdetails.map((resrow, index) => (
                         <FormControl sx={{
@@ -462,7 +476,7 @@ const Complains = () => {
                             borderRadius: '10px',
                             width: '600px',
                             padding: '20px',
-                            position: 'relative', 
+                            position: 'relative',
                             zIndex: 1001,
                             backgroundColor: 'black'
                         }}>
@@ -504,6 +518,14 @@ const Complains = () => {
                                         sx={{ marginRight: '20px', marginLeft: '10px' }} />
                                 </div>
 
+                                {
+                                    error2 && (
+                                        <Stack sx={{ width: '100%' }} spacing={2}>
+                                            <Alert severity="warning">{message2}</Alert>
+                                        </Stack>
+                                    )
+                                }
+
                                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                                     <Button variant="contained" onClick={() => addingResponse(resrow.complain_id)} sx={{ background: "orange", width: '100%', marginRight: '10px', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Add Response</Button>
                                 </div>
@@ -526,8 +548,7 @@ const Complains = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    // Adjust as needed
-                    marginRight: '300px', // Adjust as needed
+                    marginRight: '300px',
                     zIndex: 1001,
                     marginTop: '10%'
                 }}>
@@ -537,7 +558,7 @@ const Complains = () => {
                             borderRadius: '5px',
                             backgroundColor: '#f0f0f5',
                             width: '500px',
-                            position: 'relative', // Add this to ensure content appears on top of the overlay
+                            position: 'relative',
                             zIndex: 1001
                         }}>
                             <Typography sx={{ textAlign: 'center' }}>Confirm Remove? </Typography>

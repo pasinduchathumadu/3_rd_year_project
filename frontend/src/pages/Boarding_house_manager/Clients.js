@@ -1,8 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
-// import ProfilePicture from '../../assests/profile-picture.png';
-// import PetImage from '../../assests/blog-1.png';
-// import OwnerImage from '../../assests/profile-picture.png';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -21,16 +19,11 @@ import { IconButton, Tab, Card, CardActionArea, CardContent, CardMedia, Typograp
 import { Tabs } from "@mui/material";
 import { FormLabel, TextField } from "@mui/material";
 import StarIcon from '@mui/icons-material/Star';
-// import Slip from '../../assests/bankslip1.png';
 import axios from "axios";
-// import CircleIcon from '@mui/icons-material/Circle';
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from "react-router";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import PetsIcon from '@mui/icons-material/Pets';
 import { Stack } from "@mui/system";
-
-
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -53,67 +46,81 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const Clients = () => {
-    // drop down
-    const [clients, setClients] = React.useState('1');
-    const handleChange = (event) => {
-        setClients(event.target.value);
-    };
 
     const [showRequests, setShowRequests] = useState(0);
     const handleForm = (event, existing_value) => {
         setShowRequests(existing_value)
     };
 
-    // boarding requests viewing
+    // boarding requests viewing - with filter
     const [request, setrequest] = useState([]) //boarding request array
+
+    const [clients1, setclients1] = React.useState('1')
+    const handleChange1 = (event) => {
+        setclients1(event.target.value)
+
+        view_requests()
+    };
     const view_requests = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/view_requests')
-            const data = await res.data
-            return data
+            const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/view_requests/${clients1}`)
+            setrequest(res.data.data)
+            setclients1('')
         } catch (err) {
-            console.log("There is an internal error")
+            console.log(clients1)
+            console.log(err)
         }
     }
     useEffect(() => {
         view_requests()
-            .then((data) => setrequest(data.data))
-            .catch((err) => console.log(err))
-    })
+    }, [clients1, view_requests])
 
-    //all clients - get services from boarding house
+    //all clients - get services from boarding house - WITH FILTERING
+    const [clients, setClients] = React.useState('1');
+    const handleChange = (event) => {
+        setClients(event.target.value);
+        view_allclients()
+    };
+
     const [allclient, setallclient] = useState([])
     const view_allclients = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/view_allclients')
-            const data = await res.data
-            return data
+            const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/view_allclients/${clients}`)
+            setallclient(res.data.data)
+            setClients('')
         } catch (err) {
-            console.log("There is an internal error")
+            console.log(clients)
+            console.log(err)
         }
     }
     useEffect(() => {
         view_allclients()
-            .then((data) => setallclient(data.data))
-            .catch((err) => console.log(err))
-    })
+    }, [clients, view_allclients]);
 
     // view requests for refund
     const [refund, setrefund] = useState([])
+
+    const [clients2, setclients2] = React.useState('1')
+    const handleChange2 = (event) => {
+        setclients2(event.target.value)
+
+        refund_requests()
+    };
     const refund_requests = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/pet_care/boarding_house_manager/refund_requests')
-            const data = await res.data
-            return data
+            const res = await axios.get(`http://localhost:5000/pet_care/boarding_house_manager/refund_requests/${clients2}`)
+            setrefund(res.data.data)
+            setclients2('')
+
         } catch (err) {
-            console.log('There is an internal error')
+            console.log(clients2)
+            console.log(err)
         }
     }
     useEffect(() => {
         refund_requests()
-            .then((data) => setrefund(data.data))
-            .catch((err) => console.log(err))
-    })
+
+    }, [clients2, refund_requests])
 
 
     const input = new Date();
@@ -178,15 +185,25 @@ const Clients = () => {
     const handleAmount = (event) => {
         setamount(event.target.value)
     }
-    const refundAdding = async (id) => {
-        setaddRefund(false)
-        showRequests(1)
+    const [refundid , setrefundid ] = useState("")
+    const handleconfirm = (refund_id)=>{
+        setrefundid(refund_id)
+        handleFileUpload()
+    }
+    const refundAdding = async () => {
+     
+       
 
         try {
             const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/refundAdding`, {
-                id,
-                amount
+                refundid,
+                amount,
+                image
             })
+            if(res.data.message === "Refund Added"){
+                setaddRefund(false)
+                showRequests(1)
+            }
         } catch (err) {
             console.log(err)
         }
@@ -234,19 +251,18 @@ const Clients = () => {
         navigate("/profile")
     }
 
-    // clients' boarding requests - from accepted to arrived
-    const [error3, seterror3] = useState(false)
-    const [message3, setmessage3] = useState("")
-
      // get profile picture
      const getProfilepicturepath = (imageName) => {
         return require(`../../../../backend/images/store/${imageName}`)
-
     }
 
-    const AcceptedtoArrived = async (id) => {
+    // clients' boarding requests - from pending to accepted
+    const [error3, seterror3] = useState(false)
+    const [message3, setmessage3] = useState("")
+
+    const PendingToAccepted = async (id) => {
         try {
-            const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/AcceptedtoArrived`, {
+            const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/PendingToAccepted`, {
                 id
             })
             if (res.data.message === 'There is an internal error') {
@@ -261,13 +277,13 @@ const Clients = () => {
         }
     }
 
-    // clients' boarding requests - from arrvied to completed
+    // clients' boarding requests - from accepted to completed
     const [error4, seterror4] = useState(false)
     const [message4, setmessage4] = useState("")
 
-    const ArrviedtoCompleted = async (id) => {
+    const AcceptedToCompleted = async (id) => {
         try {
-            const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/ArrviedtoCompleted`, {
+            const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/AcceptedToCompleted`, {
                 id
             })
             if (res.data.message === 'There is an internal error') {
@@ -281,6 +297,38 @@ const Clients = () => {
             console.log('There is an internal error')
         }
     }
+    const [image, setimage] = useState("")
+    const [selectfile, setfile] = useState(null)
+    const handlefilechange = async (event) => {
+        const file = event.target.files[0]
+        setfile(file)
+        setimage(file.name)
+      }
+    const handleFileUpload = async () => {
+        seterror(false)
+      
+        try {
+          const formData = new FormData();
+          formData.append("image", selectfile);
+    
+          const res = await axios.post("http://localhost:5000/pet_care/user/upload", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+          if (res.data.message === "File uploaded successfully") {
+            refundAdding()
+          
+          }
+    
+          console.log("File uploaded successfully!");
+          // Add any further handling of the response from the backend if needed.
+    
+        } catch (err) {
+          console.log("There is an internal error", err);
+        }
+      }
+    
 
 
     return (
@@ -290,6 +338,9 @@ const Clients = () => {
                     <p>Boarding House Manager</p>
                     <p className="top-line-text">Today</p>
                     <p class="top-line-text">{date}</p>
+                </div>
+                <div className="top-line">
+                    <p style={{ fontSize: '20px', fontWeight: 1000, color: 'black' }}>Boarding Requests</p>
                 </div>
                 <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
@@ -322,7 +373,7 @@ const Clients = () => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={clients}
+
                                     variant='filled'
                                     label="clients"
                                     onChange={handleChange}
@@ -345,7 +396,7 @@ const Clients = () => {
                                         <StyledTableCell align="center">Client Name</StyledTableCell>
                                         <StyledTableCell align="center">Address</StyledTableCell>
                                         <StyledTableCell align="center">Contact Number</StyledTableCell>
-                                        <StyledTableCell align="center">Status</StyledTableCell>
+                                        {/* <StyledTableCell align="center">Status</StyledTableCell> */}
                                         <StyledTableCell align="center"></StyledTableCell>
                                     </TableRow>
                                 </TableHead>
@@ -356,9 +407,9 @@ const Clients = () => {
                                             <StyledTableCell align="center">{client.name}</StyledTableCell>
                                             <StyledTableCell align="center">{client.address}</StyledTableCell>
                                             <StyledTableCell align="center">{client.contact_number}</StyledTableCell>
-                                            <StyledTableCell align="center">
+                                            {/* <StyledTableCell align="center">
                                                 {client.status === "premium" ? <><StarIcon sx={{ color: 'orange' }} /> premium</> : "regular"}
-                                            </StyledTableCell>
+                                            </StyledTableCell> */}
                                             <StyledTableCell align="center">
                                                 <Button onClick={() => viewPetDetails(client.client_id)} sx={{ color: 'white', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Pets Details</Button>
                                             </StyledTableCell>
@@ -380,18 +431,17 @@ const Clients = () => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={clients}
+
                                     variant='filled'
                                     label="clients"
-                                    onChange={handleChange}
-                                    l
+                                    onChange={handleChange1}
+                                    
                                     sx={{ fontSize: '11px' }}
                                 >
                                     <MenuItem value={1}>All</MenuItem>
                                     <MenuItem value={2}>Pending</MenuItem>
                                     <MenuItem value={3}>Accepted</MenuItem>
-                                    <MenuItem value={4}>Arrived</MenuItem>
-                                    <MenuItem value={5}>Completed</MenuItem>
+                                    <MenuItem value={4}>Completed</MenuItem>
                                 </Select>
                             </FormControl>
                         </Box>
@@ -407,28 +457,30 @@ const Clients = () => {
                                         <StyledTableCell align="center">Package</StyledTableCell>
                                         <StyledTableCell align="center">Arrival Date</StyledTableCell>
                                         <StyledTableCell align="center">Carry Date</StyledTableCell>
-                                        <StyledTableCell align="center">Request Status</StyledTableCell>
+                                        {/* <StyledTableCell align="center">Request Status</StyledTableCell> */}
                                         <StyledTableCell align="center"></StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {request && request.map((requestrow, index) => (
-                                        <StyledTableRow key={requestrow.id}>
+                                        <StyledTableRow key={requestrow.request_id}>
                                             <StyledTableCell align="center">{requestrow.request_id}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.client_id}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.pet_id}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.package_name}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.board_arrival_date}</StyledTableCell>
                                             <StyledTableCell align="center">{requestrow.board_carry_date}</StyledTableCell>
-                                            <StyledTableCell align="center">{requestrow.request_status}</StyledTableCell>
-                                            <StyledTableCell align="center">
-                                                {requestrow.request_status === 'Accepted'
-                                                    ? (<Button onClick={() => AcceptedtoArrived(requestrow.request_id)} sx={{ color: 'white', width: '150px', backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' } }}>Arrived</Button>) :
-                                                    requestrow.request_status === 'Arrived'
-                                                        ? (<Button onClick={() => ArrviedtoCompleted(requestrow.request_id)} sx={{ color: 'white', width: '150px', backgroundColor: '#000000', ':hover': { backgroundColor: '#000000' } }}>Completed</Button>)
-                                                        : ""}
+                                            {/* <StyledTableCell align="center">{requestrow.request_status}</StyledTableCell> */}
+                                            <StyledTableCell align="left">
+                                                {requestrow.request_status === 'pending'
+                                                    ? (<Button onClick={() => PendingToAccepted(requestrow.request_id)} sx={{color:'white', backgroundColor:'orange', ':hover':{backgroundColor:'orange'}}}>Accepted</Button>) :
+                                                    requestrow.request_status === 'accepted'
+                                                        ? (<Button onClick={() => AcceptedToCompleted(requestrow.request_id)} sx={{ color: 'white', backgroundColor: 'black', ':hover': { backgroundColor: 'black' } }}>Complete</Button>) :
+                                                            requestrow.request_status === 'completed' 
+                                                            ? "Completed" : ""}
 
                                             </StyledTableCell>
+
                                         </StyledTableRow>
                                     ))}
                                 </TableBody>
@@ -447,16 +499,16 @@ const Clients = () => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={clients}
+
                                     variant='filled'
                                     label="clients"
-                                    onChange={handleChange}
-                                    l
+                                    onChange={handleChange2}
+                                    
                                     sx={{ fontSize: '11px' }}
                                 >
                                     <MenuItem value={1}>All</MenuItem>
-                                    <MenuItem value={2}>Cancelled</MenuItem>
-                                    <MenuItem value={3}>Incompleted</MenuItem>
+                                    <MenuItem value={2}>Pending</MenuItem>
+                                    <MenuItem value={3}>Completed</MenuItem>
                                 </Select>
                             </FormControl>
                         </Box>
@@ -482,7 +534,7 @@ const Clients = () => {
                                             <StyledTableCell align="center">{refundrow.request_id}</StyledTableCell>
                                             <StyledTableCell align="center">{refundrow.client_id}</StyledTableCell>
                                             <StyledTableCell align="center">
-                                                {refundrow.cancelled_date === "" ? "Incompleted Request" : refundrow.cancelled_date}
+                                                {refundrow.early_cancel_date === "" ? "Incompleted Request" : refundrow.early_cancel_date}
                                             </StyledTableCell>
                                             <StyledTableCell align="center">{refundrow.price}.00</StyledTableCell>
                                             <StyledTableCell align="center">
@@ -553,29 +605,29 @@ const Clients = () => {
                                             alt={petrow.name} />
 
                                         <CardContent>
-                                            <Stack sx={{display:'flex', flexDirection:'row'}}>
+                                            <Stack sx={{ display: 'flex', flexDirection: 'row' }}>
                                                 <Typography gutterBottom component={"div"} sx={{ textAlign: 'center' }}>Pet ID  </Typography>
-                                                <Typography sx={{marginLeft:'5%', fontWeight:'bold'}}>: {petrow.pet_id}</Typography>
+                                                <Typography sx={{ marginLeft: '5%', fontWeight: 'bold' }}>: {petrow.pet_id}</Typography>
                                             </Stack>
 
-                                            <Stack sx={{display:'flex', flexDirection:'row'}}>
+                                            <Stack sx={{ display: 'flex', flexDirection: 'row' }}>
                                                 <Typography gutterBottom component={"div"} sx={{ textAlign: 'center' }}> Name  </Typography>
-                                                <Typography sx={{marginLeft:'5%', fontWeight:'bold'}}>: {petrow.name}</Typography>
+                                                <Typography sx={{ marginLeft: '5%', fontWeight: 'bold' }}>: {petrow.name}</Typography>
                                             </Stack>
 
-                                            <Stack sx={{display:'flex', flexDirection:'row'}}>
+                                            <Stack sx={{ display: 'flex', flexDirection: 'row' }}>
                                                 <Typography gutterBottom component={"div"} sx={{ textAlign: 'center' }}>Category  </Typography>
-                                                <Typography sx={{marginLeft:'5%'}}>: {petrow.category}</Typography>
+                                                <Typography sx={{ marginLeft: '5%' }}>: {petrow.category}</Typography>
                                             </Stack>
 
-                                            <Stack sx={{display:'flex', flexDirection:'row'}}>
+                                            <Stack sx={{ display: 'flex', flexDirection: 'row' }}>
                                                 <Typography gutterBottom component={"div"} sx={{ textAlign: 'center' }}>Breed  </Typography>
-                                                <Typography sx={{marginLeft:'5%', color:'red'}}>: {petrow.breed}</Typography>
+                                                <Typography sx={{ marginLeft: '5%', color: 'red' }}>: {petrow.breed}</Typography>
                                             </Stack>
 
-                                            <Stack sx={{display:'flex', flexDirection:'row'}}>
+                                            <Stack sx={{ display: 'flex', flexDirection: 'row' }}>
                                                 <Typography gutterBottom component={"div"} sx={{ textAlign: 'center' }}> Sex  </Typography>
-                                                <Typography sx={{marginLeft:'5%'}}>: {petrow.sex}</Typography>
+                                                <Typography sx={{ marginLeft: '5%' }}>: {petrow.sex}</Typography>
                                             </Stack>
                                         </CardContent>
                                     </CardActionArea>
@@ -608,7 +660,7 @@ const Clients = () => {
                             borderRadius: '10px',
                             width: '1000px',
                             padding: '20px',
-                            position: 'relative', // Add this to ensure content appears on top of the overlay
+                            position: 'relative',
                             zIndex: 1001,
                             backgroundColor: 'black'
                         }}>
@@ -744,20 +796,12 @@ const Clients = () => {
                                                 id="outlined-disabled"
                                                 label=""
                                                 onChange={handleAmount}
-                                            // defaultValue={drow1.refund_mny}
                                             /></div>
                                     </Box>
                                 </div>
 
                                 <div className="form-label">
                                     <FormLabel>Upload Bank Slip : </FormLabel>
-                                    {/* <TextField
-                                        sx={{ marginRight: '20px', marginLeft: '10px' }}
-                                        type="file"
-                                        variant="outlined"
-                                        placeholder="Choose a file"
-                                        inputProps={{ accept: 'image/*' }} 
-                                    /> */}
                                     <div style={{ display: 'inline' }}>
                                         <Button
                                             variant="contained"
@@ -766,14 +810,20 @@ const Clients = () => {
                                             startIcon={<CloudUploadIcon />}
                                         >
                                             Upload File
-                                            <input type="file" hidden required />
+                                            <input type="file" hidden onChange={handlefilechange} required />
 
                                         </Button>
+                                        <div style={{ display: 'inline', paddingTop: '6px', paddingLeft: '7px' }}>
+                                        {selectfile && (
+                                            <Typography sx={{color:'black'}}>{selectfile.name}</Typography>
+
+                                        )}
+                                    </div>        
                                     </div>
                                 </div>
-
+                               
                                 <div>
-                                    <Button variant="contained" onClick={() => refundAdding(drow1.request_id)} sx={{ background: 'orange', width: '100%', marginRight: '10px', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Place Refund</Button>
+                                    <Button variant="contained" onClick={() =>handleconfirm(drow1.refund_id)} sx={{ background: 'orange', width: '100%', marginRight: '10px', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Place Refund</Button>
                                 </div>
                             </div>
                         </FormControl>

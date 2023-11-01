@@ -42,7 +42,7 @@ import logo from "../../assests/2.png";
 import star from "../../assests/star3.png";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faL, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
+import { faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
 
 
 import 'aos/dist/aos.css';
@@ -91,7 +91,8 @@ function Pet_grooming() {
   const [fill, setfilled] = useState(false)
   const [paymentdo, setpaymentdo] = useState(false)
   const [employee_detail, setEmployeeDetail] = useState([]);
-  const [loading , setLoading ] = useState(true)
+  const [loading, setLoading] = useState(true)
+  const [packageID, setpackageid] = useState("")
   const handleDateChange = (newDate) => {
     setSelectedDate(newDate);
   };
@@ -105,6 +106,21 @@ function Pet_grooming() {
   twoWeeksFromToday.setDate(currentDate.getDate() + 14);
 
   const selectedDateString = selectedDate ? selectedDate.format('YYYY-MM-DD') : '';
+  const [facilities1, setfacilities] = useState([])
+  const getpackagefacilities = async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/pet_care/user/getfacilities')
+      const data = await res.data
+      return data
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  useEffect(() => {
+    getpackagefacilities().then((data) => setfacilities(data.data)).catch((err) => console.log(err))
+  })
 
   const handleFormOpen = async () => {
     seterror(false)
@@ -153,25 +169,17 @@ function Pet_grooming() {
   };
 
   const random_assit = async (package_id) => {
-    const cancel_date = new Date(selectedDateString);
-    cancel_date.setDate(cancel_date.getDate() + 2);
-    const new_cancel_date = cancel_date.toISOString().substr(0, 10);
-    
-   
-  
-   
     if (fill) {
       navigate('/Pet_grooming')
     }
     else {
+      setpackageid(package_id)
       try {
         const res = await axios.post('http://localhost:5000/pet_care/user/random_assistant', {
           Id,
           selectedDateString,
-          email,
-          package_id,
-          choose_package,
-          new_cancel_date
+          choose_package
+
         })
         const data = await res.data
         setEmployeeDetail(data.data)
@@ -189,21 +197,21 @@ function Pet_grooming() {
           if (data.data[0].package_name === "BATH") {
             setfirst(false)
             setbath(true)
-          
+
 
           }
           if (data.data[0].package_name === "BATH AND HAIR CUTS") {
             setfirst(false)
             sethair(true)
 
-         
+
 
           }
           if (data.data[0].package_name === "MINI GROOMING") {
             setfirst(false)
             setmini(true)
 
-         
+
           }
         }
 
@@ -215,8 +223,18 @@ function Pet_grooming() {
   }
 
   const get_appointment_id = async () => {
+    const cancel_date = new Date(selectedDateString);
+    cancel_date.setDate(cancel_date.getDate() + 2);
+    const new_cancel_date = cancel_date.toISOString().substr(0, 10);
+
     try {
-      const res = await axios.get(`http://localhost:5000/pet_care/user/get_appointment_id/${email}`)
+      const res = await axios.post(`http://localhost:5000/pet_care/user/get_appointment_id`, {
+        selectedDateString,
+        email,
+        packageID,
+        Id,
+        new_cancel_date
+      })
 
       if (res.data.message === "success") {
         confirm()
@@ -304,7 +322,7 @@ function Pet_grooming() {
 
   useEffect(() => {
     get_timeslot()
-      .then((data) => {settimeslot(data.data);setLoading(false)})
+      .then((data) => { settimeslot(data.data); setLoading(false) })
       .catch((err) => console.log(err))
   })
   const getImageSrc = (imageName) => {
@@ -327,7 +345,7 @@ function Pet_grooming() {
 
   useEffect(() => {
     get_package()
-      .then((data) => {setpackage(data.data);setLoading(false)})
+      .then((data) => { setpackage(data.data); setLoading(false) })
       .catch((err) => console.log(err))
   })
 
@@ -342,1073 +360,1072 @@ function Pet_grooming() {
 
   return (
     <div>
-      {loading ?(
-        <LoadingIndicator/>
-      ):(
+      {loading ? (
+        <LoadingIndicator />
+      ) : (
 
-     
-    <>
 
-      {first && (
-        <><div
-          className='smooth-scroll'
-          style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)),url(${backgroundImageUrl})`,
-            backgroundSize: 'cover',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center',
-            minHeight: '90vh',
-            display: 'flex',
-            flexDirection: "column",
-            justifyContent: 'center',
-            alignItems: 'center',
-            color: 'white',
-          }}
-        >
+        <>
 
-          <div style={{ height: "15vh", width: "90%", backgroundColor: "rgba(255, 255, 255, 0.5)", color: "black", marginRight: "10px", alignItems: 'center', display: 'flex', }}>
-            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={['DateTimePicker']} sx={{ width: "50vh", marginLeft: "10px", marginTop: "-10px" }}>
-                  <DatePicker label="Book your time" value={selectedDate} onChange={handleDateChange} />
-                </DemoContainer>
-              </LocalizationProvider>
-              <FormControl sx={{ m: 1, width: 300 }}>
-                <InputLabel id="demo-single-checkbox-label">Select Package</InputLabel>
-                <Select
-                  labelId="demo-multiple-checkbox-label"
-                  id="demo-multiple-checkbox"
-                  value={choose_package}
-                  onChange={handlepackage}
-                  input={<OutlinedInput label="Tag" />}
-                  renderValue={(selected) => selected}
-                  MenuProps={MenuProps}
-                >
-                  {package_care && package_care.map((name, index) => (
-                    <MenuItem key={name.id} value={name.package_name}>
-                      <Checkbox checked={choose_package === name.package_name} />
-                      <ListItemText primary={name.package_name} />
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              {third && (
-                <><FormControl sx={{ m: 1, width: 300 }}>
-                  <InputLabel id="demo-single-checkbox-label">Time Slot</InputLabel>
-                  <Select
-                    labelId="demo-multiple-checkbox-label"
-                    id="demo-multiple-checkbox"
-                    value={personName}
-                    onChange={handleChange}
-                    input={<OutlinedInput label="Tag" />}
-                    renderValue={(selected) => selected}
-                    MenuProps={MenuProps}
-                  >
-                    {timeslot && timeslot.map((name, index) => (
-                      <MenuItem key={name.id} value={name.start + " - " + name.end}>
-                        <Checkbox checked={personName === name.start + " - " + name.end} />
-                        <ListItemText primary={name.start + " - " + name.end} />
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl><Button variant="contained" disableElevation sx={{ backgroundColor: "orange", marginLeft: "100px", marginTop: "0px", ':hover': { backgroundColor: 'orange' } }} onClick={handleFormOpen}>
-                    Submit
-                  </Button></>
+          {first && (
+            <><div
+              className='smooth-scroll'
+              style={{
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)),url(${backgroundImageUrl})`,
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center',
+                minHeight: '90vh',
+                display: 'flex',
+                flexDirection: "column",
+                justifyContent: 'center',
+                alignItems: 'center',
+                color: 'white',
+              }}
+            >
+
+              <div style={{ height: "15vh", width: "90%", backgroundColor: "rgba(255, 255, 255, 0.5)", color: "black", marginRight: "10px", alignItems: 'center', display: 'flex', }}>
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer components={['DateTimePicker']} sx={{ width: "50vh", marginLeft: "10px", marginTop: "-10px" }}>
+                      <DatePicker label="Book your time" value={selectedDate} onChange={handleDateChange} />
+                    </DemoContainer>
+                  </LocalizationProvider>
+                  <FormControl sx={{ m: 1, width: 300 }}>
+                    <InputLabel id="demo-single-checkbox-label">Select Package</InputLabel>
+                    <Select
+                      labelId="demo-multiple-checkbox-label"
+                      id="demo-multiple-checkbox"
+                      value={choose_package}
+                      onChange={handlepackage}
+                      input={<OutlinedInput label="Tag" />}
+                      renderValue={(selected) => selected}
+                      MenuProps={MenuProps}
+                    >
+                      {package_care && package_care.map((name, index) => (
+                        <MenuItem key={name.id} value={name.package_name}>
+                          <Checkbox checked={choose_package === name.package_name} />
+                          <ListItemText primary={name.package_name} />
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  {third && (
+                    <><FormControl sx={{ m: 1, width: 300 }}>
+                      <InputLabel id="demo-single-checkbox-label">Time Slot</InputLabel>
+                      <Select
+                        labelId="demo-multiple-checkbox-label"
+                        id="demo-multiple-checkbox"
+                        value={personName}
+                        onChange={handleChange}
+                        input={<OutlinedInput label="Tag" />}
+                        renderValue={(selected) => selected}
+                        MenuProps={MenuProps}
+                      >
+                        {timeslot && timeslot.map((name, index) => (
+                          <MenuItem key={name.id} value={name.start + " - " + name.end}>
+                            <Checkbox checked={personName === name.start + " - " + name.end} />
+                            <ListItemText primary={name.start + " - " + name.end} />
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl><Button variant="contained" disableElevation sx={{ backgroundColor: "orange", marginLeft: "100px", marginTop: "0px", ':hover': { backgroundColor: 'orange' } }} onClick={handleFormOpen}>
+                        Submit
+                      </Button></>
+
+                  )}
+
+
+                </div>
+
+
+
+              </div>
+              {error && (
+                <div style={{ marginTop: '2%', width: "40%" }}>
+                  <Stack sx={{ width: '100%' }} spacing={2}>
+                    {message === "Your time slot has been successfully reserved!" && (
+                      <Alert variant="filled" severity="success">{message}</Alert>
+                    )}
+
+
+                    {message !== "Your time slot has been successfully reserved!" && (
+                      <Alert variant="filled" severity="error">{message}</Alert>
+                    )}
+
+                  </Stack>
+                </div>
 
               )}
 
 
+              <h1 style={{ marginTop: "-290px", fontSize: '60px', fontWeight: 'bold' }}> Let's <span style={{ color: "orange", fontSize: '60px', fontWeight: 'bold' }}>Groom</span> your pet.</h1>
+
+              <Typography sx={{ color: 'red' }}>Note : Pick a Date within two weeks today onwards</Typography>
+
+
             </div>
 
+              <div style={{ backgroundColor: "black", height: "50vh" }} data-aos="zoom-out-down">
+
+                <h1 style={{ textAlign: "center", color: "white", fontSize: "10vh", fontWeight: "1" }}>Check Your Package Details</h1>
+                <h3 style={{ textAlign: "center", color: "white", fontWeight: "1", marginTop: '1%' }}>No Risk, 30-Day Money Back Return Policy,</h3><br></br>
 
 
-          </div>
-          {error && (
-            <div style={{ marginTop: '2%', width: "40%" }}>
-              <Stack sx={{ width: '100%' }} spacing={2}>
-                {message === "Your time slot has been successfully reserved!" && (
-                  <Alert variant="filled" severity="success">{message}</Alert>
-                )}
 
 
-                {message !== "Your time slot has been successfully reserved!" && (
-                  <Alert variant="filled" severity="error">{message}</Alert>
-                )}
+                <h1 style={{ fontSize: "60px", color: "white", textAlign: "center", fontWeight: "10000", marginTop: "60px", backgroundColor: "black", letterSpacing: "-2px", wordSpacing: "10px", height: "30vh" }}>
+                  Make The Payment
+                </h1>
 
-              </Stack>
+                <div
+                  className='servises'
+                  data-aos="zoom-in"
+                  style={{ backgroundColor: "rgb(235 235 235)", height: "110vh", marginLeft: "auto", marginRight: "auto", display: "flex", gap: "", marginTop: "" }}
+                >
+
+                  <Card sx={{
+                    maxWidth: 345, marginLeft: "220px", marginTop: "20px", height: "100vh", transition: "transform 0.5s",
+                    "&:hover": {
+                      transform: "scale(1.1)",
+                      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+
+                      // Gold color tint on hover
+                      "& $cardMedia": {
+                        filter: "brightness(1.2) sepia(1) hue-rotate(45deg)",
+                      }
+                    }
+                  }}>
+
+                    <CardActionArea>
+
+                      <CardMedia
+                        component="img"
+                        height="140"
+                        image={Bath}
+                        alt="Bath"
+                        className="cardMedia"
+                        sx={{ height: "35vh" }} />
+                      {package_care.filter((menu, index) => menu.package_id === 1).map((menu) => (
+                        <CardContent>
+                          <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: "", fontSize: "23px" }}>
+                            {menu.package_name}
+                          </Typography><Typography variant="body2" color="text.secondary">
+
+                            Rs.{menu.price}
+
+
+
+                          </Typography><ol style={{ listStyleType: 'none', padding: 0, textAlign: "", marginTop: "40px", color: "black", fontSize: "20px" }}>
+                            {facilities1.filter((menu, index) => menu.package_id === 1).map((menu, index) => (
+                              <li><CheckCircleIcon sx={{ color: "orange" }} /> {menu.facility}</li>
+                            ))}
+
+
+
+                          </ol><Typography variant="body2" color="text.secondary" sx={{ marginTop: "90px", textAlign: "center" }}>
+                            Clean grooming service without parabens,phthalates, and chamical dyes
+                          </Typography><div style={{ display: 'flex', justifyContent: 'center', marginTop: '25px' }}>
+                            <Button onClick={() => {
+                              if (choose_package === 'BATH') {
+                                random_assit(menu.package_id);
+                              }
+                            }} sx={{ backgroundColor: "black", width: "90%", '&:hover': { backgroundColor: 'black' } }} variant="contained">{choose_package === 'BATH' ? 'Pay' : 'SELECT'}</Button>
+                          </div>
+                        </CardContent>
+                      ))}
+
+                    </CardActionArea>
+                  </Card>
+
+
+
+
+                  <Card sx={{
+                    maxWidth: 345, marginLeft: "20px", marginTop: "20px", height: "100vh", transition: "transform 0.5s ",
+                    "&:hover": {
+                      transform: "scale(1.1)",
+                      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", // Add box shadow on hover
+                    },
+                  }}>
+                    <CardActionArea>
+                      <CardMedia style={{ height: "35vh" }}
+                        component="img"
+                        height="140"
+                        image={Haircut}
+                        alt="Haircut" />
+                      {package_care.filter((menu, index) => menu.package_id === 2).map((menu) => (
+                        <CardContent>
+
+                          <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: "", fontSize: "23px" }}>
+                            {menu.package_name}
+
+                          </Typography><Typography variant="body2" color="text.secondary">
+                            Rs.{menu.price}
+                          </Typography>
+
+                          <ol style={{ listStyleType: 'none', padding: 0, textAlign: "", marginTop: "40px", color: "black", fontSize: "20px" }}>
+                          {facilities1.filter((menu, index) => menu.package_id === 2).map((menu, index) => (
+                              <li><CheckCircleIcon sx={{ color: "orange" }} /> {menu.facility}</li>
+                            ))}
+                          
+                           
+                          </ol>
+                          <Typography variant="body2" color="text.secondary" sx={{ marginTop: "20px", textAlign: "center" }}>
+                            Clean grooming service without parabens,phthalates, and chamical dyes
+                          </Typography>
+
+                          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                            <Button onClick={() => {
+                              if (choose_package === 'BATH AND HAIR CUTS') {
+                                random_assit(menu.package_id);
+                              }
+                            }} sx={{ backgroundColor: "black", width: "90%", '&:hover': { backgroundColor: 'black' } }} variant="contained">{choose_package === 'BATH AND HAIR CUTS' ? 'Pay' : 'SELECT'}</Button>
+                          </div>
+                        </CardContent>
+                      ))}
+                    </CardActionArea>
+                  </Card>
+
+
+
+
+
+
+                  <Card sx={{
+                    maxWidth: 345, marginLeft: "20px", marginTop: "20px", height: "100vh", transition: "transform 0.5s ",
+                    "&:hover": {
+                      transform: "scale(1.1)",
+                      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", // Add box shadow on hover
+                    },
+                  }}>
+                    <CardActionArea>
+                      <CardMedia style={{ height: "35vh" }}
+                        component="img"
+                        height="140"
+                        image={massage}
+                        alt="Haircut" />
+                      {package_care.filter((menu, index) => menu.package_id === 3).map((menu) => (
+                        <CardContent>
+
+
+                          <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: "", fontSize: "23px" }}>
+                            {menu.package_name}
+                          </Typography><Typography variant="body2" color="text.secondary">
+                            Rs.{menu.price}
+                          </Typography>
+
+
+
+                          <ol style={{ listStyleType: 'none', padding: 0, textAlign: "", marginTop: "40px", color: "black", fontSize: "20px" }}>
+                          {facilities1.filter((menu, index) => menu.package_id === 3).map((menu, index) => (
+                              <li><CheckCircleIcon sx={{ color: "orange" }} /> {menu.facility}</li>
+                            ))}
+                           
+                          </ol>
+                          <Typography variant="body2" color="text.secondary" sx={{ marginTop: "20px", textAlign: "center" }}>
+                            Clean grooming service without parabens,phthalates, and chamical dyes
+                          </Typography>
+
+                          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+
+                            <Button onClick={() => {
+                              if (choose_package === 'MINI GROOMING') {
+                                random_assit(menu.package_id);
+                              }
+                            }} sx={{ backgroundColor: "black", width: "90%", '&:hover': { backgroundColor: 'black' } }} variant="contained">{choose_package === 'MINI GROOMING' ? 'Pay' : 'SELECT'}</Button>
+                          </div>
+                        </CardContent>
+                      ))}
+                    </CardActionArea>
+                  </Card>
+
+                </div>
+
+
+              </div></>
+
+
+          )}
+          {mini && (
+            <div style={{ marginTop: "4%" }}>
+              <div style={{ display: "f" }} data-aos="zoom-in">
+                <div
+                  style={{
+                    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)),url(${BathImage})`,
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
+                    width: "100%",
+                    height: "91.5vh",
+                    marginTop: "0px  ",
+                  }}
+                >
+                  <div style={{ padding: "80px" }}>
+                    <img
+                      className="smooth-scroll"
+                      src={logo}
+                      alt="Cage"
+                      style={{
+                        fontSize: "10px",
+                        width: "70px",
+                        height: "70px",
+                        marginLeft: "140px",
+                        borderRadius: "50%",
+                        marginBottom: "5px",
+                      }} />
+
+                    <h2
+                      style={{
+                        color: "white",
+                        marginLeft: "50px",
+                        fontSize: "50px",
+                      }}
+                    >
+                      Mini Grooming
+                    </h2>
+                    <h1
+                      style={{
+                        color: "white",
+                        marginLeft: "30px",
+                        fontSize: "15px",
+                        fontWeight: "1",
+                      }}
+                    >
+                      Our pet bathing service provides a relaxing and{" "}
+                    </h1>
+                    <h1
+                      style={{
+                        color: "white",
+                        marginLeft: "30px",
+                        fontSize: "15px",
+                        fontWeight: "1",
+                      }}
+                    >
+                      {" "}
+                      thorough bath for your furry companions, leaving them clean, fresh, and happy. {" "}
+                    </h1>
+                    <img
+                      className="smooth-scroll"
+                      src={star}
+                      alt="Cage"
+                      style={{
+                        fontSize: "10px",
+                        width: "150px",
+                        height: "150px",
+                        marginLeft: "100px",
+                        borderRadius: "50%",
+                        marginBottom: "-35px",
+                      }} />
+
+                    <div style={{ display: "flex", marginTop: "30px" }}></div>
+                  </div>
+                </div>
+                <Typography sx={{ marginTop: '2%', marginLeft: '40%', color: 'black', fontSize: '48px', fontWeight: '600' }}>Our Team</Typography>
+                <Stack
+
+                  direction={"row"}
+                  spacing={2}
+                  mt={4}
+                  mb={4}
+                  justifyContent={"center"}
+                  alignItems="center"
+                >
+
+                  {employee_detail &&
+                    employee_detail.map((menu, index) => (
+                      <Card
+                        key={index}
+                        sx={{
+                          backgroundColor: "black",
+                          width: 250,
+                          margin: "auto",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+
+                        <CardMedia>
+                          <Stack mt={4}>
+                            <img
+                              component="img"
+                              src={getImageSrc(menu.img)}
+                              alt="Down Arrow"
+                              style={{
+                                width: 200,
+                                height: 200,
+                                cursor: "pointer",
+                                borderRadius: "50%",
+                              }} />
+                          </Stack>
+                        </CardMedia>
+
+                        <CardContent>
+                          <Box>
+                            <Stack justifyContent={"center"} alignItems={"center"} mb={2}>
+                              <Typography
+                                variant="h6"
+                                data-aos="fade-right"
+                                sx={{ color: "white" }}
+
+                              >
+                                {menu.full_name}
+                              </Typography>
+                            </Stack>
+
+                            <Stack sx={{ color: "white" }}>
+                              <Stack direction={"row"} alignItems={"center"}>
+                                <Stack direction={"row"} alignItems={"center"} data-aos="fade-left">
+                                  <Typography variant="h6" marginRight={1} marginLeft={3}>
+                                    4.5
+                                  </Typography>
+                                  <FontAwesomeIcon icon={faStarHalfAlt} color="orange" size="1x" />
+                                  <FontAwesomeIcon icon={faStarHalfAlt} color="orange" size="1x" />
+                                  <FontAwesomeIcon icon={faStarHalfAlt} color="orange" size="1x" />
+                                </Stack>
+                              </Stack>
+
+                              <Stack alignItems={"center"} justifyContent={"center"}>
+                                <Typography variant="h6" data-aos="fade-left">
+                                  {menu.email}
+                                </Typography>
+                                <Typography variant="h6" data-aos="fade-right">
+                                  {menu.contact_number}
+                                </Typography>
+                                <Stack alignItems={"center"} justifyContent={"center"} mt={2} p={1}>
+                                  <Typography
+                                    variant="h3"
+                                    p={1}
+                                    data-aos="fade-right"
+                                    sx={{
+                                      color: "black",
+                                      backgroundColor: "white",
+                                      borderRadius: 10,
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                    }}
+                                  >
+
+                                    10 <span style={{ color: "orange", fontSize: "20px" }}> Pet grooming</span>
+                                  </Typography>
+                                </Stack>
+                              </Stack>
+
+                            </Stack>
+                          </Box>
+                        </CardContent>
+                      </Card>
+                    ))}
+                </Stack>
+
+
+
+                <div
+                  style={{
+                    backgroundColor: "#f5f7f6",
+                    width: "90%",
+                    height: "80vh",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    borderRadius: "8px",
+                  }}
+                  data-aos="zoom-in"
+                >
+                  <div style={{ marginTop: "5%" }}>
+                    <h1 style={{ textAlign: "center", paddingTop: "2%" }}>
+                      Appointment Details
+                    </h1>
+
+                    <Stack
+                      spacing={2}
+                      margin={2}
+                      style={{ padding: "450px", marginTop: "-400px" }}
+                    >
+                      <TextField
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                        variant="outlined"
+                        value={"Appointment Date: " + selectedDateString}
+                      ></TextField>
+                      <TextField
+                        variant="outlined"
+                        value={"Time Slot: " + personName}
+                      ></TextField>
+                      {selectpackage &&
+                        selectpackage.map((menu, index) => (
+                          <>
+                            <TextField
+                              variant="outlined"
+                              value={"PackageName: " + menu.package_name}
+                            ></TextField>
+                            <TextField
+                              variant="outlined"
+                              value={"Package Price: Rs." + menu.price}
+                            ></TextField>
+                          </>
+                        ))}
+
+                      <FormControlLabel
+                        control={<Checkbox defaultChecked color="primary"></Checkbox>}
+                        label="Agree terms & conditions"
+                      ></FormControlLabel>
+                      <Box display="flex" justifyContent="space-between">
+                        {selectpackage && selectpackage.map((menu, index) => (
+                          <Button
+                            onClick={() => payment1(menu.price)}
+                            sx={{
+                              backgroundColor: "black",
+                              width: "50%",
+                              ":hover": { backgroundColor: "black" },
+                            }}
+                            variant="contained"
+                          >
+                            Make The Payment
+                          </Button>
+
+                        ))}
+                        <Button
+                          onClick={cancel}
+                          sx={{
+                            backgroundColor: "red",
+                            width: "40%",
+                            ":hover": { backgroundColor: "red" },
+                          }}
+                          variant="contained"
+                        >
+                          Cancel
+                        </Button>
+                      </Box>
+                    </Stack>
+                  </div>
+                </div>
+              </div>
             </div>
 
           )}
-
-
-          <h1 style={{ marginTop: "-290px", fontSize: '60px', fontWeight: 'bold' }}> Let's <span style={{ color: "orange", fontSize: '60px', fontWeight: 'bold' }}>Groom</span> your pet.</h1>
-
-          <Typography sx={{ color: 'red' }}>Note : Pick a Date within two weeks today onwards</Typography>
-
-
-        </div>
-
-          <div style={{ backgroundColor: "black", height: "50vh" }} data-aos="zoom-out-down">
-
-            <h1 style={{ textAlign: "center", color: "white", fontSize: "10vh", fontWeight: "1" }}>Check Your Package Details</h1>
-            <h3 style={{ textAlign: "center", color: "white", fontWeight: "1", marginTop: '1%' }}>No Risk, 30-Day Money Back Return Policy,</h3><br></br>
-
-
-
-
-            <h1 style={{ fontSize: "60px", color: "white", textAlign: "center", fontWeight: "10000", marginTop: "60px", backgroundColor: "black", letterSpacing: "-2px", wordSpacing: "10px", height: "30vh" }}>
-              Make The Payment
-            </h1>
-
-            <div
-              className='servises'
-              data-aos="zoom-in"
-              style={{ backgroundColor: "rgb(235 235 235)", height: "110vh", marginLeft: "auto", marginRight: "auto", display: "flex", gap: "", marginTop: "" }}
-            >
-
-              <Card sx={{
-                maxWidth: 345, marginLeft: "220px", marginTop: "20px", height: "100vh", transition: "transform 0.5s",
-                "&:hover": {
-                  transform: "scale(1.1)",
-                  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
-
-                  // Gold color tint on hover
-                  "& $cardMedia": {
-                    filter: "brightness(1.2) sepia(1) hue-rotate(45deg)",
-                  }
-                }
-              }}>
-
-                <CardActionArea>
-
-                  <CardMedia
-                    component="img"
-                    height="140"
-                    image={Bath}
-                    alt="Bath"
-                    className="cardMedia"
-                    sx={{ height: "35vh" }} />
-                  {package_care.filter((menu, index) => menu.package_id === 1).map((menu) => (
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: "", fontSize: "23px" }}>
-                        {menu.package_name}
-                      </Typography><Typography variant="body2" color="text.secondary">
-
-                        Rs.{menu.price}
-
-                      </Typography><ol style={{ listStyleType: 'none', padding: 0, textAlign: "", marginTop: "40px", color: "black", fontSize: "20px" }}>
-                        <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Deep Cleaning Shampoo</li>
-                        <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Blow Dry</li>
-                        <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Ear Cleaning</li>
-                        <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> 15- Min Brushout</li>
-
-                      </ol><Typography variant="body2" color="text.secondary" sx={{ marginTop: "90px", textAlign: "center" }}>
-                        Clean grooming service without parabens,phthalates, and chamical dyes
-                      </Typography><div style={{ display: 'flex', justifyContent: 'center', marginTop: '25px' }}>
-                        <Button onClick={() => {
-                          if (choose_package === 'BATH') {
-                            random_assit(menu.package_id);
-                          }
-                        }} sx={{ backgroundColor: "black", width: "90%", '&:hover': { backgroundColor: 'black' } }} variant="contained">{choose_package === 'BATH' ? 'Pay' : 'SELECT'}</Button>
-                      </div>
-                    </CardContent>
-                  ))}
-
-                </CardActionArea>
-              </Card>
-
-
-
-
-              <Card sx={{
-                maxWidth: 345, marginLeft: "20px", marginTop: "20px", height: "100vh", transition: "transform 0.5s ",
-                "&:hover": {
-                  transform: "scale(1.1)",
-                  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", // Add box shadow on hover
-                },
-              }}>
-                <CardActionArea>
-                  <CardMedia style={{ height: "35vh" }}
-                    component="img"
-                    height="140"
-                    image={Haircut}
-                    alt="Haircut" />
-                  {package_care.filter((menu, index) => menu.package_id === 2).map((menu) => (
-                    <CardContent>
-
-                      <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: "", fontSize: "23px" }}>
-                        {menu.package_name}
-
-                      </Typography><Typography variant="body2" color="text.secondary">
-                        Rs.{menu.price}
-                      </Typography>
-
-
-                      <ol style={{ listStyleType: 'none', padding: 0, textAlign: "", marginTop: "40px", color: "black", fontSize: "20px" }}>
-                        <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Deep Cleaning Shampoo</li>
-                        <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Hair Cuting  And Styling</li>
-                        <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Blow Dry</li>
-                        <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Nail Trim</li>
-                        <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Ear Cleaning</li>
-                        <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> 15-Min Brushout</li>
-                      </ol>
-                      <Typography variant="body2" color="text.secondary" sx={{ marginTop: "20px", textAlign: "center" }}>
-                        Clean grooming service without parabens,phthalates, and chamical dyes
-                      </Typography>
-
-                      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-                        <Button onClick={() => {
-                          if (choose_package === 'BATH AND HAIR CUTS') {
-                            random_assit(menu.package_id);
-                          }
-                        }} sx={{ backgroundColor: "black", width: "90%", '&:hover': { backgroundColor: 'black' } }} variant="contained">{choose_package === 'BATH AND HAIR CUTS' ? 'Pay' : 'SELECT'}</Button>
-                      </div>
-                    </CardContent>
-                  ))}
-                </CardActionArea>
-              </Card>
-
-
-
-
-
-
-              <Card sx={{
-                maxWidth: 345, marginLeft: "20px", marginTop: "20px", height: "100vh", transition: "transform 0.5s ",
-                "&:hover": {
-                  transform: "scale(1.1)",
-                  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)", // Add box shadow on hover
-                },
-              }}>
-                <CardActionArea>
-                  <CardMedia style={{ height: "35vh" }}
-                    component="img"
-                    height="140"
-                    image={massage}
-                    alt="Haircut" />
-                  {package_care.filter((menu, index) => menu.package_id === 3).map((menu) => (
-                    <CardContent>
-
-
-                      <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: "", fontSize: "23px" }}>
-                        {menu.package_name}
-                      </Typography><Typography variant="body2" color="text.secondary">
-                        Rs.{menu.price}
-                      </Typography>
-
-
-
-                      <ol style={{ listStyleType: 'none', padding: 0, textAlign: "", marginTop: "40px", color: "black", fontSize: "20px" }}>
-                        <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Hair Styling</li>
-                        <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Sanitary Trim</li>
-                        <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Body Massage</li>
-                        <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> De-Shedding Treatment</li>
-                        <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Ear Cleaning</li>
-                        <li className="tick-icon"><CheckCircleIcon sx={{ color: "orange" }} /> Nail Trim</li>
-                      </ol>
-                      <Typography variant="body2" color="text.secondary" sx={{ marginTop: "20px", textAlign: "center" }}>
-                        Clean grooming service without parabens,phthalates, and chamical dyes
-                      </Typography>
-
-                      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-
-                        <Button onClick={() => {
-                          if (choose_package === 'MINI GROOMING') {
-                            random_assit(menu.package_id);
-                          }
-                        }} sx={{ backgroundColor: "black", width: "90%", '&:hover': { backgroundColor: 'black' } }} variant="contained">{choose_package === 'MINI GROOMING' ? 'Pay' : 'SELECT'}</Button>
-                      </div>
-                    </CardContent>
-                  ))}
-                </CardActionArea>
-              </Card>
-
-            </div>
-
-
-          </div></>
-
-
-      )}
-      {mini && (
-        <div style={{ marginTop: "4%" }}>
-          <div style={{ display: "f" }} data-aos="zoom-in">
-            <div
-              style={{
-                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)),url(${BathImage})`,
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center",
-                width: "100%",
-                height: "91.5vh",
-                marginTop: "0px  ",
-              }}
-            >
-              <div style={{ padding: "80px" }}>
-                <img
-                  className="smooth-scroll"
-                  src={logo}
-                  alt="Cage"
+          {hair && (
+            <div style={{ marginTop: "4%" }}>
+              <div style={{ display: "f" }} data-aos="zoom-in">
+                <div
                   style={{
-                    fontSize: "10px",
-                    width: "70px",
-                    height: "70px",
-                    marginLeft: "140px",
-                    borderRadius: "50%",
-                    marginBottom: "5px",
-                  }} />
-
-                <h2
-                  style={{
-                    color: "white",
-                    marginLeft: "50px",
-                    fontSize: "50px",
+                    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)),url(${BathImage})`,
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
+                    width: "100%",
+                    height: "91.5vh",
+                    marginTop: "0px  ",
                   }}
                 >
-                  Mini Grooming
-                </h2>
-                <h1
-                  style={{
-                    color: "white",
-                    marginLeft: "30px",
-                    fontSize: "15px",
-                    fontWeight: "1",
-                  }}
-                >
-                  Our pet bathing service provides a relaxing and{" "}
-                </h1>
-                <h1
-                  style={{
-                    color: "white",
-                    marginLeft: "30px",
-                    fontSize: "15px",
-                    fontWeight: "1",
-                  }}
-                >
-                  {" "}
-                  thorough bath for your furry companions, leaving them clean, fresh, and happy. {" "}
-                </h1>
-                <img
-                  className="smooth-scroll"
-                  src={star}
-                  alt="Cage"
-                  style={{
-                    fontSize: "10px",
-                    width: "150px",
-                    height: "150px",
-                    marginLeft: "100px",
-                    borderRadius: "50%",
-                    marginBottom: "-35px",
-                  }} />
+                  <div style={{ padding: "80px" }}>
+                    <img
+                      className="smooth-scroll"
+                      src={logo}
+                      alt="Cage"
+                      style={{
+                        fontSize: "10px",
+                        width: "70px",
+                        height: "70px",
+                        marginLeft: "140px",
+                        borderRadius: "50%",
+                        marginBottom: "5px",
+                      }} />
 
-                <div style={{ display: "flex", marginTop: "30px" }}></div>
-              </div>
-            </div>
-            <Typography sx={{ marginTop: '2%', marginLeft: '40%', color: 'black', fontSize: '48px', fontWeight: '600' }}>Our Team</Typography>
-            <Stack
+                    <h2
+                      style={{
+                        color: "white",
+                        marginLeft: "50px",
+                        fontSize: "50px",
+                      }}
+                    >
+                      Pet Bathing And Haircut
+                    </h2>
+                    <h1
+                      style={{
+                        color: "white",
+                        marginLeft: "30px",
+                        fontSize: "15px",
+                        fontWeight: "1",
+                      }}
+                    >
+                      Our pet bathing service provides a relaxing and {" "}
+                    </h1>
+                    <h1
+                      style={{
+                        color: "white",
+                        marginLeft: "30px",
+                        fontSize: "15px",
+                        fontWeight: "1",
+                      }}
+                    >
+                      {" "}
+                      thorough bath for your furry companions, leaving them clean, fresh, and happy. {" "}
+                    </h1>
+                    <img
+                      className="smooth-scroll"
+                      src={star}
+                      alt="Cage"
+                      style={{
+                        fontSize: "10px",
+                        width: "150px",
+                        height: "150px",
+                        marginLeft: "100px",
+                        borderRadius: "50%",
+                        marginBottom: "-35px",
+                      }} />
 
-              direction={"row"}
-              spacing={2}
-              mt={4}
-              mb={4}
-              justifyContent={"center"}
-              alignItems="center"
-            >
-
-              {employee_detail &&
-                employee_detail.map((menu, index) => (
-                  <Card
-                    key={index}
-                    sx={{
-                      backgroundColor: "black",
-                      width: 250,
-                      margin: "auto",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-
-                    <CardMedia>
-                      <Stack mt={4}>
-                        <img
-                          component="img"
-                          src={getImageSrc(menu.img)}
-                          alt="Down Arrow"
-                          style={{
-                            width: 200,
-                            height: 200,
-                            cursor: "pointer",
-                            borderRadius: "50%",
-                          }} />
-                      </Stack>
-                    </CardMedia>
-
-                    <CardContent>
-                      <Box>
-                        <Stack justifyContent={"center"} alignItems={"center"} mb={2}>
-                          <Typography
-                            variant="h6"
-                            data-aos="fade-right"
-                            sx={{ color: "white" }}
-
-                          >
-                            {menu.full_name}
-                          </Typography>
-                        </Stack>
-
-                        <Stack sx={{ color: "white" }}>
-                          <Stack direction={"row"} alignItems={"center"}>
-                            <Stack direction={"row"} alignItems={"center"} data-aos="fade-left">
-                              <Typography variant="h6" marginRight={1} marginLeft={3}>
-                                4.5
-                              </Typography>
-                              <FontAwesomeIcon icon={faStarHalfAlt} color="orange" size="1x" />
-                              <FontAwesomeIcon icon={faStarHalfAlt} color="orange" size="1x" />
-                              <FontAwesomeIcon icon={faStarHalfAlt} color="orange" size="1x" />
-                            </Stack>
-                          </Stack>
-
-                          <Stack alignItems={"center"} justifyContent={"center"}>
-                            <Typography variant="h6" data-aos="fade-left">
-                              {menu.email}
-                            </Typography>
-                            <Typography variant="h6" data-aos="fade-right">
-                              {menu.contact_number}
-                            </Typography>
-                            <Stack alignItems={"center"} justifyContent={"center"} mt={2} p={1}>
-                              <Typography
-                                variant="h3"
-                                p={1}
-                                data-aos="fade-right"
-                                sx={{
-                                  color: "black",
-                                  backgroundColor: "white",
-                                  borderRadius: 10,
-                                  alignItems: "center",
-                                  justifyContent: "center",
-                                }}
-                              >
-
-                                10 <span style={{ color: "orange", fontSize: "20px" }}> Pet grooming</span>
-                              </Typography>
-                            </Stack>
-                          </Stack>
-
-                        </Stack>
-                      </Box>
-                    </CardContent>
-                  </Card>
-                ))}
-            </Stack>
-
-
-
-            <div
-              style={{
-                backgroundColor: "#f5f7f6",
-                width: "90%",
-                height: "80vh",
-                marginLeft: "auto",
-                marginRight: "auto",
-                borderRadius: "8px",
-              }}
-              data-aos="zoom-in"
-            >
-              <div style={{ marginTop: "5%" }}>
-                <h1 style={{ textAlign: "center", paddingTop: "2%" }}>
-                  Appointment Details
-                </h1>
-
+                    <div style={{ display: "flex", marginTop: "30px" }}></div>
+                  </div>
+                </div>
+                <Typography sx={{ marginTop: '2%', marginLeft: '40%', color: 'black', fontSize: '48px', fontWeight: '600' }}>Our Team</Typography>
                 <Stack
-                  spacing={2}
-                  margin={2}
-                  style={{ padding: "450px", marginTop: "-400px" }}
-                >
-                  <TextField
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                    variant="outlined"
-                    value={"Appointment Date: " + selectedDateString}
-                  ></TextField>
-                  <TextField
-                    variant="outlined" 
-                    value={"Time Slot: " + personName}
-                  ></TextField>
-                  {selectpackage &&
-                    selectpackage.map((menu, index) => (
-                      <>
-                        <TextField
-                          variant="outlined"
-                          value={"PackageName: " + menu.package_name}
-                        ></TextField>
-                        <TextField
-                          variant="outlined"
-                          value={"Package Price: Rs." + menu.price}
-                        ></TextField>
-                      </>
-                    ))}
 
-                  <FormControlLabel
-                    control={<Checkbox defaultChecked color="primary"></Checkbox>}
-                    label="Agree terms & conditions"
-                  ></FormControlLabel>
-                  <Box display="flex" justifyContent="space-between">
-                    {selectpackage && selectpackage.map((menu, index) => (
-                      <Button
-                        onClick={() => payment1(menu.price)}
+                  direction={"row"}
+                  spacing={2}
+                  mt={4}
+                  mb={4}
+                  justifyContent={"center"}
+                  alignItems="center"
+                >
+
+                  {employee_detail &&
+                    employee_detail.map((menu, index) => (
+                      <Card
+                        key={index}
                         sx={{
                           backgroundColor: "black",
-                          width: "50%",
-                          ":hover": { backgroundColor: "black" },
+                          width: 250,
+                          margin: "auto",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "center",
                         }}
-                        variant="contained"
                       >
-                        Make The Payment
-                      </Button>
 
-                    ))}
-                    <Button
-                      onClick={cancel}
-                      sx={{
-                        backgroundColor: "red",
-                        width: "40%",
-                        ":hover": { backgroundColor: "red" },
-                      }}
-                      variant="contained"
-                    >
-                      Cancel
-                    </Button>
-                  </Box>
-                </Stack>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      )}
-      {hair && (
-        <div style={{ marginTop: "4%" }}>
-          <div style={{ display: "f" }} data-aos="zoom-in">
-            <div
-              style={{
-                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)),url(${BathImage})`,
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center",
-                width: "100%",
-                height: "91.5vh",
-                marginTop: "0px  ",
-              }}
-            >
-              <div style={{ padding: "80px" }}>
-                <img
-                  className="smooth-scroll"
-                  src={logo}
-                  alt="Cage"
-                  style={{
-                    fontSize: "10px",
-                    width: "70px",
-                    height: "70px",
-                    marginLeft: "140px",
-                    borderRadius: "50%",
-                    marginBottom: "5px",
-                  }} />
-
-                <h2
-                  style={{
-                    color: "white",
-                    marginLeft: "50px",
-                    fontSize: "50px",
-                  }}
-                >
-                  Pet Bathing And Haircut
-                </h2>
-                <h1
-                  style={{
-                    color: "white",
-                    marginLeft: "30px",
-                    fontSize: "15px",
-                    fontWeight: "1",
-                  }}
-                >
-                  Our pet bathing service provides a relaxing and {" "}
-                </h1>
-                <h1
-                  style={{
-                    color: "white",
-                    marginLeft: "30px",
-                    fontSize: "15px",
-                    fontWeight: "1",
-                  }}
-                >
-                  {" "}
-                  thorough bath for your furry companions, leaving them clean, fresh, and happy. {" "}
-                </h1>
-                <img
-                  className="smooth-scroll"
-                  src={star}
-                  alt="Cage"
-                  style={{
-                    fontSize: "10px",
-                    width: "150px",
-                    height: "150px",
-                    marginLeft: "100px",
-                    borderRadius: "50%",
-                    marginBottom: "-35px",
-                  }} />
-
-                <div style={{ display: "flex", marginTop: "30px" }}></div>
-              </div>
-            </div>
-            <Typography sx={{ marginTop: '2%', marginLeft: '40%', color: 'black', fontSize: '48px', fontWeight: '600' }}>Our Team</Typography>
-            <Stack
-
-              direction={"row"}
-              spacing={2}
-              mt={4}
-              mb={4}
-              justifyContent={"center"}
-              alignItems="center"
-            >
-
-              {employee_detail &&
-                employee_detail.map((menu, index) => (
-                  <Card
-                    key={index}
-                    sx={{
-                      backgroundColor: "black",
-                      width: 250,
-                      margin: "auto",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-
-                    <CardMedia>
-                      <Stack mt={4}>
-                        <img
-                          component="img"
-                          src={getImageSrc(menu.img)}
-                          alt="Down Arrow"
-                          style={{
-                            width: 200,
-                            height: 200,
-                            cursor: "pointer",
-                            borderRadius: "50%",
-                          }} />
-                      </Stack>
-                    </CardMedia>
-
-                    <CardContent>
-                      <Box>
-                        <Stack justifyContent={"center"} alignItems={"center"} mb={2}>
-                          <Typography
-                            variant="h6"
-                            data-aos="fade-right"
-                            sx={{ color: "white" }}
-
-                          >
-                            {menu.full_name}
-                          </Typography>
-                        </Stack>
-
-                        <Stack sx={{ color: "white" }}>
-                          <Stack direction={"row"} alignItems={"center"}>
-                            <Stack direction={"row"} alignItems={"center"} data-aos="fade-left">
-                              <Typography variant="h6" marginRight={1} marginLeft={3}>
-                                4.5
-                              </Typography>
-                              <FontAwesomeIcon icon={faStarHalfAlt} color="orange" size="1x" />
-                              <FontAwesomeIcon icon={faStarHalfAlt} color="orange" size="1x" />
-                              <FontAwesomeIcon icon={faStarHalfAlt} color="orange" size="1x" />
-                            </Stack>
+                        <CardMedia>
+                          <Stack mt={4}>
+                            <img
+                              component="img"
+                              src={getImageSrc(menu.img)}
+                              alt="Down Arrow"
+                              style={{
+                                width: 200,
+                                height: 200,
+                                cursor: "pointer",
+                                borderRadius: "50%",
+                              }} />
                           </Stack>
+                        </CardMedia>
 
-                          <Stack alignItems={"center"} justifyContent={"center"}>
-                            <Typography variant="h6" data-aos="fade-left">
-                              {menu.email}
-                            </Typography>
-                            <Typography variant="h6" data-aos="fade-right" sx={{fontSize:"5px"}}>
-                              {menu.contact_number}
-                            </Typography>
-                            <Stack alignItems={"center"} justifyContent={"center"} mt={2} p={1}>
+                        <CardContent>
+                          <Box>
+                            <Stack justifyContent={"center"} alignItems={"center"} mb={2}>
                               <Typography
-                                variant="h3"
-                                p={1}
+                                variant="h6"
                                 data-aos="fade-right"
-                                sx={{
-                                  color: "black",
-                                  backgroundColor: "white",
-                                  borderRadius: 10,
-                                  alignItems: "center",
-                                  justifyContent: "center",
-                                }}
-                              >
+                                sx={{ color: "white" }}
 
-                                10 <span style={{ color: "red", fontSize: "20px"}}> Pet grooming</span>
+                              >
+                                {menu.full_name}
                               </Typography>
                             </Stack>
-                          </Stack>
 
-                        </Stack>
-                      </Box>
-                    </CardContent>
-                  </Card>
-                ))}
-            </Stack>
+                            <Stack sx={{ color: "white" }}>
+                              <Stack direction={"row"} alignItems={"center"}>
+                                <Stack direction={"row"} alignItems={"center"} data-aos="fade-left">
+                                  <Typography variant="h6" marginRight={1} marginLeft={3}>
+                                    4.5
+                                  </Typography>
+                                  <FontAwesomeIcon icon={faStarHalfAlt} color="orange" size="1x" />
+                                  <FontAwesomeIcon icon={faStarHalfAlt} color="orange" size="1x" />
+                                  <FontAwesomeIcon icon={faStarHalfAlt} color="orange" size="1x" />
+                                </Stack>
+                              </Stack>
 
+                              <Stack alignItems={"center"} justifyContent={"center"}>
+                                <Typography variant="h6" data-aos="fade-left">
+                                  {menu.email}
+                                </Typography>
+                                <Typography variant="h6" data-aos="fade-right" sx={{ fontSize: "5px" }}>
+                                  {menu.contact_number}
+                                </Typography>
+                                <Stack alignItems={"center"} justifyContent={"center"} mt={2} p={1}>
+                                  <Typography
+                                    variant="h3"
+                                    p={1}
+                                    data-aos="fade-right"
+                                    sx={{
+                                      color: "black",
+                                      backgroundColor: "white",
+                                      borderRadius: 10,
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                    }}
+                                  >
 
+                                    10 <span style={{ color: "red", fontSize: "20px" }}> Pet grooming</span>
+                                  </Typography>
+                                </Stack>
+                              </Stack>
 
-            <div
-              style={{
-                backgroundColor: "#f5f7f6",
-                width: "90%",
-                height: "80vh",
-                marginLeft: "auto",
-                marginRight: "auto",
-                borderRadius: "8px",
-              }}
-              data-aos="zoom-in"
-            >
-              <div style={{ marginTop: "5%" }}>
-                <h1 style={{ textAlign: "center", paddingTop: "2%" }}>
-                  Appointment Details
-                </h1>
-
-                <Stack
-                  spacing={2}
-                  margin={2}
-                  style={{ padding: "450px", marginTop: "-400px" }}
-                >
-                  <TextField
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                    variant="outlined"
-                    value={"Appointment Date: " + selectedDateString}
-                  ></TextField>
-                  <TextField
-                    variant="outlined"
-                    value={"Time Slot: " + personName}
-                  ></TextField>
-                  {selectpackage &&
-                    selectpackage.map((menu, index) => (
-                      <>
-                        <TextField
-                          variant="outlined"
-                          value={"PackageName: " + menu.package_name}
-                        ></TextField>
-                        <TextField
-                          variant="outlined"
-                          value={"Package Price: Rs." + menu.price}
-                        ></TextField>
-                      </>
+                            </Stack>
+                          </Box>
+                        </CardContent>
+                      </Card>
                     ))}
+                </Stack>
 
-                  <FormControlLabel
-                    control={<Checkbox defaultChecked color="primary"></Checkbox>}
-                    label="Agree terms & conditions"
-                  ></FormControlLabel>
-                  <Box display="flex" justifyContent="space-between">
-                    {selectpackage && selectpackage.map((menu, index) => (
-                      <Button
-                        onClick={() => payment1(menu.price)}
+
+
+                <div
+                  style={{
+                    backgroundColor: "#f5f7f6",
+                    width: "90%",
+                    height: "80vh",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    borderRadius: "8px",
+                  }}
+                  data-aos="zoom-in"
+                >
+                  <div style={{ marginTop: "5%" }}>
+                    <h1 style={{ textAlign: "center", paddingTop: "2%" }}>
+                      Appointment Details
+                    </h1>
+
+                    <Stack
+                      spacing={2}
+                      margin={2}
+                      style={{ padding: "450px", marginTop: "-400px" }}
+                    >
+                      <TextField
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                        variant="outlined"
+                        value={"Appointment Date: " + selectedDateString}
+                      ></TextField>
+                      <TextField
+                        variant="outlined"
+                        value={"Time Slot: " + personName}
+                      ></TextField>
+                      {selectpackage &&
+                        selectpackage.map((menu, index) => (
+                          <>
+                            <TextField
+                              variant="outlined"
+                              value={"PackageName: " + menu.package_name}
+                            ></TextField>
+                            <TextField
+                              variant="outlined"
+                              value={"Package Price: Rs." + menu.price}
+                            ></TextField>
+                          </>
+                        ))}
+
+                      <FormControlLabel
+                        control={<Checkbox defaultChecked color="primary"></Checkbox>}
+                        label="Agree terms & conditions"
+                      ></FormControlLabel>
+                      <Box display="flex" justifyContent="space-between">
+                        {selectpackage && selectpackage.map((menu, index) => (
+                          <Button
+                            onClick={() => payment1(menu.price)}
+                            sx={{
+                              backgroundColor: "black",
+                              width: "50%",
+                              ":hover": { backgroundColor: "black" },
+                            }}
+                            variant="contained"
+                          >
+                            Make The Payment
+                          </Button>
+
+                        ))}
+                        <Button
+                          onClick={cancel}
+                          sx={{
+                            backgroundColor: "red",
+                            width: "40%",
+                            ":hover": { backgroundColor: "red" },
+                          }}
+                          variant="contained"
+                        >
+                          Cancel
+                        </Button>
+                      </Box>
+                    </Stack>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          )}
+          {bath && (
+            <div style={{ marginTop: "4%" }}>
+              <div style={{ display: "f" }} data-aos="zoom-in">
+                <div
+                  style={{
+                    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)),url(${BathImage})`,
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
+                    width: "100%",
+                    height: "91.5vh",
+                    marginTop: "0px  ",
+                  }}
+                >
+                  <div style={{ padding: "80px" }}>
+                    <img
+                      className="smooth-scroll"
+                      src={logo}
+                      alt="Cage"
+                      style={{
+                        fontSize: "10px",
+                        width: "70px",
+                        height: "70px",
+                        marginLeft: "140px",
+                        borderRadius: "50%",
+                        marginBottom: "5px",
+                      }} />
+
+                    <h2
+                      style={{
+                        color: "white",
+                        marginLeft: "50px",
+                        fontSize: "50px",
+                      }}
+                    >
+                      Pet Bathing
+                    </h2>
+                    <h1
+                      style={{
+                        color: "white",
+                        marginLeft: "30px",
+                        fontSize: "15px",
+                        fontWeight: "1",
+                      }}
+                    >
+                      Our pet bathing service provides a relaxing and{" "}
+                    </h1>
+                    <h1
+                      style={{
+                        color: "white",
+                        marginLeft: "30px",
+                        fontSize: "15px",
+                        fontWeight: "1",
+                      }}
+                    >
+                      {" "}
+                      thorough bath for your furry companions, leaving them clean,
+                      fresh, and happy.{" "}
+                    </h1>
+                    <img
+                      className="smooth-scroll"
+                      src={star}
+                      alt="Cage"
+                      style={{
+                        fontSize: "10px",
+                        width: "150px",
+                        height: "150px",
+                        marginLeft: "100px",
+                        borderRadius: "50%",
+                        marginBottom: "-35px",
+                      }} />
+
+                    <div style={{ display: "flex", marginTop: "30px" }}></div>
+                  </div>
+                </div>
+                <Typography sx={{ marginTop: '2%', marginLeft: '40%', color: 'black', fontSize: '48px', fontWeight: '600' }}>Our Team</Typography>
+                <Stack
+
+                  direction={"row"}
+                  spacing={2}
+                  mt={4}
+                  mb={4}
+                  justifyContent={"center"}
+                  alignItems="center"
+                >
+
+                  {employee_detail &&
+                    employee_detail.map((menu, index) => (
+                      <Card
+                        key={index}
                         sx={{
                           backgroundColor: "black",
-                          width: "50%",
-                          ":hover": { backgroundColor: "black" },
+                          width: 250,
+                          margin: "auto",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "center",
                         }}
-                        variant="contained"
                       >
-                        Make The Payment
-                      </Button>
 
-                    ))}
-                    <Button
-                      onClick={cancel}
-                      sx={{
-                        backgroundColor: "red",
-                        width: "40%",
-                        ":hover": { backgroundColor: "red" },
-                      }}
-                      variant="contained"
-                    >
-                      Cancel
-                    </Button>
-                  </Box>
-                </Stack>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      )}
-      {bath && (
-        <div style={{ marginTop: "4%" }}>
-          <div style={{ display: "f" }} data-aos="zoom-in">
-            <div
-              style={{
-                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)),url(${BathImage})`,
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center",
-                width: "100%",
-                height: "91.5vh",
-                marginTop: "0px  ",
-              }}
-            >
-              <div style={{ padding: "80px" }}>
-                <img
-                  className="smooth-scroll"
-                  src={logo}
-                  alt="Cage"
-                  style={{
-                    fontSize: "10px",
-                    width: "70px",
-                    height: "70px",
-                    marginLeft: "140px",
-                    borderRadius: "50%",
-                    marginBottom: "5px",
-                  }} />
-
-                <h2
-                  style={{
-                    color: "white",
-                    marginLeft: "50px",
-                    fontSize: "50px",
-                  }}
-                >
-                  Pet Bathing
-                </h2>
-                <h1
-                  style={{
-                    color: "white",
-                    marginLeft: "30px",
-                    fontSize: "15px",
-                    fontWeight: "1",
-                  }}
-                >
-                  Our pet bathing service provides a relaxing and{" "}
-                </h1>
-                <h1
-                  style={{
-                    color: "white",
-                    marginLeft: "30px",
-                    fontSize: "15px",
-                    fontWeight: "1",
-                  }}
-                >
-                  {" "}
-                  thorough bath for your furry companions, leaving them clean,
-                  fresh, and happy.{" "}
-                </h1>
-                <img
-                  className="smooth-scroll"
-                  src={star}
-                  alt="Cage"
-                  style={{
-                    fontSize: "10px",
-                    width: "150px",
-                    height: "150px",
-                    marginLeft: "100px",
-                    borderRadius: "50%",
-                    marginBottom: "-35px",
-                  }} />
-
-                <div style={{ display: "flex", marginTop: "30px" }}></div>
-              </div>
-            </div>
-            <Typography sx={{ marginTop: '2%', marginLeft: '40%', color: 'black', fontSize: '48px', fontWeight: '600' }}>Our Team</Typography>
-            <Stack
-
-              direction={"row"}
-              spacing={2}
-              mt={4}
-              mb={4}
-              justifyContent={"center"}
-              alignItems="center"
-            >
-
-              {employee_detail &&
-                employee_detail.map((menu, index) => (
-                  <Card
-                    key={index}
-                    sx={{
-                      backgroundColor: "black",
-                      width: 250,
-                      margin: "auto",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-
-                    <CardMedia>
-                      <Stack mt={4}>
-                        <img
-                          component="img"
-                          src={getImageSrc(menu.img)}
-                          alt="Down Arrow"
-                          style={{
-                            width: 200,
-                            height: 200,
-                            cursor: "pointer",
-                            borderRadius: "50%",
-                          }} />
-                      </Stack>
-                    </CardMedia>
-
-                    <CardContent>
-                      <Box>
-                        <Stack justifyContent={"center"} alignItems={"center"} mb={2}>
-                          <Typography
-                            variant="h6"
-                            data-aos="fade-right"
-                            sx={{ color: "white" }}
-
-                          >
-                            {menu.full_name}
-                          </Typography>
-                        </Stack>
-
-                        <Stack sx={{ color: "white" }}>
-                          <Stack direction={"row"} alignItems={"center"}>
-                            <Stack direction={"row"} alignItems={"center"} data-aos="fade-left">
-                              <Typography variant="h6" marginRight={1} marginLeft={3}>
-                                4.5
-                              </Typography>
-                              <FontAwesomeIcon icon={faStarHalfAlt} color="orange" size="1x" />
-                              <FontAwesomeIcon icon={faStarHalfAlt} color="orange" size="1x" />
-                              <FontAwesomeIcon icon={faStarHalfAlt} color="orange" size="1x" />
-                            </Stack>
+                        <CardMedia>
+                          <Stack mt={4}>
+                            <img
+                              component="img"
+                              src={getImageSrc(menu.img)}
+                              alt="Down Arrow"
+                              style={{
+                                width: 200,
+                                height: 200,
+                                cursor: "pointer",
+                                borderRadius: "50%",
+                              }} />
                           </Stack>
+                        </CardMedia>
 
-                          <Stack alignItems={"center"} justifyContent={"center"}>
-                            <Typography variant="h6" data-aos="fade-left">
-                              {menu.email}
-                            </Typography>
-                            <Typography variant="h6" data-aos="fade-right">
-                              {menu.contact_number}
-                            </Typography>
-                            <Stack alignItems={"center"} justifyContent={"center"} mt={2} p={1}>
+                        <CardContent>
+                          <Box>
+                            <Stack justifyContent={"center"} alignItems={"center"} mb={2}>
                               <Typography
-                                variant="h3"
-                                p={1}
+                                variant="h6"
                                 data-aos="fade-right"
-                                sx={{
-                                  color: "black",
-                                  backgroundColor: "white",
-                                  borderRadius: 10,
-                                  alignItems: "center",
-                                  justifyContent: "center",
-                                }}
-                              >
+                                sx={{ color: "white" }}
 
-                                {menu.count}<span style={{ color: "orange", fontSize: "20px" }}> Pet grooming</span>
+                              >
+                                {menu.full_name}
                               </Typography>
                             </Stack>
-                          </Stack>
 
-                        </Stack>
-                      </Box>
-                    </CardContent>
-                  </Card>
-                ))}
-            </Stack>
+                            <Stack sx={{ color: "white" }}>
+                              <Stack direction={"row"} alignItems={"center"}>
+                                <Stack direction={"row"} alignItems={"center"} data-aos="fade-left">
+                                  <Typography variant="h6" marginRight={1} marginLeft={3}>
+                                    4.5
+                                  </Typography>
+                                  <FontAwesomeIcon icon={faStarHalfAlt} color="orange" size="1x" />
+                                  <FontAwesomeIcon icon={faStarHalfAlt} color="orange" size="1x" />
+                                  <FontAwesomeIcon icon={faStarHalfAlt} color="orange" size="1x" />
+                                </Stack>
+                              </Stack>
 
+                              <Stack alignItems={"center"} justifyContent={"center"}>
+                                <Typography variant="h6" data-aos="fade-left">
+                                  {menu.email}
+                                </Typography>
+                                <Typography variant="h6" data-aos="fade-right">
+                                  {menu.contact_number}
+                                </Typography>
+                                <Stack alignItems={"center"} justifyContent={"center"} mt={2} p={1}>
+                                  <Typography
+                                    variant="h3"
+                                    p={1}
+                                    data-aos="fade-right"
+                                    sx={{
+                                      color: "black",
+                                      backgroundColor: "white",
+                                      borderRadius: 10,
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                    }}
+                                  >
 
+                                    {menu.count}<span style={{ color: "orange", fontSize: "20px" }}> Pet grooming</span>
+                                  </Typography>
+                                </Stack>
+                              </Stack>
 
-            <div
-              style={{
-                backgroundColor: "#f5f7f6",
-                width: "90%",
-                height: "80vh",
-                marginLeft: "auto",
-                marginRight: "auto",
-                borderRadius: "8px",
-              }}
-              data-aos="zoom-in"
-            >
-              <div style={{ marginTop: "5%" }}>
-                <h1 style={{ textAlign: "center", paddingTop: "2%" }}>
-                  Appointment Details
-                </h1>
-
-                <Stack
-                  spacing={2}
-                  margin={2}
-                  style={{ padding: "450px", marginTop: "-400px" }}
-                >
-                  <TextField
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                    variant="outlined"
-                    value={"Appointment Date: " + selectedDateString}
-                  ></TextField>
-                  <TextField
-                    variant="outlined"
-                    value={"Time Slot: " + personName}
-                  ></TextField>
-                  {selectpackage &&
-                    selectpackage.map((menu, index) => (
-                      <>
-                        <TextField
-                          variant="outlined"
-                          value={"PackageName: " + menu.package_name}
-                        ></TextField>
-                        <TextField
-                          variant="outlined"
-                          value={"Package Price: Rs." + menu.price}
-                        ></TextField>
-                      </>
+                            </Stack>
+                          </Box>
+                        </CardContent>
+                      </Card>
                     ))}
-
-                  <FormControlLabel
-                    control={<Checkbox defaultChecked color="primary"></Checkbox>}
-                    label="Agree terms & conditions"
-                  ></FormControlLabel>
-                  <Box display="flex" justifyContent="space-between">
-                    {selectpackage && selectpackage.map((menu, index) => (
-                      <Button
-                        onClick={() => payment1(menu.price)}
-                        sx={{
-                          backgroundColor: "black",
-                          width: "50%",
-                          ":hover": { backgroundColor: "black" },
-                        }}
-                        variant="contained"
-                      >
-                        Make The Payment
-                      </Button>
-
-                    ))}
-                    <Button
-                      onClick={cancel}
-                      sx={{
-                        backgroundColor: "red",
-                        width: "40%",
-                        ":hover": { backgroundColor: "red" },
-                      }}
-                      variant="contained"
-                    >
-                      Cancel
-                    </Button>
-                  </Box>
                 </Stack>
+
+
+
+                <div
+                  style={{
+                    backgroundColor: "#f5f7f6",
+                    width: "90%",
+                    height: "80vh",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    borderRadius: "8px",
+                  }}
+                  data-aos="zoom-in"
+                >
+                  <div style={{ marginTop: "5%" }}>
+                    <h1 style={{ textAlign: "center", paddingTop: "2%" }}>
+                      Appointment Details
+                    </h1>
+
+                    <Stack
+                      spacing={2}
+                      margin={2}
+                      style={{ padding: "450px", marginTop: "-400px" }}
+                    >
+                      <TextField
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                        variant="outlined"
+                        value={"Appointment Date: " + selectedDateString}
+                      ></TextField>
+                      <TextField
+                        variant="outlined"
+                        value={"Time Slot: " + personName}
+                      ></TextField>
+                      {selectpackage &&
+                        selectpackage.map((menu, index) => (
+                          <>
+                            <TextField
+                              variant="outlined"
+                              value={"PackageName: " + menu.package_name}
+                            ></TextField>
+                            <TextField
+                              variant="outlined"
+                              value={"Package Price: Rs." + menu.price}
+                            ></TextField>
+                          </>
+                        ))}
+
+                      <FormControlLabel
+                        control={<Checkbox defaultChecked color="primary"></Checkbox>}
+                        label="Agree terms & conditions"
+                      ></FormControlLabel>
+                      <Box display="flex" justifyContent="space-between">
+                        {selectpackage && selectpackage.map((menu, index) => (
+                          <Button
+                            onClick={() => payment1(menu.price)}
+                            sx={{
+                              backgroundColor: "black",
+                              width: "50%",
+                              ":hover": { backgroundColor: "black" },
+                            }}
+                            variant="contained"
+                          >
+                            Make The Payment
+                          </Button>
+
+                        ))}
+                        <Button
+                          onClick={cancel}
+                          sx={{
+                            backgroundColor: "red",
+                            width: "40%",
+                            ":hover": { backgroundColor: "red" },
+                          }}
+                          variant="contained"
+                        >
+                          Cancel
+                        </Button>
+                      </Box>
+                    </Stack>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
 
-      )}
-    </>
+          )}
+        </>
       )}
       {paymentdo && (
         <div
@@ -1480,7 +1497,7 @@ function Pet_grooming() {
 
           </div>
         </div>
-        
+
       )}</div>
   );
 }

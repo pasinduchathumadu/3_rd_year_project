@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -8,35 +9,47 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import {
-  Avatar,
+  
   Dialog,
+  Select,
+  MenuItem,
   DialogActions,
   DialogContent,
   DialogTitle,
   FormControl,
-  FormLabel,
+  
   IconButton,
   TextField,
+  Grid,
+  Alert,
+  AlertTitle,
 } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import ProfilePicture from "../../assests/profile-picture.png";
+
 import { Button, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import AddIcon from "@mui/icons-material/Add";
-// import { typography } from "@mui/system";
-import BackgroundImage from "../../assests/competitionbckgnd.jpeg";
+
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import { Alert } from "@mui/material";
+
+import { useNavigate } from "react-router";
+
 
 function Company_Competitions() {
+  const navigate = useNavigate("")
+  // connect profile
+  const profile = () => {
+    navigate("/profile")
+  }
+
+  // get profile picture
+  const getProfilepicturepath = (imageName) => {
+    return require(`../../../../backend/images/store/${imageName}`)
+  }
+
   const [compName, setName] = useState("");
   const [compDes, setDescription] = useState("");
   const [compDate, setDate] = useState("");
@@ -45,7 +58,40 @@ function Company_Competitions() {
   const [compPay, setPayment] = useState("");
   const [compFile, setFile] = useState("");
   const [error, seterror] = useState(false);
+  const [message , setmessage ] = useState("")
+  const [selectfile, setfile] = useState(null)
+  const [image, setimage] = useState("")
+  const handlefilechange = async (event) => {
+    const file = event.target.files[0]
+    setfile(file)
+    setimage(file.name)
+  }
 
+  const handleFileUpload = async () => {
+    seterror(false)
+
+
+
+    try {
+      const formData = new FormData();
+      formData.append("image", selectfile);
+
+      const res = await axios.post("http://localhost:5000/pet_care/user/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      if (res.data.message === "File uploaded successfully") {
+        submit()
+      }
+
+      console.log("File uploaded successfully!");
+      // Add any further handling of the response from the backend if needed.
+
+    } catch (err) {
+      console.log("There is an internal error", err);
+    }
+  }
   const submit = async () => {
     if (
       compName === null ||
@@ -54,8 +100,10 @@ function Company_Competitions() {
       compTime === null ||
       compVenue === null ||
       compPay === null ||
-      compFile === null
+      image === null
     ) {
+      seterror(true)
+      setmessage("Please be filled!!!")
       return;
     }
     try {
@@ -68,11 +116,10 @@ function Company_Competitions() {
           compTime,
           compVenue,
           compPay,
-          compFile,
+          image,
         }
       );
       if (res.data.message === "successfully added") {
-        seterror(true);
         window.location.reload();
       }
     } catch (err) {
@@ -108,25 +155,27 @@ function Company_Competitions() {
   const [second, setSecond] = useState(false);
   const [id, setid] = useState("");
 
+  
+ 
   const getCompetitions = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/pet_care/company_manager/get_competitions"
-      );
-      const data = await res.data;
-      return data;
+        `http://localhost:5000/pet_care/company_manager/get_competitions`
+      )
+      setCom(res.data.data)
     } catch (err) {
       console.log(err);
+     
     }
-  };
-  const close = () => {
-    setSecond(false);
   };
   useEffect(() => {
     getCompetitions()
-      .then((data) => setCom(data.data))
-      .catch((err) => console.log(err));
   }, []);
+
+
+  const close = () => {
+    setSecond(false);
+  };
 
   const handleClick = (id) => {
     setid(id);
@@ -175,11 +224,7 @@ function Company_Competitions() {
           </Stack>
           <Stack direction="row" justifyContent="center" alignItems="center">
             <NotificationsIcon className="bell-icon" />
-            <img
-              src={ProfilePicture}
-              alt="profilepicture"
-              className="boarding-profile-picture"
-            />
+            <Button onClick={profile}><img src={getProfilepicturepath("company_profile.jpeg")} alt="profilepicture" className="boarding-profile-picture" /></Button>
           </Stack>
         </Stack>
 
@@ -199,6 +244,8 @@ function Company_Competitions() {
                 Add New Competition
               </Button>
             </Box>
+
+            
 
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -396,25 +443,45 @@ function Company_Competitions() {
               fullWidth
               sx={{ mb: 2 }}
             />
-            <TextField
-              type="file"
-              variant="outlined"
-              color="secondary"
-              onChange={(e) => setFile(e.target.value)}
-              value={compFile}
-              fullWidth
-              required
-              sx={{ mb: 2 }}
-            />
+            <Grid item sx={{ paddingTop: '20px' }}>
+              <div style={{ display: 'flex' }}>
+                <div style={{ display: 'inline' }}>
+                  <Button
+                    variant="contained"
+                    component="label"
+
+                    startIcon={<CloudUploadIcon />}
+                  >
+                    Upload Image
+                    <input type="file" hidden onChange={handlefilechange} required />
+                  </Button>
+                </div>
+                <div style={{ display: 'inline', paddingTop: '6px', paddingLeft: '7px' }}>
+                  {selectfile && (
+                    <Typography>{selectfile.name}</Typography>
+
+                  )}
+                </div>
+              </div>
+            </Grid>
           </form>
         </DialogContent>
+        {error && (
+            <Stack sx={{ width: '50%', marginLeft: '25%' }} spacing={2}>
+              <Alert severity="error">
+                <AlertTitle>Warning</AlertTitle>
+                This is a warning alert — <strong>{message}</strong>
+              </Alert>
+            </Stack>
+
+          )}
         <DialogActions>
           <Button variant="outlined" color="secondary" onClick={handleClose}>
             Cancel
           </Button>
 
           <Button
-            onClick={submit}
+            onClick={handleFileUpload}
             variant="outlined"
             color="secondary"
             type="submit"

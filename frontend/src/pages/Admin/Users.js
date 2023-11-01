@@ -1,9 +1,9 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import ProfilePicture from '../../assests/profile-picture.png';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Box from '@mui/material/Box';
-import { Tab, IconButton, Typography, Card, CardActionArea, CardContent, CardMedia } from "@mui/material";
+import { Tab, IconButton, Typography, Card, CardActionArea, CardContent, CardMedia, Grid, Avatar } from "@mui/material";
 import { Tabs } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
@@ -22,16 +22,12 @@ import { FormLabel, TextField } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import { tableCellClasses } from '@mui/material/TableCell';
 import Image from '../../assests/profile.jpg';
-// import PetImage from '../../assests/dog1.jpg';
-// import PetImage1 from '../../assests/dog.jpg';
 import StarIcon from '@mui/icons-material/Star';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import CloseIcon from '@mui/icons-material/Close';
-
-// import { FormHelperText } from '@material-ui';
-
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: theme.palette.common.black,
@@ -55,7 +51,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const Users = () => {
     // select manager role
-
     const [role, setRole] = React.useState("");
     const [email, setemail] = useState("")
     const [id, setId] = useState("")
@@ -70,12 +65,6 @@ const Users = () => {
 
     const handle = (event) => {
         setRole(event.target.value)
-    };
-
-    // drop down
-    const [clients, setClients] = React.useState('1');
-    const handleChange = (event) => {
-        setClients(event.target.value);
     };
 
     const [users, setUsers] = useState(0);
@@ -138,6 +127,7 @@ const Users = () => {
                 city,
                 Street,
                 role,
+                image
 
             })
             if (res.data.message === 'Email already exists') {
@@ -169,21 +159,26 @@ const Users = () => {
     }
 
     // view clients details
+    const [clients, setClients] = React.useState('1');
+    const handleChange = (event) => {
+        setClients(event.target.value);
+        get_client()
+    };
+
     const get_client = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/pet_care/admin/get_client')
-            const data = await res.data
-            return data
+            const res = await axios.get(`http://localhost:5000/pet_care/admin/get_client/${clients}`)
+            setclient(res.data.data)
         } catch (err) {
-            console.log("There is an internal error")
+            console.log(err)
+            console.log(setclient)
         }
     }
 
     useEffect(() => {
         get_client()
-            .then((data) => setclient(data.data))
-            .catch((err) => console.log(err))
-    })
+            
+    },[clients, get_client])
 
     const [error1, seterror1] = useState(false)
     const [message1, setmessage1] = useState("")
@@ -328,7 +323,9 @@ const Users = () => {
 
     const input = new Date();
     const date = input.toDateString();
-
+    const getImageSrc = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+      };
     // view client pet details
     const [petdetails, setpetdetails] = useState([])
     const [error3, seterror3] = useState(false)
@@ -360,11 +357,43 @@ const Users = () => {
         setpet(false);
         setUsers(1);
     }
-    // pet viewing - no pets added box close 
-    const NoPetsAdded = () => {
-        setUsers(1)
-        setpet(false)
+
+    // get admin profile photo
+    const getProfileImageSrc = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
     }
+    const [image, setimage] = useState("")
+    const [selectfile, setfile] = useState(null)
+    const handlefilechange = async (event) => {
+        const file = event.target.files[0]
+        setfile(file)
+        setimage(file.name)
+      }
+    const handleFileUpload = async () => {
+        seterror(false)
+      
+       
+    
+        try {
+          const formData = new FormData();
+          formData.append("image", selectfile);
+    
+          const res = await axios.post("http://localhost:5000/pet_care/user/upload", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+          if (res.data.message === "File uploaded successfully") {
+            submitManager()
+          }
+    
+          console.log("File uploaded successfully!");
+          // Add any further handling of the response from the backend if needed.
+    
+        } catch (err) {
+          console.log("There is an internal error", err);
+        }
+      }
 
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
@@ -375,8 +404,14 @@ const Users = () => {
                     <p class="top-line-text">{date}</p>
                 </div>
                 <div className="top-line">
+                    <p style={{ fontSize: '20px', fontWeight: 1000, color: 'black' }}>System Users</p>
+                </div>
+                <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
-                    <img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" />
+                    <img 
+                        src={getProfileImageSrc("admin.jpg")} 
+                        alt="profilepicture" 
+                        className="boarding-profile-picture" />
                 </div>
             </div>
 
@@ -419,7 +454,7 @@ const Users = () => {
                                 <TableBody>
                                     {manager && manager.map((managerow, index) => (
                                         <StyledTableRow key={managerow.id}>
-                                            <StyledTableCell align="center"><img src={Image} style={{ width: '80px', borderRadius: '50%' }} alt="image" /></StyledTableCell>
+                                            <StyledTableCell align="center"><img src={getImageSrc(managerow.profile_image)} style={{ width: '80px', borderRadius: '50%' }} alt="image" /></StyledTableCell>
                                             <StyledTableCell align="center">{managerow.manager_id}</StyledTableCell>
                                             <StyledTableCell align="center">{managerow.full_name}</StyledTableCell>
                                             <StyledTableCell align="center">{managerow.email}</StyledTableCell>
@@ -446,7 +481,7 @@ const Users = () => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={clients}
+                                    
                                     variant='filled'
                                     label="clients"
                                     onChange={handleChange}
@@ -470,7 +505,7 @@ const Users = () => {
                                         <StyledTableCell align="center"> Email</StyledTableCell>
                                         <StyledTableCell align="center">Contact Numebr</StyledTableCell>
                                         <StyledTableCell align="center">Address</StyledTableCell>
-                                        <StyledTableCell align="center">Category</StyledTableCell>
+                                        <StyledTableCell align="center">Category : Online Store</StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
                                         <StyledTableCell align="center"></StyledTableCell>
                                     </StyledTableRow>
@@ -512,8 +547,7 @@ const Users = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    // Adjust as needed
-                    marginRight: '300px', // Adjust as needed
+                    marginRight: '300px',
                     zIndex: 1001,
                     marginTop: '10%'
                 }}
@@ -524,7 +558,7 @@ const Users = () => {
                         width: '700px',
                         padding: '20px',
                         backgroundColor: '#F0F0F5',
-                        position: 'relative', // Add this to ensure content appears on top of the overlay
+                        position: 'relative', 
                         zIndex: 1001
                     }}>
                         <div style={{ backgroundColor: 'white', padding: '15px', borderRadius: '10px' }}>
@@ -591,8 +625,31 @@ const Users = () => {
 
                                 </FormControl>
                             </div>
+                            <Grid item sx={{ paddingTop: '20px' }}>
+                  <div style={{ display: 'flex' }}>
+                    <div style={{ display: 'inline' }}>
+                      <Button
+                        variant="contained"
+                        component="label"
 
-                            <Button variant="contained" onClick={submitManager} sx={{ background: "orange", marginTop: '10px', ':hover': { backgroundColor: "orange" }, width: '100%' }}>Add </Button>
+                        startIcon={<CloudUploadIcon />}
+                      >
+                        Upload Image
+                        <input type="file" hidden onChange={handlefilechange} required />
+
+                      </Button>
+                    </div>
+                    <div style={{ display: 'inline', paddingTop: '6px', paddingLeft: '7px' }}>
+                      {selectfile && (
+                        <Typography>{selectfile.name}</Typography>
+
+                      )}
+                    </div>
+                  </div>
+
+                </Grid>
+
+                            <Button variant="contained" onClick={handleFileUpload} sx={{ background: "orange", marginTop: '10px', ':hover': { backgroundColor: "orange" }, width: '100%' }}>Add </Button>
                         </div>
                         <div style={{ marginTop: '1%' }}>
                             {error && (
@@ -619,9 +676,8 @@ const Users = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    // Adjust as needed
-                    marginRight: '300px', // Adjust as needed
-                    zIndex: 1001, // Ensure the content is above the overlay
+                    marginRight: '300px',
+                    zIndex: 1001, 
                 }}>
                     <FormControl sx={{
                         marginLeft: '5%',
@@ -630,9 +686,9 @@ const Users = () => {
                         width: '700px',
                         padding: '20px',
                         backgroundColor: '#F0F0F5',
-                        position: 'relative', // Add this to ensure content appears on top of the overlay
+                        position: 'relative', 
                         zIndex: 1001,
-                        backgroundColor: 'black'
+                       
                     }}>
                         {managerdetails && managerdetails.map((mgrow, index) => (
                             <div style={{ backgroundColor: 'white', padding: '15px', borderRadius: '10px' }}>
@@ -646,7 +702,8 @@ const Users = () => {
 
                                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                                     <div className="form-label">
-                                        <img src={Image} alt="manager photo" style={{ borderRadius: '50%', width: '200px', height: 'auto' }} />
+                                    <img src={getImageSrc(mgrow.profile_image)} alt="manager photo" style={{ borderRadius: '50%', width: '120px', height: 'auto' }} />
+                                        
                                     </div>
 
                                     <div className="form-label">
@@ -862,7 +919,6 @@ const Users = () => {
                             ))
                             ) : (
                                 <div style={{ backgroundColor: 'black', color: 'white', padding: '20px', borderRadius: '10px' }}>
-                                    {/* <IconButton onClick={NoPetsAdded}><CloseIcon sx={{ color: 'white', backgroundColor: 'red', marginLeft: '230px' }} /></IconButton> */}
                                     <hr />
                                     <Typography sx={{ textAlign: 'center', marginTop: '10px', marginBottom: '10px' }}>No Pets Added</Typography>
                                     <hr />
@@ -890,9 +946,8 @@ const Users = () => {
                     borderRadius: '10px',
                     display: 'flex',
                     justifyContent: 'center',
-                    alignItems: 'center',
-                    // Adjust as needed
-                    marginRight: '300px', // Adjust as needed
+                    alignItems: 'center',  
+                    marginRight: '300px', 
                     zIndex: 1001,
                     marginTop: '10%'
                 }}>
@@ -902,7 +957,7 @@ const Users = () => {
                             borderRadius: '5px',
                             backgroundColor: '#f0f0f5',
                             width: '500px',
-                            position: 'relative', // Add this to ensure content appears on top of the overlay
+                            position: 'relative', 
                             zIndex: 1001
                         }}>
                             <Typography sx={{ textAlign: 'center' }}>Confirm Remove? </Typography>
@@ -946,7 +1001,7 @@ const Users = () => {
                             <Typography sx={{ textAlign: 'center' }}>Confirm Remove? </Typography>
                             <hr /><br />
 
-                            <div style={{ display: 'flex', flexDirection: 'row', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
                                 <Button onClick={deleteClient} sx={{ backgroundColor: 'orange', color: 'white', margin: '10px', ':hover': { backgroundColor: 'orange' } }}>Confirm</Button>
                                 <Button onClick={cancelCLientDelete} sx={{ backgroundColor: 'red', color: 'white', margin: '10px', ':hover': { backgroundColor: 'red' } }}>Cancel</Button>
                             </div>

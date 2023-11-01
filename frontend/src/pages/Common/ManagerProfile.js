@@ -1,4 +1,4 @@
-import { Avatar, bottomNavigationClasses, Button, FormLabel, IconButton, Typography } from '@mui/material';
+import { Alert, Avatar, bottomNavigationClasses, Button, FormLabel, IconButton, Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { TextField, FormControl } from "@mui/material";
 import ProfilePhoto from "../../assests/profile-picture.png";
@@ -40,10 +40,10 @@ const Profile = () => {
     })
 
     // close viewing
-    const navigate = useNavigate("")
-    const backtoDashboard = () => {
-        navigate("/boarding_dashboard")
-    }
+    // const navigate = useNavigate("")
+    // const backtoDashboard = () => {
+    //     navigate("/boarding_dashboard")
+    // }
 
     // get profile picture path
     const getImageSrc = (imageName) => {
@@ -61,6 +61,7 @@ const Profile = () => {
                 seterror(true)
                 setmessage('There is an internal error')
             } else {
+                seterror1(false)
                 setupdate(true)
                 setmain(false)
                 setviewmanager(res.data.data)
@@ -75,33 +76,33 @@ const Profile = () => {
     }
 
     // update
-    const [contact, setcontact] = useState("")
-    const [street, setstreet] = useState("")
-    const [city, setcity] = useState("")
+    const [contact, setcontact] = useState(null)
+    const [street, setstreet] = useState(null)
+    const [city, setcity] = useState(null)
 
     const [error1, seterror1] = useState(false)
     const [message1, setmessage1] = useState("")
 
     const UpdateManager = async () => {
-        if (contact === '' || street === '' || city === '') {
-            seterror1(true)
-            setmessage1('Please fill all fields')
-            return;
-        }
+        const updatedCity = city === null ? profiledetails.map((menu,index)=>menu.city) : city;
+        const updatedStreet = street === null ?  profiledetails.map((menu,index)=>menu.street): street;
+        const updatedContact = contact === null ?  profiledetails.map((menu,index)=>menu.contact_number): contact;
+      
+       
         try {
             const res = await axios.post(`http://localhost:5000/pet_care/common/UpdateManager`, {
                 email,
-                contact,
-                street,
-                city,
+                contact: updatedContact,
+                street: updatedStreet,
+                city: updatedCity
             });
             if (res.data.message === 'There is an internal error') {
                 setmessage1('Internal error')
                 seterror1(true)
             } else if (res.data.message === 'success') {
-                setviewmanager(false)
-                setmain(true)
-                setupdate(false)
+                
+                seterror1(true)
+                setmessage1("Successfully Updated!!")
             }
         } catch (err) {
             console.log('There is an internal error')
@@ -122,9 +123,9 @@ const Profile = () => {
                     </div>
 
                     <FormControl sx={{ backgroundColor: 'white', width: '50%', paddingLeft: '10px', paddingRight: '10px', paddingBottom: '20px', borderRadius: '10px', marginTop: '2%', marginBottom: '2%' }}>
-                        <div style={{marginLeft:'90%'}}>
+                        {/* <div style={{marginLeft:'90%'}}>
                             <IconButton onClick={backtoDashboard}><CloseIcon sx={{ color: 'white', backgroundColor: 'red' }} /></IconButton>
-                        </div>
+                        </div> */}
                         <Typography sx={{ textAlign: 'center', backgroundColor: 'orange', color: 'white', fontWeight: 'bold', borderRadius: '10px', padding: '10px', marginTop: '1%', marginBottom: '10px', width: '50%', marginLeft: '25%' }}>Profile</Typography>
 
                         {profiledetails && profiledetails.map((menu, index) => (
@@ -274,6 +275,7 @@ const Profile = () => {
                                                 label="Contact Number"
                                                 defaultValue={mrow.contact_number}
                                                 onChange={(e) => setcontact(e.target.value)}
+                                             
                                                 required
                                             />
                                         </div>
@@ -295,6 +297,7 @@ const Profile = () => {
                                                 label="City"
                                                 defaultValue={mrow.city}
                                                 onChange={(e) => setcity(e.target.value)}
+                                             
                                                 required
                                             />
                                         </div>
@@ -302,7 +305,11 @@ const Profile = () => {
                                 </div>
                             </>
                         ))}
-
+                          {error1 && (
+                                    <Stack sx={{ width: '100%' }} spacing={2}>
+                                        <Alert severity="info">{message1}</Alert>
+                                    </Stack>
+                                )}
                         <div style={{ marginLeft: '1%' }}>
                             <Button onClick={() => UpdateManager()} sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white', width: '35%' }}>Update</Button>
                         </div>

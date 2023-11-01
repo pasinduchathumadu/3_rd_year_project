@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import '../../styles/Common/Email.css'
+import ArrowDownwardTwoToneIcon from '@mui/icons-material/ArrowDownwardTwoTone';
 import {
   Box,
   Button,
@@ -17,6 +18,7 @@ import {
   MenuItem,
 
   Typography,
+  Avatar,
 } from "@mui/material";
 import '../../styles/Common/HeaderStyles.css'
 import dog from '../../assests/pettoy1.jpg'
@@ -30,8 +32,8 @@ const Menu = () => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useState(0);
-  const [value_dog, setdog] = useState("")
-  const [value_dog1, setdog1] = useState("")
+  const [value_dog, setdog] = useState(0)
+  const [value_dog1, setdog1] = useState(0)
   const [MenuList, setmenu] = useState([])
   const [dogBackground, setDogBackground] = useState(dog)
   const [error, seterror] = useState([])
@@ -52,6 +54,7 @@ const Menu = () => {
   }
   const submit = async (id, price) => {
     try {
+   
       const res = await axios.post('http://localhost:5000/pet_care/user/temp_cart', {
         id,
         email,
@@ -79,15 +82,29 @@ const Menu = () => {
   const getImageSrc = (imageName) => {
     return require(`../../../../backend/images/store/${imageName}`)
   };
-  const get_store = async (req, res, next) => {
+  const get_store = async () => {
+    var new_value_dog1 = ""
+    if (value_dog1 === 0) {
+      new_value_dog1 = "no"
+    }
+    if (value_dog1 === 10) {
+      new_value_dog1 = "foods"
+    }
+    if (value_dog1 === 20) {
+      new_value_dog1 = "toys"
+    }
+    if (value_dog1 === 30) {
+      new_value_dog1 = "accessories"
+    }
+
     try {
-      const res = await axios.post(`http://localhost:5000/pet_care/user/get_store/${value}`,{
+      const res = await axios.post(`http://localhost:5000/pet_care/user/get_store/${value}`, {
         value_dog,
-        value_dog1
+        new_value_dog1
       })
-    
+
       const data = await res.data
-      setmenu(data.data); 
+      setmenu(data.data);
       setLoading(false)
 
     }
@@ -97,7 +114,6 @@ const Menu = () => {
   }
   useEffect(() => {
     get_store()
-    
   })
 
   useEffect(() => {
@@ -174,7 +190,7 @@ const Menu = () => {
               label="Age"
               onChange={handleselection}
             >
-              <MenuItem value="">
+              <MenuItem value={0}>
                 <em>None</em>
               </MenuItem>
               <MenuItem value={10}>100    -    500</MenuItem>
@@ -196,12 +212,12 @@ const Menu = () => {
 
 
             >
-              <MenuItem value="">
+              <MenuItem value={0}>
                 <em>None</em>
               </MenuItem>
               <MenuItem value={10}>Food Item</MenuItem>
               <MenuItem value={20}>Toys Item</MenuItem>
-              <MenuItem value={30}>Others</MenuItem>
+              <MenuItem value={30}>Accessories Item</MenuItem>
             </Select>
           </FormControl>
 
@@ -211,7 +227,17 @@ const Menu = () => {
               <Typography sx={{ textAlign: 'center', color: 'black', fontSize: '20px', fontFamily: 'inherit', backgroundColor: 'orange', width: '180px', paddingLeft: '18px', paddingRight: '18px' }}>Food Item</Typography>
 
             </Grid>
-
+            {MenuList.filter((menu, index) => menu.catogories === 'foods').length === 0 ? (
+              <Card sx={{ maxWidth: "300px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '39px' }}>
+                <CardActionArea>
+                  <CardMedia
+                    sx={{ minHeight: "300px" }}
+                    component={"img"}
+                    src={getImageSrc("noimage.png")}
+                  />
+                </CardActionArea>
+              </Card>
+            ) : null}
 
             {MenuList.filter((menu, index) => menu.catogories === 'foods').map((menu) => (
               <Card sx={{ maxWidth: "300px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '35px' }}>
@@ -226,17 +252,40 @@ const Menu = () => {
                       {menu.name}
                     </Typography>
                     <Typography variant="body2">{menu.description}</Typography><br />
-                    <Typography variant="body2" sx={{ color: "red", marginBottom: '9px' }}>RS.{menu.unit_price}</Typography>
+                    <Stack>
+                      <Box component='div' display='flex'>
+                        <Typography variant="body1" sx={{ color: "red", marginBottom: '5px', fontSize: '18px' }}>RS.{menu.unit_price}</Typography>
+                        {menu.discount !== 0 && (
+                          <ArrowDownwardTwoToneIcon />
+
+                        )}
+
+                      </Box>
+                    </Stack>
+
+                    {menu.discount !== 0 && (
+                      <Typography sx={{ fontFamily: 'fantasy', fontSize: '24px', textAlign: 'center', marginBottom: '2%' }}>New Price : Rs.{menu.unit_price - (menu.discount * menu.unit_price) / 100}</Typography>
+                    )}
+
+
+
                     <Button variant="contained" sx={{
                       backgroundColor: 'black', color: 'white', '&:active, &:focus': {
                         backgroundColor: 'black'
                       }, ':hover': { backgroundColor: 'black' }
-                    }} onClick={() => submit(menu.item_id, menu.unit_price)}>Add To Cart</Button>
+                    }} onClick={() => submit(menu.item_id,menu.unit_price - (menu.discount * menu.unit_price) / 100)}>Add To Cart</Button>
                     {error[menu.item_id] && (
                       <Stack sx={{ width: '90%', marginTop: '4%' }} spacing={2}>
                         <Alert severity="warning">Already Added!</Alert>
                       </Stack>
                     )}
+                    {menu.discount !== 0 && (
+                      <Stack direction="row" spacing={1} sx={{ marginTop: '2%', justifyContent: 'center', alignItems: 'center' }}>
+                        <Avatar sx={{ backgroundColor: 'red', color: 'black', width: 56, height: 56 }}>{menu.discount}%</Avatar><Typography sx={{ fontFamily: 'fantasy' }}>Discount</Typography>
+
+                      </Stack>
+                    )}
+
                   </CardContent>
                 </CardActionArea>
               </Card>
@@ -248,6 +297,17 @@ const Menu = () => {
               <Typography sx={{ textAlign: 'center', paddingRight: '18px', color: 'black', fontSize: '20px', fontFamily: 'inherit', backgroundColor: 'orange', width: '180px', paddingLeft: '18px' }}>Toys Item</Typography>
 
             </Grid>
+            {MenuList.filter((menu, index) => menu.catogories === 'toys').length === 0 ? (
+              <Card sx={{ maxWidth: "300px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '39px' }}>
+                <CardActionArea>
+                  <CardMedia
+                    sx={{ minHeight: "300px" }}
+                    component={"img"}
+                    src={getImageSrc("noimage.png")}
+                  />
+                </CardActionArea>
+              </Card>
+            ) : null}
 
             {MenuList.filter((menu, index) => menu.catogories === 'toys').map((menu) => (
               <Card sx={{ maxWidth: "300px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '39px' }}>
@@ -262,17 +322,41 @@ const Menu = () => {
                       {menu.name}
                     </Typography>
                     <Typography variant="body2">{menu.description}</Typography><br />
-                    <Typography variant="body2" sx={{ color: "red", marginBottom: '9px' }}>RS.{menu.unit_price}</Typography>
+                    <Stack>
+                      <Box component='div' display='flex'>
+                        <Typography variant="body1" sx={{ color: "red", marginBottom: '9px', fontSize: '18px' }}>RS.{menu.unit_price}</Typography>
+                        {menu.discount !== 0 && (
+                          <ArrowDownwardTwoToneIcon />
+                        )}
+
+                      </Box>
+                    </Stack>
+                    {menu.discount !== 0 && (
+                      <Typography sx={{ fontWeight:'bold', fontSize: '24px', textAlign: 'center', marginBottom: '2%' }}>New Price : Rs.{menu.unit_price - (menu.discount * menu.unit_price) / 100}</Typography>
+                    )}
+
+
+
+
                     <Button variant="contained" sx={{
                       backgroundColor: 'black', color: 'white', '&:active, &:focus': {
                         backgroundColor: 'black'
                       }, ':hover': { backgroundColor: 'black' }
-                    }} onClick={() => submit(menu.item_id, menu.unit_price)}>Add To Cart</Button>
+                    }} onClick={() => submit(menu.item_id,menu.unit_price - (menu.discount * menu.unit_price) / 100)}>Add To Cart</Button>
                     {error[menu.item_id] && (
                       <Stack sx={{ width: '90%', marginTop: '4%' }} spacing={2}>
                         <Alert severity="warning">Already Added!</Alert>
                       </Stack>
                     )}
+                    {menu.discount !== 0 && (
+                      <Stack direction="row" spacing={1} sx={{ marginTop: '2%', justifyContent: 'center', alignItems: 'center' }}>
+                        <Avatar sx={{ backgroundColor: 'red', color: 'black', width: 56, height: 56 }}>{menu.discount}%</Avatar><Typography sx={{ fontFamily: 'fantasy' }}>Discount</Typography>
+
+                      </Stack>
+
+
+                    )}
+
                   </CardContent>
                 </CardActionArea>
               </Card>
@@ -284,7 +368,17 @@ const Menu = () => {
 
             </Grid>
 
-
+            {MenuList.filter((menu, index) => menu.catogories === 'accessories').length === 0 ? (
+              <Card sx={{ maxWidth: "300px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '39px' }}>
+                <CardActionArea>
+                  <CardMedia
+                    sx={{ minHeight: "300px" }}
+                    component={"img"}
+                    src={getImageSrc("noimage.png")}
+                  />
+                </CardActionArea>
+              </Card>
+            ) : null}
             {MenuList.filter((menu, index) => menu.catogories === 'accessories').map((menu) => (
               <Card sx={{ maxWidth: "300px", display: "flex", m: 2, border: "10px", borderRadius: '10px', marginTop: '35px' }}>
                 <CardActionArea>
@@ -298,17 +392,41 @@ const Menu = () => {
                       {menu.name}
                     </Typography>
                     <Typography variant="body2">{menu.description}</Typography><br />
-                    <Typography variant="body2" sx={{ color: "red", marginBottom: '9px' }}>RS.{menu.unit_price}</Typography>
+                    <Stack>
+                      <Box component='div' display='flex'>
+                        <Typography variant="body1" sx={{ color: "red", marginBottom: '9px', fontSize: '18px' }}>RS.{menu.unit_price}</Typography>
+                        {menu.discount !==0 &&(
+                            <ArrowDownwardTwoToneIcon />
+                        )}
+                      
+                      </Box>
+                    </Stack>
+
+                    {menu.discount !== 0 && (
+
+                      <Typography sx={{ fontFamily: 'fantasy', fontSize: '24px', textAlign: 'center', marginBottom: '2%' }}>New Price : Rs.{menu.unit_price - (menu.discount * menu.unit_price) / 100}</Typography>
+                    )}
+
+
                     <Button variant="contained" sx={{
                       backgroundColor: 'black', color: 'white', '&:active, &:focus': {
                         backgroundColor: 'black'
                       }, ':hover': { backgroundColor: 'black' }
-                    }} onClick={() => submit(menu.item_id, menu.unit_price)}>Add To Cart</Button>
+                    
+                    }} onClick={() => submit(menu.item_id,menu.unit_price - (menu.discount * menu.unit_price) / 100)}>Add To Cart</Button>
                     {error[menu.item_id] && (
                       <Stack sx={{ width: '90%', marginTop: '4%' }} spacing={2}>
                         <Alert severity="warning">Already Added!</Alert>
                       </Stack>
                     )}
+                    {menu.discount !== 0 && (
+                      <Stack direction="row" spacing={1} sx={{ marginTop: '2%', justifyContent: 'center', alignItems: 'center' }}>
+                        <Avatar sx={{ backgroundColor: 'red', color: 'black', width: 56, height: 56 }}>{menu.discount}%</Avatar><Typography sx={{ fontFamily: 'fantasy' }}>Discount</Typography>
+                      </Stack>
+
+                    )}
+
+
                   </CardContent>
                 </CardActionArea>
               </Card>

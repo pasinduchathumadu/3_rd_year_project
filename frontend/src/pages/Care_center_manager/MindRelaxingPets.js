@@ -1,19 +1,16 @@
-import { Avatar, Button, FormControl, FormLabel, IconButton, MenuItem, Select, TextField, Typography, Card, CardActionArea, CardContent, CardMedia } from "@mui/material";
+import { Button, FormControl, FormLabel, IconButton, MenuItem, Select, TextField, Typography, Card, CardActionArea, CardContent, CardMedia, Grid, Alert } from "@mui/material";
 import { Stack } from "@mui/system";
 import React, { useEffect, useState } from "react";
-import profile from "../../assests/profile.jpg";
-// import care from "../../assests/caregiver.jpg";
-// import care2 from "../../assests/caregiver2.jpg";
+
 import AddIcon from "@mui/icons-material/Add";
-// import StarIcon from "@mui/icons-material/Star";
-// import CategoryIcon from '@mui/icons-material/Category';
+
 import PetsIcon from '@mui/icons-material/Pets';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios';
 import BackgroundImage from './../../assests/mindrelax_bkgnd.png'
 import DeleteIcon from '@mui/icons-material/Delete';
-// import PetsIcon from '@mui/icons-material/Pets';
+
 import { useNavigate } from "react-router";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
@@ -39,6 +36,7 @@ const MindRelaxingPets = () => {
 
     // pet adding
     const [error, seterror] = useState(false)
+    const [message, setmessage] = useState("")
     const [petcategory, setpetcategory] = useState("")
     const [name, setname] = useState("")
     const [breed, setbreed] = useState("")
@@ -52,13 +50,19 @@ const MindRelaxingPets = () => {
     };
 
     const addingpet = async () => {
-        seterror(false);
+        if (petcategory === "" || name === "" || breed === "" || petsex === "") {
+            seterror(true)
+            setmessage('Please fill all the fields')
+            return;
+        }
+        // seterror(false);
         try {
             const res = await axios.post('http://localhost:5000/pet_care/care_center_manager/addingpet', {
                 petcategory,
                 name,
                 breed,
                 petsex,
+                image
 
             })
             if (res.data.message === 'success') {
@@ -136,7 +140,38 @@ const MindRelaxingPets = () => {
     const getProfilepicturepath = (imageName) => {
         return require(`../../../../backend/images/store/${imageName}`)
     }
+    const [image, setimage] = useState("")
+    const [selectfile, setfile] = useState(null)
+    const handlefilechange = async (event) => {
+        const file = event.target.files[0]
+        setfile(file)
+        setimage(file.name)
+    }
+    const handleFileUpload = async () => {
+        seterror(false)
 
+
+        try {
+            const formData = new FormData();
+            formData.append("image", selectfile);
+
+            const res = await axios.post("http://localhost:5000/pet_care/user/upload", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            if (res.data.message === "File uploaded successfully") {
+
+                addingpet()
+            }
+
+            console.log("File uploaded successfully!");
+            // Add any further handling of the response from the backend if needed.
+
+        } catch (err) {
+            console.log("There is an internal error", err);
+        }
+    }
 
     return (
         <div>
@@ -281,21 +316,37 @@ const MindRelaxingPets = () => {
                                 </FormControl>
                             </div>
 
-                            <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                <FormLabel sx={{ color: 'black' }}>Upload Pet Image</FormLabel>
-                                <Button
-                                    variant="contained"
-                                    component="label"
+                            <Grid item sx={{ paddingTop: '20px' }}>
+                                <div style={{ display: 'flex' }}>
+                                    <div style={{ display: 'inline' }}>
+                                        <Button
+                                            variant="contained"
+                                            component="label"
 
-                                    startIcon={<CloudUploadIcon />}
-                                >
-                                    Upload File
-                                    <input type="file" hidden required />
-                                </Button>
-                            </div>
+                                            startIcon={<CloudUploadIcon />}
+                                        >
+                                            Upload File
+                                            <input type="file" hidden onChange={handlefilechange} required />
+
+                                        </Button>
+                                    </div>
+                                    <div style={{ display: 'inline', paddingTop: '6px', paddingLeft: '7px' }}>
+                                        {selectfile && (
+                                            <Typography>{selectfile.name}</Typography>
+
+                                        )}
+                                    </div>
+                                </div>
+                            </Grid>
+
+                            {error && (
+                                <Stack sx={{ width: '100%' }} spacing={2}>
+                                    <Alert severity="error">{message}</Alert>
+                                </Stack>
+                            )}
 
                             <div style={{ marginTop: '15px', marginBottom: '20px', marginLeft: '220px' }}>
-                                <Button onClick={() => addingpet()} sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white', width: '150px' }}> Submit</Button>
+                                <Button onClick={handleFileUpload} sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white', width: '150px' }}> Submit</Button>
                             </div>
                         </FormControl>
                     </div>
@@ -331,7 +382,7 @@ const MindRelaxingPets = () => {
                             <Typography sx={{ textAlign: 'center' }}>Confirm Remove? </Typography>
                             <hr /><br />
 
-                            <div style={{ display: 'flex', flexDirection: 'row', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
                                 <Button onClick={petDeleteing} sx={{ backgroundColor: 'orange', color: 'white', margin: '10px', ':hover': { backgroundColor: 'orange' } }}>Confirm</Button>
                                 <Button onClick={cancelDelete} sx={{ backgroundColor: 'red', color: 'white', margin: '10px', ':hover': { backgroundColor: 'red' } }}>Cancel</Button>
                             </div>

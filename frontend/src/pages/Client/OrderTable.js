@@ -7,18 +7,15 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { useNavigate } from "react-router-dom";
-
+// import format from 'date-fns/format';
 import Dialog from "./Dialog";
 import EditForm from "./FormPopUp";
-
 import { format } from 'date-fns'
-
 import Button from '@mui/material/Button';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import axios from 'axios';
-import { Alert, Box, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack, Typography } from '@mui/material';
+import { Alert, DialogActions, DialogContent, DialogContentText, DialogTitle, InputLabel, Stack, Typography } from '@mui/material';
 import LoadingIndicator from '../../components/LoadingIndicator';
 
 
@@ -44,18 +41,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-
-
-
-
-
-
-
 export default function OrderTable() {
 
-
-  const [error1 , seterror1 ] = useState(false)
-  const [message1 , setmessage1 ] = useState("")
+  const [error1, seterror1] = useState(false)
+  const [message1, setmessage1] = useState("")
   const [row, setorder] = useState([])
   const [medi_orders, setmediorder] = useState([])
   const [grooming, setgrooming] = useState(true)
@@ -68,18 +57,25 @@ export default function OrderTable() {
   const [loading, setLoading] = useState(true);
   const input = new Date()
   const date = format(input, 'yyy-MM-dd')
+  const [boarding, setboarding] = useState(false)
+  const [mind, setmind] = useState(false)
+  const [open1, setOpen1] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
+
 
   const handleClose = () => {
-   window.location.reload()
+    seterror(false)
+    window.location.reload()
   }
 
   const email = localStorage.getItem('store_email')
-
-  const confirmDelete = async (rowId) => {
+  const confirmDelete = async (rowId,price) => {
 
     const res = await axios.post(`http://localhost:5000/pet_care/user/delete_appointment`, {
       rowId,
-      date
+      date,
+      email,
+      price
 
     })
     if (res.data.message === "deleted") {
@@ -110,12 +106,8 @@ export default function OrderTable() {
     }
   };
 
-
-
-
-
   const get_medi_orders = async () => {
-    
+
     const res = await axios.get(`http://localhost:5000/pet_care/user/get_medi_orders/${email}`)
     const data = await res.data
     return data;
@@ -124,16 +116,41 @@ export default function OrderTable() {
     setmedi(true)
     setgrooming(false)
     settraining(false)
+    setboarding(false)
+    setmind(false)
+
   }
   const grooming_orders = () => {
     setgrooming(true)
     setmedi(false)
     settraining(false)
+    setboarding(false)
+    setmind(false)
+
   }
   const trainning = () => {
     setgrooming(false)
     setmedi(false)
     settraining(true)
+    setboarding(false)
+    setmind(false)
+
+  }
+  // boaridng requests
+  const boardingrequests = () => {
+    setboarding(true)
+    setgrooming(false)
+    setmedi(false)
+    settraining(false)
+    setmind(false)
+  }
+  // mind relaxing appointments
+  const mindrelaxing = () => {
+    setboarding(false)
+    setgrooming(false)
+    setmedi(false)
+    settraining(false)
+    setmind(true)
 
   }
 
@@ -160,20 +177,20 @@ export default function OrderTable() {
   }
 
   useEffect(() => {
-    
+
     get_training()
-      .then((data) => {settrainingorders(data.data);setLoading(false)})
+      .then((data) => { settrainingorders(data.data); setLoading(false) })
       .catch((err) => console.log(err))
   })
 
   useEffect(() => {
     get_orders()
-      .then((data) => {setorder(data.data);setLoading(false)})
+      .then((data) => { setorder(data.data); setLoading(false) })
       .catch((err) => console.log(err))
   })
   useEffect(() => {
     get_medi_orders()
-      .then((data) => {setmediorder(data.data);setLoading(false)})
+      .then((data) => { setmediorder(data.data); setLoading(false) })
       .catch((err) => console.log(err))
   })
 
@@ -181,254 +198,492 @@ export default function OrderTable() {
     AOS.init({ duration: 450 });
   }, []);
 
+  // boarding requests viewing
+  const [boardingdata, setboardingdata] = useState("")
+  const boardingRequestsViewing = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/user/boardingRequestsViewing/${email}`)
+      const data = await res.data
+      return data
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  useEffect(() => {
+    boardingRequestsViewing()
+      .then((data) => setboardingdata(data.data))
+      .catch((err) => console.log(err))
+  })
+
+  // cancel boarding request
+ const [error3, seterror3] = useState(false)
+ const [message3, setmessage3] = useState("")
+  const cancelBoarding = async (id2) => {
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/user/cancelBoarding/${id2}`)
+      if(res.data.message === 'Removed Successfully') {
+        seterror3(true)
+        setmessage3('Removed Successfully')
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  // mind relaxing appointments viewing
+  const [minddetails, setminddetails] = useState("")
+  const mindrelaxingAppointments = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/user/mindrelaxingAppointments/${email}`)
+      const data = await res.data
+      return data
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  useEffect(() => {
+    mindrelaxingAppointments()
+      .then((data) => setminddetails(data.data))
+      .catch((err) => console.log(err))
+  })
+
+  // cancel mid relaxing appointments 
+  const [error2, seterror2] = useState(false)
+  const [message2, setmessage2] = useState("")
+
+  const cancelMindRelaxingAppointment = async (id1) => {
+    try {
+      const res = await axios.get(`http://localhost:5000/pet_care/user/cancelMindRelaxingAppointment/${id1}`)
+      if (res.data.message === 'Removed Successfully') {
+        seterror2(true)
+        setmessage2('Removed Successfully')
+
+      }
+    } catch (err) {
+      console.log(err)
+    }
+
+  }
+
+
 
   return (
     <div>
-      {loading ?(
-        <LoadingIndicator/>
-      ):(
+      {loading ? (
+        <LoadingIndicator />
+      ) : (
         <div style={{ padding: "", display: "flex" }} data-aos="zoom-in">
-        <div style={{ backgroundColor: "#f1f0f0", width: "20%", height: "auto", color: "white" }}>
-          <h2 style={{ color: "black", marginTop: "80px", textAlign: "center", width: "90%", marginLeft: "8px", borderRadius: "4px" }}>Your Order Details</h2>
-  
-          <h1 style={{ fontSize: "15px", fontWeight: "1", marginTop: "25px", padding: "10px", color: "gray", marginLeft: "10px" }}>You only can cancel your Appointment with in a Day</h1>
-          <Button onClick={() => grooming_orders()} sx={{ backgroundColor: "black", width: "90%", marginTop: "30px", marginLeft: "10px", '&:hover': { backgroundColor: 'black' } }} variant="contained">Pet Grooming</Button>
-          <Button onClick={() => medi_order()} sx={{ backgroundColor: "black", width: "90%", marginTop: "30px", marginLeft: "10px", '&:hover': { backgroundColor: 'black' } }} variant="contained">Medi - Appointment</Button>
-          <Button onClick={() => trainning()} sx={{ backgroundColor: "black", width: "90%", marginTop: "30px", marginLeft: "10px", '&:hover': { backgroundColor: 'black' } }} variant="contained">Pet Training</Button>
-        </div>
-  
-        <div>
-          <div style={{ display: 'inline' }}>
-            {grooming && (
-              <><Typography sx={{ fontSize: '28px', marginTop: '10%', marginLeft: '5%' }}>Pet Grooming</Typography><TableContainer component={Paper} sx={{ padding: "50px", boxShadow: "none" }}>
-                <Table sx={{ minWidth: 1000, marginTop: "20px", border: "none" }} aria-label="customized table">
-                  <TableHead>
-                    <TableRow sx={{ height: "5vh", fontWeight: "1000" }}>
-                      <StyledTableCell>Appointment ID</StyledTableCell>
-                      <StyledTableCell align="left">Placed Date</StyledTableCell>
-                      <StyledTableCell align="left">Package Name</StyledTableCell>
-                      <StyledTableCell align="left">Price</StyledTableCell>
-                      <StyledTableCell align="left">Edit</StyledTableCell>
-                      <StyledTableCell align="left">Delete</StyledTableCell>
-  
-  
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {row && row.map((row) => (
-                      <StyledTableRow key={row.name}>
-  
-                        <StyledTableCell align="left">{row.appointment_id}</StyledTableCell>
-                        <StyledTableCell align="left">{row.placed_date}</StyledTableCell>
-                        <StyledTableCell align="left">{row.package_name}</StyledTableCell>
-                        <StyledTableCell align="left">{row.price}</StyledTableCell>
-                        <StyledTableCell align="left">
-  
-                          <Dialog title="Changes" btn_name="Edit">
-                            <EditForm />
-                          </Dialog>
-                        </StyledTableCell>
-                        <StyledTableCell align="left">
-                          <div style={{ width: '60%', marginTop: '1px', backgroundColor: 'white' }}>
-  
-  
-                            <Dialog
-                             btn_name="Delete"
-                             open={open}
-                             onClose={() => handleClose()// Close the dialog when the "Back" button is clicked
-                            }
-                             aria-labelledby="alert-dialog-title"
-                             aria-describedby="alert-dialog-description"
-                            >
-                              <DialogTitle id="alert-dialog-title">
-                                Confirmation
-                              </DialogTitle>
-                              <DialogContent>
-                                <DialogContentText id="alert-dialog-description">
-                                  Are You Sure Do you want to Delete this Permenatly?
-                                </DialogContentText>
-                              </DialogContent>
-                              <DialogActions>
-                                <DialogContent>
-                                  <div style={{  marginTop: '1%' }}>
-                                    {error && (
-                                      <Stack sx={{ width: '85%' }} spacing={3}>
-                                        <Alert
-                                          sx={{ color: 'black', fontSize: '14px' }}
-                                          severity={message === 'Successfully Deleted!!!' ? 'success' : 'warning'}
-                                        >
-                                          {message}
-                                        </Alert>
-                                      </Stack>
-                                    )}
-                                  </div>
-                                </DialogContent>
-                                <Button onClick={() => handleClose()} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' } }} >
-                                  Back
-                                </Button>
-                                <Button onClick={() => confirmDelete(row.appointment_id)} sx={{ backgroundColor: 'red', color: 'white', ':hover': { backgroundColor: 'red' } }}>
-                                  Delete
-                                </Button>
-                              </DialogActions>
+          <div style={{ backgroundColor: "#f1f0f0", width: "20%", height: "100vh", color: "white" }}>
+            <h2 style={{ color: "black", marginTop: "80px", textAlign: "center", width: "90%", marginLeft: "8px", borderRadius: "4px" }}>Your Order Details</h2>
+
+            {/* <h1 style={{ fontSize: "15px", fontWeight: "1", marginTop: "25px", padding: "10px", color: "gray", marginLeft: "10px" }}>You only can cancel your Appointment with in a Day</h1> */}
+            <Button onClick={() => grooming_orders()} sx={{ backgroundColor: "black", width: "90%", marginTop: "30px", marginLeft: "10px", '&:hover': { backgroundColor: 'black' } }} variant="contained">Pet Grooming</Button>
+            <Button onClick={() => medi_order()} sx={{ backgroundColor: "black", width: "90%", marginTop: "30px", marginLeft: "10px", '&:hover': { backgroundColor: 'black' } }} variant="contained">Medi - Appointment</Button>
+            <Button onClick={() => trainning()} sx={{ backgroundColor: "black", width: "90%", marginTop: "30px", marginLeft: "10px", '&:hover': { backgroundColor: 'black' } }} variant="contained">Pet Training</Button>
+            <Button onClick={() => mindrelaxing()} sx={{ backgroundColor: "black", width: "90%", marginTop: "30px", marginLeft: "10px", '&:hover': { backgroundColor: 'black' } }} variant="contained">Mind Relaxing </Button>
+            <Button onClick={() => boardingrequests()} sx={{ backgroundColor: "black", width: "90%", marginTop: "30px", marginLeft: "10px", '&:hover': { backgroundColor: 'black' } }} variant="contained">Boarding Requests</Button>
+          </div>
+
+          <div>
+            <div style={{ display: 'inline' }}>
+              {grooming && (
+                <><Typography sx={{ fontSize: '28px', marginTop: '8%', marginLeft: '5%' }}>Pet Grooming</Typography><TableContainer component={Paper} sx={{ padding: "50px", boxShadow: "none" }}>
+                  <Typography style={{ fontSize: "15px", fontWeight: "1", marginTop: "25px", padding: "10px", color: "gray", marginLeft: "10px" }}> <span style={{color:'red'}}>** </span>You can cancel your appointment with in  two days</Typography>
+
+                  <Table sx={{ minWidth: 1000, marginTop: "20px", border: "none" }} aria-label="customized table">
+                    <TableHead>
+                      <TableRow sx={{ height: "5vh", fontWeight: "1000" }}>
+                        <StyledTableCell>Appointment ID</StyledTableCell>
+                        <StyledTableCell align="left">Placed Date</StyledTableCell>
+                        <StyledTableCell align="left">Package Name</StyledTableCell>
+                        <StyledTableCell align="left">Price</StyledTableCell>
+                        <StyledTableCell align="left">Edit</StyledTableCell>
+                        <StyledTableCell align="left">Delete</StyledTableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {row && row.map((row) => (
+                        <StyledTableRow key={row.name}>
+
+                          <StyledTableCell align="left">{row.appointment_id}</StyledTableCell>
+                          <StyledTableCell align="left">{row.placed_date}</StyledTableCell>
+                          <StyledTableCell align="left">{row.package_name}</StyledTableCell>
+                          <StyledTableCell align="left">{row.price}</StyledTableCell>
+                          <StyledTableCell align="left">
+
+                            <Dialog title="Changes" btn_name="Edit">
+                              <EditForm />
                             </Dialog>
-                          </div>
-                        </StyledTableCell>
-  
-                      </StyledTableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer></>
-  
-  
-            )}
-  
-          </div>
-          <div style={{ display: 'inline' }}>
-            {medi && (
-              <><Typography sx={{ fontSize: '28px', marginTop: '10%', marginLeft: '5%' }}>Medi Help Ceneter</Typography><TableContainer component={Paper} sx={{ padding: "50px", boxShadow: "none" }}>
-                <Table sx={{ minWidth: 1000, marginTop: "20px", border: "none" }} aria-label="customized table">
-                  <TableHead>
-                    <TableRow sx={{ height: "5vh", fontWeight: "1000" }}>
-                      <StyledTableCell>Appointment ID</StyledTableCell>
-                      <StyledTableCell align="left">Placed Date</StyledTableCell>
-                      <StyledTableCell align="left">Vet Name</StyledTableCell>
-                      <StyledTableCell align="left">Price</StyledTableCell>
-                      <StyledTableCell align="left">Edit</StyledTableCell>
-                      <StyledTableCell align="left"></StyledTableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {medi_orders && medi_orders.map((menu) => (
-                      <StyledTableRow key={menu.name}>
-  
-                        <StyledTableCell align="left">{menu.appointment_id}</StyledTableCell>
-                        <StyledTableCell align="left">{menu.placed_date}</StyledTableCell>
-                        <StyledTableCell align="left">{menu.first_name + " " + menu.last_name}</StyledTableCell>
-                        <StyledTableCell align="left">{menu.fee}</StyledTableCell>
-                        <StyledTableCell align="left">
-  
-                          <Dialog title="Change" btn_name="Edit">
-                            <EditForm />
-                          </Dialog>
-                        </StyledTableCell>
-                        <StyledTableCell align="left">
-                          {/* Delete icon */}
-  
-                        </StyledTableCell>
-  
-  
-  
-                      </StyledTableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer></>
-  
-            )}
-          </div>
-          <div style={{ display: 'inline' }}>
-            {trainning_order && (
-              <><Typography sx={{ fontSize: '28px', marginTop: '10%', marginLeft: '5%' }}>Pet Training</Typography><TableContainer component={Paper} sx={{ padding: "50px", boxShadow: "none" }}>
-                <Table sx={{ minWidth: 1000, marginTop: "20px", border: "none" }} aria-label="customized table">
-                  <TableHead>
-                    <TableRow sx={{ height: "5vh", fontWeight: "1000" }}>
-                      <StyledTableCell>Appointment ID</StyledTableCell>
-                      <StyledTableCell align="left">Placed Date</StyledTableCell>
-                      <StyledTableCell align="left">Day</StyledTableCell>
-                      <StyledTableCell align="left">Breed</StyledTableCell>
-                      <StyledTableCell align="left">Duration</StyledTableCell>
-                      <StyledTableCell align="left">Payment</StyledTableCell>
-                      <StyledTableCell align="left">Edit</StyledTableCell>
-                      <StyledTableCell align="left"></StyledTableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {displaytrainning && displaytrainning.map((menu) => (
-                      <StyledTableRow key={menu.name}>
-  
-                        <StyledTableCell align="left">{menu.id}</StyledTableCell>
-                        <StyledTableCell align="left">{menu.placed_date}</StyledTableCell>
-                        <StyledTableCell align="left">{menu.day}</StyledTableCell>
-                        <StyledTableCell align="left">{menu.breed}</StyledTableCell>
-                        <StyledTableCell align="left">{menu.start + " " + menu.end}</StyledTableCell>
-                        <StyledTableCell align="left">{menu.price}</StyledTableCell>
-                        <StyledTableCell align="left">
-  
-                          <Dialog title="Change" btn_name="Edit">
-                            <EditForm />
-                          </Dialog>
-                        </StyledTableCell>
-                        <StyledTableCell align="left">
-                          <div style={{ width: '60%', marginTop: '1px', backgroundColor: 'white' }}>
-  
-  
-                            <Dialog
-                              btn_name="Delete"
-                              open={open}
-                              onClose={() => {
-                                seterror(false); // Set error to false when the dialog is closed for Pet Grooming
-                                seterror1(false); // Set error1 to false when the dialog is closed for Pet Training
-                                handleClose();
-                              }}
-                              aria-labelledby="alert-dialog-title"
-                              aria-describedby="alert-dialog-description"
-                            >
-                              <DialogTitle id="alert-dialog-title">
-                                Confirmation
-                              </DialogTitle>
-                              <DialogContent>
-                                <DialogContentText id="alert-dialog-description">
-                                  Are You Sure Do you want to Delete this Permenatly?
-                                </DialogContentText>
-                              </DialogContent>
-                              <DialogActions>
+                          </StyledTableCell>
+                          <StyledTableCell align="left">
+                            <div style={{ width: '60%', marginTop: '1px', backgroundColor: 'white' }}>
+                              <Dialog
+                                btn_name="Delete"
+                                open={open}
+                                onClose={() => handleClose()// Close the dialog when the "Back" button is clicked
+                                }
+                                aria-labelledby="alert-dialog-title"
+                                aria-describedby="alert-dialog-description"
+                              >
+                                <DialogTitle id="alert-dialog-title">
+                                  Confirmation
+                                </DialogTitle>
                                 <DialogContent>
-                                  <div style={{ marginLeft: '1%', marginTop: '1%' }}>
-                                    {error1 && (
-                                      <Stack sx={{ width: '85%' }} spacing={3}>
-                                        <Alert
-                                          sx={{ color: 'black', fontSize: '14px' }}
-                                          severity={message1 === 'Successfully Deleted!!!' ? 'success' : 'warning'}
-                                        >
-                                          {message1}
-                                        </Alert>
-                                      </Stack>
-                                    )}
-                                  </div>
+                                  <DialogContentText id="alert-dialog-description">
+                                    Are You Sure Do you want to Delete this Permenatly?
+                                  </DialogContentText>
                                 </DialogContent>
-                                <Button onClick={() => handleClose()} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' } }} >
-                                  Back
-                                </Button>
-                                <Button onClick={() => confirmDelete_training(menu.id)} sx={{ backgroundColor: 'red', color: 'white', ':hover': { backgroundColor: 'red' } }} autoFocus>
-                                  Delete
-                                </Button>
-                              </DialogActions>
+                                <DialogActions>
+                                  <DialogContent>
+                                    <div style={{ marginTop: '1%' }}>
+                                      {error && (
+                                        <Stack sx={{ width: '85%' }} spacing={3}>
+                                          <Alert
+                                            sx={{ color: 'black', fontSize: '14px' }}
+                                            severity={message === 'Successfully Deleted!!!' ? 'success' : 'warning'}
+                                          >
+                                            {message}
+                                          </Alert>
+                                        </Stack>
+                                      )}
+                                    </div>
+                                  </DialogContent>
+                                  <Button onClick={() => handleClose()} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' } }} >
+                                    Back
+                                  </Button>
+                                  <Button onClick={() => confirmDelete(row.appointment_id,row.price)} sx={{ backgroundColor: 'red', color: 'white', ':hover': { backgroundColor: 'red' } }}>
+                                    Delete
+                                  </Button>
+                                </DialogActions>
+                              </Dialog>
+                            </div>
+                          </StyledTableCell>
+
+                        </StyledTableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer></>
+
+
+              )}
+
+            </div>
+            <div style={{ display: 'inline' }}>
+              {medi && (
+                <><Typography sx={{ fontSize: '28px', marginTop: '8%', marginLeft: '5%' }}>Medi Help Ceneter</Typography><TableContainer component={Paper} sx={{ padding: "50px", boxShadow: "none" }}>
+                  <Typography style={{ fontSize: "15px", fontWeight: "1", marginTop: "25px", padding: "10px", color: "gray", marginLeft: "10px" }}><span style={{color:'red'}}>**</span> You only can update your appointment date</Typography>
+                  <Table sx={{ minWidth: 1000, marginTop: "20px", border: "none" }} aria-label="customized table">
+                    <TableHead>
+                      <TableRow sx={{ height: "5vh", fontWeight: "1000" }}>
+                        <StyledTableCell>Appointment ID</StyledTableCell>
+                        <StyledTableCell align="left">Placed Date</StyledTableCell>
+                        <StyledTableCell align="left">Vet Name</StyledTableCell>
+                        <StyledTableCell align="left">Price</StyledTableCell>
+                        <StyledTableCell align="left">Edit</StyledTableCell>
+                        <StyledTableCell align="left"></StyledTableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {medi_orders && medi_orders.map((menu) => (
+                        <StyledTableRow key={menu.name}>
+
+                          <StyledTableCell align="left">{menu.appointment_id}</StyledTableCell>
+                          <StyledTableCell align="left">{menu.placed_date}</StyledTableCell>
+                          <StyledTableCell align="left">{menu.first_name + " " + menu.last_name}</StyledTableCell>
+                          <StyledTableCell align="left">{menu.fee}</StyledTableCell>
+                          <StyledTableCell align="left">
+
+                            <Dialog title="Change" btn_name="Edit">
+                              <EditForm />
                             </Dialog>
-                          </div>
-                        </StyledTableCell>
-  
-                      </StyledTableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer></>
-  
-            )}
-  
-  
+                          </StyledTableCell>
+                          <StyledTableCell align="left">
+                            {/* Delete icon */}
+
+                          </StyledTableCell>
+                        </StyledTableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer></>
+
+              )}
+            </div>
+            <div style={{ display: 'inline' }}>
+              {trainning_order && (
+                <><Typography sx={{ fontSize: '28px', marginTop: '8%', marginLeft: '5%' }}>Pet Training</Typography><TableContainer component={Paper} sx={{ padding: "50px", boxShadow: "none" }}>
+                  <Typography style={{ fontSize: "15px", fontWeight: "1", marginTop: "25px", padding: "10px", color: "gray", marginLeft: "10px" }}><span style={{color:'red'}}>** </span>You can cancel your appointment with in two days</Typography>
+                  <Table sx={{ minWidth: 1000, marginTop: "20px", border: "none" }} aria-label="customized table">
+                    <TableHead>
+                      <TableRow sx={{ height: "5vh", fontWeight: "1000" }}>
+                        <StyledTableCell>Appointment ID</StyledTableCell>
+                        <StyledTableCell align="left">Placed Date</StyledTableCell>
+                        <StyledTableCell align="left">Day</StyledTableCell>
+                        <StyledTableCell align="left">Breed</StyledTableCell>
+                        <StyledTableCell align="left">Duration</StyledTableCell>
+                        <StyledTableCell align="left">Payment</StyledTableCell>
+                        <StyledTableCell align="left">Edit</StyledTableCell>
+                        <StyledTableCell align="left"></StyledTableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {displaytrainning && displaytrainning.map((menu) => (
+                        <StyledTableRow key={menu.name}>
+
+                          <StyledTableCell align="left">{menu.id}</StyledTableCell>
+                          <StyledTableCell align="left">{menu.placed_date}</StyledTableCell>
+                          <StyledTableCell align="left">{menu.day}</StyledTableCell>
+                          <StyledTableCell align="left">{menu.breed}</StyledTableCell>
+                          <StyledTableCell align="left">{menu.start + " " + menu.end}</StyledTableCell>
+                          <StyledTableCell align="left">{menu.price}</StyledTableCell>
+                          <StyledTableCell align="left">
+
+                            <Dialog title="Change" btn_name="Edit">
+                              <EditForm />
+                            </Dialog>
+                          </StyledTableCell>
+                          <StyledTableCell align="left">
+                            <div style={{ width: '60%', marginTop: '1px', backgroundColor: 'white' }}>
+                              <Dialog
+                                btn_name="Delete"
+                                open={open}
+                                onClose={() => {
+                                  seterror(false); // Set error to false when the dialog is closed for Pet Grooming
+                                  seterror1(false); // Set error1 to false when the dialog is closed for Pet Training
+                                  handleClose();
+                                }}
+                                aria-labelledby="alert-dialog-title"
+                                aria-describedby="alert-dialog-description"
+                              >
+                                <DialogTitle id="alert-dialog-title">
+                                  Confirmation
+                                </DialogTitle>
+                                <DialogContent>
+                                  <DialogContentText id="alert-dialog-description">
+                                    Are You Sure Do you want to Delete this Permenatly?
+                                  </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                  <DialogContent>
+                                    <div style={{ marginLeft: '1%', marginTop: '1%' }}>
+                                      {error1 && (
+                                        <Stack sx={{ width: '85%' }} spacing={3}>
+                                          <Alert
+                                            sx={{ color: 'black', fontSize: '14px' }}
+                                            severity={message1 === 'Successfully Deleted!!!' ? 'success' : 'warning'}
+                                          >
+                                            {message1}
+                                          </Alert>
+                                        </Stack>
+                                      )}
+                                    </div>
+                                  </DialogContent>
+                                  <Button onClick={() => handleClose()} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' } }} >
+                                    Back
+                                  </Button>
+                                  <Button onClick={() => confirmDelete_training(menu.id)} sx={{ backgroundColor: 'red', color: 'white', ':hover': { backgroundColor: 'red' } }} autoFocus>
+                                    Delete
+                                  </Button>
+                                </DialogActions>
+                              </Dialog>
+                            </div>
+                          </StyledTableCell>
+
+                        </StyledTableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer></>
+
+              )}
+            </div>
+
+            {/* placed boarding requests */}
+            <div style={{ display: 'inline' }}>
+              {boarding && (
+                <><Typography sx={{ fontSize: '28px', marginTop: '8%', marginLeft: '5%' }}>Boarding Requests</Typography><TableContainer component={Paper} sx={{ padding: "50px", boxShadow: "none" }}>
+                  <InputLabel><span style={{ color: 'red' }}>**</span> You can cancel your placed requests within two days</InputLabel>
+                  <Table sx={{ minWidth: 1000, marginTop: "20px", border: "none" }} aria-label="customized table">
+                    <TableHead>
+                      <TableRow sx={{ height: "5vh", fontWeight: "1000" }}>
+                        <StyledTableCell align="center">Request ID</StyledTableCell>
+                        <StyledTableCell align="center">Pet ID</StyledTableCell>
+                        <StyledTableCell align="center">Package </StyledTableCell>
+                        <StyledTableCell align="center">Arrival Date</StyledTableCell>
+                        <StyledTableCell align="center">Placed Date</StyledTableCell>
+                        <StyledTableCell align="center">Status</StyledTableCell>
+                        <StyledTableCell align="center"></StyledTableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {boardingdata && boardingdata.map((menu, index) => (
+                        <StyledTableRow key={menu.request_id}>
+                          <StyledTableCell align="center">{menu.request_id}</StyledTableCell>
+                          <StyledTableCell align="center">{menu.pet_id}</StyledTableCell>
+                          <StyledTableCell align="center">{menu.package_name}</StyledTableCell>
+                          <StyledTableCell align="center">{menu.board_arrival_date}</StyledTableCell>
+                          <StyledTableCell align="center">{menu.placed_date}</StyledTableCell>
+                          <StyledTableCell align="center">{menu.request_status}</StyledTableCell>
+                          <StyledTableCell align="center">
+                            {menu.request_status === "pending" && menu.verify_cancel_date >= date &&  (
+                              <div style={{ width: '60%', marginTop: '1px', backgroundColor: 'white' }}>
+                                <Dialog
+                                  btn_name="Delete"
+                                  open={open2}
+                                  onClose={() => {
+                                    seterror3(false)
+                                    setmessage3("")
+                                    handleClose();
+                                  }}
+                                  aria-labelledby="alert-dialog-title"
+                                  aria-describedby="alert-dialog-description"
+                                >
+                                  <DialogTitle id="alert-dialog-title">
+                                    Confirmation
+                                  </DialogTitle>
+                                  <DialogContent>
+                                    <DialogContentText id="alert-dialog-description">
+                                      Are You Sure Do you want to Delete this Permenatly?
+                                    </DialogContentText>
+                                  </DialogContent>
+                                  <DialogActions>
+                                    <DialogContent>
+                                      <div style={{ marginLeft: '1%', marginTop: '1%' }}>
+                                        {error3 && (
+                                          <Stack sx={{ width: '85%' }} spacing={3}>
+                                            <Alert
+                                              sx={{ color: 'black', fontSize: '14px' }}
+                                              severity={message3 === 'Removed Successfully' ? 'success' : 'warning'}
+                                            >
+                                              {message3}
+                                            </Alert>
+                                          </Stack>
+                                        )}
+                                      </div>
+                                    </DialogContent>
+                                    <Button onClick={() => handleClose()} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' } }} >
+                                      Back
+                                    </Button>
+
+                                    <Button onClick={() => cancelBoarding(menu.request_id)} sx={{ backgroundColor: 'red', color: 'white', ':hover': { backgroundColor: 'red' } }} autoFocus>
+                                      Delete
+                                    </Button>
+
+                                  </DialogActions>
+                                </Dialog>
+                              </div>
+                             )} 
+                          </StyledTableCell>
+
+                        </StyledTableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+
+                </>
+
+              )}
+            </div>
+
+            {/* mind relaxing appointments */}
+            <div style={{ display: 'inline' }}>
+              {mind && (
+                <><Typography sx={{ fontSize: '28px', marginTop: '8%', marginLeft: '5%' }}> Mind Relaxing Appointments</Typography><TableContainer component={Paper} sx={{ padding: "50px", boxShadow: "none" }}>
+                  <Table sx={{ minWidth: 1000, marginTop: "20px", border: "none" }} aria-label="customized table">
+                    <TableHead>
+                      <TableRow sx={{ height: "5vh", fontWeight: "1000" }}>
+                        <StyledTableCell align="center">Appointment ID</StyledTableCell>
+                        <StyledTableCell align="center">TimeSlot</StyledTableCell>
+                        <StyledTableCell align="center">Pet ID</StyledTableCell>
+                        <StyledTableCell align="center">Reserved Date</StyledTableCell>
+                        <StyledTableCell align="center">Status</StyledTableCell>
+                        <StyledTableCell align="center"></StyledTableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {minddetails && minddetails.map((menu, index) => (
+                        <StyledTableRow key={menu.appointment_id}>
+
+                          <StyledTableCell align="center">{menu.appointment_id}</StyledTableCell>
+                          <StyledTableCell align="center">{menu.start_time + " - " + menu.end_time}</StyledTableCell>
+                          <StyledTableCell align="center">{menu.pet_id}</StyledTableCell>
+                          <StyledTableCell align="center">{menu.date}</StyledTableCell>
+                          <StyledTableCell align="center">{menu.status}</StyledTableCell>
+                          <StyledTableCell align="left">
+                            {menu.status !== 'cancelled' && (
+                              <div style={{ width: '60%', marginTop: '1px', backgroundColor: 'white' }}>
+                                <Dialog
+                                  btn_name="Delete"
+                                  open={open1}
+                                  onClose={() => {
+                                    seterror2(false)
+                                    setmessage2("")
+                                    handleClose();
+                                  }}
+                                  aria-labelledby="alert-dialog-title"
+                                  aria-describedby="alert-dialog-description"
+                                >
+                                  <DialogTitle id="alert-dialog-title">
+                                    Confirmation
+                                  </DialogTitle>
+                                  <DialogContent>
+                                    <DialogContentText id="alert-dialog-description">
+                                      Are You Sure Do you want to Delete this Permenatly?
+                                    </DialogContentText>
+                                  </DialogContent>
+                                  <DialogActions>
+                                    <DialogContent>
+                                      <div style={{ marginLeft: '1%', marginTop: '1%' }}>
+                                        {error2 && (
+                                          <Stack sx={{ width: '85%' }} spacing={3}>
+                                            <Alert
+                                              sx={{ color: 'black', fontSize: '14px' }}
+                                              severity={message2 === 'Removed Successfully' ? 'success' : 'warning'}
+                                            >
+                                              {message2}
+                                            </Alert>
+                                          </Stack>
+                                        )}
+                                      </div>
+                                    </DialogContent>
+                                    <Button onClick={() => handleClose()} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' } }} >
+                                      Back
+                                    </Button>
+
+                                    <Button onClick={() => cancelMindRelaxingAppointment(menu.appointment_id)} sx={{ backgroundColor: 'red', color: 'white', ':hover': { backgroundColor: 'red' } }} autoFocus>
+                                      Delete
+                                    </Button>
+
+                                  </DialogActions>
+                                </Dialog>
+                              </div>
+                            )}
+                          </StyledTableCell>
+
+                        </StyledTableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer></>
+
+              )}
+            </div>
+
+
+
+
           </div>
-  
-  
+
+
+
+
         </div>
-  
-  
-  
-  
-      </div>
       )}
 
     </div>
-   
+
   );
 }

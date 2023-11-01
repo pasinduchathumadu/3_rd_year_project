@@ -9,6 +9,8 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import CloseIcon from '@mui/icons-material/Close';
 import { styled } from '@mui/material/styles';
+import { useNavigate } from "react-router";
+
 
 import axios from "axios";
 
@@ -48,6 +50,19 @@ const Complain = () => {
   const [selectfile, setfile] = useState(null)
   const [image, setimage] = useState("")
   const [viewresponse, setviewresponse] = useState("")
+
+  const navigate = useNavigate("")
+  // connect profile
+  const profile = () => {
+    navigate("/profile")
+  }
+
+  // get profile picture
+  const getProfilepicturepath = (imageName) => {
+    return require(`../../../../backend/images/store/${imageName}`)
+  }
+
+
   const handlefilechange = async (event) => {
     const file = event.target.files[0]
     setfile(file)
@@ -129,6 +144,7 @@ const Complain = () => {
     setform(true);
     seterror(false)
     setsuccess(false)
+    
   };
 
   const secondclose = () => {
@@ -210,7 +226,9 @@ const Complain = () => {
               </div>
               <div style={{ marginLeft: '1%' }}>
                 <Stack direction="row" spacing={2}>
-                  <Avatar alt="Travis Howard" src={profile} sx={{ width: 60, height: 60 }} />
+                  {/* <Avatar alt="Travis Howard" src={profile} sx={{ width: 60, height: 60 }} /> */}
+                  <Button onClick={profile}><img src={getProfilepicturepath("onlinestore_profile.jpeg")} alt="profilepicture" className="boarding-profile-picture" /></Button>
+
                 </Stack>
 
               </div>
@@ -402,7 +420,7 @@ const Complain = () => {
               <Stack sx={{ width: '50%', marginLeft: '25%' }} spacing={2}>
                 <Alert severity="error">
                   <AlertTitle>Warning</AlertTitle>
-                  This is a warning alert — <strong>check it out!</strong>
+                  This is a warning alert — <strong>Fill Out The Required Fields!</strong>
                 </Alert>
               </Stack>
 

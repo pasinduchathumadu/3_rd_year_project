@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import '../../styles/Boarding_house_manager/Home.css';
-import ProfilePicture from '../../assests/profile-picture.png';
-import Slip from '../../assests/bankslip2.jpeg';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -42,26 +40,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-
-// data for care center  refunds
-// function createData2(rf_id, o_id, date, time, status) {
-//     return { rf_id, o_id, date, time, status };
-// }
-
-// const secondrows = [
-//     createData2(1, 4, '2023-06-20', '10:00:00', 'pending'),
-//     createData2(2, 6, '2023-06-25', '12:00:00', 'pending'),
-//     createData2(3, 9, '2023-07-12', '10:30:00', 'completed'),
-//     createData2(4, 12, '2023-07-14', '14:10:00', 'completed'),
-// ];
-
 const Refund = () => {
-    // drop down
-    const [clients, setClients] = React.useState('1');
-    const handleChange = (event) => {
-        setClients(event.target.value);
-    };
-
     const [refund, setrefund] = useState(0);
     const handleForm = (event, existing_value) => {
         setrefund(existing_value)
@@ -70,45 +49,30 @@ const Refund = () => {
     const [verify, setverify] = useState(false);
     const [viewVerify, setviewVerify] = useState(false);
 
-    // click on view bank slip - cc
-    // const ViewBankSlip = () => {
-    //     setrefund(false);
-    //     setverify(true)
-    // }
-    //reject or verify - 
-    // const AfterVerify = () => {
-    //     setverify(false);
-    //     setrefund(0);
-    // }
-
-    // click on view verified details - cc
-    // const ViewVerified = () => {
-    //     setrefund(false);
-    //     setviewVerify(true);
-    // }
-
     const input = new Date();
     const date = input.toDateString();
 
     // BOARDING HOUSE
-
     // view boarding house refundd details
+    const [clients, setClients] = React.useState('1'); //drop down
+    const handleChange = (event) => {
+        setClients(event.target.value);
+        boardingRefund()
+    };
     const [boardingrf, setboardingrf] = useState("");
     const boardingRefund = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/pet_care/admin/boardingRefund')
-            const data = await res.data
-            return data
+            const res = await axios.get(`http://localhost:5000/pet_care/admin/boardingRefund/${clients}`)
+            setboardingrf(res.data.data)
 
         } catch (err) {
-            console.log("There is an internal error")
+            console.log(clients)
+            console.log(err)
         }
     }
     useEffect(() => {
         boardingRefund()
-            .then((data) => setboardingrf(data.data))
-            .catch((err) => console.log(err))
-    })
+    }, [clients, boardingRefund])
 
     // view refunded verification done details
     const [redetails, setredetails] = useState([])
@@ -212,22 +176,26 @@ const Refund = () => {
 
     // CARE CENTER
     // view carecenter  refundd details
+    const [clients1, setClients1] = React.useState('1'); //drop down
+    const handleChange1 = (event) => {
+        setClients1(event.target.value);
+        carecenterRefund()
+    };
     const [carerf, setcarerf] = useState("");
     const carecenterRefund = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/pet_care/admin/carecenterRefund')
-            const data = await res.data
-            return data
+            const res = await axios.get(`http://localhost:5000/pet_care/admin/carecenterRefund/${clients1}`)
+            setcarerf(res.data.data)
 
         } catch (err) {
-            console.log("There is an internal error")
+            console.log(clients1)
+            console.log(err)
         }
     }
     useEffect(() => {
         carecenterRefund()
-            .then((data) => setcarerf(data.data))
-            .catch((err) => console.log(err))
-    })
+    },[clients1, carecenterRefund])
+
 
     const [ccverify, setccverify] = useState() // form for verify
     // view bank slip & details for verify
@@ -331,6 +299,11 @@ const Refund = () => {
         setrefund(1);
     }
 
+    // get admin profile photo
+    const getProfileImageSrc = (imageName) => {
+        return require(`../../../../backend/images/store/${imageName}`)
+    }
+
     return (
         <div className="home-container" style={{ marginTop: '5%' }}>
             <div className="top">
@@ -340,8 +313,14 @@ const Refund = () => {
                     <p class="top-line-text">{date}</p>
                 </div>
                 <div className="top-line">
+                    <p style={{ fontSize: '20px', fontWeight: 1000, color: 'black' }}>Refund Verifications</p>
+                </div>
+                <div className="top-line">
                     <NotificationsIcon className="bell-icon" />
-                    <img src={ProfilePicture} alt="profilepicture" className="boarding-profile-picture" />
+                    <img
+                        src={getProfileImageSrc("admin.jpg")}
+                        alt="profilepicture"
+                        className="boarding-profile-picture" />
                 </div>
             </div>
 
@@ -369,7 +348,7 @@ const Refund = () => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={clients}
+                                    
                                     variant='filled'
                                     label="clients"
                                     onChange={handleChange}
@@ -427,10 +406,10 @@ const Refund = () => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={clients}
+                                    
                                     variant='filled'
                                     label="clients"
-                                    onChange={handleChange}
+                                    onChange={handleChange1}
                                     l
                                     sx={{ fontSize: '11px' }}
                                 >
@@ -755,7 +734,7 @@ const Refund = () => {
                                 </div>
 
                                 <img
-                                    src={verimenu.refund_slip === "" ? getImageSrc3("noimage.png") : getImageSrc3(verimenu.refund_slip) }  
+                                    src={verimenu.refund_slip === "" ? getImageSrc3("noimage.png") : getImageSrc3(verimenu.refund_slip)}
                                     alt="bank slip"
                                     style={{ width: '500px' }} />
 
@@ -877,8 +856,8 @@ const Refund = () => {
                                                 ""}
                                     </Typography>
 
-                                    <img                                      
-                                        src={menuview.refund_slip === "" ? getImageSrc4("noimage.png") : getImageSrc4(menuview.refund_slip) }
+                                    <img
+                                        src={menuview.refund_slip === "" ? getImageSrc4("noimage.png") : getImageSrc4(menuview.refund_slip)}
                                         alt="bank slip"
                                         style={{ width: '500px', marginLeft: '50px' }} />
 

@@ -7,7 +7,7 @@ import Mailgen from 'mailgen'
 
 // ---- USERS ----
 export const registration = async (req, res, next) => {
-    const { email, first, second, id, contact, city, Street, role } = req.body;
+    const { email, first, second, id, contact, city, Street, role,image } = req.body;
     try {
         const hash = pkg;
         const date = new Date();
@@ -66,7 +66,7 @@ export const registration = async (req, res, next) => {
                 }
 
                 const sqlQuery =
-                    'INSERT INTO users (email, password, first_name, last_name, user_role, date_joined, status, verify_no) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+                    'INSERT INTO users (email, password, first_name, last_name, user_role, date_joined, status, verify_no,profile_image) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)';
                 const values = [
                     email,
                     hashedPassword,
@@ -75,7 +75,8 @@ export const registration = async (req, res, next) => {
                     user_role,
                     date_joined,
                     status,
-                    verify_no
+                    verify_no,
+                    image
                 ];
 
                 db.query(sqlQuery, values, (err, userData) => {
@@ -90,7 +91,8 @@ export const registration = async (req, res, next) => {
                         user_role,
                         contact,
                         Street,
-                        city
+                        city,
+                        
                     ];
 
                     db.query(query, values1, async (err, managerData) => {
@@ -151,7 +153,7 @@ export const registration = async (req, res, next) => {
 };
 export const get_manager = async (req, res, next) => {
     const role = 'client'
-    const sqlQuery = 'SELECT manager.manager_id,users.email , CONCAT(users.first_name," ",users.last_name) AS full_name ,manager.user_role , manager.contact_number,CONCAT(manager.city," ",manager.street) AS address FROM users INNER JOIN manager ON users.email = manager.email where manager.user_role != ?'
+    const sqlQuery = 'SELECT users.profile_image, manager.manager_id,users.email , CONCAT(users.first_name," ",users.last_name) AS full_name ,manager.user_role , manager.contact_number,CONCAT(manager.city," ",manager.street) AS address FROM users INNER JOIN manager ON users.email = manager.email where manager.user_role != ?'
     const values = [
         role
     ]
@@ -164,23 +166,51 @@ export const get_manager = async (req, res, next) => {
 }
 
 export const get_client = async (req, res, next) => {
-    const role = 'client'
-    const sqlQuery = 'SELECT c.client_id as id, c.email as email, c.contact_number as contact, CONCAT(c.street," ",c.city) as address, c.status as category, CONCAT(u.first_name, " ", u.last_name) as name FROM client as c INNER JOIN  users as u ON c.email = u.email WHERE u.user_role=? ';
-    const values = [role]
+    const id = req.params.id
 
-    db.query(sqlQuery, values, (err, data) => {
-        if (err) {
-            return res.json({ message: 'There is an internal error' })
-        }
-        return res.json({ data })
-    })
+    if (id === '1') {
+        const role = 'client'
+        const sqlQuery = 'SELECT c.client_id as id, c.email as email, c.contact_number as contact, CONCAT(c.street," ",c.city) as address, c.status as category, CONCAT(u.first_name, " ", u.last_name) as name FROM client as c INNER JOIN  users as u ON c.email = u.email WHERE u.user_role=? ';
+        const values = [role]
 
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        })
+    }else if(id === '2'){
+        const role = 'client'
+        const status = 'premium'
+        const sqlQuery = 'SELECT c.client_id as id, c.email as email, c.contact_number as contact, CONCAT(c.street," ",c.city) as address, c.status as category, CONCAT(u.first_name, " ", u.last_name) as name FROM client as c INNER JOIN  users as u ON c.email = u.email WHERE u.user_role=? AND c.status = ? ';
+        const values = [role, status]
+
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        })
+
+    }else if(id === '3') {
+        const role = 'client'
+        const status = 'regular'
+        const sqlQuery = 'SELECT c.client_id as id, c.email as email, c.contact_number as contact, CONCAT(c.street," ",c.city) as address, c.status as category, CONCAT(u.first_name, " ", u.last_name) as name FROM client as c INNER JOIN  users as u ON c.email = u.email WHERE u.user_role=? AND c.status = ? ';
+        const values = [role, status]
+
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        })
+    }
 }
 
 // get detaisl for update manager
 export const ManagerDetails = async (req, res, next) => {
     const id = req.params.id
-    const sqlQuery = 'SELECT CONCAT(u.first_name, " ", u.last_name) as name, u.email, m.manager_id, m.contact_number, m.street, m.city from users u INNER JOIN manager m ON u.email=m.email WHERE m.manager_id = ? '
+    const sqlQuery = 'SELECT u.profile_image,CONCAT(u.first_name, " ", u.last_name) as name, u.email, m.manager_id, m.contact_number, m.street, m.city from users u INNER JOIN manager m ON u.email=m.email WHERE m.manager_id = ? '
     const values = [id]
 
     db.query(sqlQuery, values, (err, data) => {
@@ -238,42 +268,42 @@ export const deleteManager = async (req, res, next) => {
 }
 
 // delete client
-export const deleteClient = async(req,res,next) => {
+export const deleteClient = async (req, res, next) => {
     const id = req.params.id
 
     const checkQuery = 'SELECT email FROM client WHERE client_id = ?'
     const checkValues = [id]
 
     db.query(checkQuery, checkValues, (err, data) => {
-        if(err) {
-            return res.json({message:'There is an internal errrrrrror'})
+        if (err) {
+            return res.json({ message: 'There is an internal errrrrrror' })
         }
         const sqlQuery = 'DELETE FROM users where email = ?'
         const values = [data[0].email]
         // console.log(values[0])
 
-        db.query(sqlQuery, values,(err,data) => {
-            if(err) {
-                return res.json({message:'There is an internal error'})
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
             }
-            return res.json({message:'Deleted Successfully'})
+            return res.json({ message: 'Deleted Successfully' })
         })
     })
 }
 
 // clients pet viewing
-export const viewPetDetails = async(req,res, next) => {
+export const viewPetDetails = async (req, res, next) => {
     const id = req.params.id
     const sqlQuery = 'SELECT * FROM pet WHERE client_id = ? '
     const values = [id]
 
-    db.query(sqlQuery, values, (err,data) => {
-        if(err) {
-            return res.json({message:'There is an internal error'})
+    db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
         }
-        return res.json({data})
+        return res.json({ data })
     })
-    
+
 }
 
 // --- DASHBOARD ---
@@ -322,64 +352,201 @@ export const countRefund = async (req, res, next) => {
         if (err) {
             return res.json({ message: 'There is an internal error' })
         }
-      
-        return res.json({ data})
+
+        return res.json({ data })
     })
 }
 
 // count clients pets
-export const countClientPets = async(req,res,next) => {
+export const countClientPets = async (req, res, next) => {
     const sqlQuery = 'SELECT COUNT(pet_id) AS count FROM pet';
 
     db.query(sqlQuery, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
+        }
+        return res.json({ data })
+    })
+}
+
+// BOARDNIG HOUSE REVENUE
+export const BoardingRevenue = async(req,res,next) => {
+    const status1 = 'completed'
+    const status2 = 'accepted'
+    const status3 = 'pending'
+
+    const sqlQuery = 'SELECT SUM(price) as boarding FROM boarding_request WHERE request_status = ? OR request_status = ? OR request_status = ?'
+    const values = [status1, status2, status3]
+
+    db.query(sqlQuery, values, (err,data) => {
         if(err) {
-            return res.json({message: 'There is an internal error'})
+            return res.json({message:'There is an internal error'})
         }
         return res.json({data})
     })
 }
 
-// --- COMPLAINS ---
-// view clients complains
-export const clientComplains = async (req, res, next) => {
-    const sqlQuery = 'SELECT * from client_complain';
+//  MEDI REVENUE
+export const MediRevenue = async(req,res,next) => {
+    const status1 = 'confirm'
+   
+    const sqlQuery = 'SELECT SUM(payment) as medi FROM medi_appointment WHERE appointment_status = ?'
+    const values = [status1]
 
-    db.query(sqlQuery, (err, data) => {
-        if (err) {
-            return res.json({ message: 'There is an internal error' })
+    db.query(sqlQuery, values, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
         }
-        return res.json({ data })
+        return res.json({data})
     })
 }
 
-// view managers complains
-export const managerComplains = async (req, res, next) => {
-    const sqlQuery = 'SELECT * from manager_complain';
+//  ONLINE STORE REVENUE
+export const StoreRevenue = async(req,res,next) => {   
+    const sqlQuery = 'SELECT SUM(payment) as store FROM purchase_order'
 
-    db.query(sqlQuery, (err, data) => {
-        if (err) {
-            return res.json({ message: 'There is an internal error' })
+    db.query(sqlQuery, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
         }
-        return res.json({ data })
+        return res.json({data})
     })
+}
+
+//  OTHER REVENUE - PET SELL AND BUY & COMPETITION
+export const OtherRevenue = async(req,res,next) => {
+    const status1 = 'sold'
+    const status2 = 'pending'
+    const status3 = 'completed'
+   
+    const sqlQuery = 'SELECT (SELECT COUNT(pet_id)*500 FROM pets_buy_and_sell WHERE status = ?) AS pending, (SELECT COUNT(pet_id)*500*2 FROM pets_buy_and_sell WHERE status = ?) AS sold , (SELECT SUM(pay) FROM company_competitions WHERE status = ? OR status = ?) AS competition'
+    const values = [status2, status1,status2, status3]
+
+    db.query(sqlQuery, values, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+//  CARE CENTER REVENUE 
+export const CareCenterRevenue = async(req,res,next) => {
+    const status1 = 'completed'
+    const status2 = 'accepted'
+    const status3 = 'pending'
+   
+    const sqlQuery = 'SELECT (SELECT COUNT(appointment_id)*1000 FROM mindrelaxing_appointments WHERE status = "completed") AS mindrelaxing, (SELECT COUNT(id)*500 FROM pet_trainning_payment WHERE status = "completed") AS training , (SELECT SUM(p.price) FROM carecenter_package p INNER JOIN carecenter_appointment a WHERE a.package_id = p.package_id AND (a.appointment_status = "pending" OR a.appointment_status = "accepted" OR a.appointment_status = "completed")) AS grooming'
+    const values = [status1, status1, status1, status2, status3]
+
+    db.query(sqlQuery, values, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+// SYSTEM PETS COUNT
+export const systemPetsCount = async(req,res,next) => {
+    const sqlQuery = 'SELECT COUNT(pet_id) AS count FROM mind_relaxing_pets'
+
+    db.query(sqlQuery, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+
+// --- COMPLAINS ---
+// view clients complains - APPLY FILTER
+export const clientComplains = async (req, res, next) => {
+    const id = req.params.id
+
+    if (id === '1') {
+        const sqlQuery = 'SELECT * FROM client_complain';
+        db.query(sqlQuery, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        })
+    } else if (id === '2') {
+        const status = 'pending'
+        const sqlQuery = 'SELECT * FROM client_complain WHERE complain_status = ?';
+        const values = [status]
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        })
+    } else if (id === '3') {
+        const status = 'completed'
+        const sqlQuery = 'SELECT * FROM client_complain WHERE complain_status = ?';
+        const values = [status]
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        })
+    }
+}
+
+// view managers complains - APPLY FILTER
+export const managerComplains = async (req, res, next) => {
+    const id = req.params.id
+
+    if (id === '1') {
+        const sqlQuery = 'SELECT * from manager_complain';
+        db.query(sqlQuery, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        })
+    } else if (id === '2') {
+        const status = 'pending'
+        const sqlQuery = 'SELECT * from manager_complain WHERE complain_status = ?';
+        const values = [status]
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        })
+    } else if (id === '3') {
+        const status = 'completed'
+        const sqlQuery = 'SELECT * from manager_complain WHERE complain_status = ?';
+        const values = [status]
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        })
+    }
 }
 
 // add response for manager complain - view details
-export const addResponse = async (req,res,next) => {
+export const addResponse = async (req, res, next) => {
     const id = req.params.id
     const sqlQuery = 'SELECT * FROM manager_complain WHERE complain_id = ?'
     const values = [id]
 
-    db.query(sqlQuery, values,(err, data) => {
-        if(err) {
-            return res.json({message: 'There is an internal error'})
+    db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
         }
-        return res.json({data})
+        return res.json({ data })
     })
 }
 
 // add response for manager complain - add response
-export const submitResponse = async (req,res,next) => {
+export const submitResponse = async (req, res, next) => {
     const {
         id1,
         addres
@@ -394,20 +561,75 @@ export const submitResponse = async (req,res,next) => {
     const sqlQuery = 'UPDATE manager_complain SET response_txt = ? , response_date = ?, complain_status = ? WHERE complain_id = ?'
     const values = [addres, currentdate, status, id1]
 
-    db.query(sqlQuery, values,(err,data) => {
-        if(err) {
-            return res.json({message:'There is an internal errrrror'})
+    db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internal errrrror' })
         }
-        return res.json({message:'Added response'})
+        return res.json({ message: 'Added response' })
     })
 }
 
 // --- REFUND VERIFICATIONS --- / BOARDING HOUSE
-// boarding - refund viewing
+// boarding - refund viewing - with filtering
 export const boardingRefund = async (req, res, next) => {
-    const sqlQuery = 'SELECT * FROM boarding_refund WHERE refund_status = "completed" ';
+    const id = req.params.id
+    if (id === '1') {
+        const sqlQuery = 'SELECT * FROM boarding_refund ';
 
-    db.query(sqlQuery, (err, data) => {
+        db.query(sqlQuery, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        })
+    } else if (id === '2') {
+        const adminstatus = 'pending'
+        const sqlQuery = 'SELECT * FROM boarding_refund WHERE admin_verification = ?';
+        const values = [adminstatus]
+
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        })
+    } else if (id === '3') {
+        const adminstatus = 'pending'
+        const sqlQuery = 'SELECT * FROM boarding_refund WHERE admin_verification != ?';
+        const values = [adminstatus]
+
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        })
+
+    }
+}
+
+// view refunded verification done details
+export const viewRefundDetails = async (req, res, next) => {
+    const id = req.params.id
+    const sqlQuery = 'SELECT r.refund_slip, r.admin_verification, b.acc_no, b.branch, b.bank FROM boarding_refund r INNER JOIN client_bankdetails b ON r.client_id = b.client_id WHERE r.refund_id = ?'
+    const values = [id]
+
+    db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
+        }
+        return res.json({ data })
+    })
+
+}
+
+// view bank slips for verifications
+export const viewSlipDetails = async (req, res, next) => {
+    const id = req.params.id
+    const sqlQuery = 'SELECT r.refund_id, r.refund_slip,  b.acc_no, b.branch, b.bank FROM boarding_refund r INNER JOIN client_bankdetails b ON r.client_id = b.client_id WHERE r.refund_id = ?'
+    const values = [id]
+
+    db.query(sqlQuery, values, (err, data) => {
         if (err) {
             return res.json({ message: 'There is an internal error' })
         }
@@ -415,39 +637,10 @@ export const boardingRefund = async (req, res, next) => {
     })
 }
 
-// view refunded verification done details
-export const viewRefundDetails = async(req,res,next) => {
-    const id = req.params.id
-    const sqlQuery = 'SELECT r.refund_slip, r.admin_verification, b.acc_no, b.branch, b.bank FROM boarding_refund r INNER JOIN client_bankdetails b ON r.client_id = b.client_id WHERE r.refund_id = ?'
-    const values = [id]
-
-    db.query(sqlQuery, values, (err,data) => {
-        if(err) {
-            return res.json({message:'There is an internal error'})
-        }
-        return res.json({data})
-    })
-
-}
-
-// view bank slips for verifications
-export const viewSlipDetails = async(req,res,next) => {
-    const id = req.params.id
-    const sqlQuery = 'SELECT r.refund_id, r.refund_slip,  b.acc_no, b.branch, b.bank FROM boarding_refund r INNER JOIN client_bankdetails b ON r.client_id = b.client_id WHERE r.refund_id = ?'
-    const values = [id]
-
-    db.query(sqlQuery, values, (err, data) => {
-        if(err) {
-            return res.json({message:'There is an internal error'})
-        }
-        return res.json({data})
-    })
-}
-
 // admin verified the bank slip
-export const AdminVerify = async(req,res,next) => {
+export const AdminVerify = async (req, res, next) => {
     const {
-        id 
+        id
     } = req.body;
 
     const status = 'verified'
@@ -455,28 +648,28 @@ export const AdminVerify = async(req,res,next) => {
     const values = [status, id]
 
     db.query(sqlQuery, values, (err, data) => {
-        if(err) {
-            return res.json({message:'There is an internal error'})
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
         }
-        return res.json({message:'verified'})
+        return res.json({ message: 'verified' })
     })
 }
 
 // admin rejected the bank slip
-export const AdminRejected = async(req,res,next) => {
+export const AdminRejected = async (req, res, next) => {
     const {
         id
-    } = req.body ;
+    } = req.body;
 
     const status = 'rejected'
     const sqlQuery = 'UPDATE boarding_refund SET admin_verification = ? WHERE refund_id = ?'
     const values = [status, id]
 
-    db.query(sqlQuery, values, (err,data) => {
-        if(err) {
-            return res.json({message:'There is an internal error'})
+    db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
         }
-        return res.json({message:'rejected'})
+        return res.json({ message: 'rejected' })
     })
 
 }
@@ -484,9 +677,64 @@ export const AdminRejected = async(req,res,next) => {
 // --- REFUND VERIFICATIONS --- /  CARE CENTER
 // care center - refund viewing
 export const carecenterRefund = async (req, res, next) => {
-    const sqlQuery = 'SELECT * FROM carecenter_refund WHERE refund_status = "completed" ';
+    const id = req.params.id
+    if (id === '1') {
+        const sqlQuery = 'SELECT * FROM carecenter_refund ';
 
-    db.query(sqlQuery, (err, data) => {
+        db.query(sqlQuery, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        })
+    } else if (id === '2') {
+        const adminstatus = 'pending'
+        const sqlQuery = 'SELECT * FROM carecenter_refund WHERE admin_verification = ? ';
+        const values = [adminstatus]
+
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        })
+    } else if (id === '3') {
+        const adminstatus = 'pending'
+        const sqlQuery = 'SELECT * FROM carecenter_refund WHERE admin_verification != ? ';
+        const values = [adminstatus]
+
+        db.query(sqlQuery, values, (err, data) => {
+            if (err) {
+                return res.json({ message: 'There is an internal error' })
+            }
+            return res.json({ data })
+        })
+
+    }
+}
+
+// view refunded verification done details
+export const viewRefundccDetails = async (req, res, next) => {
+    const id = req.params.id
+    const sqlQuery = 'SELECT r.refund_slip, r.admin_verification, b.acc_no, b.branch, b.bank FROM carecenter_refund r INNER JOIN client_bankdetails b ON r.email = b.email WHERE r.refund_id = ?'
+    const values = [id]
+
+    db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
+        }
+        return res.json({ data })
+    })
+
+}
+
+// view bank slips for verifications
+export const viewSlipDetailscc = async (req, res, next) => {
+    const id = req.params.id
+    const sqlQuery = 'SELECT r.refund_id, r.refund_slip,  b.acc_no, b.branch, b.bank FROM carecenter_refund r INNER JOIN client_bankdetails b ON r.email = b.email WHERE r.refund_id = ?'
+    const values = [id]
+
+    db.query(sqlQuery, values, (err, data) => {
         if (err) {
             return res.json({ message: 'There is an internal error' })
         }
@@ -494,39 +742,10 @@ export const carecenterRefund = async (req, res, next) => {
     })
 }
 
-// view refunded verification done details
-export const viewRefundccDetails = async(req,res,next) => {
-    const id = req.params.id
-    const sqlQuery = 'SELECT r.refund_slip, r.admin_verification, b.acc_no, b.branch, b.bank FROM carecenter_refund r INNER JOIN client_bankdetails b ON r.email = b.email WHERE r.refund_id = ?'
-    const values = [id]
-
-    db.query(sqlQuery, values, (err,data) => {
-        if(err) {
-            return res.json({message:'There is an internal error'})
-        }
-        return res.json({data})
-    })
-
-}
-
-// view bank slips for verifications
-export const viewSlipDetailscc = async(req,res,next) => {
-    const id = req.params.id
-    const sqlQuery = 'SELECT r.refund_id, r.refund_slip,  b.acc_no, b.branch, b.bank FROM carecenter_refund r INNER JOIN client_bankdetails b ON r.email = b.email WHERE r.refund_id = ?'
-    const values = [id]
-
-    db.query(sqlQuery, values, (err, data) => {
-        if(err) {
-            return res.json({message:'There is an internal error'})
-        }
-        return res.json({data})
-    })
-}
-
 // admin verified the bank slip
-export const AdminVerifycc = async(req,res,next) => {
+export const AdminVerifycc = async (req, res, next) => {
     const {
-        id 
+        id
     } = req.body;
 
     const status = 'verified'
@@ -534,28 +753,28 @@ export const AdminVerifycc = async(req,res,next) => {
     const values = [status, id]
 
     db.query(sqlQuery, values, (err, data) => {
-        if(err) {
-            return res.json({message:'There is an internal error'})
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
         }
-        return res.json({message:'verified'})
+        return res.json({ message: 'verified' })
     })
 }
 
 // admin rejected the bank slip
-export const AdminRejectedcc = async(req,res,next) => {
+export const AdminRejectedcc = async (req, res, next) => {
     const {
         id
-    } = req.body ;
+    } = req.body;
 
     const status = 'rejected'
     const sqlQuery = 'UPDATE carecenter_refund SET admin_verification = ? WHERE refund_id = ?'
     const values = [status, id]
 
-    db.query(sqlQuery, values, (err,data) => {
-        if(err) {
-            return res.json({message:'There is an internal error'})
+    db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
         }
-        return res.json({message:'rejected'})
+        return res.json({ message: 'rejected' })
     })
 
 }
