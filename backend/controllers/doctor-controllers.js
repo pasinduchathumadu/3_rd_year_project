@@ -316,47 +316,36 @@ export const systemDoctors = async (req, res, next) => {
     })
 }
 
-// view pending appointment list
-export const pendingRequest = async (req, res, next) => {
-    const status = 'pending'
-    const sqlQuery = 'SELECT * FROM medi_appointment WHERE appointment_status = ? ';
-    const values = [status]
-    db.query(sqlQuery, values, (err, data) => {
-        if (err) {
-            return res.json({ message: 'There is an internal error' })
+// appointment count
+export const appointmentCount = async(req,res,next) => {
+    const sqlQuery = 'SELECT COUNT(appointment_id) AS appointment_count FROM medi_appointment'
+
+    db.query(sqlQuery, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
         }
-        return res.json({ data })
+        return res.json({data})
     })
 }
 
-// pending appointment count
-export const pendingBox = async (req, res, next) => {
-    const status = 'pending'
-    const sqlQuery = 'SELECT COUNT(appointment_id) as totalpending FROM medi_appointment WHERE appointment_status = ? '
-    const values = [status]
+// vaccination counts for cats, dogs
+export const vaccineCount= async(req,res,next) => {
+    const category1 = 'Dog'
+    const category2 = 'Cat'
+    const sqlQuery = 'SELECT (SELECT COUNT(vaccine_id) FROM vaccine_details WHERE category = ? ) AS dogCount, (SELECT COUNT(vaccine_id) FROM vaccine_details  WHERE category = ?) AS catCount';
+    const values = [category1, category2]
 
     db.query(sqlQuery, values, (err, data) => {
-        if (err) {
-            return res.json({ message: 'There is an internal error' })
+        if(err){
+            return res.json({message:'There is an internal error'})
         }
-        return res.json({ data })
+        return res.json({data})
     })
 }
 
-// completed appointment count
-export const completedBox = async (req, res, next) => {
-    const status = 'completed'
-    const sqlQuery = 'SELECT COUNT(appointment_id) as totalcompleted FROM medi_appointment WHERE appointment_status = ? '
-    const values = [status]
 
-    db.query(sqlQuery, values, (err, data) => {
-        if (err) {
-            return res.json({ message: 'There is an internal error' })
-        }
-        return res.json({ data })
-    })
-}
 
+// cmplains count
 export const complainsCount = async (req, res, next) => {
     const status1 = 'pending'
     const status2 = 'completed'

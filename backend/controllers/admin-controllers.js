@@ -416,11 +416,9 @@ export const StoreRevenue = async(req,res,next) => {
 //  OTHER REVENUE - PET SELL AND BUY & COMPETITION
 export const OtherRevenue = async(req,res,next) => {
     const status1 = 'sold'
-    const status2 = 'pending'
-    const status3 = 'completed'
    
-    const sqlQuery = 'SELECT (SELECT COUNT(pet_id)*500 FROM pets_buy_and_sell WHERE status = ?) AS pending, (SELECT COUNT(pet_id)*500*2 FROM pets_buy_and_sell WHERE status = ?) AS sold , (SELECT SUM(pay) FROM company_competitions WHERE status = ? OR status = ?) AS competition'
-    const values = [status2, status1,status2, status3]
+    const sqlQuery = 'SELECT (SELECT COUNT(pet_id)*500 FROM pets_buy_and_sell WHERE status = ?) AS pending, (SELECT SUM(pay) FROM company_competitions) AS competition'
+    const values = [status1]
 
     db.query(sqlQuery, values, (err,data) => {
         if(err) {
