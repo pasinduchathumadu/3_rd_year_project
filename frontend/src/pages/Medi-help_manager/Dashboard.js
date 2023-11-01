@@ -12,11 +12,7 @@ import PetsIcon from '@mui/icons-material/Pets';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-// import Accordion from '@mui/material/Accordion';
-// import AccordionSummary from '@mui/material/AccordionSummary';
-// import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
-// import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Table, TableHead, TableRow, TableBody, TableCell, Button, InputLabel, IconButton } from "@mui/material";
 import { tableCellClasses } from '@mui/material/TableCell';
 import { styled } from '@mui/material/styles';
@@ -96,49 +92,8 @@ const Dashboard = () => {
     const input = new Date();
     const date = input.toDateString();
 
-    // PENDING AND COMPLETED APPOINTMENTS COUNT
-    const [count1, setcount1] = useState([]) //pending
-    const [count2, setcount2] = useState([]) //completed
-
-    const pendingBox = async () => {
-        try {
-            const res = await axios.get(`http://localhost:5000/pet_care/medi_help_manager/pendingBox`)
-            setcount1(res.data.data)
-
-        } catch (err) {
-            console.log(err)
-        }
-    }
-    const completedBox = async () => {
-        try {
-            const res = await axios.get(`http://localhost:5000/pet_care/medi_help_manager/completedBox`)
-            setcount2(res.data.data)
-
-        } catch (err) {
-            console.log(err)
-        }
-    }
-    useEffect(() => {
-        pendingBox();
-        completedBox();
-    }, [pendingBox, completedBox])
 
     const [main, setmain] = useState(true);
-    const [tables, setTables] = useState(false);
-    const [id1, setid1] = useState("")
-    // click on particualar request box
-    const ClickRequest = (id) => {
-        setmain(false);
-        setTables(true);
-        setid1(id)
-    }
-
-    // finish viewing the details 
-    const FinishViewing = () => {
-        // setTables(false);
-        setmain(true);
-        setid1(null)
-    }
 
     // connect profile 
     const profile = () => {
@@ -168,11 +123,11 @@ const Dashboard = () => {
             .catch((err) => console.log(err))
     })
 
-    // viewing pending appointments
-    const [pending, setpending] = useState("")
-    const pendingRequest = async () => {
+    // vaccine count
+    const [vac, setvac] = useState("")
+    const vaccineCount = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/pet_care/medi_help_manager/pendingRequest')
+            const res = await axios.get('http://localhost:5000/pet_care/medi_help_manager/vaccineCount')
             const data = await res.data
             return data
         } catch (err) {
@@ -180,8 +135,25 @@ const Dashboard = () => {
         }
     }
     useEffect(() => {
-        pendingRequest()
-            .then((data) => setpending(data.data))
+        vaccineCount()
+            .then((data) => setvac(data.data))
+            .catch((err) => console.log(err))
+    })
+
+    // appointment count
+    const [appcount, setappcount] = useState("")
+    const appointmentCount = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/pet_care/medi_help_manager/appointmentCount')
+            const data = await res.data
+            return data
+        } catch (err) {
+            console.log('There is an internal error')
+        }
+    }
+    useEffect(() => {
+        appointmentCount()
+            .then((data) => setappcount(data.data))
             .catch((err) => console.log(err))
     })
 
@@ -226,133 +198,103 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            <div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '2%', marginRight: '2%', marginBottom: '1%' }}>
-                <div style={{ backgroundColor: 'orange', height: '250px', width: '46%', padding: '1%', borderRadius: '10px' }}>
-                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <div className="boarding-box-header">
-                            <AnalyticsIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
-                            <h3 style={{ color: 'black' }}>Appointments Analyze</h3>
-                        </div>
-                    </div>
+            <div style={{ display: 'flex', flexDirection: 'row', marginLeft: '1%', marginRight: '1%' }}>
+                <div style={{ width: '50%', display: 'flex', flexDirection: 'column', marginLeft: '2%', marginRight: '1%', marginBottom: '1%' }}>
 
-                    <div style={{ display: 'flex', flexDirection: 'row' }} >
-                        <div style={{ backgroundColor: 'white', width: '50%', borderRadius: '10px', margin: '1%', padding: '1%' }} >
-                            <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'orange', marginRight: '5px' }} />Pending Appointments</p>
-                            {count1 && count1.map((menu, index) => (
-                                <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>{menu.totalpending}</h1>
-                            ))}
-                        </div>
-                        <div style={{ backgroundColor: 'white', width: '50%', borderRadius: '10px', margin: '1%', padding: '1%' }} >
-                            <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'orange', marginRight: '5px' }} />Completed Appointments</p>
-                            {count2 && count2.map((menu, index) => (
-                                <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>{menu.totalcompleted}</h1>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-
-                <div style={{ backgroundColor: 'orange', height: '250px', width: '46%', padding: '1%', borderRadius: '10px', marginRight: '4%', overflowY: 'auto' }}>
-                    <div className="boarding-box-header">
-                        <AssignmentLateIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
-                        <h3>Pending Appointments</h3>
-                    </div>
-                    {pending && pending.length > 0 ? (pending.map((pend, next) => (
-                        <>
-                            <div>
-                                {main && (
-                                    <><div>
-                                        <div>
-                                            <Typography sx={{ backgroundColor: '#F0F0F5', borderRadius: '10px', padding: '10px', width: '100%', marginBottom: '5px' }}>Appointment ID: {pend.appointment_id} <IconButton onClick={() => ClickRequest(pend.appointment_id)}><TableViewIcon sx={{ marginLeft: '500px' }} /></IconButton></Typography>
-                                        </div>
-                                    </div></>
-                                )}
-
-                                {/* view details of pending boarding requests (after click on) */}
-                                {!main && (
-                                    <div style={{ padding: '10px', margin: '0px', borderRadius: '10px', backgroundColor: '#f0f0f5' }}>
-                                        <Typography sx={{ fontWeight: 'bold' }}> Appointment ID : {pend.appointment_id} </Typography>
-                                        <Table>
-                                            <TableHead sx={{ backgroundColor: '#fe9e0d', color: 'blue' }}>
-                                                <StyledTableRow>
-                                                    <StyledTableCell align="center">Client ID</StyledTableCell>
-                                                    <StyledTableCell align="center">Pet ID</StyledTableCell>
-                                                    <StyledTableCell align="center">Doctor ID</StyledTableCell>
-                                                    <StyledTableCell align="center">Date</StyledTableCell>
-                                                    <StyledTableCell align="center"></StyledTableCell>
-                                                </StyledTableRow>
-                                            </TableHead >
-                                            <TableBody>
-                                                <StyledTableRow>
-                                                    <StyledTableCell align="center">{pend.client_email}</StyledTableCell>
-                                                    <StyledTableCell align="center">{pend.pet_id}</StyledTableCell>
-                                                    <StyledTableCell align="center">{pend.vet_id}</StyledTableCell>
-                                                    <StyledTableCell align="center">{pend.placed_date}</StyledTableCell>
-                                                    <StyledTableCell align="center"><Button onClick={() => FinishViewing()} sx={{ backgroundColor: 'orange', ':hover': { backgroundColor: 'orange' }, color: 'white', width: '100px', marginTop: '10px' }}>Done</Button></StyledTableCell>
-                                                </StyledTableRow>
-                                            </TableBody>
-                                        </Table>
-                                    </div>
-                                )}
+                    <div style={{ backgroundColor: '#A0A0A5', height: '60%', width: '100%', padding: '2%', borderRadius: '10px', marginBottom: '3%' }}>
+                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <div className="boarding-box-header">
+                                <AnalyticsIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
+                                <h3 style={{ color: 'black' }}> Pets Vaccine Schedule Analyze</h3>
                             </div>
-                        </>
-                    ))
-                    ) : (
-                        <div style={{ padding: '10px', borderRadius: '10px', backgroundColor: '#f0f0f5' }}>
-                            <Typography sx={{ textAlign: 'center' }}>No Pending Boarding Requests</Typography>
                         </div>
 
-                    )}
-                </div>
-            </div>
+                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '2%', marginRight: '2%' }} >
+                            <div style={{ backgroundColor: 'white', width: '40%', borderRadius: '10px', margin: '1%', padding: '1%' }} >
+                                <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'orange', marginRight: '4%', marginLeft: '4%' }} />Dog Vaccine Schedules</p>
+                                {vac && vac.map((menu, index) => (
+                                    <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>{menu.dogCount}</h1>
+                                ))}
+                            </div>
+                            <div style={{ backgroundColor: 'white', width: '40%', borderRadius: '10px', margin: '1%', padding: '1%' }} >
+                                <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'orange', marginRight: '4%', marginLeft: '4%' }} /> Cats Vaccine Schedules</p>
+                                {vac && vac.map((menu, index) => (
+                                    <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>{menu.catCount}</h1>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
 
-            <div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '2%', marginRight: '2%', marginTop: '1%' }}>
-                <div style={{ backgroundColor: '#F0F0F5', height: '310px', width: '46%', padding: '1%', borderRadius: '10px' }}>
-                    <div className="boarding-box-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <div style={{ backgroundColor: '#F0F0F5', height: '60%', width: '100%', padding: '1%', borderRadius: '10px', marginBottom: '3%' }}>
+                        <div className="boarding-box-header" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                <AssessmentIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
+                                <h3 style={{ color: 'black' }}>Current System Doctors </h3>
+                            </div>
+                        </div>
+                        {vet && vet.map((vetrow, index) => (
+                            <div>
+                                <PieChart
+                                    colors={['#FBBD08', '#55555C']}
+                                    series={[
+                                        {
+                                            data: [
+                                                { id: 0, value: vetrow.week, label: 'Weekdays' },
+                                                { id: 1, value: vetrow.weekend, label: 'Weekend' },
+                                            ],
+                                        },
+                                    ]}
+                                    width={600}
+                                    height={200}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div style={{ width: '50%', display: 'flex', flexDirection: 'column', padding:'2%', marginRight: '1%', marginBottom: '1%' }}>
+                    <div style={{ backgroundColor: '#A0A0A5', height: '60%', width: '100%', padding: '2%', borderRadius: '10px', marginBottom: '3%'}}>
+                        
+                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <div className="boarding-box-header">
+                                <AnalyticsIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
+                                <h3 style={{ color: 'black' }}>Appointments</h3>
+                            </div>
+                        </div>
+
+                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginLeft: '30%', marginRight: '2%' }} >
+                            <div style={{ backgroundColor: 'white', width: '60%', borderRadius: '10px', margin: '1%', padding: '1%' }} >
+                                <p style={{ fontWeight: 'bold' }}><PetsIcon sx={{ color: 'orange', marginRight: '4%', marginLeft: '4%' }} />Placed Appointments</p>
+                                {appcount && appcount.map((menu, index) => (
+                                    <h1 style={{ fontWeight: '1000', textAlign: 'center', fontSize: '40px', color: 'orange' }}>{menu.appointment_count}</h1>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div style={{ backgroundColor: '#F0F0F5', height: '60%', width: '100%', padding: '1%', borderRadius: '10px', marginRight: '3%' }}>
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
                             <AssessmentIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
-                            <h3 style={{ color: 'black' }}>Current System Doctors </h3>
+                            <h3 style={{ color: 'black' }}>Clients Complaints </h3>
                         </div>
-                    </div>
-                    {vet && vet.map((vetrow, index) => (
-                        <div>
+
+                        {complain && complain.map((menu, index) => (
                             <PieChart
                                 colors={['#FBBD08', '#55555C']}
                                 series={[
                                     {
                                         data: [
-                                            { id: 0, value: vetrow.week, label: 'Weekdays' },
-                                            { id: 1, value: vetrow.weekend, label: 'Weekend' },
+                                            { id: 0, value: menu.pendingCount, label: 'Pending' },
+                                            { id: 1, value: menu.completedCount, label: 'Completed' },
                                         ],
                                     },
                                 ]}
                                 width={600}
                                 height={200}
                             />
-                        </div>
-                    ))}
-                </div>
-
-                <div style={{ backgroundColor: '#F0F0F5', height: '310px', width: '46%', padding: '1%', borderRadius: '10px', marginRight: '4%' }}>
-                    <div style={{ display: 'flex', flexDirection: 'row' }}>
-                        <AssessmentIcon sx={{ marginRight: '10px', marginTop: '2px', color: 'black' }} />
-                        <h3 style={{ color: 'black' }}>Clients Complaints </h3>
+                        ))}
                     </div>
-
-                    {complain && complain.map((menu, index) => (
-                        <PieChart
-                            colors={['#FBBD08', '#55555C']}
-                            series={[
-                                {
-                                    data: [
-                                        { id: 0, value: menu.pendingCount, label: 'Pending' },
-                                        { id: 1, value: menu.completedCount, label: 'Completed' },
-                                    ],
-                                },
-                            ]}
-                            width={600}
-                            height={200}
-                        />
-                    ))}
                 </div>
             </div>
         </div>
