@@ -19,11 +19,7 @@ const Reports = () => {
     const [medi, setmedi] = useState([])
     const [care, setcare] = useState([])
 
-    const [age, setAge] = React.useState('');
-
-    const handleChange = (event) => {
-        setAge(event.target.value);
-    };
+  
 
     const download = async (price, placed_date, early_cancel_date, package_name, appointment_id, appointment_status, client_email) => {
         try {
@@ -299,23 +295,7 @@ const Reports = () => {
                 <Typography sx={{ position: 'absolute', color: 'white', fontSize: '45px', padding: '20px', borderRadius: '10px', fontWeight: "30" }}> Your Reports</Typography>
                 
             </div>
-            <div style={{textAlign:'right',marginTop:'2%',marginRight:'2%'}}>
-                    <Box sx={{ minWidth: 100 }}>
-                        <FormControl sx={{width:200}}>
-                            <InputLabel id="demo-simple-select-label">Current</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={age}
-                                label="Age"
-                                onChange={handleChange}
-                            >
-                                <MenuItem value={10}>Last 7 days</MenuItem>
-                                <MenuItem value={20}>Last Month</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Box>
-                </div>
+           
 
             <div style={{ display: 'flex', flexDirection: 'row' }}>
 

@@ -112,6 +112,9 @@ const Blog = () => {
     };
 
     const Submit = async (id, postIndex) => {
+        if(comments === ""){
+            return
+        }
         try {
             const res = await axios.post("http://localhost:5000/pet_care/common/comment", {
                 id,
@@ -120,6 +123,7 @@ const Blog = () => {
 
             if (res.data.message !== 'There is an internal error') {
                 getrequest(id, postIndex);
+                setShow(true);
             }
         } catch (err) {
             console.log("There is an internal error");
@@ -238,7 +242,7 @@ const Blog = () => {
         setId(id);
         Submit(id, postIndex);
         setFormIndex(index);
-        setShow(true);
+        
     };
 
     const closeApp = (index, postIndex) => {
@@ -483,13 +487,7 @@ const Blog = () => {
 
 
                                             </div>
-                                            <div style={{ display: 'flex' }}>
-
-                                                <Typography sx={{ paddingLeft: '5px', fontSize: '24px' }}>
-                                                    Entry Fee :  Rs.{menu.pay}
-                                                </Typography>
-
-                                            </div>
+                                          
 
                                         </ListItem>
 

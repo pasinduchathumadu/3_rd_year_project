@@ -327,12 +327,12 @@ function Medi() {
                 </div>
                 <div style={{ width: "30%", height: "40vh", backgroundColor: "white", marginLeft: "auto", marginRight: "auto" }} data-aos="zoom-in">
                   <img className="smooth-scroll" src={petcare2} alt="Cage" style={{ fontSize: "20px", width: "80px", height: "80px", marginLeft: "auto", marginRight: "auto", marginLeft: "190px" }} />
-                  <h1 style={{ textAlign: "center" }}>Pet Dentel </h1>
+                  <h1 style={{ textAlign: "center" }}>Pet Dental </h1>
                   <h3 style={{ textAlign: "center", fontWeight: "1" }}>Keep your furry friend's smile shinning with our expert pet dental care services!</h3>
                 </div>
                 <div style={{ width: "30%", height: "40vh", backgroundColor: "white", marginLeft: "auto", marginRight: "auto" }} data-aos="zoom-in">
                   <img className="smooth-scroll" src={petcare3} alt="Cage" style={{ fontSize: "20px", width: "80px", height: "80px", marginLeft: "auto", marginRight: "auto", marginLeft: "190px" }} />
-                  <h1 style={{ textAlign: "center" }}>Pet Sergury </h1>
+                  <h1 style={{ textAlign: "center" }}>Pet Surgery </h1>
                   <h3 style={{ textAlign: "center", fontWeight: "1" }}> Expert surgical care for your furry members, ensuring their healthy life!</h3>
                 </div>
               </div>
@@ -365,9 +365,10 @@ function Medi() {
                     <div className='product' key={index}>
                       <img src={getImageSrc(product.img)} style={{ width: "40vh", height: "40vh" }} />
                       <div className='description'>
-                        <Typography sx={{ fontSize: '24px', color: 'black' }}>{product.first_name + " " + product.last_name}</Typography>
+                        <Typography sx={{ fontSize: '24px', color: 'black' }}>Dr.{product.first_name +" "+ product.last_name}</Typography>
+                        <Typography sx={{ fontSize: '15px', color: 'black' }}>{product.qualifications}</Typography>
                         <Typography sx={{ fontSize: '20px', color: 'red' }}>Start at:{product.start_time}</Typography>
-                        <Typography sx={{ fontSize: '15px', color: 'black' }}>{product.contact_number}</Typography>
+                      
                         <StarIcon sx={{ color: "orange", marginBottom: "-5px" }} />
                         <Button onClick={() => openappointment(product.vet_id)} sx={{ backgroundColor: 'black', color: 'white', marginTop: '2%', ':hover': { backgroundColor: 'black' } }}>Add Appoinment</Button>
                       </div>
@@ -380,9 +381,10 @@ function Medi() {
                     <div className='product' key={index}>
                       <img src={getImageSrc(product.img)} style={{ width: "40vh", height: "40vh" }} />
                       <div className='description'>
-                        <Typography sx={{ fontSize: '24px', color: 'black' }}>{product.first_name + " " + product.last_name}</Typography>
+                        <Typography sx={{ fontSize: '24px', color: 'black' }}>Dr.{product.first_name + " " + product.last_name}</Typography>
+                        <Typography sx={{ fontSize: '15px', color: 'black' }}>{product.qualifications}</Typography>
+
                         <Typography sx={{ fontSize: '20px', color: 'red' }}>Start at:{product.start_time}</Typography>
-                        <Typography sx={{ fontSize: '15px', color: 'black' }}>{product.contact_number}</Typography>
 
                         <StarIcon sx={{ color: "orange", marginBottom: "-5px", marginLeft: '2px' }} />
 
