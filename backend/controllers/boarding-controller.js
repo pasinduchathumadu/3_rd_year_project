@@ -293,17 +293,18 @@ export const toRefund = async (req, res, next) => {
 }
 // get details from post - pending refund
 export const refundAdding = async (req, res, next) => {
-    const {  refundid,amount,image } = req.body;
+    const {  refundfinal,amount,image } = req.body;
 
-   
-
+ 
+    console.log(amount)
     const status = 'completed'
     const current = new Date() //get the current date and time
     const currentDate = current.toDateString() //current date
     const currentTime = current.toLocaleTimeString() //current time
+    console.log(image)
 
     const sqlQuery = 'UPDATE boarding_refund SET refund_mny = ?, refund_status = ?, date =?, time =?,refund_slip = ?  WHERE refund_id = ?'
-    const values = [amount, status, currentDate, currentTime, image,refundid]
+    const values = [amount, status, currentDate, currentTime, image,refundfinal]
 
     db.query(sqlQuery, values, (err, data) => {
         if (err) {
