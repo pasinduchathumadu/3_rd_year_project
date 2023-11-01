@@ -176,7 +176,7 @@ const Complains = () => {
                     color: 'white'
                 }}>
                     <Typography sx={{ color: 'white', fontSize: '45px', fontWeight: 'bold', display: 'flex', alignItems: 'center' }}>
-                        Add Your Complains Here
+                        Add Your Complaints Here
                     </Typography>
                 </div>
             </Grid>

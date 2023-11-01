@@ -174,17 +174,17 @@ const BankDetails = () => {
                     <>
                         <div className="form-label" style={{ display: 'flex', flexDirection: 'row' }}>
                             <FormLabel > Account Number :  </FormLabel>
-                            <Typography sx={{ marginLeft: '1%' }}>{menu.acc_no}</Typography>
+                            <Typography sx={{ marginLeft: '1%',color:'black' }}>{menu.acc_no}</Typography>
                         </div>
 
                         <div className="form-label" style={{ display: 'flex', flexDirection: 'row' }}>
                             <FormLabel > Bank :  </FormLabel>
-                            <Typography sx={{ marginLeft: '1%' }}>{menu.bank}</Typography>
+                            <Typography sx={{ marginLeft: '1%' ,color:'black'}}>{menu.bank}</Typography>
                         </div>
 
                         <div className="form-label" style={{ display: 'flex', flexDirection: 'row' }}>
                             <FormLabel> Branch  :  </FormLabel>
-                            <Typography sx={{ marginLeft: '1%' }}>{menu.branch}</Typography>
+                            <Typography sx={{ marginLeft: '1%',color:'black' }}>{menu.branch}</Typography>
                         </div>
 
                         {error1 && (

@@ -25,13 +25,7 @@ export const Shop = () => {
   const [selectfile, setfile] = useState(null)
   const [image, setimage] = useState("")
 
-  const confirm = async () => {
-    try {
-      await axios.get(`http://localhost:5000/pet_care/user/confirm/${email}`);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+
   const handlefilechange = async (event) => {
     const file = event.target.files[0]
     setfile(file)
@@ -52,7 +46,7 @@ export const Shop = () => {
         },
       });
       if (res.data.message === "File uploaded successfully") {
-        submitAddForm();
+       buy()
       }
 
       console.log("File uploaded successfully!");
@@ -69,10 +63,9 @@ export const Shop = () => {
   const getImageSrc = (imageName) => {
     return require(`../../../../backend/images/store/${imageName}`)
   }
-  const [ petid , setpetid ] = useState("")
-  const buy = (pet_id,price) => {
-    setprice1(price)
-    setpetid(pet_id)
+ 
+  const buy = () => {
+  
     setmain(false)
     setsecond(true)
     setpage(false)
@@ -80,19 +73,7 @@ export const Shop = () => {
     setupdate(false)
     setwarn(false)
   };
-  const buyconfirm = async()=>{
-    try {
-      const res = await axios.post('http://localhost:5000/pet_care/user/buypets',{
-        petid
-      })
-      if(res.data.message === "updated"){
-      confirm();
-      }
-    } catch (err) {
-      console.log(err);
-    }
-
-  }
+ 
   const [product] = useState({
     name: "React from FB",
     price: payment_charge,
@@ -224,7 +205,6 @@ export const Shop = () => {
         setmessage('Internal error')
         seterror(true)
       } else if (res.data.message === 'success') {
-        setpage(1)
         setaddpets(false)
       }
 
@@ -389,13 +369,15 @@ export const Shop = () => {
                       <Typography variant="h6" gutterBottom component={"div"} sx={{ textAlign: 'center' }}>
                         Pet ID : {menu.pet_id}
                       </Typography>
-                      <Typography variant="body2" sx={{ textAlign: 'center' }}>{menu.breed}</Typography><br />
+                    
                       <Typography variant="body2" sx={{ color: "red", marginBottom: '9px', textAlign: 'center' }}>{menu.sex}</Typography>
+                      <Typography variant="body2" sx={{ color: "red", marginBottom: '9px', textAlign: 'center' }}>{menu.breed}</Typography>
                       <Typography variant="h5" gutterBottom component={"div"} sx={{ textAlign: 'center' }}>
                         Rs. {menu.price}.00
                       </Typography>
                       <Typography variant="body2" sx={{ textAlign: 'center' }}>Owner: {menu.first_name}{" "}{menu.last_name}</Typography><br />
-                      <Button onClick={() => buy(menu.pet_id,menu.price)} sx={{ backgroundColor: 'black', color: 'white', ':hover': { backgroundColor: 'black' }, padding: '2%', width: '50%', marginLeft: '23%' }}>Buy</Button>
+                      <Typography variant="body2" sx={{ textAlign: 'center' }}>Owner Contact: </Typography><br />
+                   
                     </CardContent>
                   </CardActionArea>
                 </Card>
@@ -586,6 +568,13 @@ export const Shop = () => {
                   onChange={(e) => setprice(e.target.value)}
                   sx={{ width: '100%' }} />
               </div>
+              <TextField
+          disabled
+          id="outlined-disabled"
+          label="Noticed Fee"
+          defaultValue="Rs.500"
+          sx={{width:'20%',marginBottom:'2%'}}
+        />
 
               <div>
                 <Button
@@ -594,7 +583,7 @@ export const Shop = () => {
                   startIcon={<CloudUploadIcon />}
                   sx={{ width: '100%' }}
                 >
-                  Upload File
+                  Upload image
                   <input type="file" hidden onChange={handlefilechange} required />
                 </Button>
                 <div style={{ display: 'inline', paddingTop: '6px', paddingLeft: '7px' }}>
@@ -772,7 +761,7 @@ export const Shop = () => {
               <Stack justifyContent={"center"} alignItems={"center"} direction={"row"} spacing={2}>
 
                 <Button
-                  onClick={buyconfirm}
+                  onClick={submitAddForm}
                   variant="contained"
                   sx={{
                     width: "300px",
@@ -785,7 +774,7 @@ export const Shop = () => {
                     "&:hover": { backgroundColor: "black" },
                   }}
                 >
-                  Confirm (Rs.{payment_charge})
+                  Confirm (Rs.500)
                 </Button>
                </Stack>
 
