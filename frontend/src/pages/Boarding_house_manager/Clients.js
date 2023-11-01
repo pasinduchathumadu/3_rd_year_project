@@ -15,7 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
-import { IconButton, Tab, Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/material";
+import { IconButton, Tab, Card, CardActionArea, CardContent, CardMedia, Typography, Alert, AlertTitle } from "@mui/material";
 import { Tabs } from "@mui/material";
 import { FormLabel, TextField } from "@mui/material";
 import StarIcon from '@mui/icons-material/Star';
@@ -125,7 +125,7 @@ const Clients = () => {
 
     const input = new Date();
     const date = input.toDateString();
-
+    const [refundfinal , setrefundfinal] = useState("")
     const [pet, setPet] = useState(false);
     const [addRefund, setaddRefund] = useState(false);
     const [viewRefund, setviewRefund] = useState(false);
@@ -172,7 +172,10 @@ const Clients = () => {
                 seterror2(true)
                 setmessage2("There is an internal error")
             } else {
-                // console.log(details1)
+                setrefundfinal(id)
+                seterror(false)
+                setamount("")
+                setimage("")
                 setaddRefund(true)
                 setdetails1(res.data.data)
             }
@@ -191,21 +194,25 @@ const Clients = () => {
         handleFileUpload()
     }
     const refundAdding = async () => {
-     
+        if(refundfinal === ""|| amount === ""||image=== ""){
+            seterror(true)
+            setmessage("Please be filled all the fields!!")
+            return
+        }
        
 
         try {
             const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/refundAdding`, {
-                refundid,
+                refundfinal,
                 amount,
                 image
             })
             if(res.data.message === "Refund Added"){
                 setaddRefund(false)
-                showRequests(1)
+                window.location.reload();
             }
         } catch (err) {
-            console.log(err)
+            console.log(err)//this is error
         }
     }
 
@@ -821,6 +828,15 @@ const Clients = () => {
                                     </div>        
                                     </div>
                                 </div>
+                                {error && (
+                                    <Stack sx={{ width: '50%', marginLeft: '25%' }} spacing={2}>
+                                        <Alert severity="error">
+                                            <AlertTitle>Warning</AlertTitle>
+                                            {message}
+                                        </Alert>
+                                    </Stack>
+
+                                )}
                                
                                 <div>
                                     <Button variant="contained" onClick={() =>handleconfirm(drow1.refund_id)} sx={{ background: 'orange', width: '100%', marginRight: '10px', marginTop: '10px', ':hover': { backgroundColor: "#fe9e0d" } }}>Place Refund</Button>
