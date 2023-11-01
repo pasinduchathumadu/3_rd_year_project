@@ -369,6 +369,97 @@ export const countClientPets = async (req, res, next) => {
     })
 }
 
+// BOARDNIG HOUSE REVENUE
+export const BoardingRevenue = async(req,res,next) => {
+    const status1 = 'completed'
+    const status2 = 'accepted'
+    const status3 = 'pending'
+
+    const sqlQuery = 'SELECT SUM(price) as boarding FROM boarding_request WHERE request_status = ? OR request_status = ? OR request_status = ?'
+    const values = [status1, status2, status3]
+
+    db.query(sqlQuery, values, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+//  MEDI REVENUE
+export const MediRevenue = async(req,res,next) => {
+    const status1 = 'confirm'
+   
+    const sqlQuery = 'SELECT SUM(payment) as medi FROM medi_appointment WHERE appointment_status = ?'
+    const values = [status1]
+
+    db.query(sqlQuery, values, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+//  ONLINE STORE REVENUE
+export const StoreRevenue = async(req,res,next) => {   
+    const sqlQuery = 'SELECT SUM(payment) as store FROM purchase_order'
+
+    db.query(sqlQuery, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+//  OTHER REVENUE - PET SELL AND BUY & COMPETITION
+export const OtherRevenue = async(req,res,next) => {
+    const status1 = 'sold'
+    const status2 = 'pending'
+    const status3 = 'completed'
+   
+    const sqlQuery = 'SELECT (SELECT COUNT(pet_id)*500 FROM pets_buy_and_sell WHERE status = ?) AS pending, (SELECT COUNT(pet_id)*500*2 FROM pets_buy_and_sell WHERE status = ?) AS sold , (SELECT SUM(pay) FROM company_competitions WHERE status = ? OR status = ?) AS competition'
+    const values = [status2, status1,status2, status3]
+
+    db.query(sqlQuery, values, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+//  CARE CENTER REVENUE 
+export const CareCenterRevenue = async(req,res,next) => {
+    const status1 = 'completed'
+    const status2 = 'accepted'
+    const status3 = 'pending'
+   
+    const sqlQuery = 'SELECT (SELECT COUNT(appointment_id)*1000 FROM mindrelaxing_appointments WHERE status = "completed") AS mindrelaxing, (SELECT COUNT(id)*500 FROM pet_trainning_payment WHERE status = "completed") AS training , (SELECT SUM(p.price) FROM carecenter_package p INNER JOIN carecenter_appointment a WHERE a.package_id = p.package_id AND (a.appointment_status = "pending" OR a.appointment_status = "accepted" OR a.appointment_status = "completed")) AS grooming'
+    const values = [status1, status1, status1, status2, status3]
+
+    db.query(sqlQuery, values, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+// SYSTEM PETS COUNT
+export const systemPetsCount = async(req,res,next) => {
+    const sqlQuery = 'SELECT COUNT(pet_id) AS count FROM mind_relaxing_pets'
+
+    db.query(sqlQuery, (err,data) => {
+        if(err) {
+            return res.json({message:'There is an internal error'})
+        }
+        return res.json({data})
+    })
+}
+
+
 // --- COMPLAINS ---
 // view clients complains - APPLY FILTER
 export const clientComplains = async (req, res, next) => {

@@ -103,7 +103,7 @@ function Viw_vet() {
     const removevet = () => {
         getid()
     }
-  
+
     const getid = async () => {
         try {
             const res = await axios.get('http://localhost:5000/pet_care/medi_help_manager/remove')
@@ -309,7 +309,7 @@ function Viw_vet() {
         seterror(false)
         getassign()
     }
-    const  getassign = async () => {
+    const getassign = async () => {
         try {
             const res = await axios.get('http://localhost:5000/pet_care/medi_help_manager/remove')
             setvetid(res.data.data)
@@ -330,7 +330,7 @@ function Viw_vet() {
             return
         }
         try {
-            const res = await axios.post(`http://localhost:5000/pet_care/medi_help_manager/assign`,{
+            const res = await axios.post(`http://localhost:5000/pet_care/medi_help_manager/assign`, {
                 assigned
             })
             if (res.data.message === "assigned") {
@@ -347,22 +347,22 @@ function Viw_vet() {
             console.log(err)
         }
     }
-    const [emp1 , setemp1 ] = useState([])
+    const [emp1, setemp1] = useState([])
     const get_employee1 = async () => {
-      try {
-        const res = await axios.get(`http://localhost:5000/pet_care/medi_help_manager/get_employee1`)
-        const data = await res.data
-        return data
-  
-      } catch (err) {
-        console.log(err)
-      }
+        try {
+            const res = await axios.get(`http://localhost:5000/pet_care/medi_help_manager/get_employee1`)
+            const data = await res.data
+            return data
+
+        } catch (err) {
+            console.log(err)
+        }
     }
-  
+
     useEffect(() => {
-      get_employee1()
-        .then((data) => setemp1(data.data))
-        .catch((err) => console.log(err))
+        get_employee1()
+            .then((data) => setemp1(data.data))
+            .catch((err) => console.log(err))
     })
 
     return (
@@ -437,7 +437,13 @@ function Viw_vet() {
                                         <Typography variant="h5" gutterBottom component={"div"}>
                                             Dr.{menu.first_name + " " + menu.last_name}
                                         </Typography>
-                                        <Typography variant="body2" sx={{ color: 'black', fontSize: '20px' }}>{menu.qualifications}</Typography><br />
+
+                                        {menu.unfree_date_start === "working" ? (
+                                            <Typography variant="body2" sx={{ color: 'black', fontSize: '20px', color: 'red' }}>WORKING</Typography>
+                                        ) : (<Typography variant="body2" sx={{ color: 'black', fontSize: '20px', color: 'red' }}>LEAVE</Typography>)
+                                        }
+
+
                                         <Typography variant="body2" sx={{ display: 'inline-flex', alignItems: 'center', color: 'black', fontSize: '18px' }}>
                                             {menu.rate}
                                             <span style={{ marginRight: '4px', color: 'orange' }}></span>
@@ -499,7 +505,12 @@ function Viw_vet() {
                                         <Typography variant="h5" gutterBottom component={"div"}>
                                             Dr.{menu.first_name + " " + menu.last_name}
                                         </Typography>
-                                        <Typography variant="body2" sx={{ color: 'black', fontSize: '20px' }}>{menu.qualifications}</Typography><br />
+
+                                        {menu.unfree_date_start === "working" ? (
+                                            <Typography variant="body2" sx={{ color: 'black', fontSize: '20px', color: 'red' }}>WORKING</Typography>
+                                        ) : (<Typography variant="body2" sx={{ color: 'black', fontSize: '20px', color: 'red' }}>LEAVE</Typography>)
+                                        }
+
                                         <Typography variant="body2" sx={{ display: 'inline-flex', alignItems: 'center', color: 'black', fontSize: '18px' }}>
                                             {menu.rate}
                                             <span style={{ marginRight: '4px', color: 'orange' }}></span>
@@ -678,11 +689,11 @@ function Viw_vet() {
                             <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">Select Vet</InputLabel>
                                 <Select
-                                      labelId="demo-simple-select-label"
-                                      id="demo-simple-select"
-                                      value={assigned}
-                                      label="Employee ID"
-                                      onChange={handleassign}
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={assigned}
+                                    label="Employee ID"
+                                    onChange={handleassign}
                                 >
                                     {emp1.map((row, index) => (
                                         <MenuItem value={row.vet_id} key={row.vet_id}>Dr.{row.first_name + " " + row.last_name}</MenuItem>
