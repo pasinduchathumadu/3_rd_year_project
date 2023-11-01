@@ -212,7 +212,7 @@ const Clients = () => {
                 window.location.reload();
             }
         } catch (err) {
-            console.log(err)
+            console.log(err)//this is error
         }
     }
 
