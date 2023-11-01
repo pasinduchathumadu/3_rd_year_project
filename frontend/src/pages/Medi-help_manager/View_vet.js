@@ -255,6 +255,12 @@ function Viw_vet() {
             setmessage("Please Fill the Positive Number")
             return
         }
+        if(price === ""){
+            seterror(true)
+            setmessage("Please be updated price")
+            return
+
+        }
         const res = await axios.post('http://localhost:5000/pet_care/medi_help_manager/setprice', {
             price,
             id
@@ -429,12 +435,14 @@ function Viw_vet() {
                                         alt={menu.first_name} />
                                     <CardContent>
                                         <Typography variant="h5" gutterBottom component={"div"}>
-                                            {menu.first_name + " " + menu.last_name}
+                                            Dr.{menu.first_name + " " + menu.last_name}
                                         </Typography>
+
                                         {menu.unfree_date_start === "working" ? (
                                             <Typography variant="body2" sx={{ color: 'black', fontSize: '20px', color: 'red' }}>WORKING</Typography>
                                         ) : (<Typography variant="body2" sx={{ color: 'black', fontSize: '20px', color: 'red' }}>LEAVE</Typography>)
                                         }
+
 
                                         <Typography variant="body2" sx={{ display: 'inline-flex', alignItems: 'center', color: 'black', fontSize: '18px' }}>
                                             {menu.rate}
@@ -495,12 +503,14 @@ function Viw_vet() {
                                         alt={menu.first_name} />
                                     <CardContent>
                                         <Typography variant="h5" gutterBottom component={"div"}>
-                                            {menu.first_name + " " + menu.last_name}
+                                            Dr.{menu.first_name + " " + menu.last_name}
                                         </Typography>
+
                                         {menu.unfree_date_start === "working" ? (
                                             <Typography variant="body2" sx={{ color: 'black', fontSize: '20px', color: 'red' }}>WORKING</Typography>
                                         ) : (<Typography variant="body2" sx={{ color: 'black', fontSize: '20px', color: 'red' }}>LEAVE</Typography>)
                                         }
+
                                         <Typography variant="body2" sx={{ display: 'inline-flex', alignItems: 'center', color: 'black', fontSize: '18px' }}>
                                             {menu.rate}
                                             <span style={{ marginRight: '4px', color: 'orange' }}></span>

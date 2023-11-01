@@ -148,19 +148,19 @@ const StateNode = () => {
                 {Object.keys(groupedData).map((poId) => (
                       <><Grid container spacing={2} sx={{ marginTop: '3%', marginLeft: '38%', alignItems: 'center' }}>
                         <Grid item>
-                            <Paper elevation={3} style={circleStyle} sx={{ backgroundColor: state[poId] === 'waitting' ? 'green' : 'white' }}>
+                            <Paper elevation={3} style={circleStyle} sx={{ backgroundColor: state[poId] === 'waitting' ? 'red' : 'white' }}>
                                 {/* Content for State 1 */}
                                 Waitting
                             </Paper>
                         </Grid>
                         <Grid item>
-                            <Paper elevation={3} style={circleStyle} sx={{ backgroundColor: state[poId] === 'accept' ? 'green' : 'white' }}>
+                            <Paper elevation={3} style={circleStyle} sx={{ backgroundColor: state[poId] === 'accept' ? 'orange' : 'white' }}>
                                 {/* Content for State 2 */}
                                 Accept
                             </Paper>
                         </Grid>
                         <Grid item>
-                            <Paper elevation={3} style={circleStyle} sx={{ backgroundColor: state[poId] === 'handed' ? 'green' : 'white' }}>
+                            <Paper elevation={3} style={circleStyle} sx={{ backgroundColor: state[poId] === 'handed' ? '#00c71e' : 'white' }}>
                                 {/* Content for State 3 */}
                                 Hand Over
                             </Paper>
@@ -223,7 +223,7 @@ const StateNode = () => {
                                  <StyledTableCell align="left" sx={{ width: '15%' }}>Placed Date</StyledTableCell>
                                  <StyledTableCell align="left" sx={{ width: '20%' }}>HandOver Date</StyledTableCell>
                                  <StyledTableCell align="left" sx={{ width: '30%' }}>Payment</StyledTableCell>
-                                 <StyledTableCell align="left" sx={{ width: '20%' }}>collecting_method</StyledTableCell>
+                                 <StyledTableCell align="left" sx={{ width: '20%' }}>Collecting Method</StyledTableCell>
                              </TableRow>
                          </TableHead>
                          <TableBody>

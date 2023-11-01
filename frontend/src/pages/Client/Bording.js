@@ -385,7 +385,7 @@ const Bording = () => {
 
 
             <div style={{ marginTop: '1%' }}>
-              <InputLabel>Pet ID</InputLabel>
+              <InputLabel>Pet Name</InputLabel>
               <FormControl sx={{ minWidth: 120 }}>
                 <Select
                   displayEmpty
@@ -462,9 +462,12 @@ const Bording = () => {
                         height: '65px',
                         width: '65px',
                         textAlign: 'center',
+                        borderRadius:'10px',
+                        
+
                       }}
                     >
-                      <span style={{ color: 'white' }}>{cage1.cage_id}</span>
+                      <span style={{ color: 'white'}}>{cage1.cage_id}</span>
                     </Box>
 
                   </div>
