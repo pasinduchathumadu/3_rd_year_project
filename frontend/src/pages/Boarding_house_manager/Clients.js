@@ -184,6 +184,8 @@ const Clients = () => {
         }
     }
     // get details from post method - add refund
+    const [error5, seterror5] = useState(false)
+    const [message5, setmessage5] = useState("")
     const [amount, setamount] = useState("")
     const handleAmount = (event) => {
         setamount(event.target.value)
@@ -199,8 +201,6 @@ const Clients = () => {
             setmessage("Please be filled all the fields!!")
             return
         }
-       
-
         try {
             const res = await axios.post(`http://localhost:5000/pet_care/boarding_house_manager/refundAdding`, {
                 refundfinal,
@@ -210,6 +210,9 @@ const Clients = () => {
             if(res.data.message === "Refund Added"){
                 setaddRefund(false)
                 window.location.reload();
+            }else if(res.data.message === 'Incorrect amount entered') {
+                seterror5(true)
+                setmessage5("Incorrect amount entered")
             }
         } catch (err) {
             console.log(err)//this is error
@@ -828,11 +831,11 @@ const Clients = () => {
                                     </div>        
                                     </div>
                                 </div>
-                                {error && (
-                                    <Stack sx={{ width: '50%', marginLeft: '25%' }} spacing={2}>
+                                {error5 && (
+                                    <Stack sx={{ width: '100%' }} spacing={2}>
                                         <Alert severity="error">
-                                            <AlertTitle>Warning</AlertTitle>
-                                            {message}
+                                           
+                                            {message5}
                                         </Alert>
                                     </Stack>
 
