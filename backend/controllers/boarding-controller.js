@@ -21,7 +21,7 @@ export const submitBasicDetails = async (req, res, next) => {
         }
 
         const sqlQuery = 'INSERT INTO boarding_package(package_name,symbol,price,color) VALUES(?,?,?,?)'
-        const values = [name,image,price, color,]
+        const values = [name, image, price, color,]
 
         db.query(sqlQuery, values, (err, data2) => {
             if (err) {
@@ -49,49 +49,49 @@ export const submitFacilityForm = async (req, res, next) => {
     const {
         bpckg,
         newfacility
-    }= req.body;
+    } = req.body;
 
     const sqlQuery = 'INSERT INTO boarding_package_facility (package_id, facility) VALUES (?,?)'
     const values = [bpckg, newfacility]
 
     db.query(sqlQuery, values, (err, data) => {
-        if(err) {
-            return res.json({message:'There is an internal error'})
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
         }
-        return res.json({message:'success'})
+        return res.json({ message: 'success' })
     })
 }
 
 // viewing facilities
-export const viewFacilities = async(req,res,next) => {
+export const viewFacilities = async (req, res, next) => {
     const id = req.params.id
     const sqlQuery = 'SELECT * FROM boarding_package_facility  WHERE package_id = ?'
     const values = [id]
-    
-    db.query(sqlQuery, values,(err,data) => {
-        if(err) {
-            return res.json({message:'There is an internal error'})
+
+    db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
         }
-        return res.json({data})
+        return res.json({ data })
     })
 }
 
 // get price for update form
-export const getPrice = async(req,res,next) => {
+export const getPrice = async (req, res, next) => {
     const id = req.params.id
     const sqlQuery = 'SELECT * FROM boarding_package WHERE package_id = ?'
     const values = [id]
 
-    db.query(sqlQuery, values, (err,data) => {
-        if(err) {
-            return res.json({message:'There is an internal error'})
+    db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
         }
-        return res.json({data})
+        return res.json({ data })
     })
 }
 
 // submit price changes form
-export const SubmitNewPrice = async(req,res,next) => {
+export const SubmitNewPrice = async (req, res, next) => {
     const {
         id,
         newprice,
@@ -100,16 +100,16 @@ export const SubmitNewPrice = async(req,res,next) => {
     const sqlQuery = 'UPDATE boarding_package SET price = ? WHERE package_id = ?'
     const values = [newprice, id]
 
-    db.query(sqlQuery, values,(err,data) => {
-        if(err) {
-            return res.json({message:'There is an internal error'})
+    db.query(sqlQuery, values, (err, data) => {
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
         }
-        return res.json({message:'updated'})
+        return res.json({ message: 'updated' })
     })
 }
 
 // delete a package
-export const deletePackage = async(req,res,next) => {
+export const deletePackage = async (req, res, next) => {
     const id = req.params.id1
 
     const sqlQuery = 'DELETE FROM boarding_package WHERE package_id = ?'
@@ -117,10 +117,10 @@ export const deletePackage = async(req,res,next) => {
     console.log(id)
 
     db.query(sqlQuery, values, (err, data) => {
-        if(err) {
-            return res.json({message:'There is an internal error'})
+        if (err) {
+            return res.json({ message: 'There is an internal error' })
         }
-        return res.json({message:'deleted'})
+        return res.json({ message: 'deleted' })
     })
 
 }
@@ -293,24 +293,40 @@ export const toRefund = async (req, res, next) => {
 }
 // get details from post - pending refund
 export const refundAdding = async (req, res, next) => {
-    const {  refundfinal,amount,image } = req.body;
+    const {
+        refundfinal,
+        amount,
+        image
+    } = req.body;
 
- 
-    console.log(amount)
+
+    // console.log(amount)
     const status = 'completed'
     const current = new Date() //get the current date and time
     const currentDate = current.toDateString() //current date
     const currentTime = current.toLocaleTimeString() //current time
-    console.log(image)
+    // console.log(image)
 
-    const sqlQuery = 'UPDATE boarding_refund SET refund_mny = ?, refund_status = ?, date =?, time =?,refund_slip = ?  WHERE refund_id = ?'
-    const values = [amount, status, currentDate, currentTime, image,refundfinal]
+    const checkQuery = 'SELECT * FROM boarding_refund WHERE refund_id = ?'
+    const checkValues = [refundfinal]
 
-    db.query(sqlQuery, values, (err, data) => {
+    db.query(checkQuery, checkValues, (err, data1) => {
         if (err) {
             return res.json({ message: 'There is an internal error' })
+        } else if (data1[0].payment != amount) {
+            return res.json({ message: 'Incorrect amount entered' })
+        } else {
+            const sqlQuery = 'UPDATE boarding_refund SET refund_mny = ?, refund_status = ?, date =?, time =?,refund_slip = ?  WHERE refund_id = ?'
+            const values = [amount, status, currentDate, currentTime, image, refundfinal]
+
+            db.query(sqlQuery, values, (err, data) => {
+                if (err) {
+                    return res.json({ message: 'There is an internal error' })
+                }
+                return res.json({ message: 'Refund Added' })
+            })
+
         }
-        return res.json({ message: 'Refund Added' })
     })
 }
 
